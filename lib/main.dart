@@ -35,7 +35,7 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getTemporaryDirectory(),
   );
-  HydratedBloc.storage.clear();
+  await HydratedBloc.storage.clear();
   runApp(Application(goRouter: goRouter));
 }
 

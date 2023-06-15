@@ -174,7 +174,7 @@ CategorySectionState _$CategorySectionStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CategorySectionState {
-  bool get isCached => throw _privateConstructorUsedError;
+  bool get isLoada => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   List<ReciveCategory> get categories => throw _privateConstructorUsedError;
 
@@ -190,7 +190,7 @@ abstract class $CategorySectionStateCopyWith<$Res> {
           $Res Function(CategorySectionState) then) =
       _$CategorySectionStateCopyWithImpl<$Res, CategorySectionState>;
   @useResult
-  $Res call({bool isCached, bool isLoading, List<ReciveCategory> categories});
+  $Res call({bool isLoada, bool isLoading, List<ReciveCategory> categories});
 }
 
 /// @nodoc
@@ -207,14 +207,14 @@ class _$CategorySectionStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isCached = null,
+    Object? isLoada = null,
     Object? isLoading = null,
     Object? categories = null,
   }) {
     return _then(_value.copyWith(
-      isCached: null == isCached
-          ? _value.isCached
-          : isCached // ignore: cast_nullable_to_non_nullable
+      isLoada: null == isLoada
+          ? _value.isLoada
+          : isLoada // ignore: cast_nullable_to_non_nullable
               as bool,
       isLoading: null == isLoading
           ? _value.isLoading
@@ -236,7 +236,7 @@ abstract class _$$_CategorySectionStateCopyWith<$Res>
       __$$_CategorySectionStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isCached, bool isLoading, List<ReciveCategory> categories});
+  $Res call({bool isLoada, bool isLoading, List<ReciveCategory> categories});
 }
 
 /// @nodoc
@@ -250,14 +250,14 @@ class __$$_CategorySectionStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isCached = null,
+    Object? isLoada = null,
     Object? isLoading = null,
     Object? categories = null,
   }) {
     return _then(_$_CategorySectionState(
-      isCached: null == isCached
-          ? _value.isCached
-          : isCached // ignore: cast_nullable_to_non_nullable
+      isLoada: null == isLoada
+          ? _value.isLoada
+          : isLoada // ignore: cast_nullable_to_non_nullable
               as bool,
       isLoading: null == isLoading
           ? _value.isLoading
@@ -275,7 +275,7 @@ class __$$_CategorySectionStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CategorySectionState implements _CategorySectionState {
   const _$_CategorySectionState(
-      {this.isCached = false,
+      {this.isLoada = false,
       this.isLoading = true,
       final List<ReciveCategory> categories = const []})
       : _categories = categories;
@@ -285,7 +285,7 @@ class _$_CategorySectionState implements _CategorySectionState {
 
   @override
   @JsonKey()
-  final bool isCached;
+  final bool isLoada;
   @override
   @JsonKey()
   final bool isLoading;
@@ -300,7 +300,7 @@ class _$_CategorySectionState implements _CategorySectionState {
 
   @override
   String toString() {
-    return 'CategorySectionState(isCached: $isCached, isLoading: $isLoading, categories: $categories)';
+    return 'CategorySectionState(isLoada: $isLoada, isLoading: $isLoading, categories: $categories)';
   }
 
   @override
@@ -308,8 +308,7 @@ class _$_CategorySectionState implements _CategorySectionState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CategorySectionState &&
-            (identical(other.isCached, isCached) ||
-                other.isCached == isCached) &&
+            (identical(other.isLoada, isLoada) || other.isLoada == isLoada) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
@@ -318,7 +317,7 @@ class _$_CategorySectionState implements _CategorySectionState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, isCached, isLoading,
+  int get hashCode => Object.hash(runtimeType, isLoada, isLoading,
       const DeepCollectionEquality().hash(_categories));
 
   @JsonKey(ignore: true)
@@ -338,7 +337,7 @@ class _$_CategorySectionState implements _CategorySectionState {
 
 abstract class _CategorySectionState implements CategorySectionState {
   const factory _CategorySectionState(
-      {final bool isCached,
+      {final bool isLoada,
       final bool isLoading,
       final List<ReciveCategory> categories}) = _$_CategorySectionState;
 
@@ -346,7 +345,7 @@ abstract class _CategorySectionState implements CategorySectionState {
       _$_CategorySectionState.fromJson;
 
   @override
-  bool get isCached;
+  bool get isLoada;
   @override
   bool get isLoading;
   @override

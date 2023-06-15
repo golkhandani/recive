@@ -109,7 +109,7 @@ class CategorySection extends HookWidget {
                 itemBuilder: (_, i) =>
                     CategoryHorizontalCard(data: state.categories[i]),
                 separatorBuilder: (_, i) => const SizedBox(width: 16),
-                itemCount: 10,
+                itemCount: state.categories.length,
               ),
             ),
           ],

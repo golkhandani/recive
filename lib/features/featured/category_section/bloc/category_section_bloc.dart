@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:recive/models/recive_category.model.dart';
+import 'package:recive/utils/valid_bloc_cache.dart';
 
 part 'category_section_event.dart';
 part 'category_section_state.dart';
@@ -25,8 +26,8 @@ class CategorySectionBloc
   }
 
   Future<void> _load(Emitter<CategorySectionState> emit) async {
-    final cache = HydratedBloc.storage.read(storageToken);
-    if (cache != null) {
+    print(state is StateWithIsLoading);
+    if (isCached) {
       return;
     }
     emit(state.copyWith(isLoading: true));
@@ -82,17 +83,6 @@ class CategorySectionBloc
         fakeItem,
         fakeItem,
         fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem,
-        fakeItem
       ],
     ));
   }

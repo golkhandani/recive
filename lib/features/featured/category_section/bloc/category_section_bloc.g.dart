@@ -9,7 +9,7 @@ part of 'category_section_bloc.dart';
 _$_CategorySectionState _$$_CategorySectionStateFromJson(
         Map<String, dynamic> json) =>
     _$_CategorySectionState(
-      isCached: json['isCached'] as bool? ?? false,
+      isLoada: json['isLoada'] as bool? ?? false,
       isLoading: json['isLoading'] as bool? ?? true,
       categories: (json['categories'] as List<dynamic>?)
               ?.map((e) => ReciveCategory.fromJson(e as Map<String, dynamic>))
@@ -20,7 +20,7 @@ _$_CategorySectionState _$$_CategorySectionStateFromJson(
 Map<String, dynamic> _$$_CategorySectionStateToJson(
         _$_CategorySectionState instance) =>
     <String, dynamic>{
-      'isCached': instance.isCached,
+      'isLoada': instance.isLoada,
       'isLoading': instance.isLoading,
       'categories': instance.categories,
     };

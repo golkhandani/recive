@@ -91,3 +91,75 @@ class Origin with _$Origin {
 
   factory Origin.fromJson(Map<String, Object?> json) => _$OriginFromJson(json);
 }
+
+final recive = Recive.fromJson({
+  "title": "Classic Chocolate Chip Cookies",
+  "creatorSummary": {
+    "firstName": "Mita",
+    "lastName": "Takashi",
+    "imageUrl":
+        "https://unsplash.com/photos/I7A_pHLcQK8/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8YnVyZ2VyfGVufDB8fHx8MTY4NTMwODcyMnww&force=true&w=1920",
+  },
+  "origin": {
+    "code": "KR",
+    "country": "Korea",
+    "state": "Areso",
+    "city": "Seol",
+    "title": "Korean"
+  },
+  "ingredients": [
+    {
+      "amount": 2,
+      "measurement": "cups",
+      "svgIcon": "flour_icon.svg",
+      "name": "All-purpose flour"
+    },
+    {
+      "amount": 1,
+      "measurement": "cup",
+      "svgIcon": "sugar_icon.svg",
+      "name": "Granulated sugar"
+    },
+    {
+      "amount": 1,
+      "measurement": "cup",
+      "svgIcon": "butter_icon.svg",
+      "name": "Unsalted butter"
+    },
+  ],
+  "instructions": [
+    {
+      "name": "Preparation",
+      "description": "Preheat the oven...",
+      "preparationTimeMinute": 15,
+      "imageUrls": ["preparation_step1.jpg", "preparation_step2.jpg"]
+    },
+    {
+      "name": "Baking",
+      "description": "Scoop cookie dough...",
+      "preparationTimeMinute": 10,
+      "imageUrls": ["baking_step1.jpg", "baking_step2.jpg", "baking_step3.jpg"]
+    },
+  ],
+  "difficultyLevel": "easy",
+  "preparationTimeMinute": 30,
+  "cookingTimeMinute": 10,
+  "serving": "24 piece",
+  "cuisineType": "Dessert",
+  "calories": 150,
+  "imageUrls": [
+    "https://unsplash.com/photos/I7A_pHLcQK8/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8YnVyZ2VyfGVufDB8fHx8MTY4NTMwODcyMnww&force=true&w=1920",
+    "https://unsplash.com/photos/MqT0asuoIcU/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8OHx8Zm9vZHxlbnwwfHx8fDE2ODU0MTcyNTN8MA&force=true&w=1920",
+    "https://unsplash.com/photos/ZuIDLSz3XLg/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Nnx8Zm9vZHxlbnwwfHx8fDE2ODU0MTcyNTN8MA&force=true&w=1920",
+    "https://unsplash.com/photos/IGfIGP5ONV0/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTF8fGZvb2R8ZW58MHx8fHwxNjg1NDE3MjUzfDA&force=true&w=1920"
+  ],
+  "tags": ["Classic", "Cookies", "Dessert"],
+  "allergens": [
+    {"name": "Milk", "infoLink": "https://example.com/allergens/milk"},
+    {"name": "Eggs", "infoLink": "https://example.com/allergens/eggs"}
+  ],
+  "source": "The Baker's Cookbook",
+  "variations": ["Oatmeal Raisin", "Double Chocolate"]
+});
+
+final List<String> list = List.generate(20, (index) => "Text $index");

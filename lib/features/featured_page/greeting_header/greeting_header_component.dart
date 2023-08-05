@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
-import 'package:recive/features/featured/greeting_header/bloc/greeting_header_bloc.dart';
+import 'package:recive/features/featured_page/greeting_header/bloc/greeting_header_bloc.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -33,8 +31,8 @@ class GreetingHeader extends HookWidget {
     //   ));
     // });
     return Container(
-      color: Colors.black,
-      padding: const EdgeInsets.all(8),
+      color: context.theme.primaryColor,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -42,22 +40,24 @@ class GreetingHeader extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Greating",
+                "Greeting",
                 style: context.textTheme.titleSmall,
               ),
               if (state.isLoading || !state.hasUser) ...[
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   width: 120,
-                  child: const LinearProgressIndicator(
-                    color: Colors.white,
+                  child: LinearProgressIndicator(
+                    backgroundColor: context.schema.primary,
+                    color: context.schema.primaryContainer,
                   ),
                 ),
               ] else ...[
                 Text(
                   state.user!.name,
-                  style: context.textTheme.titleLarge!
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: context.textTheme.titleLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 )
               ]
             ],
@@ -68,12 +68,12 @@ class GreetingHeader extends HookWidget {
               navigationService.navigateTo(NotificationScreen.name);
             },
             child: Badge(
-              backgroundColor: Colors.red,
+              backgroundColor: context.schema.error,
               largeSize: state.isLoading && !state.hasNotification ? 0 : 24,
               isLabelVisible: true,
-              textColor: Colors.white,
+              textColor: context.schema.onError,
               textStyle: context.textTheme.labelSmall!.copyWith(
-                color: Colors.white,
+                color: context.schema.onError,
                 fontWeight: FontWeight.bold,
               ),
               label: SizedBox(
@@ -86,9 +86,9 @@ class GreetingHeader extends HookWidget {
                 ),
               ),
               smallSize: state.isLoading && !state.hasNotification ? 0 : 24,
-              child: const Iconify(
+              child: Iconify(
                 Mdi.notifications,
-                color: Colors.white,
+                color: context.schema.primaryContainer,
                 size: 36,
               ),
             ),
@@ -98,9 +98,9 @@ class GreetingHeader extends HookWidget {
             onTap: () {
               navigationService.navigateTo('settings');
             },
-            child: const Iconify(
+            child: Iconify(
               Mdi.settings,
-              color: Colors.white,
+              color: context.schema.primaryContainer,
               size: 36,
             ),
           ),

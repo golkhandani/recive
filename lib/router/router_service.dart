@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
-import 'package:recive/components/async_search_bar.dart';
-import 'package:recive/components/big_square_card.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
-import 'package:recive/features/featured/featured_screen.dart';
+import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
-import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/features/timer_page/timer_screen.dart';
 import 'package:recive/layout/scaffold_shell.dart';
-import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/models/recive.model.dart';
 import 'package:recive/router/navigation_service.dart';
 
@@ -88,23 +82,62 @@ final dashboardRoutes = [
     },
     routes: <RouteBase>[
       GoRoute(
+        name: TimerScreen.name,
+        path: '/${DashboardScreen.name}/${TimerScreen.name}',
+        pageBuilder: (context, state) => dashboardPageBuilder(
+          state,
+          const TimerScreen(),
+        ),
+        builder: (context, state) => const TimerScreen(),
+      ),
+      GoRoute(
         name: FeaturedScreen.name,
         path: '/${DashboardScreen.name}/${FeaturedScreen.name}',
+        pageBuilder: (context, state) => dashboardPageBuilder(
+          state,
+          const FeaturedScreen(),
+        ),
         builder: (context, state) => const FeaturedScreen(),
       ),
       GoRoute(
         name: RecipesScreen.name,
         path: '/${DashboardScreen.name}/${RecipesScreen.name}',
+        pageBuilder: (context, state) => dashboardPageBuilder(
+          state,
+          const RecipesScreen(),
+        ),
         builder: (context, state) => const RecipesScreen(),
       ),
       GoRoute(
         name: ProfileScreen.name,
         path: '/${DashboardScreen.name}/${ProfileScreen.name}',
+        pageBuilder: (context, state) => dashboardPageBuilder(
+          state,
+          const ProfileScreen(),
+        ),
         builder: (context, state) => const ProfileScreen(),
       ),
     ],
   ),
 ];
+
+Page<void> dashboardPageBuilder(GoRouterState state, Widget screen) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    restorationId: state.pageKey.value,
+    child: screen,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        // FadeTransition(opacity: animation, child: child) ??
+        SlideTransition(
+      position: animation.drive(
+        Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero).chain(
+          CurveTween(curve: Curves.easeInOutCubic),
+        ),
+      ),
+      child: child,
+    ),
+  );
+}
 
 class TestRoute extends StatelessWidget {
   const TestRoute({
@@ -130,78 +163,6 @@ class SplashScreen extends StatelessWidget {
     );
   }
 }
-
-final recive = Recive.fromJson({
-  "title": "Classic Chocolate Chip Cookies",
-  "creatorSummary": {
-    "firstName": "Mita",
-    "lastName": "Takashi",
-    "imageUrl":
-        "https://unsplash.com/photos/I7A_pHLcQK8/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8YnVyZ2VyfGVufDB8fHx8MTY4NTMwODcyMnww&force=true&w=1920",
-  },
-  "origin": {
-    "code": "KR",
-    "country": "Korea",
-    "state": "Areso",
-    "city": "Seol",
-    "title": "Korean"
-  },
-  "ingredients": [
-    {
-      "amount": 2,
-      "measurement": "cups",
-      "svgIcon": "flour_icon.svg",
-      "name": "All-purpose flour"
-    },
-    {
-      "amount": 1,
-      "measurement": "cup",
-      "svgIcon": "sugar_icon.svg",
-      "name": "Granulated sugar"
-    },
-    {
-      "amount": 1,
-      "measurement": "cup",
-      "svgIcon": "butter_icon.svg",
-      "name": "Unsalted butter"
-    },
-  ],
-  "instructions": [
-    {
-      "name": "Preparation",
-      "description": "Preheat the oven...",
-      "preparationTimeMinute": 15,
-      "imageUrls": ["preparation_step1.jpg", "preparation_step2.jpg"]
-    },
-    {
-      "name": "Baking",
-      "description": "Scoop cookie dough...",
-      "preparationTimeMinute": 10,
-      "imageUrls": ["baking_step1.jpg", "baking_step2.jpg", "baking_step3.jpg"]
-    },
-  ],
-  "difficultyLevel": "easy",
-  "preparationTimeMinute": 30,
-  "cookingTimeMinute": 10,
-  "serving": "24 piece",
-  "cuisineType": "Dessert",
-  "calories": 150,
-  "imageUrls": [
-    "https://unsplash.com/photos/I7A_pHLcQK8/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8YnVyZ2VyfGVufDB8fHx8MTY4NTMwODcyMnww&force=true&w=1920",
-    "https://unsplash.com/photos/MqT0asuoIcU/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8OHx8Zm9vZHxlbnwwfHx8fDE2ODU0MTcyNTN8MA&force=true&w=1920",
-    "https://unsplash.com/photos/ZuIDLSz3XLg/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Nnx8Zm9vZHxlbnwwfHx8fDE2ODU0MTcyNTN8MA&force=true&w=1920",
-    "https://unsplash.com/photos/IGfIGP5ONV0/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTF8fGZvb2R8ZW58MHx8fHwxNjg1NDE3MjUzfDA&force=true&w=1920"
-  ],
-  "tags": ["Classic", "Cookies", "Dessert"],
-  "allergens": [
-    {"name": "Milk", "infoLink": "https://example.com/allergens/milk"},
-    {"name": "Eggs", "infoLink": "https://example.com/allergens/eggs"}
-  ],
-  "source": "The Baker's Cookbook",
-  "variations": ["Oatmeal Raisin", "Double Chocolate"]
-});
-
-final List<String> list = List.generate(20, (index) => "Text $index");
 
 class RecipesScreen extends StatelessWidget {
   static const name = 'recipes';

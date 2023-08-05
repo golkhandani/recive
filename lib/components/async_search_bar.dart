@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooked_bloc/hooked_bloc.dart';
 
 import 'package:recive/components/suggestion_form_field.dart';
-import 'package:recive/features/featured/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class AsyncSearchBar extends HookWidget {

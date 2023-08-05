@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 extension UiBreakPointDetection on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
   ThemeData get theme => Theme.of(this);
+  ColorScheme get schema => Theme.of(this).colorScheme;
   Size get size => MediaQuery.of(this).size;
   EdgeInsets get smallPadding => const EdgeInsets.all(8.0);
 
@@ -12,4 +13,8 @@ extension UiBreakPointDetection on BuildContext {
   bool get isMediumWith => vWidth >= (vHeight / 1.2) && vWidth < vHeight * 1.8;
   bool get isWideWith => vWidth >= vHeight * 1.8 && vWidth < vHeight * 2.4;
   bool get isUltraWideWith => vWidth >= vHeight * 2.4;
+}
+
+extension CopyWithColor on TextStyle {
+  TextStyle? withColor(Color color) => copyWith(color: color);
 }

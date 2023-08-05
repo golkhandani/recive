@@ -2,8 +2,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recive/components/navigation_item.dart';
-import 'package:recive/features/featured/featured_screen.dart';
+import 'package:recive/features/featured_page/featured_screen.dart';
+import 'package:recive/features/timer_page/timer_screen.dart';
 import 'package:recive/ioc/locator.dart';
+import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/custom_shape_background_widget.dart';
 import 'package:recive/layout/navigation_shell.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
@@ -26,9 +29,10 @@ class DashboardWrapper extends StatelessWidget {
   final Widget child;
 
   static Map<String, int> dashboardRouteNameToSelectedIndexMap = {
-    FeaturedScreen.name: 0,
-    ProfileScreen.name: 1,
-    RecipesScreen.name: 2,
+    TimerScreen.name: 0,
+    FeaturedScreen.name: 1,
+    ProfileScreen.name: 2,
+    RecipesScreen.name: 3,
   };
   final navigationService = locator.get<NavigationService>();
 
@@ -42,7 +46,7 @@ class DashboardWrapper extends StatelessWidget {
     }
 
     int calculateDashboardSelectedIndex() {
-      final String location = GoRouterState.of(context).location;
+      final String location = GoRouterState.of(context).uri.path;
       final name = dashboardRouteNameToSelectedIndexMap.keys
           .firstWhereOrNull((element) => location.contains(element));
 
@@ -51,6 +55,10 @@ class DashboardWrapper extends StatelessWidget {
 
     final currentIndex = calculateDashboardSelectedIndex();
     final items = [
+      NavigationItem(
+        iconData: Icons.timer,
+        label: 'Timer',
+      ),
       NavigationItem(
         iconData: Icons.home,
         label: 'Inputs',
@@ -69,10 +77,11 @@ class DashboardWrapper extends StatelessWidget {
       items: items,
       currentIndex: currentIndex,
       onTap: onItemTapped,
-      activeColor: Colors.amber,
-      inactiveColor: Colors.white,
-      backgroundColor: Colors.black,
+      activeColor: context.theme.textTheme.bodyLarge!.color!,
+      inactiveColor: context.theme.disabledColor,
+      backgroundColor: context.theme.primaryColor,
       useFloatingNavBar: false,
+      handleTopSafePadding: false,
       child: child,
     );
   }

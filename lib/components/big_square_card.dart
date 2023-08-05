@@ -1,14 +1,10 @@
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ic.dart';
-import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
-import 'package:iconify_flutter/icons/zondicons.dart';
-import 'package:iconly/iconly.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'dart:math' as math;
@@ -53,7 +49,7 @@ class BigSquareCard extends HookWidget {
                               image: imageProvider,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
-                                kStandardBlurColor,
+                                context.schema.secondary.withOpacity(0.6),
                                 BlendMode.colorBurn,
                               ),
                             ),
@@ -168,24 +164,25 @@ class BigSquareCard extends HookWidget {
           Text(
             data.title,
             maxLines: 1,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: Colors.white),
+            style: context.textTheme.titleLarge!.copyWith(
+              color: context.schema.onSecondary,
+            ),
             overflow: TextOverflow.ellipsis,
           ),
           Row(
             children: [
-              const Iconify(Mdi.food_fork_drink, color: Colors.white),
+              Iconify(
+                Mdi.food_fork_drink,
+                color: context.schema.onSecondary,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   "Created by ${data.creatorSummary.firstName} ${data.creatorSummary.lastName}",
                   maxLines: 1,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: context.schema.onSecondary,
+                      ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -193,16 +190,18 @@ class BigSquareCard extends HookWidget {
           ),
           Row(
             children: [
-              const Iconify(Mdi.food, color: Colors.white),
+              Iconify(
+                Mdi.food,
+                color: context.schema.onSecondary,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   "${data.origin.title} ${data.cuisineType}",
                   maxLines: 1,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: Colors.white),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: context.schema.onSecondary,
+                      ),
                 ),
               ),
             ],
@@ -275,7 +274,7 @@ class ReciveFactItem extends StatelessWidget {
             ),
             child: Iconify(
               icon,
-              color: Colors.white,
+              color: context.schema.onSecondary,
               size: 16,
             ),
           ),
@@ -288,7 +287,7 @@ class ReciveFactItem extends StatelessWidget {
                   text,
                   textAlign: TextAlign.left,
                   style: context.textTheme.bodySmall!.copyWith(
-                    color: Colors.white,
+                    color: context.schema.onSecondary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

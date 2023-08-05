@@ -15,6 +15,9 @@ _$_CategorySectionState _$$_CategorySectionStateFromJson(
               ?.map((e) => ReciveCategory.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      $cachedAt: json[r'$cachedAt'] == null
+          ? null
+          : DateTime.parse(json[r'$cachedAt'] as String),
     );
 
 Map<String, dynamic> _$$_CategorySectionStateToJson(
@@ -23,4 +26,5 @@ Map<String, dynamic> _$$_CategorySectionStateToJson(
       'isLoada': instance.isLoada,
       'isLoading': instance.isLoading,
       'categories': instance.categories,
+      r'$cachedAt': instance.$cachedAt?.toIso8601String(),
     };

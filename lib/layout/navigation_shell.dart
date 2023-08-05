@@ -24,6 +24,7 @@ class NavigationShell extends StatefulWidget {
     this.backgroundColor = Colors.grey,
     this.useFloatingNavBar = true,
     this.borderRadius = 15,
+    this.handleTopSafePadding = true,
   });
 
   final double extendedWidth;
@@ -42,6 +43,7 @@ class NavigationShell extends StatefulWidget {
   final Color inactiveColor;
 
   final bool useFloatingNavBar;
+  final bool handleTopSafePadding;
 
   @override
   State<NavigationShell> createState() => _NavigationShellState();
@@ -69,6 +71,7 @@ class _NavigationShellState extends State<NavigationShell> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldShell(
+      handleTopSafePadding: widget.handleTopSafePadding,
       bottomNavigationBar: context.isNarrowWith && !widget.useFloatingNavBar
           ? _buildBottomNavigationBar()
           : null,
@@ -79,11 +82,14 @@ class _NavigationShellState extends State<NavigationShell> {
   }
 
   Widget _buildNarrowContainer() {
-    final safePadding = MediaQuery.of(context).padding.top;
+    final safePadding =
+        widget.handleTopSafePadding ? MediaQuery.of(context).padding.top : 0.0;
     return Stack(
       children: [
         Padding(
-            padding: EdgeInsets.only(top: safePadding), child: widget.child),
+          padding: EdgeInsets.only(top: safePadding),
+          child: widget.child,
+        ),
         if (widget.useFloatingNavBar) _buildFloatingNavigationBar(),
       ],
     );
@@ -207,7 +213,16 @@ class _NavigationShellState extends State<NavigationShell> {
   Widget _buildBottomNavigationBar() {
     return Container(
       height: 100,
-      color: Colors.redAccent,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: context.theme.shadowColor.withOpacity(0.3),
+            spreadRadius: 10,
+            blurRadius: 10,
+            offset: const Offset(0, 0), // changes position of shadow
+          ),
+        ],
+      ),
       child: Theme(
         data: ThemeData(
           highlightColor: Colors.transparent,

@@ -2,9 +2,7 @@
 //
 //     final reciveCategory = reciveCategoryFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'recive_category.model.freezed.dart';
 part 'recive_category.model.g.dart';

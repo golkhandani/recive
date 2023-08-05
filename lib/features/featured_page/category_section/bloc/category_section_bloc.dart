@@ -1,13 +1,33 @@
-import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:recive/models/recive_category.model.dart';
 import 'package:recive/utils/valid_bloc_cache.dart';
 
-part 'category_section_event.dart';
-part 'category_section_state.dart';
 part 'category_section_bloc.freezed.dart';
 part 'category_section_bloc.g.dart';
+
+@freezed
+class CategorySectionEvent with _$CategorySectionEvent {
+  const factory CategorySectionEvent.load() = _CategorySectionEventLoad;
+}
+
+@freezed
+class CategorySectionState extends HydratedState with _$CategorySectionState {
+  const factory CategorySectionState({
+    @Default(false) bool isLoada,
+    @Default(true) bool isLoading,
+    @Default([]) List<ReciveCategory> categories,
+    @Default(null) DateTime? $cachedAt,
+  }) = _CategorySectionState;
+
+  const CategorySectionState._();
+
+  factory CategorySectionState.fromJson(Map<String, dynamic> json) =>
+      _$CategorySectionStateFromJson(json);
+
+  @override
+  bool get isValidState => !isLoading && categories.isNotEmpty;
+}
 
 class CategorySectionBloc
     extends HydratedBloc<CategorySectionEvent, CategorySectionState> {
@@ -16,20 +36,18 @@ class CategorySectionBloc
       CategorySectionState.fromJson(json);
 
   @override
-  Map<String, dynamic>? toJson(CategorySectionState state) => state.toJson();
+  Map<String, dynamic>? toJson(CategorySectionState state) =>
+      state.$updated.toJson();
+
   CategorySectionBloc() : super(const CategorySectionState()) {
     on<CategorySectionEvent>((event, emit) async {
       await event.when(
-        load: () => _load(emit),
+        load: () => $onInvalidCache(() => _load(emit)),
       );
     });
   }
 
   Future<void> _load(Emitter<CategorySectionState> emit) async {
-    print(state is StateWithIsLoading);
-    if (isCached) {
-      return;
-    }
     emit(state.copyWith(isLoading: true));
     await Future.delayed(const Duration(seconds: 2));
     final fakeItem = ReciveCategory.fromJson({

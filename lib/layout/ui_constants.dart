@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:recive/utils/theme.dart';
 
 const Widget kLoadingBox = Center(
   child: SizedBox(
@@ -22,7 +23,7 @@ final kStandardBlur = ImageFilter.blur(
 );
 
 final kBoxBorder = Border.all(
-  color: Colors.white,
+  color: primaryShadow,
   width: 1,
   style: BorderStyle.solid,
 );

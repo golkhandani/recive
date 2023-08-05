@@ -17,8 +17,7 @@ class CategoryHorizontalCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      width: 200,
+      width: context.vWidth / 2.4,
       decoration: BoxDecoration(
         border: kBoxBorder,
         borderRadius: BorderRadius.circular(kRadius),
@@ -39,7 +38,7 @@ class CategoryHorizontalCard extends HookWidget {
                         image: imageProvider,
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                          kStandardBlurColor,
+                          context.schema.secondary.withOpacity(0.6),
                           BlendMode.colorBurn,
                         ),
                       ),
@@ -51,7 +50,9 @@ class CategoryHorizontalCard extends HookWidget {
                 child: Center(
                   child: Text(
                     data.name,
-                    style: context.textTheme.titleSmall,
+                    style: context.textTheme.titleSmall!.copyWith(
+                      color: context.schema.onSecondary,
+                    ),
                   ),
                 ),
               )

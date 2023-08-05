@@ -185,7 +185,7 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
     // _overlayEntry?.remove();
     // _overlayEntry = null;
     print(
-        "openOverlay ${_shouldDraw} ${_hasOpenedOverlay} - ${widget.isVisible}");
+        "openOverlay $_shouldDraw $_hasOpenedOverlay - ${widget.isVisible}");
     if (_shouldDraw && widget.isVisible) {
       setState(() => _hasOpenedOverlay = true);
       _overlayEntry?.remove();
@@ -274,7 +274,7 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
   void didUpdateWidget(covariant SuggestionFormField<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     print(
-        "didUpdateWidget ${_hasOpenedOverlay} - ${widget.isVisible} ${oldWidget.isDropDownLoading}");
+        "didUpdateWidget $_hasOpenedOverlay - ${widget.isVisible} ${oldWidget.isDropDownLoading}");
     if (oldWidget.isDropDownLoading == widget.isDropDownLoading) {
       return;
     }
@@ -406,7 +406,8 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
                   height: _height,
                   width: _width,
                   decoration: BoxDecoration(
-                    borderRadius: widget.borderRadius,
+                    borderRadius:
+                        widget.borderRadius.add(BorderRadius.circular(1)),
                     border: widget.border,
                     color: widget.inputBackgroundColor,
                   ),

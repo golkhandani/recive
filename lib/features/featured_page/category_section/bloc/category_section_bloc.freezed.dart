@@ -177,6 +177,7 @@ mixin _$CategorySectionState {
   bool get isLoada => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   List<ReciveCategory> get categories => throw _privateConstructorUsedError;
+  DateTime? get $cachedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -190,7 +191,11 @@ abstract class $CategorySectionStateCopyWith<$Res> {
           $Res Function(CategorySectionState) then) =
       _$CategorySectionStateCopyWithImpl<$Res, CategorySectionState>;
   @useResult
-  $Res call({bool isLoada, bool isLoading, List<ReciveCategory> categories});
+  $Res call(
+      {bool isLoada,
+      bool isLoading,
+      List<ReciveCategory> categories,
+      DateTime? $cachedAt});
 }
 
 /// @nodoc
@@ -210,6 +215,7 @@ class _$CategorySectionStateCopyWithImpl<$Res,
     Object? isLoada = null,
     Object? isLoading = null,
     Object? categories = null,
+    Object? $cachedAt = freezed,
   }) {
     return _then(_value.copyWith(
       isLoada: null == isLoada
@@ -224,6 +230,10 @@ class _$CategorySectionStateCopyWithImpl<$Res,
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
               as List<ReciveCategory>,
+      $cachedAt: freezed == $cachedAt
+          ? _value.$cachedAt
+          : $cachedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -236,7 +246,11 @@ abstract class _$$_CategorySectionStateCopyWith<$Res>
       __$$_CategorySectionStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoada, bool isLoading, List<ReciveCategory> categories});
+  $Res call(
+      {bool isLoada,
+      bool isLoading,
+      List<ReciveCategory> categories,
+      DateTime? $cachedAt});
 }
 
 /// @nodoc
@@ -253,6 +267,7 @@ class __$$_CategorySectionStateCopyWithImpl<$Res>
     Object? isLoada = null,
     Object? isLoading = null,
     Object? categories = null,
+    Object? $cachedAt = freezed,
   }) {
     return _then(_$_CategorySectionState(
       isLoada: null == isLoada
@@ -267,18 +282,24 @@ class __$$_CategorySectionStateCopyWithImpl<$Res>
           ? _value._categories
           : categories // ignore: cast_nullable_to_non_nullable
               as List<ReciveCategory>,
+      $cachedAt: freezed == $cachedAt
+          ? _value.$cachedAt
+          : $cachedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_CategorySectionState implements _CategorySectionState {
+class _$_CategorySectionState extends _CategorySectionState {
   const _$_CategorySectionState(
       {this.isLoada = false,
       this.isLoading = true,
-      final List<ReciveCategory> categories = const []})
-      : _categories = categories;
+      final List<ReciveCategory> categories = const [],
+      this.$cachedAt = null})
+      : _categories = categories,
+        super._();
 
   factory _$_CategorySectionState.fromJson(Map<String, dynamic> json) =>
       _$$_CategorySectionStateFromJson(json);
@@ -299,8 +320,12 @@ class _$_CategorySectionState implements _CategorySectionState {
   }
 
   @override
+  @JsonKey()
+  final DateTime? $cachedAt;
+
+  @override
   String toString() {
-    return 'CategorySectionState(isLoada: $isLoada, isLoading: $isLoading, categories: $categories)';
+    return 'CategorySectionState(isLoada: $isLoada, isLoading: $isLoading, categories: $categories, \$cachedAt: ${$cachedAt})';
   }
 
   @override
@@ -312,13 +337,15 @@ class _$_CategorySectionState implements _CategorySectionState {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
-                .equals(other._categories, _categories));
+                .equals(other._categories, _categories) &&
+            (identical(other.$cachedAt, $cachedAt) ||
+                other.$cachedAt == $cachedAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, isLoada, isLoading,
-      const DeepCollectionEquality().hash(_categories));
+      const DeepCollectionEquality().hash(_categories), $cachedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -335,11 +362,13 @@ class _$_CategorySectionState implements _CategorySectionState {
   }
 }
 
-abstract class _CategorySectionState implements CategorySectionState {
+abstract class _CategorySectionState extends CategorySectionState {
   const factory _CategorySectionState(
       {final bool isLoada,
       final bool isLoading,
-      final List<ReciveCategory> categories}) = _$_CategorySectionState;
+      final List<ReciveCategory> categories,
+      final DateTime? $cachedAt}) = _$_CategorySectionState;
+  const _CategorySectionState._() : super._();
 
   factory _CategorySectionState.fromJson(Map<String, dynamic> json) =
       _$_CategorySectionState.fromJson;
@@ -350,6 +379,8 @@ abstract class _CategorySectionState implements CategorySectionState {
   bool get isLoading;
   @override
   List<ReciveCategory> get categories;
+  @override
+  DateTime? get $cachedAt;
   @override
   @JsonKey(ignore: true)
   _$$_CategorySectionStateCopyWith<_$_CategorySectionState> get copyWith =>

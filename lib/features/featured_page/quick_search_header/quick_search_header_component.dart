@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/components/async_search_bar.dart';
-import 'package:recive/features/featured/quick_search_header/bloc/quick_search_header_bloc.dart';
+import 'package:recive/features/featured_page/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -26,7 +26,6 @@ class QuickSearchHeader extends HookWidget {
     final textEditingController = useTextEditingController();
 
     useEffect(() {
-      print("state.query ${state.query}");
       textEditingController.text = state.query;
       return () {
         debounce?.cancel();
@@ -48,8 +47,8 @@ class QuickSearchHeader extends HookWidget {
     }
 
     return Container(
-      color: Colors.black,
-      padding: const EdgeInsets.all(8.0),
+      color: context.theme.primaryColor,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -60,15 +59,14 @@ class QuickSearchHeader extends HookWidget {
           const SizedBox(height: 8),
           AsyncSearchBar(
             controller: textEditingController,
-            backgroundColor: Colors.black,
-            hintStyle: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: Colors.white54),
+            backgroundColor: context.schema.primaryContainer,
+            hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: context.schema.onPrimaryContainer.withOpacity(0.7),
+                ),
             textStyle: textStyle,
             itemBuilder: (_, item, index) => Container(
               height: 48,
-              color: Colors.green[((index % 10) + 1) * 100],
+              // color: Colors.green[((index % 10) + 1) * 100],
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Align(
                   alignment: Alignment.centerLeft,
@@ -82,17 +80,18 @@ class QuickSearchHeader extends HookWidget {
             isLoading: state.isLoading,
             isSelected: state.isSelected,
             suffix: Material(
-              color: Colors.white,
+              borderRadius: BorderRadius.zero,
+              color: context.schema.primaryContainer,
               child: InkWell(
                 onTap: () {},
-                splashColor: Colors.grey,
-                child: const SizedBox(
+                splashColor: context.schema.secondary,
+                child: SizedBox(
                   height: 48,
                   width: 48,
                   child: Icon(
                     Icons.search,
                     size: 32,
-                    color: Colors.black,
+                    color: context.schema.onPrimaryContainer,
                   ),
                 ),
               ),

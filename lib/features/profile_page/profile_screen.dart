@@ -25,7 +25,7 @@ class ProfileScreen extends HookWidget {
     final textEditingController = useTextEditingController();
 
     return ColoredBox(
-      color: Colors.amber[100]!,
+      color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
         final contentHeight =
             box.maxHeight - context.invisibleHeight - 24 - 56 - 12 - 24;

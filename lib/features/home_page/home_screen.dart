@@ -14,7 +14,7 @@ class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: Colors.amber[100]!,
+      color: context.theme.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(
@@ -323,28 +323,31 @@ class CardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              color: color,
-              boxShadow: const <BoxShadow>[
-                BoxShadow(
-                  offset: Offset(.2, .2),
-                  blurRadius: 2,
-                  color: Colors.black26,
-                )
-              ],
-              borderRadius: borderRadius,
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                color: color,
+                boxShadow: const <BoxShadow>[
+                  BoxShadow(
+                    offset: Offset(.2, .2),
+                    blurRadius: 2,
+                    color: Colors.black26,
+                  )
+                ],
+                borderRadius: borderRadius,
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: padding,
-          child: child,
-        )
-      ],
+          Padding(
+            padding: padding,
+            child: child,
+          )
+        ],
+      ),
     );
   }
 }

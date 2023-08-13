@@ -115,7 +115,7 @@ class QuickSearchHeader extends HookWidget {
   }
 }
 
-class PinnedSearchHeader extends HookWidget {
+class PinnedSearchHeader extends StatefulHookWidget {
   final void Function(String)? onSelect;
   final void Function(String)? onTextChanged;
   final TextEditingController? textController;
@@ -132,17 +132,19 @@ class PinnedSearchHeader extends HookWidget {
   });
 
   @override
+  State<PinnedSearchHeader> createState() => _PinnedSearchHeaderState();
+}
+
+class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
+  @override
   Widget build(BuildContext context) {
     final textStyle =
-        context.textTheme.titleMedium!.copyWith(color: Colors.white);
+        context.textTheme.bodyMedium!.copyWith(color: Colors.white);
     Timer? debounce;
     final bloc = useBloc<QuickSearchHeaderBloc>();
     final state = useBlocBuilder(bloc);
-    final textEditingController = textController ?? useTextEditingController();
-
-    textEditingController.addListener(() {
-      print("hiiiii");
-    });
+    final textEditingController =
+        widget.textController ?? useTextEditingController();
 
     useEffect(() {
       textEditingController.text = state.query;
@@ -158,23 +160,22 @@ class PinnedSearchHeader extends HookWidget {
         if (selected) {
           textEditingController.text = value;
           bloc.add(QuickSearchHeaderEvent.select(selected: value));
-          onSelect?.call(value);
-          // navigationService.navigateTo(NotificationScreen.name);
+          widget.onSelect?.call(value);
         } else {
           bloc.add(QuickSearchHeaderEvent.search(query: value));
-          onTextChanged?.call(value);
+          widget.onTextChanged?.call(value);
         }
       });
     }
 
     return Container(
       color: context.theme.primaryColor,
-      padding: padding,
+      padding: widget.padding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AsyncSearchBar(
-            constraints: BoxConstraints(minHeight: height),
+            constraints: BoxConstraints(minHeight: widget.height),
             controller: textEditingController,
             backgroundColor: context.schema.primaryContainer,
             hintText: "Search what you looking for!",

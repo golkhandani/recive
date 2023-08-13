@@ -120,11 +120,11 @@ class _NearMeScreenState extends State<NearMeScreen>
     ];
 
     return ColoredBox(
-      color: Colors.amber[100]!,
+      color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
         final contentHeight = box.maxHeight - context.invisibleHeight - 24 - 32;
-        final mapSectionHeight = (contentHeight * 0.72) - 24 - 12;
-        final listSectionHeight = (contentHeight * 0.28) - 24 - 12;
+        final mapSectionHeight = (contentHeight * 0.8) - 24 - 12;
+        final listSectionHeight = (contentHeight * 0.2) - 24 - 12;
         return CustomScrollView(
           physics: const NeverScrollableScrollPhysics(),
           slivers: [
@@ -449,12 +449,13 @@ class _NearMeScreenMapViewContent extends HookWidget {
                       options: CarouselOptions(
                         autoPlay: false,
                         disableCenter: true,
-                        viewportFraction: .9,
+                        viewportFraction: .7,
                         height: listSectionHeight,
                         indicatorMargin: 12.0,
                         enableInfiniteScroll: true,
+                        showIndicator: false,
                         padEnds: true,
-                        slideIndicator: const CircularSlideIndicator(),
+                        // slideIndicator: CircularWaveSlideIndicator(),
                         onPageChanged: (index, reason) {
                           center.value = items[index];
                           mapController.animateTo(dest: items[index]);

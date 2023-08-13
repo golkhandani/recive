@@ -1,10 +1,14 @@
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:recive/components/navigation_item.dart';
 import 'package:recive/extensions/string_extensions.dart';
+import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/intro_text.dart';
 import 'package:recive/layout/scaffold_shell.dart';
 
 final kBlurConfig = ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0);
@@ -102,6 +106,73 @@ class _NavigationShellState extends State<NavigationShell> {
   }
 
   Widget _buildWideContainer() {
+    if (kIsWeb) {
+      return Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                image: const DecorationImage(
+                  image: NetworkImage(
+                      "https://unsplash.com/photos/dBp9dbQCh4Q/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjkxOTYyNzc4fA&force=true&w=2400"),
+                  fit: BoxFit.cover,
+                ),
+                color: context.theme.colorScheme.primary,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 12,
+            bottom: 12,
+            right: 112 + 12 + MediaQuery.sizeOf(context).height * .5,
+            left: 112,
+            child: LayoutBuilder(builder: (context, box) {
+              return SizedBox(
+                height: box.maxHeight,
+                width: box.maxWidth,
+                child: CardContainer(
+                  color: context.theme.colorScheme.background.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(16),
+                  padding: EdgeInsets.zero,
+                  child: Container(
+                    color: Colors.transparent,
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Vancity Explore',
+                                style: context.textTheme.headlineLarge,
+                              ),
+                              const SizedBox(height: 48),
+                              Text(introText),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+          ),
+          Positioned(
+            top: 12,
+            bottom: 12,
+            right: 112,
+            width: MediaQuery.sizeOf(context).height * .5,
+            child: CardContainer(
+              borderRadius: BorderRadius.circular(16),
+              padding: EdgeInsets.zero,
+              child: _buildNarrowContainer(),
+            ),
+          )
+        ],
+      );
+    }
     return Stack(
       children: [
         _buildRailContentWrapper(),

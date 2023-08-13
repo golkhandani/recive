@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -11,6 +13,16 @@ import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:recive/utils/theme.dart';
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        // etc.
+      };
+}
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -47,10 +59,25 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = ultravioletTheme;
-    final child = MaterialApp.router(
-      routerConfig: goRouter,
-      theme: theme.copyWith(
-        textTheme: GoogleFonts.nunitoSansTextTheme(theme.textTheme),
+    final child = ScrollConfiguration(
+      behavior: MyCustomScrollBehavior(),
+      child: MaterialApp.router(
+        scrollBehavior: const MaterialScrollBehavior().copyWith(
+          dragDevices: {
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.touch,
+            PointerDeviceKind.stylus,
+            PointerDeviceKind.unknown
+          },
+        ),
+        routerConfig: goRouter,
+        theme: theme.copyWith(
+          textTheme: GoogleFonts.nunitoSansTextTheme(theme.textTheme),
+        ),
+        builder: (context, child) => Container(
+            color: Colors.red,
+            constraints: BoxConstraints(maxHeight: 900, maxWidth: 600),
+            child: child!),
       ),
     );
     final hookedBloc = HookedBlocConfigProvider(

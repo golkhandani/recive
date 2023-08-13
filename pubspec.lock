@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  animated_stack_widget:
+    dependency: transitive
+    description:
+      name: animated_stack_widget
+      sha256: ce4788dd158768c9d4388354b6fb72600b78e041a37afc4c279c63ecafcb9408
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   app_settings:
     dependency: "direct main"
     description:
@@ -265,6 +273,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.3"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   expandable:
     dependency: "direct main"
     description:
@@ -390,6 +406,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.1"
+  flutter_map_marker_popup:
+    dependency: transitive
+    description:
+      name: flutter_map_marker_popup
+      sha256: be209c68b19d4c10d9a2f5911e45f7c579624c43a353adb9bf0f2fec0cf30b8c
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.0"
+  flutter_map_supercluster:
+    dependency: "direct main"
+    description:
+      name: flutter_map_supercluster
+      sha256: "1b5526c7f93750214067541752331d501ef70d646f7e15d1d3299be84fa2c1f8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.0"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -451,6 +483,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.3"
+  flutter_use_geolocation:
+    dependency: "direct main"
+    description:
+      name: flutter_use_geolocation
+      sha256: f03d1e941dcd375f5f972367c3dd493332ccd5cc87fc4f4ccc4225c781b3940d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -496,6 +536,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  geolocator:
+    dependency: transitive
+    description:
+      name: geolocator
+      sha256: "5c23f3613f50586c0bbb2b8f970240ae66b3bd992088cf60dd5ee2e6f7dde3a8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.2"
+  geolocator_android:
+    dependency: transitive
+    description:
+      name: geolocator_android
+      sha256: "835ff5b4888a2f8eba128996494faf9c5d422785322a81dc0565b99e0f6c379d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.2"
+  geolocator_apple:
+    dependency: transitive
+    description:
+      name: geolocator_apple
+      sha256: "36527c555f4c425f7d8fa8c7c07d67b78e3ff7590d40448051959e1860c1cfb4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.7"
+  geolocator_platform_interface:
+    dependency: transitive
+    description:
+      name: geolocator_platform_interface
+      sha256: af4d69231452f9620718588f41acc4cb58312368716bfff2e92e770b46ce6386
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.7"
+  geolocator_web:
+    dependency: transitive
+    description:
+      name: geolocator_web
+      sha256: f68a122da48fcfff68bbc9846bb0b74ef651afe84a1b1f6ec20939de4d6860e1
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.6"
+  geolocator_windows:
+    dependency: transitive
+    description:
+      name: geolocator_windows
+      sha256: "242a35938cbe81dd169c9c72fc53e8183c4447bfa998b5df56b6725796591951"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   get_it:
     dependency: "direct main"
     description:
@@ -680,6 +768,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.7.1"
+  kdbush:
+    dependency: transitive
+    description:
+      name: kdbush
+      sha256: f48295414e5d6b28f49f3b446ecc2900f578ed700af53e68829777b8b253fb62
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   latlong2:
     dependency: transitive
     description:
@@ -704,6 +800,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  location:
+    dependency: "direct main"
+    description:
+      name: location
+      sha256: "06be54f682c9073cbfec3899eb9bc8ed90faa0e17735c9d9fa7fe426f5be1dd1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.3"
+  location_platform_interface:
+    dependency: transitive
+    description:
+      name: location_platform_interface
+      sha256: "8aa1d34eeecc979d7c9fe372931d84f6d2ebbd52226a54fe1620de6fdc0753b1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
+  location_web:
+    dependency: transitive
+    description:
+      name: location_web
+      sha256: ec484c66e8a4ff1ee5d044c203f4b6b71e3a0556a97b739a5bc9616de672412b
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0"
   logger:
     dependency: "direct main"
     description:
@@ -936,6 +1056,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  rbush:
+    dependency: transitive
+    description:
+      name: rbush
+      sha256: f86e54440608969be381a60eefaaa2e76010d90f4c3189e164d4e0ed2caf7172
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   rxdart:
     dependency: transitive
     description:
@@ -1061,6 +1189,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  supercluster:
+    dependency: transitive
+    description:
+      name: supercluster
+      sha256: b956072ae2e5f9430c227a0b6a5863b261abd6eb7488411c042bd620a203aab9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
   syncfusion_flutter_core:
     dependency: transitive
     description:

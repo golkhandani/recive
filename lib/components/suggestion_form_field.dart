@@ -184,8 +184,7 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
   void openOverlay() {
     // _overlayEntry?.remove();
     // _overlayEntry = null;
-    print(
-        "openOverlay $_shouldDraw $_hasOpenedOverlay - ${widget.isVisible}");
+    print("openOverlay $_shouldDraw $_hasOpenedOverlay - ${widget.isVisible}");
     if (_shouldDraw && widget.isVisible) {
       setState(() => _hasOpenedOverlay = true);
       _overlayEntry?.remove();
@@ -470,7 +469,6 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
                                     readOnly: widget.disabled,
                                     textAlign: widget.textAlign,
                                     style: _textStyle.copyWith(
-                                      fontSize: maxPossibleFontSize,
                                       textBaseline: TextBaseline.ideographic,
                                     ),
                                     cursorColor: _cursorColor,

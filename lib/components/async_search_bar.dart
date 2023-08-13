@@ -74,6 +74,7 @@ class AsyncSearchBar extends HookWidget {
       textStyle: textStyle,
       hintStyle: hintStyle,
       border: _boxBorder,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
       dropDownItems: suggestions,
       dropDownBackgroundColor: backgroundColor,
       isVisible: isVisible,

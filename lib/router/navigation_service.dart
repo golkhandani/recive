@@ -36,4 +36,6 @@ class NavigationService {
         ? GoRouter.of(rootContext).pop()
         : navigateTo(DashboardScreen.name);
   }
+
+  bool get canBack => GoRouter.of(rootContext).canPop();
 }

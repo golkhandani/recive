@@ -50,7 +50,7 @@ class Application extends StatelessWidget {
     final child = MaterialApp.router(
       routerConfig: goRouter,
       theme: theme.copyWith(
-        textTheme: GoogleFonts.nunitoTextTheme(theme.textTheme),
+        textTheme: GoogleFonts.nunitoSansTextTheme(theme.textTheme),
       ),
     );
     final hookedBloc = HookedBlocConfigProvider(

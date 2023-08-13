@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:recive/components/navigation_item.dart';
+import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/scaffold_shell.dart';
 
@@ -71,6 +72,7 @@ class _NavigationShellState extends State<NavigationShell> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldShell(
+      backgroundColor: context.theme.colorScheme.primary,
       handleTopSafePadding: widget.handleTopSafePadding,
       bottomNavigationBar: context.isNarrowWith && !widget.useFloatingNavBar
           ? _buildBottomNavigationBar()
@@ -83,7 +85,11 @@ class _NavigationShellState extends State<NavigationShell> {
 
   Widget _buildNarrowContainer() {
     final safePadding =
-        widget.handleTopSafePadding ? MediaQuery.of(context).padding.top : 0.0;
+        widget.handleTopSafePadding ? context.viewTopPaddingHeight : 0.0;
+
+    final safeBottomPadding =
+        MediaQuery.of(context).padding.bottom == 0 ? 0.0 : 0.0;
+
     return Stack(
       children: [
         Padding(
@@ -254,15 +260,15 @@ class _NavigationShellState extends State<NavigationShell> {
   }
 
   Widget _buildFloatingNavigationBar() {
-    final safePadding = MediaQuery.of(context).padding.bottom;
+    final safePadding = context.viewBottomPaddingHeight;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.only(
           bottom: safePadding,
-          left: 16,
-          right: 16,
+          left: 12,
+          right: 12,
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(widget.borderRadius),
@@ -274,7 +280,7 @@ class _NavigationShellState extends State<NavigationShell> {
                 maxHeight: widget.height,
                 maxWidth: widget.navBarMaxWidth,
               ),
-              color: widget.backgroundColor.withOpacity(0.5),
+              color: widget.backgroundColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -291,6 +297,7 @@ class _NavigationShellState extends State<NavigationShell> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(e.iconData, color: color),
+                          const SizedBox(height: 2),
                           Text(
                             e.label ?? '',
                             style: context.textTheme.bodyMedium!

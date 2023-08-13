@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recive/extensions/string_extensions.dart';
 
 class ScaffoldShell extends StatelessWidget {
   const ScaffoldShell({
@@ -19,14 +20,14 @@ class ScaffoldShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final safeTopPadding = MediaQuery.of(context).padding.top;
-    final safeBottomPadding = MediaQuery.of(context).padding.top;
+    final safeTopPadding = context.viewTopPaddingHeight;
+    final safeBottomPadding = context.viewBottomPaddingHeight;
     return Scaffold(
-      backgroundColor: Colors.amber ?? safeAreaColor,
+      backgroundColor: safeAreaColor,
       body: Container(
-        color: Colors.pink ?? safeAreaColor,
+        color: safeAreaColor,
         padding: EdgeInsets.only(
-          top: 0, //?? handleTopSafePadding ? safeTopPadding : 0,
+          top: handleTopSafePadding ? safeTopPadding : 0,
           bottom: handleBottomSafePadding ? safeBottomPadding : 0,
         ),
         child: Container(color: backgroundColor, child: child),

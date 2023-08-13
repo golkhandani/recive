@@ -1,12 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recive/components/navigation_item.dart';
-import 'package:recive/features/featured_page/featured_screen.dart';
-import 'package:recive/features/timer_page/timer_screen.dart';
+import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/profile_page/profile_screen.dart';
+import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/layout/custom_shape_background_widget.dart';
 import 'package:recive/layout/navigation_shell.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
@@ -29,10 +31,10 @@ class DashboardWrapper extends StatelessWidget {
   final Widget child;
 
   static Map<String, int> dashboardRouteNameToSelectedIndexMap = {
-    TimerScreen.name: 0,
-    FeaturedScreen.name: 1,
-    ProfileScreen.name: 2,
-    RecipesScreen.name: 3,
+    HomeScreen.name: 0,
+    NearMeScreen.name: 1,
+    SearchScreen.name: 2,
+    ProfileScreen.name: 3,
   };
   final navigationService = locator.get<NavigationService>();
 
@@ -56,20 +58,20 @@ class DashboardWrapper extends StatelessWidget {
     final currentIndex = calculateDashboardSelectedIndex();
     final items = [
       NavigationItem(
-        iconData: Icons.timer,
-        label: 'Timer',
+        iconData: FontAwesomeIcons.calendar,
+        label: 'Events',
       ),
       NavigationItem(
-        iconData: Icons.home,
-        label: 'Inputs',
+        iconData: FontAwesomeIcons.compass,
+        label: 'Near Me',
       ),
       NavigationItem(
         iconData: Icons.business,
-        label: 'Cards',
+        label: 'Search',
       ),
       NavigationItem(
         iconData: Icons.notification_important_rounded,
-        label: 'Actions',
+        label: 'Profile',
       ),
     ];
 
@@ -80,7 +82,7 @@ class DashboardWrapper extends StatelessWidget {
       activeColor: context.theme.textTheme.bodyLarge!.color!,
       inactiveColor: context.theme.disabledColor,
       backgroundColor: context.theme.primaryColor,
-      useFloatingNavBar: false,
+      useFloatingNavBar: true,
       handleTopSafePadding: false,
       child: child,
     );

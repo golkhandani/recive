@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recive/components/big_square_card.dart';
-import 'package:recive/components/category_section_row.dart';
+import 'package:recive/archived/category_section_row.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/features/featured_page/greeting_header/greeting_header_component.dart';
-import 'package:recive/features/featured_page/quick_search_header/quick_search_header_component.dart';
+
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/custom_shape_background_widget.dart';
 import 'package:recive/layout/sliver_header_delegate.dart';
 import 'package:recive/models/recive.model.dart';
+
+import 'greeting_header/greeting_header_component.dart';
+import 'quick_search_header/quick_search_header_component.dart';
 
 class FeaturedScreen extends HookWidget {
   static const name = 'featured';
@@ -34,7 +36,11 @@ class FeaturedScreen extends HookWidget {
             delegate: SliverHeaderDelegate(
               child: const PreferredSize(
                 preferredSize: Size.fromHeight(88),
-                child: QuickSearchHeader(),
+                child: QuickSearchHeader(
+                  onSelect: null,
+                  onTextChanged: null,
+                  textController: null,
+                ),
               ),
             ),
           ),

@@ -11,69 +11,81 @@ class TitleHeader extends HookWidget {
   const TitleHeader({
     super.key,
     this.title = '',
-    this.backgroundColor = Colors.black,
+    this.backgroundColor,
   });
   final String title;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
     final hightlightColor = context.schema.tertiary;
+    final bacgroundColor = backgroundColor ?? context.theme.colorScheme.primary;
     return Container(
-      padding: const EdgeInsets.all(8),
-      color: backgroundColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Material(
-              borderRadius: BorderRadius.circular(kRadius),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(kRadius),
-                child: InkWell(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ).copyWith(bottom: 12, top: 4),
+      color: bacgroundColor,
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (navigationService.canBack) ...[
+              Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: Material(
                   borderRadius: BorderRadius.circular(kRadius),
-                  hoverColor: hightlightColor,
-                  splashColor: hightlightColor,
-                  highlightColor: hightlightColor,
-                  enableFeedback: true,
-                  onTap: () {
-                    navigationService.backTo();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: context.schema.secondaryContainer.withOpacity(1),
-                      backgroundBlendMode: BlendMode.hardLight,
-                    ),
-                    child: Iconify(
-                      Mdi.arrow_back,
-                      color: context.schema.onSecondaryContainer,
-                      size: 36,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          if (title.isNotEmpty)
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Text(
-                    title,
-                    style: context.textTheme.titleSmall?.withColor(
-                      context.schema.onPrimaryContainer,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(kRadius),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(kRadius),
+                      hoverColor: hightlightColor,
+                      splashColor: hightlightColor,
+                      highlightColor: hightlightColor,
+                      enableFeedback: true,
+                      onTap: () {
+                        navigationService.backTo();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color:
+                              context.schema.secondaryContainer.withOpacity(1),
+                          backgroundBlendMode: BlendMode.hardLight,
+                        ),
+                        child: Iconify(
+                          Mdi.arrow_back,
+                          color: context.schema.onSecondaryContainer,
+                          size: 32,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          const SizedBox(width: 54),
-        ],
+            ],
+            if (title.isNotEmpty) ...[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12)
+                      .copyWith(bottom: 4),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Text(
+                      title,
+                      style: context.textTheme.titleSmall?.withColor(
+                        context.schema.onPrimary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            // To Center the middle elements
+            if (navigationService.canBack) const SizedBox(width: 42),
+          ],
+        ),
       ),
     );
   }

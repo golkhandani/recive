@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
+import 'package:recive/archived/featured_page/category_section/bloc/category_section_bloc.dart';
 import 'package:recive/components/category_horizontal_card.dart';
-import 'package:recive/features/featured_page/category_section/bloc/category_section_bloc.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';

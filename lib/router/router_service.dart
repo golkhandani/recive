@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
-import 'package:recive/features/featured_page/featured_screen.dart';
+import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
-import 'package:recive/features/timer_page/timer_screen.dart';
+import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/profile_page/profile_screen.dart';
+import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/layout/scaffold_shell.dart';
-import 'package:recive/models/recive.model.dart';
 import 'package:recive/router/navigation_service.dart';
 
 final extraRoutes = [
@@ -82,31 +83,28 @@ final dashboardRoutes = [
     },
     routes: <RouteBase>[
       GoRoute(
-        name: TimerScreen.name,
-        path: '/${DashboardScreen.name}/${TimerScreen.name}',
+        name: HomeScreen.name,
+        path: '/${DashboardScreen.name}/${HomeScreen.name}',
         pageBuilder: (context, state) => dashboardPageBuilder(
           state,
-          const TimerScreen(),
+          const HomeScreen(),
         ),
-        builder: (context, state) => const TimerScreen(),
       ),
       GoRoute(
-        name: FeaturedScreen.name,
-        path: '/${DashboardScreen.name}/${FeaturedScreen.name}',
+        name: NearMeScreen.name,
+        path: '/${DashboardScreen.name}/${NearMeScreen.name}',
         pageBuilder: (context, state) => dashboardPageBuilder(
           state,
-          const FeaturedScreen(),
+          const NearMeScreen(),
         ),
-        builder: (context, state) => const FeaturedScreen(),
       ),
       GoRoute(
-        name: RecipesScreen.name,
-        path: '/${DashboardScreen.name}/${RecipesScreen.name}',
+        name: SearchScreen.name,
+        path: '/${DashboardScreen.name}/${SearchScreen.name}',
         pageBuilder: (context, state) => dashboardPageBuilder(
           state,
-          const RecipesScreen(),
+          const SearchScreen(),
         ),
-        builder: (context, state) => const RecipesScreen(),
       ),
       GoRoute(
         name: ProfileScreen.name,
@@ -115,7 +113,6 @@ final dashboardRoutes = [
           state,
           const ProfileScreen(),
         ),
-        builder: (context, state) => const ProfileScreen(),
       ),
     ],
   ),
@@ -184,18 +181,6 @@ class RecipeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const TestRoute(
       text: RecipeScreen.name,
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  static const name = 'profile';
-  const ProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const TestRoute(
-      text: ProfileScreen.name,
     );
   }
 }

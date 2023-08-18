@@ -28,7 +28,7 @@ class DashboardWrapper extends StatelessWidget {
     super.key,
     required this.child,
   });
-  final Widget child;
+  final StatefulNavigationShell child;
 
   static Map<String, int> dashboardRouteNameToSelectedIndexMap = {
     HomeScreen.name: 0,
@@ -41,10 +41,19 @@ class DashboardWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void onItemTapped(int index) {
-      final name = dashboardRouteNameToSelectedIndexMap.keys.firstWhereOrNull(
-          (element) => dashboardRouteNameToSelectedIndexMap[element] == index);
-      navigationService
-          .navigateTo(name ?? dashboardRouteNameToSelectedIndexMap.keys.first);
+      // final name = dashboardRouteNameToSelectedIndexMap.keys.firstWhereOrNull(
+      //     (element) => dashboardRouteNameToSelectedIndexMap[element] == index);
+      // navigationService
+      //     .navigateTo(name ?? dashboardRouteNameToSelectedIndexMap.keys.first);
+
+      child.goBranch(
+        index,
+        // A common pattern when using bottom navigation bars is to support
+        // navigating to the initial location when tapping the item that is
+        // already active. This example demonstrates how to support this behavior,
+        // using the initialLocation parameter of goBranch.
+        initialLocation: index == child.currentIndex,
+      );
     }
 
     int calculateDashboardSelectedIndex() {

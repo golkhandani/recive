@@ -3,18 +3,18 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter_use_geolocation/flutter_use_geolocation.dart';
 import 'package:location/location.dart';
+import 'package:recive/components/card_container.dart';
+import 'package:recive/components/screen_safe_area_header.dart';
+import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/components/title_header.dart';
 import 'package:recive/extensions/string_extensions.dart';
-import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_map/flutter_map.dart';
+// ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -67,9 +67,12 @@ class _NearMeScreenState extends State<NearMeScreen>
     });
   }
 
-  Future<void> _requestService(
-      {required VoidCallback onGrantedPermission}) async {
+  Future<void> _requestService({
+    required VoidCallback onGrantedPermission,
+  }) async {
+    await _checkService();
     if (_serviceEnabled ?? false) {
+      onGrantedPermission();
       return;
     }
 
@@ -94,29 +97,18 @@ class _NearMeScreenState extends State<NearMeScreen>
     );
 
     useEffect(() {
-      _requestService(onGrantedPermission: () {
-        // location.onLocationChanged.listen(
-        //   (location) => {
-        //     if (location.latitude != null && location.longitude != null)
-        //       {
-        //         mapController.animateTo(
-        //           dest: LatLng(location.latitude!, location.longitude!),
-        //         )
-        //       }
-        //   },
-        // );
-      });
+      _requestService(onGrantedPermission: () {});
       return;
     }, []);
 
     final points = <LatLng>[
-      LatLng(37.725834, -122.416417),
-      LatLng(37.785834, -122.416417),
-      LatLng(37.785834, -122.426417),
-      LatLng(37.755834, -122.406417),
-      LatLng(37.715834, -122.416417),
-      LatLng(37.731834, -122.436417),
-      LatLng(37.742834, -122.426417),
+      const LatLng(37.725834, -122.416417),
+      const LatLng(37.785834, -122.416417),
+      const LatLng(37.785834, -122.426417),
+      const LatLng(37.755834, -122.406417),
+      const LatLng(37.715834, -122.416417),
+      const LatLng(37.731834, -122.436417),
+      const LatLng(37.742834, -122.426417),
     ];
 
     return ColoredBox(
@@ -356,7 +348,7 @@ class _NearMeScreenMapViewContent extends HookWidget {
                                         point: geolocation.latLng!,
                                         width: 80,
                                         height: 80,
-                                        builder: (context) => Icon(
+                                        builder: (context) => const Icon(
                                           Icons.person,
                                           size: 50,
                                         ),
@@ -463,7 +455,7 @@ class _NearMeScreenMapViewContent extends HookWidget {
                       ),
                       itemCount: items.length,
                       itemBuilder: (context, index, _) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
                         child: Container(
                           width: sliver.asBoxConstraints().maxWidth / 1.1,
                           decoration: BoxDecoration(

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
+import 'package:recive/features/detail_page/detail_screen.dart';
+import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
@@ -55,11 +59,6 @@ final dashboardExtraRoutes = [
 
 final initRoutes = [
   GoRoute(
-    name: SplashScreen.name,
-    path: '/${SplashScreen.name}',
-    builder: (context, state) => const SplashScreen(),
-  ),
-  GoRoute(
     name: 'intro',
     path: '/intro',
     builder: (context, state) => TestRoute(text: state.fullPath ?? ''),
@@ -76,44 +75,109 @@ final dashboardRoutes = [
     ),
     builder: (context, state) => const DashboardScreen(),
   ),
-  ShellRoute(
-    navigatorKey: dashboardNavigatorKey,
-    builder: (BuildContext context, GoRouterState state, Widget child) {
+  StatefulShellRoute.indexedStack(
+    //navigatorKey: dashboardNavigatorKey,
+    builder: (BuildContext context, GoRouterState state,
+        StatefulNavigationShell child) {
       return DashboardWrapper(child: child);
     },
-    routes: <RouteBase>[
-      GoRoute(
-        name: HomeScreen.name,
-        path: '/${DashboardScreen.name}/${HomeScreen.name}',
-        pageBuilder: (context, state) => dashboardPageBuilder(
-          state,
-          const HomeScreen(),
-        ),
+    branches: [
+      StatefulShellBranch(
+        navigatorKey: dashboardNavigatorKey,
+        routes: <RouteBase>[
+          GoRoute(
+              name: HomeScreen.name,
+              path: '/${DashboardScreen.name}/${HomeScreen.name}',
+              pageBuilder: (context, state) => dashboardPageBuilder(
+                    state,
+                    const HomeScreen(),
+                  ),
+              routes: [
+                GoRoute(
+                  name: DetailScreen.name,
+                  path:
+                      '${DetailScreen.name}/:${DetailScreen.pathParamType}/:${DetailScreen.pathParamId}',
+                  pageBuilder: (context, state) {
+                    final pathParamId =
+                        state.pathParameters[DetailScreen.pathParamId]!;
+                    final pathParamPostType =
+                        state.pathParameters[DetailScreen.pathParamType] ??
+                            DetailType.unknown.name;
+                    return dashboardPageBuilder(
+                      state,
+                      DetailScreen(
+                        id: pathParamId,
+                        type: DetailType.fromString(pathParamPostType),
+                      ),
+                    );
+                  },
+                ),
+                GoRoute(
+                  name: CategoriesScreen.name,
+                  path: CategoriesScreen.name,
+                  pageBuilder: (context, state) => dashboardPageBuilder(
+                    state,
+                    const CategoriesScreen(),
+                  ),
+                ),
+                GoRoute(
+                  name: NewsScreen.name,
+                  path: NewsScreen.name,
+                  pageBuilder: (context, state) => dashboardPageBuilder(
+                    state,
+                    const NewsScreen(),
+                  ),
+                ),
+                GoRoute(
+                  name: FeaturedScreen.name,
+                  path: FeaturedScreen.name,
+                  pageBuilder: (context, state) => dashboardPageBuilder(
+                    state,
+                    const FeaturedScreen(),
+                  ),
+                ),
+              ]),
+        ],
       ),
-      GoRoute(
-        name: NearMeScreen.name,
-        path: '/${DashboardScreen.name}/${NearMeScreen.name}',
-        pageBuilder: (context, state) => dashboardPageBuilder(
-          state,
-          const NearMeScreen(),
-        ),
+      StatefulShellBranch(
+        // navigatorKey: dashboardNavigatorKey,
+        routes: <RouteBase>[
+          GoRoute(
+            name: NearMeScreen.name,
+            path: '/${DashboardScreen.name}/${NearMeScreen.name}',
+            pageBuilder: (context, state) => dashboardPageBuilder(
+              state,
+              const NearMeScreen(),
+            ),
+          ),
+        ],
       ),
-      GoRoute(
-        name: SearchScreen.name,
-        path: '/${DashboardScreen.name}/${SearchScreen.name}',
-        pageBuilder: (context, state) => dashboardPageBuilder(
-          state,
-          const SearchScreen(),
-        ),
+      StatefulShellBranch(
+        // navigatorKey: dashboardNavigatorKey,
+        routes: <RouteBase>[
+          GoRoute(
+            name: SearchScreen.name,
+            path: '/${DashboardScreen.name}/${SearchScreen.name}',
+            pageBuilder: (context, state) => dashboardPageBuilder(
+              state,
+              const SearchScreen(),
+            ),
+          ),
+        ],
       ),
-      GoRoute(
-        name: ProfileScreen.name,
-        path: '/${DashboardScreen.name}/${ProfileScreen.name}',
-        pageBuilder: (context, state) => dashboardPageBuilder(
-          state,
-          const ProfileScreen(),
-        ),
-      ),
+      StatefulShellBranch(
+        // navigatorKey: dashboardNavigatorKey,
+        routes: <RouteBase>[
+          GoRoute(
+            name: ProfileScreen.name,
+            path: '/${DashboardScreen.name}/${ProfileScreen.name}',
+            pageBuilder: (context, state) => dashboardPageBuilder(
+              state,
+              const ProfileScreen(),
+            ),
+          ),
+        ],
+      )
     ],
   ),
 ];
@@ -146,41 +210,5 @@ class TestRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldShell(child: Center(child: Text(text)));
-  }
-}
-
-class SplashScreen extends StatelessWidget {
-  static const name = 'splash';
-  const SplashScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const TestRoute(
-      text: SplashScreen.name,
-    );
-  }
-}
-
-class RecipesScreen extends StatelessWidget {
-  static const name = 'recipes';
-  const RecipesScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const TestRoute(
-      text: RecipesScreen.name,
-    );
-  }
-}
-
-class RecipeScreen extends StatelessWidget {
-  static const name = 'recipes/:id';
-  const RecipeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const TestRoute(
-      text: RecipeScreen.name,
-    );
   }
 }

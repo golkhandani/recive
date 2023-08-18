@@ -3,10 +3,9 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:recive/components/card_container.dart';
 import 'package:recive/components/navigation_item.dart';
 import 'package:recive/extensions/string_extensions.dart';
-import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/intro_text.dart';
 import 'package:recive/layout/scaffold_shell.dart';
@@ -90,9 +89,6 @@ class _NavigationShellState extends State<NavigationShell> {
   Widget _buildNarrowContainer() {
     final safePadding =
         widget.handleTopSafePadding ? context.viewTopPaddingHeight : 0.0;
-
-    final safeBottomPadding =
-        MediaQuery.of(context).padding.bottom == 0 ? 0.0 : 0.0;
 
     return Stack(
       children: [

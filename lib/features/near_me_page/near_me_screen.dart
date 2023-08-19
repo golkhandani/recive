@@ -1,52 +1,98 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
-import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
-import 'package:flutter_use_geolocation/flutter_use_geolocation.dart';
-import 'package:location/location.dart';
-import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
-import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/string_extensions.dart';
+import 'package:recive/features/near_me_page/sections/list_section.dart';
+import 'package:recive/features/near_me_page/sections/map_section.dart';
+import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:sliver_tools/sliver_tools.dart';
+import 'package:recive/models/recive.model.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:flutter_map/flutter_map.dart';
 // ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class PageViewKeepAlive extends StatefulWidget {
-  const PageViewKeepAlive({super.key, required this.data});
+final List<String> images = [
+  'https://source.unsplash.com/random/?nature,mountain',
+  'https://source.unsplash.com/random/?architecture,skyscraper',
+  'https://source.unsplash.com/random/?travel,beach',
+  'https://source.unsplash.com/random/?food,pizza',
+  'https://source.unsplash.com/random/?fashion,style',
+  'https://source.unsplash.com/random/?art,sculpture',
+  'https://source.unsplash.com/random/?sports,athlete',
+  'https://source.unsplash.com/random/?music,concert',
+  'https://source.unsplash.com/random/?animal,wildlife',
+  'https://source.unsplash.com/random/?vehicle,car',
+  // Add more image URLs here...
+];
 
-  final String data;
-
-  @override
-  State<PageViewKeepAlive> createState() => _PageViewKeepAliveState();
-}
-
-class _PageViewKeepAliveState extends State<PageViewKeepAlive>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return Text(widget.data);
-  }
-}
-
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
+List<EventCardContainerData> mockEventsData = [
+  EventCardContainerData(
+    id: '1c6e877a-ec87-425c-88c2-6711e1b8c010',
+    title: 'Tech Conference',
+    description: 'An event showcasing the latest technology trends.',
+    startDate: DateTime(2023, 9, 15, 9, 0),
+    endDate: DateTime(2023, 9, 17, 18, 0),
+    location: 'City Convention Center',
+    latLng: const LatLng(37.725834, -122.416417),
+    organizers: ['John Doe', 'Jane Smith'],
+    participants: ['Alice Johnson', 'Bob Williams', 'Charlie Brown'],
+    imageUrl: images[Random().nextInt(images.length)],
+  ),
+  EventCardContainerData(
+    id: '7e8b9e0d-7b2c-4d55-aa7c-1f8c9e2b3d4e',
+    title: 'Art Exhibition',
+    description: 'A gallery showcasing various forms of art.',
+    startDate: DateTime(2023, 10, 5, 10, 0),
+    endDate: DateTime(2023, 10, 8, 20, 0),
+    location: 'Modern Art Gallery',
+    latLng: const LatLng(37.785834, -122.416417),
+    organizers: ['Emily Davis', 'Michael Lee'],
+    participants: ['Grace Turner', 'David Miller', 'Ella White'],
+    imageUrl: images[Random().nextInt(images.length)],
+  ),
+  EventCardContainerData(
+    id: 'a2b1c0d9-e8f7-6a5b-4c3d-2e1f0a9b8c7d',
+    title: 'Food Festival',
+    description: 'A celebration of diverse culinary delights.',
+    startDate: DateTime(2023, 11, 20, 12, 0),
+    endDate: DateTime(2023, 11, 22, 22, 0),
+    location: 'Central Park',
+    latLng: const LatLng(37.785834, -122.426417),
+    organizers: ['Sarah Johnson', 'Robert Wilson'],
+    participants: ['Olivia Harris', 'James Anderson', 'Sophia Martinez'],
+    imageUrl: images[Random().nextInt(images.length)],
+  ),
+  EventCardContainerData(
+    id: 'd1e2f3a4-b5c6-7d8e-9f0a-1b2c3d4e5f6a',
+    title: 'Workshop: Photography Basics',
+    description: 'Learn the fundamentals of photography.',
+    startDate: DateTime(2023, 9, 8, 14, 0),
+    endDate: DateTime(2023, 9, 8, 18, 0),
+    location: 'Community Center',
+    latLng: const LatLng(37.755834, -122.406417),
+    organizers: ['Alice Brown'],
+    participants: ['William Turner', 'Lily Adams'],
+    imageUrl: images[Random().nextInt(images.length)],
+  ),
+  EventCardContainerData(
+    id: '7d8e9f0a-1b2c-3d4e-5f6a-7b8c9d0e1f2a',
+    title: 'Charity Run',
+    description: 'Run for a cause to support local charities.',
+    startDate: DateTime(2023, 10, 12, 8, 0),
+    endDate: DateTime(2023, 10, 12, 11, 0),
+    location: 'City Park',
+    latLng: const LatLng(37.715834, -122.416417),
+    organizers: ['Ryan Carter', 'Ava Robinson'],
+    participants: ['Noah King', 'Sofia Johnson'],
+    imageUrl: images[Random().nextInt(images.length)],
+  ),
+  // Add more events here...
+  // Repeat the process for more events...
+];
 
 class NearMeScreen extends StatefulHookWidget {
   static const name = 'near_me';
@@ -58,32 +104,6 @@ class NearMeScreen extends StatefulHookWidget {
 
 class _NearMeScreenState extends State<NearMeScreen>
     with TickerProviderStateMixin {
-  final Location location = Location();
-  bool? _serviceEnabled;
-  Future<void> _checkService() async {
-    final serviceEnabledResult = await location.serviceEnabled();
-    setState(() {
-      _serviceEnabled = serviceEnabledResult;
-    });
-  }
-
-  Future<void> _requestService({
-    required VoidCallback onGrantedPermission,
-  }) async {
-    await _checkService();
-    if (_serviceEnabled ?? false) {
-      onGrantedPermission();
-      return;
-    }
-
-    final serviceRequestedResult = await location.requestService();
-    setState(() {
-      _serviceEnabled = serviceRequestedResult;
-    });
-    print("TESTED ${serviceRequestedResult}");
-    onGrantedPermission();
-  }
-
   @override
   Widget build(BuildContext context) {
     final switchIndex = useState(0);
@@ -97,19 +117,9 @@ class _NearMeScreenState extends State<NearMeScreen>
     );
 
     useEffect(() {
-      _requestService(onGrantedPermission: () {});
+      locationService.requestService(onGrantedPermission: () {});
       return;
     }, []);
-
-    final points = <LatLng>[
-      const LatLng(37.725834, -122.416417),
-      const LatLng(37.785834, -122.416417),
-      const LatLng(37.785834, -122.426417),
-      const LatLng(37.755834, -122.406417),
-      const LatLng(37.715834, -122.416417),
-      const LatLng(37.731834, -122.436417),
-      const LatLng(37.742834, -122.426417),
-    ];
 
     return ColoredBox(
       color: context.theme.colorScheme.background,
@@ -125,11 +135,11 @@ class _NearMeScreenState extends State<NearMeScreen>
               title: 'Near me!',
             ),
             const SliverGap(height: 12),
-            SliverLayoutBuilder(builder: (context, sliver) {
-              return SliverToBoxAdapter(
-                child: Center(
+            SliverToBoxAdapter(
+              child: LayoutBuilder(builder: (context, box) {
+                return Center(
                   child: ToggleSwitch(
-                    minWidth: sliver.crossAxisExtent / 4,
+                    minWidth: box.maxWidth / 4,
                     minHeight: 42.0,
                     fontSize: 16.0,
                     initialLabelIndex: switchIndex.value,
@@ -151,9 +161,9 @@ class _NearMeScreenState extends State<NearMeScreen>
                       );
                     },
                   ),
-                ),
-              );
-            }),
+                );
+              }),
+            ),
             const SliverGap(height: 12),
             SliverToBoxAdapter(
               child: Container(
@@ -168,21 +178,21 @@ class _NearMeScreenState extends State<NearMeScreen>
                     CustomScrollView(
                       physics: const NeverScrollableScrollPhysics(),
                       slivers: [
-                        _NearMeScreenMapViewContent(
+                        NearMeScreenMapViewContent(
                           switchIndex: switchIndex,
                           switchItems: switchItems,
                           mapSectionHeight: mapSectionHeight,
                           listSectionHeight: listSectionHeight,
                           mapController: mapController,
-                          items: points,
-                          location: location,
+                          items: mockEventsData,
+                          location: locationService.location,
                         ),
                       ],
                     ),
                     CustomScrollView(
                       slivers: [
-                        _NearMeScreenListViewContent(
-                          items: points,
+                        NearMeScreenListViewContent(
+                          items: mockEventsData,
                         ),
                       ],
                     ),
@@ -193,329 +203,6 @@ class _NearMeScreenState extends State<NearMeScreen>
           ],
         );
       }),
-    );
-  }
-}
-
-class _NearMeScreenListViewContent extends HookWidget {
-  const _NearMeScreenListViewContent({
-    required this.items,
-  });
-  final List<LatLng> items;
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 112),
-      sliver: SliverList.builder(
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: CardContainer(
-                borderRadius: BorderRadius.circular(16),
-                padding: const EdgeInsets.all(12),
-                child: Container(
-                  height: 160,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.blueAccent,
-                  ),
-                  child: Center(child: Text(items[index].toString())),
-                ),
-              ),
-            );
-          }),
-    );
-  }
-}
-
-extension PositionToLatLon on GeolocationState {
-  LatLng? get latLng => position != null
-      ? LatLng(
-          position!.latitude,
-          position!.longitude,
-        )
-      : null;
-}
-
-class _NearMeScreenMapViewContent extends HookWidget {
-  const _NearMeScreenMapViewContent({
-    required this.items,
-    required this.switchIndex,
-    required this.switchItems,
-    required this.mapSectionHeight,
-    required this.listSectionHeight,
-    required this.mapController,
-    required this.location,
-  });
-
-  final ValueNotifier<int> switchIndex;
-  final List<String> switchItems;
-  final double mapSectionHeight;
-  final double listSectionHeight;
-  final AnimatedMapController mapController;
-  final Location location;
-  final List<LatLng> items;
-
-  Marker _createMarker(LatLng point, Color color) => Marker(
-        anchorPos: AnchorPos.align(AnchorAlign.top),
-        rotateAlignment: AnchorAlign.top.rotationAlignment,
-        height: 50,
-        width: 50,
-        point: point,
-        rotate: true,
-        builder: (ctx) => Icon(
-          Icons.pin_drop,
-          color: color,
-          size: 50,
-        ),
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    final defaultPosition = const LatLng(51.509364, -0.128928);
-    final geolocation = useGeolocation();
-    LatLng? ltlg;
-    if (geolocation.position != null) {
-      ltlg = LatLng(
-        geolocation.position!.latitude,
-        geolocation.position!.longitude,
-      );
-    }
-
-    // final user = useState(ltlg);
-    final center = useState(
-      items.isNotEmpty ? items.first : (ltlg ?? defaultPosition),
-    );
-    final zoom = useState(15.0);
-
-    final markersA =
-        items.map((point) => _createMarker(point, Colors.blue)).toList();
-    return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      sliver: MultiSliver(
-        children: [
-          MultiSliver(children: [
-            SliverCardContainer(
-              borderRadius: BorderRadius.circular(16),
-              padding: const EdgeInsets.all(12),
-              sliver: SliverLayoutBuilder(builder: (context, sliver) {
-                return SliverToBoxAdapter(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.orange,
-                    ),
-                    width: sliver.crossAxisExtent,
-                    height: mapSectionHeight,
-                    child: Stack(
-                      children: [
-                        Positioned.fill(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: FlutterMap(
-                              mapController: mapController.mapController,
-                              options: MapOptions(
-                                center: center.value,
-                                zoom: zoom.value,
-                                adaptiveBoundaries: false,
-                                keepAlive: true,
-                                maxZoom: 17,
-                                minZoom: 10,
-                              ),
-                              nonRotatedChildren: [
-                                RichAttributionWidget(
-                                  attributions: [
-                                    TextSourceAttribution(
-                                      'OpenStreetMap contributors',
-                                      onTap: () => launchUrl(Uri.parse(
-                                        'https://openstreetmap.org/copyright',
-                                      )),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                              children: [
-                                TileLayer(
-                                  urlTemplate:
-                                      'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=J4ktALZX8GCz9Hw7i0tK',
-                                ),
-                                if (geolocation.latLng != null)
-                                  MarkerLayer(
-                                    markers: [
-                                      Marker(
-                                        point: geolocation.latLng!,
-                                        width: 80,
-                                        height: 80,
-                                        builder: (context) => const Icon(
-                                          Icons.person,
-                                          size: 50,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                SuperclusterLayer.immutable(
-                                  initialMarkers: markersA,
-                                  indexBuilder: IndexBuilders.rootIsolate,
-                                  clusterWidgetSize: const Size(40, 40),
-                                  anchor: AnchorPos.align(AnchorAlign.center),
-                                  calculateAggregatedClusterData: true,
-                                  builder: (context, position, markerCount,
-                                      extraClusterData) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        color: Colors.blue,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          markerCount.toString(),
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                MapButton(
-                                    icon: Icons.center_focus_strong,
-                                    onClicked: () {
-                                      mapController.animateTo(
-                                        dest: geolocation.latLng,
-                                      );
-                                    }),
-                                MapButton(
-                                  icon: Icons.zoom_in,
-                                  onClicked: () {
-                                    if (zoom.value > 17) {
-                                      return;
-                                    }
-                                    zoom.value = zoom.value + 1;
-                                    mapController.animatedZoomTo(zoom.value);
-                                  },
-                                ),
-                                MapButton(
-                                  icon: Icons.zoom_out,
-                                  onClicked: () {
-                                    if (zoom.value < 10) {
-                                      return;
-                                    }
-                                    zoom.value = zoom.value - 1;
-                                    mapController.animatedZoomTo(zoom.value);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-            )
-          ]),
-          const SliverGap(height: 12),
-          MultiSliver(
-            children: [
-              SliverCardContainer(
-                borderRadius: BorderRadius.circular(16),
-                padding: const EdgeInsets.all(12),
-                sliver: SliverLayoutBuilder(builder: (context, sliver) {
-                  return SliverToBoxAdapter(
-                    child: FlutterCarousel.builder(
-                      options: CarouselOptions(
-                        autoPlay: false,
-                        disableCenter: true,
-                        viewportFraction: .7,
-                        height: listSectionHeight,
-                        indicatorMargin: 12.0,
-                        enableInfiniteScroll: true,
-                        showIndicator: false,
-                        padEnds: true,
-                        // slideIndicator: CircularWaveSlideIndicator(),
-                        onPageChanged: (index, reason) {
-                          center.value = items[index];
-                          mapController.animateTo(dest: items[index]);
-                        },
-                      ),
-                      itemCount: items.length,
-                      itemBuilder: (context, index, _) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                        child: Container(
-                          width: sliver.asBoxConstraints().maxWidth / 1.1,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.blueAccent,
-                          ),
-                          child: Center(child: Text(items[index].toString())),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ],
-          ),
-          const SliverGap(height: 32),
-        ],
-      ),
-    );
-  }
-}
-
-class MapButton extends StatelessWidget {
-  const MapButton({
-    Key? key,
-    required this.icon,
-    this.onClicked,
-  }) : super(key: key);
-
-  final IconData icon;
-  final VoidCallback? onClicked;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Material(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        child: InkWell(
-          hoverColor: Colors.orange,
-          splashColor: Colors.black,
-          focusColor: Colors.yellow,
-          highlightColor: Colors.amber,
-          onTap: onClicked,
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              icon,
-              color: Colors.black,
-              size: 25,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

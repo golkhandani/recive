@@ -13,6 +13,7 @@ import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:recive/utils/theme.dart';
+import 'package:flutter/scheduler.dart' show timeDilation;
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
@@ -49,6 +50,7 @@ void main() async {
   );
   await HydratedBloc.storage.clear();
   FlutterNativeSplash.remove();
+  timeDilation = 1.2;
   runApp(Application(goRouter: goRouter));
 }
 

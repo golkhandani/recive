@@ -39,7 +39,6 @@ class GreetingHeaderBloc
       await _userRepository.fetchUserNotificationCount()
     ]);
 
-    // print("_load futures ${futures}");
     emit(
       state.copyWith(
         isCached: true,

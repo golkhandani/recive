@@ -19,7 +19,10 @@ setupNavigation() {
   locator.registerLazySingleton(
     () => NavigationService(
       rootNavigatorKey: rootNavigatorKey,
-      dashboardNavigatorKey: dashboardNavigatorKey,
+      homeNavigatorKey: homeNavigatorKey,
+      nearMeNavigatorKey: nearMeNavigatorKey,
+      searchNavigatorKey: searchNavigatorKey,
+      profileNavigatorKey: profileNavigatorKey,
     ),
   );
 }

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:open_weather_client/models/details.dart';
 import 'package:open_weather_client/open_weather.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
+import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:weather_animation/weather_animation.dart';
@@ -24,58 +27,31 @@ class HomePageWeatherSection extends StatefulHookWidget {
 }
 
 class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
-  final Location location = Location();
-  bool? _serviceEnabled;
-  Future<void> _checkService() async {
-    final serviceEnabledResult = await location.serviceEnabled();
-    setState(() {
-      _serviceEnabled = serviceEnabledResult;
-    });
-  }
-
-  Future<void> _requestService(
-      {required VoidCallback onGrantedPermission}) async {
-    await _checkService();
-    print("@hi");
-    if (_serviceEnabled ?? false) {
-      onGrantedPermission();
-      return;
-    }
-
-    final serviceRequestedResult = await location.requestService();
-    setState(() {
-      _serviceEnabled = serviceRequestedResult;
-    });
-    onGrantedPermission();
-  }
-
+  OpenWeather openWeather = OpenWeather(
+    apiKey: '8af110219c55ac7762ec012dfc20f17a',
+  );
   @override
   Widget build(BuildContext context) {
-    OpenWeather openWeather = OpenWeather(
-      apiKey: '8af110219c55ac7762ec012dfc20f17a',
-    );
-    final location = useGeolocation();
-
+    final geoLocation = useUserLocation();
     final weatherData = useState<WeatherData?>(null);
 
     Future<void> getWeather() async {
-      if (location.position == null) {
+      if (geoLocation.fetched == false) {
         return;
       }
+
       weatherData.value = await openWeather.currentWeatherByLocation(
-        latitude: location.position!.latitude,
-        longitude: location.position!.longitude,
+        latitude: geoLocation.position!.latitude!,
+        longitude: geoLocation.position!.longitude!,
         weatherUnits: WeatherUnits.METRIC,
         language: Languages.ENGLISH,
       );
     }
 
     useEffect(() {
-      _requestService(onGrantedPermission: () {
-        getWeather();
-      });
+      getWeather();
       return;
-    }, [location.position]);
+    }, [geoLocation.timestamp]);
 
     final style = context.textTheme.headlineMedium!.copyWith(
       color: context.theme.colorScheme.onPrimary,
@@ -97,15 +73,15 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
                 SliverCardContainer(
                   borderRadius: BorderRadius.circular(16),
                   padding: const EdgeInsets.all(12),
-                  sliver: SliverLayoutBuilder(builder: (context, sliver) {
-                    return SliverToBoxAdapter(
-                      child: Container(
+                  sliver: SliverToBoxAdapter(
+                    child: LayoutBuilder(builder: (context, box) {
+                      return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.orange,
                         ),
-                        width: sliver.asBoxConstraints().maxWidth,
-                        height: sliver.asBoxConstraints().maxWidth / 2.4,
+                        width: box.maxWidth,
+                        height: min(box.maxWidth / 2.8, 120),
                         child: Stack(
                           children: [
                             Positioned.fill(
@@ -145,9 +121,9 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
                             )
                           ],
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+                  ),
                 ),
               ],
             ),

@@ -271,10 +271,7 @@ class TimerScreen extends HookWidget {
               Material(
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
-                  onTap: () {
-                    print('InkWell');
-                    triggerFastingTimer();
-                  },
+                  onTap: triggerFastingTimer,
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(

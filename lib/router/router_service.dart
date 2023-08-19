@@ -65,6 +65,25 @@ final initRoutes = [
   ),
 ];
 
+GoRoute detailRoute(String parentName) => GoRoute(
+      name: parentName + DetailScreen.name,
+      path:
+          '${DetailScreen.name}/:${DetailScreen.pathParamType}/:${DetailScreen.pathParamId}',
+      pageBuilder: (context, state) {
+        final pathParamId = state.pathParameters[DetailScreen.pathParamId]!;
+        final pathParamPostType =
+            state.pathParameters[DetailScreen.pathParamType] ??
+                DetailType.unknown.name;
+        return dashboardPageBuilder(
+          state,
+          DetailScreen(
+            id: pathParamId,
+            type: DetailType.fromString(pathParamPostType),
+          ),
+        );
+      },
+    );
+
 final dashboardRoutes = [
   ...dashboardExtraRoutes,
   GoRoute(
@@ -77,13 +96,23 @@ final dashboardRoutes = [
   ),
   StatefulShellRoute.indexedStack(
     //navigatorKey: dashboardNavigatorKey,
+    pageBuilder: (context, state, child) {
+      return MaterialPage(
+        child: HeroControllerScope(
+            controller: MaterialApp.createMaterialHeroController(),
+            child: LayoutBuilder(
+              // yes that LayoutBuilder is important. I don't know why
+              builder: (ctx, constraints) => DashboardWrapper(child: child),
+            )),
+      );
+    },
     builder: (BuildContext context, GoRouterState state,
         StatefulNavigationShell child) {
       return DashboardWrapper(child: child);
     },
     branches: [
       StatefulShellBranch(
-        navigatorKey: dashboardNavigatorKey,
+        navigatorKey: homeNavigatorKey,
         routes: <RouteBase>[
           GoRoute(
               name: HomeScreen.name,
@@ -93,25 +122,8 @@ final dashboardRoutes = [
                     const HomeScreen(),
                   ),
               routes: [
-                GoRoute(
-                  name: DetailScreen.name,
-                  path:
-                      '${DetailScreen.name}/:${DetailScreen.pathParamType}/:${DetailScreen.pathParamId}',
-                  pageBuilder: (context, state) {
-                    final pathParamId =
-                        state.pathParameters[DetailScreen.pathParamId]!;
-                    final pathParamPostType =
-                        state.pathParameters[DetailScreen.pathParamType] ??
-                            DetailType.unknown.name;
-                    return dashboardPageBuilder(
-                      state,
-                      DetailScreen(
-                        id: pathParamId,
-                        type: DetailType.fromString(pathParamPostType),
-                      ),
-                    );
-                  },
-                ),
+                detailRoute(''),
+                detailRoute(HomeScreen.name),
                 GoRoute(
                   name: CategoriesScreen.name,
                   path: CategoriesScreen.name,
@@ -140,20 +152,22 @@ final dashboardRoutes = [
         ],
       ),
       StatefulShellBranch(
-        // navigatorKey: dashboardNavigatorKey,
+        navigatorKey: nearMeNavigatorKey,
         routes: <RouteBase>[
           GoRoute(
-            name: NearMeScreen.name,
-            path: '/${DashboardScreen.name}/${NearMeScreen.name}',
-            pageBuilder: (context, state) => dashboardPageBuilder(
-              state,
-              const NearMeScreen(),
-            ),
-          ),
+              name: NearMeScreen.name,
+              path: '/${DashboardScreen.name}/${NearMeScreen.name}',
+              pageBuilder: (context, state) => dashboardPageBuilder(
+                    state,
+                    const NearMeScreen(),
+                  ),
+              routes: [
+                detailRoute(NearMeScreen.name),
+              ]),
         ],
       ),
       StatefulShellBranch(
-        // navigatorKey: dashboardNavigatorKey,
+        navigatorKey: searchNavigatorKey,
         routes: <RouteBase>[
           GoRoute(
             name: SearchScreen.name,
@@ -166,7 +180,7 @@ final dashboardRoutes = [
         ],
       ),
       StatefulShellBranch(
-        // navigatorKey: dashboardNavigatorKey,
+        navigatorKey: profileNavigatorKey,
         routes: <RouteBase>[
           GoRoute(
             name: ProfileScreen.name,

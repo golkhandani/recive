@@ -6,6 +6,8 @@ import 'package:recive/archived/featured_page/quick_search_header/quick_search_h
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
+import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/features/near_me_page/sections/map_section.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -141,7 +143,6 @@ class SearchScreen extends HookWidget {
             ...[
               SliverPinnedHeader(
                 child: LayoutBuilder(builder: (context, box) {
-                  print("kbox ${box}");
                   return AnimatedSize(
                     duration: const Duration(milliseconds: 400),
                     child: showFilters.value
@@ -172,11 +173,9 @@ class SearchScreen extends HookWidget {
                                   animationDuration: 200,
                                   onToggle: (index) {
                                     dateFilterSwitchIndex.value = index ?? 0;
-                                    print('switched to: $index');
                                   },
                                 ),
                                 const SizedBox(height: 12),
-                                // Here, default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
                                 ToggleSwitch(
                                   minWidth: (box.maxWidth - 32) /
                                       distancesFilters.length,
@@ -199,7 +198,6 @@ class SearchScreen extends HookWidget {
                                   onToggle: (index) {
                                     distanceFiltersSwitchIndex.value =
                                         index ?? 0;
-                                    print('switched to: $index');
                                   },
                                 ),
                                 const SizedBox(height: 12),
@@ -309,19 +307,18 @@ class SearchScreen extends HookWidget {
                   ],
                   if (resultState.value == 1) ...[
                     SliverList.builder(
-                        itemCount: 10,
+                        itemCount: mockEventsData.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
                             child: CardContainer(
                               borderRadius: BorderRadius.circular(16),
                               padding: const EdgeInsets.all(12),
-                              child: Container(
-                                height: 160,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.blueAccent,
+                              child: EventCardContainer(
+                                constraints: const BoxConstraints.expand(
+                                  height: 160,
                                 ),
+                                data: mockEventsData[index],
                               ),
                             ),
                           );

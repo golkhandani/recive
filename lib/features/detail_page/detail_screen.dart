@@ -62,13 +62,16 @@ class DetailScreen extends HookWidget {
                 borderRadius: BorderRadius.circular(16),
                 padding: const EdgeInsets.all(12),
                 sliver: SliverToBoxAdapter(
-                  child: Container(
-                    height: 240,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.blueGrey,
+                  child: Hero(
+                    tag: DetailScreen.name + type.name + id,
+                    child: Container(
+                      height: 240,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.blueGrey,
+                      ),
+                      child: const Center(child: Text('IMAGE')),
                     ),
-                    child: const Center(child: Text('IMAGE')),
                   ),
                 ),
               ),

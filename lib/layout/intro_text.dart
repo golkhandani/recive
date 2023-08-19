@@ -1,4 +1,4 @@
-final introText = '''
+const introText = '''
 Introducing "Vancity Explore": Your Ultimate Vancouver Companion
 
 Are you ready to uncover the pulse of Vancouver like never before? Look no further than Vancity Explore, the cutting-edge application designed to be your personal guide to the city's vibrant events, hidden gems, and real-time weather updates. With its sleek and intuitive interface, Vancity Explore lets you effortlessly navigate through a treasure trove of information about Vancouver.

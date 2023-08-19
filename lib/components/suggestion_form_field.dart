@@ -182,8 +182,6 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
   }
 
   void openOverlay() {
-    // _overlayEntry?.remove();
-    // _overlayEntry = null;
     print("openOverlay $_shouldDraw $_hasOpenedOverlay - ${widget.isVisible}");
     if (_shouldDraw && widget.isVisible) {
       setState(() => _hasOpenedOverlay = true);
@@ -272,8 +270,6 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
   @override
   void didUpdateWidget(covariant SuggestionFormField<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    print(
-        "didUpdateWidget $_hasOpenedOverlay - ${widget.isVisible} ${oldWidget.isDropDownLoading}");
     if (oldWidget.isDropDownLoading == widget.isDropDownLoading) {
       return;
     }

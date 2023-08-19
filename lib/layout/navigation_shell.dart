@@ -144,7 +144,7 @@ class _NavigationShellState extends State<NavigationShell> {
                                 style: context.textTheme.headlineLarge,
                               ),
                               const SizedBox(height: 48),
-                              Text(introText),
+                              const Text(introText),
                             ],
                           ),
                         ),

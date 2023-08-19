@@ -3,14 +3,23 @@ import 'package:go_router/go_router.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey();
-final GlobalKey<NavigatorState> dashboardNavigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> homeNavigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> nearMeNavigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> searchNavigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> profileNavigatorKey = GlobalKey();
 
 class NavigationService {
   final GlobalKey<NavigatorState> rootNavigatorKey;
-  final GlobalKey<NavigatorState> dashboardNavigatorKey;
+  final GlobalKey<NavigatorState> homeNavigatorKey;
+  final GlobalKey<NavigatorState> nearMeNavigatorKey;
+  final GlobalKey<NavigatorState> searchNavigatorKey;
+  final GlobalKey<NavigatorState> profileNavigatorKey;
   NavigationService({
     required this.rootNavigatorKey,
-    required this.dashboardNavigatorKey,
+    required this.homeNavigatorKey,
+    required this.nearMeNavigatorKey,
+    required this.searchNavigatorKey,
+    required this.profileNavigatorKey,
   });
 
   BuildContext get rootContext => rootNavigatorKey.currentState!.context;
@@ -31,7 +40,9 @@ class NavigationService {
     );
   }
 
-  backTo() {
+  backTo(context) {
+    print(
+        "GoRouter.of(rootContext).canPop() ${GoRouter.of(rootContext).canPop()}");
     GoRouter.of(rootContext).canPop()
         ? GoRouter.of(rootContext).pop()
         : navigateTo(DashboardScreen.name);

@@ -31,10 +31,6 @@ class QuickSearchHeader extends HookWidget {
     final state = useBlocBuilder(bloc);
     final textEditingController = textController ?? useTextEditingController();
 
-    textEditingController.addListener(() {
-      print("hiiiii");
-    });
-
     useEffect(() {
       textEditingController.text = state.query;
       return () {

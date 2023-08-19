@@ -45,7 +45,7 @@ class TitleHeader extends HookWidget {
                       highlightColor: hightlightColor,
                       enableFeedback: true,
                       onTap: () {
-                        navigationService.backTo();
+                        navigationService.backTo(context);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(4),

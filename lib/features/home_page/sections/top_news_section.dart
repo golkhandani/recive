@@ -206,12 +206,14 @@ class TopNewsCardContainer extends HookWidget {
               size: 12,
             ),
             const SizedBox(width: 4),
-            Text(
-              data.source,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: context.textTheme.labelSmall!.copyWith(
-                color: context.theme.colorScheme.onPrimaryContainer,
+            Expanded(
+              child: Text(
+                data.source,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: context.textTheme.labelSmall!.copyWith(
+                  color: context.theme.colorScheme.onPrimaryContainer,
+                ),
               ),
             ),
             const Spacer(),

@@ -194,6 +194,7 @@ class FeaturedEventCardContainer extends HookWidget {
       print("Rwqe123ewqeqwrqw");
       print('sizes ${MediaQuery.sizeOf(context).width} - ${box.maxWidth}');
       final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
+      final isSmallTall = box.maxWidth < 160;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -206,7 +207,7 @@ class FeaturedEventCardContainer extends HookWidget {
           const SizedBox(height: 12),
           Text(
             data.description,
-            maxLines: 3,
+            maxLines: isSmallTall ? 1 : 3,
             overflow: TextOverflow.fade,
             style: context.textTheme.labelLarge!.copyWith(
               color: context.theme.colorScheme.onPrimaryContainer,
@@ -224,7 +225,7 @@ class FeaturedEventCardContainer extends HookWidget {
               Expanded(
                 child: Text(
                   data.location,
-                  maxLines: 3,
+                  maxLines: isSmallTall ? 1 : 3,
                   overflow: TextOverflow.fade,
                   style: context.textTheme.labelLarge!.copyWith(
                     color: context.theme.colorScheme.onPrimaryContainer,
@@ -234,27 +235,29 @@ class FeaturedEventCardContainer extends HookWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Row(
-            children: [
-              Iconify(
-                Bx.calendar_event,
-                color: color.lighten(0.7),
-                size: 24,
-              ),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.textTheme.labelLarge!.copyWith(
-                    color: context.theme.colorScheme.onPrimaryContainer,
+          if (!isSmallTall) ...[
+            Row(
+              children: [
+                Iconify(
+                  Bx.calendar_event,
+                  color: color.lighten(0.7),
+                  size: 24,
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textTheme.labelLarge!.copyWith(
+                      color: context.theme.colorScheme.onPrimaryContainer,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          if (!isSmall) ...[
+              ],
+            ),
+          ],
+          if (!isSmall && !isSmallTall) ...[
             const SizedBox(height: 12),
             Row(
               children: [

@@ -199,10 +199,14 @@ class CategoryCardContainer extends HookWidget {
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          data.title,
-          style: context.textTheme.titleLarge!.copyWith(
-            color: context.theme.colorScheme.onPrimaryContainer,
+        FittedBox(
+          child: Text(
+            data.title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: context.textTheme.titleLarge!.copyWith(
+              color: context.theme.colorScheme.onPrimaryContainer,
+            ),
           ),
         ),
         const SizedBox(height: 12),

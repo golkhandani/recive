@@ -1,5 +1,6 @@
-import 'package:recive/models/user.model.dart';
-import 'package:recive/repositories/user.repository.interface.dart';
+import 'package:recive/archived/models/user.model.dart';
+import 'package:recive/archived/repositories/user.repository.interface.dart';
+
 import 'dart:math';
 
 import 'package:recive/utils/sleep.dart';

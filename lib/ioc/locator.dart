@@ -3,12 +3,6 @@ import 'package:recive/archived/featured_page/quick_search_header/bloc/quick_sea
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 
-import 'package:recive/repositories/fasting.repository.interface.dart';
-import 'package:recive/repositories/fasting.repository.local.dart';
-import 'package:recive/repositories/search.repository.interface.dart';
-import 'package:recive/repositories/search.repository.local.dart';
-import 'package:recive/repositories/user.repository.interface.dart';
-import 'package:recive/repositories/user.repostory.local.dart';
 import 'package:recive/router/navigation_service.dart';
 
 GetIt locator = GetIt.instance;
@@ -25,18 +19,7 @@ setupNavigation() {
   );
 }
 
-setupRepositories() {
-  locator
-    ..registerLazySingleton<IUserRepository>(
-      () => UserRepositoryLocal(),
-    )
-    ..registerLazySingleton<ISearchRepository>(
-      () => SearchRepositoryLocal(),
-    )
-    ..registerLazySingleton<IFastingRepository>(
-      () => FastingRepositoryLocal(),
-    );
-}
+setupRepositories() {}
 
 setupBlocs() {
   locator

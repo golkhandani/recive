@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:recive/models/recive_category.model.dart';
+import 'package:recive/archived/models/recive_category.model.dart';
 import 'package:recive/utils/valid_bloc_cache.dart';
 
 part 'category_section_bloc.freezed.dart';

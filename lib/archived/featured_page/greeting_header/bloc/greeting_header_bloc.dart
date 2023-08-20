@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:recive/models/user.model.dart';
-import 'package:recive/repositories/user.repository.interface.dart';
+import 'package:recive/archived/models/user.model.dart';
+import 'package:recive/archived/repositories/user.repository.interface.dart';
 
 part 'greeting_header_event.dart';
 part 'greeting_header_state.dart';

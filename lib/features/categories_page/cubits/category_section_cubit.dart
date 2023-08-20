@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:recive/archived/models/recive.model.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/models/recive.model.dart';
 
 part 'category_section_cubit.freezed.dart';
 part 'category_section_cubit.g.dart';

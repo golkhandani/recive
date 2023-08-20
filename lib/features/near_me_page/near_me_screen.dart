@@ -10,7 +10,6 @@ import 'package:recive/features/near_me_page/sections/list_section.dart';
 import 'package:recive/features/near_me_page/sections/map_section.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/models/recive.model.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 // ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart';

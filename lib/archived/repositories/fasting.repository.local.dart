@@ -1,5 +1,5 @@
-import 'package:recive/models/fasting.model.dart';
-import 'package:recive/repositories/fasting.repository.interface.dart';
+import 'package:recive/archived/models/fasting.model.dart';
+import 'package:recive/archived/repositories/fasting.repository.interface.dart';
 import 'package:recive/utils/sleep.dart';
 
 final List<String> list = List.generate(20, (index) => "Text $index");

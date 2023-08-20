@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:recive/models/fasting.model.dart';
-import 'package:recive/repositories/fasting.repository.interface.dart';
+import 'package:recive/archived/models/fasting.model.dart';
+import 'package:recive/archived/repositories/fasting.repository.interface.dart';
+
 import 'package:recive/utils/valid_bloc_cache.dart';
 
 part 'fasting_bloc.freezed.dart';

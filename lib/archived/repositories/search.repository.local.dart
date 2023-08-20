@@ -1,4 +1,5 @@
-import 'package:recive/models/recive.model.dart';
+import 'package:recive/archived/models/recive.model.dart';
+import 'package:recive/archived/repositories/search.repository.interface.dart';
 import 'package:recive/repositories/search.repository.interface.dart';
 
 import 'package:recive/utils/sleep.dart';

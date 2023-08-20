@@ -20,7 +20,6 @@ import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/models/recive.model.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:flutter_map/flutter_map.dart';
 // ignore: depend_on_referenced_packages

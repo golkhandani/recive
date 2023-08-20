@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
-import 'package:recive/archived/featured_page/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/components/card_container.dart';
+import 'package:recive/components/quick_search_header/bloc/quick_search_header_bloc.dart';
+import 'package:recive/components/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
@@ -96,6 +98,7 @@ class SearchScreen extends HookWidget {
     final priceFilterStartValue = useState(0);
     final priceFilterEndValue = useState(pricesFilters.length - 1);
 
+    final quickSearchBloc = useBloc<QuickSearchHeaderBloc>();
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
@@ -116,6 +119,7 @@ class SearchScreen extends HookWidget {
                         padding:
                             const EdgeInsets.all(12).copyWith(top: 0, right: 0),
                         height: 56,
+                        bloc: quickSearchBloc,
                         onSelect: (text) => resultState.value = 1,
                         onTextChanged: (text) =>
                             text.isNotEmpty ? null : resultState.value = 0,

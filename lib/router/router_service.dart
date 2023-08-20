@@ -139,6 +139,9 @@ final dashboardRoutes = [
                     state,
                     const NewsScreen(),
                   ),
+                  routes: [
+                    detailRoute(NewsScreen.name),
+                  ],
                 ),
                 GoRoute(
                   name: FeaturedScreen.name,

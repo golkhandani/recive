@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:recive/archived/repositories/search.repository.interface.dart';
+import 'package:recive/features/search_page/repos/search.repository.interface.dart';
 
 part 'quick_search_header_event.dart';
 part 'quick_search_header_state.dart';

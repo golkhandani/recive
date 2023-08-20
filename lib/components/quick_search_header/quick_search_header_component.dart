@@ -115,6 +115,7 @@ class PinnedSearchHeader extends StatefulHookWidget {
   final void Function(String)? onSelect;
   final void Function(String)? onTextChanged;
   final TextEditingController? textController;
+  final QuickSearchHeaderBloc bloc;
   final double height;
   final EdgeInsets padding;
 
@@ -124,6 +125,7 @@ class PinnedSearchHeader extends StatefulHookWidget {
     required this.onTextChanged,
     required this.textController,
     required this.height,
+    required this.bloc,
     this.padding = EdgeInsets.zero,
   });
 
@@ -137,7 +139,7 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
     final textStyle =
         context.textTheme.bodyMedium!.copyWith(color: Colors.white);
     Timer? debounce;
-    final bloc = useBloc<QuickSearchHeaderBloc>();
+    final bloc = widget.bloc;
     final state = useBlocBuilder(bloc);
     final textEditingController =
         widget.textController ?? useTextEditingController();

@@ -131,9 +131,7 @@ class CategoryCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = Color((Random().nextDouble() * 0xFFFF).toInt())
-        .withOpacity(1.0)
-        .withAlpha(255);
+    final color = context.randomColor;
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

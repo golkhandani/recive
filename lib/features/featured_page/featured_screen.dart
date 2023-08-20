@@ -9,9 +9,12 @@ import 'package:intl/intl.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/extensions/string_extensions.dart';
+import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/home_page/sections/featured_event_section.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class FeaturedScreen extends HookWidget {
@@ -68,7 +71,7 @@ class FeaturedScreen extends HookWidget {
   }
 }
 
-class FeaturedEventExpandedCardContainer extends StatelessWidget {
+class FeaturedEventExpandedCardContainer extends HookWidget {
   const FeaturedEventExpandedCardContainer({
     super.key,
     required this.data,
@@ -78,150 +81,166 @@ class FeaturedEventExpandedCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      borderRadius: BorderRadius.circular(16),
-      padding: const EdgeInsets.all(12),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: context.theme.colorScheme.background,
-        ),
-        child: Column(
-          children: [
-            CachedNetworkImage(
-              imageUrl: data.imageUrl,
-              imageBuilder: (context, imageProvider) => Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                    opacity: 0.9,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.blueAccent,
-                ),
-              ),
+    final navigationService = locator.get<NavigationService>();
+    return InkWell(
+      onTap: () => navigationService.navigateTo(
+        DetailScreen.name,
+        pathParameters: {
+          DetailScreen.pathParamId: data.id,
+          DetailScreen.pathParamType: DetailType.event.name
+        },
+      ),
+      child: Hero(
+        tag: DetailScreen.name + DetailType.event.name + data.id,
+        child: CardContainer(
+          borderRadius: BorderRadius.circular(16),
+          padding: const EdgeInsets.all(12),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: context.theme.colorScheme.background,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ExpandablePanel(
-                header: Text(
-                  data.title,
-                  style: context.textTheme.titleLarge!.copyWith(
-                    color: context.theme.colorScheme.onBackground,
+            child: Column(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: data.imageUrl,
+                  imageBuilder: (context, imageProvider) => Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                        opacity: 0.9,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.blueAccent,
+                    ),
                   ),
                 ),
-                collapsed: Row(
-                  children: [
-                    Iconify(
-                      Bx.bxs_map,
-                      color: context.theme.colorScheme.onBackground,
-                      size: 24,
-                    ),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        data.location,
-                        maxLines: 3,
-                        overflow: TextOverflow.fade,
-                        style: context.textTheme.labelLarge!.copyWith(
-                          color: context.theme.colorScheme.onBackground,
-                        ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ExpandablePanel(
+                    header: Text(
+                      data.title,
+                      style: context.textTheme.titleLarge!.copyWith(
+                        color: context.theme.colorScheme.onBackground,
                       ),
                     ),
-                  ],
-                ),
-                expanded: Container(
-                  color: Colors.transparent,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data.description,
-                        maxLines: 3,
-                        overflow: TextOverflow.fade,
-                        style: context.textTheme.labelLarge!.copyWith(
+                    collapsed: Row(
+                      children: [
+                        Iconify(
+                          Bx.bxs_map,
                           color: context.theme.colorScheme.onBackground,
+                          size: 24,
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Iconify(
-                            Bx.bxs_map,
-                            color: context.theme.colorScheme.onBackground,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              data.location,
-                              maxLines: 3,
-                              overflow: TextOverflow.fade,
-                              style: context.textTheme.labelLarge!.copyWith(
-                                color: context.theme.colorScheme.onBackground,
-                              ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            data.location,
+                            maxLines: 3,
+                            overflow: TextOverflow.fade,
+                            style: context.textTheme.labelLarge!.copyWith(
+                              color: context.theme.colorScheme.onBackground,
                             ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    expanded: Container(
+                      color: Colors.transparent,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            data.description,
+                            maxLines: 3,
+                            overflow: TextOverflow.fade,
+                            style: context.textTheme.labelLarge!.copyWith(
+                              color: context.theme.colorScheme.onBackground,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Iconify(
+                                Bx.bxs_map,
+                                color: context.theme.colorScheme.onBackground,
+                                size: 24,
+                              ),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  data.location,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.fade,
+                                  style: context.textTheme.labelLarge!.copyWith(
+                                    color:
+                                        context.theme.colorScheme.onBackground,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Iconify(
+                                Bx.calendar_event,
+                                color: context.theme.colorScheme.onBackground,
+                                size: 24,
+                              ),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context.textTheme.labelLarge!.copyWith(
+                                    color:
+                                        context.theme.colorScheme.onBackground,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Iconify(
+                                Bx.briefcase,
+                                color: context.theme.colorScheme.onBackground,
+                                size: 24,
+                              ),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  data.organizers.join(' '),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context.textTheme.labelLarge!.copyWith(
+                                    color:
+                                        context.theme.colorScheme.onBackground,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Iconify(
-                            Bx.calendar_event,
-                            color: context.theme.colorScheme.onBackground,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.textTheme.labelLarge!.copyWith(
-                                color: context.theme.colorScheme.onBackground,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Iconify(
-                            Bx.briefcase,
-                            color: context.theme.colorScheme.onBackground,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              data.organizers.join(' '),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.textTheme.labelLarge!.copyWith(
-                                color: context.theme.colorScheme.onBackground,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
+                    theme: ExpandableThemeData(
+                      iconSize: 20,
+                      iconPadding: const EdgeInsets.only(bottom: 12),
+                      iconColor: context.theme.colorScheme.onBackground,
+                      animationDuration: const Duration(milliseconds: 200),
+                      useInkWell: true,
+                      alignment: Alignment.topRight,
+                    ),
                   ),
                 ),
-                theme: ExpandableThemeData(
-                  iconSize: 20,
-                  iconPadding: const EdgeInsets.only(bottom: 12),
-                  iconColor: context.theme.colorScheme.onBackground,
-                  animationDuration: const Duration(milliseconds: 200),
-                  useInkWell: true,
-                  alignment: Alignment.topRight,
-                ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

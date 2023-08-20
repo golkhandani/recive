@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recive/archived/big_square_card.dart';
 import 'package:recive/archived/category_section_row.dart';
 import 'package:recive/archived/models/recive.model.dart';
+import 'package:recive/components/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/components/sliver_gap.dart';
 
 import 'package:recive/layout/context_ui_extension.dart';
@@ -10,7 +11,6 @@ import 'package:recive/layout/custom_shape_background_widget.dart';
 import 'package:recive/layout/sliver_header_delegate.dart';
 
 import 'greeting_header/greeting_header_component.dart';
-import 'quick_search_header/quick_search_header_component.dart';
 
 class FeaturedScreen extends HookWidget {
   static const name = 'featured';

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_use_geolocation/flutter_use_geolocation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -21,6 +23,10 @@ extension UiBreakPointDetection on BuildContext {
   bool get isMediumWith => vWidth >= (vHeight / 1.2) && vWidth < vHeight * 1.8;
   bool get isWideWith => vWidth >= vHeight * 1.8 && vWidth < vHeight * 2.4;
   bool get isUltraWideWith => vWidth >= vHeight * 2.4;
+
+  Color get randomColor => Color((Random().nextDouble() * 0xFFFF).toInt())
+      .withOpacity(1.0)
+      .withAlpha(255);
 
   Widget? checkLoadingState(LoadingState loadingState) {
     if (loadingState == LoadingState.none) {

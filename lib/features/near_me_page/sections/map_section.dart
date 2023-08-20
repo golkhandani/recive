@@ -7,6 +7,7 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
@@ -170,6 +171,9 @@ class _MapContent extends HookWidget {
                             TileLayer(
                               urlTemplate:
                                   'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=J4ktALZX8GCz9Hw7i0tK',
+                              tileProvider: FMTC
+                                  .instance('FlutterMapTileStore')
+                                  .getTileProvider(),
                             ),
                             if (geolocation.latLng != null)
                               UserMarker(geolocation: geolocation),
@@ -362,9 +366,7 @@ class EventCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Color((Random().nextDouble() * 0xFFFF).toInt())
-        .withOpacity(1.0)
-        .withAlpha(255);
+    final color = context.randomColor;
 
     final child = LayoutBuilder(builder: (context, box) {
       print("---------------- 1 ${box.maxHeight}");

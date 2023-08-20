@@ -54,8 +54,11 @@ class HomePageFeaturedEventsSection extends HookWidget {
                 builder: (context) {
                   if (state.loadingState == LoadingState.loading) {
                     return const SliverToBoxAdapter(
-                      child: Center(
-                        child: CircularProgressIndicator(),
+                      child: SizedBox(
+                        height: 600,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
                     );
                   }
@@ -156,9 +159,8 @@ class FeaturedEventCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = Color((Random().nextDouble() * 0xFFFF).toInt())
-        .withOpacity(1.0)
-        .withAlpha(255);
+    final color =
+        context.theme.colorScheme.primaryContainer ?? context.randomColor;
 
     final child = LayoutBuilder(builder: (context, box) {
       final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;

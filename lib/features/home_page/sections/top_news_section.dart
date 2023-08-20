@@ -2,80 +2,24 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:intl/intl.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
+import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/news_page/cubits/news_cubit.dart';
+import 'package:recive/features/news_page/models/news_model.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 // ignore: depend_on_referenced_packages
-
-List<TopNewsCardContainerData> mockNews = [
-  TopNewsCardContainerData(
-    id: '1b9466aa-83c3-4f1a-9f2d-44c1260a3f4f',
-    title: 'Tech Giant Unveils New Smartphone Model',
-    description:
-        'The tech company announced its latest smartphone with advanced features.',
-    publishDate: DateTime(2023, 8, 19, 10, 0),
-    source: 'TechNews',
-  ),
-  TopNewsCardContainerData(
-    id: '1b9466aa-83c3-4f1a-9f2d-44c1220a3f4d',
-    title: 'Scientists Discover New Species of Bird',
-    description:
-        'Researchers identified a previously unknown bird species in a remote forest.',
-    publishDate: DateTime(2023, 8, 18, 15, 30),
-    source: 'Science Times',
-  ),
-  TopNewsCardContainerData(
-    id: '1b9466aa-83c3-4f1a-9f2d-44c1260a3f4d',
-    title: 'Tech Giant Unveils New Smartphone Model',
-    description:
-        'The tech company announced its latest smartphone with advanced features.',
-    publishDate: DateTime(2023, 8, 19, 10, 0),
-    source: 'TechNews',
-  ),
-  TopNewsCardContainerData(
-    id: '2e9b61d8-79a1-4f18-950f-bfd10003e7e2',
-    title: 'Scientists Discover New Species of Bird',
-    description:
-        'Researchers identified a previously unknown bird species in a remote forest.',
-    publishDate: DateTime(2023, 8, 18, 15, 30),
-    source: 'Science Times',
-  ),
-  TopNewsCardContainerData(
-    id: '3c802d10-476b-42c0-8e1a-785f6c8210d4',
-    title: 'New Study on Climate Change Impact',
-    description:
-        'A recent study reveals alarming effects of climate change on ocean temperatures.',
-    publishDate: DateTime(2023, 8, 17, 12, 15),
-    source: 'Environmental Watch',
-  ),
-  TopNewsCardContainerData(
-    id: '4f671c11-01f2-4b09-9f92-eb27ebe4d65f',
-    title: 'Space Exploration Milestone Achieved',
-    description:
-        'Astronauts successfully completed a record-breaking spacewalk mission.',
-    publishDate: DateTime(2023, 8, 16, 9, 45),
-    source: 'SpaceNews',
-  ),
-  TopNewsCardContainerData(
-    id: '5a6f20d5-ff77-4e66-aa3c-723a9486c995',
-    title: 'Local Community Celebrates Annual Festival',
-    description:
-        'Residents gather for a festive celebration showcasing cultural heritage.',
-    publishDate: DateTime(2023, 8, 15, 17, 0),
-    source: 'Community Gazette',
-  ),
-  // Add more news summaries here...
-];
 
 class HomePageTopNewsSections extends HookWidget {
   const HomePageTopNewsSections({
@@ -85,49 +29,69 @@ class HomePageTopNewsSections extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
+    final bloc = useBloc<NewsCubit>();
+    final state = useBlocBuilder(bloc);
 
-    return MultiSliver(
-      children: [
-        SliverToBoxAdapter(
-          child: Text(
-            "Top News Stories",
-            style: context.textTheme.headlineSmall,
-          ),
-        ),
-        const SliverGap(height: 12),
-        SliverCardContainer(
-          borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.all(12),
-          sliver: SliverToBoxAdapter(
-            child: LayoutBuilder(builder: (context, box) {
-              return SizedBox(
-                height: 120,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: mockNews.length + 1,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: 12),
-                  itemBuilder: (context, index) => index == mockNews.length
-                      ? SeeMoreButton(
-                          constraints: BoxConstraints.expand(
-                            width: box.maxWidth / 2,
-                          ),
-                          onTap: () =>
-                              navigationService.navigateTo(NewsScreen.name),
-                        )
-                      : TopNewsCardContainer(
-                          constraints: BoxConstraints.expand(
-                            width: box.maxWidth / 1.4,
-                          ),
-                          data: mockNews[index],
-                        ),
-                ),
-              );
-            }),
-          ),
-        ),
-      ],
-    );
+    useEffect(() {
+      bloc.loadNews();
+      return;
+    }, []);
+
+    return context.checkLoadingState(state.loadingState) ??
+        MultiSliver(
+          children: [
+            SliverToBoxAdapter(
+              child: Text(
+                "Top News Stories",
+                style: context.textTheme.headlineSmall,
+              ),
+            ),
+            const SliverGap(height: 12),
+            SliverCardContainer(
+              borderRadius: BorderRadius.circular(16),
+              padding: const EdgeInsets.all(12),
+              sliver: SliverToBoxAdapter(
+                child: LayoutBuilder(builder: (context, box) {
+                  return SizedBox(
+                    height: 120,
+                    child: Builder(builder: (context) {
+                      if (state.loadingState == LoadingState.loading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.newsSpotlight.length + 1,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 12),
+                          itemBuilder: (context, index) {
+                            if (index == state.newsSpotlight.length) {
+                              return SeeMoreButton(
+                                constraints: BoxConstraints.expand(
+                                  width: box.maxWidth / 2,
+                                ),
+                                onTap: () => navigationService
+                                    .navigateTo(NewsScreen.name),
+                              );
+                            }
+                            final data = TopNewsCardContainerData.fromNews(
+                              state.newsSpotlight[index],
+                            );
+                            return TopNewsCardContainer(
+                              constraints: BoxConstraints.expand(
+                                width: box.maxWidth / 1.4,
+                              ),
+                              data: data,
+                            );
+                          });
+                    }),
+                  );
+                }),
+              ),
+            ),
+          ],
+        );
   }
 }
 
@@ -145,6 +109,23 @@ class TopNewsCardContainerData {
     required this.publishDate,
     required this.source,
   });
+
+  static TopNewsCardContainerData fromNews(NewsModel n) =>
+      TopNewsCardContainerData(
+        id: n.id,
+        title: n.title,
+        description: n.description,
+        publishDate: n.publishDate,
+        source: n.source,
+      );
+
+  static Map<String, Color> sourceToColorMap = {
+    'TechNews': Colors.red,
+    'Science Times': Colors.greenAccent,
+    'Environmental Watch': Colors.lightBlue,
+    'SpaceNews': Colors.blue,
+    'Community Gazette': Colors.pink
+  };
 }
 
 class TopNewsCardContainer extends HookWidget {
@@ -160,9 +141,7 @@ class TopNewsCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = Color((Random().nextDouble() * 0xFFFF).toInt())
-        .withOpacity(1.0)
-        .withAlpha(255);
+    final color = context.randomColor;
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_use_geolocation/flutter_use_geolocation.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/mdi.dart';
+import 'package:recive/features/categories_page/models/category.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart';
 
@@ -16,6 +21,35 @@ extension UiBreakPointDetection on BuildContext {
   bool get isMediumWith => vWidth >= (vHeight / 1.2) && vWidth < vHeight * 1.8;
   bool get isWideWith => vWidth >= vHeight * 1.8 && vWidth < vHeight * 2.4;
   bool get isUltraWideWith => vWidth >= vHeight * 2.4;
+
+  Widget? checkLoadingState(LoadingState loadingState) {
+    if (loadingState == LoadingState.none) {
+      return const SliverToBoxAdapter(
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (loadingState == LoadingState.error) {
+      return const SliverToBoxAdapter(
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Iconify(Mdi.error, color: Colors.redAccent),
+              SizedBox(width: 12),
+              Text(
+                'Something went wrong',
+                style: TextStyle(color: Colors.redAccent),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return null;
+  }
 }
 
 extension CopyWithColor on TextStyle {
@@ -49,5 +83,29 @@ extension ColorEffect on Color {
         hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
 
     return hslLight.toColor();
+  }
+}
+
+abstract class MaybeEmitHydratedCubit<State> extends HydratedCubit<State> {
+  MaybeEmitHydratedCubit(super.state);
+
+  @override
+  State? fromJson(Map<String, dynamic> json);
+
+  @override
+  Map<String, dynamic>? toJson(State state);
+
+  maybeEmit(State state) {
+    if (isClosed) return;
+    emit(state);
+  }
+}
+
+abstract class MaybeEmitCubit<State> extends Cubit<State> {
+  MaybeEmitCubit(super.state);
+
+  maybeEmit(State state) {
+    if (isClosed) return;
+    emit(state);
   }
 }

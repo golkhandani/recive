@@ -2,12 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/extensions/string_extensions.dart';
+import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/home_page/sections/category_section.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/models/recive.model.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class CategoriesScreen extends HookWidget {
@@ -16,6 +17,14 @@ class CategoriesScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = useBloc<CategoriesCubit>();
+    final state = useBlocBuilder(bloc);
+
+    useEffect(() {
+      bloc.loadCategories();
+      return;
+    }, []);
+
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: CustomScrollView(
@@ -27,20 +36,26 @@ class CategoriesScreen extends HookWidget {
           SliverPadding(
             padding: const EdgeInsets.all(16)
                 .copyWith(bottom: context.footerHeight + 16),
-            sliver: MultiSliver(
-              children: [
-                SliverList.builder(
-                    itemCount: mockCategoriesData.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: CategoryExpandedCardContainer(
-                          data: mockCategoriesData[index],
-                        ),
-                      );
-                    }),
-              ],
-            ),
+            sliver: Builder(builder: (context) {
+              return context.checkLoadingState(state.loadingState) ??
+                  MultiSliver(
+                    children: [
+                      SliverList.builder(
+                          itemCount: state.categories.length,
+                          itemBuilder: (context, index) {
+                            final data = CategoryCardContainerData.fromCategory(
+                              state.categories[index],
+                            );
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: CategoryExpandedCardContainer(
+                                data: data,
+                              ),
+                            );
+                          }),
+                    ],
+                  );
+            }),
           ),
         ],
       ),
@@ -72,13 +87,11 @@ class CategoryExpandedCardContainer extends StatelessWidget {
               imageBuilder: (context, imageProvider) => Container(
                 height: 80,
                 decoration: BoxDecoration(
-                  image: imageProvider == null
-                      ? null
-                      : DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                          opacity: 0.5,
-                        ),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                    opacity: 0.5,
+                  ),
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.blueAccent,
                 ),

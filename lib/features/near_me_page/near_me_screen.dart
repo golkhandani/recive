@@ -124,8 +124,8 @@ class _NearMeScreenState extends State<NearMeScreen>
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
         final contentHeight = box.maxHeight - context.invisibleHeight - 24 - 32;
-        final mapSectionHeight = (contentHeight * 0.8) - 24 - 12;
-        final listSectionHeight = (contentHeight * 0.2) - 24 - 12;
+        final mapSectionHeight = (contentHeight * 0.75) - 24 - 12;
+        final listSectionHeight = (contentHeight * 0.25) - 24 - 12;
         return CustomScrollView(
           physics: const NeverScrollableScrollPhysics(),
           slivers: [
@@ -184,7 +184,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                           listSectionHeight: listSectionHeight,
                           mapController: mapController,
                           items: mockEventsData,
-                          location: locationService.location,
+                          // location: locationService.location,
                         ),
                       ],
                     ),

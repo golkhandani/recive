@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +5,16 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
-import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:intl/intl.dart';
-// import 'package:flutter_use_geolocation/flutter_use_geolocation.dart';
 import 'package:location/location.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/home_page/sections/map_section.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -25,7 +22,6 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:flutter_map/flutter_map.dart';
 // ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NearMeScreenMapViewContent extends HookWidget {
   const NearMeScreenMapViewContent({
@@ -36,7 +32,6 @@ class NearMeScreenMapViewContent extends HookWidget {
     required this.mapSectionHeight,
     required this.listSectionHeight,
     required this.mapController,
-    required this.location,
   });
 
   final ValueNotifier<int> switchIndex;
@@ -44,7 +39,6 @@ class NearMeScreenMapViewContent extends HookWidget {
   final double mapSectionHeight;
   final double listSectionHeight;
   final AnimatedMapController mapController;
-  final Location location;
   final List<EventCardContainerData> items;
 
   @override
@@ -122,9 +116,9 @@ class _MapContent extends HookWidget {
       return;
     }, [geolocation.timestamp]);
 
-    mapController.mapController.mapEventStream.listen(
-      (MapEvent event) => center.value = event.center,
-    );
+    // mapController.mapController.mapEventStream.listen(
+    //   (MapEvent event) => center.value = event.center,
+    // );
     return MultiSliver(children: [
       SliverCardContainer(
         borderRadius: BorderRadius.circular(16),
@@ -155,26 +149,11 @@ class _MapContent extends HookWidget {
                             maxZoom: 17,
                             minZoom: 10,
                           ),
-                          nonRotatedChildren: [
-                            RichAttributionWidget(
-                              attributions: [
-                                TextSourceAttribution(
-                                  'OpenStreetMap contributors',
-                                  onTap: () => launchUrl(Uri.parse(
-                                    'https://openstreetmap.org/copyright',
-                                  )),
-                                ),
-                              ],
-                            ),
+                          nonRotatedChildren: const [
+                            FlutterMapAttribution(),
                           ],
                           children: [
-                            TileLayer(
-                              urlTemplate:
-                                  'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=J4ktALZX8GCz9Hw7i0tK',
-                              tileProvider: FMTC
-                                  .instance('FlutterMapTileStore')
-                                  .getTileProvider(),
-                            ),
+                            const FlutterMapTileLayer(),
                             if (geolocation.latLng != null)
                               UserMarker(geolocation: geolocation),
                             SuperclusterLayer.immutable(
@@ -369,7 +348,6 @@ class EventCardContainer extends StatelessWidget {
     final color = context.randomColor;
 
     final child = LayoutBuilder(builder: (context, box) {
-      print("---------------- 1 ${box.maxHeight}");
       final isSmall = box.maxHeight < 160;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:open_weather_client/services/open_weather_api_service.dart';
 import 'package:recive/components/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
@@ -23,9 +24,14 @@ setupNavigation() {
 }
 
 setupRepositories() {
-  locator.registerLazySingleton<ISearchRepository>(
-    () => SearchRepositoryLocal(),
+  OpenWeather openWeather = OpenWeather(
+    apiKey: '8af110219c55ac7762ec012dfc20f17a',
   );
+  locator
+    ..registerSingleton<OpenWeather>(openWeather)
+    ..registerLazySingleton<ISearchRepository>(
+      () => SearchRepositoryLocal(),
+    );
 }
 
 setupBlocs() {

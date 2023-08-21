@@ -4,15 +4,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_native_splash/cli_commands.dart';
-import 'package:flutter_use_geolocation/flutter_use_geolocation.dart';
-import 'package:location/location.dart';
 import 'package:open_weather_client/enums/languages.dart';
 import 'package:open_weather_client/models/details.dart';
 import 'package:open_weather_client/open_weather.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/ioc/geo_location_service.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:weather_animation/weather_animation.dart';
@@ -27,11 +25,9 @@ class HomePageWeatherSection extends StatefulHookWidget {
 }
 
 class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
-  OpenWeather openWeather = OpenWeather(
-    apiKey: '8af110219c55ac7762ec012dfc20f17a',
-  );
   @override
   Widget build(BuildContext context) {
+    final openWeather = locator.get<OpenWeather>();
     final geoLocation = useUserLocation();
     final weatherData = useState<WeatherData?>(null);
 

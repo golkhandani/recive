@@ -31,6 +31,7 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
 
+    print("______ HomePageMapSectionState build");
     final geolocation = useUserLocation();
     final center = useState<LatLng?>(geolocation.latLng);
     final zoom = useState(15.0);
@@ -111,26 +112,11 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
                                   maxZoom: 17,
                                   minZoom: 10,
                                 ),
-                                nonRotatedChildren: [
-                                  RichAttributionWidget(
-                                    attributions: [
-                                      TextSourceAttribution(
-                                        'OpenStreetMap contributors',
-                                        onTap: () => launchUrl(Uri.parse(
-                                          'https://openstreetmap.org/copyright',
-                                        )),
-                                      ),
-                                    ],
-                                  ),
+                                nonRotatedChildren: const [
+                                  FlutterMapAttribution(),
                                 ],
                                 children: [
-                                  TileLayer(
-                                    urlTemplate:
-                                        'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=J4ktALZX8GCz9Hw7i0tK',
-                                    tileProvider: FMTC
-                                        .instance('FlutterMapTileStore')
-                                        .getTileProvider(),
-                                  ),
+                                  const FlutterMapTileLayer(),
                                   if (geolocation.latLng != null) userMarker
                                 ],
                               );
@@ -144,6 +130,41 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
               ),
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class FlutterMapTileLayer extends StatelessWidget {
+  const FlutterMapTileLayer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TileLayer(
+      urlTemplate:
+          'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=J4ktALZX8GCz9Hw7i0tK',
+      tileProvider: FMTC.instance('FlutterMapTileStore').getTileProvider(),
+    );
+  }
+}
+
+class FlutterMapAttribution extends StatelessWidget {
+  const FlutterMapAttribution({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RichAttributionWidget(
+      attributions: [
+        TextSourceAttribution(
+          'OpenStreetMap contributors',
+          onTap: () => launchUrl(Uri.parse(
+            'https://openstreetmap.org/copyright',
+          )),
         ),
       ],
     );

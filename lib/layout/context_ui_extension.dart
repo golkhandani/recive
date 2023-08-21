@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_use_geolocation/flutter_use_geolocation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
@@ -60,15 +59,6 @@ extension UiBreakPointDetection on BuildContext {
 
 extension CopyWithColor on TextStyle {
   TextStyle? withColor(Color color) => copyWith(color: color);
-}
-
-extension PositionToLatLon on GeolocationState {
-  LatLng? get latLng => position != null
-      ? LatLng(
-          position!.latitude,
-          position!.longitude,
-        )
-      : null;
 }
 
 extension ColorEffect on Color {

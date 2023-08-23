@@ -41,8 +41,6 @@ class NavigationService {
   }
 
   backTo(context) {
-    print(
-        "GoRouter.of(rootContext).canPop() ${GoRouter.of(rootContext).canPop()}");
     GoRouter.of(rootContext).canPop()
         ? GoRouter.of(rootContext).pop()
         : navigateTo(DashboardScreen.name);

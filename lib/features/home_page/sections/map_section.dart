@@ -30,8 +30,6 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-
-    print("______ HomePageMapSectionState build");
     final geolocation = useUserLocation();
     final center = useState<LatLng?>(geolocation.latLng);
     final zoom = useState(15.0);

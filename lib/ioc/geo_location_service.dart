@@ -135,7 +135,9 @@ final locationService = LocationService.instance;
 UserLocation useUserLocation({
   LocationSettings? locationSettings,
 }) {
-  print("_________________ HITE");
+  if (kDebugMode) {
+    print("_________________| useUserLocation");
+  }
   locationService.requestService(onGrantedPermission: () => {});
 
   final state = useRef(

@@ -20,6 +20,8 @@ FeatureEventsState _$FeatureEventsStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FeatureEventsState {
+  FeaturedEvent? get featuredEventSummary => throw _privateConstructorUsedError;
+  FeaturedEvent? get featuredEvent => throw _privateConstructorUsedError;
   List<FeaturedEvent> get featuredEvents => throw _privateConstructorUsedError;
   List<FeaturedEvent> get featuredEventsSpotlight =>
       throw _privateConstructorUsedError;
@@ -38,9 +40,14 @@ abstract class $FeatureEventsStateCopyWith<$Res> {
       _$FeatureEventsStateCopyWithImpl<$Res, FeatureEventsState>;
   @useResult
   $Res call(
-      {List<FeaturedEvent> featuredEvents,
+      {FeaturedEvent? featuredEventSummary,
+      FeaturedEvent? featuredEvent,
+      List<FeaturedEvent> featuredEvents,
       List<FeaturedEvent> featuredEventsSpotlight,
       LoadingState loadingState});
+
+  $FeaturedEventCopyWith<$Res>? get featuredEventSummary;
+  $FeaturedEventCopyWith<$Res>? get featuredEvent;
 }
 
 /// @nodoc
@@ -56,11 +63,21 @@ class _$FeatureEventsStateCopyWithImpl<$Res, $Val extends FeatureEventsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? featuredEventSummary = freezed,
+    Object? featuredEvent = freezed,
     Object? featuredEvents = null,
     Object? featuredEventsSpotlight = null,
     Object? loadingState = null,
   }) {
     return _then(_value.copyWith(
+      featuredEventSummary: freezed == featuredEventSummary
+          ? _value.featuredEventSummary
+          : featuredEventSummary // ignore: cast_nullable_to_non_nullable
+              as FeaturedEvent?,
+      featuredEvent: freezed == featuredEvent
+          ? _value.featuredEvent
+          : featuredEvent // ignore: cast_nullable_to_non_nullable
+              as FeaturedEvent?,
       featuredEvents: null == featuredEvents
           ? _value.featuredEvents
           : featuredEvents // ignore: cast_nullable_to_non_nullable
@@ -75,6 +92,30 @@ class _$FeatureEventsStateCopyWithImpl<$Res, $Val extends FeatureEventsState>
               as LoadingState,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FeaturedEventCopyWith<$Res>? get featuredEventSummary {
+    if (_value.featuredEventSummary == null) {
+      return null;
+    }
+
+    return $FeaturedEventCopyWith<$Res>(_value.featuredEventSummary!, (value) {
+      return _then(_value.copyWith(featuredEventSummary: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FeaturedEventCopyWith<$Res>? get featuredEvent {
+    if (_value.featuredEvent == null) {
+      return null;
+    }
+
+    return $FeaturedEventCopyWith<$Res>(_value.featuredEvent!, (value) {
+      return _then(_value.copyWith(featuredEvent: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -86,9 +127,16 @@ abstract class _$$_FeatureEventsStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<FeaturedEvent> featuredEvents,
+      {FeaturedEvent? featuredEventSummary,
+      FeaturedEvent? featuredEvent,
+      List<FeaturedEvent> featuredEvents,
       List<FeaturedEvent> featuredEventsSpotlight,
       LoadingState loadingState});
+
+  @override
+  $FeaturedEventCopyWith<$Res>? get featuredEventSummary;
+  @override
+  $FeaturedEventCopyWith<$Res>? get featuredEvent;
 }
 
 /// @nodoc
@@ -102,11 +150,21 @@ class __$$_FeatureEventsStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? featuredEventSummary = freezed,
+    Object? featuredEvent = freezed,
     Object? featuredEvents = null,
     Object? featuredEventsSpotlight = null,
     Object? loadingState = null,
   }) {
     return _then(_$_FeatureEventsState(
+      featuredEventSummary: freezed == featuredEventSummary
+          ? _value.featuredEventSummary
+          : featuredEventSummary // ignore: cast_nullable_to_non_nullable
+              as FeaturedEvent?,
+      featuredEvent: freezed == featuredEvent
+          ? _value.featuredEvent
+          : featuredEvent // ignore: cast_nullable_to_non_nullable
+              as FeaturedEvent?,
       featuredEvents: null == featuredEvents
           ? _value._featuredEvents
           : featuredEvents // ignore: cast_nullable_to_non_nullable
@@ -127,7 +185,9 @@ class __$$_FeatureEventsStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_FeatureEventsState implements _FeatureEventsState {
   const _$_FeatureEventsState(
-      {required final List<FeaturedEvent> featuredEvents,
+      {required this.featuredEventSummary,
+      required this.featuredEvent,
+      required final List<FeaturedEvent> featuredEvents,
       required final List<FeaturedEvent> featuredEventsSpotlight,
       required this.loadingState})
       : _featuredEvents = featuredEvents,
@@ -136,6 +196,10 @@ class _$_FeatureEventsState implements _FeatureEventsState {
   factory _$_FeatureEventsState.fromJson(Map<String, dynamic> json) =>
       _$$_FeatureEventsStateFromJson(json);
 
+  @override
+  final FeaturedEvent? featuredEventSummary;
+  @override
+  final FeaturedEvent? featuredEvent;
   final List<FeaturedEvent> _featuredEvents;
   @override
   List<FeaturedEvent> get featuredEvents {
@@ -158,7 +222,7 @@ class _$_FeatureEventsState implements _FeatureEventsState {
 
   @override
   String toString() {
-    return 'FeatureEventsState(featuredEvents: $featuredEvents, featuredEventsSpotlight: $featuredEventsSpotlight, loadingState: $loadingState)';
+    return 'FeatureEventsState(featuredEventSummary: $featuredEventSummary, featuredEvent: $featuredEvent, featuredEvents: $featuredEvents, featuredEventsSpotlight: $featuredEventsSpotlight, loadingState: $loadingState)';
   }
 
   @override
@@ -166,6 +230,10 @@ class _$_FeatureEventsState implements _FeatureEventsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_FeatureEventsState &&
+            (identical(other.featuredEventSummary, featuredEventSummary) ||
+                other.featuredEventSummary == featuredEventSummary) &&
+            (identical(other.featuredEvent, featuredEvent) ||
+                other.featuredEvent == featuredEvent) &&
             const DeepCollectionEquality()
                 .equals(other._featuredEvents, _featuredEvents) &&
             const DeepCollectionEquality().equals(
@@ -178,6 +246,8 @@ class _$_FeatureEventsState implements _FeatureEventsState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      featuredEventSummary,
+      featuredEvent,
       const DeepCollectionEquality().hash(_featuredEvents),
       const DeepCollectionEquality().hash(_featuredEventsSpotlight),
       loadingState);
@@ -199,13 +269,19 @@ class _$_FeatureEventsState implements _FeatureEventsState {
 
 abstract class _FeatureEventsState implements FeatureEventsState {
   const factory _FeatureEventsState(
-      {required final List<FeaturedEvent> featuredEvents,
+      {required final FeaturedEvent? featuredEventSummary,
+      required final FeaturedEvent? featuredEvent,
+      required final List<FeaturedEvent> featuredEvents,
       required final List<FeaturedEvent> featuredEventsSpotlight,
       required final LoadingState loadingState}) = _$_FeatureEventsState;
 
   factory _FeatureEventsState.fromJson(Map<String, dynamic> json) =
       _$_FeatureEventsState.fromJson;
 
+  @override
+  FeaturedEvent? get featuredEventSummary;
+  @override
+  FeaturedEvent? get featuredEvent;
   @override
   List<FeaturedEvent> get featuredEvents;
   @override

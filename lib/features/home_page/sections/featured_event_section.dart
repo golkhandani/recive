@@ -13,6 +13,7 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
+import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/home_page/home_screen.dart';
@@ -170,6 +171,7 @@ class FeaturedEventCardContainer extends HookWidget {
         children: [
           Text(
             data.title,
+            maxLines: isSmallTall ? 3 : 1,
             style: context.textTheme.titleLarge!.copyWith(
               color: context.theme.colorScheme.onPrimaryContainer,
             ),
@@ -177,7 +179,7 @@ class FeaturedEventCardContainer extends HookWidget {
           const SizedBox(height: 12),
           Text(
             data.description,
-            maxLines: isSmallTall ? 1 : 3,
+            maxLines: isSmallTall ? 3 : 1,
             overflow: TextOverflow.fade,
             style: context.textTheme.labelLarge!.copyWith(
               color: context.theme.colorScheme.onPrimaryContainer,
@@ -195,7 +197,7 @@ class FeaturedEventCardContainer extends HookWidget {
               Expanded(
                 child: Text(
                   data.location,
-                  maxLines: isSmallTall ? 1 : 3,
+                  maxLines: isSmallTall ? 3 : 1,
                   overflow: TextOverflow.fade,
                   style: context.textTheme.labelLarge!.copyWith(
                     color: context.theme.colorScheme.onPrimaryContainer,
@@ -255,14 +257,14 @@ class FeaturedEventCardContainer extends HookWidget {
     });
     return InkWell(
       onTap: () => navigationService.navigateTo(
-        DetailScreen.name,
+        HomeScreen.name + FeaturedEventDetailScreen.name,
         pathParameters: {
-          DetailScreen.pathParamId: data.id,
-          DetailScreen.pathParamType: DetailType.event.name
+          FeaturedEventDetailScreen.pathParamId: data.id,
         },
+        extra: data,
       ),
       child: Hero(
-        tag: DetailScreen.name + DetailType.event.name + data.id,
+        tag: FeaturedEventDetailScreen.name + data.id,
         child: CachedNetworkImage(
           imageUrl: data.imageUrl,
           imageBuilder: (context, imageProvider) =>

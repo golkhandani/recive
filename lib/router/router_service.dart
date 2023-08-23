@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
+import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
+import 'package:recive/features/home_page/sections/featured_event_section.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
@@ -84,6 +86,22 @@ GoRoute detailRoute(String parentName) => GoRoute(
       },
     );
 
+GoRoute eventDetailRoute(String parentName) => GoRoute(
+      name: parentName + FeaturedEventDetailScreen.name,
+      path:
+          '${FeaturedEventDetailScreen.name}/:${FeaturedEventDetailScreen.pathParamId}',
+      pageBuilder: (context, state) {
+        final pathParamId =
+            state.pathParameters[FeaturedEventDetailScreen.pathParamId]!;
+        FeaturedEventCardContainerData summary = state.extra
+            as FeaturedEventCardContainerData; // 👈 casting is important
+        return dashboardPageBuilder(
+          state,
+          FeaturedEventDetailScreen(id: pathParamId, summary: summary),
+        );
+      },
+    );
+
 final dashboardRoutes = [
   ...dashboardExtraRoutes,
   GoRoute(
@@ -124,6 +142,7 @@ final dashboardRoutes = [
               routes: [
                 detailRoute(''),
                 detailRoute(HomeScreen.name),
+                eventDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: CategoriesScreen.name,
                   path: CategoriesScreen.name,
@@ -150,6 +169,9 @@ final dashboardRoutes = [
                     state,
                     const FeaturedScreen(),
                   ),
+                  routes: [
+                    eventDetailRoute(FeaturedScreen.name),
+                  ],
                 ),
               ]),
         ],

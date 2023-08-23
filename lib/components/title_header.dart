@@ -81,7 +81,8 @@ class TitleHeader extends HookWidget {
                   ),
                 ),
               ),
-            ],
+            ] else
+              const Spacer(),
             // To Center the middle elements
             if (navigationService.canBack) const SizedBox(width: 42),
           ],

@@ -6,9 +6,6 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 
-// ignore: depend_on_referenced_packages
-import 'package:latlong2/latlong.dart';
-
 extension UiBreakPointDetection on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
   ThemeData get theme => Theme.of(this);

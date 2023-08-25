@@ -1,12 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
-
-import 'package:geolocator_platform_interface/src/enums/location_accuracy.dart'
-    as setting;
 
 @immutable
 class UserLocation {
@@ -59,13 +55,6 @@ class LocationService {
   late bool serviceEnabled;
   late LocationPermission permission;
   UserLocation? lastUserLocation;
-
-  // final Location location = Location();
-  // bool? _serviceEnabled;
-  // Future<void> _checkService() async {
-  //   final serviceEnabledResult = await location.serviceEnabled();
-  //   _serviceEnabled = serviceEnabledResult;
-  // }
 
   Future<void> requestService({
     required VoidCallback onGrantedPermission,

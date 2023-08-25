@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/news_page/models/news_model.dart';

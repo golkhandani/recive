@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -11,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/categories_page/models/category.dart';
-import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
@@ -160,8 +157,7 @@ class FeaturedEventCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color =
-        context.theme.colorScheme.primaryContainer ?? context.randomColor;
+    final color = context.theme.colorScheme.primaryContainer;
 
     final child = LayoutBuilder(builder: (context, box) {
       final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
@@ -261,10 +257,13 @@ class FeaturedEventCardContainer extends HookWidget {
         pathParameters: {
           FeaturedEventDetailScreen.pathParamId: data.id,
         },
-        extra: data,
+        extra: {
+          FeaturedEventDetailScreen.summaryKey: data,
+          FeaturedEventDetailScreen.heroTagKey: data.id
+        },
       ),
       child: Hero(
-        tag: FeaturedEventDetailScreen.name + data.id,
+        tag: data.id,
         child: CachedNetworkImage(
           imageUrl: data.imageUrl,
           imageBuilder: (context, imageProvider) =>

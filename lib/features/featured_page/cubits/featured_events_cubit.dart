@@ -1,15 +1,8 @@
-import 'dart:math';
-
-import 'package:collection/collection.dart';
-import 'package:ferry/ferry.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:recive/domain/graphql/__generated__/events_query.data.gql.dart';
-import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/home_page/sections/featured_event_section.dart';
-import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
 part 'featured_events_cubit.freezed.dart';

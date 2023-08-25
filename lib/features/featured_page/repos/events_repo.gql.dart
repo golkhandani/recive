@@ -1,14 +1,13 @@
-import 'dart:math';
-
 import 'package:collection/collection.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter/foundation.dart';
-import 'package:objectid/objectid.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
-import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
+import 'package:recive/domain/graphql/__generated__/near_by_query.req.gql.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
+import 'package:recive/features/near_me_page/models/nearby_event.dart';
 
 class GQLEventRepo extends IEventRepo {
   final Client client;
@@ -95,6 +94,57 @@ class GQLEventRepo extends IEventRepo {
               ),
             )
             .whereType<FeaturedEvent>()
+            .toList() ??
+        [];
+
+    return convertedData;
+  }
+
+  @override
+  Future<List<NearbyEvent>> nearbyEvents({
+    required int limit,
+    required String city,
+  }) async {
+    final nearbyEventRequest = GGetNearByEventsReq(
+      (b) => b
+        ..vars.limit = limit
+        ..vars.city = city,
+    );
+
+    final data = await client.request(nearbyEventRequest).map((element) {
+      if (kDebugMode) {
+        print(
+            "_________________| nearbyEventRequest ${element.loading} ${element.data?.events.length}");
+      }
+      return element;
+    }).firstWhere((element) => !element.loading);
+
+    final convertedData = data.data?.events
+            .map(
+              (e) => NearbyEvent(
+                  id: e!.G_id!.value,
+                  title: e.name ?? '',
+                  description: e.summary ?? '',
+                  startDate: e.start_date?.value != null
+                      ? DateTime.parse(e.start_date!.value)
+                      : DateTime.now(),
+                  endDate: e.end_date?.value != null
+                      ? DateTime.parse(e.start_date!.value)
+                      : DateTime.now(),
+                  location: e.venue?.address?.localized_address_display ?? '',
+                  organizers: [e.organizer?.website_url ?? '']
+                      .whereNot((element) => element.isEmpty)
+                      .toList(),
+                  participants: [e.eventbrite_url ?? '']
+                      .whereNot((element) => element.isEmpty)
+                      .toList(),
+                  imageUrl: e.image_url ?? '',
+                  latLng: LatLng(
+                    double.tryParse(e.venue!.address!.latitude!) ?? 0,
+                    double.tryParse(e.venue!.address!.longitude!) ?? 0,
+                  )),
+            )
+            .whereType<NearbyEvent>()
             .toList() ??
         [];
 

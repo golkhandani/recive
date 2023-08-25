@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/components/async_search_bar.dart';
-import 'package:recive/features/notification/notification_screen.dart';
-import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/router/navigation_service.dart';
 
 import 'bloc/quick_search_header_bloc.dart';
 

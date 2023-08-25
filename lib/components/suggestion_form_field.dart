@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -170,7 +171,6 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
     ),
   );
 
-  bool get _isVisible => _hasOpenedOverlay && widget.isVisible;
   bool get _shouldDraw => !_hasOpenedOverlay && widget.isVisible;
   @override
   void toggleVisiblity() {
@@ -182,7 +182,10 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
   }
 
   void openOverlay() {
-    print("openOverlay $_shouldDraw $_hasOpenedOverlay - ${widget.isVisible}");
+    if (kDebugMode) {
+      print(
+          "_________________| openOverlay $_shouldDraw $_hasOpenedOverlay - ${widget.isVisible}");
+    }
     if (_shouldDraw && widget.isVisible) {
       setState(() => _hasOpenedOverlay = true);
       _overlayEntry?.remove();

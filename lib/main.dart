@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +11,7 @@ import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
 import 'package:recive/utils/theme.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
@@ -29,8 +29,8 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await FlutterMapTileCaching.initialise();
-  await FMTC.instance('FlutterMapTileStore').manage.createAsync();
+  // await FlutterMapTileCaching.initialise();
+  // await FMTC.instance('FlutterMapTileStore').manage.createAsync();
   // GoRouter configuration
   final goRouter = GoRouter(
     initialLocation: '/${DashboardScreen.name}',
@@ -81,7 +81,7 @@ class Application extends StatelessWidget {
         ),
         builder: (context, child) => Container(
             color: Colors.red,
-            constraints: BoxConstraints(maxHeight: 900, maxWidth: 600),
+            constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
             child: child!),
       ),
     );

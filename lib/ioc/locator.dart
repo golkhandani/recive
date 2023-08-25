@@ -5,6 +5,7 @@ import 'package:recive/features/categories_page/cubits/category_section_cubit.da
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/featured_page/repos/events_repo.gql.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/news_page/cubits/news_cubit.dart';
 import 'package:recive/features/search_page/repos/search.repository.interface.dart';
 import 'package:recive/features/search_page/repos/search.repository.local.dart';
@@ -13,7 +14,6 @@ import 'package:recive/router/navigation_service.dart';
 
 import 'package:gql_http_link/gql_http_link.dart';
 import 'package:ferry/ferry.dart';
-import 'package:ferry_hive_store/ferry_hive_store.dart';
 // import 'package:hive/hive.dart';
 // *** If using flutter ***
 import 'package:hive_flutter/hive_flutter.dart';
@@ -102,5 +102,10 @@ setupBlocs() {
     )
     ..registerFactory(
       () => NewsCubit(),
+    )
+    ..registerFactory(
+      () => NearbyEventsCubit(
+        repo: locator.get(),
+      ),
     );
 }

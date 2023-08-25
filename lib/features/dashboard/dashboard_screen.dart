@@ -11,7 +11,6 @@ import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/navigation_shell.dart';
 import 'package:recive/router/navigation_service.dart';
-import 'package:recive/router/router_service.dart';
 
 class DashboardScreen extends StatelessWidget {
   static String name = 'dashboard';

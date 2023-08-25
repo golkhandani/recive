@@ -8,8 +8,8 @@ import 'package:recive/components/quick_search_header/bloc/quick_search_header_b
 import 'package:recive/components/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/features/near_me_page/near_me_screen.dart';
-import 'package:recive/features/near_me_page/sections/map_section.dart';
+import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
+import 'package:recive/features/home_page/sections/featured_event_section.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -83,8 +83,18 @@ class SearchScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = useBloc<FeatureEventsCubit>();
+    final state = useBlocBuilder(bloc);
+
     final resultState = useState(0);
+
     final textEditingController = useTextEditingController();
+    useEffect(() {
+      if (textEditingController.text.length > 3) {
+        bloc.loadFeaturedEvents();
+      }
+      return;
+    }, [textEditingController.text]);
 
     final showFilters = useState(false);
 
@@ -311,18 +321,22 @@ class SearchScreen extends HookWidget {
                   ],
                   if (resultState.value == 1) ...[
                     SliverList.builder(
-                        itemCount: mockEventsData.length,
+                        itemCount: state.featuredEvents.length,
                         itemBuilder: (context, index) {
+                          final data =
+                              FeaturedEventCardContainerData.fromFeaturedEvent(
+                            state.featuredEvents[index],
+                          );
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
                             child: CardContainer(
                               borderRadius: BorderRadius.circular(16),
                               padding: const EdgeInsets.all(12),
-                              child: EventCardContainer(
+                              child: FeaturedEventCardContainer(
                                 constraints: const BoxConstraints.expand(
                                   height: 160,
                                 ),
-                                data: mockEventsData[index],
+                                data: data,
                               ),
                             ),
                           );

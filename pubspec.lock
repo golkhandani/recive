@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  bazel_worker:
+    dependency: transitive
+    description:
+      name: bazel_worker
+      sha256: "6aa1de567844e1a1db3ac16959159b31a71128fdd27d63d861ad5aa7299e48c5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   bloc:
     dependency: transitive
     description:
@@ -105,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  build_modules:
+    dependency: transitive
+    description:
+      name: build_modules
+      sha256: "14a8e9bf4b1ae3f5d6c925c1386da59e818c68cc6f1f6fda991f7c6b74c6ebb9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.4"
   build_resolvers:
     dependency: transitive
     description:
@@ -129,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.2.10"
+  build_web_compilers:
+    dependency: "direct dev"
+    description:
+      name: build_web_compilers
+      sha256: "49270bd113959ac061512d2bdf0046cf97395b88b04a6baed2b9b276c88559ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.5"
   built_collection:
     dependency: transitive
     description:
@@ -494,14 +518,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.3.0"
-  flutter_map_tile_caching:
-    dependency: "direct main"
-    description:
-      name: flutter_map_tile_caching
-      sha256: "655d8c2b9ec2fdff8eb34c4f46b0a0623c07dabe0ce97556ff21c4862622106e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "9.0.0-dev.3"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -872,22 +888,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
-  isar:
-    dependency: transitive
-    description:
-      name: isar
-      sha256: "99165dadb2cf2329d3140198363a7e7bff9bbd441871898a87e26914d25cf1ea"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0+1"
-  isar_flutter_libs:
-    dependency: transitive
-    description:
-      name: isar_flutter_libs
-      sha256: bc6768cc4b9c61aabff77152e7f33b4b17d2fc93134f7af1c3dd51500fe8d5e8
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0+1"
   js:
     dependency: transitive
     description:
@@ -1216,6 +1216,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
+  preload_page_view:
+    dependency: "direct main"
+    description:
+      name: preload_page_view
+      sha256: "488a10c158c5c2e9ba9d77e5dbc09b1e49e37a20df2301e5ba02992eac802b7a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   pretty_dio_logger:
     dependency: "direct main"
     description:
@@ -1232,6 +1240,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  protobuf:
+    dependency: transitive
+    description:
+      name: protobuf
+      sha256: "68645b24e0716782e58948f8467fd42a880f255096a821f9e7d0ec625b00c84d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   provider:
     dependency: transitive
     description:
@@ -1256,14 +1272,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
-  queue:
-    dependency: transitive
-    description:
-      name: queue
-      sha256: "9a41ecadc15db79010108c06eae229a45c56b18db699760f34e8c9ac9b831ff9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0+2"
   rbush:
     dependency: transitive
     description:
@@ -1280,6 +1288,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  scratch_space:
+    dependency: transitive
+    description:
+      name: scratch_space
+      sha256: "8510fbff458d733a58fc427057d1ac86303b376d609d6e1bc43f240aad9aa445"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   sensors_plus:
     dependency: "direct main"
     description:
@@ -1341,6 +1357,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.4"
+  source_maps:
+    dependency: transitive
+    description:
+      name: source_maps
+      sha256: "708b3f6b97248e5781f493b765c3337db11c5d2c81c3094f10904bfa8004c703"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.12"
   source_span:
     dependency: transitive
     description:
@@ -1581,6 +1605,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  visibility_detector:
+    dependency: "direct main"
+    description:
+      name: visibility_detector
+      sha256: dd5cc11e13494f432d15939c3aa8ae76844c42b723398643ce9addb88a5ed420
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0+2"
   watcher:
     dependency: transitive
     description:
@@ -1654,5 +1686,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.1.0-185.0.dev <4.0.0"
+  dart: ">=3.1.0-185.0.dev <3.3.0"
   flutter: ">=3.10.0"

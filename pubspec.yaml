@@ -83,7 +83,7 @@ dependencies:
   loading_indicator: ^3.1.1
   loading_animation_widget: ^1.2.0+4
   intl: ^0.18.1
-  flutter_map_tile_caching: ^9.0.0-dev.3
+  # flutter_map_tile_caching: ^9.0.0-dev.3
   animated_text_kit: ^4.2.2
   geolocator: ^10.0.0
   latlong2: ^0.9.0
@@ -97,6 +97,8 @@ dependencies:
   hive_flutter: ^1.1.0
   ferry_hive_store: ^0.5.1
   objectid: ^3.0.0
+  visibility_detector: ^0.4.0+2
+  preload_page_view: ^0.2.0
 
 dev_dependencies:
   flutter_test:
@@ -112,6 +114,7 @@ dev_dependencies:
   freezed: ^2.3.4
   json_serializable: ^6.7.0
   ferry_generator: ^0.8.1
+  build_web_compilers: ^4.0.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

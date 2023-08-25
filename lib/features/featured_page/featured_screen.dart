@@ -90,7 +90,10 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
         pathParameters: {
           DetailScreen.pathParamId: data.id,
         },
-        extra: data,
+        extra: {
+          FeaturedEventDetailScreen.summaryKey: data,
+          FeaturedEventDetailScreen.heroTagKey: data.id
+        },
       ),
       child: CardContainer(
         borderRadius: BorderRadius.circular(16),
@@ -103,7 +106,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
           child: Column(
             children: [
               Hero(
-                tag: FeaturedEventDetailScreen.name + data.id,
+                tag: data.id,
                 child: CachedNetworkImage(
                   imageUrl: data.imageUrl,
                   imageBuilder: (context, imageProvider) => Container(

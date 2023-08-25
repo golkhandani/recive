@@ -93,11 +93,19 @@ GoRoute eventDetailRoute(String parentName) => GoRoute(
       pageBuilder: (context, state) {
         final pathParamId =
             state.pathParameters[FeaturedEventDetailScreen.pathParamId]!;
-        FeaturedEventCardContainerData summary = state.extra
-            as FeaturedEventCardContainerData; // 👈 casting is important
+        FeaturedEventCardContainerData summary = (state.extra
+            as Map<String, dynamic>?)?[FeaturedEventDetailScreen.summaryKey];
+
+        String heroTag = (state.extra as Map<String, dynamic>?)?[
+                FeaturedEventDetailScreen.heroTagKey] ??
+            'heroTag';
         return dashboardPageBuilder(
           state,
-          FeaturedEventDetailScreen(id: pathParamId, summary: summary),
+          FeaturedEventDetailScreen(
+            id: pathParamId,
+            summary: summary,
+            heroTag: heroTag,
+          ),
         );
       },
     );
@@ -188,6 +196,7 @@ final dashboardRoutes = [
                   ),
               routes: [
                 detailRoute(NearMeScreen.name),
+                eventDetailRoute(NearMeScreen.name),
               ]),
         ],
       ),

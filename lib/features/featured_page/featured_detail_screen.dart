@@ -7,7 +7,6 @@ import 'package:iconify_flutter/icons/bx.dart';
 import 'package:intl/intl.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
-import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/home_page/sections/featured_event_section.dart';
@@ -17,14 +16,19 @@ import 'package:sliver_tools/sliver_tools.dart';
 class FeaturedEventDetailScreen extends HookWidget {
   static const name = 'featured_event_detail';
   static const pathParamId = 'id';
+  static const summaryKey = 'summary';
+  static const heroTagKey = 'heroTag';
   const FeaturedEventDetailScreen({
     super.key,
     required this.id,
     this.summary,
+    required this.heroTag,
   });
 
   final String id;
   final FeaturedEventCardContainerData? summary;
+
+  final String heroTag;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,7 @@ class FeaturedEventDetailScreen extends HookWidget {
           ScreenSafeAreaHeader(
             color: context.theme.primaryColor,
             title:
-                '${summaryData?.title.substring(0, 20) ?? state.featuredEvent?.title ?? ''}...',
+                '${(summaryData?.title ?? '').length > 20 ? summaryData?.title.substring(0, 20) : summaryData?.title ?? state.featuredEvent?.title ?? ''}...',
           ),
           SliverPadding(
             padding: const EdgeInsets.all(16)
@@ -69,7 +73,7 @@ class FeaturedEventDetailScreen extends HookWidget {
                       padding: const EdgeInsets.all(12),
                       sliver: SliverToBoxAdapter(
                         child: Hero(
-                          tag: FeaturedEventDetailScreen.name + id,
+                          tag: heroTag,
                           child: CachedNetworkImage(
                             imageUrl: summaryData?.imageUrl ?? data!.imageUrl,
                             imageBuilder: (context, imageProvider) => Container(

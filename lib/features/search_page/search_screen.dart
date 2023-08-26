@@ -13,7 +13,6 @@ import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
-import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
@@ -476,27 +475,21 @@ class SearchEventCardContainer extends HookWidget {
       );
     });
     final heroTag = data.id + DateTime.now().toString();
+    final extraJson = ExtraData(
+      summary: NearbyDetailSummaryData(
+        id: data.id,
+        title: data.title,
+        imageUrl: data.imageUrl,
+      ),
+      heroTag: heroTag,
+    ).toJson((inner) => inner.toJson());
     return InkWell(
       onTap: () => navigationService.navigateTo(
         SearchScreen.name + NearbyDetailScreen.name,
         pathParameters: {
           NearbyDetailScreen.pathParamId: data.id,
         },
-        extra: ExtraData(
-          summary: EventCardContainerData(
-            id: data.id,
-            title: data.title,
-            description: data.description,
-            startDate: data.startDate,
-            endDate: data.endDate,
-            location: data.location,
-            organizers: data.organizers,
-            participants: data.participants,
-            imageUrl: data.imageUrl,
-            latLng: data.latlng,
-          ),
-          heroTag: heroTag,
-        ),
+        extra: extraJson,
       ),
       child: Hero(
         tag: heroTag,

@@ -1,5 +1,4 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:location/location.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,10 +17,6 @@ class UserLocation {
 }
 
 extension PositionToLocationData on Position {
-  // LocationData get toLocationData => LocationData(
-  //   accuracy: accuracy,
-
-  // );
   bool compareTo(Position? otherPosition) {
     if (longitude == otherPosition?.longitude &&
         latitude == otherPosition?.latitude &&
@@ -43,8 +38,8 @@ extension UserLocationToLatLon on UserLocation {
   LatLng? get latLng =>
       position?.latitude != null && position?.longitude != null
           ? LatLng(
-              position!.latitude!,
-              position!.longitude!,
+              position!.latitude,
+              position!.longitude,
             )
           : null;
 }

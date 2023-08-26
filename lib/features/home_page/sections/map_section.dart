@@ -115,7 +115,7 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
                                 children: [
                                   const FlutterMapTileLayer(),
                                   if (geolocation != null)
-                                    UserMarker(geolocation: geolocation!),
+                                    UserMarker(geolocation: geolocation),
                                 ],
                               );
                             }),

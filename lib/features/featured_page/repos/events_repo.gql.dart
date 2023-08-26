@@ -169,7 +169,7 @@ class GQLEventRepo extends IEventRepo {
     final e = data.data!.event!;
 
     return NearbyEvent(
-      id: e!.G_id!.value,
+      id: e.G_id!.value,
       title: e.name ?? '',
       description: e.summary ?? '',
       startDate: e.start_date?.value != null

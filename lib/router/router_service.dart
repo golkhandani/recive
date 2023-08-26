@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
@@ -7,11 +5,8 @@ import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
-import 'package:recive/features/home_page/sections/featured_event_section.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
-import 'package:recive/features/near_me_page/sections/map_section.dart';
-import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';

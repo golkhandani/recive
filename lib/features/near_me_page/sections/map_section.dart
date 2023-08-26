@@ -138,8 +138,8 @@ class _MapContentState extends State<_MapContent> {
     useEffect(() {
       if (geolocation != null) {
         ltlg = LatLng(
-          geolocation.latitude!,
-          geolocation.longitude!,
+          geolocation.latitude,
+          geolocation.longitude,
         );
       }
       return;
@@ -181,7 +181,7 @@ class _MapContentState extends State<_MapContent> {
                           children: [
                             const FlutterMapTileLayer(),
                             if (geolocation != null)
-                              UserMarker(geolocation: geolocation!),
+                              UserMarker(geolocation: geolocation),
                             SuperclusterLayer.mutable(
                               initialMarkers: markers,
                               indexBuilder: IndexBuilders.rootIsolate,

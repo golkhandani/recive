@@ -7,8 +7,6 @@ part 'extra_data.g.dart';
 class ExtraData<T> with _$ExtraData<T> {
   static const summaryKey = 'summary';
   static const heroTagKey = 'heroTag';
-  // final T? summary;
-  // final String heroTag;
 
   const factory ExtraData({
     required T? summary,

@@ -13,6 +13,7 @@ import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/home_page/sections/featured_event_section.dart';
+import 'package:recive/ioc/extra_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
@@ -93,7 +94,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
         extra: ExtraData(
           summary: data,
           heroTag: data.id,
-        ).toJson(),
+        ),
       ),
       child: CardContainer(
         borderRadius: BorderRadius.circular(16),

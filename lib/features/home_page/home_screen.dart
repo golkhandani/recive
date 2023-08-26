@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
@@ -89,7 +90,7 @@ class UserMarker extends StatelessWidget {
     required this.geolocation,
   });
 
-  final UserLocation geolocation;
+  final Position geolocation;
 
   @override
   Widget build(BuildContext context) {

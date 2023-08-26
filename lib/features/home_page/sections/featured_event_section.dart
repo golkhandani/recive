@@ -15,6 +15,7 @@ import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
+import 'package:recive/ioc/extra_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
@@ -266,13 +267,21 @@ class FeaturedEventCardContainer extends HookWidget {
         ],
       );
     });
+    final extraJson = ExtraData(
+      summary: FeaturedEventDetailSummaryData(
+        id: data.id,
+        title: data.title,
+        imageUrl: data.imageUrl,
+      ),
+      heroTag: data.id,
+    ).toJson((inner) => inner.toJson());
     return InkWell(
       onTap: () => navigationService.navigateTo(
         HomeScreen.name + FeaturedEventDetailScreen.name,
         pathParameters: {
           FeaturedEventDetailScreen.pathParamId: data.id,
         },
-        extra: ExtraData(summary: data, heroTag: data.id),
+        extra: extraJson,
       ),
       child: Hero(
         tag: data.id,

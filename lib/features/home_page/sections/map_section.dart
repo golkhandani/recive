@@ -30,8 +30,8 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final geolocation = useUserLocation();
-    final center = useState<LatLng?>(geolocation.latLng);
+    final geolocation = useLocationData(debugLabel: 'HomePageMapSection');
+    final center = useState<LatLng?>(geolocation?.latLng);
     final zoom = useState(15.0);
     final mapController = AnimatedMapController(
       vsync: this,
@@ -40,10 +40,10 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
     );
 
     useEffect(() {
-      if (geolocation.fetched) {
+      if (geolocation != null) {
         final updatedCenter = LatLng(
-          geolocation.position!.latitude!,
-          geolocation.position!.longitude!,
+          geolocation.latitude,
+          geolocation.longitude,
         );
 
         if (center.value == null) {
@@ -58,9 +58,8 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
         }
       }
       return;
-    }, [geolocation.timestamp]);
+    }, [geolocation?.timestamp]);
 
-    final userMarker = UserMarker(geolocation: geolocation);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (center.value != null) {
         mapController.animateTo(dest: center.value);
@@ -115,7 +114,8 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
                                 ],
                                 children: [
                                   const FlutterMapTileLayer(),
-                                  if (geolocation.latLng != null) userMarker
+                                  if (geolocation != null)
+                                    UserMarker(geolocation: geolocation!),
                                 ],
                               );
                             }),

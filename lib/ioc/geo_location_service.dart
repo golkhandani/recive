@@ -13,12 +13,15 @@ class UserLocation {
   });
 
   final bool fetched;
-  final LocationData? position;
+  final Position? position;
   final DateTime? timestamp;
 }
 
 extension PositionToLocationData on Position {
-  LocationData get toLocationData => LocationData.fromMap(toJson());
+  // LocationData get toLocationData => LocationData(
+  //   accuracy: accuracy,
+
+  // );
   bool compareTo(Position? otherPosition) {
     if (longitude == otherPosition?.longitude &&
         latitude == otherPosition?.latitude &&
@@ -46,12 +49,22 @@ extension UserLocationToLatLon on UserLocation {
           : null;
 }
 
+extension PositionToLatLon on Position? {
+  LatLng? get latLng => this?.latitude != null && this?.longitude != null
+      ? LatLng(
+          this!.latitude,
+          this!.longitude,
+        )
+      : null;
+}
+
 class LocationService {
   LocationService._();
 
   /// the one and only instance of this singleton
   static final instance = LocationService._();
 
+  final geolocator = GeolocatorPlatform.instance;
   late bool serviceEnabled;
   late LocationPermission permission;
   UserLocation? lastUserLocation;
@@ -88,73 +101,111 @@ class LocationService {
     final position = await Geolocator.getCurrentPosition();
     lastUserLocation = UserLocation(
       fetched: true,
-      position: position.toLocationData,
-      timestamp: DateTime.now(),
+      position: position,
+      timestamp: position.timestamp,
     );
-    return
-
-        // await _checkService();
-        // if (_serviceEnabled == true) {
-        //   final data = await location.getLocation();
-        //   if (lastUserLocation?.position != data) {
-        //     lastUserLocation = UserLocation(
-        //       fetched: true,
-        //       position: data,
-        //       timestamp: DateTime.now(),
-        //     );
-        //   }
-        //   onGrantedPermission();
-        // }
-        // if (_serviceEnabled ?? false) {
-        //   if (_serviceEnabled == true) {}
-
-        //   return;
-        // }
-
-        // final serviceRequestedResult = await location.requestService();
-        // _serviceEnabled = serviceRequestedResult;
-        onGrantedPermission();
+    return onGrantedPermission();
   }
+
+  updateUastUserLocation(Position? position) {
+    lastUserLocation = UserLocation(
+      fetched: true,
+      position: position,
+      timestamp: position?.timestamp,
+    );
+  }
+
+  DateTime? get getLastTimestamp => lastUserLocation?.timestamp;
 }
 
 final locationService = LocationService.instance;
 
+Position? useLocationData({
+  required String debugLabel,
+}) {
+  if (kDebugMode) {
+    print("_________________| ${debugLabel} - useLocationData");
+  }
+
+  final locationData =
+      useState<Position?>(locationService.lastUserLocation?.position);
+
+  useEffect(() {
+    final locationOptions = LocationSettings(
+      distanceFilter: 10,
+    );
+
+    final locationStream = locationService.geolocator
+        .getPositionStream(locationSettings: locationOptions)
+        .listen((position) {
+      locationData.value = position;
+      locationService.updateUastUserLocation(position);
+    });
+
+    return () {
+      locationStream.cancel();
+    };
+  }, []);
+
+  return locationData.value;
+}
+
 /// Tracks the state of user's geographic location using [geolocator](ref link).
 /// [ref link](https://pub.dev/packages/geolocator)
 UserLocation useUserLocation({
+  required String debugLabel,
   LocationSettings? locationSettings,
 }) {
   if (kDebugMode) {
     print("_________________| useUserLocation");
   }
+
   locationService.requestService(onGrantedPermission: () => {});
 
+  final mount = useIsMounted();
   final state = useRef(
     locationService.lastUserLocation ?? const UserLocation(),
   );
+
+  final isUpdated = (locationService.lastUserLocation?.timestamp
+                  ?.difference(DateTime.now())
+                  .inSeconds ??
+              double.infinity)
+          .abs() >
+      20;
+
+  if (!isUpdated && !mount()) {
+    return state.value;
+  }
 
   final settings = locationSettings ??
       const LocationSettings(
         timeLimit: Duration(seconds: 120),
       );
+
   final positionChanged = useStream(useMemoized(() {
+    print("_________________| useMemoized useUserLocation");
     return Geolocator.getPositionStream(locationSettings: settings);
   }));
 
-  final locationData = positionChanged.data?.toLocationData;
-  final isUpdated =
-      (locationData?.time ?? 0) > (state.value.position?.time ?? 0);
+  final locationData = positionChanged.data;
 
   if ((positionChanged.hasData && isUpdated) || !state.value.fetched) {
     state.value = UserLocation(
-      fetched: positionChanged.hasData,
+      fetched: locationData?.latitude != null &&
+          locationData?.longitude != null &&
+          positionChanged.hasData,
       position: locationData,
-      timestamp: DateTime.now(),
+      timestamp: locationData?.timestamp,
     );
   }
 
   if (state.value.position != null) {
-    locationService.lastUserLocation = state.value;
+    locationService.updateUastUserLocation(state.value.position);
   }
+  print("1 ${debugLabel} ${debugLabel} ${DateTime.now()}");
+  print("1 locationData ${locationData?.timestamp}");
+  print("2 locationData ${locationService.getLastTimestamp}");
+
   return state.value;
 }

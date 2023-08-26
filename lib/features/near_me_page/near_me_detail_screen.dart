@@ -17,6 +17,7 @@ import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
+import 'package:recive/ioc/extra_data.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,10 +32,11 @@ class NearbyDetailScreen extends HookWidget {
   });
 
   final String id;
-  final ExtraData<EventCardContainerData>? extra;
+  final ExtraData<NearbyDetailSummaryData>? extra;
 
   @override
   Widget build(BuildContext context) {
+    print(":_____ go goNamed NearbyDetailScreen 3 ${DateTime.now()}");
     final bloc = useBloc<NearbyEventDetailCubit>();
     final state = useBlocBuilder(bloc);
 

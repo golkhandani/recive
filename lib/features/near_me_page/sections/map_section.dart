@@ -118,7 +118,7 @@ class _MapContentState extends State<_MapContent> {
     }
     LatLng? ltlg;
     const defaultPosition = LatLng(51.509364, -0.128928);
-    final geolocation = useUserLocation();
+    final geolocation = useLocationData(debugLabel: 'MapContent');
     final zoom = useState(15.0);
 
     final center = useState(
@@ -136,14 +136,14 @@ class _MapContentState extends State<_MapContent> {
         .toList();
 
     useEffect(() {
-      if (geolocation.fetched) {
+      if (geolocation != null) {
         ltlg = LatLng(
-          geolocation.position!.latitude!,
-          geolocation.position!.longitude!,
+          geolocation.latitude!,
+          geolocation.longitude!,
         );
       }
       return;
-    }, [geolocation.timestamp]);
+    }, [geolocation?.timestamp]);
 
     return MultiSliver(children: [
       SliverCardContainer(
@@ -180,8 +180,8 @@ class _MapContentState extends State<_MapContent> {
                           ],
                           children: [
                             const FlutterMapTileLayer(),
-                            if (geolocation.latLng != null)
-                              UserMarker(geolocation: geolocation),
+                            if (geolocation != null)
+                              UserMarker(geolocation: geolocation!),
                             SuperclusterLayer.mutable(
                               initialMarkers: markers,
                               indexBuilder: IndexBuilders.rootIsolate,
@@ -230,7 +230,7 @@ class _MapContentState extends State<_MapContent> {
                                 icon: Icons.center_focus_strong,
                                 onClicked: () {
                                   widget.mapController.animateTo(
-                                    dest: geolocation.latLng,
+                                    dest: geolocation?.latLng,
                                   );
                                 }),
                             MapButton(

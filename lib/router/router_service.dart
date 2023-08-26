@@ -17,6 +17,7 @@ import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';
+import 'package:recive/ioc/extra_data.dart';
 import 'package:recive/layout/scaffold_shell.dart';
 import 'package:recive/router/navigation_service.dart';
 
@@ -82,7 +83,12 @@ GoRoute featuredEventDetailRoute(String parentName) => GoRoute(
 
         // final extraMap = state.extra as String;
 
-        final extra = state.extra as ExtraData<FeaturedEventCardContainerData>;
+        final extraJson = state.extra as Map<String, dynamic>;
+        final extra = ExtraData.fromJson(
+          extraJson,
+          (inner) => FeaturedEventDetailSummaryData.fromJson(
+              inner as Map<String, dynamic>),
+        );
 
         return dashboardPageBuilder(
           state,
@@ -101,10 +107,34 @@ GoRoute nearbyEventDetailRoute(String parentName) => GoRoute(
         final pathParamId =
             state.pathParameters[NearbyDetailScreen.pathParamId]!;
 
-        final extra = state.extra as ExtraData<EventCardContainerData>?;
+        final extraJson = state.extra as Map<String, dynamic>;
+        final extra = ExtraData.fromJson(
+          extraJson,
+          (inner) =>
+              NearbyDetailSummaryData.fromJson(inner as Map<String, dynamic>),
+        );
         return dashboardPageBuilder(
           state,
           NearbyDetailScreen(id: pathParamId, extra: extra),
+        );
+      },
+    );
+
+GoRoute testDetailRoute(String parentName) => GoRoute(
+      name: parentName + DetailScreen.name,
+      path:
+          '${DetailScreen.name}/:${DetailScreen.pathParamType}/:${DetailScreen.pathParamId}',
+      pageBuilder: (context, state) {
+        final pathParamId = state.pathParameters[DetailScreen.pathParamId]!;
+
+        final pathParamType = state.pathParameters[DetailScreen.pathParamType]!;
+
+        return dashboardPageBuilder(
+          state,
+          DetailScreen(
+            id: pathParamId,
+            type: DetailType.fromString(pathParamType),
+          ),
         );
       },
     );
@@ -148,6 +178,7 @@ final dashboardRoutes = [
                     const HomeScreen(),
                   ),
               routes: [
+                testDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: CategoriesScreen.name,
                   path: CategoriesScreen.name,

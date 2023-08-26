@@ -157,7 +157,7 @@ class CategoryCardContainer extends HookWidget {
 
     return InkWell(
       onTap: () => navigationService.navigateTo(
-        DetailScreen.name,
+        HomeScreen.name + DetailScreen.name,
         pathParameters: {
           DetailScreen.pathParamId: data.id,
           DetailScreen.pathParamType: DetailType.category.name

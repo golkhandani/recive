@@ -53,7 +53,7 @@ void main() async {
   );
   await HydratedBloc.storage.clear();
   FlutterNativeSplash.remove();
-  timeDilation = 1.2;
+  // timeDilation = 1.2;
   runApp(Application(goRouter: goRouter));
 }
 

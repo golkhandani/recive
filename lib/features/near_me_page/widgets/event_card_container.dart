@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +15,12 @@ import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/ioc/extra_data.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:recive/router/navigation_service.dart';
 
 class EventCardContainerData {
   final String id;
@@ -154,29 +159,31 @@ class EventCardContainer extends StatelessWidget {
     });
 
     final heroTag = data.id + DateTime.now().toString();
+    final route = NearMeScreen.name + NearbyDetailScreen.name;
+    final extra = ExtraData(
+      summary: NearbyDetailSummaryData(
+        id: data.id,
+        title: data.title,
+        imageUrl: data.imageUrl,
+      ),
+      heroTag: heroTag,
+    );
+    final pathParams = {
+      DetailScreen.pathParamId: data.id,
+    };
+    final navigationService = locator.get<NavigationService>();
+    final extraJson = extra.toJson((inner) => inner.toJson());
+
+    print("extra.toJson() ${extraJson}");
     return InkWell(
       onTap: () {
-        context.goNamed(
-          NearMeScreen.name + NearbyDetailScreen.name,
-          pathParameters: {
-            DetailScreen.pathParamId: data.id,
-          },
-          extra: ExtraData(
-            summary: EventCardContainerData(
-              id: data.id,
-              title: data.title,
-              description: data.description,
-              startDate: data.startDate,
-              endDate: data.endDate,
-              location: data.location,
-              organizers: data.organizers,
-              participants: data.participants,
-              imageUrl: data.imageUrl,
-              latLng: data.latLng,
-            ),
-            heroTag: heroTag,
-          ),
+        print(":_____ go goNamed NearbyDetailScreen 1 ${DateTime.now()}");
+        navigationService.navigateTo(
+          route,
+          pathParameters: pathParams,
+          extra: extraJson,
         );
+        print(":_____ go goNamed NearbyDetailScreen 2 ${DateTime.now()}");
       },
       child: Hero(
         tag: heroTag,

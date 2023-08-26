@@ -28,17 +28,17 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
   @override
   Widget build(BuildContext context) {
     final openWeather = locator.get<OpenWeather>();
-    final geoLocation = useUserLocation();
+    final geoLocation = useLocationData(debugLabel: 'HomePageWeatherSection');
     final weatherData = useState<WeatherData?>(null);
 
     Future<void> getWeather() async {
-      if (geoLocation.fetched == false) {
+      if (geoLocation == null) {
         return;
       }
 
       weatherData.value = await openWeather.currentWeatherByLocation(
-        latitude: geoLocation.position!.latitude!,
-        longitude: geoLocation.position!.longitude!,
+        latitude: geoLocation.latitude,
+        longitude: geoLocation.longitude,
         weatherUnits: WeatherUnits.METRIC,
         language: Languages.ENGLISH,
       );
@@ -47,7 +47,7 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
     useEffect(() {
       getWeather();
       return;
-    }, [geoLocation.timestamp]);
+    }, [geoLocation?.timestamp]);
 
     final style = context.textTheme.headlineMedium!.copyWith(
       color: context.theme.colorScheme.onPrimary,

@@ -11,7 +11,6 @@ import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
 import 'package:recive/utils/theme.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
@@ -33,6 +32,7 @@ void main() async {
   // await FMTC.instance('FlutterMapTileStore').manage.createAsync();
   // GoRouter configuration
   final goRouter = GoRouter(
+    debugLogDiagnostics: true,
     initialLocation: '/${DashboardScreen.name}',
     navigatorKey: rootNavigatorKey,
     routes: [
@@ -80,9 +80,9 @@ class Application extends StatelessWidget {
           textTheme: GoogleFonts.nunitoSansTextTheme(theme.textTheme),
         ),
         builder: (context, child) => Container(
-            color: Colors.red,
-            constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
-            child: child!),
+          constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
+          child: child!,
+        ),
       ),
     );
     final hookedBloc = HookedBlocConfigProvider(

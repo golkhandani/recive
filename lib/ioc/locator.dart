@@ -1,14 +1,18 @@
 import 'package:get_it/get_it.dart';
 import 'package:open_weather_client/services/open_weather_api_service.dart';
-import 'package:recive/components/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/featured_page/repos/events_repo.gql.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
+import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
+import 'package:recive/features/near_me_page/repos/nearby_events_repo.gql.dart';
 import 'package:recive/features/news_page/cubits/news_cubit.dart';
-import 'package:recive/features/search_page/repos/search.repository.interface.dart';
-import 'package:recive/features/search_page/repos/search.repository.local.dart';
+import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
+import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
+import 'package:recive/features/search_page/repos/search_events_repo.gql.dart';
+import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 
 import 'package:recive/router/navigation_service.dart';
 
@@ -79,19 +83,25 @@ setupRepositories() {
   );
   locator
     ..registerSingleton<OpenWeather>(openWeather)
-    ..registerLazySingleton<ISearchRepository>(
-      () => SearchRepositoryLocal(),
+    ..registerLazySingleton<IEventRepo>(
+      () => GQLEventRepo(
+        client: locator.get(),
+      ),
     )
-    ..registerLazySingleton<IEventRepo>(() => GQLEventRepo(
-          client: locator.get(),
-        ));
+    ..registerLazySingleton<INearbyEventRepo>(
+      () => GQLNearbyEventRepo(
+        client: locator.get(),
+      ),
+    )
+    ..registerLazySingleton<ISearchEventRepo>(
+      () => GQLSearchEventRepo(
+        client: locator.get(),
+      ),
+    );
 }
 
 setupBlocs() {
   locator
-    ..registerFactory(
-      () => QuickSearchHeaderBloc(searchRepository: locator.get()),
-    )
     ..registerFactory(
       () => CategoriesCubit(),
     )
@@ -107,5 +117,18 @@ setupBlocs() {
       () => NearbyEventsCubit(
         repo: locator.get(),
       ),
+    )
+    ..registerFactory(
+      () => NearbyEventDetailCubit(
+        repo: locator.get(),
+      ),
+    )
+    ..registerFactory(
+      () => SearchEventsCubit(
+        repo: locator.get(),
+      ),
+    )
+    ..registerFactory(
+      () => QuickSearchHeaderBloc(searchRepository: locator.get()),
     );
 }

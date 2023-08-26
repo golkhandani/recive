@@ -8,28 +8,29 @@ import 'package:recive/components/suggestion_form_field.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class AsyncSearchBar extends HookWidget {
-  const AsyncSearchBar(
-      {super.key,
-      this.constraints = const BoxConstraints(
-        maxHeight: 48,
-        minHeight: 48,
-        maxWidth: 600,
-        minWidth: 400,
-      ),
-      this.hintText = 'Quick Search',
-      this.controller,
-      this.radius = kRadius,
-      this.backgroundColor = Colors.white,
-      this.hightlightColor = Colors.red,
-      this.boxBorder,
-      this.suffix,
-      this.onTextChanged,
-      required this.itemBuilder,
-      this.textStyle,
-      this.hintStyle,
-      this.suggestions = const [],
-      this.isLoading = false,
-      this.isSelected = false});
+  const AsyncSearchBar({
+    super.key,
+    this.constraints = const BoxConstraints(
+      maxHeight: 48,
+      minHeight: 48,
+      maxWidth: 600,
+      minWidth: 400,
+    ),
+    this.hintText = 'Quick Search',
+    this.controller,
+    this.radius = kRadius,
+    this.backgroundColor = Colors.white,
+    this.hightlightColor = Colors.transparent,
+    this.boxBorder,
+    this.suffix,
+    this.onTextChanged,
+    required this.itemBuilder,
+    this.textStyle,
+    this.hintStyle,
+    this.suggestions = const [],
+    this.isLoading = false,
+    this.isSelected = false,
+  });
   final BoxConstraints constraints;
   final String hintText;
   final TextEditingController? controller;

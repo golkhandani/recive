@@ -273,14 +273,15 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
   @override
   void didUpdateWidget(covariant SuggestionFormField<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.isDropDownLoading == widget.isDropDownLoading) {
-      return;
-    }
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (oldWidget.isDropDownLoading == widget.isDropDownLoading &&
+          oldWidget.dropDownItems == widget.dropDownItems) {
+        return;
+      }
       _isLoading.value = widget.isDropDownLoading;
       _items.value = widget.dropDownItems ?? [];
-      if (widget.isVisible) {
+      if (widget.isVisible || oldWidget.dropDownItems != widget.dropDownItems) {
         openOverlay();
       } else {
         closeOverlay();

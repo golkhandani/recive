@@ -16,30 +16,43 @@ class CardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                color: color,
-                boxShadow: const <BoxShadow>[
-                  BoxShadow(
-                    offset: Offset(.2, .2),
-                    blurRadius: 2,
-                    color: Colors.black26,
-                  )
-                ],
-                borderRadius: borderRadius,
-              ),
-            ),
-          ),
-          Padding(
-            padding: padding,
-            child: child,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: color,
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            offset: Offset(.2, .2),
+            blurRadius: 2,
+            color: Colors.black26,
           )
         ],
+        borderRadius: borderRadius,
+      ),
+      child: ClipRRect(
+        borderRadius: borderRadius,
+        child: Stack(
+          children: <Widget>[
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: color,
+                  boxShadow: const <BoxShadow>[
+                    BoxShadow(
+                      offset: Offset(2.2, 2.2),
+                      blurRadius: 10,
+                      color: Colors.black,
+                    )
+                  ],
+                  borderRadius: borderRadius,
+                ),
+              ),
+            ),
+            Padding(
+              padding: padding,
+              child: child,
+            )
+          ],
+        ),
       ),
     );
   }

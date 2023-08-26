@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:recive/features/search_page/repos/search.repository.interface.dart';
+import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
 
 part 'quick_search_header_event.dart';
 part 'quick_search_header_state.dart';
@@ -8,9 +8,9 @@ part 'quick_search_header_bloc.freezed.dart';
 
 class QuickSearchHeaderBloc
     extends Bloc<QuickSearchHeaderEvent, QuickSearchHeaderState> {
-  final ISearchRepository _searchRepository;
+  final ISearchEventRepo _searchRepository;
   QuickSearchHeaderBloc({
-    required ISearchRepository searchRepository,
+    required ISearchEventRepo searchRepository,
   })  : _searchRepository = searchRepository,
         super(const QuickSearchHeaderState()) {
     on<QuickSearchHeaderEvent>((event, emit) async {

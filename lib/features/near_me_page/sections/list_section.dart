@@ -7,7 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
-import 'package:recive/features/near_me_page/sections/map_section.dart';
+import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class NearMeScreenListViewContent extends StatefulHookWidget {

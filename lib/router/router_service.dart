@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
@@ -6,7 +8,10 @@ import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/home_page/sections/featured_event_section.dart';
+import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/features/near_me_page/sections/map_section.dart';
+import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
@@ -67,45 +72,39 @@ final initRoutes = [
   ),
 ];
 
-GoRoute detailRoute(String parentName) => GoRoute(
-      name: parentName + DetailScreen.name,
-      path:
-          '${DetailScreen.name}/:${DetailScreen.pathParamType}/:${DetailScreen.pathParamId}',
-      pageBuilder: (context, state) {
-        final pathParamId = state.pathParameters[DetailScreen.pathParamId]!;
-        final pathParamPostType =
-            state.pathParameters[DetailScreen.pathParamType] ??
-                DetailType.unknown.name;
-        return dashboardPageBuilder(
-          state,
-          DetailScreen(
-            id: pathParamId,
-            type: DetailType.fromString(pathParamPostType),
-          ),
-        );
-      },
-    );
-
-GoRoute eventDetailRoute(String parentName) => GoRoute(
+GoRoute featuredEventDetailRoute(String parentName) => GoRoute(
       name: parentName + FeaturedEventDetailScreen.name,
       path:
           '${FeaturedEventDetailScreen.name}/:${FeaturedEventDetailScreen.pathParamId}',
       pageBuilder: (context, state) {
         final pathParamId =
             state.pathParameters[FeaturedEventDetailScreen.pathParamId]!;
-        FeaturedEventCardContainerData summary = (state.extra
-            as Map<String, dynamic>?)?[FeaturedEventDetailScreen.summaryKey];
 
-        String heroTag = (state.extra as Map<String, dynamic>?)?[
-                FeaturedEventDetailScreen.heroTagKey] ??
-            'heroTag';
+        // final extraMap = state.extra as String;
+
+        final extra = state.extra as ExtraData<FeaturedEventCardContainerData>;
+
         return dashboardPageBuilder(
           state,
           FeaturedEventDetailScreen(
             id: pathParamId,
-            summary: summary,
-            heroTag: heroTag,
+            extra: extra,
           ),
+        );
+      },
+    );
+
+GoRoute nearbyEventDetailRoute(String parentName) => GoRoute(
+      name: parentName + NearbyDetailScreen.name,
+      path: '${NearbyDetailScreen.name}/:${NearbyDetailScreen.pathParamId}',
+      pageBuilder: (context, state) {
+        final pathParamId =
+            state.pathParameters[NearbyDetailScreen.pathParamId]!;
+
+        final extra = state.extra as ExtraData<EventCardContainerData>?;
+        return dashboardPageBuilder(
+          state,
+          NearbyDetailScreen(id: pathParamId, extra: extra),
         );
       },
     );
@@ -137,6 +136,7 @@ final dashboardRoutes = [
       return DashboardWrapper(child: child);
     },
     branches: [
+      /// HOME PAGE
       StatefulShellBranch(
         navigatorKey: homeNavigatorKey,
         routes: <RouteBase>[
@@ -148,9 +148,6 @@ final dashboardRoutes = [
                     const HomeScreen(),
                   ),
               routes: [
-                detailRoute(''),
-                detailRoute(HomeScreen.name),
-                eventDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: CategoriesScreen.name,
                   path: CategoriesScreen.name,
@@ -166,10 +163,9 @@ final dashboardRoutes = [
                     state,
                     const NewsScreen(),
                   ),
-                  routes: [
-                    detailRoute(NewsScreen.name),
-                  ],
+                  routes: [],
                 ),
+                featuredEventDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: FeaturedScreen.name,
                   path: FeaturedScreen.name,
@@ -178,12 +174,14 @@ final dashboardRoutes = [
                     const FeaturedScreen(),
                   ),
                   routes: [
-                    eventDetailRoute(FeaturedScreen.name),
+                    featuredEventDetailRoute(FeaturedScreen.name),
                   ],
                 ),
               ]),
         ],
       ),
+
+      /// NEAR BY SCREEN
       StatefulShellBranch(
         navigatorKey: nearMeNavigatorKey,
         routes: <RouteBase>[
@@ -195,8 +193,7 @@ final dashboardRoutes = [
                     const NearMeScreen(),
                   ),
               routes: [
-                detailRoute(NearMeScreen.name),
-                eventDetailRoute(NearMeScreen.name),
+                nearbyEventDetailRoute(NearMeScreen.name),
               ]),
         ],
       ),
@@ -210,6 +207,9 @@ final dashboardRoutes = [
               state,
               const SearchScreen(),
             ),
+            routes: [
+              nearbyEventDetailRoute(SearchScreen.name),
+            ],
           ),
         ],
       ),

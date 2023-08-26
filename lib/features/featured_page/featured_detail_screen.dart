@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,22 +15,34 @@ import 'package:recive/features/home_page/sections/featured_event_section.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-class FeaturedEventDetailScreen extends HookWidget {
-  static const name = 'featured_event_detail';
-  static const pathParamId = 'id';
+class ExtraData<T> {
   static const summaryKey = 'summary';
   static const heroTagKey = 'heroTag';
-  const FeaturedEventDetailScreen({
-    super.key,
-    required this.id,
-    this.summary,
+  final T? summary;
+  final String heroTag;
+
+  ExtraData({
+    required this.summary,
     required this.heroTag,
   });
 
-  final String id;
-  final FeaturedEventCardContainerData? summary;
+  String toJson() => jsonEncode(this);
 
-  final String heroTag;
+  static ExtraData fromJson(object) => jsonDecode(object);
+}
+
+class FeaturedEventDetailScreen extends HookWidget {
+  static const name = 'featured_event_detail';
+  static const pathParamId = 'id';
+
+  const FeaturedEventDetailScreen({
+    super.key,
+    required this.id,
+    required this.extra,
+  });
+
+  final String id;
+  final ExtraData<FeaturedEventCardContainerData> extra;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +54,7 @@ class FeaturedEventDetailScreen extends HookWidget {
       return () => bloc.emptyFeaturedEvent();
     }, []);
 
-    final summaryData = summary;
+    final summaryData = extra.summary;
 
     return ColoredBox(
       color: context.theme.colorScheme.background,
@@ -73,7 +87,7 @@ class FeaturedEventDetailScreen extends HookWidget {
                       padding: const EdgeInsets.all(12),
                       sliver: SliverToBoxAdapter(
                         child: Hero(
-                          tag: heroTag,
+                          tag: extra.heroTag,
                           child: CachedNetworkImage(
                             imageUrl: summaryData?.imageUrl ?? data!.imageUrl,
                             imageBuilder: (context, imageProvider) => Container(

@@ -150,4 +150,46 @@ class GQLEventRepo extends IEventRepo {
 
     return convertedData;
   }
+
+  @override
+  Future<NearbyEvent> nearbyEvent({
+    required String id,
+  }) async {
+    final nearByEventRequest =
+        GGetFeaturedEventReq((b) => b..vars.eventId.value = id);
+
+    final data = await client.request(nearByEventRequest).map((element) {
+      if (kDebugMode) {
+        print(
+            "_________________| nearbyEventRequest ${element.loading} ${element.data?.event?.G_id?.value}");
+      }
+      return element;
+    }).firstWhere((element) => !element.loading);
+
+    final e = data.data!.event!;
+
+    return NearbyEvent(
+      id: e!.G_id!.value,
+      title: e.name ?? '',
+      description: e.summary ?? '',
+      startDate: e.start_date?.value != null
+          ? DateTime.parse(e.start_date!.value)
+          : DateTime.now(),
+      endDate: e.end_date?.value != null
+          ? DateTime.parse(e.start_date!.value)
+          : DateTime.now(),
+      location: e.venue?.address?.localized_address_display ?? '',
+      organizers: [e.organizer?.website_url ?? '']
+          .whereNot((element) => element.isEmpty)
+          .toList(),
+      participants: [e.eventbrite_url ?? '']
+          .whereNot((element) => element.isEmpty)
+          .toList(),
+      imageUrl: e.image_url ?? '',
+      latLng: LatLng(
+        double.tryParse(e.venue!.address!.latitude!) ?? 0,
+        double.tryParse(e.venue!.address!.longitude!) ?? 0,
+      ),
+    );
+  }
 }

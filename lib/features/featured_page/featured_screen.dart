@@ -90,10 +90,10 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
         pathParameters: {
           DetailScreen.pathParamId: data.id,
         },
-        extra: {
-          FeaturedEventDetailScreen.summaryKey: data,
-          FeaturedEventDetailScreen.heroTagKey: data.id
-        },
+        extra: ExtraData(
+          summary: data,
+          heroTag: data.id,
+        ).toJson(),
       ),
       child: CardContainer(
         borderRadius: BorderRadius.circular(16),

@@ -14,6 +14,7 @@ import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
@@ -142,6 +143,20 @@ class FeaturedEventCardContainerData {
       imageUrl: e.imageUrl,
     );
   }
+
+  static FeaturedEventCardContainerData fromEventComplete(EventComplete e) {
+    return FeaturedEventCardContainerData(
+      id: e.id!,
+      title: e.title!,
+      description: e.description!,
+      startDate: e.startDate!,
+      endDate: e.endDate!,
+      location: e.venue?.address?.localizedAddressDisplay ?? '',
+      organizers: [e.organizer?.title ?? ''],
+      participants: [],
+      imageUrl: e.imageUrl!,
+    );
+  }
 }
 
 class FeaturedEventCardContainer extends HookWidget {
@@ -257,10 +272,7 @@ class FeaturedEventCardContainer extends HookWidget {
         pathParameters: {
           FeaturedEventDetailScreen.pathParamId: data.id,
         },
-        extra: {
-          FeaturedEventDetailScreen.summaryKey: data,
-          FeaturedEventDetailScreen.heroTagKey: data.id
-        },
+        extra: ExtraData(summary: data, heroTag: data.id),
       ),
       child: Hero(
         tag: data.id,
@@ -278,7 +290,7 @@ class FeaturedEventCardContainer extends HookWidget {
 
   Container _buildEventLoading(Color color) {
     return Container(
-      width: constraints.maxWidth,
+      constraints: constraints,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: color,

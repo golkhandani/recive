@@ -1,6 +1,5 @@
 import 'package:recive/domain/graphql/__generated__/schema.schema.gql.dart';
-import 'package:recive/features/featured_page/models/featured_event.dart';
-import 'package:recive/features/near_me_page/models/nearby_event.dart';
+import 'package:recive/features/near_me_page/models/event_complete.dart';
 
 enum EventSortByInput {
   startDateAsc,
@@ -21,21 +20,8 @@ extension ConvertToGql on EventSortByInput {
   }
 }
 
-abstract class IEventRepo {
-  Future<List<FeaturedEvent>> events({
-    required int limit,
-    required EventSortByInput sortBy,
-  });
-  Future<FeaturedEvent> event({
-    required String id,
-  });
-
-  Future<List<NearbyEvent>> nearbyEvents({
-    required int limit,
-    required String city,
-  });
-
-  Future<NearbyEvent> nearbyEvent({
+abstract class INearbyEventRepo {
+  Future<EventComplete> event({
     required String id,
   });
 }

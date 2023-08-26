@@ -151,16 +151,16 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
     Future<void> onChangeList(String value, {bool selected = false}) async {
       if (debounce?.isActive ?? false) debounce?.cancel();
 
-      debounce = Timer(const Duration(milliseconds: 500), () async {
-        if (selected) {
-          textEditingController.text = value;
-          bloc.add(QuickSearchHeaderEvent.select(selected: value));
-          widget.onSelect?.call(value);
-        } else {
-          bloc.add(QuickSearchHeaderEvent.search(query: value));
+      if (selected) {
+        widget.onSelect?.call(value);
+        textEditingController.text = value;
+        bloc.add(QuickSearchHeaderEvent.select(selected: value));
+      } else {
+        debounce = Timer(const Duration(milliseconds: 500), () async {
           widget.onTextChanged?.call(value);
-        }
-      });
+          bloc.add(QuickSearchHeaderEvent.search(query: value));
+        });
+      }
     }
 
     return Container(
@@ -180,7 +180,6 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
             textStyle: textStyle,
             itemBuilder: (_, item, index) => Container(
               height: 48,
-              // color: Colors.green[((index % 10) + 1) * 100],
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Align(
                   alignment: Alignment.centerLeft,
@@ -196,18 +195,42 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
             suffix: Material(
               borderRadius: BorderRadius.zero,
               color: context.schema.primaryContainer,
-              child: InkWell(
-                onTap: () {},
-                splashColor: context.schema.secondary,
-                child: SizedBox(
-                  height: 48,
-                  width: 48,
-                  child: Icon(
-                    Icons.search,
-                    size: 32,
-                    color: context.schema.onPrimaryContainer,
+              child: Row(
+                children: [
+                  if (textEditingController.text.isNotEmpty) ...[
+                    InkWell(
+                      splashFactory: NoSplash.splashFactory,
+                      onTap: () {
+                        textEditingController.clear();
+                        widget.onTextChanged?.call('');
+                      },
+                      splashColor: context.schema.secondary,
+                      child: SizedBox(
+                        height: 48,
+                        width: 48,
+                        child: Icon(
+                          Icons.close,
+                          size: 24,
+                          color: context.schema.onPrimaryContainer
+                              .withOpacity(0.5),
+                        ),
+                      ),
+                    ),
+                  ],
+                  InkWell(
+                    onTap: () {},
+                    splashColor: context.schema.secondary,
+                    child: SizedBox(
+                      height: 48,
+                      width: 48,
+                      child: Icon(
+                        Icons.search,
+                        size: 32,
+                        color: context.schema.onPrimaryContainer,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),

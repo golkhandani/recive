@@ -17,7 +17,6 @@ import 'package:recive/features/search_page/repos/search_event_repo.interface.da
 import 'package:recive/features/search_page/repos/search_events_repo.gql.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:gql_http_link/gql_http_link.dart';
 
 import 'package:recive/router/navigation_service.dart';
 
@@ -25,9 +24,8 @@ import 'package:ferry/ferry.dart';
 // import 'package:hive/hive.dart';
 // *** If using flutter ***
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ferry/ferry.dart';
-import 'package:graphql/client.dart';
-import 'package:http/http.dart' as http;
+
+import 'package:ferry_hive_store/ferry_hive_store.dart' as qqlStore;
 
 GetIt locator = GetIt.instance;
 
@@ -37,13 +35,13 @@ Future<Client> initClient({
   Hive.init('hive_data');
 
   // OR, if using flutter
-  // await Hive.initFlutter();
+  await Hive.initFlutter();
 
-  // final box = await Hive.openBox("graphql");
+  final box = await Hive.openBox("graphql");
 
-  // final store = HiveStore(box);
+  final store = qqlStore.HiveStore(box);
 
-  // final cache = Cache(store: store);
+  final cache = Cache(store: store);
 
   // npm install -g get-graphql-schema
   // get-graphql-schema -h 'apiKey=3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH' https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql > lib/schema.graphql
@@ -72,7 +70,7 @@ Future<Client> initClient({
   final Link link = Link.from([authLink, httpLink]);
   final client = Client(
     link: link,
-    // cache: cache,
+    cache: cache,
   );
 
   return client;

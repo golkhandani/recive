@@ -64,8 +64,8 @@ class ProfileScreen extends HookWidget {
                         right: 72 * 2 + 24 + 12,
                         child: InkWell(
                           onTap: () => bloc.logout(
-                            onSuccess: () =>
-                                navigationService.navigateTo(LoginScreen.name),
+                            onSuccess: () async => await navigationService
+                                .logoutTo(LoginScreen.name),
                           ),
                           child: Container(
                             padding: EdgeInsets.all(12),

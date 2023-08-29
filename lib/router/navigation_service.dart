@@ -40,6 +40,10 @@ class NavigationService {
     );
   }
 
+  Future<void> logoutTo(String name) async {
+    await GoRouter.of(rootContext).replaceNamed(name);
+  }
+
   backTo(context) {
     GoRouter.of(rootContext).canPop()
         ? GoRouter.of(rootContext).pop()

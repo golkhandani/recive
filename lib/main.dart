@@ -8,8 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:recive/features/dashboard/dashboard_screen.dart';
-import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/features/login_page/splash_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/router/navigation_service.dart';

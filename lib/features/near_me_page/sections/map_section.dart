@@ -67,6 +67,7 @@ class NearMeScreenMapViewContent extends HookWidget {
 class _MapContent extends StatefulHookWidget {
   static const double maxZoom = 18;
   static const double minZoom = 10;
+  static const double initalZoom = 15;
   const _MapContent({
     required this.mapSectionHeight,
     required this.mapController,
@@ -96,6 +97,7 @@ class _MapContentState extends State<_MapContent> {
         rotate: true,
         builder: (ctx) => InkWell(
           onTap: () {
+            print("CHANGE ON MAP $index");
             widget.bloc.changeSelectedIndex(index);
           },
           child: Iconify(
@@ -119,7 +121,7 @@ class _MapContentState extends State<_MapContent> {
     LatLng? ltlg;
     const defaultPosition = LatLng(51.509364, -0.128928);
     final geolocation = useLocationData(debugLabel: 'MapContent');
-    final zoom = useState(15.0);
+    final zoom = useState(_MapContent.initalZoom);
 
     final center = useState(
       items.isNotEmpty ? items.first.latLng : (ltlg ?? defaultPosition),
@@ -142,8 +144,26 @@ class _MapContentState extends State<_MapContent> {
           geolocation.longitude,
         );
       }
+
       return;
     }, [geolocation?.timestamp]);
+
+    // useEffect(() {
+    //   if (geolocation != null)
+    //     widget.bloc.loadNearbyEvents(
+    //       latitude: geolocation.latitude,
+    //       longitude: geolocation.longitude,
+    //       maxDistance: (zoom.value * 10000).toInt(), // 10000000,
+    //       minDistance: 0,
+    //     );
+    //   return;
+    // }, [zoom.value]);
+
+    // useEffectOnce(() {
+    //   // widget.mapController.mapController.l
+    // });
+
+    final showRefresh = useState(false);
 
     return MultiSliver(children: [
       SliverCardContainer(
@@ -168,13 +188,17 @@ class _MapContentState extends State<_MapContent> {
                         child: FlutterMap(
                           mapController: widget.mapController.mapController,
                           options: MapOptions(
-                            center: center.value,
-                            zoom: zoom.value,
-                            adaptiveBoundaries: false,
-                            keepAlive: true,
-                            maxZoom: _MapContent.maxZoom,
-                            minZoom: _MapContent.minZoom,
-                          ),
+                              center: center.value,
+                              zoom: zoom.value,
+                              adaptiveBoundaries: false,
+                              keepAlive: true,
+                              maxZoom: _MapContent.maxZoom,
+                              minZoom: _MapContent.minZoom,
+                              onPositionChanged: (position, hasGesture) {
+                                showRefresh.value = true;
+                                center.value = position.center!;
+                                zoom.value = position.zoom!;
+                              }),
                           nonRotatedChildren: const [
                             FlutterMapAttribution(),
                           ],
@@ -257,6 +281,25 @@ class _MapContentState extends State<_MapContent> {
                         ),
                       ),
                     ),
+                    if (showRefresh.value)
+                      Positioned(
+                        bottom: 12,
+                        left: 12,
+                        child: MapButton(
+                          icon: Icons.refresh,
+                          onClicked: () {
+                            if (geolocation != null)
+                              widget.bloc.loadNearbyEvents(
+                                latitude: center.value.latitude,
+                                longitude: center.value.longitude,
+                                maxDistance: (zoom.value * 10000).toInt(),
+                                minDistance: 0,
+                                onBackground: true,
+                              );
+                            showRefresh.value = false;
+                          },
+                        ),
+                      )
                   ],
                 ),
               ),
@@ -304,7 +347,7 @@ class _CarouselContentState extends State<_CarouselContent>
     useBlocComparativeListener<NearbyEventsCubit, NearbyEventsState>(
       widget.bloc,
       (_, state, context) {
-        if (!isUpdating.value && widget.switchIndex.value != 0) {
+        if (!isUpdating.value) {
           isUpdating.value = true;
           controller.animateToPage(state.preSelectedEventIndex);
         }
@@ -313,6 +356,7 @@ class _CarouselContentState extends State<_CarouselContent>
               dest: items[state.preSelectedEventIndex].latLng,
             )
             .then((value) => isUpdating.value = false);
+        isUpdating.value = false;
       },
       listenWhen: (previousState, currentState) =>
           previousState.preSelectedEventIndex !=
@@ -352,6 +396,7 @@ class _CarouselContentState extends State<_CarouselContent>
                   padEnds: true,
                   onPageChanged: (index, reason) {
                     if (!isUpdating.value) {
+                      isUpdating.value = true;
                       widget.bloc.changeSelectedIndex(index);
                       // widget.mapController.animateTo(
                       //   dest: items[state.preSelectedEventIndex].latLng,

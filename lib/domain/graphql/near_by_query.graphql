@@ -1,5 +1,17 @@
-query GetNearByEvents($limit: Int, $city: String) {
-  events(limit: $limit, query: { venue: { address: { city: $city } } }) {
+query GetNearByEvents(
+  $latitude: Float
+  $longitude: Float
+  $minDistance: Int
+  $maxDistance: Int
+) {
+  GetEventsByDistance(
+    input: {
+      latitude: $latitude
+      longitude: $longitude
+      minDistance: $minDistance
+      maxDistance: $maxDistance
+    }
+  ) {
     _id
     end_date
     eventbrite_id

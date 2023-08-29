@@ -5,6 +5,8 @@ import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
+import 'package:recive/features/login_page/login_screen.dart';
+import 'package:recive/features/login_page/splash_screen.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/news_page/news_screen.dart';
@@ -36,14 +38,14 @@ final extraRoutes = [
 
 final authRoutes = [
   GoRoute(
-    name: 'login',
-    path: '/login',
-    builder: (context, state) => TestRoute(text: state.fullPath ?? ''),
+    name: '${SplashScreen.name}',
+    path: '/${SplashScreen.name}',
+    builder: (context, state) => SplashScreen(),
   ),
   GoRoute(
-    name: 'signup',
-    path: '/signup',
-    builder: (context, state) => TestRoute(text: state.fullPath ?? ''),
+    name: '${LoginScreen.name}',
+    path: '/${LoginScreen.name}',
+    builder: (context, state) => LoginScreen(),
   ),
 ];
 

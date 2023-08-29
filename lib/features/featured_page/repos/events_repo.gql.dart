@@ -66,7 +66,7 @@ class GQLEventRepo extends IEventRepo {
     final data = await client.request(featuredEventRequest).map((element) {
       if (kDebugMode) {
         print(
-            "_________________| featuredEventRequest ${element.loading} ${element.data?.events.length}");
+            "_________________| featuredEventsRequest ${element.loading} ${element.data?.events.length}");
       }
       return element;
     }).firstWhere((element) => !element.loading);
@@ -102,25 +102,29 @@ class GQLEventRepo extends IEventRepo {
 
   @override
   Future<List<NearbyEvent>> nearbyEvents({
-    required int limit,
-    required String city,
+    required double latitude,
+    required double longitude,
+    required int minDistance,
+    required int maxDistance,
   }) async {
     final nearbyEventRequest = GGetNearByEventsReq(
       (b) => b
-        ..vars.limit = limit
-        ..vars.city = city,
+        ..vars.minDistance = minDistance
+        ..vars.maxDistance = maxDistance
+        ..vars.latitude = latitude
+        ..vars.longitude = longitude,
     );
 
     final data = await client.request(nearbyEventRequest).map((element) {
       if (kDebugMode) {
         print(
-            "_________________| nearbyEventRequest ${element.loading} ${element.data?.events.length}");
+            "_________________| nearbyEventRequest ${latitude} ${longitude} ${element.loading} ${element.data?.GetEventsByDistance?.length}");
       }
       return element;
     }).firstWhere((element) => !element.loading);
 
-    final convertedData = data.data?.events
-            .map(
+    final convertedData = data.data?.GetEventsByDistance
+            ?.map(
               (e) => NearbyEvent(
                   id: e!.G_id!.value,
                   title: e.name ?? '',

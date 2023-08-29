@@ -96,9 +96,14 @@ dependencies:
   gql_http_link: ^1.0.1
   hive_flutter: ^1.1.0
   ferry_hive_store: ^0.5.1
-  objectid: ^3.0.0
+  objectid: ^2.1.0
   visibility_detector: ^0.4.0+2
   preload_page_view: ^0.2.0
+  flutter_secure_storage: ^8.0.0
+  graphql: ^5.2.0-beta.5
+  ferry_flutter: ^0.8.1
+  realm: ^1.4.0
+  flutter_map_tile_caching: ^9.0.0-dev.3
 
 dev_dependencies:
   flutter_test:

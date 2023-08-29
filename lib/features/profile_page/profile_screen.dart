@@ -1,9 +1,15 @@
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
+import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/features/login_page/cubits/login_cubit.dart';
+import 'package:recive/features/login_page/login_screen.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class ProfileScreen extends HookWidget {
@@ -12,6 +18,9 @@ class ProfileScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navigationService = locator.get<NavigationService>();
+    final bloc = useBloc<LoginCubit>();
+    final state = useBlocBuilder(bloc);
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
@@ -28,7 +37,7 @@ class ProfileScreen extends HookWidget {
                   horizontalPosition: HorizontalPosition.right,
                 ),
                 child: Container(
-                  height: 200,
+                  height: 220,
                   color: context.theme.primaryColor,
                   child: Stack(
                     children: [
@@ -48,7 +57,49 @@ class ProfileScreen extends HookWidget {
                           "Mohammadreza Rahimiangolkhandani - (Comming soon!!!)",
                           style: context.textTheme.titleMedium,
                         ),
-                      )
+                      ),
+                      Positioned(
+                        bottom: 64,
+                        left: 24,
+                        right: 72 * 2 + 24 + 12,
+                        child: InkWell(
+                          onTap: () => bloc.logout(
+                            onSuccess: () =>
+                                navigationService.navigateTo(LoginScreen.name),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            constraints: BoxConstraints.expand(height: 48),
+                            decoration: ShapeDecoration(
+                              color: context.theme.colorScheme.errorContainer,
+                              shape: StadiumBorder(
+                                side: BorderSide(
+                                  width: 0,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ),
+                            child:
+                                state.logoutLoadingState == LoadingState.loading
+                                    ? Center(
+                                        child: SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(),
+                                      ))
+                                    : Text(
+                                        "Logout",
+                                        textAlign: TextAlign.center,
+                                        style: context.textTheme.titleMedium!
+                                            .withColor(
+                                          context.theme.colorScheme
+                                              .onErrorContainer,
+                                        ),
+                                      ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -64,9 +115,16 @@ class ProfileScreen extends HookWidget {
                       padding: const EdgeInsets.all(12),
                       child: Container(
                         height: 400,
+                        width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.yellowAccent,
+                        ),
+                        padding: EdgeInsets.all(12),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [],
                         ),
                       ),
                     ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 // import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
@@ -143,8 +144,8 @@ class FlutterMapTileLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return TileLayer(
       urlTemplate:
-          'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=J4ktALZX8GCz9Hw7i0tK',
-      // tileProvider: FMTC.instance('FlutterMapTileStore').getTileProvider(),
+          'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=cKGhx1kSOrw1anX1ljgw',
+      tileProvider: FMTC.instance('FlutterMapTileStore').getTileProvider(),
     );
   }
 }

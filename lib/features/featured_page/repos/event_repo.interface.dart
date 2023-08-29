@@ -31,8 +31,10 @@ abstract class IEventRepo {
   });
 
   Future<List<NearbyEvent>> nearbyEvents({
-    required int limit,
-    required String city,
+    required double latitude,
+    required double longitude,
+    required int minDistance,
+    required int maxDistance,
   });
 
   Future<NearbyEvent> nearbyEvent({

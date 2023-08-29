@@ -10,6 +10,7 @@ import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/sections/list_section.dart';
 import 'package:recive/features/near_me_page/sections/map_section.dart';
+import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -28,11 +29,19 @@ class _NearMeScreenState extends State<NearMeScreen>
   Widget build(BuildContext context) {
     final bloc = useBloc<NearbyEventsCubit>();
     final state = useBlocBuilder(bloc);
+    final geolocation = useLocationData(debugLabel: 'NearMeScreen');
 
     useEffect(() {
-      bloc.loadNearbyEvents();
+      print('geolocation != null ${geolocation}');
+      if (geolocation != null)
+        bloc.loadNearbyEvents(
+          latitude: geolocation.latitude,
+          longitude: geolocation.longitude,
+          maxDistance: 100000000,
+          minDistance: 0,
+        );
       return;
-    }, []);
+    }, [geolocation]);
 
     final switchIndex = useState(0);
     final pageController =
@@ -61,7 +70,9 @@ class _NearMeScreenState extends State<NearMeScreen>
             ),
             const SliverGap(height: 12),
             Builder(builder: (context) {
-              if (state.loadingState != LoadingState.done) {
+              print("state.nearbyEvents.length ${state.nearbyEvents.length}");
+              if (state.loadingState != LoadingState.done ||
+                  state.nearbyEvents.length == 0) {
                 return const SliverFillRemaining(
                   child: Center(child: CircularProgressIndicator()),
                 );

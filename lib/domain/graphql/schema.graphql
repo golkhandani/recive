@@ -30,25 +30,25 @@ type Event {
 }
 
 input EventInsertInput {
-  end_date: DateTime
-  eventbrite_organization_id: String
-  has_available_tickets: Boolean
-  is_online_event: Boolean
-  venue: EventVenueInsertInput
-  max_price: Float
-  published_date: DateTime
+  eventbrite_id: String
   eventbrite_url: String
   is_sold_out: Boolean
-  min_price: Float
+  published_date: DateTime
+  eventbrite_organization_id: String
+  name: String
+  _id: ObjectId
+  max_price: Float
+  venue: EventVenueInsertInput
+  is_online_event: Boolean
+  tags: [String]
+  has_available_tickets: Boolean
+  image_url: String
   organizer: EventOrganizerInsertInput
   start_date: DateTime
-  eventbrite_id: String
-  tags: [String]
-  is_free: Boolean
-  name: String
   summary: String
-  _id: ObjectId
-  image_url: String
+  end_date: DateTime
+  is_free: Boolean
+  min_price: Float
 }
 
 type EventOrganizer {
@@ -60,278 +60,278 @@ type EventOrganizer {
 }
 
 input EventOrganizerInsertInput {
+  name: String
+  num_followers: Int
   summary: String
   website_url: String
   eventbrite_id: String
-  name: String
-  num_followers: Int
 }
 
 input EventOrganizerQueryInput {
-  website_url: String
-  website_url_gte: String
-  name_gte: String
-  name: String
-  summary_ne: String
-  AND: [EventOrganizerQueryInput!]
-  num_followers_nin: [Int]
-  summary: String
-  website_url_ne: String
-  num_followers_exists: Boolean
-  summary_gt: String
-  website_url_gt: String
-  num_followers_gte: Int
-  num_followers_lte: Int
-  website_url_nin: [String]
-  eventbrite_id_lte: String
-  eventbrite_id_gt: String
-  num_followers_gt: Int
-  website_url_lt: String
-  eventbrite_id_gte: String
-  summary_gte: String
-  summary_exists: Boolean
-  summary_lt: String
-  summary_in: [String]
-  eventbrite_id: String
-  name_in: [String]
   eventbrite_id_ne: String
-  name_ne: String
-  num_followers_ne: Int
-  num_followers: Int
-  eventbrite_id_lt: String
-  name_nin: [String]
-  num_followers_in: [Int]
-  summary_lte: String
-  summary_nin: [String]
-  OR: [EventOrganizerQueryInput!]
-  website_url_in: [String]
-  eventbrite_id_nin: [String]
-  eventbrite_id_exists: Boolean
   name_lte: String
+  eventbrite_id_nin: [String]
   eventbrite_id_in: [String]
-  website_url_exists: Boolean
+  website_url_ne: String
+  eventbrite_id: String
+  name_gte: String
+  summary: String
+  summary_ne: String
+  num_followers_gte: Int
+  name_nin: [String]
+  summary_exists: Boolean
   name_exists: Boolean
-  num_followers_lt: Int
+  num_followers_exists: Boolean
+  summary_nin: [String]
+  name: String
+  num_followers: Int
+  num_followers_in: [Int]
+  name_ne: String
+  summary_lte: String
+  website_url_gte: String
+  website_url_lt: String
   name_gt: String
-  website_url_lte: String
+  website_url: String
+  eventbrite_id_exists: Boolean
+  website_url_nin: [String]
+  num_followers_lt: Int
+  num_followers_nin: [Int]
+  summary_gt: String
+  num_followers_ne: Int
+  eventbrite_id_gte: String
+  OR: [EventOrganizerQueryInput!]
+  summary_gte: String
+  website_url_in: [String]
+  num_followers_gt: Int
+  num_followers_lte: Int
+  summary_lt: String
+  eventbrite_id_gt: String
+  eventbrite_id_lte: String
   name_lt: String
+  website_url_lte: String
+  AND: [EventOrganizerQueryInput!]
+  website_url_gt: String
+  website_url_exists: Boolean
+  name_in: [String]
+  summary_in: [String]
+  eventbrite_id_lt: String
 }
 
 input EventOrganizerUpdateInput {
-  num_followers_unset: Boolean
-  website_url: String
-  website_url_unset: Boolean
-  eventbrite_id: String
   name: String
-  eventbrite_id_unset: Boolean
-  num_followers_inc: Int
-  num_followers: Int
   name_unset: Boolean
   summary: String
+  website_url: String
+  eventbrite_id_unset: Boolean
+  num_followers: Int
+  num_followers_inc: Int
   summary_unset: Boolean
+  website_url_unset: Boolean
+  eventbrite_id: String
+  num_followers_unset: Boolean
 }
 
 input EventQueryInput {
-  min_price_exists: Boolean
-  eventbrite_url: String
-  eventbrite_id_lte: String
-  eventbrite_organization_id_lt: String
-  name_in: [String]
-  summary_ne: String
-  eventbrite_url_lt: String
-  end_date_in: [DateTime]
-  end_date: DateTime
-  eventbrite_id_gte: String
-  eventbrite_url_ne: String
-  published_date: DateTime
-  _id_in: [ObjectId]
-  max_price_nin: [Float]
-  end_date_nin: [DateTime]
-  tags_nin: [String]
-  min_price_gte: Float
-  image_url_lte: String
-  eventbrite_organization_id_gt: String
-  name_exists: Boolean
-  eventbrite_id_exists: Boolean
-  image_url: String
-  start_date_exists: Boolean
-  start_date_gt: DateTime
-  tags_exists: Boolean
-  eventbrite_organization_id: String
-  min_price: Float
-  min_price_ne: Float
-  eventbrite_url_gte: String
-  end_date_gt: DateTime
-  is_online_event: Boolean
-  end_date_lt: DateTime
-  published_date_in: [DateTime]
-  end_date_exists: Boolean
-  eventbrite_id: String
-  eventbrite_id_ne: String
-  image_url_ne: String
-  OR: [EventQueryInput!]
-  name_lt: String
-  image_url_gt: String
-  name_nin: [String]
-  summary_lte: String
-  venue: EventVenueQueryInput
-  max_price: Float
-  name_gt: String
-  start_date_gte: DateTime
-  tags_in: [String]
-  summary: String
-  image_url_in: [String]
-  eventbrite_url_gt: String
-  max_price_in: [Float]
-  start_date: DateTime
-  is_free_exists: Boolean
-  min_price_nin: [Float]
-  has_available_tickets: Boolean
-  image_url_lt: String
-  _id: ObjectId
-  max_price_gt: Float
-  is_free: Boolean
-  published_date_exists: Boolean
-  eventbrite_organization_id_nin: [String]
-  published_date_gte: DateTime
-  _id_nin: [ObjectId]
-  _id_gt: ObjectId
-  name: String
-  min_price_lte: Float
-  eventbrite_organization_id_exists: Boolean
-  end_date_gte: DateTime
-  eventbrite_url_exists: Boolean
-  min_price_in: [Float]
   is_sold_out: Boolean
-  published_date_lt: DateTime
-  is_sold_out_exists: Boolean
-  _id_ne: ObjectId
-  tags: [String]
-  eventbrite_organization_id_in: [String]
-  is_free_ne: Boolean
-  published_date_ne: DateTime
-  has_available_tickets_exists: Boolean
-  eventbrite_url_nin: [String]
-  max_price_exists: Boolean
-  image_url_nin: [String]
-  _id_gte: ObjectId
-  min_price_gt: Float
-  name_gte: String
-  image_url_gte: String
-  start_date_lt: DateTime
-  eventbrite_id_nin: [String]
-  eventbrite_organization_id_ne: String
-  is_online_event_exists: Boolean
-  end_date_ne: DateTime
-  has_available_tickets_ne: Boolean
-  organizer: EventOrganizerQueryInput
-  is_online_event_ne: Boolean
-  eventbrite_organization_id_gte: String
-  eventbrite_id_gt: String
-  _id_lt: ObjectId
-  published_date_nin: [DateTime]
-  start_date_lte: DateTime
-  summary_in: [String]
-  summary_nin: [String]
-  _id_lte: ObjectId
-  published_date_gt: DateTime
-  start_date_ne: DateTime
-  summary_exists: Boolean
-  eventbrite_url_in: [String]
-  name_ne: String
-  summary_lt: String
-  end_date_lte: DateTime
-  start_date_in: [DateTime]
-  venue_exists: Boolean
-  summary_gt: String
-  min_price_lt: Float
-  image_url_exists: Boolean
   max_price_ne: Float
-  summary_gte: String
-  _id_exists: Boolean
-  is_sold_out_ne: Boolean
-  AND: [EventQueryInput!]
-  eventbrite_url_lte: String
-  start_date_nin: [DateTime]
-  eventbrite_organization_id_lte: String
-  name_lte: String
-  max_price_gte: Float
-  max_price_lte: Float
-  max_price_lt: Float
-  eventbrite_id_lt: String
-  organizer_exists: Boolean
   published_date_lte: DateTime
+  max_price_exists: Boolean
+  eventbrite_organization_id_in: [String]
+  is_online_event_exists: Boolean
+  eventbrite_organization_id: String
+  organizer_exists: Boolean
+  name_ne: String
+  is_free_exists: Boolean
+  max_price_gt: Float
+  start_date_ne: DateTime
+  end_date: DateTime
+  summary_lt: String
+  start_date_nin: [DateTime]
+  name_nin: [String]
+  eventbrite_organization_id_ne: String
+  _id_gte: ObjectId
+  summary_exists: Boolean
+  start_date_in: [DateTime]
+  max_price_nin: [Float]
+  eventbrite_organization_id_nin: [String]
+  is_online_event: Boolean
+  image_url: String
+  image_url_lte: String
+  summary: String
+  min_price_lt: Float
+  is_online_event_ne: Boolean
+  is_free: Boolean
+  summary_lte: String
+  min_price_in: [Float]
+  published_date_ne: DateTime
+  image_url_in: [String]
+  published_date_gte: DateTime
+  max_price_lte: Float
+  eventbrite_organization_id_lte: String
+  min_price_gt: Float
+  min_price_gte: Float
+  end_date_gte: DateTime
+  eventbrite_id_lt: String
+  eventbrite_organization_id_gt: String
+  eventbrite_url_gt: String
+  name_gte: String
+  published_date_exists: Boolean
+  max_price_lt: Float
+  _id_gt: ObjectId
+  end_date_ne: DateTime
+  tags_nin: [String]
+  summary_gte: String
+  image_url_exists: Boolean
+  _id_ne: ObjectId
+  published_date_lt: DateTime
+  end_date_exists: Boolean
+  start_date_gte: DateTime
+  name_lte: String
+  max_price_in: [Float]
+  end_date_lt: DateTime
+  name_exists: Boolean
+  AND: [EventQueryInput!]
+  image_url_lt: String
+  start_date_lte: DateTime
+  _id_in: [ObjectId]
+  published_date_in: [DateTime]
+  is_sold_out_ne: Boolean
+  min_price_nin: [Float]
+  organizer: EventOrganizerQueryInput
+  eventbrite_organization_id_lt: String
+  eventbrite_url_nin: [String]
+  min_price_exists: Boolean
+  tags: [String]
+  _id_exists: Boolean
+  image_url_gte: String
+  tags_exists: Boolean
+  eventbrite_url_ne: String
+  tags_in: [String]
+  name_lt: String
+  eventbrite_url_lt: String
+  summary_ne: String
+  start_date_lt: DateTime
+  name_in: [String]
+  eventbrite_id: String
+  eventbrite_id_nin: [String]
+  published_date_nin: [DateTime]
+  start_date_gt: DateTime
+  eventbrite_organization_id_gte: String
+  min_price: Float
+  name: String
+  OR: [EventQueryInput!]
+  start_date_exists: Boolean
+  image_url_nin: [String]
+  _id_lte: ObjectId
+  has_available_tickets_ne: Boolean
+  summary_gt: String
+  eventbrite_url_lte: String
   eventbrite_id_in: [String]
+  eventbrite_url_in: [String]
+  venue: EventVenueQueryInput
+  eventbrite_id_lte: String
+  image_url_gt: String
+  end_date_in: [DateTime]
+  min_price_lte: Float
+  image_url_ne: String
+  summary_in: [String]
+  _id_nin: [ObjectId]
+  end_date_lte: DateTime
+  start_date: DateTime
+  published_date: DateTime
+  end_date_nin: [DateTime]
+  name_gt: String
+  max_price_gte: Float
+  has_available_tickets_exists: Boolean
+  max_price: Float
+  _id_lt: ObjectId
+  published_date_gt: DateTime
+  eventbrite_url: String
+  eventbrite_id_gte: String
+  summary_nin: [String]
+  eventbrite_url_gte: String
+  is_free_ne: Boolean
+  end_date_gt: DateTime
+  eventbrite_id_ne: String
+  is_sold_out_exists: Boolean
+  eventbrite_organization_id_exists: Boolean
+  has_available_tickets: Boolean
+  eventbrite_id_gt: String
+  eventbrite_url_exists: Boolean
+  _id: ObjectId
+  venue_exists: Boolean
+  min_price_ne: Float
+  eventbrite_id_exists: Boolean
 }
 
 enum EventSortByInput {
+  NAME_ASC
+  START_DATE_DESC
+  SUMMARY_ASC
+  EVENTBRITE_ID_DESC
+  EVENTBRITE_URL_ASC
+  IMAGE_URL_ASC
   MAX_PRICE_DESC
-  EVENTBRITE_ID_ASC
-  EVENTBRITE_ORGANIZATION_ID_ASC
-  EVENTBRITE_ORGANIZATION_ID_DESC
-  MAX_PRICE_ASC
   MIN_PRICE_DESC
+  NAME_DESC
   SUMMARY_DESC
   _ID_DESC
   END_DATE_ASC
-  EVENTBRITE_URL_ASC
-  IMAGE_URL_ASC
+  EVENTBRITE_ID_ASC
+  EVENTBRITE_ORGANIZATION_ID_ASC
+  EVENTBRITE_ORGANIZATION_ID_DESC
+  IMAGE_URL_DESC
+  MAX_PRICE_ASC
+  PUBLISHED_DATE_ASC
   PUBLISHED_DATE_DESC
   _ID_ASC
-  EVENTBRITE_ID_DESC
-  EVENTBRITE_URL_DESC
-  IMAGE_URL_DESC
-  MIN_PRICE_ASC
-  NAME_ASC
-  NAME_DESC
-  PUBLISHED_DATE_ASC
   END_DATE_DESC
-  START_DATE_DESC
-  SUMMARY_ASC
+  EVENTBRITE_URL_DESC
+  MIN_PRICE_ASC
   START_DATE_ASC
 }
 
 input EventUpdateInput {
-  max_price: Float
-  end_date: DateTime
-  tags: [String]
-  is_online_event: Boolean
-  is_online_event_unset: Boolean
-  eventbrite_id_unset: Boolean
-  name_unset: Boolean
-  _id: ObjectId
-  end_date_unset: Boolean
-  published_date_unset: Boolean
-  eventbrite_id: String
-  venue: EventVenueUpdateInput
-  summary: String
-  published_date: DateTime
-  eventbrite_url: String
-  is_sold_out: Boolean
-  _id_unset: Boolean
-  name: String
-  summary_unset: Boolean
-  organizer_unset: Boolean
-  image_url: String
-  min_price: Float
-  min_price_unset: Boolean
-  venue_unset: Boolean
   max_price_unset: Boolean
-  start_date_unset: Boolean
-  is_free_unset: Boolean
-  start_date: DateTime
-  has_available_tickets: Boolean
-  organizer: EventOrganizerUpdateInput
-  eventbrite_organization_id: String
-  is_free: Boolean
-  has_available_tickets_unset: Boolean
   is_sold_out_unset: Boolean
+  is_free_unset: Boolean
+  is_sold_out: Boolean
+  published_date_unset: Boolean
+  start_date_unset: Boolean
+  _id: ObjectId
+  eventbrite_url: String
   eventbrite_organization_id_unset: Boolean
-  min_price_inc: Float
-  tags_unset: Boolean
-  eventbrite_url_unset: Boolean
+  end_date_unset: Boolean
   image_url_unset: Boolean
+  name: String
+  eventbrite_id_unset: Boolean
+  has_available_tickets_unset: Boolean
+  min_price_unset: Boolean
+  eventbrite_url_unset: Boolean
+  is_online_event: Boolean
+  organizer: EventOrganizerUpdateInput
+  tags: [String]
   max_price_inc: Float
+  summary_unset: Boolean
+  tags_unset: Boolean
+  venue: EventVenueUpdateInput
+  has_available_tickets: Boolean
+  eventbrite_organization_id: String
+  published_date: DateTime
+  min_price: Float
+  summary: String
+  is_online_event_unset: Boolean
+  name_unset: Boolean
+  min_price_inc: Float
+  start_date: DateTime
+  eventbrite_id: String
+  image_url: String
+  end_date: DateTime
+  max_price: Float
+  organizer_unset: Boolean
+  venue_unset: Boolean
+  _id_unset: Boolean
+  is_free: Boolean
 }
 
 type EventVenue {
@@ -351,138 +351,145 @@ type EventVenueAddress {
 }
 
 input EventVenueAddressInsertInput {
+  city: String
+  country: String
   latitude: String
   localized_address_display: String
   longitude: String
   postal_code: String
   region: String
-  city: String
-  country: String
 }
 
 input EventVenueAddressQueryInput {
-  city_nin: [String]
-  country_lte: String
-  latitude_lte: String
-  city_gte: String
-  region_gt: String
+  region_in: [String]
   localized_address_display_gte: String
-  latitude_ne: String
   localized_address_display: String
-  latitude_lt: String
-  localized_address_display_lt: String
-  postal_code_gte: String
-  longitude_ne: String
-  postal_code_lt: String
-  latitude_exists: Boolean
-  city_lte: String
+  postal_code: String
+  city: String
+  postal_code_in: [String]
+  region: String
+  postal_code_lte: String
+  latitude_nin: [String]
+  country_gt: String
+  latitude: String
+  country_ne: String
   region_gte: String
+  region_nin: [String]
+  country: String
+  longitude_exists: Boolean
+  longitude_lt: String
+  city_lt: String
+  longitude: String
+  country_lt: String
+  city_gte: String
+  city_lte: String
+  longitude_gt: String
+  OR: [EventVenueAddressQueryInput!]
+  region_ne: String
+  localized_address_display_exists: Boolean
+  region_lt: String
+  latitude_in: [String]
+  country_lte: String
+  postal_code_lt: String
+  localized_address_display_lt: String
+  country_exists: Boolean
   country_gte: String
-  region_exists: Boolean
-  localized_address_display_ne: String
-  city_ne: String
+  postal_code_ne: String
+  longitude_ne: String
+  postal_code_gte: String
+  AND: [EventVenueAddressQueryInput!]
+  localized_address_display_gt: String
+  city_nin: [String]
+  region_lte: String
+  localized_address_display_in: [String]
   longitude_lte: String
+  longitude_in: [String]
   latitude_gt: String
   longitude_gte: String
-  longitude_gt: String
-  region: String
-  region_lt: String
-  city_lt: String
-  latitude_in: [String]
-  longitude_lt: String
-  AND: [EventVenueAddressQueryInput!]
-  localized_address_display_lte: String
-  country: String
-  latitude_nin: [String]
-  postal_code_in: [String]
-  country_nin: [String]
-  latitude: String
-  postal_code_ne: String
-  longitude_nin: [String]
-  postal_code_exists: Boolean
-  postal_code_gt: String
-  longitude_exists: Boolean
-  country_in: [String]
-  localized_address_display_nin: [String]
-  region_lte: String
-  postal_code: String
-  longitude_in: [String]
-  region_ne: String
+  latitude_lt: String
   city_exists: Boolean
-  country_ne: String
-  longitude: String
-  localized_address_display_in: [String]
-  region_nin: [String]
-  postal_code_nin: [String]
-  localized_address_display_exists: Boolean
-  postal_code_lte: String
-  localized_address_display_gt: String
-  country_lt: String
-  latitude_gte: String
-  city_gt: String
-  region_in: [String]
-  OR: [EventVenueAddressQueryInput!]
   city_in: [String]
-  country_gt: String
-  city: String
-  country_exists: Boolean
+  localized_address_display_lte: String
+  country_nin: [String]
+  latitude_ne: String
+  postal_code_nin: [String]
+  postal_code_exists: Boolean
+  latitude_gte: String
+  region_exists: Boolean
+  localized_address_display_nin: [String]
+  city_ne: String
+  city_gt: String
+  postal_code_gt: String
+  region_gt: String
+  country_in: [String]
+  localized_address_display_ne: String
+  longitude_nin: [String]
+  latitude_lte: String
+  latitude_exists: Boolean
 }
 
 input EventVenueAddressUpdateInput {
-  postal_code: String
-  city: String
-  latitude_unset: Boolean
-  region: String
-  localized_address_display: String
-  city_unset: Boolean
-  country: String
-  longitude: String
-  region_unset: Boolean
-  localized_address_display_unset: Boolean
-  latitude: String
   postal_code_unset: Boolean
-  country_unset: Boolean
+  city_unset: Boolean
+  city: String
+  localized_address_display: String
+  latitude: String
+  localized_address_display_unset: Boolean
+  region: String
   longitude_unset: Boolean
+  latitude_unset: Boolean
+  region_unset: Boolean
+  country_unset: Boolean
+  longitude: String
+  country: String
+  postal_code: String
 }
 
 input EventVenueInsertInput {
-  name: String
   address: EventVenueAddressInsertInput
   eventbrite_id: String
+  name: String
 }
 
 input EventVenueQueryInput {
-  name_ne: String
-  eventbrite_id_nin: [String]
-  address_exists: Boolean
-  name_exists: Boolean
+  name_lte: String
+  eventbrite_id: String
   eventbrite_id_lt: String
-  eventbrite_id_in: [String]
+  name: String
+  name_exists: Boolean
   name_in: [String]
-  name_gt: String
+  eventbrite_id_gt: String
   eventbrite_id_ne: String
+  address: EventVenueAddressQueryInput
   eventbrite_id_exists: Boolean
   OR: [EventVenueQueryInput!]
-  name_nin: [String]
   AND: [EventVenueQueryInput!]
-  eventbrite_id_gt: String
-  name: String
-  address: EventVenueAddressQueryInput
+  name_nin: [String]
   eventbrite_id_lte: String
-  eventbrite_id: String
   eventbrite_id_gte: String
-  name_lt: String
-  name_lte: String
+  name_ne: String
   name_gte: String
+  address_exists: Boolean
+  eventbrite_id_nin: [String]
+  name_lt: String
+  eventbrite_id_in: [String]
+  name_gt: String
 }
 
 input EventVenueUpdateInput {
+  address_unset: Boolean
   eventbrite_id: String
   eventbrite_id_unset: Boolean
   name: String
   name_unset: Boolean
   address: EventVenueAddressUpdateInput
-  address_unset: Boolean
+}
+
+input GetEventsByDistanceParameter {
+  latitude: Float
+  longitude: Float
+  minDistance: Int
+  maxDistance: Int
 }
 
 type InsertManyPayload {
@@ -495,16 +502,17 @@ type Mutation {
   insertManyEvents(data: [EventInsertInput!]!): InsertManyPayload
   insertOneEvent(data: EventInsertInput!): Event
   replaceOneEvent(query: EventQueryInput, data: EventInsertInput!): Event
-  updateManyEvents(set: EventUpdateInput!, query: EventQueryInput): UpdateManyPayload
+  updateManyEvents(query: EventQueryInput, set: EventUpdateInput!): UpdateManyPayload
   updateOneEvent(set: EventUpdateInput!, query: EventQueryInput): Event
-  upsertOneEvent(data: EventInsertInput!, query: EventQueryInput): Event
+  upsertOneEvent(query: EventQueryInput, data: EventInsertInput!): Event
 }
 
 scalar ObjectId
 
 type Query {
+  GetEventsByDistance(input: GetEventsByDistanceParameter): [Event]
   event(query: EventQueryInput): Event
-  events(limit: Int = 100, sortBy: EventSortByInput, query: EventQueryInput): [Event]!
+  events(query: EventQueryInput, limit: Int = 100, sortBy: EventSortByInput): [Event]!
 }
 
 type UpdateManyPayload {

@@ -31,19 +31,29 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
     required this.repo,
   }) : super(NearbyEventsState.initialize());
 
-  Future<void> loadNearbyEvents() async {
-    maybeEmit(state.copyWith(
-      loadingState: LoadingState.loading,
-    ));
+  Future<void> loadNearbyEvents({
+    required double latitude,
+    required double longitude,
+    required int minDistance,
+    required int maxDistance,
+    bool onBackground = false,
+  }) async {
+    if (!onBackground) {
+      maybeEmit(state.copyWith(
+        loadingState: LoadingState.loading,
+      ));
+    }
 
     final data = await repo.nearbyEvents(
-      limit: 10,
-      city: 'Vancouver',
+      latitude: latitude,
+      longitude: longitude,
+      minDistance: minDistance,
+      maxDistance: maxDistance,
     );
 
     if (isClosed) return;
     maybeEmit(state.copyWith(
-      nearbyEvents: data,
+      nearbyEvents: data.take(30).toList(),
       loadingState: LoadingState.done,
     ));
   }

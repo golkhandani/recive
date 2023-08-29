@@ -34,7 +34,6 @@ class NearbyDetailScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(":_____ go goNamed NearbyDetailScreen 3 ${DateTime.now()}");
     final bloc = useBloc<NearbyEventDetailCubit>();
     final state = useBlocBuilder(bloc);
 

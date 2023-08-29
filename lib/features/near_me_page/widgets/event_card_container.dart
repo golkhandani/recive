@@ -169,16 +169,13 @@ class EventCardContainer extends StatelessWidget {
     final navigationService = locator.get<NavigationService>();
     final extraJson = extra.toJson((inner) => inner.toJson());
 
-    print("extra.toJson() ${extraJson}");
     return InkWell(
       onTap: () {
-        print(":_____ go goNamed NearbyDetailScreen 1 ${DateTime.now()}");
         navigationService.navigateTo(
           route,
           pathParameters: pathParams,
           extra: extraJson,
         );
-        print(":_____ go goNamed NearbyDetailScreen 2 ${DateTime.now()}");
       },
       child: Hero(
         tag: heroTag,

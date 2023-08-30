@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:get_it/get_it.dart';
 import 'package:graphql/client.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:open_weather_client/services/open_weather_api_service.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
@@ -26,11 +28,13 @@ import 'package:ferry/ferry.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:ferry_hive_store/ferry_hive_store.dart' as qqlStore;
+import 'package:path_provider/path_provider.dart';
 
 GetIt locator = GetIt.instance;
 
 Future<Client> initClient({
   required FlutterSecureStorage storage,
+  required NavigationService navigationService,
 }) async {
   Hive.init('hive_data');
 
@@ -76,22 +80,7 @@ Future<Client> initClient({
   return client;
 }
 
-// final link = HttpLink(
-//   'https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql',
-//   defaultHeaders: {
-//     'apiKey':
-//         '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH',
-//   },
-// );
-
-// final client = Client(link: link);
-
-setupNavigation() {
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        encryptedSharedPreferences: true,
-      );
-  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
-  locator.registerSingleton<FlutterSecureStorage>(storage);
+Future setupNavigation() async {
   locator.registerLazySingleton(
     () => NavigationService(
       rootNavigatorKey: rootNavigatorKey,
@@ -103,18 +92,42 @@ setupNavigation() {
   );
 }
 
-setupRepositories() async {
-  final c = await initClient(
+Future setupStorage() async {
+  await FlutterMapTileCaching.initialise();
+  await FMTC.instance('FlutterMapTileStore').manage.createAsync();
+
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getTemporaryDirectory(),
+  );
+  await HydratedBloc.storage.clear();
+
+  AndroidOptions _getAndroidOptions() => const AndroidOptions(
+        encryptedSharedPreferences: true,
+      );
+
+  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  locator.registerSingleton<FlutterSecureStorage>(storage);
+}
+
+Future setupGraphQL() async {
+  final client = await initClient(
     storage: locator.get(),
+    navigationService: locator.get(),
   );
   locator.registerLazySingleton<Client>(
-    () => c,
+    () => client,
   );
-  OpenWeather openWeather = OpenWeather(
-    apiKey: '8af110219c55ac7762ec012dfc20f17a',
-  );
+}
+
+Future setupRepositories() async {
   locator
-    ..registerSingleton<OpenWeather>(openWeather)
+    ..registerSingleton<OpenWeather>(
+      OpenWeather(
+        apiKey: '8af110219c55ac7762ec012dfc20f17a',
+      ),
+    )
     ..registerLazySingleton<IEventRepo>(
       () => GQLEventRepo(
         client: locator.get(),
@@ -132,7 +145,7 @@ setupRepositories() async {
     );
 }
 
-setupBlocs() {
+Future setupBlocs() async {
   locator
     ..registerFactory(
       () => LoginCubit(storage: locator.get()),

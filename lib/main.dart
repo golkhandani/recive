@@ -1,18 +1,14 @@
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:recive/features/login_page/splash_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:recive/utils/theme.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -28,8 +24,7 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await FlutterMapTileCaching.initialise();
-  await FMTC.instance('FlutterMapTileStore').manage.createAsync();
+
   // GoRouter configuration
   final goRouter = GoRouter(
     debugLogDiagnostics: true,
@@ -42,18 +37,13 @@ void main() async {
       ...extraRoutes,
     ],
   );
-  setupNavigation();
+  await setupNavigation();
+  await setupStorage();
+  await setupGraphQL();
   await setupRepositories();
-  setupBlocs();
-
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getTemporaryDirectory(),
-  );
-  await HydratedBloc.storage.clear();
+  await setupBlocs();
   FlutterNativeSplash.remove();
-  // timeDilation = 1.2;
+
   runApp(Application(goRouter: goRouter));
 }
 

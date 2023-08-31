@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recive/components/navigation_item.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
@@ -66,11 +65,11 @@ class DashboardWrapper extends StatelessWidget {
     final currentIndex = calculateDashboardSelectedIndex();
     final items = [
       NavigationItem(
-        iconData: FontAwesomeIcons.calendar,
+        iconData: Icons.calendar_month,
         label: 'Events',
       ),
       NavigationItem(
-        iconData: FontAwesomeIcons.compass,
+        iconData: Icons.near_me_rounded,
         label: 'Near Me',
       ),
       NavigationItem(

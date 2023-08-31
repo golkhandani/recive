@@ -5,7 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql/client.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:open_weather_client/services/open_weather_api_service.dart';
-import 'package:realm/realm.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
@@ -54,7 +53,9 @@ Future<Client> initClient({
   // get-graphql-schema -h 'apiKey=3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH' https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql > lib/schema.graphql
 
   final authLink = AuthLink(
+    headerKey: 'apiKey',
     getToken: () async {
+      return '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH';
       final accessToken = await storage.read(
         key: RealmApplicationService.accessTokenKey,
       );
@@ -71,7 +72,7 @@ Future<Client> initClient({
   final Link link = Link.from([authLink, httpLink]);
   final client = Client(
     link: link,
-    cache: cache,
+    // cache: cache,
   );
 
   return client;
@@ -111,6 +112,7 @@ Future setupStorage() async {
   locator.registerLazySingleton<RealmApplicationService>(
     () => RealmApplicationService(
       storage: locator.get(),
+      navigationService: locator.get(),
     ),
   );
 }

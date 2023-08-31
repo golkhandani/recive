@@ -21,7 +21,7 @@ class ProfileScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final currentUser = locator.get<RealmApplicationService>().app.currentUser;
+    final currentUser = locator.get<RealmApplicationService>().currentUser;
     final customData = UserCustomData.fromJson(currentUser?.customData ?? {});
 
     print("currentUser?.customData ${currentUser?.customData}");
@@ -134,6 +134,7 @@ class ProfileScreen extends HookWidget {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            Spacer(),
                             InkWell(
                               onTap: () => bloc.deleteAccount(
                                 onSuccess: () async => await navigationService

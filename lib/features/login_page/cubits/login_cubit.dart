@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:realm/realm.dart';
+// import 'package:realm/realm.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -64,14 +64,14 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
           'image_url': googleSignIn.currentUser?.photoUrl,
         };
 
-        final googleAuthCodeCredentials =
-            Credentials.googleIdToken(googleKey!.idToken!);
+        // final googleAuthCodeCredentials =
+        //     Credentials.googleIdToken(googleKey!.idToken!);
 
-        await applicationService.login(googleAuthCodeCredentials);
+        // await applicationService.login(googleAuthCodeCredentials);
 
-        await applicationService.app.currentUser?.functions
+        await applicationService.currentUser?.functions
             .call("writeCustomUserData", [customUserData]);
-        await applicationService.app.currentUser?.refreshCustomData();
+        await applicationService.currentUser?.refreshCustomData();
         onSuccess();
       } else {
         onFailure();
@@ -129,9 +129,8 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       logoutLoadingState: LoadingState.loading,
     ));
 
-    if (applicationService.app.currentUser != null) {
-      await applicationService.app
-          .deleteUser(applicationService.app.currentUser!);
+    if (applicationService.currentUser != null) {
+      await applicationService.delete();
       await applicationService.logout();
     }
 

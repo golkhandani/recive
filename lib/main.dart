@@ -22,36 +22,37 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
       };
 }
 
-void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  // GoRouter configuration
-  final goRouter = GoRouter(
-    debugLogDiagnostics: true,
-    initialLocation: '/${SplashScreen.name}',
-    navigatorKey: rootNavigatorKey,
-    routes: [
-      ...initRoutes,
-      ...dashboardRoutes,
-      ...authRoutes,
-      ...extraRoutes,
-    ],
-  );
-  await setupNavigation();
-  await setupStorage();
-  await setupGraphQL();
-  await setupRepositories();
-  await setupBlocs();
-  FlutterNativeSplash.remove();
-
-  runZonedGuarded(() {
+void main() {
+  runZonedGuarded(() async {
     PlatformDispatcher.instance.onError = (error, stack) {
+      print(stack.toString());
       print(error);
       return true;
     };
+    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+    // GoRouter configuration
+    final goRouter = GoRouter(
+      debugLogDiagnostics: true,
+      initialLocation: '/${SplashScreen.name}',
+      navigatorKey: rootNavigatorKey,
+      routes: [
+        ...initRoutes,
+        ...dashboardRoutes,
+        ...authRoutes,
+        ...extraRoutes,
+      ],
+    );
+    await setupNavigation();
+    await setupStorage();
+    await setupGraphQL();
+    await setupRepositories();
+    await setupBlocs();
+    FlutterNativeSplash.remove();
     return runApp(Application(goRouter: goRouter));
   }, (error, stack) {
+    print(stack.toString());
     print(error);
   });
 }

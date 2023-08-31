@@ -37,7 +37,7 @@ class _NearMeScreenState extends State<NearMeScreen>
         bloc.loadNearbyEvents(
           latitude: geolocation.latitude,
           longitude: geolocation.longitude,
-          maxDistance: 100000000,
+          maxDistance: 10000,
           minDistance: 0,
         );
       return;

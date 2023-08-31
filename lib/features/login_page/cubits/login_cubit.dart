@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:realm/realm.dart';
 import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 part 'login_cubit.freezed.dart';
 part 'login_cubit.g.dart';
+
+// client id = 337988051792-uhhb488nd5mu1kdavaa6m7i6o8383vbi.apps.googleusercontent.com
+// client secret = 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
+// secret => AIzaSyBmaTbzEzC59qeAurCa4jq3Q67j7Q14Zv0
 
 @freezed
 class LoginState with _$LoginState {
@@ -28,87 +35,122 @@ class LoginState with _$LoginState {
 }
 
 class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
-  static const isLoggedInKey = 'isLoggedInKey';
-  static const accessTokenKey = 'accessTokenKey';
-  static const refreshTokenKey = 'refreshTokenKey';
   final FlutterSecureStorage storage;
+  final GoogleSignIn googleSignIn;
+  final RealmApplicationService applicationService;
 
   LoginCubit({
     required this.storage,
+    required this.googleSignIn,
+    required this.applicationService,
   }) : super(LoginState.initialize());
 
-  Future<void> loginWithGoogle({required VoidCallback onSuccess}) async {
-    maybeEmit(state.copyWith(
-      googleLoginLoadingState: LoadingState.loading,
-    ));
-    // String appId = "suggesteventpath-mgnsw";
-    // final appConfig = AppConfiguration(appId);
-    // final app = App(appConfig);
-    // final user = await app.logIn(Credentials.anonymous());
-    // print(user);
+  Future<void> loginWithGoogle({
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    try {
+      maybeEmit(state.copyWith(
+        googleLoginLoadingState: LoadingState.loading,
+      ));
 
-    await Future.delayed(Duration(milliseconds: 1000));
-    await storage.write(key: refreshTokenKey, value: refreshTokenKey);
-    await storage.write(
-      key: accessTokenKey,
-      value: '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH',
-    );
-    await storage.write(key: isLoggedInKey, value: true.toString());
+      final googleResult = await googleSignIn.signIn();
+      final googleKey = await googleResult?.authentication;
 
-    maybeEmit(state.copyWith(
-      googleLoginLoadingState: LoadingState.done,
-    ));
-    onSuccess();
+      if (googleKey?.idToken != null) {
+        final customUserData = {
+          'name': googleSignIn.currentUser?.displayName,
+          'email': googleSignIn.currentUser?.email,
+          'image_url': googleSignIn.currentUser?.photoUrl,
+        };
+
+        final googleAuthCodeCredentials =
+            Credentials.googleIdToken(googleKey!.idToken!);
+
+        await applicationService.login(googleAuthCodeCredentials);
+
+        await applicationService.app.currentUser?.functions
+            .call("writeCustomUserData", [customUserData]);
+        await applicationService.app.currentUser?.refreshCustomData();
+        onSuccess();
+      } else {
+        onFailure();
+      }
+    } catch (e) {
+      print(e);
+      onFailure();
+    } finally {
+      maybeEmit(state.copyWith(
+        googleLoginLoadingState: LoadingState.done,
+      ));
+    }
   }
 
-  Future<void> loginWithApple({required VoidCallback onSuccess}) async {
-    maybeEmit(state.copyWith(
-      appleLoginLoadingState: LoadingState.loading,
-    ));
-    await Future.delayed(Duration(milliseconds: 1000));
-    await storage.write(key: refreshTokenKey, value: refreshTokenKey);
-    await storage.write(
-      key: accessTokenKey,
-      value: '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH',
-    );
-    await storage.write(key: isLoggedInKey, value: true.toString());
-    maybeEmit(state.copyWith(
-      appleLoginLoadingState: LoadingState.done,
-    ));
-    onSuccess();
+  Future<void> loginWithApple({
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    try {
+      maybeEmit(state.copyWith(
+        appleLoginLoadingState: LoadingState.loading,
+      ));
+      await Future.delayed(Duration(milliseconds: 300));
+
+      throw Error();
+      onSuccess();
+    } catch (e) {
+      onFailure();
+    } finally {
+      maybeEmit(state.copyWith(
+        appleLoginLoadingState: LoadingState.done,
+      ));
+    }
   }
 
-  Future<void> logout({required VoidCallback onSuccess}) async {
+  Future<void> logout({required Future<void> Function() onSuccess}) async {
     maybeEmit(state.copyWith(
       logoutLoadingState: LoadingState.loading,
     ));
 
     await Future.delayed(Duration(milliseconds: 1000));
-    await storage.delete(key: refreshTokenKey);
-    await storage.delete(key: accessTokenKey);
-    await storage.delete(key: isLoggedInKey);
+    await applicationService.logout();
+
     maybeEmit(state.copyWith(
       logoutLoadingState: LoadingState.done,
     ));
 
-    onSuccess();
+    await onSuccess();
+  }
+
+  Future<void> deleteAccount({
+    required Future<void> Function() onSuccess,
+  }) async {
+    maybeEmit(state.copyWith(
+      logoutLoadingState: LoadingState.loading,
+    ));
+
+    if (applicationService.app.currentUser != null) {
+      await applicationService.app
+          .deleteUser(applicationService.app.currentUser!);
+      await applicationService.logout();
+    }
+
+    await Future.delayed(Duration(milliseconds: 1000));
+
+    maybeEmit(state.copyWith(
+      logoutLoadingState: LoadingState.done,
+    ));
+
+    await onSuccess();
   }
 
   Future<void> checkLogin({
     required VoidCallback onLogin,
     required VoidCallback onNeedLogin,
   }) async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    final refreshToken = await storage.read(key: refreshTokenKey);
-    final accessToken = await storage.read(key: accessTokenKey);
-    final isLoggedIn = await storage.read(key: isLoggedInKey);
+    final isLoggedIn = await applicationService.checkLogin();
 
-    print('${refreshToken} - ${accessToken} - ${isLoggedIn}');
-
-    if (refreshToken == null ||
-        accessToken == null ||
-        isLoggedIn == null ||
-        isLoggedIn == 'false') {
+    if (!isLoggedIn) {
       return onNeedLogin();
     }
     return onLogin();

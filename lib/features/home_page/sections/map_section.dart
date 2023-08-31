@@ -81,7 +81,7 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
           padding: const EdgeInsets.all(12),
           sliver: SliverToBoxAdapter(
             child: Hero(
-              tag: 'MapHeroTag',
+              tag: 'MapHeroTag2',
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {

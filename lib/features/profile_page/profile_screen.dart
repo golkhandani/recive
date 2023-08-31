@@ -7,7 +7,9 @@ import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/login_screen.dart';
+import 'package:recive/features/profile_page/models/user_custom_data.dart';
 import 'package:recive/ioc/locator.dart';
+import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -19,6 +21,10 @@ class ProfileScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
+    final currentUser = locator.get<RealmApplicationService>().app.currentUser;
+    final customData = UserCustomData.fromJson(currentUser?.customData ?? {});
+
+    print("currentUser?.customData ${currentUser?.customData}");
     final bloc = useBloc<LoginCubit>();
     final state = useBlocBuilder(bloc);
     return ColoredBox(
@@ -41,10 +47,13 @@ class ProfileScreen extends HookWidget {
                   color: context.theme.primaryColor,
                   child: Stack(
                     children: [
-                      const Positioned(
+                      Positioned(
                         top: 12,
                         right: 24,
                         child: CircleAvatar(
+                          backgroundImage: customData.imageUrl != null
+                              ? NetworkImage(customData.imageUrl!)
+                              : null,
                           backgroundColor: Colors.grey,
                           radius: 72,
                         ),
@@ -54,7 +63,7 @@ class ProfileScreen extends HookWidget {
                         left: 24,
                         right: 72 * 2 + 24 + 12,
                         child: Text(
-                          "Mohammadreza Rahimiangolkhandani - (Comming soon!!!)",
+                          customData.name ?? '',
                           style: context.textTheme.titleMedium,
                         ),
                       ),
@@ -124,7 +133,46 @@ class ProfileScreen extends HookWidget {
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [],
+                          children: [
+                            InkWell(
+                              onTap: () => bloc.deleteAccount(
+                                onSuccess: () async => await navigationService
+                                    .logoutTo(LoginScreen.name),
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.all(12),
+                                alignment: Alignment.center,
+                                constraints: BoxConstraints.expand(height: 48),
+                                decoration: ShapeDecoration(
+                                  color:
+                                      context.theme.colorScheme.errorContainer,
+                                  shape: StadiumBorder(
+                                    side: BorderSide(
+                                      width: 0,
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                                ),
+                                child: state.logoutLoadingState ==
+                                        LoadingState.loading
+                                    ? Center(
+                                        child: SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(),
+                                      ))
+                                    : Text(
+                                        "Delete Account",
+                                        textAlign: TextAlign.center,
+                                        style: context.textTheme.titleMedium!
+                                            .withColor(
+                                          context.theme.colorScheme
+                                              .onErrorContainer,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

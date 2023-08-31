@@ -15,6 +15,8 @@ import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/extra_data.dart';
+import 'package:recive/ioc/locator.dart';
+import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/layout/scaffold_shell.dart';
 import 'package:recive/router/navigation_service.dart';
 
@@ -141,9 +143,18 @@ final dashboardRoutes = [
   GoRoute(
     name: DashboardScreen.name,
     path: '/${DashboardScreen.name}',
-    redirect: (context, state) => state.namedLocation(
-      DashboardWrapper.dashboardRouteNameToSelectedIndexMap.keys.first,
-    ),
+    redirect: (context, state) async {
+      final RealmApplicationService applicationService = locator.get();
+      final isLoggedIn = await applicationService.checkLogin();
+      print("isLoggedIn ${isLoggedIn}");
+      if (isLoggedIn) {
+        return state.namedLocation(
+          DashboardWrapper.dashboardRouteNameToSelectedIndexMap.keys.first,
+        );
+      } else {
+        return state.namedLocation(LoginScreen.name);
+      }
+    },
     builder: (context, state) => const DashboardScreen(),
   ),
   StatefulShellRoute.indexedStack(

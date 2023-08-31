@@ -1,9 +1,11 @@
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
+import 'package:realm/realm.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
@@ -58,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () => bloc.loginWithGoogle(
                       onSuccess: () =>
                           navigationService.navigateTo(DashboardScreen.name),
+                      onFailure: () => print("Failed"),
                     ),
                     child: Container(
                       padding: EdgeInsets.all(12),
@@ -99,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () => bloc.loginWithApple(
                       onSuccess: () =>
                           navigationService.navigateTo(DashboardScreen.name),
+                      onFailure: () => print("Failed"),
                     ),
                     child: Container(
                       padding: EdgeInsets.all(12),

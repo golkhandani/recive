@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -44,7 +45,15 @@ void main() async {
   await setupBlocs();
   FlutterNativeSplash.remove();
 
-  runApp(Application(goRouter: goRouter));
+  runZonedGuarded(() {
+    PlatformDispatcher.instance.onError = (error, stack) {
+      print(error);
+      return true;
+    };
+    return runApp(Application(goRouter: goRouter));
+  }, (error, stack) {
+    print(error);
+  });
 }
 
 class Application extends StatelessWidget {

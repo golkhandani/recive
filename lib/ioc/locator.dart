@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql/client.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:open_weather_client/services/open_weather_api_service.dart';
+import 'package:realm/realm.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
@@ -19,6 +21,7 @@ import 'package:recive/features/search_page/repos/search_event_repo.interface.da
 import 'package:recive/features/search_page/repos/search_events_repo.gql.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:recive/ioc/realm_service.dart';
 
 import 'package:recive/router/navigation_service.dart';
 
@@ -51,24 +54,18 @@ Future<Client> initClient({
   // get-graphql-schema -h 'apiKey=3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH' https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql > lib/schema.graphql
 
   final authLink = AuthLink(
-    headerKey: 'apiKey',
     getToken: () async {
-      final accessToken = await storage.read(key: LoginCubit.accessTokenKey);
-      if (kDebugMode) {
-        print(
-            "_________________| accessToken ${DateTime.now()} --> ${accessToken}");
-      }
-      return accessToken;
-      //  return 'Bearer ${accessToken}';
+      final accessToken = await storage.read(
+        key: RealmApplicationService.accessTokenKey,
+      );
+      print(
+          "_________________| accessToken ${DateTime.now()} --> ${accessToken}");
+      return 'Bearer ${accessToken}';
     },
   );
 
   final httpLink = HttpLink(
     'https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql',
-    // defaultHeaders: {
-    //   'apiKey':
-    //       '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH',
-    // },
   );
 
   final Link link = Link.from([authLink, httpLink]);
@@ -109,6 +106,13 @@ Future setupStorage() async {
 
   final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   locator.registerSingleton<FlutterSecureStorage>(storage);
+
+  locator.registerSingleton<GoogleSignIn>(googleSignIn);
+  locator.registerLazySingleton<RealmApplicationService>(
+    () => RealmApplicationService(
+      storage: locator.get(),
+    ),
+  );
 }
 
 Future setupGraphQL() async {
@@ -148,7 +152,11 @@ Future setupRepositories() async {
 Future setupBlocs() async {
   locator
     ..registerFactory(
-      () => LoginCubit(storage: locator.get()),
+      () => LoginCubit(
+        storage: locator.get(),
+        applicationService: locator.get(),
+        googleSignIn: locator.get(),
+      ),
     )
     ..registerFactory(
       () => CategoriesCubit(),

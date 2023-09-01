@@ -148,21 +148,6 @@ class _MapContentState extends State<_MapContent> {
       return;
     }, [geolocation?.timestamp]);
 
-    // useEffect(() {
-    //   if (geolocation != null)
-    //     widget.bloc.loadNearbyEvents(
-    //       latitude: geolocation.latitude,
-    //       longitude: geolocation.longitude,
-    //       maxDistance: (zoom.value * 10000).toInt(), // 10000000,
-    //       minDistance: 0,
-    //     );
-    //   return;
-    // }, [zoom.value]);
-
-    // useEffectOnce(() {
-    //   // widget.mapController.mapController.l
-    // });
-
     final showRefresh = useState(false);
 
     return MultiSliver(children: [
@@ -176,7 +161,7 @@ class _MapContentState extends State<_MapContent> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Colors.orange,
+                  color: Colors.orangeAccent,
                 ),
                 width: box.maxWidth,
                 height: widget.mapSectionHeight,
@@ -211,7 +196,7 @@ class _MapContentState extends State<_MapContent> {
                               indexBuilder: IndexBuilders.rootIsolate,
                               clusterWidgetSize: const Size(40, 40),
                               maxClusterRadius: 40,
-                              minimumClusterSize: 4,
+                              minimumClusterSize: 2,
                               anchor: AnchorPos.align(AnchorAlign.center),
                               calculateAggregatedClusterData: true,
                               builder: (
@@ -223,7 +208,7 @@ class _MapContentState extends State<_MapContent> {
                                 return Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    color: Colors.blue,
+                                    color: Colors.deepOrange,
                                   ),
                                   child: Center(
                                     child: Text(
@@ -398,9 +383,6 @@ class _CarouselContentState extends State<_CarouselContent>
                     if (!isUpdating.value) {
                       isUpdating.value = true;
                       widget.bloc.changeSelectedIndex(index);
-                      // widget.mapController.animateTo(
-                      //   dest: items[state.preSelectedEventIndex].latLng,
-                      // );
                     }
                   },
                 ),

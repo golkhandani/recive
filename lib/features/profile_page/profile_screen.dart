@@ -123,11 +123,10 @@ class ProfileScreen extends HookWidget {
                       borderRadius: BorderRadius.circular(16),
                       padding: const EdgeInsets.all(12),
                       child: Container(
-                        height: 400,
+                        height: 300,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.yellowAccent,
                         ),
                         padding: EdgeInsets.all(12),
                         child: Column(

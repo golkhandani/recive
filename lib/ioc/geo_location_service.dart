@@ -133,8 +133,14 @@ Position? useLocationData({
     final locationStream = locationService.geolocator
         .getPositionStream(locationSettings: locationOptions)
         .listen((position) {
-      locationData.value = position;
-      locationService.updateUastUserLocation(position);
+      final exp = position.timestamp?.add(
+        Duration(seconds: 120),
+      );
+      if ((position.timestamp != null && position.timestamp!.isAfter(exp!)) ||
+          locationData.value == null) {
+        locationData.value = position;
+        locationService.updateUastUserLocation(position);
+      }
     });
 
     return () {

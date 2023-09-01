@@ -47,7 +47,6 @@ class _NearMeScreenState extends State<NearMeScreen>
     final switchIndex = useState(0);
     final pageController =
         PreloadPageController(initialPage: switchIndex.value);
-    // usePageController(initialPage: switchIndex.value, viewportFraction: 1);
     final switchItems = ['Map', 'List'];
     const switchDuration = Duration(milliseconds: 300);
     final mapController = AnimatedMapController(
@@ -72,11 +71,6 @@ class _NearMeScreenState extends State<NearMeScreen>
             const SliverGap(height: 12),
             Builder(builder: (context) {
               print("state.nearbyEvents.length ${state.nearbyEvents.length}");
-              if (state.loadingState != LoadingState.done) {
-                return const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
 
               return MultiSliver(
                 children: [
@@ -116,6 +110,23 @@ class _NearMeScreenState extends State<NearMeScreen>
                   ),
                   const SliverGap(height: 12),
                   Builder(builder: (context) {
+                    if (state.loadingState != LoadingState.done) {
+                      return SliverPadding(
+                        padding: const EdgeInsets.all(12),
+                        sliver: SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: contentHeight - 24,
+                            child: CardContainer(
+                              borderRadius: BorderRadius.circular(16),
+                              padding: const EdgeInsets.all(12),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                     if (state.nearbyEvents.length == 0) {
                       return SliverPadding(
                         padding: const EdgeInsets.all(12),

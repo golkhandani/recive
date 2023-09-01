@@ -30,7 +30,7 @@ class RealmApplicationService {
     _timer ??= Timer.periodic(Duration(minutes: 15), (_) async {
       try {
         print("Timer.periodic => update user data");
-        await updateToken();
+        await checkLogin();
       } catch (e) {
         cancelRefreshHandler();
         await deleteTokens();

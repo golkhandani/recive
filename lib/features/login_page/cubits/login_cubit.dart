@@ -48,6 +48,8 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
   }) async {
     try {
       maybeEmit(state.copyWith(
+        logoutLoadingState: LoadingState.none,
+        appleLoginLoadingState: LoadingState.none,
         googleLoginLoadingState: LoadingState.loading,
       ));
 
@@ -109,12 +111,12 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
         logoutLoadingState: LoadingState.loading,
       ));
 
-      await Future.delayed(Duration(milliseconds: 1000));
       await applicationService.logout();
 
       maybeEmit(state.copyWith(
-        logoutLoadingState: LoadingState.done,
+        logoutLoadingState: LoadingState.none,
       ));
+      await Future.delayed(Duration(milliseconds: 1000));
 
       await onSuccess();
     } finally {
@@ -140,7 +142,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       await Future.delayed(Duration(milliseconds: 1000));
 
       maybeEmit(state.copyWith(
-        logoutLoadingState: LoadingState.done,
+        logoutLoadingState: LoadingState.none,
       ));
 
       await onSuccess();

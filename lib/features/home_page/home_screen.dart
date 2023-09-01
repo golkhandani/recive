@@ -101,8 +101,8 @@ class UserMarker extends StatelessWidget {
           width: 80,
           height: 80,
           builder: (context) => LoadingAnimationWidget.beat(
-            color: Colors.orange,
-            size: 50,
+            color: Colors.greenAccent,
+            size: 25,
           ),
         ),
       ],

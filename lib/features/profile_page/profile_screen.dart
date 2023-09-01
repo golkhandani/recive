@@ -81,7 +81,8 @@ class ProfileScreen extends HookWidget {
                             constraints:
                                 const BoxConstraints.expand(height: 48),
                             decoration: ShapeDecoration(
-                              color: context.theme.colorScheme.errorContainer,
+                              color:
+                                  context.theme.colorScheme.tertiaryContainer,
                               shape: const StadiumBorder(
                                 side: BorderSide(
                                   width: 0,
@@ -103,7 +104,7 @@ class ProfileScreen extends HookWidget {
                                         style: context.textTheme.titleMedium!
                                             .withColor(
                                           context.theme.colorScheme
-                                              .onErrorContainer,
+                                              .onTertiaryContainer,
                                         ),
                                       ),
                           ),

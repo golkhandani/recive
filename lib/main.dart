@@ -83,7 +83,7 @@ class Application extends StatelessWidget {
         ),
         routerConfig: goRouter,
         theme: theme.copyWith(
-          textTheme: GoogleFonts.nunitoSansTextTheme(theme.textTheme),
+          textTheme: GoogleFonts.spaceGroteskTextTheme(theme.textTheme),
         ),
         builder: (context, child) => Container(
           constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),

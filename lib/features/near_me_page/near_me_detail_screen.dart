@@ -132,7 +132,7 @@ class NearbyDetailScreen extends HookWidget {
                                           children: [
                                             Row(
                                               children: [
-                                                Iconify(
+                                                const Iconify(
                                                   Mdi.warning,
                                                   color: Colors.redAccent,
                                                   size: 24,
@@ -347,11 +347,11 @@ class NearbyDetailScreen extends HookWidget {
                                                   child: Text.rich(
                                                     TextSpan(
                                                       children: [
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text: 'Price : '),
                                                         if (data?.isFree ??
                                                             false)
-                                                          TextSpan(
+                                                          const TextSpan(
                                                               text:
                                                                   'It\' Free'),
                                                         if (data?.minPrice !=
@@ -394,17 +394,17 @@ class NearbyDetailScreen extends HookWidget {
                                                   child: Text.rich(
                                                     TextSpan(
                                                       children: [
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text: 'Ticket : '),
                                                         if (data?.isSoldOut ??
                                                             false)
-                                                          TextSpan(
+                                                          const TextSpan(
                                                             text:
                                                                 'Tickets are sold out',
                                                           ),
                                                         if (data?.hasAvailableTickets ??
                                                             false)
-                                                          TextSpan(
+                                                          const TextSpan(
                                                             text:
                                                                 'Tickets are still available',
                                                           ),
@@ -434,8 +434,10 @@ class NearbyDetailScreen extends HookWidget {
                                                       if (data?.startDate !=
                                                           null)
                                                         TextSpan(
-                                                          text:
-                                                              '${DateFormat.yMMMd().format(data!.startDate!)}',
+                                                          text: DateFormat
+                                                                  .yMMMd()
+                                                              .format(data!
+                                                                  .startDate!),
                                                         ),
                                                       if (data?.endDate != null)
                                                         TextSpan(
@@ -477,8 +479,8 @@ class NearbyDetailScreen extends HookWidget {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
-                                          color:
-                                              Color.fromARGB(255, 53, 65, 146),
+                                          color: const Color.fromARGB(
+                                              255, 53, 65, 146),
                                         ),
                                         padding: const EdgeInsets.all(12),
                                         child: Column(
@@ -498,7 +500,7 @@ class NearbyDetailScreen extends HookWidget {
                                                   child: Text.rich(
                                                     TextSpan(
                                                       children: [
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text:
                                                                 'Organizer : '),
                                                         if (data?.organizer
@@ -535,7 +537,7 @@ class NearbyDetailScreen extends HookWidget {
                                                   child: Text.rich(
                                                     TextSpan(
                                                       children: [
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text:
                                                                 'Followers : '),
                                                         if (data?.organizer
@@ -575,7 +577,7 @@ class NearbyDetailScreen extends HookWidget {
                                                   child: Text.rich(
                                                     TextSpan(
                                                       children: [
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text: 'About : \n'),
                                                         if (data?.organizer
                                                                 ?.description !=
@@ -616,7 +618,7 @@ class NearbyDetailScreen extends HookWidget {
                                                   child: Text.rich(
                                                     TextSpan(
                                                       children: [
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text: 'Web : '),
                                                         if (data?.organizer
                                                                 ?.description !=
@@ -751,7 +753,7 @@ class NearbyDetailScreen extends HookWidget {
                                                   child: Text.rich(
                                                     TextSpan(
                                                       children: [
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text: 'Source : '),
                                                         if (data?.source
                                                                 ?.name !=
@@ -791,7 +793,7 @@ class NearbyDetailScreen extends HookWidget {
                                                   child: Text.rich(
                                                     TextSpan(
                                                       children: [
-                                                        TextSpan(
+                                                        const TextSpan(
                                                             text:
                                                                 'Source URL : '),
                                                         if (data?.source?.url !=

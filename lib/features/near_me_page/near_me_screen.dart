@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
@@ -33,14 +34,17 @@ class _NearMeScreenState extends State<NearMeScreen>
     final geolocation = useLocationData(debugLabel: 'NearMeScreen');
 
     useEffect(() {
-      print('geolocation != null ${geolocation}');
-      if (geolocation != null)
+      if (kDebugMode) {
+        print('geolocation != null $geolocation');
+      }
+      if (geolocation != null) {
         bloc.loadNearbyEvents(
           latitude: geolocation.latitude,
           longitude: geolocation.longitude,
           maxDistance: 10000,
           minDistance: 0,
         );
+      }
       return;
     }, [geolocation]);
 
@@ -70,8 +74,6 @@ class _NearMeScreenState extends State<NearMeScreen>
             ),
             const SliverGap(height: 12),
             Builder(builder: (context) {
-              print("state.nearbyEvents.length ${state.nearbyEvents.length}");
-
               return MultiSliver(
                 children: [
                   SliverToBoxAdapter(
@@ -96,7 +98,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                           onToggle: (index) {
                             final val = index ?? 0;
                             switchIndex.value = val;
-                            if (state.nearbyEvents.length != 0) {
+                            if (state.nearbyEvents.isNotEmpty) {
                               pageController.animateToPage(
                                 val,
                                 duration: switchDuration,
@@ -119,7 +121,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                             child: CardContainer(
                               borderRadius: BorderRadius.circular(16),
                               padding: const EdgeInsets.all(12),
-                              child: Center(
+                              child: const Center(
                                 child: CircularProgressIndicator(),
                               ),
                             ),
@@ -127,7 +129,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                         ),
                       );
                     }
-                    if (state.nearbyEvents.length == 0) {
+                    if (state.nearbyEvents.isEmpty) {
                       return SliverPadding(
                         padding: const EdgeInsets.all(12),
                         sliver: SliverToBoxAdapter(
@@ -136,7 +138,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                             child: CardContainer(
                               borderRadius: BorderRadius.circular(16),
                               padding: const EdgeInsets.all(12),
-                              child: Center(
+                              child: const Center(
                                 child: Text("No Event has been found!"),
                               ),
                             ),

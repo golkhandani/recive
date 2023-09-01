@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:realm/realm.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/profile_page/models/user_custom_data.dart';
 import 'package:recive/ioc/realm_service.dart';
@@ -62,20 +61,18 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
           email: googleSignIn.currentUser?.email,
           imageUrl: googleSignIn.currentUser?.photoUrl,
         );
-        print("googleResult!.serverAuthCode! ${googleResult?.serverAuthCode}");
-        print("googleKey!.idToken! ${googleKey!.idToken!}");
         await applicationService.loginWithGoogleId(
           googleKey!.idToken!,
           data: customUserData,
         );
-
-        print("2");
         onSuccess();
       } else {
         onFailure();
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       onFailure();
     } finally {
       maybeEmit(state.copyWith(
@@ -92,10 +89,10 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       maybeEmit(state.copyWith(
         appleLoginLoadingState: LoadingState.loading,
       ));
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
 
       throw Error();
-      onSuccess();
+      // onSuccess();
     } catch (e) {
       onFailure();
     } finally {
@@ -116,7 +113,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       maybeEmit(state.copyWith(
         logoutLoadingState: LoadingState.none,
       ));
-      await Future.delayed(Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 1000));
 
       await onSuccess();
     } finally {
@@ -139,7 +136,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
         await applicationService.logout();
       }
 
-      await Future.delayed(Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 1000));
 
       maybeEmit(state.copyWith(
         logoutLoadingState: LoadingState.none,

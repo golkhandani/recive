@@ -1,4 +1,5 @@
 import 'package:custom_clippers/custom_clippers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
@@ -50,22 +51,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Expanded(
               child: Column(
                 children: [
                   InkWell(
                     onTap: () => bloc.loginWithGoogle(
-                      onSuccess: () =>
-                          navigationService.navigateTo(DashboardScreen.name),
-                      onFailure: () => print("Failed"),
-                    ),
+                        onSuccess: () =>
+                            navigationService.navigateTo(DashboardScreen.name),
+                        onFailure: () {
+                          if (kDebugMode) {
+                            print("Failed");
+                          }
+                        }),
                     child: Container(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       alignment: Alignment.center,
                       constraints:
-                          BoxConstraints.expand(height: 64, width: 350),
-                      decoration: ShapeDecoration(
+                          const BoxConstraints.expand(height: 64, width: 350),
+                      decoration: const ShapeDecoration(
                         color: Colors.red,
                         shape: StadiumBorder(
                           side: BorderSide(width: 0, color: Colors.transparent),
@@ -73,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: state.googleLoginLoadingState ==
                               LoadingState.loading
-                          ? CircularProgressIndicator()
+                          ? const CircularProgressIndicator()
                           : Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -82,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: context
                                       .theme.colorScheme.onErrorContainer,
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(
                                   "Login with Google",
                                   textAlign: TextAlign.center,
@@ -95,19 +99,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   InkWell(
                     onTap: () => bloc.loginWithApple(
                       onSuccess: () =>
                           navigationService.navigateTo(DashboardScreen.name),
-                      onFailure: () => print("Failed"),
+                      onFailure: () {
+                        if (kDebugMode) {
+                          print("Failed");
+                        }
+                      },
                     ),
                     child: Container(
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       constraints:
-                          BoxConstraints.expand(height: 64, width: 350),
+                          const BoxConstraints.expand(height: 64, width: 350),
                       alignment: Alignment.center,
-                      decoration: ShapeDecoration(
+                      decoration: const ShapeDecoration(
                         color: Colors.black,
                         shape: StadiumBorder(
                           side: BorderSide(width: 0, color: Colors.transparent),
@@ -115,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: state.appleLoginLoadingState ==
                               LoadingState.loading
-                          ? CircularProgressIndicator()
+                          ? const CircularProgressIndicator()
                           : Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -124,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: context
                                       .theme.colorScheme.onErrorContainer,
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(
                                   "Login with Apple",
                                   textAlign: TextAlign.center,

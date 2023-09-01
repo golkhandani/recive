@@ -233,10 +233,11 @@ class SearchScreen extends HookWidget {
                       child: CardContainer(
                         borderRadius: BorderRadius.circular(16),
                         padding: const EdgeInsets.all(12),
-                        child: state.searchedkeywords.length == 0
+                        child: state.searchedkeywords.isEmpty
                             ? ConstrainedBox(
-                                constraints: BoxConstraints.expand(height: 300),
-                                child: Center(
+                                constraints:
+                                    const BoxConstraints.expand(height: 300),
+                                child: const Center(
                                   child: CircularProgressIndicator(),
                                 ),
                               )
@@ -285,8 +286,8 @@ class SearchScreen extends HookWidget {
                       padding: const EdgeInsets.all(12),
                       sliver: SliverFillRemaining(
                         child: ConstrainedBox(
-                          constraints: BoxConstraints.expand(height: 300),
-                          child: Center(
+                          constraints: const BoxConstraints.expand(height: 300),
+                          child: const Center(
                             child: CircularProgressIndicator(),
                           ),
                         ),
@@ -362,7 +363,7 @@ class SearchEventCardContainerData {
       organizers: [e.organizer?.title ?? ''],
       participants: [],
       imageUrl: e.imageUrl!,
-      latlng: e.venue?.latLng ?? LatLng(0, 0),
+      latlng: e.venue?.latLng ?? const LatLng(0, 0),
     );
   }
 }

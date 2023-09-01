@@ -2,15 +2,12 @@ import 'package:collection/collection.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:realm/realm.dart';
 import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/near_by_query.req.gql.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
-import 'package:recive/ioc/locator.dart';
-import 'package:recive/ioc/realm_service.dart';
 
 class GQLEventRepo extends IEventRepo {
   final Client client;

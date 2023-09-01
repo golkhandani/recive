@@ -119,23 +119,21 @@ Position? useLocationData({
   required String debugLabel,
 }) {
   if (kDebugMode) {
-    print("_________________| ${debugLabel} - useLocationData");
+    print("_________________| $debugLabel - useLocationData");
   }
 
   final locationData =
       useState<Position?>(locationService.lastUserLocation?.position);
 
   useEffect(() {
-    final locationOptions = LocationSettings(
+    const locationOptions = LocationSettings(
       distanceFilter: 10,
     );
 
     final locationStream = locationService.geolocator
         .getPositionStream(locationSettings: locationOptions)
         .listen((position) {
-      final exp = position.timestamp?.add(
-        Duration(seconds: 120),
-      );
+      final exp = position.timestamp?.add(const Duration(seconds: 120));
       if ((position.timestamp != null && position.timestamp!.isAfter(exp!)) ||
           locationData.value == null) {
         locationData.value = position;
@@ -185,7 +183,9 @@ UserLocation useUserLocation({
       );
 
   final positionChanged = useStream(useMemoized(() {
-    print("_________________| useMemoized useUserLocation");
+    if (kDebugMode) {
+      print("_________________| useMemoized useUserLocation");
+    }
     return Geolocator.getPositionStream(locationSettings: settings);
   }));
 
@@ -204,9 +204,11 @@ UserLocation useUserLocation({
   if (state.value.position != null) {
     locationService.updateUastUserLocation(state.value.position);
   }
-  print("1 ${debugLabel} ${debugLabel} ${DateTime.now()}");
-  print("1 locationData ${locationData?.timestamp}");
-  print("2 locationData ${locationService.getLastTimestamp}");
+  if (kDebugMode) {
+    print("1 $debugLabel $debugLabel ${DateTime.now()}");
+    print("1 locationData ${locationData?.timestamp}");
+    print("2 locationData ${locationService.getLastTimestamp}");
+  }
 
   return state.value;
 }

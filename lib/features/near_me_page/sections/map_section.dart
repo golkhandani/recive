@@ -97,7 +97,6 @@ class _MapContentState extends State<_MapContent> {
         rotate: true,
         builder: (ctx) => InkWell(
           onTap: () {
-            print("CHANGE ON MAP $index");
             widget.bloc.changeSelectedIndex(index);
           },
           child: Iconify(
@@ -273,7 +272,7 @@ class _MapContentState extends State<_MapContent> {
                         child: MapButton(
                           icon: Icons.refresh,
                           onClicked: () {
-                            if (geolocation != null)
+                            if (geolocation != null) {
                               widget.bloc.loadNearbyEvents(
                                 latitude: center.value.latitude,
                                 longitude: center.value.longitude,
@@ -281,6 +280,7 @@ class _MapContentState extends State<_MapContent> {
                                 minDistance: 0,
                                 onBackground: true,
                               );
+                            }
                             showRefresh.value = false;
                           },
                         ),

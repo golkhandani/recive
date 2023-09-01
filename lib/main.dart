@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
@@ -25,8 +26,11 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 void main() {
   runZonedGuarded(() async {
     PlatformDispatcher.instance.onError = (error, stack) {
-      print(stack.toString());
-      print(error);
+      if (kDebugMode) {
+        print(stack.toString());
+        print(error);
+      }
+
       return true;
     };
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -52,8 +56,10 @@ void main() {
     FlutterNativeSplash.remove();
     return runApp(Application(goRouter: goRouter));
   }, (error, stack) {
-    print(stack.toString());
-    print(error);
+    if (kDebugMode) {
+      print(stack.toString());
+      print(error);
+    }
   });
 }
 

@@ -154,7 +154,7 @@ class EventCardContainer extends StatelessWidget {
     });
 
     final heroTag = data.id + DateTime.now().toString();
-    final route = NearMeScreen.name + NearbyDetailScreen.name;
+    const route = NearMeScreen.name + NearbyDetailScreen.name;
     final extra = ExtraData(
       summary: NearbyDetailSummaryData(
         id: data.id,

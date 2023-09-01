@@ -24,7 +24,6 @@ class ProfileScreen extends HookWidget {
     final currentUser = locator.get<RealmApplicationService>().currentUser;
     final customData = UserCustomData.fromJson(currentUser?.customData ?? {});
 
-    print("currentUser?.customData ${currentUser?.customData}");
     final bloc = useBloc<LoginCubit>();
     final state = useBlocBuilder(bloc);
     return ColoredBox(
@@ -77,12 +76,13 @@ class ProfileScreen extends HookWidget {
                                 .logoutTo(LoginScreen.name),
                           ),
                           child: Container(
-                            padding: EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(12),
                             alignment: Alignment.center,
-                            constraints: BoxConstraints.expand(height: 48),
+                            constraints:
+                                const BoxConstraints.expand(height: 48),
                             decoration: ShapeDecoration(
                               color: context.theme.colorScheme.errorContainer,
-                              shape: StadiumBorder(
+                              shape: const StadiumBorder(
                                 side: BorderSide(
                                   width: 0,
                                   color: Colors.transparent,
@@ -91,7 +91,7 @@ class ProfileScreen extends HookWidget {
                             ),
                             child:
                                 state.logoutLoadingState == LoadingState.loading
-                                    ? Center(
+                                    ? const Center(
                                         child: SizedBox(
                                         width: 24,
                                         height: 24,
@@ -128,25 +128,26 @@ class ProfileScreen extends HookWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Spacer(),
+                            const Spacer(),
                             InkWell(
                               onTap: () => bloc.deleteAccount(
                                 onSuccess: () async => await navigationService
                                     .logoutTo(LoginScreen.name),
                               ),
                               child: Container(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 alignment: Alignment.center,
-                                constraints: BoxConstraints.expand(height: 48),
+                                constraints:
+                                    const BoxConstraints.expand(height: 48),
                                 decoration: ShapeDecoration(
                                   color:
                                       context.theme.colorScheme.errorContainer,
-                                  shape: StadiumBorder(
+                                  shape: const StadiumBorder(
                                     side: BorderSide(
                                       width: 0,
                                       color: Colors.transparent,
@@ -155,7 +156,7 @@ class ProfileScreen extends HookWidget {
                                 ),
                                 child: state.logoutLoadingState ==
                                         LoadingState.loading
-                                    ? Center(
+                                    ? const Center(
                                         child: SizedBox(
                                         width: 24,
                                         height: 24,

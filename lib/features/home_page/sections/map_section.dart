@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
-import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
-// import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/home_page/home_screen.dart';
@@ -14,7 +12,6 @@ import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher.dart';
-// ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart';
 
 class HomePageMapSection extends StatefulHookWidget {

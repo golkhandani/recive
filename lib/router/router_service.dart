@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
@@ -40,14 +41,14 @@ final extraRoutes = [
 
 final authRoutes = [
   GoRoute(
-    name: '${SplashScreen.name}',
+    name: SplashScreen.name,
     path: '/${SplashScreen.name}',
-    builder: (context, state) => SplashScreen(),
+    builder: (context, state) => const SplashScreen(),
   ),
   GoRoute(
-    name: '${LoginScreen.name}',
+    name: LoginScreen.name,
     path: '/${LoginScreen.name}',
-    builder: (context, state) => LoginScreen(),
+    builder: (context, state) => const LoginScreen(),
   ),
 ];
 
@@ -146,7 +147,9 @@ final dashboardRoutes = [
     redirect: (context, state) async {
       final RealmApplicationService applicationService = locator.get();
       final isLoggedIn = await applicationService.checkLogin();
-      print("isLoggedIn ${isLoggedIn}");
+      if (kDebugMode) {
+        print("________ | DashboardScreen isLoggedIn $isLoggedIn");
+      }
       if (isLoggedIn) {
         return state.namedLocation(
           DashboardWrapper.dashboardRouteNameToSelectedIndexMap.keys.first,
@@ -202,7 +205,6 @@ final dashboardRoutes = [
                     state,
                     const NewsScreen(),
                   ),
-                  routes: [],
                 ),
                 featuredEventDetailRoute(HomeScreen.name),
                 GoRoute(

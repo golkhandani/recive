@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         color: context.theme.colorScheme.background,
-        child: Center(
+        child: const Center(
           child: CircularProgressIndicator(),
         ),
       ),

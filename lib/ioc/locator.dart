@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:graphql/client.dart';
@@ -25,15 +23,13 @@ import 'package:recive/features/search_page/repos/search_events_repo.gql.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:recive/ioc/realm_service.dart';
-
 import 'package:recive/router/navigation_service.dart';
-
 import 'package:ferry/ferry.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import 'package:ferry_hive_store/ferry_hive_store.dart' as qqlStore;
-import 'package:path_provider/path_provider.dart';
-import 'package:realm/realm.dart'; // import realm package
+import 'package:ferry_hive_store/ferry_hive_store.dart' as qql_store;
+// ignore: depend_on_referenced_packages
+import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:realm/realm.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -49,7 +45,7 @@ Future<Client> initClient({
 
   final box = await Hive.openBox("graphql");
 
-  final store = qqlStore.HiveStore(box);
+  final store = qql_store.HiveStore(box);
 
   final cache = Cache(store: store);
 
@@ -57,12 +53,12 @@ Future<Client> initClient({
   // get-graphql-schema -h 'apiKey=3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH' https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql > lib/schema.graphql
 
   final authLink = AuthLink(
-    // headerKey: 'apiKey',
     getToken: () async {
-      // return '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH';
-
+      //  'apiKey' = '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH';
       String? token = applicationService.currentUser?.accessToken;
-      print("_________________| accessToken ${DateTime.now()}${token != null}");
+      if (kDebugMode) {
+        print("_________________| accessToken ${DateTime.now()}$token");
+      }
       if (token == null || token.isEmpty) {
         await applicationService.updateToken();
         token = applicationService.currentUser?.accessToken;
@@ -71,7 +67,7 @@ Future<Client> initClient({
         await navigationService.navigateTo(LoginScreen.name);
         return '';
       }
-      return 'Bearer ${token}';
+      return 'Bearer $token';
     },
   );
 
@@ -82,7 +78,7 @@ Future<Client> initClient({
   final Link link = Link.from([authLink, httpLink]);
   final client = Client(
     link: link,
-    // cache: cache,
+    cache: cache,
   );
 
   return client;
@@ -111,7 +107,7 @@ Future setupStorage() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
-        : await getTemporaryDirectory(),
+        : await path_provider.getTemporaryDirectory(),
   );
   await HydratedBloc.storage.clear();
   locator.registerSingletonAsync(() async {
@@ -119,11 +115,11 @@ Future setupStorage() async {
   });
 
   locator.registerLazySingleton<FlutterSecureStorage>(() {
-    AndroidOptions _getAndroidOptions() => const AndroidOptions(
+    AndroidOptions getAndroidOptions() => const AndroidOptions(
           encryptedSharedPreferences: true,
         );
 
-    final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+    final storage = FlutterSecureStorage(aOptions: getAndroidOptions());
     return storage;
   });
 

@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:realm/realm.dart';
 import 'package:recive/features/login_page/login_screen.dart';
@@ -26,12 +25,19 @@ class RealmApplicationService {
 
   Future<void> initRefreshHandler() async {
     await updateToken();
-    print("Timer.periodic => ${_timer == null}");
-    _timer ??= Timer.periodic(Duration(minutes: 15), (_) async {
+    if (kDebugMode) {
+      print("________ | Timer.periodic: ${_timer == null}");
+    }
+    _timer ??= Timer.periodic(const Duration(minutes: 15), (_) async {
       try {
-        print("Timer.periodic => update user data");
+        if (kDebugMode) {
+          print("________ | Timer.periodic: update user data");
+        }
         await checkLogin();
       } catch (e) {
+        if (kDebugMode) {
+          print("________ | Timer.periodic: err => $e");
+        }
         cancelRefreshHandler();
         await deleteTokens();
         await logout();
@@ -112,28 +118,30 @@ class RealmApplicationService {
     try {
       final user = await app.logIn(c);
       await updateToken();
-      print(user.deviceId);
+      if (kDebugMode) {
+        print("________ | login: err => ${user.id}");
+      }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print("________ | login: err => $e");
+      }
       await deleteTokens();
     }
   }
 
   Future<bool> checkLogin() async {
-    await updateToken();
     try {
+      await updateToken();
+      app.reconnect();
       final refreshToken = await storage.read(key: refreshTokenKey);
       final accessToken = await storage.read(key: accessTokenKey);
       final isLoggedIn = await storage.read(key: isLoggedInKey);
-
-      print("${refreshToken} ${accessToken} ${isLoggedIn}");
-      app.reconnect();
-
-      if (app.currentUser?.state == null ||
+      final isValid = app.currentUser?.state == null ||
           refreshToken == null ||
           accessToken == null ||
           isLoggedIn == null ||
-          isLoggedIn == 'false') {
+          isLoggedIn == 'false';
+      if (isValid) {
         await deleteTokens();
         await initRefreshHandler();
         return false;
@@ -141,7 +149,9 @@ class RealmApplicationService {
         return true;
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print("________ | checkLogin: err => $e");
+      }
       await deleteTokens();
       return false;
     }

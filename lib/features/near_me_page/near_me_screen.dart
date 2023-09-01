@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:preload_page_view/preload_page_view.dart';
+import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/string_extensions.dart';
@@ -71,12 +72,12 @@ class _NearMeScreenState extends State<NearMeScreen>
             const SliverGap(height: 12),
             Builder(builder: (context) {
               print("state.nearbyEvents.length ${state.nearbyEvents.length}");
-              if (state.loadingState != LoadingState.done ||
-                  state.nearbyEvents.length == 0) {
+              if (state.loadingState != LoadingState.done) {
                 return const SliverFillRemaining(
                   child: Center(child: CircularProgressIndicator()),
                 );
               }
+
               return MultiSliver(
                 children: [
                   SliverToBoxAdapter(
@@ -101,48 +102,69 @@ class _NearMeScreenState extends State<NearMeScreen>
                           onToggle: (index) {
                             final val = index ?? 0;
                             switchIndex.value = val;
-                            pageController.animateToPage(
-                              val,
-                              duration: switchDuration,
-                              curve: Curves.easeIn,
-                            );
+                            if (state.nearbyEvents.length != 0) {
+                              pageController.animateToPage(
+                                val,
+                                duration: switchDuration,
+                                curve: Curves.easeIn,
+                              );
+                            }
                           },
                         ),
                       );
                     }),
                   ),
                   const SliverGap(height: 12),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      color: Colors.transparent,
-                      height: contentHeight + 100,
-                      width: box.maxWidth,
-                      child: PreloadPageView(
-                        //  allowImplicitScrolling: false,
-                        controller: pageController,
-                        onPageChanged: (value) => switchIndex.value = value,
-                        children: [
-                          CustomScrollView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            slivers: [
-                              NearMeScreenMapViewContent(
-                                switchIndex: switchIndex,
-                                switchItems: switchItems,
-                                mapSectionHeight: mapSectionHeight,
-                                listSectionHeight: listSectionHeight,
-                                mapController: mapController,
-                                bloc: bloc,
+                  Builder(builder: (context) {
+                    if (state.nearbyEvents.length == 0) {
+                      return SliverPadding(
+                        padding: const EdgeInsets.all(12),
+                        sliver: SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: contentHeight - 24,
+                            child: CardContainer(
+                              borderRadius: BorderRadius.circular(16),
+                              padding: const EdgeInsets.all(12),
+                              child: Center(
+                                child: Text("No Event has been found!"),
                               ),
-                            ],
+                            ),
                           ),
-                          NearMeScreenListViewContent(
-                            switchIndex: switchIndex,
-                            bloc: bloc,
-                          ),
-                        ],
+                        ),
+                      );
+                    }
+                    return SliverToBoxAdapter(
+                      child: Container(
+                        color: Colors.transparent,
+                        height: contentHeight + 100,
+                        width: box.maxWidth,
+                        child: PreloadPageView(
+                          //  allowImplicitScrolling: false,
+                          controller: pageController,
+                          onPageChanged: (value) => switchIndex.value = value,
+                          children: [
+                            CustomScrollView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              slivers: [
+                                NearMeScreenMapViewContent(
+                                  switchIndex: switchIndex,
+                                  switchItems: switchItems,
+                                  mapSectionHeight: mapSectionHeight,
+                                  listSectionHeight: listSectionHeight,
+                                  mapController: mapController,
+                                  bloc: bloc,
+                                ),
+                              ],
+                            ),
+                            NearMeScreenListViewContent(
+                              switchIndex: switchIndex,
+                              bloc: bloc,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                 ],
               );
             }),

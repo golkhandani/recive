@@ -89,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  build_cli_annotations:
+    dependency: transitive
+    description:
+      name: build_cli_annotations
+      sha256: b59d2769769efd6c9ff6d4c4cede0be115a566afc591705c2040b707534b1172
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   build_config:
     dependency: transitive
     description:
@@ -193,6 +201,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  cancellation_token:
+    dependency: transitive
+    description:
+      name: cancellation_token
+      sha256: ad95acf9d4b2f3563e25dc937f63587e46a70ce534e910b65d10e115490f1027
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   characters:
     dependency: transitive
     description:
@@ -269,10 +285,10 @@ packages:
     dependency: transitive
     description:
       name: csslib
-      sha256: "706b5707578e0c1b4b7550f64078f0a0f19dec3f50a178ffae7006b0a9ca58fb"
+      sha256: "831883fb353c8bdc1d71979e5b342c7d88acfbc643113c14ae51e2442ea0f20f"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "0.17.3"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -514,10 +530,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_secure_storage
-      sha256: ffdbb60130e4665d2af814a0267c481bcf522c41ae2e43caf69fa0146876d685
+      sha256: "22dbf16f23a4bcf9d35e51be1c84ad5bb6f627750565edd70dab70f3ff5fff8f"
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.0"
+    version: "8.1.0"
   flutter_secure_storage_linux:
     dependency: transitive
     description:
@@ -554,10 +570,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_secure_storage_windows
-      sha256: "5809c66f9dd3b4b93b0a6e2e8561539405322ee767ac2f64d084e2ab5429d108"
+      sha256: "38f9501c7cb6f38961ef0e1eacacee2b2d4715c63cc83fe56449c4d3d0b47255"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "2.1.1"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -1056,6 +1072,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.2+1"
+  objectid:
+    dependency: transitive
+    description:
+      name: objectid
+      sha256: "22fa972000d3256f10d06323a9dcbf4b564fb03fdb9024399e3a6c1d9902f914"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   octo_image:
     dependency: transitive
     description:
@@ -1280,6 +1304,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  realm:
+    dependency: "direct main"
+    description:
+      name: realm
+      sha256: c25b13cfdadeae582ddda1a97d58cff9e0fc0665a19905ceb5d0707bd90ace6d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
+  realm_common:
+    dependency: transitive
+    description:
+      name: realm_common
+      sha256: "2ee6c3d01a70cf3c7cf8d8550cee6f17e55c0184aed53ececdb5b153ea501b57"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
+  realm_generator:
+    dependency: transitive
+    description:
+      name: realm_generator
+      sha256: "8ccf72fd6aec2fd8a8863fcfd1e9d24d2c054cfcbe0123808a77bede00285d9c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   rxdart:
     dependency: transitive
     description:
@@ -1288,6 +1336,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sane_uuid:
+    dependency: transitive
+    description:
+      name: sane_uuid
+      sha256: "5e83f796a7d19d38d3ba3a940642998fdd8c4a4049be135ed25404e37f76a18c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0-alpha.5"
   scratch_space:
     dependency: transitive
     description:
@@ -1437,6 +1493,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
+  tar:
+    dependency: transitive
+    description:
+      name: tar
+      sha256: "85ffd53e277f2bac8afa2885e6b195e26937e9c402424c3d88d92fd920b56de9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.6"
   term_glyph:
     dependency: transitive
     description:

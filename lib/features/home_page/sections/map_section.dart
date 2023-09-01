@@ -145,7 +145,7 @@ class FlutterMapTileLayer extends StatelessWidget {
     return TileLayer(
       urlTemplate:
           'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=cKGhx1kSOrw1anX1ljgw',
-      tileProvider: FMTC.instance('FlutterMapTileStore').getTileProvider(),
+      tileProvider: locator.get(),
     );
   }
 }

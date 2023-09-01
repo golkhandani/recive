@@ -15,6 +15,10 @@
 		</array>
 		<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
 		<!-- Google Sign-in Section -->
+		<key>GIDClientID</key>
+		<string>337988051792-depkbem06p52nihpdd0jbea1bk4lqtpm.apps.googleusercontent.com</string>
+		<key>GIDServerClientID</key>
+		<string>337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com</string>
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>
@@ -22,6 +26,7 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
+					<string>com.googleusercontent.apps.337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls</string>
 					<!-- TODO Replace this value: -->
 					<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
 					<string>com.googleusercontent.apps.337988051792-depkbem06p52nihpdd0jbea1bk4lqtpm</string>

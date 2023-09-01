@@ -2,12 +2,15 @@ import 'package:collection/collection.dart';
 import 'package:ferry/ferry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:realm/realm.dart';
 import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/near_by_query.req.gql.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
+import 'package:recive/ioc/locator.dart';
+import 'package:recive/ioc/realm_service.dart';
 
 class GQLEventRepo extends IEventRepo {
   final Client client;
@@ -22,6 +25,7 @@ class GQLEventRepo extends IEventRepo {
         GGetFeaturedEventReq((b) => b..vars.eventId.value = id);
 
     final data = await client.request(featuredEventRequest).map((element) {
+      print(element.hasErrors);
       if (kDebugMode) {
         print(
             "_________________| featuredEventRequest ${element.loading} ${element.data?.event?.G_id?.value}");
@@ -64,6 +68,9 @@ class GQLEventRepo extends IEventRepo {
     );
 
     final data = await client.request(featuredEventRequest).map((element) {
+      print(element.hasErrors);
+      print(element.linkException);
+
       if (kDebugMode) {
         print(
             "_________________| featuredEventsRequest ${element.loading} ${element.data?.events.length}");

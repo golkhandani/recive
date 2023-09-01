@@ -3,16 +3,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 // import 'package:realm/realm.dart';
 import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/features/profile_page/models/user_custom_data.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 part 'login_cubit.freezed.dart';
 part 'login_cubit.g.dart';
-
-// client id = 337988051792-uhhb488nd5mu1kdavaa6m7i6o8383vbi.apps.googleusercontent.com
-// client secret = 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
-// secret => AIzaSyBmaTbzEzC59qeAurCa4jq3Q67j7Q14Zv0
 
 @freezed
 class LoginState with _$LoginState {
@@ -58,20 +55,19 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       final googleKey = await googleResult?.authentication;
 
       if (googleKey?.idToken != null) {
-        final customUserData = {
-          'name': googleSignIn.currentUser?.displayName,
-          'email': googleSignIn.currentUser?.email,
-          'image_url': googleSignIn.currentUser?.photoUrl,
-        };
+        final customUserData = UserCustomData(
+          name: googleSignIn.currentUser?.displayName,
+          email: googleSignIn.currentUser?.email,
+          imageUrl: googleSignIn.currentUser?.photoUrl,
+        );
+        print("googleResult!.serverAuthCode! ${googleResult?.serverAuthCode}");
+        print("googleKey!.idToken! ${googleKey!.idToken!}");
+        await applicationService.loginWithGoogleId(
+          googleKey!.idToken!,
+          data: customUserData,
+        );
 
-        // final googleAuthCodeCredentials =
-        //     Credentials.googleIdToken(googleKey!.idToken!);
-
-        // await applicationService.login(googleAuthCodeCredentials);
-
-        await applicationService.currentUser?.functions
-            .call("writeCustomUserData", [customUserData]);
-        await applicationService.currentUser?.refreshCustomData();
+        print("2");
         onSuccess();
       } else {
         onFailure();
@@ -108,39 +104,51 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
   }
 
   Future<void> logout({required Future<void> Function() onSuccess}) async {
-    maybeEmit(state.copyWith(
-      logoutLoadingState: LoadingState.loading,
-    ));
+    try {
+      maybeEmit(state.copyWith(
+        logoutLoadingState: LoadingState.loading,
+      ));
 
-    await Future.delayed(Duration(milliseconds: 1000));
-    await applicationService.logout();
+      await Future.delayed(Duration(milliseconds: 1000));
+      await applicationService.logout();
 
-    maybeEmit(state.copyWith(
-      logoutLoadingState: LoadingState.done,
-    ));
+      maybeEmit(state.copyWith(
+        logoutLoadingState: LoadingState.done,
+      ));
 
-    await onSuccess();
+      await onSuccess();
+    } finally {
+      maybeEmit(state.copyWith(
+        logoutLoadingState: LoadingState.none,
+      ));
+    }
   }
 
   Future<void> deleteAccount({
     required Future<void> Function() onSuccess,
   }) async {
-    maybeEmit(state.copyWith(
-      logoutLoadingState: LoadingState.loading,
-    ));
+    try {
+      maybeEmit(state.copyWith(
+        logoutLoadingState: LoadingState.loading,
+      ));
 
-    if (applicationService.currentUser != null) {
-      await applicationService.delete();
-      await applicationService.logout();
+      if (applicationService.currentUser != null) {
+        await applicationService.delete();
+        await applicationService.logout();
+      }
+
+      await Future.delayed(Duration(milliseconds: 1000));
+
+      maybeEmit(state.copyWith(
+        logoutLoadingState: LoadingState.done,
+      ));
+
+      await onSuccess();
+    } finally {
+      maybeEmit(state.copyWith(
+        logoutLoadingState: LoadingState.none,
+      ));
     }
-
-    await Future.delayed(Duration(milliseconds: 1000));
-
-    maybeEmit(state.copyWith(
-      logoutLoadingState: LoadingState.done,
-    ));
-
-    await onSuccess();
   }
 
   Future<void> checkLogin({

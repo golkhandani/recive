@@ -532,3 +532,331 @@ abstract class _NearbyDetailSummaryData implements NearbyDetailSummaryData {
   _$$_NearbyDetailSummaryDataCopyWith<_$_NearbyDetailSummaryData>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+CategorySummaryData _$CategorySummaryDataFromJson(Map<String, dynamic> json) {
+  return _CategorySummaryData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CategorySummaryData {
+  String get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CategorySummaryDataCopyWith<CategorySummaryData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CategorySummaryDataCopyWith<$Res> {
+  factory $CategorySummaryDataCopyWith(
+          CategorySummaryData value, $Res Function(CategorySummaryData) then) =
+      _$CategorySummaryDataCopyWithImpl<$Res, CategorySummaryData>;
+  @useResult
+  $Res call({String id, String title, String imageUrl});
+}
+
+/// @nodoc
+class _$CategorySummaryDataCopyWithImpl<$Res, $Val extends CategorySummaryData>
+    implements $CategorySummaryDataCopyWith<$Res> {
+  _$CategorySummaryDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CategorySummaryDataCopyWith<$Res>
+    implements $CategorySummaryDataCopyWith<$Res> {
+  factory _$$_CategorySummaryDataCopyWith(_$_CategorySummaryData value,
+          $Res Function(_$_CategorySummaryData) then) =
+      __$$_CategorySummaryDataCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, String title, String imageUrl});
+}
+
+/// @nodoc
+class __$$_CategorySummaryDataCopyWithImpl<$Res>
+    extends _$CategorySummaryDataCopyWithImpl<$Res, _$_CategorySummaryData>
+    implements _$$_CategorySummaryDataCopyWith<$Res> {
+  __$$_CategorySummaryDataCopyWithImpl(_$_CategorySummaryData _value,
+      $Res Function(_$_CategorySummaryData) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_$_CategorySummaryData(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CategorySummaryData implements _CategorySummaryData {
+  const _$_CategorySummaryData(
+      {required this.id, required this.title, required this.imageUrl});
+
+  factory _$_CategorySummaryData.fromJson(Map<String, dynamic> json) =>
+      _$$_CategorySummaryDataFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String title;
+  @override
+  final String imageUrl;
+
+  @override
+  String toString() {
+    return 'CategorySummaryData(id: $id, title: $title, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CategorySummaryData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CategorySummaryDataCopyWith<_$_CategorySummaryData> get copyWith =>
+      __$$_CategorySummaryDataCopyWithImpl<_$_CategorySummaryData>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CategorySummaryDataToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CategorySummaryData implements CategorySummaryData {
+  const factory _CategorySummaryData(
+      {required final String id,
+      required final String title,
+      required final String imageUrl}) = _$_CategorySummaryData;
+
+  factory _CategorySummaryData.fromJson(Map<String, dynamic> json) =
+      _$_CategorySummaryData.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get title;
+  @override
+  String get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CategorySummaryDataCopyWith<_$_CategorySummaryData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+NewsSummaryData _$NewsSummaryDataFromJson(Map<String, dynamic> json) {
+  return _NewsSummaryData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$NewsSummaryData {
+  String get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $NewsSummaryDataCopyWith<NewsSummaryData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $NewsSummaryDataCopyWith<$Res> {
+  factory $NewsSummaryDataCopyWith(
+          NewsSummaryData value, $Res Function(NewsSummaryData) then) =
+      _$NewsSummaryDataCopyWithImpl<$Res, NewsSummaryData>;
+  @useResult
+  $Res call({String id, String title});
+}
+
+/// @nodoc
+class _$NewsSummaryDataCopyWithImpl<$Res, $Val extends NewsSummaryData>
+    implements $NewsSummaryDataCopyWith<$Res> {
+  _$NewsSummaryDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_NewsSummaryDataCopyWith<$Res>
+    implements $NewsSummaryDataCopyWith<$Res> {
+  factory _$$_NewsSummaryDataCopyWith(
+          _$_NewsSummaryData value, $Res Function(_$_NewsSummaryData) then) =
+      __$$_NewsSummaryDataCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, String title});
+}
+
+/// @nodoc
+class __$$_NewsSummaryDataCopyWithImpl<$Res>
+    extends _$NewsSummaryDataCopyWithImpl<$Res, _$_NewsSummaryData>
+    implements _$$_NewsSummaryDataCopyWith<$Res> {
+  __$$_NewsSummaryDataCopyWithImpl(
+      _$_NewsSummaryData _value, $Res Function(_$_NewsSummaryData) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+  }) {
+    return _then(_$_NewsSummaryData(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_NewsSummaryData implements _NewsSummaryData {
+  const _$_NewsSummaryData({required this.id, required this.title});
+
+  factory _$_NewsSummaryData.fromJson(Map<String, dynamic> json) =>
+      _$$_NewsSummaryDataFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String title;
+
+  @override
+  String toString() {
+    return 'NewsSummaryData(id: $id, title: $title)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_NewsSummaryData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_NewsSummaryDataCopyWith<_$_NewsSummaryData> get copyWith =>
+      __$$_NewsSummaryDataCopyWithImpl<_$_NewsSummaryData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_NewsSummaryDataToJson(
+      this,
+    );
+  }
+}
+
+abstract class _NewsSummaryData implements NewsSummaryData {
+  const factory _NewsSummaryData(
+      {required final String id,
+      required final String title}) = _$_NewsSummaryData;
+
+  factory _NewsSummaryData.fromJson(Map<String, dynamic> json) =
+      _$_NewsSummaryData.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get title;
+  @override
+  @JsonKey(ignore: true)
+  _$$_NewsSummaryDataCopyWith<_$_NewsSummaryData> get copyWith =>
+      throw _privateConstructorUsedError;
+}

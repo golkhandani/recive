@@ -20,6 +20,8 @@ NewsState _$NewsStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NewsState {
+  LoadingState get selectedLoadingState => throw _privateConstructorUsedError;
+  NewsModel? get selected => throw _privateConstructorUsedError;
   List<NewsModel> get news => throw _privateConstructorUsedError;
   List<NewsModel> get newsSpotlight => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
@@ -36,9 +38,13 @@ abstract class $NewsStateCopyWith<$Res> {
       _$NewsStateCopyWithImpl<$Res, NewsState>;
   @useResult
   $Res call(
-      {List<NewsModel> news,
+      {LoadingState selectedLoadingState,
+      NewsModel? selected,
+      List<NewsModel> news,
       List<NewsModel> newsSpotlight,
       LoadingState loadingState});
+
+  $NewsModelCopyWith<$Res>? get selected;
 }
 
 /// @nodoc
@@ -54,11 +60,21 @@ class _$NewsStateCopyWithImpl<$Res, $Val extends NewsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? selectedLoadingState = null,
+    Object? selected = freezed,
     Object? news = null,
     Object? newsSpotlight = null,
     Object? loadingState = null,
   }) {
     return _then(_value.copyWith(
+      selectedLoadingState: null == selectedLoadingState
+          ? _value.selectedLoadingState
+          : selectedLoadingState // ignore: cast_nullable_to_non_nullable
+              as LoadingState,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as NewsModel?,
       news: null == news
           ? _value.news
           : news // ignore: cast_nullable_to_non_nullable
@@ -73,6 +89,18 @@ class _$NewsStateCopyWithImpl<$Res, $Val extends NewsState>
               as LoadingState,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $NewsModelCopyWith<$Res>? get selected {
+    if (_value.selected == null) {
+      return null;
+    }
+
+    return $NewsModelCopyWith<$Res>(_value.selected!, (value) {
+      return _then(_value.copyWith(selected: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -83,9 +111,14 @@ abstract class _$$_NewsStateCopyWith<$Res> implements $NewsStateCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {List<NewsModel> news,
+      {LoadingState selectedLoadingState,
+      NewsModel? selected,
+      List<NewsModel> news,
       List<NewsModel> newsSpotlight,
       LoadingState loadingState});
+
+  @override
+  $NewsModelCopyWith<$Res>? get selected;
 }
 
 /// @nodoc
@@ -99,11 +132,21 @@ class __$$_NewsStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? selectedLoadingState = null,
+    Object? selected = freezed,
     Object? news = null,
     Object? newsSpotlight = null,
     Object? loadingState = null,
   }) {
     return _then(_$_NewsState(
+      selectedLoadingState: null == selectedLoadingState
+          ? _value.selectedLoadingState
+          : selectedLoadingState // ignore: cast_nullable_to_non_nullable
+              as LoadingState,
+      selected: freezed == selected
+          ? _value.selected
+          : selected // ignore: cast_nullable_to_non_nullable
+              as NewsModel?,
       news: null == news
           ? _value._news
           : news // ignore: cast_nullable_to_non_nullable
@@ -124,7 +167,9 @@ class __$$_NewsStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_NewsState implements _NewsState {
   const _$_NewsState(
-      {required final List<NewsModel> news,
+      {required this.selectedLoadingState,
+      required this.selected,
+      required final List<NewsModel> news,
       required final List<NewsModel> newsSpotlight,
       required this.loadingState})
       : _news = news,
@@ -133,6 +178,10 @@ class _$_NewsState implements _NewsState {
   factory _$_NewsState.fromJson(Map<String, dynamic> json) =>
       _$$_NewsStateFromJson(json);
 
+  @override
+  final LoadingState selectedLoadingState;
+  @override
+  final NewsModel? selected;
   final List<NewsModel> _news;
   @override
   List<NewsModel> get news {
@@ -154,7 +203,7 @@ class _$_NewsState implements _NewsState {
 
   @override
   String toString() {
-    return 'NewsState(news: $news, newsSpotlight: $newsSpotlight, loadingState: $loadingState)';
+    return 'NewsState(selectedLoadingState: $selectedLoadingState, selected: $selected, news: $news, newsSpotlight: $newsSpotlight, loadingState: $loadingState)';
   }
 
   @override
@@ -162,6 +211,10 @@ class _$_NewsState implements _NewsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_NewsState &&
+            (identical(other.selectedLoadingState, selectedLoadingState) ||
+                other.selectedLoadingState == selectedLoadingState) &&
+            (identical(other.selected, selected) ||
+                other.selected == selected) &&
             const DeepCollectionEquality().equals(other._news, _news) &&
             const DeepCollectionEquality()
                 .equals(other._newsSpotlight, _newsSpotlight) &&
@@ -173,6 +226,8 @@ class _$_NewsState implements _NewsState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      selectedLoadingState,
+      selected,
       const DeepCollectionEquality().hash(_news),
       const DeepCollectionEquality().hash(_newsSpotlight),
       loadingState);
@@ -193,13 +248,19 @@ class _$_NewsState implements _NewsState {
 
 abstract class _NewsState implements NewsState {
   const factory _NewsState(
-      {required final List<NewsModel> news,
+      {required final LoadingState selectedLoadingState,
+      required final NewsModel? selected,
+      required final List<NewsModel> news,
       required final List<NewsModel> newsSpotlight,
       required final LoadingState loadingState}) = _$_NewsState;
 
   factory _NewsState.fromJson(Map<String, dynamic> json) =
       _$_NewsState.fromJson;
 
+  @override
+  LoadingState get selectedLoadingState;
+  @override
+  NewsModel? get selected;
   @override
   List<NewsModel> get news;
   @override

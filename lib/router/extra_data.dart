@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'extra_data.freezed.dart';
@@ -40,4 +41,27 @@ class NearbyDetailSummaryData with _$NearbyDetailSummaryData {
 
   factory NearbyDetailSummaryData.fromJson(Map<String, dynamic> json) =>
       _$NearbyDetailSummaryDataFromJson(json);
+}
+
+@freezed
+class CategorySummaryData with _$CategorySummaryData {
+  const factory CategorySummaryData({
+    required String id,
+    required String title,
+    required String imageUrl,
+  }) = _CategorySummaryData;
+
+  factory CategorySummaryData.fromJson(Map<String, dynamic> json) =>
+      _$CategorySummaryDataFromJson(json);
+}
+
+@freezed
+class NewsSummaryData with _$NewsSummaryData {
+  const factory NewsSummaryData({
+    required String id,
+    required String title,
+  }) = _NewsSummaryData;
+
+  factory NewsSummaryData.fromJson(Map<String, dynamic> json) =>
+      _$NewsSummaryDataFromJson(json);
 }

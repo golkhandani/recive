@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
+import 'package:recive/features/categories_page/category_detail_screen.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
@@ -10,6 +13,7 @@ import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/features/login_page/splash_screen.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/features/news_page/news_detail_screen.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
@@ -120,6 +124,47 @@ GoRoute nearbyEventDetailRoute(String parentName) => GoRoute(
       },
     );
 
+GoRoute categoryDetailRoute(String parentName) => GoRoute(
+      name: parentName + CategoryDetailScreen.name,
+      path: '${CategoryDetailScreen.name}/:${CategoryDetailScreen.pathParamId}',
+      pageBuilder: (context, state) {
+        final pathParamId =
+            state.pathParameters[CategoryDetailScreen.pathParamId]!;
+
+        final extraJson = state.extra as Map<String, dynamic>;
+        final extra = ExtraData.fromJson(
+          extraJson,
+          (inner) => CategorySummaryData.fromJson(
+            inner as Map<String, dynamic>,
+          ),
+        );
+        return dashboardPageBuilder(
+          state,
+          CategoryDetailScreen(id: pathParamId, extra: extra),
+        );
+      },
+    );
+
+GoRoute newsDetailRoute(String parentName) => GoRoute(
+      name: parentName + NewsDetailScreen.name,
+      path: '${NewsDetailScreen.name}/:${NewsDetailScreen.pathParamId}',
+      pageBuilder: (context, state) {
+        final pathParamId = state.pathParameters[NewsDetailScreen.pathParamId]!;
+
+        final extraJson = state.extra as Map<String, dynamic>;
+        final extra = ExtraData.fromJson(
+          extraJson,
+          (inner) => NewsSummaryData.fromJson(
+            inner as Map<String, dynamic>,
+          ),
+        );
+        return dashboardPageBuilder(
+          state,
+          NewsDetailScreen(id: pathParamId, extra: extra),
+        );
+      },
+    );
+
 GoRoute testDetailRoute(String parentName) => GoRoute(
       name: parentName + DetailScreen.name,
       path:
@@ -190,6 +235,8 @@ final dashboardRoutes = [
                   ),
               routes: [
                 testDetailRoute(HomeScreen.name),
+                categoryDetailRoute(HomeScreen.name),
+                newsDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: CategoriesScreen.name,
                   path: CategoriesScreen.name,
@@ -197,6 +244,9 @@ final dashboardRoutes = [
                     state,
                     const CategoriesScreen(),
                   ),
+                  routes: [
+                    categoryDetailRoute(CategoriesScreen.name),
+                  ],
                 ),
                 GoRoute(
                   name: NewsScreen.name,
@@ -205,6 +255,9 @@ final dashboardRoutes = [
                     state,
                     const NewsScreen(),
                   ),
+                  routes: [
+                    newsDetailRoute(NewsScreen.name),
+                  ],
                 ),
                 featuredEventDetailRoute(HomeScreen.name),
                 GoRoute(

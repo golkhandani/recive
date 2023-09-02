@@ -8,6 +8,11 @@ part of 'category_section_cubit.dart';
 
 _$_CategoriesState _$$_CategoriesStateFromJson(Map<String, dynamic> json) =>
     _$_CategoriesState(
+      categoryLoadingState:
+          $enumDecode(_$LoadingStateEnumMap, json['categoryLoadingState']),
+      category: json['category'] == null
+          ? null
+          : Category.fromJson(json['category'] as Map<String, dynamic>),
       categories: (json['categories'] as List<dynamic>)
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19,6 +24,9 @@ _$_CategoriesState _$$_CategoriesStateFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_CategoriesStateToJson(_$_CategoriesState instance) =>
     <String, dynamic>{
+      'categoryLoadingState':
+          _$LoadingStateEnumMap[instance.categoryLoadingState]!,
+      'category': instance.category,
       'categories': instance.categories,
       'categoriesSpotlight': instance.categoriesSpotlight,
       'loadingState': _$LoadingStateEnumMap[instance.loadingState]!,

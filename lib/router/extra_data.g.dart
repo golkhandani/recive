@@ -67,3 +67,31 @@ Map<String, dynamic> _$$_NearbyDetailSummaryDataToJson(
       'title': instance.title,
       'imageUrl': instance.imageUrl,
     };
+
+_$_CategorySummaryData _$$_CategorySummaryDataFromJson(
+        Map<String, dynamic> json) =>
+    _$_CategorySummaryData(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      imageUrl: json['imageUrl'] as String,
+    );
+
+Map<String, dynamic> _$$_CategorySummaryDataToJson(
+        _$_CategorySummaryData instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'imageUrl': instance.imageUrl,
+    };
+
+_$_NewsSummaryData _$$_NewsSummaryDataFromJson(Map<String, dynamic> json) =>
+    _$_NewsSummaryData(
+      id: json['id'] as String,
+      title: json['title'] as String,
+    );
+
+Map<String, dynamic> _$$_NewsSummaryDataToJson(_$_NewsSummaryData instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+    };

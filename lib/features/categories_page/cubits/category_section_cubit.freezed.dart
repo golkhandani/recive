@@ -20,6 +20,8 @@ CategoriesState _$CategoriesStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CategoriesState {
+  LoadingState get categoryLoadingState => throw _privateConstructorUsedError;
+  Category? get category => throw _privateConstructorUsedError;
   List<Category> get categories => throw _privateConstructorUsedError;
   List<Category> get categoriesSpotlight => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
@@ -37,9 +39,13 @@ abstract class $CategoriesStateCopyWith<$Res> {
       _$CategoriesStateCopyWithImpl<$Res, CategoriesState>;
   @useResult
   $Res call(
-      {List<Category> categories,
+      {LoadingState categoryLoadingState,
+      Category? category,
+      List<Category> categories,
       List<Category> categoriesSpotlight,
       LoadingState loadingState});
+
+  $CategoryCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -55,11 +61,21 @@ class _$CategoriesStateCopyWithImpl<$Res, $Val extends CategoriesState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? categoryLoadingState = null,
+    Object? category = freezed,
     Object? categories = null,
     Object? categoriesSpotlight = null,
     Object? loadingState = null,
   }) {
     return _then(_value.copyWith(
+      categoryLoadingState: null == categoryLoadingState
+          ? _value.categoryLoadingState
+          : categoryLoadingState // ignore: cast_nullable_to_non_nullable
+              as LoadingState,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category?,
       categories: null == categories
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
@@ -74,6 +90,18 @@ class _$CategoriesStateCopyWithImpl<$Res, $Val extends CategoriesState>
               as LoadingState,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CategoryCopyWith<$Res>? get category {
+    if (_value.category == null) {
+      return null;
+    }
+
+    return $CategoryCopyWith<$Res>(_value.category!, (value) {
+      return _then(_value.copyWith(category: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -85,9 +113,14 @@ abstract class _$$_CategoriesStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<Category> categories,
+      {LoadingState categoryLoadingState,
+      Category? category,
+      List<Category> categories,
       List<Category> categoriesSpotlight,
       LoadingState loadingState});
+
+  @override
+  $CategoryCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -101,11 +134,21 @@ class __$$_CategoriesStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? categoryLoadingState = null,
+    Object? category = freezed,
     Object? categories = null,
     Object? categoriesSpotlight = null,
     Object? loadingState = null,
   }) {
     return _then(_$_CategoriesState(
+      categoryLoadingState: null == categoryLoadingState
+          ? _value.categoryLoadingState
+          : categoryLoadingState // ignore: cast_nullable_to_non_nullable
+              as LoadingState,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category?,
       categories: null == categories
           ? _value._categories
           : categories // ignore: cast_nullable_to_non_nullable
@@ -126,7 +169,9 @@ class __$$_CategoriesStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CategoriesState implements _CategoriesState {
   const _$_CategoriesState(
-      {required final List<Category> categories,
+      {required this.categoryLoadingState,
+      required this.category,
+      required final List<Category> categories,
       required final List<Category> categoriesSpotlight,
       required this.loadingState})
       : _categories = categories,
@@ -135,6 +180,10 @@ class _$_CategoriesState implements _CategoriesState {
   factory _$_CategoriesState.fromJson(Map<String, dynamic> json) =>
       _$$_CategoriesStateFromJson(json);
 
+  @override
+  final LoadingState categoryLoadingState;
+  @override
+  final Category? category;
   final List<Category> _categories;
   @override
   List<Category> get categories {
@@ -157,7 +206,7 @@ class _$_CategoriesState implements _CategoriesState {
 
   @override
   String toString() {
-    return 'CategoriesState(categories: $categories, categoriesSpotlight: $categoriesSpotlight, loadingState: $loadingState)';
+    return 'CategoriesState(categoryLoadingState: $categoryLoadingState, category: $category, categories: $categories, categoriesSpotlight: $categoriesSpotlight, loadingState: $loadingState)';
   }
 
   @override
@@ -165,6 +214,10 @@ class _$_CategoriesState implements _CategoriesState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CategoriesState &&
+            (identical(other.categoryLoadingState, categoryLoadingState) ||
+                other.categoryLoadingState == categoryLoadingState) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             const DeepCollectionEquality()
                 .equals(other._categories, _categories) &&
             const DeepCollectionEquality()
@@ -177,6 +230,8 @@ class _$_CategoriesState implements _CategoriesState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      categoryLoadingState,
+      category,
       const DeepCollectionEquality().hash(_categories),
       const DeepCollectionEquality().hash(_categoriesSpotlight),
       loadingState);
@@ -197,13 +252,19 @@ class _$_CategoriesState implements _CategoriesState {
 
 abstract class _CategoriesState implements CategoriesState {
   const factory _CategoriesState(
-      {required final List<Category> categories,
+      {required final LoadingState categoryLoadingState,
+      required final Category? category,
+      required final List<Category> categories,
       required final List<Category> categoriesSpotlight,
       required final LoadingState loadingState}) = _$_CategoriesState;
 
   factory _CategoriesState.fromJson(Map<String, dynamic> json) =
       _$_CategoriesState.fromJson;
 
+  @override
+  LoadingState get categoryLoadingState;
+  @override
+  Category? get category;
   @override
   List<Category> get categories;
   @override

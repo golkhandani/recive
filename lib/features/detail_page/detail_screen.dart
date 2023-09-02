@@ -6,6 +6,7 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 enum DetailType {
@@ -40,10 +41,12 @@ class DetailScreen extends HookWidget {
     super.key,
     required this.id,
     required this.type,
+    this.extraData,
   });
 
   final String id;
   final DetailType type;
+  final ExtraData? extraData;
 
   @override
   Widget build(BuildContext context) {

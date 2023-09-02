@@ -101,12 +101,17 @@ List<Category> mockCategoriesData = [
 @freezed
 class CategoriesState with _$CategoriesState {
   const factory CategoriesState({
+    required LoadingState categoryLoadingState,
+    required Category? category,
     required List<Category> categories,
     required List<Category> categoriesSpotlight,
     required LoadingState loadingState,
   }) = _CategoriesState;
 
   factory CategoriesState.initialize() => const CategoriesState(
+        categoryLoadingState: LoadingState.none,
+        category: null,
+        //
         categories: [],
         categoriesSpotlight: [],
         loadingState: LoadingState.none,
@@ -118,6 +123,26 @@ class CategoriesState with _$CategoriesState {
 
 class CategoriesCubit extends MaybeEmitHydratedCubit<CategoriesState> {
   CategoriesCubit() : super(CategoriesState.initialize());
+
+  Future<void> loadCategory(String id) async {
+    maybeEmit(state.copyWith(
+      category: null,
+      categoryLoadingState: LoadingState.loading,
+    ));
+    await Future.delayed(const Duration(seconds: 2));
+
+    maybeEmit(state.copyWith(
+      category: mockCategoriesData.firstWhere((element) => element.id == id),
+      categoryLoadingState: LoadingState.done,
+    ));
+  }
+
+  Future<void> emptyCategory() async {
+    maybeEmit(state.copyWith(
+      category: null,
+      categoryLoadingState: LoadingState.none,
+    ));
+  }
 
   Future<void> loadCategories() async {
     maybeEmit(state.copyWith(

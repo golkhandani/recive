@@ -42,12 +42,11 @@ class FeatureEventsCubit extends MaybeEmitHydratedCubit<FeatureEventsState> {
     ));
 
     final data = await repo.events(
-      limit: 10,
+      limit: 50,
       sortBy: EventSortByInput.startDateAsc,
     );
+    data.shuffle();
 
-    await Future.delayed(const Duration(seconds: 2));
-    if (isClosed) return;
     maybeEmit(state.copyWith(
       featuredEvents: data,
       featuredEventsSpotlight: data.take(3).toList(),

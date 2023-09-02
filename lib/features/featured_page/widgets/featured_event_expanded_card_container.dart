@@ -56,6 +56,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                 tag: data.id,
                 child: CachedNetworkImage(
                   imageUrl: data.imageUrl,
+                  placeholder: (context, url) => const SizedBox(height: 200),
                   imageBuilder: (context, imageProvider) => Container(
                     height: 200,
                     decoration: BoxDecoration(

@@ -9,9 +9,11 @@ import 'package:recive/enums/loading_state.dart';
 
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
+import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulHookWidget {
   static const name = 'login';
@@ -40,12 +42,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: Container(
                   color: context.theme.colorScheme.primary,
-                  child: Center(
-                    child: Text(
-                      "Welcome to VanExplore",
-                      textAlign: TextAlign.center,
-                      style: context.titleLargePrimaryContainer,
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 40),
+                      Center(
+                        child: Text(
+                          "Welcome to VanExplore",
+                          textAlign: TextAlign.center,
+                          style: context.titleLargePrimaryContainer,
+                        ),
+                      ),
+                      const LottieSafeLoading(),
+                    ],
                   ),
                 ),
               ),
@@ -144,7 +153,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                     ),
-                  )
+                  ),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () => launchUrl(Uri.parse('https://google.com')),
+                    child: Text(
+                      'Terms and Conditions',
+                      style: context.titleLargePrimaryContainer,
+                    ),
+                  ),
+                  const SizedBox(height: 88),
                 ],
               ),
             )

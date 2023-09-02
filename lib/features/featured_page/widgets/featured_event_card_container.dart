@@ -78,7 +78,7 @@ class FeaturedEventCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.theme.colorScheme.primaryContainer;
+    final color = context.theme.colorScheme.secondaryContainer;
 
     final child = LayoutBuilder(builder: (context, box) {
       final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
@@ -142,7 +142,7 @@ class FeaturedEventCardContainer extends HookWidget {
               ],
             ),
           ],
-          if (!isSmall && !isSmallTall) ...[
+          if (!isSmall && !isSmallTall && data.organizers.isNotEmpty) ...[
             const SizedBox(height: 12),
             Row(
               children: [
@@ -224,7 +224,7 @@ class FeaturedEventCardContainer extends HookWidget {
             : DecorationImage(
                 image: imageProvider,
                 fit: BoxFit.cover,
-                opacity: 0.5,
+                opacity: 0.2,
               ),
         borderRadius: BorderRadius.circular(8),
         color: Colors.black,
@@ -232,8 +232,8 @@ class FeaturedEventCardContainer extends HookWidget {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            color.lighten(0.1),
-            color.darken(0.3),
+            color.lighten(0.4),
+            color.darken(0.2),
           ],
         ),
       ),

@@ -124,7 +124,7 @@ class ProfileScreen extends HookWidget {
                       borderRadius: BorderRadius.circular(16),
                       padding: const EdgeInsets.all(12),
                       child: Container(
-                        height: 300,
+                        height: context.vHeight - 460,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -134,6 +134,10 @@ class ProfileScreen extends HookWidget {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            const Spacer(),
+                            const Center(
+                              child: Text("COMMING SOON!"),
+                            ),
                             const Spacer(),
                             InkWell(
                               onTap: () => bloc.deleteAccount(

@@ -166,7 +166,7 @@ class NewsCubit extends MaybeEmitHydratedCubit<NewsState> {
       loadingState: LoadingState.loading,
     ));
     await Future.delayed(const Duration(seconds: 2));
-    if (isClosed) return;
+    mockNews.shuffle();
     maybeEmit(state.copyWith(
       news: mockNews,
       newsSpotlight: mockNews.take(3).toList(),

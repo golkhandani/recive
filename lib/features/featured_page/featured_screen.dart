@@ -30,7 +30,7 @@ class FeaturedScreen extends HookWidget {
         slivers: [
           ScreenSafeAreaHeader(
             color: context.theme.primaryColor,
-            title: 'News',
+            title: 'Featured Events',
           ),
           SliverPadding(
             padding: kMediumPadding.copyWith(

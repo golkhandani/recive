@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +10,6 @@ import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:recive/router/navigation_service.dart';
 
@@ -68,7 +66,7 @@ class EventCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const color = Colors.black54;
+    final color = context.colorScheme.secondaryContainer;
 
     final child = LayoutBuilder(builder: (context, box) {
       final isSmall = box.maxHeight < 160;
@@ -213,7 +211,7 @@ class EventCardContainer extends StatelessWidget {
             : DecorationImage(
                 image: imageProvider,
                 fit: BoxFit.cover,
-                opacity: 0.5,
+                opacity: 0.2,
               ),
         borderRadius: BorderRadius.circular(8),
         color: Colors.black,
@@ -221,85 +219,13 @@ class EventCardContainer extends StatelessWidget {
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [
-            color.lighten(0.3),
-            color.darken(0.3),
+            color.lighten(0.4),
+            color.darken(0.2),
           ],
         ),
       ),
       padding: const EdgeInsets.all(12),
       child: child,
-    );
-  }
-}
-
-class MapButton extends StatelessWidget {
-  const MapButton({
-    Key? key,
-    required this.icon,
-    this.onClicked,
-  }) : super(key: key);
-
-  final IconData icon;
-  final VoidCallback? onClicked;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Material(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        child: InkWell(
-          hoverColor: Colors.orange,
-          splashColor: Colors.black,
-          focusColor: Colors.yellow,
-          highlightColor: Colors.amber,
-          onTap: onClicked,
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            alignment: Alignment.center,
-            child: Icon(
-              icon,
-              color: Colors.black,
-              size: 25,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SelectedMarker extends StatelessWidget {
-  const SelectedMarker({
-    super.key,
-    required this.latLng,
-  });
-
-  final LatLng latLng;
-
-  @override
-  Widget build(BuildContext context) {
-    return MarkerLayer(
-      markers: [
-        Marker(
-          anchorPos: AnchorPos.align(AnchorAlign.top),
-          rotateAlignment: AnchorAlign.top.rotationAlignment,
-          height: 50,
-          width: 50,
-          point: latLng,
-          rotate: true,
-          builder: (ctx) => Iconify(
-            Bx.bxs_map,
-            color: context.colorScheme.tertiaryContainer,
-            size: 50,
-          ),
-        )
-      ],
     );
   }
 }

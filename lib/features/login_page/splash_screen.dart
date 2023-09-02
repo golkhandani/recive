@@ -4,6 +4,7 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/login_screen.dart';
+import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
@@ -22,18 +23,19 @@ class _SplashScreenState extends State<SplashScreen> {
     final navigationService = locator.get<NavigationService>();
     final bloc = useBloc<LoginCubit>();
     useEffect(() {
-      bloc.checkLogin(
-        onLogin: () => navigationService.navigateTo(DashboardScreen.name),
-        onNeedLogin: () => navigationService.navigateTo(LoginScreen.name),
+      Future.delayed(const Duration(seconds: 2)).then(
+        (value) => bloc.checkLogin(
+          onLogin: () => navigationService.navigateTo(DashboardScreen.name),
+          onNeedLogin: () => navigationService.navigateTo(LoginScreen.name),
+        ),
       );
+
       return;
     }, []);
     return Scaffold(
       body: Container(
         color: context.theme.colorScheme.background,
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
+        child: const LottieSafeLoading(),
       ),
     );
   }

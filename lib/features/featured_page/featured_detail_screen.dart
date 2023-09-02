@@ -9,7 +9,6 @@ import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
-import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
-import 'package:recive/features/home_page/sections/featured_event_section.dart';
+import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/enums/loading_state.dart';
 
@@ -12,7 +12,7 @@ part 'featured_events_cubit.g.dart';
 class FeatureEventsState with _$FeatureEventsState {
   const factory FeatureEventsState({
     required FeaturedEvent? featuredEventSummary,
-    required FeaturedEvent? featuredEvent,
+    required EventComplete? featuredEvent,
     required List<FeaturedEvent> featuredEvents,
     required List<FeaturedEvent> featuredEventsSpotlight,
     required LoadingState loadingState,
@@ -52,45 +52,6 @@ class FeatureEventsCubit extends MaybeEmitHydratedCubit<FeatureEventsState> {
       featuredEvents: data,
       featuredEventsSpotlight: data.take(3).toList(),
       loadingState: LoadingState.done,
-    ));
-  }
-
-  Future<void> loadFeaturedEvent({
-    required String id,
-    FeaturedEventCardContainerData? summary,
-  }) async {
-    maybeEmit(state.copyWith(
-      loadingState: LoadingState.loading,
-      featuredEventSummary: summary == null
-          ? null
-          : FeaturedEvent(
-              id: summary.id,
-              title: summary.title,
-              description: summary.description,
-              startDate: summary.startDate,
-              endDate: summary.endDate,
-              location: summary.location,
-              organizers: summary.organizers,
-              participants: summary.participants,
-              imageUrl: summary.imageUrl,
-            ),
-      featuredEvent: null,
-    ));
-
-    final data = await repo.event(id: id);
-
-    await Future.delayed(const Duration(seconds: 2));
-    if (isClosed) return;
-    maybeEmit(state.copyWith(
-      featuredEvent: data,
-      loadingState: LoadingState.done,
-    ));
-  }
-
-  Future<void> emptyFeaturedEvent() async {
-    maybeEmit(state.copyWith(
-      featuredEventSummary: null,
-      featuredEvent: null,
     ));
   }
 

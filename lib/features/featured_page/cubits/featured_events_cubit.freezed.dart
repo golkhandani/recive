@@ -21,7 +21,7 @@ FeatureEventsState _$FeatureEventsStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$FeatureEventsState {
   FeaturedEvent? get featuredEventSummary => throw _privateConstructorUsedError;
-  FeaturedEvent? get featuredEvent => throw _privateConstructorUsedError;
+  EventComplete? get featuredEvent => throw _privateConstructorUsedError;
   List<FeaturedEvent> get featuredEvents => throw _privateConstructorUsedError;
   List<FeaturedEvent> get featuredEventsSpotlight =>
       throw _privateConstructorUsedError;
@@ -41,13 +41,13 @@ abstract class $FeatureEventsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {FeaturedEvent? featuredEventSummary,
-      FeaturedEvent? featuredEvent,
+      EventComplete? featuredEvent,
       List<FeaturedEvent> featuredEvents,
       List<FeaturedEvent> featuredEventsSpotlight,
       LoadingState loadingState});
 
   $FeaturedEventCopyWith<$Res>? get featuredEventSummary;
-  $FeaturedEventCopyWith<$Res>? get featuredEvent;
+  $EventCompleteCopyWith<$Res>? get featuredEvent;
 }
 
 /// @nodoc
@@ -77,7 +77,7 @@ class _$FeatureEventsStateCopyWithImpl<$Res, $Val extends FeatureEventsState>
       featuredEvent: freezed == featuredEvent
           ? _value.featuredEvent
           : featuredEvent // ignore: cast_nullable_to_non_nullable
-              as FeaturedEvent?,
+              as EventComplete?,
       featuredEvents: null == featuredEvents
           ? _value.featuredEvents
           : featuredEvents // ignore: cast_nullable_to_non_nullable
@@ -107,12 +107,12 @@ class _$FeatureEventsStateCopyWithImpl<$Res, $Val extends FeatureEventsState>
 
   @override
   @pragma('vm:prefer-inline')
-  $FeaturedEventCopyWith<$Res>? get featuredEvent {
+  $EventCompleteCopyWith<$Res>? get featuredEvent {
     if (_value.featuredEvent == null) {
       return null;
     }
 
-    return $FeaturedEventCopyWith<$Res>(_value.featuredEvent!, (value) {
+    return $EventCompleteCopyWith<$Res>(_value.featuredEvent!, (value) {
       return _then(_value.copyWith(featuredEvent: value) as $Val);
     });
   }
@@ -128,7 +128,7 @@ abstract class _$$_FeatureEventsStateCopyWith<$Res>
   @useResult
   $Res call(
       {FeaturedEvent? featuredEventSummary,
-      FeaturedEvent? featuredEvent,
+      EventComplete? featuredEvent,
       List<FeaturedEvent> featuredEvents,
       List<FeaturedEvent> featuredEventsSpotlight,
       LoadingState loadingState});
@@ -136,7 +136,7 @@ abstract class _$$_FeatureEventsStateCopyWith<$Res>
   @override
   $FeaturedEventCopyWith<$Res>? get featuredEventSummary;
   @override
-  $FeaturedEventCopyWith<$Res>? get featuredEvent;
+  $EventCompleteCopyWith<$Res>? get featuredEvent;
 }
 
 /// @nodoc
@@ -164,7 +164,7 @@ class __$$_FeatureEventsStateCopyWithImpl<$Res>
       featuredEvent: freezed == featuredEvent
           ? _value.featuredEvent
           : featuredEvent // ignore: cast_nullable_to_non_nullable
-              as FeaturedEvent?,
+              as EventComplete?,
       featuredEvents: null == featuredEvents
           ? _value._featuredEvents
           : featuredEvents // ignore: cast_nullable_to_non_nullable
@@ -199,7 +199,7 @@ class _$_FeatureEventsState implements _FeatureEventsState {
   @override
   final FeaturedEvent? featuredEventSummary;
   @override
-  final FeaturedEvent? featuredEvent;
+  final EventComplete? featuredEvent;
   final List<FeaturedEvent> _featuredEvents;
   @override
   List<FeaturedEvent> get featuredEvents {
@@ -270,7 +270,7 @@ class _$_FeatureEventsState implements _FeatureEventsState {
 abstract class _FeatureEventsState implements FeatureEventsState {
   const factory _FeatureEventsState(
       {required final FeaturedEvent? featuredEventSummary,
-      required final FeaturedEvent? featuredEvent,
+      required final EventComplete? featuredEvent,
       required final List<FeaturedEvent> featuredEvents,
       required final List<FeaturedEvent> featuredEventsSpotlight,
       required final LoadingState loadingState}) = _$_FeatureEventsState;
@@ -281,7 +281,7 @@ abstract class _FeatureEventsState implements FeatureEventsState {
   @override
   FeaturedEvent? get featuredEventSummary;
   @override
-  FeaturedEvent? get featuredEvent;
+  EventComplete? get featuredEvent;
   @override
   List<FeaturedEvent> get featuredEvents;
   @override

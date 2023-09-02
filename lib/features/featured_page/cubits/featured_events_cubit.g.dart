@@ -15,7 +15,7 @@ _$_FeatureEventsState _$$_FeatureEventsStateFromJson(
               json['featuredEventSummary'] as Map<String, dynamic>),
       featuredEvent: json['featuredEvent'] == null
           ? null
-          : FeaturedEvent.fromJson(
+          : EventComplete.fromJson(
               json['featuredEvent'] as Map<String, dynamic>),
       featuredEvents: (json['featuredEvents'] as List<dynamic>)
           .map((e) => FeaturedEvent.fromJson(e as Map<String, dynamic>))

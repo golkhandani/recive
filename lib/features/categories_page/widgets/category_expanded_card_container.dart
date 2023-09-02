@@ -21,6 +21,7 @@ class CategoryExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
+    final color = context.colorScheme.secondaryContainer.lighten(.2);
     final heroTag = CategoryDetailScreen.name + data.id;
     final extra = ExtraData<CategorySummaryData>(
       summary: CategorySummaryData(
@@ -53,15 +54,15 @@ class CategoryExpandedCardContainer extends HookWidget {
                 child: CachedNetworkImage(
                   imageUrl: data.imageUrl,
                   imageBuilder: (context, imageProvider) => Container(
-                    height: 80,
+                    height: 120,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: imageProvider,
                         fit: BoxFit.cover,
-                        opacity: 0.5,
+                        opacity: 0.9,
                       ),
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.blueAccent,
+                      color: color,
                     ),
                   ),
                 ),

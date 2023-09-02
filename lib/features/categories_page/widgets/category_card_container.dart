@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recive/features/categories_page/category_detail_screen.dart';
 import 'package:recive/features/categories_page/models/category.dart';
-import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';

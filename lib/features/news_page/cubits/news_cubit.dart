@@ -6,7 +6,7 @@ import 'package:recive/layout/context_ui_extension.dart';
 part 'news_cubit.freezed.dart';
 part 'news_cubit.g.dart';
 
-final dex = '''
+const dex = '''
 Alright, here's a 100-line description of the enchanting beauty of a serene forest:
 
 In the heart of nature's embrace lies a place of wonder and tranquility—a serene forest that captivates the soul with its timeless beauty. This enchanting woodland, untouched by the hurried hands of man, stretches as far as the eye can see, a living testament to the magnificence of the natural world.

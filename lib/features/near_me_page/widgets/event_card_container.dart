@@ -293,9 +293,9 @@ class SelectedMarker extends StatelessWidget {
           width: 50,
           point: latLng,
           rotate: true,
-          builder: (ctx) => const Iconify(
+          builder: (ctx) => Iconify(
             Bx.bxs_map,
-            color: Colors.blueAccent,
+            color: context.colorScheme.tertiaryContainer,
             size: 50,
           ),
         )

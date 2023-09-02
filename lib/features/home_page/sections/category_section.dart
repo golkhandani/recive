@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
@@ -6,9 +5,7 @@ import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
-import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/categories_page/widgets/category_card_container.dart';
-import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';

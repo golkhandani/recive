@@ -6,7 +6,6 @@ import 'package:recive/components/card_container.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/categories_page/category_detail_screen.dart';
 import 'package:recive/features/categories_page/widgets/category_card_container.dart';
-import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/extra_data.dart';

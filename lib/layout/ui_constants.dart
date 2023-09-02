@@ -1,7 +1,74 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:recive/ioc/geo_location_service.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/utils/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class FlutterMapAttribution extends StatelessWidget {
+  const FlutterMapAttribution({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RichAttributionWidget(
+      attributions: [
+        TextSourceAttribution(
+          'OpenStreetMap contributors',
+          onTap: () => launchUrl(Uri.parse(
+            'https://openstreetmap.org/copyright',
+          )),
+        ),
+      ],
+    );
+  }
+}
+
+class FlutterMapTileLayer extends StatelessWidget {
+  const FlutterMapTileLayer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TileLayer(
+      urlTemplate:
+          'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=cKGhx1kSOrw1anX1ljgw',
+      tileProvider: locator.get(),
+    );
+  }
+}
+
+class UserMarker extends StatelessWidget {
+  const UserMarker({
+    super.key,
+    required this.geolocation,
+  });
+
+  final Position geolocation;
+
+  @override
+  Widget build(BuildContext context) {
+    return MarkerLayer(
+      markers: [
+        Marker(
+          point: geolocation.latLng!,
+          width: 80,
+          height: 80,
+          builder: (context) => LoadingAnimationWidget.beat(
+            color: const Color.fromARGB(255, 8, 12, 93),
+            size: 25,
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 const kSliverFillLoading = SliverFillRemaining(
   child: Center(

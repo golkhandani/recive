@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_native_splash/cli_commands.dart';
+import 'package:lottie/lottie.dart';
 import 'package:open_weather_client/enums/languages.dart';
 import 'package:open_weather_client/models/details.dart';
 import 'package:open_weather_client/open_weather.dart';
@@ -13,7 +14,7 @@ import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:weather_animation/weather_animation.dart';
+import 'package:starsview/starsview.dart';
 
 class HomePageWeatherSection extends StatefulHookWidget {
   const HomePageWeatherSection({
@@ -49,10 +50,6 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
       return;
     }, [geoLocation?.timestamp]);
 
-    final style = context.textTheme.headlineMedium!.copyWith(
-      color: context.theme.colorScheme.onPrimary,
-    );
-
     return SliverAnimatedSwitcher(
       duration: const Duration(milliseconds: 200),
       child: weatherData.value == null
@@ -83,38 +80,10 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
                             Positioned.fill(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child: weatherData.value!.details.first.widget,
+                                child: weatherData.value!.details.first
+                                    .animatedWidget(context, weatherData.value),
                               ),
                             ),
-                            Positioned.fill(
-                              top: 12,
-                              bottom: 12,
-                              child: FittedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(32),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      FittedBox(
-                                        child: Text(
-                                          weatherData.value!.details.first
-                                              .weatherLongDescription
-                                              .capitalize(),
-                                          style: style,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      FittedBox(
-                                        child: Text(
-                                          '${weatherData.value!.temperature.currentTemperature.toStringAsFixed(0)} °C',
-                                          style: style,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
                           ],
                         ),
                       );
@@ -127,113 +96,117 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
   }
 }
 
-extension WeatherWidget on Details {
-  Widget get widget {
+extension AnimatedWeatherWidget on Details {
+  Widget animatedWidget(BuildContext context, WeatherData? weatherData) {
     final size = PlatformDispatcher.instance.views.first.physicalSize;
-    final clear = WrapperScene(
-      isLeftCornerGradient: true,
-      colors: const [
-        Color(0xff1976d2),
-        Color(0xffe1f5fe),
-      ],
-      children: [
-        SunWidget(
-          sunConfig: SunConfig(
-            width: size.width / 2,
-            blurSigma: 13,
-            blurStyle: BlurStyle.solid,
-            isLeftLocation: true,
-            coreColor: const Color(0xffff9800),
-            midColor: const Color(0xffffee58),
-            outColor: const Color(0xffffa726),
-            animMidMill: 1500,
-            animOutMill: 1500,
-          ),
-        ),
-      ],
-    );
-
-    final cloud = WrapperScene(
-      isLeftCornerGradient: true,
-      colors: const [
-        Color(0xff1976d2),
-        Color.fromARGB(255, 132, 190, 216),
-      ],
-      children: [
-        CloudWidget(
-          cloudConfig: CloudConfig(
-            size: size.width / 1.4,
-            color: Colors.white70,
-            icon: const IconData(63056, fontFamily: 'MaterialIcons'),
-            widgetCloud: null,
-            x: 134,
-            y: 0,
-            scaleBegin: 1,
-            scaleEnd: 1.1,
-            scaleCurve: Curves.bounceIn,
-            slideX: 11,
-            slideY: 5,
-            slideDurMill: 2000,
-            slideCurve: Curves.bounceInOut,
-          ),
-        ),
-        CloudWidget(
-          cloudConfig: CloudConfig(
-            size: size.width / 2.4,
-            color: Colors.white70,
-            icon: const IconData(63056, fontFamily: 'MaterialIcons'),
-            widgetCloud: null,
-            x: size.width / 1.6,
-            y: 0,
-            scaleBegin: 1,
-            scaleEnd: 1.1,
-            scaleCurve: Curves.bounceIn,
-            slideX: 20,
-            slideY: 2,
-            slideDurMill: 2000,
-            slideCurve: Curves.bounceInOut,
-          ),
-        ),
-        CloudWidget(
-          cloudConfig: CloudConfig(
-            size: size.width / 3,
-            color: Colors.white70,
-            icon: const IconData(63056, fontFamily: 'MaterialIcons'),
-            widgetCloud: null,
-            x: 35,
-            y: 6,
-            scaleBegin: 1,
-            scaleEnd: 1.1,
-            scaleCurve: Curves.bounceIn,
-            slideX: 20,
-            slideY: 2,
-            slideDurMill: 2000,
-            slideCurve: Curves.bounceInOut,
-          ),
-        ),
-      ],
-    );
+    String lottieFile = '';
+    Color color = Colors.white;
+    Color fontColor = Colors.black;
 
     switch (id.toString().characters.first) {
       case '2': // Thunderstorm
-        return WeatherScene.stormy.getWeather();
+        lottieFile =
+            'https://lottie.host/fa7764af-9877-4dda-8808-515136de20db/kAFTButpZc.json';
+        color = const Color.fromARGB(255, 6, 41, 70);
+        fontColor = Colors.white;
+        break;
       case '3': // Drizzle
-        return WeatherScene.showerSleet.getWeather();
+        lottieFile =
+            'https://lottie.host/f18a5487-ddee-4fde-8bca-110758c60f6f/NrKgKH5phV.json';
+        color = const Color.fromARGB(255, 150, 201, 242);
+        fontColor = Colors.black;
+        break;
       case '5': // Rain
-        return WeatherScene.rainyOvercast.getWeather();
+        lottieFile =
+            'https://lottie.host/fc3e0593-d17c-41c0-9585-8d887126a7a5/78zP9WDXsH.json';
+        color = const Color.fromARGB(255, 72, 104, 131);
+        fontColor = Colors.white;
+        break;
       case '6': // Snow
-        return WeatherScene.snowfall.getWeather();
+        lottieFile =
+            'https://lottie.host/747099a7-a4fd-44fb-908b-3e616a155839/ZGlAuUz9JK.json';
+        color = const Color.fromARGB(255, 237, 239, 241);
+        fontColor = const Color.fromARGB(255, 7, 2, 25);
+        break;
       case '7': // Atmosphere
-        return WeatherScene.frosty.getWeather();
+        lottieFile =
+            'https://lottie.host/1bf7865f-13e8-4329-910c-6d3a3e22e8b5/arlsyb4STN.json';
+        color = const Color.fromARGB(255, 34, 33, 47);
+        fontColor = const Color.fromARGB(255, 200, 199, 202);
+        break;
       case '8': // Clear OR Clouds
         if (id == 800) {
-          return clear;
+          lottieFile =
+              'https://lottie.host/4d3ff186-4bbb-4e9a-8eb6-586525750e7c/NlAQhgT2Jk.json';
+          color = const Color.fromARGB(255, 191, 239, 255);
+          fontColor = const Color.fromARGB(255, 8, 9, 33);
+          break;
         } else {
-          return cloud;
+          lottieFile =
+              'https://lottie.host/b71cd029-a355-4be9-a579-59671c380e39/cphDoA5WVB.json';
+          color = const Color.fromARGB(255, 141, 178, 190);
+          fontColor = const Color.fromARGB(255, 8, 9, 33);
+          break;
         }
 
       default:
-        return WeatherScene.weatherEvery.getWeather();
+        lottieFile =
+            'https://lottie.host/98412ca0-fe07-4d97-a3ee-006c8c28c1d2/roVKsQZ5P6.json';
+        color = const Color.fromARGB(255, 29, 7, 55);
+        fontColor = const Color.fromARGB(255, 210, 205, 218);
+        break;
     }
+
+    final lottie = Lottie.network(lottieFile);
+    final style = context.textTheme.headlineMedium!.copyWith(
+      color: fontColor,
+    );
+    return Container(
+      color: color,
+      child: Stack(
+        children: [
+          if (lottieFile.isNotEmpty) ...[
+            if (id != 800)
+              Positioned.fill(
+                left: size.width / 12,
+                child: lottie,
+              ),
+            Positioned.fill(
+              top: 24,
+              left: size.width / 6,
+              child: lottie,
+            ),
+          ],
+          if (id != 800) const Positioned.fill(child: StarsView(fps: 1)),
+          Positioned(
+            top: 0,
+            bottom: 0,
+            child: FittedBox(
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FittedBox(
+                      child: Text(
+                        weatherLongDescription.capitalize(),
+                        style: style,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    FittedBox(
+                      child: Text(
+                        '${weatherData?.temperature.currentTemperature.toStringAsFixed(0)} °C',
+                        style: style,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

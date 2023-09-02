@@ -4,14 +4,13 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:latlong2/latlong.dart';
 
 class HomePageMapSection extends StatefulHookWidget {
@@ -112,8 +111,9 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
                                 ],
                                 children: [
                                   const FlutterMapTileLayer(),
-                                  if (geolocation != null)
+                                  if (geolocation != null) ...[
                                     UserMarker(geolocation: geolocation),
+                                  ]
                                 ],
                               );
                             }),
@@ -126,41 +126,6 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
               ),
             ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class FlutterMapTileLayer extends StatelessWidget {
-  const FlutterMapTileLayer({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TileLayer(
-      urlTemplate:
-          'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=cKGhx1kSOrw1anX1ljgw',
-      tileProvider: locator.get(),
-    );
-  }
-}
-
-class FlutterMapAttribution extends StatelessWidget {
-  const FlutterMapAttribution({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return RichAttributionWidget(
-      attributions: [
-        TextSourceAttribution(
-          'OpenStreetMap contributors',
-          onTap: () => launchUrl(Uri.parse(
-            'https://openstreetmap.org/copyright',
-          )),
         ),
       ],
     );

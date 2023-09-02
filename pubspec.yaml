@@ -77,6 +77,8 @@ dependencies:
   google_sign_in: ^6.1.5
   debounce_hook: ^0.0.3
   realm: ^1.4.0
+  lottie: ^2.6.0
+  starsview: ^0.0.2
 
 dev_dependencies:
   flutter_test:

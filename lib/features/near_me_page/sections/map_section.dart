@@ -8,15 +8,13 @@ import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
-
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
-
-import 'package:recive/features/home_page/home_screen.dart';
-import 'package:recive/features/home_page/sections/map_section.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
 import 'package:recive/ioc/geo_location_service.dart';
+import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -130,7 +128,7 @@ class _MapContentState extends State<_MapContent> {
         .mapIndexed(
           (index, data) => _createMarker(
             data.latLng,
-            Colors.deepOrange,
+            context.colorScheme.errorContainer,
             index,
           ),
         )
@@ -188,8 +186,6 @@ class _MapContentState extends State<_MapContent> {
                           ],
                           children: [
                             const FlutterMapTileLayer(),
-                            if (geolocation != null)
-                              UserMarker(geolocation: geolocation),
                             SuperclusterLayer.mutable(
                               initialMarkers: markers,
                               indexBuilder: IndexBuilders.rootIsolate,
@@ -207,13 +203,14 @@ class _MapContentState extends State<_MapContent> {
                                 return Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    color: Colors.deepOrange,
+                                    color: context.colorScheme.errorContainer,
                                   ),
                                   child: Center(
                                     child: Text(
                                       markerCount.toString(),
-                                      style: const TextStyle(
-                                        color: Colors.white,
+                                      style: TextStyle(
+                                        color: context
+                                            .colorScheme.onErrorContainer,
                                       ),
                                     ),
                                   ),
@@ -222,7 +219,10 @@ class _MapContentState extends State<_MapContent> {
                             ),
                             SelectedMarker(
                               latLng: items[state.preSelectedEventIndex].latLng,
-                            )
+                            ),
+                            if (geolocation != null) ...[
+                              UserMarker(geolocation: geolocation),
+                            ]
                           ],
                         ),
                       ),

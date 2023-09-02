@@ -15,10 +15,10 @@ import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';
-import 'package:recive/ioc/extra_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/layout/scaffold_shell.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
 final extraRoutes = [

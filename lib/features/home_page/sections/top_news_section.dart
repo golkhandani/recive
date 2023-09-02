@@ -7,7 +7,6 @@ import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:intl/intl.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/news_page/cubits/news_cubit.dart';
@@ -17,7 +16,7 @@ import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-// ignore: depend_on_referenced_packages
+import 'package:recive/enums/loading_state.dart';
 
 class HomePageTopNewsSections extends HookWidget {
   const HomePageTopNewsSections({

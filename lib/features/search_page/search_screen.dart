@@ -16,9 +16,9 @@ import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
-import 'package:recive/ioc/extra_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -392,18 +392,14 @@ class SearchEventCardContainer extends HookWidget {
           Text(
             data.title,
             maxLines: isSmallTall ? 3 : 1,
-            style: context.textTheme.titleLarge!.copyWith(
-              color: context.theme.colorScheme.onPrimaryContainer,
-            ),
+            style: context.titleLargeOnPrimaryContainer,
           ),
           const SizedBox(height: 12),
           Text(
             data.description,
             maxLines: isSmallTall ? 3 : 1,
             overflow: TextOverflow.fade,
-            style: context.textTheme.labelLarge!.copyWith(
-              color: context.theme.colorScheme.onPrimaryContainer,
-            ),
+            style: context.labelLargeOnPrimaryContainer,
           ),
           const SizedBox(height: 12),
           Row(
@@ -419,9 +415,7 @@ class SearchEventCardContainer extends HookWidget {
                   data.location,
                   maxLines: isSmallTall ? 3 : 1,
                   overflow: TextOverflow.fade,
-                  style: context.textTheme.labelLarge!.copyWith(
-                    color: context.theme.colorScheme.onPrimaryContainer,
-                  ),
+                  style: context.labelLargeOnPrimaryContainer,
                 ),
               ),
             ],
@@ -441,9 +435,7 @@ class SearchEventCardContainer extends HookWidget {
                     '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.labelLarge!.copyWith(
-                      color: context.theme.colorScheme.onPrimaryContainer,
-                    ),
+                    style: context.labelLargeOnPrimaryContainer,
                   ),
                 ),
               ],
@@ -464,9 +456,7 @@ class SearchEventCardContainer extends HookWidget {
                     data.organizers.join(' '),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.labelLarge!.copyWith(
-                      color: context.theme.colorScheme.onPrimaryContainer,
-                    ),
+                    style: context.labelLargeOnPrimaryContainer,
                   ),
                 ),
               ],

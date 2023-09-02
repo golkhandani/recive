@@ -13,9 +13,10 @@ import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/string_extensions.dart';
-import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
-import 'package:recive/ioc/extra_data.dart';
+import 'package:recive/layout/ui_constants.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -53,28 +54,23 @@ class NearbyDetailScreen extends HookWidget {
         slivers: [
           if (summary != null || data != null) ...[
             ScreenSafeAreaHeader(
-              color: context.theme.primaryColor,
+              color: context.colorScheme.primary,
               title: summary?.title ?? data?.title ?? '',
             ),
             SliverPadding(
-              padding: const EdgeInsets.all(16)
-                  .copyWith(bottom: context.footerHeight + 32),
+              padding: kMediumPadding.copyWith(
+                bottom: context.footerHeight + 32,
+              ),
               sliver: Builder(
                 builder: (context) {
-                  const loadingWidget = SliverFillRemaining(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-
-                  if (summary == null &&
-                      data == null &&
-                      loading != LoadingState.done) {
-                    return loadingWidget;
+                  final noData = summary == null && data == null;
+                  if (noData || loading != LoadingState.done) {
+                    return kSliverFillLoading;
                   }
 
                   final infoStyle = context.textTheme.bodyLarge!.copyWith(
-                      color: context.theme.colorScheme.onPrimaryContainer);
+                    color: context.theme.colorScheme.onPrimaryContainer,
+                  );
 
                   final isOnline = (data?.isOnlineEvent ?? false);
                   return MultiSliver(
@@ -109,7 +105,7 @@ class NearbyDetailScreen extends HookWidget {
                       Builder(
                         builder: (context) {
                           if (data == null && loading == LoadingState.done) {
-                            return loadingWidget;
+                            return kSliverFillLoading;
                           }
                           return MultiSliver(
                             children: [
@@ -176,7 +172,7 @@ class NearbyDetailScreen extends HookWidget {
                                   builder: (context) {
                                     final title = summary?.title ?? data?.title;
                                     if (title == null) {
-                                      return loadingWidget;
+                                      return kSliverFillLoading;
                                     }
                                     return SliverCardContainer(
                                       borderRadius: BorderRadius.circular(16),
@@ -197,13 +193,7 @@ class NearbyDetailScreen extends HookWidget {
                                                   title,
                                                   textAlign: TextAlign.center,
                                                   style: context
-                                                      .textTheme.titleLarge!
-                                                      .copyWith(
-                                                    color: context
-                                                        .theme
-                                                        .colorScheme
-                                                        .onPrimaryContainer,
-                                                  ),
+                                                      .titleLargePrimaryContainer,
                                                 ),
                                               ),
                                             ],
@@ -217,7 +207,7 @@ class NearbyDetailScreen extends HookWidget {
                                   key: GlobalKey(debugLabel: 'BASIC INFO'),
                                   builder: (context) {
                                     if (data == null) {
-                                      return loadingWidget;
+                                      return kSliverFillLoading;
                                     }
                                     return SliverCardContainer(
                                       borderRadius: BorderRadius.circular(16),

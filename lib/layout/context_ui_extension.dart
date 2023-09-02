@@ -4,7 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
-import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/enums/loading_state.dart';
+
+extension TextStyleContext on BuildContext {
+  ColorScheme get colorScheme => theme.colorScheme;
+
+  TextStyle get titleLargeOnPrimaryContainer => textTheme.titleLarge!.copyWith(
+        color: theme.colorScheme.onPrimaryContainer,
+      );
+  TextStyle get titleLargePrimaryContainer => textTheme.titleLarge!.copyWith(
+        color: theme.colorScheme.primaryContainer,
+      );
+
+  TextStyle get titleLargeOnBackground => textTheme.titleLarge!.copyWith(
+        color: theme.colorScheme.onBackground,
+      );
+  TextStyle get labelLargeOnPrimaryContainer => textTheme.labelLarge!.copyWith(
+        color: theme.colorScheme.onPrimaryContainer,
+      );
+
+  TextStyle get labelLargeOnBackground => textTheme.labelLarge!.copyWith(
+        color: theme.colorScheme.onBackground,
+      );
+  TextStyle get labelSmallOnPrimaryContainer => textTheme.labelSmall!.copyWith(
+        color: theme.colorScheme.onPrimaryContainer,
+      );
+}
 
 extension UiBreakPointDetection on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
@@ -101,4 +126,11 @@ abstract class MaybeEmitCubit<State> extends Cubit<State> {
     if (isClosed) return;
     emit(state);
   }
+}
+
+extension DateTimeGQL on DateTime {
+  static DateTime forceConvert(String? formattedString) =>
+      formattedString != null
+          ? DateTime.tryParse(formattedString) ?? DateTime.now()
+          : DateTime.now();
 }

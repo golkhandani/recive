@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/home_page/sections/featured_event_section.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/enums/loading_state.dart';
 
 part 'featured_events_cubit.freezed.dart';
 part 'featured_events_cubit.g.dart';
@@ -55,8 +55,10 @@ class FeatureEventsCubit extends MaybeEmitHydratedCubit<FeatureEventsState> {
     ));
   }
 
-  Future<void> loadFeaturedEvent(
-      {required String id, FeaturedEventCardContainerData? summary}) async {
+  Future<void> loadFeaturedEvent({
+    required String id,
+    FeaturedEventCardContainerData? summary,
+  }) async {
     maybeEmit(state.copyWith(
       loadingState: LoadingState.loading,
       featuredEventSummary: summary == null

@@ -5,6 +5,7 @@ import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 enum DetailType {
@@ -55,8 +56,9 @@ class DetailScreen extends HookWidget {
             title: '${type.name.toCapitalized()} detail',
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(16)
-                .copyWith(bottom: context.footerHeight + 32),
+            padding: kMediumPadding.copyWith(
+              bottom: context.footerHeight + 32,
+            ),
             sliver: MultiSliver(children: [
               SliverCardContainer(
                 borderRadius: BorderRadius.circular(16),

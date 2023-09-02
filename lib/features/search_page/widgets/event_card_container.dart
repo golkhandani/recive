@@ -9,7 +9,7 @@ import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
-import 'package:recive/ioc/extra_data.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -77,9 +77,7 @@ class EventCardContainer extends StatelessWidget {
           Text(
             data.title,
             maxLines: 1,
-            style: context.textTheme.titleLarge!.copyWith(
-              color: context.theme.colorScheme.onPrimaryContainer,
-            ),
+            style: context.titleLargeOnPrimaryContainer,
           ),
           const SizedBox(height: 12),
           Row(

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:recive/layout/ui_constants.dart';
 
 mixin ToggleVisibityMixin {
   toggleVisiblity();
@@ -78,7 +79,7 @@ class SuggestionFormField<T> extends StatefulWidget {
     this.height = 56,
     this.width,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 8),
-    this.margin = const EdgeInsets.all(16),
+    this.margin = kMediumPadding,
     this.obscureText = false,
     this.obscuringCharacter = '•',
     this.inputFormatters,

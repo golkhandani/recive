@@ -9,9 +9,15 @@ import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
-import 'package:recive/ioc/extra_data.dart';
+import 'package:recive/features/featured_page/models/featured_event.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+
+extension StringLimit on String? {
+  String dynamicSub(int limit) =>
+      '${(this ?? '').length > 20 ? this!.substring(0, 20) : this ?? ''}...';
+}
 
 class FeaturedEventDetailScreen extends HookWidget {
   static const name = 'featured_event_detail';
@@ -30,13 +36,12 @@ class FeaturedEventDetailScreen extends HookWidget {
   Widget build(BuildContext context) {
     final bloc = useBloc<FeatureEventsCubit>();
     final state = useBlocBuilder(bloc);
+    final summaryData = extra.summary;
 
     useEffect(() {
       bloc.loadFeaturedEvent(id: id);
       return () => bloc.emptyFeaturedEvent();
     }, []);
-
-    final summaryData = extra.summary;
 
     return ColoredBox(
       color: context.theme.colorScheme.background,
@@ -44,11 +49,11 @@ class FeaturedEventDetailScreen extends HookWidget {
         slivers: [
           ScreenSafeAreaHeader(
             color: context.theme.primaryColor,
-            title:
-                '${(summaryData?.title ?? '').length > 20 ? summaryData?.title.substring(0, 20) : summaryData?.title ?? state.featuredEvent?.title ?? ''}...',
+            title: (summaryData?.title ?? state.featuredEvent?.title)
+                .dynamicSub(20),
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(16)
+            padding: const EdgeInsets.all(12)
                 .copyWith(bottom: context.footerHeight + 32),
             sliver: Builder(builder: (context) {
               const loading = SliverFillRemaining(
@@ -70,20 +75,10 @@ class FeaturedEventDetailScreen extends HookWidget {
                       sliver: SliverToBoxAdapter(
                         child: Hero(
                           tag: extra.heroTag,
-                          child: CachedNetworkImage(
+                          child: ColoredNetworkImage(
                             imageUrl: summaryData?.imageUrl ?? data!.imageUrl,
-                            imageBuilder: (context, imageProvider) => Container(
-                              height: 260,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                  opacity: 0.9,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.blueAccent,
-                              ),
-                            ),
+                            constraints:
+                                const BoxConstraints.expand(height: 260),
                           ),
                         ),
                       ),
@@ -109,10 +104,7 @@ class FeaturedEventDetailScreen extends HookWidget {
                                 child: Text(
                                   data.title,
                                   textAlign: TextAlign.center,
-                                  style: context.textTheme.titleLarge!.copyWith(
-                                    color: context
-                                        .theme.colorScheme.onPrimaryContainer,
-                                  ),
+                                  style: context.titleLargeOnPrimaryContainer,
                                 ),
                               ),
                             ],
@@ -226,6 +218,40 @@ class FeaturedEventDetailScreen extends HookWidget {
             }),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ColoredNetworkImage extends StatelessWidget {
+  const ColoredNetworkImage({
+    super.key,
+    required this.imageUrl,
+    this.constraints,
+    this.color,
+    this.opacity = 1,
+  });
+
+  final String imageUrl;
+  final BoxConstraints? constraints;
+  final Color? color;
+  final double opacity;
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      imageBuilder: (context, imageProvider) => Container(
+        constraints: constraints ?? const BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: imageProvider,
+            fit: BoxFit.cover,
+            opacity: opacity,
+          ),
+          borderRadius: BorderRadius.circular(8),
+          color: color,
+        ),
       ),
     );
   }

@@ -13,7 +13,8 @@ import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/home_page/sections/featured_event_section.dart';
-import 'package:recive/ioc/extra_data.dart';
+import 'package:recive/layout/ui_constants.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
@@ -34,7 +35,7 @@ class FeaturedScreen extends HookWidget {
     }, []);
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(
@@ -42,8 +43,9 @@ class FeaturedScreen extends HookWidget {
             title: 'News',
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(16)
-                .copyWith(bottom: context.footerHeight + 16),
+            padding: kMediumPadding.copyWith(
+              bottom: context.footerHeight + 16,
+            ),
             sliver: Builder(builder: (context) {
               return context.checkLoadingState(state.loadingState) ??
                   MultiSliver(
@@ -102,7 +104,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: context.theme.colorScheme.background,
+            color: context.colorScheme.background,
           ),
           child: Column(
             children: [
@@ -129,15 +131,13 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                 child: ExpandablePanel(
                   header: Text(
                     data.title,
-                    style: context.textTheme.titleLarge!.copyWith(
-                      color: context.theme.colorScheme.onBackground,
-                    ),
+                    style: context.titleLargeOnBackground,
                   ),
                   collapsed: Row(
                     children: [
                       Iconify(
                         Bx.bxs_map,
-                        color: context.theme.colorScheme.onBackground,
+                        color: context.colorScheme.onBackground,
                         size: 24,
                       ),
                       const SizedBox(width: 4),
@@ -146,9 +146,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                           data.location,
                           maxLines: 3,
                           overflow: TextOverflow.fade,
-                          style: context.textTheme.labelLarge!.copyWith(
-                            color: context.theme.colorScheme.onBackground,
-                          ),
+                          style: context.labelLargeOnBackground,
                         ),
                       ),
                     ],
@@ -162,16 +160,14 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                           data.description,
                           maxLines: 3,
                           overflow: TextOverflow.fade,
-                          style: context.textTheme.labelLarge!.copyWith(
-                            color: context.theme.colorScheme.onBackground,
-                          ),
+                          style: context.labelLargeOnBackground,
                         ),
                         const SizedBox(height: 12),
                         Row(
                           children: [
                             Iconify(
                               Bx.bxs_map,
-                              color: context.theme.colorScheme.onBackground,
+                              color: context.colorScheme.onBackground,
                               size: 24,
                             ),
                             const SizedBox(width: 4),
@@ -181,7 +177,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                                 maxLines: 3,
                                 overflow: TextOverflow.fade,
                                 style: context.textTheme.labelLarge!.copyWith(
-                                  color: context.theme.colorScheme.onBackground,
+                                  color: context.colorScheme.onBackground,
                                 ),
                               ),
                             ),
@@ -192,7 +188,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                           children: [
                             Iconify(
                               Bx.calendar_event,
-                              color: context.theme.colorScheme.onBackground,
+                              color: context.colorScheme.onBackground,
                               size: 24,
                             ),
                             const SizedBox(width: 4),
@@ -201,9 +197,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                                 '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: context.textTheme.labelLarge!.copyWith(
-                                  color: context.theme.colorScheme.onBackground,
-                                ),
+                                style: context.labelLargeOnBackground,
                               ),
                             ),
                           ],
@@ -213,7 +207,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                           children: [
                             Iconify(
                               Bx.briefcase,
-                              color: context.theme.colorScheme.onBackground,
+                              color: context.colorScheme.onBackground,
                               size: 24,
                             ),
                             const SizedBox(width: 4),
@@ -222,9 +216,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                                 data.organizers.join(' '),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: context.textTheme.labelLarge!.copyWith(
-                                  color: context.theme.colorScheme.onBackground,
-                                ),
+                                style: context.labelLargeOnBackground,
                               ),
                             ),
                           ],
@@ -235,7 +227,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                   theme: ExpandableThemeData(
                     iconSize: 20,
                     iconPadding: const EdgeInsets.only(bottom: 12),
-                    iconColor: context.theme.colorScheme.onBackground,
+                    iconColor: context.colorScheme.onBackground,
                     animationDuration: const Duration(milliseconds: 200),
                     useInkWell: true,
                     alignment: Alignment.topRight,

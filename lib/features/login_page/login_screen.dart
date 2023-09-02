@@ -5,7 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
-import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/enums/loading_state.dart';
+
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/ioc/locator.dart';
@@ -43,9 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       "Welcome to VanExplore",
                       textAlign: TextAlign.center,
-                      style: context.textTheme.titleLarge!.withColor(
-                        context.theme.colorScheme.primaryContainer,
-                      ),
+                      style: context.titleLargePrimaryContainer,
                     ),
                   ),
                 ),

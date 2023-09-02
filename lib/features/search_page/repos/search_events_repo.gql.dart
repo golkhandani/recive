@@ -8,18 +8,11 @@ import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/search_page/repos/search.repository.interface.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
-
-extension DateTimeGQL on DateTime {
-  static DateTime forceConvert(String? formattedString) =>
-      formattedString != null
-          ? DateTime.tryParse(formattedString) ?? DateTime.now()
-          : DateTime.now();
-}
-
-// final List<String> list = List.generate(20, (index) => "Text $index");
+import 'package:recive/ioc/realm_gql_client.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 
 class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
-  final Client client;
+  final RealmGqlClient client;
 
   GQLSearchEventRepo({
     required this.client,
@@ -37,10 +30,7 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
         ..vars.cq = query.toCapitalized(),
     );
 
-    final data = await client.request(featuredEventRequest).map((element) {
-      return element;
-    }).firstWhere((element) => !element.loading);
-
+    final data = await client.request(featuredEventRequest);
     final events = data.data?.events;
 
     if (events == null) {
@@ -140,10 +130,7 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
       (b) => b..vars.limit = limit,
     );
 
-    final data = await client.request(featuredEventRequest).map((element) {
-      return element;
-    }).firstWhere((element) => !element.loading);
-
+    final data = await client.request(featuredEventRequest);
     final events = data.data?.events;
 
     if (events == null) {

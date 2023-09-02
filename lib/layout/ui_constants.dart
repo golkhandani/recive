@@ -3,6 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:recive/utils/theme.dart';
 
+const kSliverFillLoading = SliverFillRemaining(
+  child: Center(
+    child: CircularProgressIndicator(),
+  ),
+);
+
+const kMediumPadding = EdgeInsets.all(16);
+
 const Widget kLoadingBox = Center(
   child: SizedBox(
     height: 32.0,

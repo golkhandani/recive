@@ -138,7 +138,7 @@ class __$$_LoginStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_LoginState implements _LoginState {
+class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   const _$_LoginState(
       {required this.isLoggedIn,
       required this.googleLoginLoadingState,
@@ -158,8 +158,21 @@ class _$_LoginState implements _LoginState {
   final LoadingState logoutLoadingState;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LoginState(isLoggedIn: $isLoggedIn, googleLoginLoadingState: $googleLoginLoadingState, appleLoginLoadingState: $appleLoginLoadingState, logoutLoadingState: $logoutLoadingState)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LoginState'))
+      ..add(DiagnosticsProperty('isLoggedIn', isLoggedIn))
+      ..add(DiagnosticsProperty(
+          'googleLoginLoadingState', googleLoginLoadingState))
+      ..add(
+          DiagnosticsProperty('appleLoginLoadingState', appleLoginLoadingState))
+      ..add(DiagnosticsProperty('logoutLoadingState', logoutLoadingState));
   }
 
   @override

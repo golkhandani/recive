@@ -13,6 +13,7 @@ import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:recive/enums/loading_state.dart';
 
 class HomePageCategoriesSection extends StatefulHookWidget {
   const HomePageCategoriesSection({
@@ -138,9 +139,7 @@ class CategoryCardContainer extends HookWidget {
             data.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: context.textTheme.titleLarge!.copyWith(
-              color: context.theme.colorScheme.onPrimaryContainer,
-            ),
+            style: context.titleLargeOnPrimaryContainer,
           ),
         ),
         const SizedBox(height: 12),
@@ -148,9 +147,7 @@ class CategoryCardContainer extends HookWidget {
           data.subtitle,
           maxLines: 1,
           overflow: TextOverflow.fade,
-          style: context.textTheme.labelSmall!.copyWith(
-            color: context.theme.colorScheme.onPrimaryContainer,
-          ),
+          style: context.labelSmallOnPrimaryContainer,
         ),
       ],
     );

@@ -8,9 +8,10 @@ import 'package:recive/domain/graphql/__generated__/near_by_query.req.gql.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
+import 'package:recive/ioc/realm_gql_client.dart';
 
 class GQLEventRepo extends IEventRepo {
-  final Client client;
+  final RealmGqlClient client;
 
   GQLEventRepo({
     required this.client,
@@ -18,18 +19,11 @@ class GQLEventRepo extends IEventRepo {
 
   @override
   Future<FeaturedEvent> event({required String id}) async {
-    final featuredEventRequest =
-        GGetFeaturedEventReq((b) => b..vars.eventId.value = id);
+    final featuredEventRequest = GGetFeaturedEventReq(
+      (b) => b..vars.eventId.value = id,
+    );
 
-    final data = await client.request(featuredEventRequest).map((element) {
-      print(element.hasErrors);
-      if (kDebugMode) {
-        print(
-            "_________________| featuredEventRequest ${element.loading} ${element.data?.event?.G_id?.value}");
-      }
-      return element;
-    }).firstWhere((element) => !element.loading);
-
+    final data = await client.request(featuredEventRequest);
     final e = data.data!.event!;
 
     return FeaturedEvent(
@@ -64,17 +58,7 @@ class GQLEventRepo extends IEventRepo {
         ..vars.sortBy = sortBy.toGQL(),
     );
 
-    final data = await client.request(featuredEventRequest).map((element) {
-      print(element.hasErrors);
-      print(element.linkException);
-
-      if (kDebugMode) {
-        print(
-            "_________________| featuredEventsRequest ${element.loading} ${element.data?.events.length}");
-      }
-      return element;
-    }).firstWhere((element) => !element.loading);
-
+    final data = await client.request(featuredEventRequest);
     final convertedData = data.data?.events
             .map(
               (e) => FeaturedEvent(
@@ -119,14 +103,7 @@ class GQLEventRepo extends IEventRepo {
         ..vars.longitude = longitude,
     );
 
-    final data = await client.request(nearbyEventRequest).map((element) {
-      if (kDebugMode) {
-        print(
-            "_________________| nearbyEventRequest ${latitude} ${longitude} ${element.loading} ${element.data?.GetEventsByDistance?.length}");
-      }
-      return element;
-    }).firstWhere((element) => !element.loading);
-
+    final data = await client.request(nearbyEventRequest);
     final convertedData = data.data?.GetEventsByDistance
             ?.map(
               (e) => NearbyEvent(
@@ -166,14 +143,7 @@ class GQLEventRepo extends IEventRepo {
     final nearByEventRequest =
         GGetFeaturedEventReq((b) => b..vars.eventId.value = id);
 
-    final data = await client.request(nearByEventRequest).map((element) {
-      if (kDebugMode) {
-        print(
-            "_________________| nearbyEventRequest ${element.loading} ${element.data?.event?.G_id?.value}");
-      }
-      return element;
-    }).firstWhere((element) => !element.loading);
-
+    final data = await client.request(nearByEventRequest);
     final e = data.data!.event!;
 
     return NearbyEvent(

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
 import 'package:recive/layout/context_ui_extension.dart';

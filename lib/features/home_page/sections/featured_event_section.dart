@@ -8,18 +8,18 @@ import 'package:iconify_flutter/icons/bx.dart';
 import 'package:intl/intl.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
-import 'package:recive/ioc/extra_data.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:recive/enums/loading_state.dart';
 
 class HomePageFeaturedEventsSection extends HookWidget {
   const HomePageFeaturedEventsSection({
@@ -184,18 +184,14 @@ class FeaturedEventCardContainer extends HookWidget {
           Text(
             data.title,
             maxLines: isSmallTall ? 3 : 1,
-            style: context.textTheme.titleLarge!.copyWith(
-              color: context.theme.colorScheme.onPrimaryContainer,
-            ),
+            style: context.titleLargeOnPrimaryContainer,
           ),
           const SizedBox(height: 12),
           Text(
             data.description,
             maxLines: isSmallTall ? 3 : 1,
             overflow: TextOverflow.fade,
-            style: context.textTheme.labelLarge!.copyWith(
-              color: context.theme.colorScheme.onPrimaryContainer,
-            ),
+            style: context.titleLargeOnPrimaryContainer,
           ),
           const SizedBox(height: 12),
           Row(

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/news_page/models/news_model.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 

@@ -15,6 +15,7 @@ import 'package:recive/features/home_page/sections/top_news_section.dart';
 import 'package:recive/features/news_page/cubits/news_cubit.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -41,8 +42,9 @@ class NewsScreen extends HookWidget {
             title: 'News',
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(16)
-                .copyWith(bottom: context.footerHeight + 16),
+            padding: kMediumPadding.copyWith(
+              bottom: context.footerHeight + 16,
+            ),
             sliver: Builder(builder: (context) {
               return context.checkLoadingState(state.loadingState) ??
                   MultiSliver(
@@ -149,9 +151,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                   child: ExpandablePanel(
                     header: Text(
                       data.title,
-                      style: context.textTheme.titleLarge!.copyWith(
-                        color: context.theme.colorScheme.onBackground,
-                      ),
+                      style: context.titleLargeOnBackground,
                     ),
                     collapsed: Column(
                       children: [

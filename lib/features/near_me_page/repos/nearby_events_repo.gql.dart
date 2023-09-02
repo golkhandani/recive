@@ -6,16 +6,11 @@ import 'package:latlong2/latlong.dart';
 import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
-
-extension DateTimeGQL on DateTime {
-  static DateTime forceConvert(String? formattedString) =>
-      formattedString != null
-          ? DateTime.tryParse(formattedString) ?? DateTime.now()
-          : DateTime.now();
-}
+import 'package:recive/ioc/realm_gql_client.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 
 class GQLNearbyEventRepo extends INearbyEventRepo {
-  final Client client;
+  final RealmGqlClient client;
 
   GQLNearbyEventRepo({
     required this.client,
@@ -26,14 +21,7 @@ class GQLNearbyEventRepo extends INearbyEventRepo {
     final featuredEventRequest =
         GGetFeaturedEventReq((b) => b..vars.eventId.value = id);
 
-    final data = await client.request(featuredEventRequest).map((element) {
-      if (kDebugMode) {
-        print(
-            "_________________| featuredEventRequest ${element.loading} ${element.data?.event?.G_id?.value}");
-      }
-      return element;
-    }).firstWhere((element) => !element.loading);
-
+    final data = await client.request(featuredEventRequest);
     final e = data.data!.event;
 
     if (e == null) {

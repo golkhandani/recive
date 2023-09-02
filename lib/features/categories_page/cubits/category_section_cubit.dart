@@ -1,32 +1,15 @@
 import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-// ignore: depend_on_referenced_packages
-import 'package:latlong2/latlong.dart';
 
 part 'category_section_cubit.freezed.dart';
 part 'category_section_cubit.g.dart';
 
 const article =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-
-const categoryImage =
-    'https://unsplash.com/photos/kX012NDcCKQ/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTN8fHZhbmNvdXZlcnxlbnwwfHx8fDE2OTI0NzI1NzZ8MA&force=true&w=640';
-
-const eventImage =
-    'https://unsplash.com/photos/ZhQCZjr9fHo/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8dmFuY291dmVyJTIwZXZlbnR8ZW58MHx8fHwxNjkyNDc0MDY3fDA&force=true&w=1920';
-
-final points = <LatLng>[
-  const LatLng(37.725834, -122.416417),
-  const LatLng(37.785834, -122.416417),
-  const LatLng(37.785834, -122.426417),
-  const LatLng(37.755834, -122.406417),
-  const LatLng(37.715834, -122.416417),
-  const LatLng(37.731834, -122.436417),
-  const LatLng(37.742834, -122.426417),
-];
 
 final List<String> images = [
   'https://source.unsplash.com/random/?city,night',

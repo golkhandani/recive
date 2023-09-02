@@ -6,20 +6,6 @@ part of 'category.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PaginationState _$$_PaginationStateFromJson(Map<String, dynamic> json) =>
-    _$_PaginationState(
-      page: json['page'] as int,
-      itemPerPage: json['itemPerPage'] as int,
-      total: json['total'] as int,
-    );
-
-Map<String, dynamic> _$$_PaginationStateToJson(_$_PaginationState instance) =>
-    <String, dynamic>{
-      'page': instance.page,
-      'itemPerPage': instance.itemPerPage,
-      'total': instance.total,
-    };
-
 _$_Category _$$_CategoryFromJson(Map<String, dynamic> json) => _$_Category(
       id: json['id'] as String,
       title: json['title'] as String,

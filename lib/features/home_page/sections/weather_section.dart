@@ -13,6 +13,7 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:starsview/starsview.dart';
 
@@ -65,7 +66,7 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
                 const SliverGap(height: 12),
                 SliverCardContainer(
                   borderRadius: BorderRadius.circular(16),
-                  padding: const EdgeInsets.all(12),
+                  padding: kTinyPadding,
                   sliver: SliverToBoxAdapter(
                     child: LayoutBuilder(builder: (context, box) {
                       return Container(

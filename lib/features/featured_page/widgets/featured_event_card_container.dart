@@ -10,6 +10,7 @@ import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
@@ -237,7 +238,7 @@ class FeaturedEventCardContainer extends HookWidget {
           ],
         ),
       ),
-      padding: const EdgeInsets.all(12),
+      padding: kTinyPadding,
       child: child,
     );
   }

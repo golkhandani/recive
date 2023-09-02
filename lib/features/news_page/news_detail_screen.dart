@@ -61,12 +61,12 @@ class NewsDetailScreen extends HookWidget {
               children: [
                 SliverCardContainer(
                   borderRadius: BorderRadius.circular(16),
-                  padding: const EdgeInsets.all(12),
+                  padding: kTinyPadding,
                   sliver: SliverToBoxAdapter(
                     child: Hero(
                       tag: extra?.heroTag ?? extra.hashCode,
                       child: Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: kTinyPadding,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.black,
@@ -121,11 +121,11 @@ class NewsDetailScreen extends HookWidget {
                           children: [
                             SliverCardContainer(
                               borderRadius: BorderRadius.circular(16),
-                              padding: const EdgeInsets.all(12),
+                              padding: kTinyPadding,
                               sliver: SliverToBoxAdapter(
                                 child: Container(
                                   height: 88,
-                                  padding: const EdgeInsets.all(12),
+                                  padding: kTinyPadding,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: color,
@@ -143,10 +143,10 @@ class NewsDetailScreen extends HookWidget {
                             const SliverGap(height: 12),
                             SliverCardContainer(
                               borderRadius: BorderRadius.circular(16),
-                              padding: const EdgeInsets.all(12),
+                              padding: kTinyPadding,
                               sliver: SliverToBoxAdapter(
                                 child: Container(
-                                  padding: const EdgeInsets.all(12),
+                                  padding: kTinyPadding,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.blueAccent,

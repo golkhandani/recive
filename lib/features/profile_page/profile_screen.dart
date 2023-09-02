@@ -11,6 +11,7 @@ import 'package:recive/features/profile_page/models/user_custom_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -76,7 +77,7 @@ class ProfileScreen extends HookWidget {
                                 .logoutTo(LoginScreen.name),
                           ),
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: kTinyPadding,
                             alignment: Alignment.center,
                             constraints:
                                 const BoxConstraints.expand(height: 48),
@@ -122,14 +123,14 @@ class ProfileScreen extends HookWidget {
                   SliverToBoxAdapter(
                     child: CardContainer(
                       borderRadius: BorderRadius.circular(16),
-                      padding: const EdgeInsets.all(12),
+                      padding: kTinyPadding,
                       child: Container(
                         height: context.vHeight - 460,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: const EdgeInsets.all(12),
+                        padding: kTinyPadding,
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -145,7 +146,7 @@ class ProfileScreen extends HookWidget {
                                     .logoutTo(LoginScreen.name),
                               ),
                               child: Container(
-                                padding: const EdgeInsets.all(12),
+                                padding: kTinyPadding,
                                 alignment: Alignment.center,
                                 constraints:
                                     const BoxConstraints.expand(height: 48),

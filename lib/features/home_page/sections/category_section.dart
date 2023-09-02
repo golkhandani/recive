@@ -9,6 +9,7 @@ import 'package:recive/features/categories_page/widgets/category_card_container.
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:recive/enums/loading_state.dart';
@@ -47,7 +48,7 @@ class _HomePageCategoriesSectionState extends State<HomePageCategoriesSection> {
             const SliverGap(height: 12),
             SliverCardContainer(
               borderRadius: BorderRadius.circular(16),
-              padding: const EdgeInsets.all(12),
+              padding: kTinyPadding,
               sliver: SliverToBoxAdapter(
                 child: SizedBox(
                   height: 76,

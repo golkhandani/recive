@@ -77,6 +77,8 @@ const kSliverFillLoading = SliverFillRemaining(
 );
 
 const kMediumPadding = EdgeInsets.all(16);
+const kSmallPadding = EdgeInsets.all(12);
+const kTinyPadding = EdgeInsets.all(8);
 
 const Widget kLoadingBox = Center(
   child: SizedBox(

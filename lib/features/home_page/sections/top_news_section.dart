@@ -9,6 +9,7 @@ import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/news_page/widgets/news_card_container.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:recive/enums/loading_state.dart';
@@ -41,7 +42,7 @@ class HomePageTopNewsSections extends HookWidget {
             const SliverGap(height: 12),
             SliverCardContainer(
               borderRadius: BorderRadius.circular(16),
-              padding: const EdgeInsets.all(12),
+              padding: kTinyPadding,
               sliver: SliverToBoxAdapter(
                 child: LayoutBuilder(builder: (context, box) {
                   return SizedBox(

@@ -7,7 +7,7 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
-import 'package:recive/features/featured_page/featured_detail_screen.dart';
+import 'package:recive/features/featured_page/colored_network_image.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
@@ -59,7 +59,7 @@ class CategoryDetailScreen extends HookWidget {
                 children: [
                   SliverCardContainer(
                     borderRadius: BorderRadius.circular(16),
-                    padding: const EdgeInsets.all(12),
+                    padding: kTinyPadding,
                     sliver: SliverToBoxAdapter(
                       child: Hero(
                         tag: extra?.heroTag ?? id,
@@ -84,10 +84,10 @@ class CategoryDetailScreen extends HookWidget {
                       children: [
                         SliverCardContainer(
                           borderRadius: BorderRadius.circular(16),
-                          padding: const EdgeInsets.all(12),
+                          padding: kTinyPadding,
                           sliver: SliverToBoxAdapter(
                             child: Container(
-                              padding: const EdgeInsets.all(12),
+                              padding: kTinyPadding,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: Colors.black,
@@ -104,10 +104,10 @@ class CategoryDetailScreen extends HookWidget {
                         const SliverGap(height: 12),
                         SliverCardContainer(
                           borderRadius: BorderRadius.circular(16),
-                          padding: const EdgeInsets.all(12),
+                          padding: kTinyPadding,
                           sliver: SliverToBoxAdapter(
                             child: Container(
-                              padding: const EdgeInsets.all(12),
+                              padding: kTinyPadding,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: Colors.blueAccent,

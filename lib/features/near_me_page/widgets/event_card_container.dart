@@ -7,6 +7,7 @@ import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -224,7 +225,7 @@ class EventCardContainer extends StatelessWidget {
           ],
         ),
       ),
-      padding: const EdgeInsets.all(12),
+      padding: kTinyPadding,
       child: child,
     );
   }

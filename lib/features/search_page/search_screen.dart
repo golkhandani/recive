@@ -18,6 +18,7 @@ import 'package:recive/features/search_page/widgets/quick_search_header/bloc/qui
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -40,10 +41,12 @@ class SearchScreen extends HookWidget {
     final resultState = useState(0);
 
     final textEditingController = useTextEditingController();
+    final scrollController = useScrollController();
     useEffect(() {
       final query = textEditingController.text;
       if (query.length > 1) {
         bloc.searchedEvents(query, () => resultState.value = 2);
+        scrollController.jumpTo(0);
       }
       return;
     }, [textEditingController.text]);
@@ -65,6 +68,7 @@ class SearchScreen extends HookWidget {
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
         return CustomScrollView(
+          controller: scrollController,
           slivers: [
             ScreenSafeAreaHeader(
               color: context.theme.primaryColor,
@@ -114,7 +118,7 @@ class SearchScreen extends HookWidget {
                     child: showFilters.value
                         ? Container(
                             color: context.theme.colorScheme.primary,
-                            padding: const EdgeInsets.all(12),
+                            padding: kTinyPadding,
                             child: Column(
                               children: [
                                 // Here, default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
@@ -232,7 +236,7 @@ class SearchScreen extends HookWidget {
                     SliverToBoxAdapter(
                       child: CardContainer(
                         borderRadius: BorderRadius.circular(16),
-                        padding: const EdgeInsets.all(12),
+                        padding: kTinyPadding,
                         child: state.searchedkeywords.isEmpty
                             ? ConstrainedBox(
                                 constraints:
@@ -263,7 +267,7 @@ class SearchScreen extends HookWidget {
                                         resultState.value = 1;
                                       },
                                       child: Container(
-                                        padding: const EdgeInsets.all(12),
+                                        padding: kTinyPadding,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -283,7 +287,7 @@ class SearchScreen extends HookWidget {
                   if (resultState.value == 1) ...[
                     SliverCardContainer(
                       borderRadius: BorderRadius.circular(16),
-                      padding: const EdgeInsets.all(12),
+                      padding: kTinyPadding,
                       sliver: SliverFillRemaining(
                         child: ConstrainedBox(
                           constraints: const BoxConstraints.expand(height: 300),
@@ -306,7 +310,7 @@ class SearchScreen extends HookWidget {
                             padding: const EdgeInsets.only(bottom: 12),
                             child: CardContainer(
                               borderRadius: BorderRadius.circular(16),
-                              padding: const EdgeInsets.all(12),
+                              padding: kTinyPadding,
                               child: SearchEventCardContainer(
                                 constraints: const BoxConstraints.expand(
                                   height: 220,
@@ -535,7 +539,7 @@ class SearchEventCardContainer extends HookWidget {
           ],
         ),
       ),
-      padding: const EdgeInsets.all(12),
+      padding: kTinyPadding,
       child: child,
     );
   }

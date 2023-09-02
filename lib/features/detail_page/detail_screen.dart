@@ -65,7 +65,7 @@ class DetailScreen extends HookWidget {
             sliver: MultiSliver(children: [
               SliverCardContainer(
                 borderRadius: BorderRadius.circular(16),
-                padding: const EdgeInsets.all(12),
+                padding: kTinyPadding,
                 sliver: SliverToBoxAdapter(
                   child: Hero(
                     tag: DetailScreen.name + type.name + id,
@@ -84,7 +84,7 @@ class DetailScreen extends HookWidget {
               if (type == DetailType.category) ...[
                 SliverCardContainer(
                   borderRadius: BorderRadius.circular(16),
-                  padding: const EdgeInsets.all(12),
+                  padding: kTinyPadding,
                   sliver: SliverToBoxAdapter(
                     child: Container(
                       height: 240,
@@ -99,7 +99,7 @@ class DetailScreen extends HookWidget {
                 const SliverGap(height: 12),
                 SliverCardContainer(
                   borderRadius: BorderRadius.circular(16),
-                  padding: const EdgeInsets.all(12),
+                  padding: kTinyPadding,
                   sliver: SliverToBoxAdapter(
                     child: Container(
                       height: 88,
@@ -114,7 +114,7 @@ class DetailScreen extends HookWidget {
               ] else ...[
                 SliverCardContainer(
                   borderRadius: BorderRadius.circular(16),
-                  padding: const EdgeInsets.all(12),
+                  padding: kTinyPadding,
                   sliver: SliverToBoxAdapter(
                     child: Container(
                       height: 96,
@@ -130,7 +130,7 @@ class DetailScreen extends HookWidget {
                 if (type != DetailType.news) ...[
                   SliverCardContainer(
                     borderRadius: BorderRadius.circular(16),
-                    padding: const EdgeInsets.all(12),
+                    padding: kTinyPadding,
                     sliver: SliverToBoxAdapter(
                       child: Container(
                         height: 88,
@@ -146,7 +146,7 @@ class DetailScreen extends HookWidget {
                 ],
                 SliverCardContainer(
                   borderRadius: BorderRadius.circular(16),
-                  padding: const EdgeInsets.all(12),
+                  padding: kTinyPadding,
                   sliver: SliverToBoxAdapter(
                     child: Container(
                       height: 400,
@@ -162,7 +162,7 @@ class DetailScreen extends HookWidget {
                 if (type != DetailType.news) ...[
                   SliverCardContainer(
                     borderRadius: BorderRadius.circular(16),
-                    padding: const EdgeInsets.all(12),
+                    padding: kTinyPadding,
                     sliver: SliverToBoxAdapter(
                       child: Container(
                         height: 200,

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class SliverCardContainer extends StatelessWidget {
-  const SliverCardContainer(
-      {super.key,
-      required this.sliver,
-      this.padding = const EdgeInsets.all(24),
-      this.color = Colors.white,
-      this.borderRadius = BorderRadius.zero});
+  const SliverCardContainer({
+    super.key,
+    required this.sliver,
+    this.padding = const EdgeInsets.all(24),
+    this.color = Colors.white,
+    this.borderRadius = BorderRadius.zero,
+  });
 
   final Widget sliver;
   final EdgeInsets padding;
@@ -36,7 +37,13 @@ class SliverCardContainer extends StatelessWidget {
         ),
         SliverPadding(
           padding: padding,
-          sliver: sliver,
+          sliver: DecoratedSliver(
+            position: DecorationPosition.foreground,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            sliver: SliverClip(child: sliver),
+          ),
         )
       ],
     );

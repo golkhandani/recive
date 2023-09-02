@@ -13,7 +13,7 @@ import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/featured_page/featured_detail_screen.dart';
+import 'package:recive/features/featured_page/colored_network_image.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -122,14 +122,14 @@ class NearbyDetailScreen extends HookWidget {
       builder: (context) {
         return SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.all(12),
+          padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: Colors.amber,
               ),
-              padding: const EdgeInsets.all(12),
+              padding: kTinyPadding,
               child: Column(
                 children: [
                   Row(
@@ -185,8 +185,8 @@ class NearbyDetailScreen extends HookWidget {
                                       ));
                                     },
                                   style: infoStyle.copyWith(
-                                    color: context
-                                        .theme.colorScheme.tertiaryContainer,
+                                    color:
+                                        context.theme.colorScheme.onBackground,
                                     fontStyle: FontStyle.italic,
                                   ),
                                 ),
@@ -239,7 +239,7 @@ class NearbyDetailScreen extends HookWidget {
                         }
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: kTinyPadding,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -265,14 +265,14 @@ class NearbyDetailScreen extends HookWidget {
       builder: (context) {
         return SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.all(12),
+          padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: const Color.fromARGB(255, 53, 65, 146),
               ),
-              padding: const EdgeInsets.all(12),
+              padding: kTinyPadding,
               child: Column(
                 children: [
                   Row(
@@ -384,7 +384,7 @@ class NearbyDetailScreen extends HookWidget {
                                     },
                                   style: infoStyle.copyWith(
                                     color: context
-                                        .theme.colorScheme.tertiaryContainer,
+                                        .theme.colorScheme.onTertiaryContainer,
                                     fontStyle: FontStyle.italic,
                                   ),
                                 ),
@@ -411,16 +411,16 @@ class NearbyDetailScreen extends HookWidget {
       builder: (context) {
         return SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.all(12),
+          padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: (data?.isFree ?? false)
-                    ? Colors.greenAccent
-                    : Colors.redAccent,
+                    ? context.colorScheme.tertiaryContainer
+                    : context.colorScheme.errorContainer,
               ),
-              padding: const EdgeInsets.all(12),
+              padding: kTinyPadding,
               child: Column(
                 children: [
                   Row(
@@ -539,14 +539,14 @@ class NearbyDetailScreen extends HookWidget {
           }
           return SliverCardContainer(
             borderRadius: BorderRadius.circular(16),
-            padding: const EdgeInsets.all(12),
+            padding: kTinyPadding,
             sliver: SliverToBoxAdapter(
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: context.theme.colorScheme.primaryContainer,
                 ),
-                padding: const EdgeInsets.all(12),
+                padding: kTinyPadding,
                 child: Column(
                   children: [
                     Center(
@@ -620,21 +620,21 @@ class NearbyDetailScreen extends HookWidget {
           }
           return SliverCardContainer(
             borderRadius: BorderRadius.circular(16),
-            padding: const EdgeInsets.all(12),
+            padding: kTinyPadding,
             sliver: SliverToBoxAdapter(
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: context.theme.colorScheme.secondary,
                 ),
-                padding: const EdgeInsets.all(12),
+                padding: kTinyPadding,
                 child: Column(
                   children: [
                     Center(
                       child: Text(
                         title,
                         textAlign: TextAlign.center,
-                        style: context.titleLargePrimaryContainer,
+                        style: context.titleLargeOnPrimaryContainer,
                       ),
                     ),
                   ],
@@ -651,14 +651,14 @@ class NearbyDetailScreen extends HookWidget {
       builder: (context) {
         return SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.all(12),
+          padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 color: context.colorScheme.background,
               ),
-              padding: const EdgeInsets.all(12),
+              padding: kTinyPadding,
               child: Column(
                 children: [
                   Row(
@@ -704,7 +704,7 @@ class NearbyDetailScreen extends HookWidget {
       Object heroTag, NearbyDetailSummaryData? summary, EventComplete? data) {
     return SliverCardContainer(
       borderRadius: BorderRadius.circular(16),
-      padding: const EdgeInsets.all(12),
+      padding: kTinyPadding,
       sliver: SliverToBoxAdapter(
         child: Hero(
           tag: heroTag,

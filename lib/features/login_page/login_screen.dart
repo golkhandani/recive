@@ -12,6 +12,7 @@ import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         }),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: kTinyPadding,
                       alignment: Alignment.center,
                       constraints:
                           const BoxConstraints.expand(height: 64, width: 350),
@@ -119,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: kTinyPadding,
                       constraints:
                           const BoxConstraints.expand(height: 64, width: 350),
                       alignment: Alignment.center,

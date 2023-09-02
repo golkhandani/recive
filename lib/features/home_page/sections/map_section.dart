@@ -74,7 +74,7 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
         const SliverGap(height: 12),
         SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
           sliver: SliverToBoxAdapter(
             child: Hero(
               tag: 'MapHeroTag2',

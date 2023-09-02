@@ -1,22 +1,40 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 
 const MaterialColor swatch = Colors.purple;
-const Color primary = Color(0xFFA8DADC);
-const Color primaryShadow = Color(0xFF348183);
+// const Color primary = Color(0xFFA8DADC);
+// const Color primaryShadow = Color(0xFF348183);
 
-const Color secondary = Color(0xFF0C1B31);
-const Color secondaryShadow = Color(0xFF0E131B);
+// const Color secondary = Color(0xFF0C1B31);
+// const Color secondaryShadow = Color(0xFF0E131B);
 
-const Color splash = Color(0xFFCDEAE5);
-const Color splashShadow = Color(0xFF348183);
+// const Color splash = Color(0xFFCDEAE5);
+// const Color splashShadow = Color(0xFF348183);
+
+// const Color error = Color(0xFFE63946);
+// const Color errorShadow = Color(0xFFA62630);
+
+// const Color success = Color(0xFF55B587);
+// const Color successShadow = Color(0xFF317254);
+
+// const Color backgroundDark = Color(0xFF071005);
+// const Color backgroundLight = Color(0xFFF1FAEE);
+
+const Color primary = Color.fromARGB(255, 237, 213, 255);
+const Color primaryShadow = Color.fromARGB(255, 91, 8, 112);
+
+const Color secondary = Color.fromARGB(255, 40, 43, 72);
+const Color secondaryShadow = Color.fromARGB(255, 10, 69, 105);
+
+const Color splash = Color.fromARGB(255, 203, 164, 232);
+const Color splashShadow = Color.fromARGB(255, 40, 9, 63);
 
 const Color error = Color(0xFFE63946);
 const Color errorShadow = Color(0xFFA62630);
 
-const Color success = Color(0xFF55B587);
-const Color successShadow = Color(0xFF317254);
+const Color success = Color(0xFF5DA27E);
+const Color successShadow = Color(0xFF358B59);
 
 const Color backgroundDark = Color(0xFF071005);
 const Color backgroundLight = Color(0xFFF1FAEE);
@@ -25,7 +43,7 @@ const Color lightText = backgroundLight;
 const Color darkText = backgroundDark;
 const Color hint = primaryShadow;
 
-const ColorScheme colorScheme = ColorScheme(
+final ColorScheme colorScheme = ColorScheme(
   brightness: Brightness.light,
   //
   primary: primary,
@@ -51,7 +69,7 @@ const ColorScheme colorScheme = ColorScheme(
   //
   // outline: ,
   // outlineVariant: ,
-  background: backgroundLight,
+  background: primary.lighten(0.06),
   onBackground: darkText,
   surface: backgroundLight,
   onSurface: darkText,

@@ -12,6 +12,7 @@ import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
@@ -44,7 +45,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
       ),
       child: CardContainer(
         borderRadius: BorderRadius.circular(16),
-        padding: const EdgeInsets.all(12),
+        padding: kTinyPadding,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),

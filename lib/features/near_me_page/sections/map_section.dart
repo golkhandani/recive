@@ -152,7 +152,7 @@ class _MapContentState extends State<_MapContent> {
     return MultiSliver(children: [
       SliverCardContainer(
         borderRadius: BorderRadius.circular(16),
-        padding: const EdgeInsets.all(12),
+        padding: kTinyPadding,
         sliver: SliverToBoxAdapter(
           child: LayoutBuilder(builder: (context, box) {
             return Hero(
@@ -354,7 +354,7 @@ class _CarouselContentState extends State<_CarouselContent>
       children: [
         SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.all(12),
+          padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
             child: LayoutBuilder(builder: (context, box) {
               // Warning: To prevent rebuild issue

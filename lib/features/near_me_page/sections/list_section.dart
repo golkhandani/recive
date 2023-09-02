@@ -8,6 +8,7 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class NearMeScreenListViewContent extends StatefulHookWidget {
@@ -103,7 +104,7 @@ class _NearMeScreenListViewContentState
                       },
                       child: CardContainer(
                         borderRadius: BorderRadius.circular(16),
-                        padding: const EdgeInsets.all(12),
+                        padding: kTinyPadding,
                         child: EventCardContainer(
                           constraints: const BoxConstraints.expand(height: 200),
                           data: indexedItem['data'] as EventCardContainerData,

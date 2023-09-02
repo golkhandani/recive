@@ -14,6 +14,7 @@ import 'package:recive/features/near_me_page/sections/list_section.dart';
 import 'package:recive/features/near_me_page/sections/map_section.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -62,9 +63,9 @@ class _NearMeScreenState extends State<NearMeScreen>
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
-        final contentHeight = box.maxHeight - context.invisibleHeight - 24 - 32;
-        final mapSectionHeight = (contentHeight * 0.75) - 24 - 12;
-        final listSectionHeight = (contentHeight * 0.25) - 24 - 12;
+        final contentHeight = box.maxHeight - context.invisibleHeight - 24 - 24;
+        final mapSectionHeight = (contentHeight * 0.75) - 24;
+        final listSectionHeight = (contentHeight * 0.25) - 24;
         return CustomScrollView(
           physics: const NeverScrollableScrollPhysics(),
           slivers: [
@@ -114,13 +115,13 @@ class _NearMeScreenState extends State<NearMeScreen>
                   Builder(builder: (context) {
                     if (state.loadingState != LoadingState.done) {
                       return SliverPadding(
-                        padding: const EdgeInsets.all(12),
+                        padding: kTinyPadding,
                         sliver: SliverToBoxAdapter(
                           child: SizedBox(
                             height: contentHeight - 24,
                             child: CardContainer(
                               borderRadius: BorderRadius.circular(16),
-                              padding: const EdgeInsets.all(12),
+                              padding: kTinyPadding,
                               child: const Center(
                                 child: CircularProgressIndicator(),
                               ),
@@ -131,13 +132,13 @@ class _NearMeScreenState extends State<NearMeScreen>
                     }
                     if (state.nearbyEvents.isEmpty) {
                       return SliverPadding(
-                        padding: const EdgeInsets.all(12),
+                        padding: kTinyPadding,
                         sliver: SliverToBoxAdapter(
                           child: SizedBox(
                             height: contentHeight - 24,
                             child: CardContainer(
                               borderRadius: BorderRadius.circular(16),
-                              padding: const EdgeInsets.all(12),
+                              padding: kTinyPadding,
                               child: const Center(
                                 child: Text("No Event has been found!"),
                               ),
@@ -149,7 +150,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                     return SliverToBoxAdapter(
                       child: Container(
                         color: Colors.transparent,
-                        height: contentHeight + 100,
+                        height: contentHeight + 120,
                         width: box.maxWidth,
                         child: PreloadPageView(
                           //  allowImplicitScrolling: false,

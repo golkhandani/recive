@@ -4,7 +4,66 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:realm/realm.dart';
 import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/features/profile_page/models/user_custom_data.dart';
+import 'package:recive/ioc/locator.dart';
+import 'package:recive/ioc/realm_gql_client.dart';
 import 'package:recive/router/navigation_service.dart';
+
+class Developer implements User {
+  @override
+  UserState get state => UserState.loggedIn;
+
+  @override
+  String get refreshToken => realmKey;
+
+  @override
+  String get accessToken => realmKey;
+
+  @override
+  ApiKeyClient get apiKeys => throw UnimplementedError();
+
+  @override
+  App get app => throw UnimplementedError();
+
+  @override
+  get customData => UserCustomData(
+        userId: id,
+        email: 'developer@dev.com',
+        imageUrl: null,
+        name: 'Developer',
+      ).toJson();
+
+  @override
+  String? get deviceId => 'developer_device_id';
+  @override
+  String get id => 'developer_id';
+
+  @override
+  FunctionsClient get functions => throw UnimplementedError();
+
+  @override
+  List<UserIdentity> get identities => [];
+
+  @override
+  Future<User> linkCredentials(Credentials credentials) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> logOut() {
+    throw UnimplementedError();
+  }
+
+  @override
+  get profile => throw UnimplementedError();
+
+  @override
+  AuthProviderType get provider => throw UnimplementedError();
+
+  @override
+  Future refreshCustomData() async {
+    return customData;
+  }
+}
 
 class RealmApplicationService {
   static const isLoggedInKey = 'isLoggedInKey';
@@ -15,7 +74,10 @@ class RealmApplicationService {
   final FlutterSecureStorage storage;
   final NavigationService navigationService;
   Timer? _timer;
-  User? get currentUser => app.currentUser;
+  User? _developer;
+  bool get isDeveloper => currentUser is Developer;
+  User? get currentUser => _developer ?? app.currentUser;
+  late final RealmGqlClient gql = locator.get<RealmGqlClient>();
 
   RealmApplicationService({
     required this.app,
@@ -52,12 +114,12 @@ class RealmApplicationService {
 
   Future<void> updateToken() async {
     try {
-      await app.currentUser?.refreshCustomData();
+      await currentUser?.refreshCustomData();
       await storage.write(
-          key: refreshTokenKey, value: app.currentUser?.refreshToken);
+          key: refreshTokenKey, value: currentUser?.refreshToken);
       await storage.write(
         key: accessTokenKey,
-        value: app.currentUser?.accessToken,
+        value: currentUser?.accessToken,
       );
       await storage.write(key: isLoggedInKey, value: true.toString());
     } catch (e) {
@@ -67,7 +129,11 @@ class RealmApplicationService {
 
   Future<void> logout() async {
     try {
-      await app.currentUser?.logOut();
+      _developer = null;
+      await currentUser?.logOut();
+      if (currentUser != null && !isDeveloper) {
+        await app.removeUser(currentUser!);
+      }
     } finally {
       await deleteTokens();
     }
@@ -83,8 +149,8 @@ class RealmApplicationService {
 
   Future<void> delete() async {
     try {
-      if (app.currentUser != null) {
-        await app.deleteUser(app.currentUser!);
+      if (currentUser != null && !isDeveloper) {
+        await app.deleteUser(currentUser!);
       }
       await logout();
     } finally {
@@ -114,10 +180,18 @@ class RealmApplicationService {
     return;
   }
 
+  Future<void> loginWithApiKey() async {
+    _developer = Developer();
+    await updateToken();
+    gql.switchClient(isDeveloper: isDeveloper);
+    return;
+  }
+
   Future<void> login(Credentials c) async {
     try {
       final user = await app.logIn(c);
       await updateToken();
+      gql.switchClient(isDeveloper: isDeveloper);
       if (kDebugMode) {
         print("________ | login: err => ${user.id}");
       }
@@ -136,7 +210,7 @@ class RealmApplicationService {
       final refreshToken = await storage.read(key: refreshTokenKey);
       final accessToken = await storage.read(key: accessTokenKey);
       final isLoggedIn = await storage.read(key: isLoggedInKey);
-      final isValid = app.currentUser?.state == null ||
+      final isValid = currentUser?.state == null ||
           refreshToken == null ||
           accessToken == null ||
           isLoggedIn == null ||
@@ -155,6 +229,5 @@ class RealmApplicationService {
       await deleteTokens();
       return false;
     }
-    // return true;
   }
 }

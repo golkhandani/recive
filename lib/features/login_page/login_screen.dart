@@ -155,6 +155,54 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                     ),
                   ),
+                  const SizedBox(height: 24),
+                  InkWell(
+                    onTap: () => bloc.loginWithApiKey(
+                      onSuccess: () {
+                        navigationService.navigateTo(DashboardScreen.name);
+                      },
+                      onFailure: () {
+                        if (kDebugMode) {
+                          print("Failed");
+                        }
+                      },
+                    ),
+                    child: Container(
+                      padding: kTinyPadding,
+                      constraints:
+                          const BoxConstraints.expand(height: 64, width: 350),
+                      alignment: Alignment.center,
+                      decoration: const ShapeDecoration(
+                        color: Colors.teal,
+                        shape: StadiumBorder(
+                          side: BorderSide(width: 0, color: Colors.transparent),
+                        ),
+                      ),
+                      child: state.appleLoginLoadingState ==
+                              LoadingState.loading
+                          ? const CircularProgressIndicator()
+                          : Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Iconify(
+                                  Bx.key,
+                                  color: context
+                                      .theme.colorScheme.onErrorContainer,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  "Login with ApiKey",
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      context.textTheme.titleMedium!.withColor(
+                                    context
+                                        .theme.colorScheme.onPrimaryContainer,
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                  ),
                   const Spacer(),
                   TextButton(
                     onPressed: () => launchUrl(Uri.parse('https://google.com')),

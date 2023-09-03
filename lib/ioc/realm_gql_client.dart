@@ -19,7 +19,7 @@ class RealmGqlClient {
   final NavigationService _navigationService;
   final RealmApplicationService _realmApplicationService;
   final Box<dynamic> _cacheBox;
-  late final Client _client;
+  late Client _client;
 
   RealmGqlClient({
     required FlutterSecureStorage secureStorage,
@@ -33,17 +33,23 @@ class RealmGqlClient {
     _initClient();
   }
 
-  void _initClient() {
+  void switchClient({bool isDeveloper = true}) {
+    _initClient(isDeveloper: isDeveloper);
+  }
+
+  void _initClient({bool isDeveloper = false}) {
     final store = qql_store.HiveStore(_cacheBox);
 
     final cache = Cache(store: store);
 
     final authLink = AuthLink(
+      headerKey: isDeveloper ? 'apiKey' : 'authorization',
       getToken: () async {
         //  'apiKey' = '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH';
         String? token = _realmApplicationService.currentUser?.accessToken;
         if (kDebugMode) {
-          print("_________________| accessToken ${DateTime.now()}$token");
+          print(
+              "_________________| accessToken ${_realmApplicationService.isDeveloper} ${DateTime.now()}$token");
         }
         if (token == null || token.isEmpty) {
           await _realmApplicationService.updateToken();
@@ -54,7 +60,8 @@ class RealmGqlClient {
           await _navigationService.navigateTo(LoginScreen.name);
           return '';
         }
-        return 'Bearer $token';
+
+        return isDeveloper ? token : 'Bearer $token';
       },
     );
 
@@ -63,7 +70,7 @@ class RealmGqlClient {
     final Link link = Link.from([authLink, httpLink]);
     final client = Client(
       link: link,
-      cache: cache,
+      // cache: cache,
     );
 
     _client = client;

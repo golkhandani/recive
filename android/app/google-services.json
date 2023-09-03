@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "337988051792",
+    "project_id": "recive-mzg",
+    "storage_bucket": "recive-mzg.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337988051792:android:2bd4ec1612bce0fe6f0255",
+        "android_client_info": {
+          "package_name": "com.example.recive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.recive",
+            "certificate_hash": "a797481e5ecc0cba1e4405bd66f81e808ceea2b0"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2NHhlVq8vQba2PwlABaeOpkmFy5LbKBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "337988051792-depkbem06p52nihpdd0jbea1bk4lqtpm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mrzg.recive"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

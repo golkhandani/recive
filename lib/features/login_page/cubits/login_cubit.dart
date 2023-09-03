@@ -81,6 +81,28 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
     }
   }
 
+  Future<void> loginWithApiKey({
+    required void Function() onSuccess,
+    required void Function() onFailure,
+  }) async {
+    try {
+      maybeEmit(state.copyWith(
+        logoutLoadingState: LoadingState.none,
+        appleLoginLoadingState: LoadingState.none,
+        googleLoginLoadingState: LoadingState.none,
+      ));
+
+      await applicationService.loginWithApiKey();
+
+      onSuccess();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      onFailure();
+    } finally {}
+  }
+
   Future<void> loginWithApple({
     required VoidCallback onSuccess,
     required VoidCallback onFailure,

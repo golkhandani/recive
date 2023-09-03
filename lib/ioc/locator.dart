@@ -35,6 +35,8 @@ const hiveStoreGqlBoxName = 'graphql';
 const gSignInScopes = ['profile', 'email'];
 const gSignInIosCid =
     '337988051792-depkbem06p52nihpdd0jbea1bk4lqtpm.apps.googleusercontent.com';
+const gSignInAndroidCid =
+    '337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com';
 const realmAppId = 'suggesteventpath-mgnsw';
 const realmKey =
     '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH';
@@ -98,7 +100,11 @@ Future setupGraphQL() async {
   final googleSignIn = GoogleSignIn(
     signInOption: SignInOption.standard,
     scopes: gSignInScopes,
-    clientId: gSignInIosCid,
+    clientId: Platform.isAndroid
+        ? null
+        : Platform.isIOS
+            ? gSignInIosCid
+            : '',
   );
   locator.registerSingleton<GoogleSignIn>(googleSignIn);
 

@@ -12,6 +12,14 @@ extension TextStyleContext on BuildContext {
   TextStyle get titleLargeOnPrimaryContainer => textTheme.titleLarge!.copyWith(
         color: theme.colorScheme.onPrimaryContainer,
       );
+
+  TextStyle get titleMediumOnPrimaryContainer =>
+      textTheme.titleMedium!.copyWith(
+        color: theme.colorScheme.onPrimaryContainer,
+      );
+  TextStyle get titleSmallOnPrimaryContainer => textTheme.titleSmall!.copyWith(
+        color: theme.colorScheme.onPrimaryContainer,
+      );
   TextStyle get titleLargePrimaryContainer => textTheme.titleLarge!.copyWith(
         color: theme.colorScheme.primaryContainer,
       );

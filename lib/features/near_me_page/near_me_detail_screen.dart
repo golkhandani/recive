@@ -13,7 +13,7 @@ import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/featured_page/colored_network_image.dart';
+import 'package:recive/components/colored_network_image.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/layout/ui_constants.dart';

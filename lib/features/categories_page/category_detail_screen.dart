@@ -7,7 +7,7 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
-import 'package:recive/features/featured_page/colored_network_image.dart';
+import 'package:recive/components/colored_network_image.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';

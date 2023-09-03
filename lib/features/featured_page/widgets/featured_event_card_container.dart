@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -79,96 +81,7 @@ class FeaturedEventCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.theme.colorScheme.secondaryContainer;
-
-    final child = LayoutBuilder(builder: (context, box) {
-      final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
-      final isSmallTall = box.maxWidth < 160;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            data.title,
-            maxLines: isSmallTall ? 3 : 1,
-            style: context.titleLargeOnPrimaryContainer,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            data.description,
-            maxLines: isSmallTall ? 3 : 1,
-            overflow: TextOverflow.fade,
-            style: context.titleLargeOnPrimaryContainer,
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Iconify(
-                Bx.bxs_map,
-                color: color.lighten(0.7),
-                size: 24,
-              ),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  data.location,
-                  maxLines: isSmallTall ? 3 : 1,
-                  overflow: TextOverflow.fade,
-                  style: context.textTheme.labelLarge!.copyWith(
-                    color: context.theme.colorScheme.onPrimaryContainer,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          if (!isSmallTall) ...[
-            Row(
-              children: [
-                Iconify(
-                  Bx.calendar_event,
-                  color: color.lighten(0.7),
-                  size: 24,
-                ),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Text(
-                    '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.labelLarge!.copyWith(
-                      color: context.theme.colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-          if (!isSmall && !isSmallTall && data.organizers.isNotEmpty) ...[
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Iconify(
-                  Bx.briefcase,
-                  color: color.lighten(0.7),
-                  size: 24,
-                ),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Text(
-                    data.organizers.join(' '),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.labelLarge!.copyWith(
-                      color: context.theme.colorScheme.onPrimaryContainer,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ],
-      );
-    });
+    final color = context.theme.colorScheme.secondaryContainer.withOpacity(0.6);
     final extraJson = ExtraData(
       summary: FeaturedEventDetailSummaryData(
         id: data.id,
@@ -177,6 +90,154 @@ class FeaturedEventCardContainer extends HookWidget {
       ),
       heroTag: data.id,
     ).toJson((inner) => inner.toJson());
+
+    final child = LayoutBuilder(builder: (context, box) {
+      final isBig = MediaQuery.sizeOf(context).width / 2 < box.maxWidth;
+      final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
+      final isSmallTall = box.maxWidth < box.maxHeight / 1;
+
+      if (isBig) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  color: color,
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        data.title,
+                        maxLines: 1,
+                        style: context.titleLargeOnPrimaryContainer,
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Iconify(
+                            Bx.calendar_event,
+                            color: color.lighten(0.7),
+                            size: 24,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.titleMediumOnPrimaryContainer,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Iconify(
+                            Bx.bxs_map,
+                            color: color.lighten(0.7),
+                            size: 24,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              data.location,
+                              maxLines: isSmallTall ? 3 : 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.titleSmallOnPrimaryContainer,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      }
+
+      if (isSmallTall && isSmall) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  color: color,
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        data.title,
+                        maxLines: 2,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.titleLargeOnPrimaryContainer,
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Iconify(
+                            Bx.calendar_event,
+                            color: color.lighten(0.7),
+                            size: 24,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.titleMediumOnPrimaryContainer,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      }
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                width: box.maxWidth,
+                color: color,
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  data.title,
+                  maxLines: 3,
+                  style: context.titleLargeOnPrimaryContainer,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    });
+
     return InkWell(
       onTap: () => navigationService.navigateTo(
         HomeScreen.name + FeaturedEventDetailScreen.name,
@@ -225,18 +286,10 @@ class FeaturedEventCardContainer extends HookWidget {
             : DecorationImage(
                 image: imageProvider,
                 fit: BoxFit.cover,
-                opacity: 0.2,
+                opacity: 0.9,
               ),
         borderRadius: BorderRadius.circular(8),
         color: Colors.black,
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            color.lighten(0.4),
-            color.darken(0.2),
-          ],
-        ),
       ),
       padding: kTinyPadding,
       child: child,

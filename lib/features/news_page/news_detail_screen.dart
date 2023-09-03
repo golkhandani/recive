@@ -50,7 +50,6 @@ class NewsDetailScreen extends HookWidget {
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(
-            color: context.theme.primaryColor,
             title: summary?.title ?? data?.title ?? '',
           ),
           SliverPadding(

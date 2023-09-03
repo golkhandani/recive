@@ -32,8 +32,7 @@ class ProfileScreen extends HookWidget {
       child: LayoutBuilder(builder: (context, box) {
         return CustomScrollView(
           slivers: [
-            ScreenSafeAreaHeader(
-              color: context.theme.primaryColor,
+            const ScreenSafeAreaHeader(
               title: 'Profile',
             ),
             SliverPinnedHeader(
@@ -44,7 +43,7 @@ class ProfileScreen extends HookWidget {
                 ),
                 child: Container(
                   height: 220,
-                  color: context.theme.primaryColor,
+                  color: context.colorScheme.tertiaryContainer,
                   child: Stack(
                     children: [
                       Positioned(
@@ -64,7 +63,9 @@ class ProfileScreen extends HookWidget {
                         right: 72 * 2 + 24 + 12,
                         child: Text(
                           customData.name ?? '',
-                          style: context.textTheme.titleMedium,
+                          style: context.textTheme.titleMedium!.withColor(
+                            context.colorScheme.onTertiaryContainer,
+                          ),
                         ),
                       ),
                       Positioned(
@@ -82,8 +83,7 @@ class ProfileScreen extends HookWidget {
                             constraints:
                                 const BoxConstraints.expand(height: 48),
                             decoration: ShapeDecoration(
-                              color:
-                                  context.theme.colorScheme.tertiaryContainer,
+                              color: context.theme.colorScheme.tertiary,
                               shape: const StadiumBorder(
                                 side: BorderSide(
                                   width: 0,
@@ -104,8 +104,7 @@ class ProfileScreen extends HookWidget {
                                         textAlign: TextAlign.center,
                                         style: context.textTheme.titleMedium!
                                             .withColor(
-                                          context.theme.colorScheme
-                                              .onTertiaryContainer,
+                                          context.theme.colorScheme.onTertiary,
                                         ),
                                       ),
                           ),

@@ -55,7 +55,6 @@ class NearbyDetailScreen extends HookWidget {
         slivers: [
           if (summary != null || data != null) ...[
             ScreenSafeAreaHeader(
-              color: context.colorScheme.primary,
               title: summary?.title ?? data?.title ?? '',
             ),
             SliverPadding(

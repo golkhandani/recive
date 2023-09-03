@@ -55,7 +55,6 @@ class DetailScreen extends HookWidget {
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(
-            color: context.theme.primaryColor,
             title: '${type.name.toCapitalized()} detail',
           ),
           SliverPadding(

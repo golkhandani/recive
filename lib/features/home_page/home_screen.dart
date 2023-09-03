@@ -33,8 +33,7 @@ class HomeScreen extends HookWidget {
       color: context.theme.colorScheme.background,
       child: CustomScrollView(
         slivers: [
-          ScreenSafeAreaHeader(
-            color: context.theme.primaryColor,
+          const ScreenSafeAreaHeader(
             title: 'All you need!',
           ),
           SliverPadding(

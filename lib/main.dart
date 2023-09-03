@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,24 +80,27 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = ultravioletTheme;
-    final child = ScrollConfiguration(
-      behavior: MyCustomScrollBehavior(),
-      child: MaterialApp.router(
-        scrollBehavior: const MaterialScrollBehavior().copyWith(
-          dragDevices: {
-            PointerDeviceKind.mouse,
-            PointerDeviceKind.touch,
-            PointerDeviceKind.stylus,
-            PointerDeviceKind.unknown
-          },
-        ),
-        routerConfig: goRouter,
-        theme: theme.copyWith(
-          textTheme: GoogleFonts.spaceGroteskTextTheme(theme.textTheme),
-        ),
-        builder: (context, child) => Container(
-          constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
-          child: child!,
+    final child = AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: ScrollConfiguration(
+        behavior: MyCustomScrollBehavior(),
+        child: MaterialApp.router(
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            dragDevices: {
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.touch,
+              PointerDeviceKind.stylus,
+              PointerDeviceKind.unknown
+            },
+          ),
+          routerConfig: goRouter,
+          theme: theme.copyWith(
+            textTheme: GoogleFonts.spaceGroteskTextTheme(theme.textTheme),
+          ),
+          builder: (context, child) => Container(
+            constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
+            child: child!,
+          ),
         ),
       ),
     );

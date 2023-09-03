@@ -70,21 +70,21 @@ class SearchScreen extends HookWidget {
         return CustomScrollView(
           controller: scrollController,
           slivers: [
-            ScreenSafeAreaHeader(
-              color: context.theme.primaryColor,
+            const ScreenSafeAreaHeader(
               title: 'Search',
             ),
             SliverPinnedHeader(
               child: ColoredBox(
-                color: context.theme.colorScheme.primary,
+                color: context.schema.tertiaryContainer,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: PinnedSearchHeader(
+                        backgroundColor: context.schema.tertiaryContainer,
                         padding:
                             const EdgeInsets.all(12).copyWith(top: 0, right: 0),
-                        height: 56,
+                        height: 48,
                         bloc: quickSearchBloc,
                         onSelect: (text) => resultState.value = 1,
                         onTextChanged: (text) =>
@@ -101,7 +101,7 @@ class SearchScreen extends HookWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Iconify(
                           Mdi.filter,
-                          color: context.schema.primaryContainer,
+                          color: context.schema.onTertiaryContainer,
                           size: 36,
                         ),
                       ),

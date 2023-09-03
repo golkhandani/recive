@@ -11,21 +11,25 @@ class TitleHeader extends HookWidget {
   const TitleHeader({
     super.key,
     this.title = '',
+    this.titleColor,
     this.backgroundColor,
   });
   final String title;
+  final Color? titleColor;
   final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
     final hightlightColor = context.schema.tertiary;
-    final bacgroundColor = backgroundColor ?? context.theme.colorScheme.primary;
+    final backgroundColorV =
+        backgroundColor ?? context.theme.colorScheme.primary;
+    final titleColorV = titleColor ?? context.theme.colorScheme.onPrimary;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
       ).copyWith(bottom: 12, top: 4),
-      color: bacgroundColor,
+      color: backgroundColorV,
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -75,7 +79,7 @@ class TitleHeader extends HookWidget {
                     child: Text(
                       title,
                       style: context.textTheme.titleSmall?.withColor(
-                        context.schema.onPrimary,
+                        titleColorV,
                       ),
                     ),
                   ),

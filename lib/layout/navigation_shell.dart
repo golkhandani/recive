@@ -75,7 +75,7 @@ class _NavigationShellState extends State<NavigationShell> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldShell(
-      backgroundColor: context.theme.colorScheme.primary,
+      backgroundColor: context.colorScheme.background,
       handleTopSafePadding: widget.handleTopSafePadding,
       bottomNavigationBar: context.isNarrowWith && !widget.useFloatingNavBar
           ? _buildBottomNavigationBar()
@@ -292,7 +292,7 @@ class _NavigationShellState extends State<NavigationShell> {
             color: context.theme.shadowColor.withOpacity(0.3),
             spreadRadius: 10,
             blurRadius: 10,
-            offset: const Offset(0, 0), // changes position of shadow
+            offset: const Offset(2, 2), // changes position of shadow
           ),
         ],
       ),

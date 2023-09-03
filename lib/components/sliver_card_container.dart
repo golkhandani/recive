@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class SliverCardContainer extends StatelessWidget {
@@ -6,13 +7,13 @@ class SliverCardContainer extends StatelessWidget {
     super.key,
     required this.sliver,
     this.padding = const EdgeInsets.all(24),
-    this.color = Colors.white,
+    this.color,
     this.borderRadius = BorderRadius.zero,
   });
 
   final Widget sliver;
   final EdgeInsets padding;
-  final Color color;
+  final Color? color;
   final BorderRadius borderRadius;
 
   @override
@@ -23,12 +24,12 @@ class SliverCardContainer extends StatelessWidget {
         SliverPositioned.fill(
           child: Container(
             decoration: BoxDecoration(
-              color: color,
-              boxShadow: const <BoxShadow>[
+              color: color ?? context.colorScheme.tertiaryContainer,
+              boxShadow: <BoxShadow>[
                 BoxShadow(
-                  offset: Offset(.2, .2),
+                  offset: const Offset(.2, .2),
                   blurRadius: 2,
-                  color: Colors.black26,
+                  color: context.colorScheme.tertiaryContainer,
                 )
               ],
               borderRadius: borderRadius,

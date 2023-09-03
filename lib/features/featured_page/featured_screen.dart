@@ -28,8 +28,7 @@ class FeaturedScreen extends HookWidget {
       color: context.colorScheme.background,
       child: CustomScrollView(
         slivers: [
-          ScreenSafeAreaHeader(
-            color: context.theme.primaryColor,
+          const ScreenSafeAreaHeader(
             title: 'Featured Events',
           ),
           SliverPadding(

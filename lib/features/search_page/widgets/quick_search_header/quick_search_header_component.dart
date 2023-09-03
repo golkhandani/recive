@@ -115,6 +115,7 @@ class PinnedSearchHeader extends StatefulHookWidget {
   final QuickSearchHeaderBloc bloc;
   final double height;
   final EdgeInsets padding;
+  final Color? backgroundColor;
 
   const PinnedSearchHeader({
     super.key,
@@ -123,6 +124,7 @@ class PinnedSearchHeader extends StatefulHookWidget {
     required this.textController,
     required this.height,
     required this.bloc,
+    this.backgroundColor,
     this.padding = EdgeInsets.zero,
   });
 
@@ -163,9 +165,11 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
       }
     }
 
+    final bg = widget.backgroundColor ?? context.schema.tertiaryContainer;
     return Container(
-      color: context.theme.primaryColor,
+      color: bg,
       padding: widget.padding,
+      height: 54,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -204,29 +208,28 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
                         textEditingController.clear();
                         widget.onTextChanged?.call('');
                       },
-                      splashColor: context.schema.secondary,
+                      splashColor: context.schema.primaryContainer,
                       child: SizedBox(
                         height: 48,
                         width: 48,
                         child: Icon(
                           Icons.close,
                           size: 24,
-                          color: context.schema.onPrimaryContainer
-                              .withOpacity(0.5),
+                          color: context.schema.tertiary.withOpacity(0.5),
                         ),
                       ),
                     ),
                   ],
                   InkWell(
                     onTap: () {},
-                    splashColor: context.schema.secondary,
+                    splashColor: context.schema.primaryContainer,
                     child: SizedBox(
                       height: 48,
                       width: 48,
                       child: Icon(
                         Icons.search,
                         size: 32,
-                        color: context.schema.onPrimaryContainer,
+                        color: context.schema.onTertiaryContainer,
                       ),
                     ),
                   ),

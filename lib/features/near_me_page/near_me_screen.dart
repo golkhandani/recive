@@ -69,8 +69,7 @@ class _NearMeScreenState extends State<NearMeScreen>
         return CustomScrollView(
           physics: const NeverScrollableScrollPhysics(),
           slivers: [
-            ScreenSafeAreaHeader(
-              color: context.theme.primaryColor,
+            const ScreenSafeAreaHeader(
               title: 'Near me!',
             ),
             const SliverGap(height: 12),

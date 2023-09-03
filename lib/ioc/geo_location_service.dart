@@ -68,6 +68,9 @@ class LocationService {
     required VoidCallback onGrantedPermission,
   }) async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (serviceEnabled) {
+      return;
+    }
     debugPrint("__| LocationService 1 $serviceEnabled");
     if (!serviceEnabled) {
       // Location services are not enabled don't continue

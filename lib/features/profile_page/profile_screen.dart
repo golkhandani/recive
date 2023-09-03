@@ -49,12 +49,25 @@ class ProfileScreen extends HookWidget {
                       Positioned(
                         top: 12,
                         right: 24,
-                        child: CircleAvatar(
-                          backgroundImage: customData.imageUrl != null
-                              ? NetworkImage(customData.imageUrl!)
-                              : null,
-                          backgroundColor: Colors.grey,
-                          radius: 72,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            boxShadow: [
+                              BoxShadow(
+                                color: context.colorScheme.primary,
+                                blurRadius: 2.0,
+                                spreadRadius: 1.0,
+                                offset: const Offset(1.0, 1.0),
+                              ),
+                            ],
+                          ),
+                          child: CircleAvatar(
+                            backgroundImage: customData.imageUrl != null
+                                ? NetworkImage(customData.imageUrl!)
+                                : null,
+                            backgroundColor: context.colorScheme.primary,
+                            radius: 72,
+                          ),
                         ),
                       ),
                       Positioned(
@@ -69,7 +82,7 @@ class ProfileScreen extends HookWidget {
                         ),
                       ),
                       Positioned(
-                        bottom: 64,
+                        bottom: 80,
                         left: 24,
                         right: 72 * 2 + 24 + 12,
                         child: InkWell(

@@ -43,6 +43,9 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
         loadingState: LoadingState.loading,
       ));
     }
+    maybeEmit(state.copyWith(
+      preSelectedEventIndex: 0,
+    ));
 
     final data = await repo.nearbyEvents(
       latitude: latitude,

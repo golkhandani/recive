@@ -11,26 +11,20 @@ import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class NearMeScreenListViewContent extends StatefulHookWidget {
+class NearMeScreenListViewContent extends HookWidget {
   const NearMeScreenListViewContent({
     super.key,
     required this.switchIndex,
     required this.bloc,
+    required this.state,
   });
 
   final NearbyEventsCubit bloc;
+  final NearbyEventsState state;
   final ValueNotifier<int> switchIndex;
 
   @override
-  State<NearMeScreenListViewContent> createState() =>
-      _NearMeScreenListViewContentState();
-}
-
-class _NearMeScreenListViewContentState
-    extends State<NearMeScreenListViewContent> {
-  @override
   Widget build(BuildContext context) {
-    final state = useBlocBuilder(widget.bloc);
     final indexedKeyItems = state.nearbyEvents.mapIndexed((i, e) {
       return {
         'key': GlobalKey(),
@@ -42,9 +36,9 @@ class _NearMeScreenListViewContentState
     final scrollController = useScrollController(keepScrollOffset: true);
     final isUpdating = useState(false);
     useBlocComparativeListener<NearbyEventsCubit, NearbyEventsState>(
-      widget.bloc,
+      bloc,
       (_, state, context) {
-        if (isUpdating.value || widget.switchIndex.value == 1) {
+        if (isUpdating.value || switchIndex.value == 1) {
           return;
         }
         isUpdating.value = true;
@@ -68,7 +62,7 @@ class _NearMeScreenListViewContentState
         callback: (index) {
           if (!isUpdating.value) {
             final i = index - 1 <= 0 ? 0 : index - 1;
-            widget.bloc.changeSelectedIndex(i);
+            bloc.changeSelectedIndex(i);
           }
         });
 

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
@@ -30,6 +31,7 @@ class NearMeScreenMapViewContent extends HookWidget {
     required this.listSectionHeight,
     required this.mapController,
     required this.bloc,
+    required this.state,
   });
 
   final ValueNotifier<int> switchIndex;
@@ -38,6 +40,7 @@ class NearMeScreenMapViewContent extends HookWidget {
   final double listSectionHeight;
   final AnimatedMapController mapController;
   final NearbyEventsCubit bloc;
+  final NearbyEventsState state;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,7 @@ class NearMeScreenMapViewContent extends HookWidget {
             mapSectionHeight: mapSectionHeight,
             mapController: mapController,
             bloc: bloc,
+            state: state,
           ),
           const SliverGap(height: 12),
           _CarouselContent(
@@ -56,6 +60,7 @@ class NearMeScreenMapViewContent extends HookWidget {
             listSectionHeight: listSectionHeight,
             mapController: mapController,
             bloc: bloc,
+            state: state,
           ),
           const SliverGap(height: 32),
         ],
@@ -64,7 +69,7 @@ class NearMeScreenMapViewContent extends HookWidget {
   }
 }
 
-class _MapContent extends StatefulHookWidget {
+class _MapContent extends HookWidget {
   static const double maxZoom = 18;
   static const double minZoom = 10;
   static const double initalZoom = 15;
@@ -72,17 +77,14 @@ class _MapContent extends StatefulHookWidget {
     required this.mapSectionHeight,
     required this.mapController,
     required this.bloc,
+    required this.state,
   });
 
   final double mapSectionHeight;
   final AnimatedMapController mapController;
   final NearbyEventsCubit bloc;
+  final NearbyEventsState state;
 
-  @override
-  State<_MapContent> createState() => _MapContentState();
-}
-
-class _MapContentState extends State<_MapContent> {
   Marker _createMarker(
     LatLng point,
     Color color,
@@ -97,7 +99,7 @@ class _MapContentState extends State<_MapContent> {
         rotate: true,
         builder: (ctx) => InkWell(
           onTap: () {
-            widget.bloc.changeSelectedIndex(index);
+            bloc.changeSelectedIndex(index);
           },
           child: Iconify(
             Bx.bxs_map,
@@ -107,12 +109,15 @@ class _MapContentState extends State<_MapContent> {
         ),
       );
 
-  @override
-  Widget build(BuildContext context) {
-    final state = useBlocBuilder(widget.bloc);
-    final items = state.nearbyEvents
+  List<EventCardContainerData> calcItems() {
+    return state.nearbyEvents
         .map((e) => EventCardContainerData.fromFeaturedEvent(e))
         .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<EventCardContainerData> items = calcItems();
 
     if (kDebugMode) {
       print('_________________| build _MapContent');
@@ -126,7 +131,7 @@ class _MapContentState extends State<_MapContent> {
       items.isNotEmpty ? items.first.latLng : (ltlg ?? defaultPosition),
     );
 
-    final markers = items
+    List<Marker> markers = items
         .mapIndexed(
           (index, data) => _createMarker(
             data.latLng,
@@ -136,6 +141,10 @@ class _MapContentState extends State<_MapContent> {
         )
         .toList();
 
+    final showRefresh = useState(false);
+    final isRefreshLoading = useState(false);
+    final mapInitialized = useState(false);
+
     useEffect(() {
       if (geolocation != null) {
         ltlg = LatLng(
@@ -143,11 +152,25 @@ class _MapContentState extends State<_MapContent> {
           geolocation.longitude,
         );
       }
-
       return;
     }, [geolocation?.timestamp]);
 
-    final showRefresh = useState(false);
+    useEffect(() {
+      if (state.preSelectedEventIndex != 0) {
+        items = calcItems();
+        showRefresh.value = false;
+        isRefreshLoading.value = false;
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        mapController.animateTo(dest: items.first.latLng).then((value) {
+          showRefresh.value = false;
+          isRefreshLoading.value = false;
+        });
+      });
+
+      return;
+    }, [state.nearbyEvents]);
 
     return MultiSliver(children: [
       SliverCardContainer(
@@ -163,26 +186,28 @@ class _MapContentState extends State<_MapContent> {
                   color: Colors.orangeAccent,
                 ),
                 width: box.maxWidth,
-                height: widget.mapSectionHeight,
+                height: mapSectionHeight,
                 child: Stack(
                   children: [
                     Positioned.fill(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: FlutterMap(
-                          mapController: widget.mapController.mapController,
+                          mapController: mapController.mapController,
                           options: MapOptions(
-                              center: center.value,
-                              zoom: zoom.value,
-                              adaptiveBoundaries: false,
-                              keepAlive: true,
-                              maxZoom: _MapContent.maxZoom,
-                              minZoom: _MapContent.minZoom,
-                              onPositionChanged: (position, hasGesture) {
-                                showRefresh.value = true;
-                                center.value = position.center!;
-                                zoom.value = position.zoom!;
-                              }),
+                            center: center.value,
+                            zoom: zoom.value,
+                            adaptiveBoundaries: false,
+                            keepAlive: true,
+                            maxZoom: _MapContent.maxZoom,
+                            minZoom: _MapContent.minZoom,
+                            onPositionChanged: (position, hasGesture) {
+                              showRefresh.value = true;
+                              center.value = position.center!;
+                              zoom.value = position.zoom!;
+                              mapInitialized.value = true;
+                            },
+                          ),
                           nonRotatedChildren: const [
                             FlutterMapAttribution(),
                           ],
@@ -239,7 +264,7 @@ class _MapContentState extends State<_MapContent> {
                             MapButton(
                                 icon: Icons.center_focus_strong,
                                 onClicked: () {
-                                  widget.mapController.animateTo(
+                                  mapController.animateTo(
                                     dest: geolocation?.latLng,
                                   );
                                 }),
@@ -250,7 +275,7 @@ class _MapContentState extends State<_MapContent> {
                                   return;
                                 }
                                 zoom.value = zoom.value + 1;
-                                widget.mapController.animatedZoomTo(zoom.value);
+                                mapController.animatedZoomTo(zoom.value);
                               },
                             ),
                             MapButton(
@@ -260,7 +285,13 @@ class _MapContentState extends State<_MapContent> {
                                   return;
                                 }
                                 zoom.value = zoom.value - 1;
-                                widget.mapController.animatedZoomTo(zoom.value);
+                                mapController.animatedZoomTo(zoom.value);
+                              },
+                            ),
+                            MapButton(
+                              icon: Icons.near_me_outlined,
+                              onClicked: () {
+                                mapController.animatedRotateReset();
                               },
                             ),
                           ],
@@ -272,10 +303,13 @@ class _MapContentState extends State<_MapContent> {
                         bottom: 12,
                         left: 12,
                         child: MapButton(
+                          text: 'Search in this area!',
                           icon: Icons.refresh,
+                          isLoading: isRefreshLoading.value,
                           onClicked: () {
                             if (geolocation != null) {
-                              widget.bloc.loadNearbyEvents(
+                              isRefreshLoading.value = true;
+                              bloc.loadNearbyEvents(
                                 latitude: center.value.latitude,
                                 longitude: center.value.longitude,
                                 maxDistance: (zoom.value * 10000).toInt(),
@@ -283,7 +317,6 @@ class _MapContentState extends State<_MapContent> {
                                 onBackground: true,
                               );
                             }
-                            showRefresh.value = false;
                           },
                         ),
                       )
@@ -298,49 +331,44 @@ class _MapContentState extends State<_MapContent> {
   }
 }
 
-class _CarouselContent extends StatefulHookWidget {
+class _CarouselContent extends HookWidget {
   const _CarouselContent({
     required this.switchIndex,
     required this.listSectionHeight,
     required this.mapController,
     required this.bloc,
+    required this.state,
   });
 
   final ValueNotifier<int> switchIndex;
   final double listSectionHeight;
   final AnimatedMapController mapController;
   final NearbyEventsCubit bloc;
+  final NearbyEventsState state;
 
-  @override
-  State<_CarouselContent> createState() => _CarouselContentState();
-}
-
-class _CarouselContentState extends State<_CarouselContent>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  final CarouselController controller = CarouselController();
+  List<EventCardContainerData> calcItems() {
+    return state.nearbyEvents
+        .map((e) => EventCardContainerData.fromFeaturedEvent(e))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    final CarouselController controller = CarouselController();
+
     final isUpdating = useState(false);
-    final state = useBlocBuilder(widget.bloc);
-    final items = state.nearbyEvents
-        .map((e) => EventCardContainerData.fromFeaturedEvent(e))
-        .toList();
+    List<EventCardContainerData> items = calcItems();
 
     useBlocComparativeListener<NearbyEventsCubit, NearbyEventsState>(
-      widget.bloc,
+      bloc,
       (_, state, context) {
         if (!isUpdating.value) {
           isUpdating.value = true;
           controller.animateToPage(state.preSelectedEventIndex);
         }
-        widget.mapController
+        mapController
             .animateTo(
-              dest: items[state.preSelectedEventIndex].latLng,
+              dest: state.nearbyEvents[state.preSelectedEventIndex].latLng,
             )
             .then((value) => isUpdating.value = false);
         isUpdating.value = false;
@@ -376,7 +404,7 @@ class _CarouselContentState extends State<_CarouselContent>
                   autoPlay: false,
                   disableCenter: true,
                   viewportFraction: .7,
-                  height: widget.listSectionHeight,
+                  height: listSectionHeight,
                   indicatorMargin: 12.0,
                   enableInfiniteScroll: true,
                   showIndicator: false,
@@ -384,7 +412,7 @@ class _CarouselContentState extends State<_CarouselContent>
                   onPageChanged: (index, reason) {
                     if (!isUpdating.value) {
                       isUpdating.value = true;
-                      widget.bloc.changeSelectedIndex(index);
+                      bloc.changeSelectedIndex(index);
                     }
                   },
                 ),

@@ -2,73 +2,74 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:intl/intl.dart';
-import 'package:recive/features/detail_page/detail_screen.dart';
-import 'package:recive/features/near_me_page/models/nearby_event.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
-import 'package:recive/features/near_me_page/near_me_screen.dart';
-import 'package:recive/layout/ui_constants.dart';
-import 'package:recive/router/extra_data.dart';
+import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:recive/layout/ui_constants.dart';
+import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
-class EventCardContainerData {
+class SearchEventCardContainerData {
   final String id;
   final String title;
   final String description;
   final DateTime startDate;
   final DateTime endDate;
   final String location;
-  final LatLng latLng;
   final List<String> organizers;
   final List<String> participants;
   final String imageUrl;
+  final LatLng latlng;
 
-  EventCardContainerData({
+  SearchEventCardContainerData({
     required this.id,
     required this.title,
     required this.description,
     required this.startDate,
     required this.endDate,
     required this.location,
-    required this.latLng,
     required this.organizers,
     required this.participants,
     required this.imageUrl,
+    required this.latlng,
   });
 
-  static EventCardContainerData fromFeaturedEvent(NearbyEvent e) {
-    return EventCardContainerData(
-      id: e.id,
-      title: e.title,
-      description: e.description,
-      startDate: e.startDate,
-      endDate: e.endDate,
-      location: e.location,
-      organizers: e.organizers,
-      participants: e.participants,
-      imageUrl: e.imageUrl,
-      latLng: e.latLng,
+  static SearchEventCardContainerData fromEventComplete(EventComplete e) {
+    return SearchEventCardContainerData(
+      id: e.id!,
+      title: e.title!,
+      description: e.description!,
+      startDate: e.startDate!,
+      endDate: e.endDate!,
+      location: e.venue?.address?.localizedAddressDisplay ?? '',
+      organizers: [e.organizer?.title ?? ''],
+      participants: [],
+      imageUrl: e.imageUrl!,
+      latlng: e.venue?.latLng ?? const LatLng(0, 0),
     );
   }
 }
 
-class EventCardContainer extends StatelessWidget {
-  const EventCardContainer({
+class SearchEventCardContainer extends HookWidget {
+  const SearchEventCardContainer({
     super.key,
     required this.data,
     required this.constraints,
   });
 
   final BoxConstraints constraints;
-  final EventCardContainerData data;
+  final SearchEventCardContainerData data;
 
   @override
   Widget build(BuildContext context) {
+    final navigationService = locator.get<NavigationService>();
     final color = context.colorScheme.tertiaryContainer.withOpacity(0.6);
 
     final child = LayoutBuilder(builder: (context, box) {
@@ -141,31 +142,23 @@ class EventCardContainer extends StatelessWidget {
         ],
       );
     });
-
     final heroTag = data.id + DateTime.now().toString();
-    const route = NearMeScreen.name + NearbyDetailScreen.name;
-    final extra = ExtraData(
+    final extraJson = ExtraData(
       summary: NearbyDetailSummaryData(
         id: data.id,
         title: data.title,
         imageUrl: data.imageUrl,
       ),
       heroTag: heroTag,
-    );
-    final pathParams = {
-      DetailScreen.pathParamId: data.id,
-    };
-    final navigationService = locator.get<NavigationService>();
-    final extraJson = extra.toJson((inner) => inner.toJson());
-
+    ).toJson((inner) => inner.toJson());
     return InkWell(
-      onTap: () {
-        navigationService.navigateTo(
-          route,
-          pathParameters: pathParams,
-          extra: extraJson,
-        );
-      },
+      onTap: () => navigationService.navigateTo(
+        SearchScreen.name + NearbyDetailScreen.name,
+        pathParameters: {
+          NearbyDetailScreen.pathParamId: data.id,
+        },
+        extra: extraJson,
+      ),
       child: Hero(
         tag: heroTag,
         child: CachedNetworkImage(

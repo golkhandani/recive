@@ -5,9 +5,13 @@ class MapButton extends StatelessWidget {
     Key? key,
     required this.icon,
     this.onClicked,
+    this.text,
+    this.isLoading = false,
   }) : super(key: key);
 
   final IconData icon;
+  final String? text;
+  final bool isLoading;
   final VoidCallback? onClicked;
   @override
   Widget build(BuildContext context) {
@@ -24,16 +28,35 @@ class MapButton extends StatelessWidget {
           onTap: onClicked,
           borderRadius: BorderRadius.circular(20),
           child: Container(
-            width: 48,
+            width: 48 + ((text?.length ?? 0) * 8),
             height: 48,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),
             alignment: Alignment.center,
-            child: Icon(
-              icon,
-              color: Colors.black,
-              size: 25,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                if (isLoading) ...[
+                  const SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                      color: Colors.black,
+                    ),
+                  )
+                ] else ...[
+                  Icon(
+                    icon,
+                    color: Colors.black,
+                    size: 25,
+                  ),
+                ],
+                if (text != null) ...[
+                  Text(text!),
+                ]
+              ],
             ),
           ),
         ),

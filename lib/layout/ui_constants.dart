@@ -17,6 +17,7 @@ class FlutterMapAttribution extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichAttributionWidget(
+      permanentHeight: 12,
       attributions: [
         TextSourceAttribution(
           'OpenStreetMap contributors',

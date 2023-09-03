@@ -169,7 +169,6 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
     return Container(
       color: bg,
       padding: widget.padding,
-      height: 54,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -177,7 +176,7 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
             constraints: BoxConstraints(minHeight: widget.height),
             controller: textEditingController,
             backgroundColor: context.schema.primaryContainer,
-            hintText: "Search what you looking for!",
+            hintText: "Search what you're looking for!",
             hintStyle: textStyle.copyWith(
               color: context.schema.onPrimaryContainer.withOpacity(0.7),
             ),

@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "recive (debug android emulator_5554)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554",
+            "toolArgs": [
+                "| grep -v 'app_time_stats'"
+            ]
+        },
+        {
+            "name": "recive (debug ios simulator_5A811CA5)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "5A811CA5-D72B-4C4D-B9BE-71BFA39F8D02",
+            "toolArgs": [
+                "| grep -v 'app_time_stats'"
+            ]
+        },
+        {
+            "name": "recive (release ios device)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "ed3517a8d4ed2f276f817c677522a952f1536dd5",
+            "flutterMode": "release",
+            "toolArgs": [
+                "| grep -v 'app_time_stats'"
+            ]
+        },
+        {
+            "name": "recive",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "| grep -v 'app_time_stats'"
+            ]
+        },
+        {
+            "name": "recive (profile)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "recive (release)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

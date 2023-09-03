@@ -98,14 +98,16 @@ Future setupStorage() async {
 
 Future setupGraphQL() async {
   final googleSignIn = GoogleSignIn(
-    signInOption: SignInOption.standard,
-    scopes: gSignInScopes,
-    clientId: Platform.isAndroid
-        ? null
-        : Platform.isIOS
-            ? gSignInIosCid
-            : '',
-  );
+      signInOption: SignInOption.standard,
+      scopes: gSignInScopes,
+      serverClientId:
+          '337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com'
+      // clientId: Platform.isAndroid
+      //     ? null
+      //     : Platform.isIOS
+      //         ? gSignInIosCid
+      //         : '',
+      );
   locator.registerSingleton<GoogleSignIn>(googleSignIn);
 
   final appConfig = AppConfiguration(

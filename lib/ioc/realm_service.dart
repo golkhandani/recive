@@ -193,7 +193,7 @@ class RealmApplicationService {
       await updateToken();
       gql.switchClient(isDeveloper: isDeveloper);
       if (kDebugMode) {
-        print("________ | login: err => ${user.id}");
+        print("________ | login: success => ${user.id}");
       }
     } catch (e) {
       if (kDebugMode) {

@@ -68,16 +68,21 @@ class LocationService {
     required VoidCallback onGrantedPermission,
   }) async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    debugPrint("__| LocationService 1 $serviceEnabled");
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
+      debugPrint("__| LocationService 2 $serviceEnabled");
       return Future.error('Location services are disabled.');
     }
     permission = await Geolocator.checkPermission();
+    debugPrint("__| LocationService 3 $serviceEnabled");
     if (permission == LocationPermission.denied) {
+      debugPrint("__| LocationService 4 $serviceEnabled");
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        debugPrint("__| LocationService 5 $serviceEnabled");
         // Permissions are denied, next time you could try
         // requesting permissions again (this is also where
         // Android's shouldShowRequestPermissionRationale
@@ -88,6 +93,7 @@ class LocationService {
     }
 
     if (permission == LocationPermission.deniedForever) {
+      debugPrint("__| LocationService 7 $serviceEnabled");
       // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');

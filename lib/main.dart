@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -8,6 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/features/login_page/splash_screen.dart';
+import 'package:recive/firebase_options.dart';
+import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
@@ -35,6 +38,12 @@ void main() {
     };
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    await locationService.requestService(onGrantedPermission: () => {});
 
     // GoRouter configuration
     final goRouter = GoRouter(

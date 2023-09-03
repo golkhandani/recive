@@ -70,7 +70,7 @@ class RealmGqlClient {
     final Link link = Link.from([authLink, httpLink]);
     final client = Client(
       link: link,
-      // cache: cache,
+      cache: cache,
     );
 
     _client = client;

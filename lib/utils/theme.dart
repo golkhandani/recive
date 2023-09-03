@@ -28,7 +28,7 @@ const Color secondary = Color.fromARGB(255, 40, 43, 72);
 const Color secondaryShadow = Color.fromARGB(255, 10, 69, 105);
 
 const Color splash = Color.fromARGB(255, 203, 164, 232);
-const Color splashShadow = Color.fromARGB(255, 40, 9, 63);
+const Color splashShadow = Color.fromARGB(255, 25, 4, 41);
 
 const Color error = Color(0xFFE63946);
 const Color errorShadow = Color(0xFFA62630);

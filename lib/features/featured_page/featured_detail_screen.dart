@@ -5,7 +5,7 @@ import 'package:recive/router/extra_data.dart';
 
 extension StringLimit on String? {
   String dynamicSub(int limit) =>
-      '${(this ?? '').length > 20 ? this!.substring(0, 20) : this ?? ''}...';
+      '${(this ?? '').length > limit ? this!.substring(0, limit) : this ?? ''}...';
 }
 
 class FeaturedEventDetailScreen extends HookWidget {

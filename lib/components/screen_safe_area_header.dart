@@ -10,10 +10,12 @@ class ScreenSafeAreaHeader extends StatelessWidget {
     super.key,
     this.color,
     required this.title,
+    this.elevation = true,
   });
 
   final Color? color;
   final String title;
+  final bool elevation;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,20 @@ class ScreenSafeAreaHeader extends StatelessWidget {
     final tc = color ?? context.colorScheme.onTertiaryContainer;
     return SliverPinnedHeader(
       child: Container(
+        decoration: BoxDecoration(
+          color: bg,
+          boxShadow: elevation
+              ? <BoxShadow>[
+                  BoxShadow(
+                    offset: const Offset(0.2, 0),
+                    blurRadius: 4,
+                    color: context.colorScheme.shadow,
+                  )
+                ]
+              : null,
+          borderRadius: BorderRadius.zero,
+        ),
         height: context.viewTopPaddingHeight + context.headerHeight,
-        color: bg,
         child: Padding(
           padding: context.viewTopPadding,
           child: TitleHeader(

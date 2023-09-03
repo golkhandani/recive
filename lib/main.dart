@@ -80,6 +80,7 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = ultravioletTheme;
+    final textTheme = GoogleFonts.spaceGroteskTextTheme(theme.textTheme);
     final child = AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: ScrollConfiguration(
@@ -95,7 +96,11 @@ class Application extends StatelessWidget {
           ),
           routerConfig: goRouter,
           theme: theme.copyWith(
-            textTheme: GoogleFonts.spaceGroteskTextTheme(theme.textTheme),
+            textTheme: textTheme.copyWith(
+              bodyLarge: textTheme.bodyLarge?.copyWith(fontSize: 18),
+              bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 16),
+              bodySmall: textTheme.bodySmall?.copyWith(fontSize: 14),
+            ),
           ),
           builder: (context, child) => Container(
             constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),

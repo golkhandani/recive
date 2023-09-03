@@ -45,7 +45,7 @@ class NearMeScreenMapViewContent extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: EdgeInsets.symmetric(horizontal: kTinyPadding.horizontal / 2),
       sliver: MultiSliver(
         children: [
           _MapContent(

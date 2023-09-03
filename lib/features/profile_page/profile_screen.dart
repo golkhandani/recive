@@ -11,6 +11,7 @@ import 'package:recive/features/profile_page/models/user_custom_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/custom_shape_background_widget.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -34,12 +35,18 @@ class ProfileScreen extends HookWidget {
           slivers: [
             const ScreenSafeAreaHeader(
               title: 'Profile',
+              elevation: false,
             ),
             SliverPinnedHeader(
-              child: ClipPath(
+              child: ClipperShadowPainter(
                 clipper: SinCosineWaveClipper(
                   verticalPosition: VerticalPosition.bottom,
                   horizontalPosition: HorizontalPosition.right,
+                ),
+                shadow: Shadow(
+                  color: context.colorScheme.shadow,
+                  offset: Offset.zero,
+                  blurRadius: 4,
                 ),
                 child: Container(
                   height: 220,
@@ -129,7 +136,8 @@ class ProfileScreen extends HookWidget {
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding:
+                  EdgeInsets.symmetric(horizontal: kTinyPadding.horizontal / 2),
               sliver: MultiSliver(
                 children: [
                   SliverToBoxAdapter(
@@ -148,8 +156,11 @@ class ProfileScreen extends HookWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Spacer(),
-                            const Center(
-                              child: Text("COMMING SOON!"),
+                            Center(
+                              child: Text(
+                                "COMMING SOON!",
+                                style: context.titleLargeOnPrimaryContainer,
+                              ),
                             ),
                             const Spacer(),
                             InkWell(

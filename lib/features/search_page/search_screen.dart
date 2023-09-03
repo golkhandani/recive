@@ -64,10 +64,21 @@ class SearchScreen extends HookWidget {
           slivers: [
             const ScreenSafeAreaHeader(
               title: 'Search',
+              elevation: false,
             ),
             SliverPinnedHeader(
-              child: ColoredBox(
-                color: context.schema.tertiaryContainer,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: context.schema.tertiaryContainer,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      offset: const Offset(0.2, 0),
+                      blurRadius: 4,
+                      color: context.colorScheme.shadow,
+                    )
+                  ],
+                  borderRadius: BorderRadius.zero,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -116,8 +127,9 @@ class SearchScreen extends HookWidget {
             ],
             const SliverGap(height: 12),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 12)
-                  .copyWith(bottom: 112),
+              padding:
+                  EdgeInsets.symmetric(horizontal: kTinyPadding.horizontal / 2)
+                      .copyWith(bottom: 112),
               sliver: MultiSliver(
                 children: [
                   if (resultState.value == 0) ...[
@@ -240,24 +252,36 @@ class SearchScreen extends HookWidget {
   }
 
   SliverPinnedHeader _buildFilterSection(
-      ValueNotifier<bool> showFilters,
-      List<String> dateFilters,
-      ValueNotifier<int> dateFilterSwitchIndex,
-      List<String> distancesFilters,
-      ValueNotifier<int> distanceFiltersSwitchIndex,
-      ValueNotifier<int> priceFilterStartValue,
-      ValueNotifier<int> priceFilterEndValue,
-      List<String> pricesFilters) {
+    ValueNotifier<bool> showFilters,
+    List<String> dateFilters,
+    ValueNotifier<int> dateFilterSwitchIndex,
+    List<String> distancesFilters,
+    ValueNotifier<int> distanceFiltersSwitchIndex,
+    ValueNotifier<int> priceFilterStartValue,
+    ValueNotifier<int> priceFilterEndValue,
+    List<String> pricesFilters,
+  ) {
     return SliverPinnedHeader(
       child: LayoutBuilder(builder: (context, box) {
         return AnimatedSize(
           duration: const Duration(milliseconds: 400),
           child: showFilters.value
               ? Container(
-                  color: context.theme.colorScheme.primary,
                   padding: kTinyPadding,
+                  decoration: BoxDecoration(
+                    color: context.theme.colorScheme.primary,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        offset: const Offset(0.2, 0),
+                        blurRadius: 4,
+                        color: context.colorScheme.primary.darken(0.2),
+                      )
+                    ],
+                    borderRadius: BorderRadius.zero,
+                  ),
                   child: Column(
                     children: [
+                      const SizedBox(height: 12),
                       // Here, default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
                       ToggleSwitch(
                         minWidth: (box.maxWidth - 32) / dateFilters.length,

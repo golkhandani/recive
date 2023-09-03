@@ -36,7 +36,7 @@ class CardContainer extends StatelessWidget {
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
-                  color: color,
+                  color: color ?? context.colorScheme.tertiaryContainer,
                   boxShadow: const <BoxShadow>[
                     BoxShadow(
                       offset: Offset(2.2, 2.2),

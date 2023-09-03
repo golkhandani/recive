@@ -8,6 +8,7 @@ import 'package:recive/features/home_page/sections/map_section.dart';
 import 'package:recive/features/home_page/sections/top_news_section.dart';
 import 'package:recive/features/home_page/sections/weather_section.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class HomeScreen extends HookWidget {
@@ -37,7 +38,7 @@ class HomeScreen extends HookWidget {
             title: 'All you need!',
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(12).copyWith(bottom: 112),
+            padding: kTinyPadding.copyWith(bottom: 112),
             sliver: MultiSliver(children: children),
           ),
         ],

@@ -80,8 +80,9 @@ class NearMeScreenListViewContent extends HookWidget {
         controller: scrollController,
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 12)
-                .copyWith(bottom: 112),
+            padding:
+                EdgeInsets.symmetric(horizontal: kTinyPadding.horizontal / 2)
+                    .copyWith(bottom: 112),
             sliver: SliverList.builder(
                 itemCount: indexedKeyItems.length,
                 addAutomaticKeepAlives: true,

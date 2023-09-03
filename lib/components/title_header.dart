@@ -54,13 +54,11 @@ class TitleHeader extends HookWidget {
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color:
-                              context.schema.secondaryContainer.withOpacity(1),
-                          backgroundBlendMode: BlendMode.hardLight,
+                          color: context.schema.tertiary.withOpacity(1),
                         ),
                         child: Iconify(
                           Mdi.arrow_back,
-                          color: context.schema.onSecondaryContainer,
+                          color: context.schema.onTertiary,
                           size: 32,
                         ),
                       ),

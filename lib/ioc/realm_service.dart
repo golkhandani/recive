@@ -136,6 +136,7 @@ class RealmApplicationService {
       }
     } finally {
       await deleteTokens();
+      gql.resetCache();
     }
   }
 

@@ -41,7 +41,11 @@ class NavigationService {
   }
 
   Future<void> logoutTo(String name) async {
-    await GoRouter.of(rootContext).replaceNamed(name);
+    while (canBack) {
+      backTo(rootContext);
+    }
+    await GoRouter.of(rootContext).pushReplacementNamed(name);
+    // await GoRouter.of(rootContext).replaceNamed(name);
   }
 
   backTo(context) {

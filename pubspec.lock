@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.2"
+  ansicolor:
+    dependency: transitive
+    description:
+      name: ansicolor
+      sha256: "607f8fa9786f392043f169898923e6c59b4518242b68b8862eb8a8b7d9c30b4a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   archive:
     dependency: transitive
     description:
@@ -321,6 +329,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.3"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      sha256: ce75a1b40947fea0a0e16ce73337122a86762e38b982e1ccb909daa3b9bc4197
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.3.2"
   equatable:
     dependency: transitive
     description:
@@ -800,6 +816,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.4-alpha+1691943394662"
+  gql_dio_link:
+    dependency: "direct main"
+    description:
+      name: gql_dio_link
+      sha256: fc63a089345651a77d6d9c910f56a612291be73c3a744dfb304bf989452d2a24
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   gql_error_link:
     dependency: transitive
     description:
@@ -1530,6 +1554,30 @@ packages:
     description:
       name: synchronized
       sha256: "5fcbd27688af6082f5abd611af56ee575342c30e87541d0245f7ff99faa02c60"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
+  talker:
+    dependency: transitive
+    description:
+      name: talker
+      sha256: "3b72fc94f996fe6169b38452a690208ae09da4a5821b140a1fb0c013dd9ac632"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
+  talker_dio_logger:
+    dependency: "direct main"
+    description:
+      name: talker_dio_logger
+      sha256: b3bd0b009b8ba1f941de3b49c94a7e4d0b8bcfccbc0e261c19549a04a6ad9043
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
+  talker_logger:
+    dependency: transitive
+    description:
+      name: talker_logger
+      sha256: "3f8d051e5821c4aa3c27efe8204829dde128724cbd0294ae3cee76b097cf2cbb"
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"

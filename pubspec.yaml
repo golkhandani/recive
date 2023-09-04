@@ -80,6 +80,9 @@ dependencies:
   lottie: ^2.6.0
   starsview: ^0.0.2
   firebase_core: ^2.15.1
+  dio: ^5.3.2
+  gql_dio_link: ^1.0.1
+  talker_dio_logger: ^2.3.0
 
 dev_dependencies:
   flutter_test:

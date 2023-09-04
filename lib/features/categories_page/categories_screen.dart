@@ -25,7 +25,7 @@ class CategoriesScreen extends HookWidget {
     }, []);
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.theme.colorScheme.surface,
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(

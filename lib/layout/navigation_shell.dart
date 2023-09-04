@@ -75,7 +75,7 @@ class _NavigationShellState extends State<NavigationShell> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldShell(
-      backgroundColor: context.colorScheme.background,
+      backgroundColor: context.colorScheme.surface,
       handleTopSafePadding: widget.handleTopSafePadding,
       bottomNavigationBar: context.isNarrowWith && !widget.useFloatingNavBar
           ? _buildBottomNavigationBar()
@@ -127,7 +127,7 @@ class _NavigationShellState extends State<NavigationShell> {
                 height: box.maxHeight,
                 width: box.maxWidth,
                 child: CardContainer(
-                  color: context.theme.colorScheme.background.withOpacity(0.7),
+                  color: context.theme.colorScheme.surface.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(16),
                   padding: EdgeInsets.zero,
                   child: Container(

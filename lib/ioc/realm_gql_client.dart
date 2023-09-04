@@ -124,7 +124,7 @@ class RealmGqlClient {
       OperationResponse<TData, TVars> res, int key) async {
     final errors = [
       ...(res.graphqlErrors?.map((e) => e.message) ?? []).toList(),
-      (res.linkException as ServerException).parsedResponse?.response['error']
+      // (res.linkException as ServerException).parsedResponse?.response['error']
     ].whereNotNull();
     if (kDebugMode) {
       print("______||| GQL ERROR");

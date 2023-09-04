@@ -57,7 +57,7 @@ class SearchScreen extends HookWidget {
     final quickSearchBloc = useBloc<QuickSearchHeaderBloc>();
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.theme.colorScheme.surface,
       child: LayoutBuilder(builder: (context, box) {
         return CustomScrollView(
           controller: scrollController,

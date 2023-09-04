@@ -5,9 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/features/login_page/splash_screen.dart';
 import 'package:recive/firebase_options.dart';
@@ -16,6 +16,7 @@ import 'package:recive/ioc/locator.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/router/router_service.dart';
 import 'package:recive/utils/theme.dart';
+import 'package:recive/utils/theme_cubit.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
@@ -79,36 +80,41 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ultravioletTheme;
-    final textTheme = GoogleFonts.spaceGroteskTextTheme(theme.textTheme);
-    final child = AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
-      child: ScrollConfiguration(
-        behavior: MyCustomScrollBehavior(),
-        child: MaterialApp.router(
-          scrollBehavior: const MaterialScrollBehavior().copyWith(
-            dragDevices: {
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-              PointerDeviceKind.stylus,
-              PointerDeviceKind.unknown
-            },
-          ),
-          routerConfig: goRouter,
-          theme: theme.copyWith(
-            textTheme: textTheme.copyWith(
-              bodyLarge: textTheme.bodyLarge?.copyWith(fontSize: 18),
-              bodyMedium: textTheme.bodyMedium?.copyWith(fontSize: 16),
-              bodySmall: textTheme.bodySmall?.copyWith(fontSize: 14),
+    // final themeBloc = useBloc<ReciveThemeCubit>();
+    // final reciveTheme = useBlocBuilder(themeBloc);
+
+    // final textTheme = GoogleFonts.spaceGroteskTextTheme(theme.textTheme);
+    final child = BlocBuilder<ReciveThemeCubit, ReciveTheme>(
+        bloc: locator.get(),
+        builder: (context, reciveTheme) {
+          final theme = ultravioletTheme.copyWith(
+            colorScheme: reciveTheme.scheme,
+            textTheme: getTextTheme(reciveTheme.scheme),
+          );
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle.light,
+            child: ScrollConfiguration(
+              behavior: MyCustomScrollBehavior(),
+              child: MaterialApp.router(
+                scrollBehavior: const MaterialScrollBehavior().copyWith(
+                  dragDevices: {
+                    PointerDeviceKind.mouse,
+                    PointerDeviceKind.touch,
+                    PointerDeviceKind.stylus,
+                    PointerDeviceKind.unknown
+                  },
+                ),
+                routerConfig: goRouter,
+                theme: theme,
+                builder: (context, child) => Container(
+                  constraints:
+                      const BoxConstraints(maxHeight: 900, maxWidth: 600),
+                  child: child!,
+                ),
+              ),
             ),
-          ),
-          builder: (context, child) => Container(
-            constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
-            child: child!,
-          ),
-        ),
-      ),
-    );
+          );
+        });
     final hookedBloc = HookedBlocConfigProvider(
       injector: () => locator.get,
       builderCondition: (state) => state != null, // Global build condition

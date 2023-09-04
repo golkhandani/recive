@@ -61,7 +61,7 @@ class _NearMeScreenState extends State<NearMeScreen>
     );
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.theme.colorScheme.surface,
       child: LayoutBuilder(builder: (context, box) {
         final contentHeight = box.maxHeight - context.invisibleHeight - 24 - 24;
         final mapSectionHeight = (contentHeight * 0.75) - 24;

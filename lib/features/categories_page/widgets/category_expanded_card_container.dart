@@ -38,7 +38,7 @@ class CategoryExpandedCardContainer extends HookWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: context.theme.colorScheme.background,
+          color: context.theme.colorScheme.surface,
         ),
         child: Column(
           children: [

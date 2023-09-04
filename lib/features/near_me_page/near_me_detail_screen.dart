@@ -51,7 +51,7 @@ class NearbyDetailScreen extends HookWidget {
     final loading = state.loadingState;
 
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorScheme.surface,
       child: CustomScrollView(
         slivers: [
           if (summary != null || data != null) ...[
@@ -468,7 +468,7 @@ class NearbyDetailScreen extends HookWidget {
                     children: [
                       Iconify(
                         Bx.calendar_event,
-                        color: context.theme.colorScheme.background,
+                        color: context.theme.colorScheme.surface,
                         size: 24,
                       ),
                       const SizedBox(width: 4),
@@ -566,7 +566,7 @@ class NearbyDetailScreen extends HookWidget {
                       children: [
                         Iconify(
                           Bx.bxs_map,
-                          color: context.theme.colorScheme.background,
+                          color: context.theme.colorScheme.surface,
                           size: 24,
                         ),
                         const SizedBox(width: 12),
@@ -660,7 +660,7 @@ class NearbyDetailScreen extends HookWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: context.colorScheme.background,
+                color: context.colorScheme.surface,
               ),
               padding: kTinyPadding,
               child: Column(

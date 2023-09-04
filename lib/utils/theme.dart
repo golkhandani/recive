@@ -3,23 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
 const MaterialColor swatch = Colors.purple;
-// const Color primary = Color(0xFFA8DADC);
-// const Color primaryShadow = Color(0xFF348183);
-
-// const Color secondary = Color(0xFF0C1B31);
-// const Color secondaryShadow = Color(0xFF0E131B);
-
-// const Color splash = Color(0xFFCDEAE5);
-// const Color splashShadow = Color(0xFF348183);
-
-// const Color error = Color(0xFFE63946);
-// const Color errorShadow = Color(0xFFA62630);
-
-// const Color success = Color(0xFF55B587);
-// const Color successShadow = Color(0xFF317254);
-
-// const Color backgroundDark = Color(0xFF071005);
-// const Color backgroundLight = Color(0xFFF1FAEE);
 
 const Color primary = Color.fromARGB(255, 237, 213, 255);
 const Color primaryShadow = Color.fromARGB(255, 91, 8, 112);
@@ -44,7 +27,7 @@ const Color darkText = backgroundDark;
 const Color hint = primaryShadow;
 
 final ColorScheme colorScheme = ColorScheme(
-  brightness: Brightness.light,
+  brightness: Brightness.dark,
   //
   primary: primary,
   onPrimary: darkText,
@@ -66,85 +49,133 @@ final ColorScheme colorScheme = ColorScheme(
   onError: lightText,
   errorContainer: errorShadow,
   onErrorContainer: lightText,
-  //
-  // outline: ,
-  // outlineVariant: ,
-  background: primary.lighten(0.06),
-  onBackground: darkText,
-  surface: backgroundLight,
-  onSurface: darkText,
-  // surfaceVariant: ,
-  // onSurfaceVariant: ,
-  // inverseSurface: ,
-  // onInverseSurface: ,
-  // inversePrimary: ,
-  shadow: primaryShadow,
 
-  // scrim: ,
-  // surfaceTint: ,
+  // keep the same as surface
+  background: primary.darken(0.7),
+  onBackground: lightText,
+  surface: primary.darken(0.7),
+  onSurface: lightText,
+  inverseSurface: primary.lighten(),
+  onInverseSurface: darkText,
+  shadow: primaryShadow,
 );
+
+const Color primaryLight = Color(0xFFA8DADC);
+const Color primaryShadowLight = Color(0xFF348183);
+
+const Color secondaryLight = Color(0xFF0C1B31);
+const Color secondaryShadowLight = Color(0xFF0E131B);
+
+const Color splashLight = Color.fromARGB(255, 207, 242, 236);
+const Color splashShadowLight = Color.fromARGB(255, 78, 192, 196);
+
+const Color errorLight = Color(0xFFE63946);
+const Color errorShadowLight = Color(0xFFA62630);
+
+const Color successLight = Color(0xFF55B587);
+const Color successShadowLight = Color(0xFF317254);
+
+const Color backgroundDarkLight = Color(0xFF071005);
+const Color backgroundLightLight = Color(0xFFF1FAEE);
+final ColorScheme colorSchemeLight = ColorScheme(
+  brightness: Brightness.light,
+  //
+  primary: primaryLight,
+  onPrimary: lightText,
+  primaryContainer: primaryShadowLight,
+  onPrimaryContainer: lightText,
+  //
+  secondary: secondaryLight,
+  onSecondary: darkText,
+  secondaryContainer: secondaryShadowLight,
+  onSecondaryContainer: lightText,
+  //
+  tertiary: splashLight,
+  onTertiary: darkText,
+  tertiaryContainer: splashShadowLight,
+  onTertiaryContainer: darkText,
+
+  //
+  error: errorLight,
+  onError: darkText,
+  errorContainer: errorShadowLight,
+  onErrorContainer: darkText,
+
+  // keep the same as surface
+  background: primaryLight.lighten(0.7),
+  onBackground: darkText,
+  surface: primaryLight.lighten(0.7),
+  onSurface: darkText,
+  inverseSurface: primaryLight.darken(),
+  onInverseSurface: darkText,
+  shadow: primaryShadowLight,
+);
+
+TextTheme getTextTheme(ColorScheme colorScheme) {
+  return GoogleFonts.spaceGroteskTextTheme().copyWith(
+    displayMedium: TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1.1,
+      color: colorScheme.onSurface,
+    ),
+    bodyLarge: TextStyle(
+      color: colorScheme.onSurface,
+    ),
+    bodyMedium: TextStyle(
+      color: colorScheme.onSurface,
+    ),
+    bodySmall: TextStyle(
+      color: colorScheme.onSurface,
+    ),
+    labelMedium: TextStyle(
+      color: colorScheme.onSurface,
+    ),
+    headlineSmall: TextStyle(
+      color: colorScheme.onSurface,
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1.2,
+    ),
+    headlineLarge: TextStyle(
+      color: colorScheme.onSurface,
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1.2,
+    ),
+    titleSmall: TextStyle(
+      color: colorScheme.onSurface,
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1.2,
+    ),
+    titleMedium: TextStyle(
+      color: colorScheme.onSurface,
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1.2,
+    ),
+    titleLarge: TextStyle(
+      color: colorScheme.onSurface,
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1.2,
+    ),
+  );
+}
 
 final ThemeData ultravioletTheme = ThemeData(
   colorScheme: colorScheme,
   primarySwatch: swatch,
-  scaffoldBackgroundColor: colorScheme.background,
+  scaffoldBackgroundColor: colorScheme.surface,
   primaryColor: colorScheme.primary,
   splashColor: colorScheme.tertiary,
   highlightColor: Colors.transparent,
   canvasColor: colorScheme.surface,
   shadowColor: colorScheme.shadow,
   hintColor: colorScheme.tertiary,
-  fontFamily: GoogleFonts.nunito().fontFamily,
-  textTheme: TextTheme(
-    displayMedium: TextStyle(
-      fontSize: 15,
-      fontWeight: FontWeight.bold,
-      letterSpacing: 1.1,
-      color: colorScheme.onBackground,
-    ),
-    bodyLarge: TextStyle(
-      color: colorScheme.onBackground,
-    ),
-    bodyMedium: TextStyle(
-      color: colorScheme.onBackground,
-    ),
-    bodySmall: TextStyle(
-      color: colorScheme.onBackground,
-    ),
-    labelMedium: TextStyle(
-      color: colorScheme.onBackground,
-    ),
-    headlineSmall: TextStyle(
-      color: colorScheme.onBackground,
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-      letterSpacing: 1.2,
-    ),
-    headlineLarge: TextStyle(
-      color: colorScheme.onBackground,
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
-      letterSpacing: 1.2,
-    ),
-    titleSmall: TextStyle(
-      color: colorScheme.onBackground,
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-      letterSpacing: 1.2,
-    ),
-    titleMedium: TextStyle(
-      color: colorScheme.onBackground,
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-      letterSpacing: 1.2,
-    ),
-    titleLarge: TextStyle(
-      color: colorScheme.onBackground,
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-      letterSpacing: 1.2,
-    ),
-  ),
+  fontFamily: GoogleFonts.spaceGrotesk().fontFamily,
+  textTheme: getTextTheme(colorScheme),
   buttonTheme: ButtonThemeData(
     buttonColor: colorScheme.primary,
     textTheme: ButtonTextTheme.primary,

@@ -1,6 +1,7 @@
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
@@ -14,7 +15,9 @@ import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/custom_shape_background_widget.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
+import 'package:recive/utils/theme_cubit.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class ProfileScreen extends HookWidget {
   static const name = 'profile';
@@ -28,8 +31,11 @@ class ProfileScreen extends HookWidget {
 
     final bloc = useBloc<LoginCubit>();
     final state = useBlocBuilder(bloc);
+
+    final themeBloc = useBloc<ReciveThemeCubit>();
+    final theme = useBlocBuilder(themeBloc);
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.theme.colorScheme.surface,
       child: LayoutBuilder(builder: (context, box) {
         return CustomScrollView(
           slivers: [
@@ -155,6 +161,38 @@ class ProfileScreen extends HookWidget {
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                // Text(theme.toString()),
+                                const SizedBox(height: 12),
+                                ToggleSwitch(
+                                  minWidth: box.maxWidth / 4,
+                                  minHeight: 42.0,
+                                  fontSize: 16.0,
+                                  initialLabelIndex: theme.index,
+                                  activeBgColor: [
+                                    context.theme.colorScheme.primaryContainer
+                                  ],
+                                  activeFgColor: context
+                                      .theme.colorScheme.onPrimaryContainer,
+                                  inactiveBgColor:
+                                      context.theme.colorScheme.tertiary,
+                                  inactiveFgColor:
+                                      context.theme.colorScheme.onTertiary,
+                                  totalSwitches: ReciveTheme.values.length,
+                                  animationDuration: 100,
+                                  labels: ReciveTheme.values
+                                      .map((e) => e.name.capitalize())
+                                      .toList(),
+                                  animate: true,
+                                  onToggle: (index) {
+                                    final val = index ?? 0;
+                                    themeBloc.switchTheme(val);
+                                  },
+                                ),
+                              ],
+                            ),
                             const Spacer(),
                             Center(
                               child: Text(

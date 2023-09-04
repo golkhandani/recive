@@ -27,6 +27,8 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
+    final color = context.theme.colorScheme.secondaryContainer.withOpacity(0.6);
+
     final extra = ExtraData(
       summary: FeaturedEventDetailSummaryData(
         id: data.id,
@@ -49,7 +51,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: context.colorScheme.background,
+            color: color,
           ),
           child: Column(
             children: [

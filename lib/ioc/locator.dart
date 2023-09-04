@@ -27,11 +27,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:realm/realm.dart';
+import 'package:recive/utils/theme_cubit.dart';
 
 GetIt locator = GetIt.instance;
 
 const hiveStoreFolderName = 'hive_data';
 const hiveStoreGqlBoxName = 'graphql';
+const hiveStoreThemeBoxName = 'theme_box';
+
 const gSignInScopes = ['profile', 'email'];
 const gSignInIosCid =
     '337988051792-depkbem06p52nihpdd0jbea1bk4lqtpm.apps.googleusercontent.com';
@@ -59,12 +62,39 @@ Future setupNavigation() async {
   );
 }
 
+class ReciveThemeAdapter implements TypeAdapter<ReciveTheme> {
+  @override
+  ReciveTheme read(BinaryReader reader) {
+    return ReciveTheme.values[(reader.readInt())];
+  }
+
+  @override
+  int get typeId => 0102;
+
+  @override
+  void write(BinaryWriter writer, ReciveTheme obj) {
+    writer.writeInt(obj.index);
+  }
+}
+
 Future setupStorage() async {
   // START REGISTER Hive REQUEST CACHE STORE
   Hive.init(hiveStoreFolderName);
+  Hive.registerAdapter(ReciveThemeAdapter());
+
   await Hive.initFlutter();
   final box = await Hive.openBox(hiveStoreGqlBoxName);
   locator.registerSingleton<Box>(box);
+
+  final themeBox = await Hive.openBox<ReciveTheme>(hiveStoreThemeBoxName);
+  final theme = themeBox.get(ReciveThemeCubit.themeStoreKey);
+  locator.registerSingleton<Box<ReciveTheme>>(themeBox);
+  locator.registerLazySingleton(
+    () => ReciveThemeCubit(
+      box: locator.get(),
+      initalValue: theme,
+    ),
+  );
   // END REGISTER Hive REQUEST CACHE STORE
 
   // START REGISTER HydratedBloc CACHE STORE

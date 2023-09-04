@@ -51,7 +51,7 @@ class DetailScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.theme.colorScheme.surface,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(

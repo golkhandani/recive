@@ -337,6 +337,16 @@ class _NavigationShellState extends State<NavigationShell> {
           left: 12,
           right: 12,
         ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              offset: const Offset(.2, .2),
+              blurRadius: 1,
+              color: context.colorScheme.background,
+            )
+          ],
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(widget.borderRadius),
           child: BackdropFilter(

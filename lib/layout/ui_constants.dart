@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/locator.dart';
-import 'package:recive/utils/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FlutterMapAttribution extends StatelessWidget {
@@ -101,7 +100,7 @@ final kStandardBlur = ImageFilter.blur(
 );
 
 final kBoxBorder = Border.all(
-  color: primaryShadow,
+  color: Colors.black45,
   width: 1,
   style: BorderStyle.solid,
 );

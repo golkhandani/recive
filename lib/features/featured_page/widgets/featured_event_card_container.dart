@@ -85,6 +85,7 @@ class FeaturedEventCardContainer extends HookWidget {
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
     final color = context.theme.colorScheme.secondaryContainer.withOpacity(0.6);
+    final fontColor = context.colorScheme.onSecondaryContainer;
     final heroTag = parentRoute + data.id;
     final extraJson = ExtraData(
       summary: FeaturedEventDetailSummaryData(
@@ -119,14 +120,15 @@ class FeaturedEventCardContainer extends HookWidget {
                       Text(
                         data.title,
                         maxLines: 1,
-                        style: context.titleLargeOnPrimaryContainer,
+                        style: context.titleLargeOnPrimaryContainer
+                            .withColor(fontColor),
                       ),
                       const SizedBox(height: 12),
                       Row(
                         children: [
                           Iconify(
                             Bx.calendar_event,
-                            color: color.lighten(0.7),
+                            color: fontColor,
                             size: 24,
                           ),
                           const SizedBox(width: 4),
@@ -135,7 +137,8 @@ class FeaturedEventCardContainer extends HookWidget {
                               '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.titleMediumOnPrimaryContainer,
+                              style: context.titleMediumOnPrimaryContainer
+                                  .withColor(fontColor),
                             ),
                           ),
                         ],
@@ -145,7 +148,7 @@ class FeaturedEventCardContainer extends HookWidget {
                         children: [
                           Iconify(
                             Bx.bxs_map,
-                            color: color.lighten(0.7),
+                            color: fontColor,
                             size: 24,
                           ),
                           const SizedBox(width: 4),
@@ -154,7 +157,8 @@ class FeaturedEventCardContainer extends HookWidget {
                               data.location,
                               maxLines: isSmallTall ? 3 : 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.titleSmallOnPrimaryContainer,
+                              style: context.titleSmallOnPrimaryContainer
+                                  .withColor(fontColor),
                             ),
                           ),
                         ],
@@ -188,14 +192,15 @@ class FeaturedEventCardContainer extends HookWidget {
                         maxLines: 2,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
-                        style: context.titleLargeOnPrimaryContainer,
+                        style: context.titleLargeOnPrimaryContainer
+                            .withColor(fontColor),
                       ),
                       const SizedBox(height: 12),
                       Row(
                         children: [
                           Iconify(
                             Bx.calendar_event,
-                            color: color.lighten(0.7),
+                            color: fontColor,
                             size: 24,
                           ),
                           const SizedBox(width: 4),
@@ -204,7 +209,8 @@ class FeaturedEventCardContainer extends HookWidget {
                               '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.titleMediumOnPrimaryContainer,
+                              style: context.titleMediumOnPrimaryContainer
+                                  .withColor(fontColor),
                             ),
                           ),
                         ],
@@ -233,7 +239,8 @@ class FeaturedEventCardContainer extends HookWidget {
                 child: Text(
                   data.title,
                   maxLines: 3,
-                  style: context.titleLargeOnPrimaryContainer,
+                  style:
+                      context.titleLargeOnPrimaryContainer.withColor(fontColor),
                 ),
               ),
             ),

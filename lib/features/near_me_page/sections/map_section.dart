@@ -172,6 +172,8 @@ class _MapContent extends HookWidget {
       return;
     }, [state.nearbyEvents]);
 
+    final interations = useState(InteractiveFlag.all & ~InteractiveFlag.rotate);
+
     return MultiSliver(children: [
       SliverCardContainer(
         borderRadius: BorderRadius.circular(16),
@@ -199,9 +201,13 @@ class _MapContent extends HookWidget {
                             zoom: zoom.value,
                             adaptiveBoundaries: false,
                             keepAlive: true,
+                            interactiveFlags: interations.value,
                             maxZoom: _MapContent.maxZoom,
                             minZoom: _MapContent.minZoom,
                             rotationThreshold: 45,
+                            pinchMoveThreshold: 1,
+                            pinchZoomThreshold: 45,
+                            rotationWinGestures: MultiFingerGesture.rotate,
                             pinchZoomWinGestures: MultiFingerGesture.pinchZoom,
                             pinchMoveWinGestures: MultiFingerGesture.pinchMove,
                             onPositionChanged: (position, hasGesture) {
@@ -209,6 +215,30 @@ class _MapContent extends HookWidget {
                               center.value = position.center!;
                               zoom.value = position.zoom!;
                               mapInitialized.value = true;
+                            },
+                            onMapEvent: (event) {
+                              // if (event is MapEventMoveStart) {
+                              //   interations.value = InteractiveFlag.all &
+                              //       ~InteractiveFlag.rotate;
+
+                              //   return;
+                              // }
+
+                              // if (event is MapEventMoveEnd) {
+                              //   interactionUpdater.onChanged(event);
+                              //   return;
+                              // }
+
+                              // if (event is MapEventRotateStart) {
+                              //   interations.value = InteractiveFlag.rotate;
+                              //   return;
+                              // }
+                              // if (event is MapEventRotateEnd) {
+                              //   interactionUpdater.onChanged(event);
+                              //   return;
+                              // }
+
+                              //  print("EVENNT ${event}");
                             },
                           ),
                           nonRotatedChildren: const [

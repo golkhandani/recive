@@ -35,7 +35,7 @@ class ProfileScreen extends HookWidget {
     final themeBloc = useBloc<ReciveThemeCubit>();
     final theme = useBlocBuilder(themeBloc);
     return ColoredBox(
-      color: context.theme.colorScheme.surface,
+      color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
         return CustomScrollView(
           slivers: [
@@ -166,30 +166,37 @@ class ProfileScreen extends HookWidget {
                               children: [
                                 // Text(theme.toString()),
                                 const SizedBox(height: 12),
-                                ToggleSwitch(
-                                  minWidth: box.maxWidth / 4,
-                                  minHeight: 42.0,
-                                  fontSize: 16.0,
-                                  initialLabelIndex: theme.index,
-                                  activeBgColor: [
-                                    context.theme.colorScheme.primaryContainer
+                                Row(
+                                  children: [
+                                    const Text("Theme:"),
+                                    const Spacer(),
+                                    ToggleSwitch(
+                                      minWidth: box.maxWidth / 4,
+                                      minHeight: 42.0,
+                                      fontSize: 16.0,
+                                      initialLabelIndex: theme.index,
+                                      activeBgColor: [
+                                        context
+                                            .theme.colorScheme.primaryContainer
+                                      ],
+                                      activeFgColor: context
+                                          .theme.colorScheme.onPrimaryContainer,
+                                      inactiveBgColor:
+                                          context.theme.colorScheme.tertiary,
+                                      inactiveFgColor:
+                                          context.theme.colorScheme.onTertiary,
+                                      totalSwitches: ReciveTheme.values.length,
+                                      animationDuration: 100,
+                                      labels: ReciveTheme.values
+                                          .map((e) => e.name.capitalize())
+                                          .toList(),
+                                      animate: true,
+                                      onToggle: (index) {
+                                        final val = index ?? 0;
+                                        themeBloc.switchTheme(val);
+                                      },
+                                    ),
                                   ],
-                                  activeFgColor: context
-                                      .theme.colorScheme.onPrimaryContainer,
-                                  inactiveBgColor:
-                                      context.theme.colorScheme.tertiary,
-                                  inactiveFgColor:
-                                      context.theme.colorScheme.onTertiary,
-                                  totalSwitches: ReciveTheme.values.length,
-                                  animationDuration: 100,
-                                  labels: ReciveTheme.values
-                                      .map((e) => e.name.capitalize())
-                                      .toList(),
-                                  animate: true,
-                                  onToggle: (index) {
-                                    final val = index ?? 0;
-                                    themeBloc.switchTheme(val);
-                                  },
                                 ),
                               ],
                             ),
@@ -197,7 +204,11 @@ class ProfileScreen extends HookWidget {
                             Center(
                               child: Text(
                                 "COMMING SOON!",
-                                style: context.titleLargeOnPrimaryContainer,
+                                style: context.titleLargeOnPrimaryContainer
+                                    .copyWith(
+                                  color:
+                                      context.colorScheme.onTertiaryContainer,
+                                ),
                               ),
                             ),
                             const Spacer(),

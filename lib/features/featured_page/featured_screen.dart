@@ -25,7 +25,7 @@ class FeaturedScreen extends HookWidget {
     }, []);
 
     return ColoredBox(
-      color: context.colorScheme.surface,
+      color: context.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(

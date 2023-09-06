@@ -22,13 +22,8 @@ class PackageExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    var color = context.theme.colorScheme.background;
-
-    if (context.theme.brightness == Brightness.dark) {
-      color = color.darken(.3);
-    } else {
-      color = color.lighten(.3);
-    }
+    final color = context.colorScheme.surface;
+    final fontColor = context.colorScheme.onSurface;
 
     final heroTag = PackageDetailScreen.name + data.id;
     final extra = ExtraData<PackageSummaryData>(
@@ -87,23 +82,24 @@ class PackageExpandedCardContainer extends HookWidget {
               child: ExpandablePanel(
                 header: Text(
                   data.title,
-                  style: context.textTheme.titleMedium,
+                  style: context.textTheme.titleMedium?.withColor(fontColor),
                 ),
                 collapsed: Text(
                   data.subtitle,
                   softWrap: true,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: context.textTheme.bodyMedium,
+                  style: context.textTheme.bodyMedium?.withColor(fontColor),
                 ),
                 expanded: Text(
                   data.description,
                   softWrap: true,
+                  style: context.textTheme.bodyMedium?.withColor(fontColor),
                 ),
                 theme: ExpandableThemeData(
                   iconSize: 20,
                   iconPadding: const EdgeInsets.only(bottom: 12),
-                  iconColor: context.theme.colorScheme.onBackground,
+                  iconColor: fontColor,
                   animationDuration: const Duration(milliseconds: 200),
                   useInkWell: true,
                   alignment: Alignment.topRight,

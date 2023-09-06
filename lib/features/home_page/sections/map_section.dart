@@ -68,7 +68,9 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
         SliverToBoxAdapter(
           child: Text(
             "City Highlights (Map)",
-            style: context.textTheme.headlineSmall,
+            style: context.textTheme.headlineSmall?.withColor(
+              context.colorScheme.onBackground,
+            ),
           ),
         ),
         const SliverGap(height: 12),

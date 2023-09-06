@@ -51,7 +51,7 @@ class NearbyDetailScreen extends HookWidget {
     final loading = state.loadingState;
 
     return ColoredBox(
-      color: context.colorScheme.surface,
+      color: context.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           if (summary != null || data != null) ...[

@@ -37,7 +37,9 @@ class HomePageFeaturedEventsSection extends HookWidget {
             SliverToBoxAdapter(
               child: Text(
                 "Featured Events",
-                style: context.textTheme.headlineSmall,
+                style: context.textTheme.headlineSmall?.withColor(
+                  context.colorScheme.onBackground,
+                ),
               ),
             ),
             const SliverGap(height: 12),

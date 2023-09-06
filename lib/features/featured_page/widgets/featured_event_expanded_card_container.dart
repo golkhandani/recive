@@ -27,13 +27,8 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    var color = context.theme.colorScheme.background;
-
-    if (context.theme.brightness == Brightness.dark) {
-      color = color.darken(.3);
-    } else {
-      color = color.lighten(.3);
-    }
+    final color = context.colorScheme.surface;
+    final fontColor = context.colorScheme.onSurface;
     final extra = ExtraData(
       summary: FeaturedEventDetailSummaryData(
         id: data.id,
@@ -84,7 +79,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                 child: ExpandablePanel(
                   header: Text(
                     data.title,
-                    style: context.titleLargeOnBackground,
+                    style: context.titleLargeOnBackground.withColor(fontColor),
                   ),
                   collapsed: Padding(
                     padding: EdgeInsets.symmetric(
@@ -94,7 +89,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                       children: [
                         Iconify(
                           Bx.bxs_map,
-                          color: context.colorScheme.onBackground,
+                          color: fontColor,
                           size: 24,
                         ),
                         const SizedBox(width: 4),
@@ -103,7 +98,8 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                             data.location,
                             maxLines: 3,
                             overflow: TextOverflow.fade,
-                            style: context.labelLargeOnBackground,
+                            style: context.labelLargeOnBackground
+                                .withColor(fontColor),
                           ),
                         ),
                       ],
@@ -121,14 +117,15 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                           data.description,
                           maxLines: 3,
                           overflow: TextOverflow.fade,
-                          style: context.labelLargeOnBackground,
+                          style: context.labelLargeOnBackground
+                              .withColor(fontColor),
                         ),
                         const SizedBox(height: 12),
                         Row(
                           children: [
                             Iconify(
                               Bx.bxs_map,
-                              color: context.colorScheme.onBackground,
+                              color: fontColor,
                               size: 24,
                             ),
                             const SizedBox(width: 4),
@@ -137,9 +134,8 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                                 data.location,
                                 maxLines: 3,
                                 overflow: TextOverflow.fade,
-                                style: context.textTheme.labelLarge!.copyWith(
-                                  color: context.colorScheme.onBackground,
-                                ),
+                                style: context.textTheme.labelLarge!
+                                    .withColor(fontColor),
                               ),
                             ),
                           ],
@@ -149,7 +145,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                           children: [
                             Iconify(
                               Bx.calendar_event,
-                              color: context.colorScheme.onBackground,
+                              color: fontColor,
                               size: 24,
                             ),
                             const SizedBox(width: 4),
@@ -158,7 +154,8 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                                 '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: context.labelLargeOnBackground,
+                                style: context.labelLargeOnBackground
+                                    .withColor(fontColor),
                               ),
                             ),
                           ],
@@ -168,7 +165,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                           children: [
                             Iconify(
                               Bx.briefcase,
-                              color: context.colorScheme.onBackground,
+                              color: fontColor,
                               size: 24,
                             ),
                             const SizedBox(width: 4),
@@ -177,7 +174,8 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                                 data.organizers.join(' '),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: context.labelLargeOnBackground,
+                                style: context.labelLargeOnBackground
+                                    .withColor(fontColor),
                               ),
                             ),
                           ],
@@ -188,7 +186,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                   theme: ExpandableThemeData(
                     iconSize: 20,
                     iconPadding: const EdgeInsets.only(bottom: 12),
-                    iconColor: context.colorScheme.onBackground,
+                    iconColor: fontColor,
                     animationDuration: const Duration(milliseconds: 200),
                     useInkWell: true,
                     alignment: Alignment.topRight,

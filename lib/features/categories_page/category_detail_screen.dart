@@ -39,7 +39,7 @@ class CategoryDetailScreen extends HookWidget {
     final summary = extra?.summary;
 
     return ColoredBox(
-      color: context.theme.colorScheme.surface,
+      color: context.theme.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(

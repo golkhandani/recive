@@ -36,7 +36,9 @@ class HomePageTopNewsSections extends HookWidget {
             SliverToBoxAdapter(
               child: Text(
                 "Top News Stories",
-                style: context.textTheme.headlineSmall,
+                style: context.textTheme.headlineSmall?.withColor(
+                  context.colorScheme.onBackground,
+                ),
               ),
             ),
             const SliverGap(height: 12),

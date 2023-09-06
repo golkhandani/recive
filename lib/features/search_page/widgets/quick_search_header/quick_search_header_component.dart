@@ -175,7 +175,8 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
           AsyncSearchBar(
             constraints: BoxConstraints(minHeight: widget.height),
             controller: textEditingController,
-            backgroundColor: context.schema.primaryContainer,
+            backgroundColor: context.colorScheme.primaryContainer,
+            boxBorder: Border.all(color: context.colorScheme.primary),
             hintText: "Search what you're looking for!",
             hintStyle: textStyle.copyWith(
               color: context.schema.onPrimaryContainer.withOpacity(0.7),
@@ -197,6 +198,7 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
             isSelected: state.isSelected,
             suffix: Material(
               borderRadius: BorderRadius.zero,
+              borderOnForeground: true,
               color: context.schema.primaryContainer,
               child: Row(
                 children: [
@@ -214,7 +216,7 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
                         child: Icon(
                           Icons.close,
                           size: 24,
-                          color: context.schema.tertiary.withOpacity(0.5),
+                          color: context.schema.tertiary.withOpacity(0.9),
                         ),
                       ),
                     ),

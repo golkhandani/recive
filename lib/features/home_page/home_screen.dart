@@ -31,7 +31,7 @@ class HomeScreen extends HookWidget {
     ];
 
     return ColoredBox(
-      color: context.theme.colorScheme.surface,
+      color: context.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(
@@ -65,7 +65,7 @@ class SeeMoreButton extends StatelessWidget {
         constraints: constraints,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: context.theme.colorScheme.secondary,
+          color: context.theme.colorScheme.secondaryContainer,
         ),
         child: Center(
           child: Text(

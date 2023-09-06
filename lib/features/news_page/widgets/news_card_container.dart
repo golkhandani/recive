@@ -59,9 +59,12 @@ class TopNewsCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
+
     final color =
         TopNewsCardContainerData.sourceToColorMap[data.source]?.darken(.3) ??
             context.randomColor;
+    final fontColor =
+        color.computeLuminance() < 0.6 ? Colors.white : Colors.black;
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -74,7 +77,7 @@ class TopNewsCardContainer extends HookWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: context.textTheme.titleSmall!.copyWith(
-                  color: context.theme.colorScheme.onPrimaryContainer,
+                  color: fontColor,
                 ),
               ),
             ),
@@ -95,7 +98,7 @@ class TopNewsCardContainer extends HookWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: context.textTheme.labelSmall!.copyWith(
-                color: context.theme.colorScheme.onPrimaryContainer,
+                color: fontColor,
               ),
             ),
             const SizedBox(width: 12),
@@ -111,7 +114,7 @@ class TopNewsCardContainer extends HookWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: context.textTheme.labelSmall!.copyWith(
-                  color: context.theme.colorScheme.onPrimaryContainer,
+                  color: fontColor,
                 ),
               ),
             ),
@@ -124,7 +127,7 @@ class TopNewsCardContainer extends HookWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: context.textTheme.bodyMedium!.copyWith(
-            color: context.theme.colorScheme.onPrimaryContainer,
+            color: fontColor,
           ),
         ),
       ],

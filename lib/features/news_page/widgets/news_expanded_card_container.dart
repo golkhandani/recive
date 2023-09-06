@@ -31,13 +31,8 @@ class TopNewsExpandedCardContainer extends HookWidget {
       color: Colors.white,
       fontWeight: FontWeight.bold,
     );
-    var color = context.theme.colorScheme.background;
-
-    if (context.theme.brightness == Brightness.dark) {
-      color = color.darken(.3);
-    } else {
-      color = color.lighten(.3);
-    }
+    final color = context.colorScheme.surface;
+    final fontColor = context.colorScheme.onSurface;
 
     final heroTag = NewsDetailScreen.name + data.id;
 
@@ -112,7 +107,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                 child: ExpandablePanel(
                   header: Text(
                     data.title,
-                    style: context.titleLargeOnBackground,
+                    style: context.titleLargeOnBackground.withColor(fontColor),
                   ),
                   collapsed: Column(
                     children: [
@@ -122,7 +117,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                         children: [
                           Iconify(
                             Bx.calendar_event,
-                            color: context.theme.colorScheme.onBackground,
+                            color: fontColor,
                             size: 12,
                           ),
                           const SizedBox(width: 4),
@@ -131,13 +126,13 @@ class TopNewsExpandedCardContainer extends HookWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: context.textTheme.labelSmall!.copyWith(
-                              color: context.theme.colorScheme.onBackground,
+                              color: fontColor,
                             ),
                           ),
                           const SizedBox(width: 12),
                           Iconify(
                             Mdi.volume_source,
-                            color: context.theme.colorScheme.onBackground,
+                            color: fontColor,
                             size: 12,
                           ),
                           const SizedBox(width: 4),
@@ -147,7 +142,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: context.textTheme.labelSmall!.copyWith(
-                                color: context.theme.colorScheme.onBackground,
+                                color: fontColor,
                               ),
                             ),
                           ),
@@ -166,7 +161,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                           children: [
                             Iconify(
                               Bx.calendar_event,
-                              color: context.theme.colorScheme.onBackground,
+                              color: fontColor,
                               size: 12,
                             ),
                             const SizedBox(width: 4),
@@ -175,13 +170,13 @@ class TopNewsExpandedCardContainer extends HookWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: context.textTheme.labelSmall!.copyWith(
-                                color: context.theme.colorScheme.onBackground,
+                                color: fontColor,
                               ),
                             ),
                             const SizedBox(width: 12),
                             Iconify(
                               Mdi.volume_source,
-                              color: context.theme.colorScheme.onBackground,
+                              color: fontColor,
                               size: 12,
                             ),
                             const SizedBox(width: 4),
@@ -191,7 +186,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: context.textTheme.labelSmall!.copyWith(
-                                  color: context.theme.colorScheme.onBackground,
+                                  color: fontColor,
                                 ),
                               ),
                             ),
@@ -204,7 +199,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: context.textTheme.bodyMedium!.copyWith(
-                            color: context.theme.colorScheme.onBackground,
+                            color: fontColor,
                           ),
                         ),
                       ],
@@ -213,7 +208,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                   theme: ExpandableThemeData(
                     iconSize: 20,
                     iconPadding: const EdgeInsets.only(bottom: 12),
-                    iconColor: context.theme.colorScheme.onBackground,
+                    iconColor: fontColor,
                     animationDuration: const Duration(milliseconds: 200),
                     useInkWell: true,
                     alignment: Alignment.topRight,

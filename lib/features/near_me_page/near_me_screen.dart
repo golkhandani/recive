@@ -61,7 +61,7 @@ class _NearMeScreenState extends State<NearMeScreen>
     );
 
     return ColoredBox(
-      color: context.theme.colorScheme.surface,
+      color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
         final contentHeight = box.maxHeight - context.invisibleHeight - 24 - 24;
         final mapSectionHeight = (contentHeight * 0.75) - 24;
@@ -85,12 +85,14 @@ class _NearMeScreenState extends State<NearMeScreen>
                           fontSize: 16.0,
                           initialLabelIndex: switchIndex.value,
                           activeBgColor: [
-                            context.theme.colorScheme.primaryContainer
+                            context.theme.colorScheme.tertiaryContainer
                           ],
                           activeFgColor:
+                              context.theme.colorScheme.onTertiaryContainer,
+                          inactiveBgColor:
+                              context.theme.colorScheme.primaryContainer,
+                          inactiveFgColor:
                               context.theme.colorScheme.onPrimaryContainer,
-                          inactiveBgColor: context.theme.colorScheme.tertiary,
-                          inactiveFgColor: context.theme.colorScheme.onTertiary,
                           totalSwitches: 2,
                           labels: switchItems,
                           animate: true,

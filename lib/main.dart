@@ -80,10 +80,6 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final themeBloc = useBloc<ReciveThemeCubit>();
-    // final reciveTheme = useBlocBuilder(themeBloc);
-
-    // final textTheme = GoogleFonts.spaceGroteskTextTheme(theme.textTheme);
     final child = BlocBuilder<ReciveThemeCubit, ReciveTheme>(
         bloc: locator.get(),
         builder: (context, reciveTheme) {

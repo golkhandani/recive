@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }, []);
     return Scaffold(
       body: Container(
-        color: context.theme.colorScheme.surface,
+        color: context.theme.colorScheme.background,
         child: const LottieSafeLoading(),
       ),
     );

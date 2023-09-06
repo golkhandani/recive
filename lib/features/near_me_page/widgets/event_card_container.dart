@@ -70,6 +70,7 @@ class EventCardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = context.colorScheme.tertiaryContainer.withOpacity(0.6);
+    final fontColor = context.colorScheme.onTertiaryContainer;
 
     final child = LayoutBuilder(builder: (context, box) {
       final isShort = box.maxHeight < 120;
@@ -91,7 +92,8 @@ class EventCardContainer extends StatelessWidget {
                     Text(
                       data.title,
                       maxLines: 1,
-                      style: context.titleMediumOnPrimaryContainer,
+                      style: context.titleMediumOnPrimaryContainer
+                          .withColor(fontColor),
                     ),
                     if (isShort) ...[
                       const SizedBox(height: 12),
@@ -99,7 +101,7 @@ class EventCardContainer extends StatelessWidget {
                         children: [
                           Iconify(
                             Bx.calendar_event,
-                            color: color.lighten(0.7),
+                            color: fontColor,
                             size: 24,
                           ),
                           const SizedBox(width: 4),
@@ -108,31 +110,33 @@ class EventCardContainer extends StatelessWidget {
                               '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.titleSmallOnPrimaryContainer,
+                              style: context.titleSmallOnPrimaryContainer
+                                  .withColor(fontColor),
                             ),
                           ),
                         ],
                       ),
                     ],
                     const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Iconify(
-                          Bx.bxs_map,
-                          color: color.lighten(0.7),
-                          size: 24,
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            data.location,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: context.titleSmallOnPrimaryContainer,
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Iconify(
+                    //       Bx.bxs_map,
+                    //       color: fontColor,
+                    //       size: 24,
+                    //     ),
+                    //     const SizedBox(width: 4),
+                    //     Expanded(
+                    //       child: Text(
+                    //         data.location,
+                    //         maxLines: 1,
+                    //         overflow: TextOverflow.ellipsis,
+                    //         style: context.titleSmallOnPrimaryContainer
+                    //             .withColor(fontColor),
+                    //       ),
+                    //     ),
+                    // ],
+                    //),
                   ],
                 ),
               ),

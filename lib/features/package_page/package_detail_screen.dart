@@ -47,7 +47,7 @@ class PackageDetailScreen extends HookWidget {
     final heroTag = extra?.heroTag ?? id;
 
     return ColoredBox(
-      color: context.theme.colorScheme.surface,
+      color: context.theme.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(

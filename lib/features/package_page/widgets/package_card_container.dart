@@ -49,6 +49,8 @@ class PackageCardContainer extends HookWidget {
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
     final color = context.colorScheme.secondaryContainer;
+    final fontColor = context.colorScheme.onSecondaryContainer;
+
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,7 +59,7 @@ class PackageCardContainer extends HookWidget {
             data.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: context.titleLargeOnPrimaryContainer,
+            style: context.titleLargeOnPrimaryContainer.withColor(fontColor),
           ),
         ),
         const SizedBox(height: 12),
@@ -65,7 +67,7 @@ class PackageCardContainer extends HookWidget {
           data.subtitle,
           maxLines: 1,
           overflow: TextOverflow.fade,
-          style: context.labelSmallOnPrimaryContainer,
+          style: context.labelSmallOnPrimaryContainer.withColor(fontColor),
         ),
       ],
     );

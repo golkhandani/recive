@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final state = useBlocBuilder(bloc);
     return Scaffold(
       body: Container(
-        color: context.theme.colorScheme.surface,
+        color: context.theme.colorScheme.background,
         child: Column(
           children: [
             Flexible(

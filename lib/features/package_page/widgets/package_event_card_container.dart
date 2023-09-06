@@ -85,6 +85,7 @@ class PackageEventCardContainer extends HookWidget {
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
     final color = context.theme.colorScheme.secondaryContainer.withOpacity(0.6);
+    final fontColor = context.colorScheme.onSecondaryContainer;
     final heroTag = parentRoute + data.id;
     final extraJson = ExtraData(
       summary: FeaturedEventDetailSummaryData(
@@ -99,7 +100,6 @@ class PackageEventCardContainer extends HookWidget {
       final isBig = MediaQuery.sizeOf(context).width / 2 < box.maxWidth;
       final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
       final isSmallTall = box.maxWidth < box.maxHeight / 1;
-      final contentColor = context.colorScheme.onSecondary;
       if (isBig) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -117,7 +117,7 @@ class PackageEventCardContainer extends HookWidget {
                       data.title,
                       maxLines: 1,
                       style: context.titleLargeOnPrimaryContainer
-                          .withColor(contentColor),
+                          .withColor(fontColor),
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -134,7 +134,7 @@ class PackageEventCardContainer extends HookWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: context.titleMediumOnPrimaryContainer
-                                .withColor(contentColor),
+                                .withColor(fontColor),
                           ),
                         ),
                       ],
@@ -144,7 +144,7 @@ class PackageEventCardContainer extends HookWidget {
                       children: [
                         Iconify(
                           Bx.bxs_map,
-                          color: contentColor,
+                          color: fontColor,
                           size: 24,
                         ),
                         const SizedBox(width: 4),
@@ -154,7 +154,7 @@ class PackageEventCardContainer extends HookWidget {
                             maxLines: isSmallTall ? 3 : 1,
                             overflow: TextOverflow.ellipsis,
                             style: context.titleSmallOnPrimaryContainer
-                                .withColor(contentColor),
+                                .withColor(fontColor),
                           ),
                         ),
                       ],

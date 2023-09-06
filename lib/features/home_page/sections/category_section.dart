@@ -42,7 +42,9 @@ class _HomePageCategoriesSectionState extends State<HomePageCategoriesSection> {
             SliverToBoxAdapter(
               child: Text(
                 "Event Categories",
-                style: context.textTheme.headlineSmall,
+                style: context.textTheme.headlineSmall?.withColor(
+                  context.colorScheme.onBackground,
+                ),
               ),
             ),
             const SliverGap(height: 12),

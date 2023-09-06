@@ -3,112 +3,72 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
 const MaterialColor swatch = Colors.purple;
-
-const Color primary = Color.fromARGB(255, 237, 213, 255);
-const Color primaryShadow = Color.fromARGB(255, 91, 8, 112);
-
-const Color secondary = Color.fromARGB(255, 40, 43, 72);
-const Color secondaryShadow = Color.fromARGB(255, 10, 69, 105);
-
-const Color splash = Color.fromARGB(255, 203, 164, 232);
-const Color splashShadow = Color.fromARGB(255, 25, 4, 41);
-
-const Color error = Color(0xFFE63946);
-const Color errorShadow = Color(0xFFA62630);
-
-const Color success = Color(0xFF5DA27E);
-const Color successShadow = Color(0xFF358B59);
-
-const Color backgroundDark = Color(0xFF071005);
-const Color backgroundLight = Color(0xFFF1FAEE);
-
-const Color lightText = backgroundLight;
-const Color darkText = backgroundDark;
-const Color hint = primaryShadow;
-
 final ColorScheme colorScheme = ColorScheme(
   brightness: Brightness.dark,
   //
-  primary: primary,
-  onPrimary: darkText,
-  primaryContainer: primaryShadow,
-  onPrimaryContainer: lightText,
+  primary: const Color.fromARGB(255, 105, 42, 154),
+  onPrimary: Colors.white,
+  primaryContainer: const Color.fromARGB(255, 190, 138, 232),
+  onPrimaryContainer: Colors.black,
   //
-  secondary: secondary,
-  onSecondary: lightText,
-  secondaryContainer: secondaryShadow,
-  onSecondaryContainer: lightText,
+  secondary: const Color.fromARGB(255, 161, 215, 227),
+  onSecondary: Colors.black,
+  secondaryContainer: const Color.fromARGB(255, 15, 45, 63),
+  onSecondaryContainer: Colors.white,
   //
-  tertiary: splash,
-  onTertiary: darkText,
-  tertiaryContainer: splashShadow,
-  onTertiaryContainer: lightText,
+  tertiary: const Color.fromARGB(255, 124, 92, 149),
+  onTertiary: Colors.white,
+  tertiaryContainer: const Color.fromARGB(255, 42, 10, 65),
+  onTertiaryContainer: Colors.white,
 
   //
-  error: error,
-  onError: lightText,
-  errorContainer: errorShadow,
-  onErrorContainer: lightText,
+  error: Colors.red,
+  onError: Colors.white,
+  errorContainer: const Color.fromARGB(255, 179, 48, 39),
+  onErrorContainer: Colors.white,
 
   // keep the same as surface
-  background: primary.darken(0.7),
-  onBackground: lightText,
-  surface: primary.darken(0.7),
-  onSurface: lightText,
-  inverseSurface: primary.lighten(),
-  onInverseSurface: darkText,
-  shadow: primaryShadow,
+  background: const Color.fromARGB(255, 105, 42, 154).darken(0.4),
+  onBackground: Colors.white,
+  surface: const Color.fromARGB(255, 105, 42, 154).darken(0.2),
+  onSurface: Colors.white,
+  inverseSurface: const Color.fromARGB(255, 105, 42, 154).lighten(0.3),
+  onInverseSurface: Colors.white,
+  shadow: const Color.fromARGB(255, 105, 42, 154),
 );
 
-const Color primaryLight = Color(0xFFA8DADC);
-const Color primaryShadowLight = Color(0xFF348183);
-
-const Color secondaryLight = Color(0xFF0C1B31);
-const Color secondaryShadowLight = Color(0xFF0E131B);
-
-const Color splashLight = Color.fromARGB(255, 207, 242, 236);
-const Color splashShadowLight = Color.fromARGB(255, 78, 192, 196);
-
-const Color errorLight = Color(0xFFE63946);
-const Color errorShadowLight = Color(0xFFA62630);
-
-const Color successLight = Color(0xFF55B587);
-const Color successShadowLight = Color(0xFF317254);
-
-const Color backgroundDarkLight = Color(0xFF071005);
-const Color backgroundLightLight = Color(0xFFF1FAEE);
 final ColorScheme colorSchemeLight = ColorScheme(
   brightness: Brightness.light,
   //
-  primary: primaryLight,
-  onPrimary: lightText,
-  primaryContainer: primaryShadowLight,
-  onPrimaryContainer: lightText,
+  primary: const Color.fromARGB(255, 78, 196, 200),
+  onPrimary: Colors.black,
+  primaryContainer: const Color.fromARGB(255, 67, 142, 145),
+  onPrimaryContainer: Colors.white,
   //
-  secondary: secondaryLight,
-  onSecondary: darkText,
-  secondaryContainer: secondaryShadowLight,
-  onSecondaryContainer: lightText,
+  secondary: const Color.fromARGB(255, 49, 84, 150),
+  onSecondary: Colors.black,
+  secondaryContainer: const Color.fromARGB(255, 12, 18, 56),
+  onSecondaryContainer: Colors.white,
   //
-  tertiary: splashLight,
-  onTertiary: darkText,
-  tertiaryContainer: splashShadowLight,
-  onTertiaryContainer: darkText,
+  tertiary: const Color.fromARGB(255, 185, 226, 223),
+  onTertiary: Colors.black,
+  tertiaryContainer: const Color.fromARGB(255, 148, 212, 216),
+  onTertiaryContainer: Colors.black,
 
   //
-  error: errorLight,
-  onError: darkText,
-  errorContainer: errorShadowLight,
-  onErrorContainer: lightText,
+  error: Colors.red,
+  onError: Colors.white,
+  errorContainer: const Color.fromARGB(255, 179, 48, 39),
+  onErrorContainer: Colors.white,
 
   // keep the same as surface
-  background: primaryLight.lighten(0.7),
-  onBackground: darkText,
-  surface: primaryLight.lighten(0.7),
-  onSurface: darkText,
-  inverseSurface: primaryLight.darken(),
-  onInverseSurface: darkText,
-  shadow: primaryShadowLight,
+  background: const Color(0xFFA8DADC).lighten(0.2),
+  onBackground: Colors.black,
+  surface: const Color(0xFFA8DADC).lighten(0.1),
+  onSurface: Colors.black,
+  inverseSurface: const Color.fromARGB(255, 30, 39, 39),
+  onInverseSurface: Colors.white,
+  shadow: const Color.fromARGB(255, 30, 39, 39),
 );
 
 TextTheme getTextTheme(ColorScheme colorScheme) {
@@ -192,10 +152,10 @@ final ThemeData ultravioletTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: Colors.transparent,
-    border: const OutlineInputBorder(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
+    border: OutlineInputBorder(
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
       borderSide: BorderSide(
-        color: primary,
+        color: colorScheme.primary,
       ),
     ),
     hintStyle: TextStyle(color: colorScheme.tertiary),

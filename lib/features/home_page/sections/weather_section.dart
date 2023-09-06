@@ -60,7 +60,9 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
                 SliverToBoxAdapter(
                   child: Text(
                     "Today's weather",
-                    style: context.textTheme.headlineSmall,
+                    style: context.textTheme.headlineSmall?.withColor(
+                      context.colorScheme.onBackground,
+                    ),
                   ),
                 ),
                 const SliverGap(height: 12),

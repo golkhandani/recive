@@ -84,6 +84,22 @@ Map<String, dynamic> _$$_CategorySummaryDataToJson(
       'imageUrl': instance.imageUrl,
     };
 
+_$_PackageSummaryData _$$_PackageSummaryDataFromJson(
+        Map<String, dynamic> json) =>
+    _$_PackageSummaryData(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      imageUrl: json['imageUrl'] as String,
+    );
+
+Map<String, dynamic> _$$_PackageSummaryDataToJson(
+        _$_PackageSummaryData instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'imageUrl': instance.imageUrl,
+    };
+
 _$_NewsSummaryData _$$_NewsSummaryDataFromJson(Map<String, dynamic> json) =>
     _$_NewsSummaryData(
       id: json['id'] as String,

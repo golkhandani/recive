@@ -25,8 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
     useEffect(() {
       Future.delayed(const Duration(seconds: 2)).then(
         (value) => bloc.checkLogin(
-          onLogin: () => navigationService.navigateTo(DashboardScreen.name),
-          onNeedLogin: () => navigationService.navigateTo(LoginScreen.name),
+          onLogin: () => navigationService.moveTo(DashboardScreen.name),
+          onNeedLogin: () => navigationService.moveTo(LoginScreen.name),
         ),
       );
 

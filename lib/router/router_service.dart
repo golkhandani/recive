@@ -15,6 +15,8 @@ import 'package:recive/features/news_page/news_detail_screen.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/package_page/package_detail_screen.dart';
+import 'package:recive/features/package_page/packages_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
@@ -141,6 +143,31 @@ GoRoute categoryDetailRoute(String parentName) => GoRoute(
           CategoryDetailScreen(id: pathParamId, extra: extra),
         );
       },
+    );
+
+GoRoute packageDetailRoute(String parentName) => GoRoute(
+      name: parentName + PackageDetailScreen.name,
+      path: '${PackageDetailScreen.name}/:${PackageDetailScreen.pathParamId}',
+      pageBuilder: (context, state) {
+        final pathParamId =
+            state.pathParameters[PackageDetailScreen.pathParamId]!;
+
+        final extraJson = state.extra as Map<String, dynamic>;
+        final extra = ExtraData.fromJson(
+          extraJson,
+          (inner) => PackageSummaryData.fromJson(
+            inner as Map<String, dynamic>,
+          ),
+        );
+
+        return dashboardPageBuilder(
+          state,
+          PackageDetailScreen(id: pathParamId, extra: extra),
+        );
+      },
+      routes: [
+        featuredEventDetailRoute(PackageDetailScreen.name),
+      ],
     );
 
 GoRoute newsDetailRoute(String parentName) => GoRoute(
@@ -290,6 +317,24 @@ final dashboardRoutes = [
         ],
       ),
       StatefulShellBranch(
+        navigatorKey: packagesNavigatorKey,
+        routes: <RouteBase>[
+          GoRoute(
+            name: PackagesScreen.name,
+            path: '/${DashboardScreen.name}/${PackagesScreen.name}',
+            pageBuilder: (context, state) => dashboardPageBuilder(
+              state,
+              const PackagesScreen(),
+            ),
+            routes: [
+              packageDetailRoute(PackagesScreen.name),
+            ],
+          ),
+        ],
+      ),
+
+      /// SEARCH SCREEN
+      StatefulShellBranch(
         navigatorKey: searchNavigatorKey,
         routes: <RouteBase>[
           GoRoute(
@@ -317,7 +362,7 @@ final dashboardRoutes = [
             ),
           ),
         ],
-      )
+      ),
     ],
   ),
 ];

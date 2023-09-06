@@ -64,8 +64,8 @@ class HomePageTopNewsSections extends HookWidget {
                                 constraints: BoxConstraints.expand(
                                   width: box.maxWidth / 2,
                                 ),
-                                onTap: () => navigationService
-                                    .navigateTo(NewsScreen.name),
+                                onTap: () =>
+                                    navigationService.pushTo(NewsScreen.name),
                               );
                             }
                             final data = TopNewsCardContainerData.fromNews(

@@ -1,6 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:ferry/ferry.dart';
-import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
@@ -44,6 +42,7 @@ class GQLEventRepo extends IEventRepo {
           .whereNot((element) => element.isEmpty)
           .toList(),
       imageUrl: e.image_url ?? '',
+      tags: e.tags?.whereNotNull().toList() ?? [],
     );
   }
 
@@ -79,6 +78,7 @@ class GQLEventRepo extends IEventRepo {
                     .whereNot((element) => element.isEmpty)
                     .toList(),
                 imageUrl: e.image_url ?? '',
+                tags: e.tags?.whereNotNull().toList() ?? [],
               ),
             )
             .whereType<FeaturedEvent>()

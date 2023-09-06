@@ -55,6 +55,18 @@ class CategorySummaryData with _$CategorySummaryData {
 }
 
 @freezed
+class PackageSummaryData with _$PackageSummaryData {
+  const factory PackageSummaryData({
+    required String id,
+    required String title,
+    required String imageUrl,
+  }) = _PackageSummaryData;
+
+  factory PackageSummaryData.fromJson(Map<String, dynamic> json) =>
+      _$PackageSummaryDataFromJson(json);
+}
+
+@freezed
 class NewsSummaryData with _$NewsSummaryData {
   const factory NewsSummaryData({
     required String id,

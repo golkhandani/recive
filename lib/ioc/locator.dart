@@ -8,13 +8,16 @@ import 'package:open_weather_client/services/open_weather_api_service.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
-import 'package:recive/features/featured_page/repos/events_repo.gql.dart';
+import 'package:recive/features/featured_page/repos/events_repo.remote.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
 import 'package:recive/features/near_me_page/repos/nearby_events_repo.gql.dart';
 import 'package:recive/features/news_page/cubits/news_cubit.dart';
+import 'package:recive/features/package_page/cubits/packages_cubit.dart';
+import 'package:recive/features/package_page/repos/package_event_repo.interface.dart';
+import 'package:recive/features/package_page/repos/package_events_repo.remote.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
 import 'package:recive/features/search_page/repos/search_events_repo.gql.dart';
@@ -128,16 +131,11 @@ Future setupStorage() async {
 
 Future setupGraphQL() async {
   final googleSignIn = GoogleSignIn(
-      signInOption: SignInOption.standard,
-      scopes: gSignInScopes,
-      serverClientId:
-          '337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com'
-      // clientId: Platform.isAndroid
-      //     ? null
-      //     : Platform.isIOS
-      //         ? gSignInIosCid
-      //         : '',
-      );
+    signInOption: SignInOption.standard,
+    scopes: gSignInScopes,
+    serverClientId:
+        '337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com',
+  );
   locator.registerSingleton<GoogleSignIn>(googleSignIn);
 
   final appConfig = AppConfiguration(
@@ -186,6 +184,11 @@ Future setupRepositories() async {
       () => GQLSearchEventRepo(
         client: locator.get(),
       ),
+    )
+    ..registerLazySingleton<IPackageEventRepo>(
+      () => GQLPackageEventRepo(
+        client: locator.get(),
+      ),
     );
 }
 
@@ -225,6 +228,13 @@ Future setupBlocs() async {
       ),
     )
     ..registerFactory(
-      () => QuickSearchHeaderBloc(searchRepository: locator.get()),
+      () => QuickSearchHeaderBloc(
+        searchRepository: locator.get(),
+      ),
+    )
+    ..registerFactory(
+      () => PackagesCubit(
+        repo: locator.get(),
+      ),
     );
 }

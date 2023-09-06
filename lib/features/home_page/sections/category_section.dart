@@ -67,7 +67,7 @@ class _HomePageCategoriesSectionState extends State<HomePageCategoriesSection> {
                               constraints: BoxConstraints.expand(
                                 width: box.maxWidth / 2,
                               ),
-                              onTap: () => navigationService.navigateTo(
+                              onTap: () => navigationService.pushTo(
                                 CategoriesScreen.name,
                               ),
                             );

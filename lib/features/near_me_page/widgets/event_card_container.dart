@@ -160,7 +160,7 @@ class EventCardContainer extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        navigationService.navigateTo(
+        navigationService.pushTo(
           route,
           pathParameters: pathParams,
           extra: extraJson,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 
 class MapButton extends StatelessWidget {
   const MapButton({
@@ -54,7 +55,12 @@ class MapButton extends StatelessWidget {
                   ),
                 ],
                 if (text != null) ...[
-                  Text(text!),
+                  Text(
+                    text!,
+                    style: context.textTheme.bodyMedium?.withColor(
+                      Colors.black,
+                    ),
+                  ),
                 ]
               ],
             ),

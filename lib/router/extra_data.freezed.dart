@@ -707,6 +707,180 @@ abstract class _CategorySummaryData implements CategorySummaryData {
       throw _privateConstructorUsedError;
 }
 
+PackageSummaryData _$PackageSummaryDataFromJson(Map<String, dynamic> json) {
+  return _PackageSummaryData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PackageSummaryData {
+  String get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PackageSummaryDataCopyWith<PackageSummaryData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PackageSummaryDataCopyWith<$Res> {
+  factory $PackageSummaryDataCopyWith(
+          PackageSummaryData value, $Res Function(PackageSummaryData) then) =
+      _$PackageSummaryDataCopyWithImpl<$Res, PackageSummaryData>;
+  @useResult
+  $Res call({String id, String title, String imageUrl});
+}
+
+/// @nodoc
+class _$PackageSummaryDataCopyWithImpl<$Res, $Val extends PackageSummaryData>
+    implements $PackageSummaryDataCopyWith<$Res> {
+  _$PackageSummaryDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_PackageSummaryDataCopyWith<$Res>
+    implements $PackageSummaryDataCopyWith<$Res> {
+  factory _$$_PackageSummaryDataCopyWith(_$_PackageSummaryData value,
+          $Res Function(_$_PackageSummaryData) then) =
+      __$$_PackageSummaryDataCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, String title, String imageUrl});
+}
+
+/// @nodoc
+class __$$_PackageSummaryDataCopyWithImpl<$Res>
+    extends _$PackageSummaryDataCopyWithImpl<$Res, _$_PackageSummaryData>
+    implements _$$_PackageSummaryDataCopyWith<$Res> {
+  __$$_PackageSummaryDataCopyWithImpl(
+      _$_PackageSummaryData _value, $Res Function(_$_PackageSummaryData) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? imageUrl = null,
+  }) {
+    return _then(_$_PackageSummaryData(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PackageSummaryData implements _PackageSummaryData {
+  const _$_PackageSummaryData(
+      {required this.id, required this.title, required this.imageUrl});
+
+  factory _$_PackageSummaryData.fromJson(Map<String, dynamic> json) =>
+      _$$_PackageSummaryDataFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String title;
+  @override
+  final String imageUrl;
+
+  @override
+  String toString() {
+    return 'PackageSummaryData(id: $id, title: $title, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PackageSummaryData &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_PackageSummaryDataCopyWith<_$_PackageSummaryData> get copyWith =>
+      __$$_PackageSummaryDataCopyWithImpl<_$_PackageSummaryData>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PackageSummaryDataToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PackageSummaryData implements PackageSummaryData {
+  const factory _PackageSummaryData(
+      {required final String id,
+      required final String title,
+      required final String imageUrl}) = _$_PackageSummaryData;
+
+  factory _PackageSummaryData.fromJson(Map<String, dynamic> json) =
+      _$_PackageSummaryData.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get title;
+  @override
+  String get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$_PackageSummaryDataCopyWith<_$_PackageSummaryData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 NewsSummaryData _$NewsSummaryDataFromJson(Map<String, dynamic> json) {
   return _NewsSummaryData.fromJson(json);
 }

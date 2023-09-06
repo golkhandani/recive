@@ -15,6 +15,7 @@ class FeaturedEvent with _$FeaturedEvent {
     required List<String> organizers,
     required List<String> participants,
     required String imageUrl,
+    required List<String> tags,
   }) = _FeaturedEvent;
 
   factory FeaturedEvent.fromJson(Map<String, Object?> json) =>

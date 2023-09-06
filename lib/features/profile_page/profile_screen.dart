@@ -201,45 +201,47 @@ class ProfileScreen extends HookWidget {
                               ),
                             ),
                             const Spacer(),
-                            InkWell(
-                              onTap: () => bloc.deleteAccount(
-                                onSuccess: () async => await navigationService
-                                    .logoutTo(LoginScreen.name),
-                              ),
-                              child: Container(
-                                padding: kTinyPadding,
-                                alignment: Alignment.center,
-                                constraints:
-                                    const BoxConstraints.expand(height: 48),
-                                decoration: ShapeDecoration(
-                                  color:
-                                      context.theme.colorScheme.errorContainer,
-                                  shape: const StadiumBorder(
-                                    side: BorderSide(
-                                      width: 0,
-                                      color: Colors.transparent,
+                            Builder(builder: (context) {
+                              return InkWell(
+                                onTap: () => bloc.deleteAccount(
+                                  onSuccess: () async => await navigationService
+                                      .logoutTo(LoginScreen.name),
+                                ),
+                                child: Container(
+                                  padding: kTinyPadding,
+                                  alignment: Alignment.center,
+                                  constraints:
+                                      const BoxConstraints.expand(height: 48),
+                                  decoration: ShapeDecoration(
+                                    color: context
+                                        .theme.colorScheme.errorContainer,
+                                    shape: const StadiumBorder(
+                                      side: BorderSide(
+                                        width: 0,
+                                        color: Colors.transparent,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                child: state.logoutLoadingState ==
-                                        LoadingState.loading
-                                    ? const Center(
-                                        child: SizedBox(
-                                        width: 24,
-                                        height: 24,
-                                        child: CircularProgressIndicator(),
-                                      ))
-                                    : Text(
-                                        "Delete Account",
-                                        textAlign: TextAlign.center,
-                                        style: context.textTheme.titleMedium!
-                                            .withColor(
-                                          context.theme.colorScheme
-                                              .onErrorContainer,
+                                  child: state.logoutLoadingState ==
+                                          LoadingState.loading
+                                      ? const Center(
+                                          child: SizedBox(
+                                          width: 24,
+                                          height: 24,
+                                          child: CircularProgressIndicator(),
+                                        ))
+                                      : Text(
+                                          "Delete Account",
+                                          textAlign: TextAlign.center,
+                                          style: context.textTheme.titleMedium!
+                                              .withColor(
+                                            context.theme.colorScheme
+                                                .onErrorContainer,
+                                          ),
                                         ),
-                                      ),
-                              ),
-                            ),
+                                ),
+                              );
+                            }),
                           ],
                         ),
                       ),

@@ -201,6 +201,9 @@ class _MapContent extends HookWidget {
                             keepAlive: true,
                             maxZoom: _MapContent.maxZoom,
                             minZoom: _MapContent.minZoom,
+                            rotationThreshold: 45,
+                            pinchZoomWinGestures: MultiFingerGesture.pinchZoom,
+                            pinchMoveWinGestures: MultiFingerGesture.pinchMove,
                             onPositionChanged: (position, hasGesture) {
                               showRefresh.value = true;
                               center.value = position.center!;
@@ -388,14 +391,11 @@ class _CarouselContent extends HookWidget {
               // Warning: To prevent rebuild issue
               // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
               final list = items
-                  .mapIndexed((index, data) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                        child: EventCardContainer(
-                          constraints: BoxConstraints.expand(
-                            width: box.maxWidth / 1.1,
-                          ),
-                          data: data,
+                  .mapIndexed((index, data) => EventCardContainer(
+                        constraints: BoxConstraints.expand(
+                          width: box.maxWidth / 1.1,
                         ),
+                        data: data,
                       ))
                   .toList();
               return FlutterCarousel.builder(
@@ -403,12 +403,13 @@ class _CarouselContent extends HookWidget {
                   controller: controller,
                   autoPlay: false,
                   disableCenter: true,
-                  viewportFraction: .7,
+                  viewportFraction: .8,
                   height: listSectionHeight,
-                  indicatorMargin: 12.0,
+                  indicatorMargin: 8.0,
                   enableInfiniteScroll: true,
                   showIndicator: false,
                   padEnds: true,
+                  enlargeCenterPage: true,
                   onPageChanged: (index, reason) {
                     if (!isUpdating.value) {
                       isUpdating.value = true;

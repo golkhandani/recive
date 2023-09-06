@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:recive/components/navigation_item.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/package_page/packages_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
@@ -31,25 +32,17 @@ class DashboardWrapper extends StatelessWidget {
   static Map<String, int> dashboardRouteNameToSelectedIndexMap = {
     HomeScreen.name: 0,
     NearMeScreen.name: 1,
-    SearchScreen.name: 2,
-    ProfileScreen.name: 3,
+    PackagesScreen.name: 2,
+    SearchScreen.name: 3,
+    ProfileScreen.name: 4,
   };
   final navigationService = locator.get<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
     void onItemTapped(int index) {
-      // final name = dashboardRouteNameToSelectedIndexMap.keys.firstWhereOrNull(
-      //     (element) => dashboardRouteNameToSelectedIndexMap[element] == index);
-      // navigationService
-      //     .navigateTo(name ?? dashboardRouteNameToSelectedIndexMap.keys.first);
-
       child.goBranch(
         index,
-        // A common pattern when using bottom navigation bars is to support
-        // navigating to the initial location when tapping the item that is
-        // already active. This example demonstrates how to support this behavior,
-        // using the initialLocation parameter of goBranch.
         initialLocation: index == child.currentIndex,
       );
     }
@@ -71,6 +64,10 @@ class DashboardWrapper extends StatelessWidget {
       NavigationItem(
         iconData: Icons.near_me_rounded,
         label: 'Near Me',
+      ),
+      NavigationItem(
+        iconData: Icons.group_work_outlined,
+        label: 'Packages',
       ),
       NavigationItem(
         iconData: Icons.business,

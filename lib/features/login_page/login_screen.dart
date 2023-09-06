@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   InkWell(
                     onTap: () => bloc.loginWithGoogle(
                         onSuccess: () =>
-                            navigationService.navigateTo(DashboardScreen.name),
+                            navigationService.moveTo(DashboardScreen.name),
                         onFailure: () {
                           if (kDebugMode) {
                             print("Failed");
@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   InkWell(
                     onTap: () => bloc.loginWithApple(
                       onSuccess: () =>
-                          navigationService.navigateTo(DashboardScreen.name),
+                          navigationService.moveTo(DashboardScreen.name),
                       onFailure: () {
                         if (kDebugMode) {
                           print("Failed");
@@ -136,10 +136,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Iconify(
+                                const Iconify(
                                   Bx.bxl_apple,
-                                  color: context
-                                      .theme.colorScheme.onErrorContainer,
+                                  color: Colors.white,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
@@ -147,8 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textAlign: TextAlign.center,
                                   style:
                                       context.textTheme.titleMedium!.withColor(
-                                    context
-                                        .theme.colorScheme.onPrimaryContainer,
+                                    Colors.white,
                                   ),
                                 ),
                               ],
@@ -159,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   InkWell(
                     onTap: () => bloc.loginWithApiKey(
                       onSuccess: () {
-                        navigationService.navigateTo(DashboardScreen.name);
+                        navigationService.moveTo(DashboardScreen.name);
                       },
                       onFailure: () {
                         if (kDebugMode) {

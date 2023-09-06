@@ -99,7 +99,7 @@ final ColorScheme colorSchemeLight = ColorScheme(
   error: errorLight,
   onError: darkText,
   errorContainer: errorShadowLight,
-  onErrorContainer: darkText,
+  onErrorContainer: lightText,
 
   // keep the same as surface
   background: primaryLight.lighten(0.7),

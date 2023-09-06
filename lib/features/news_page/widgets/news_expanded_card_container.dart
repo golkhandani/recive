@@ -31,6 +31,14 @@ class TopNewsExpandedCardContainer extends HookWidget {
       color: Colors.white,
       fontWeight: FontWeight.bold,
     );
+    var color = context.theme.colorScheme.background;
+
+    if (context.theme.brightness == Brightness.dark) {
+      color = color.darken(.3);
+    } else {
+      color = color.lighten(.3);
+    }
+
     final heroTag = NewsDetailScreen.name + data.id;
 
     final rotateTitles = [
@@ -54,7 +62,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
       summary: NewsSummaryData(id: data.id, title: data.title),
       heroTag: heroTag,
     ).toJson((inner) => inner.toJson());
-    final color =
+    final colorDynamic =
         TopNewsCardContainerData.sourceToColorMap[data.source]?.darken(.3) ??
             context.randomColor;
     return Hero(
@@ -65,12 +73,12 @@ class TopNewsExpandedCardContainer extends HookWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: context.theme.colorScheme.surface,
+            color: color,
           ),
           child: Column(
             children: [
               InkWell(
-                onTap: () => navigationService.navigateTo(
+                onTap: () => navigationService.pushTo(
                   NewsScreen.name + NewsDetailScreen.name,
                   pathParameters: {
                     NewsDetailScreen.pathParamId: data.id,
@@ -81,7 +89,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                   height: 112,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: color,
+                    color: colorDynamic,
                   ),
                   child: Center(
                     child: Padding(

@@ -38,8 +38,8 @@ class FlutterMapTileLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TileLayer(
-      urlTemplate:
-          'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=cKGhx1kSOrw1anX1ljgw',
+      urlTemplate: 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      // 'https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=cKGhx1kSOrw1anX1ljgw',
       tileProvider: locator.get(),
     );
   }

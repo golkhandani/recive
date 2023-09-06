@@ -81,7 +81,7 @@ class _HomePageMapSectionState extends State<HomePageMapSection>
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  navigationService.navigateTo(NearMeScreen.name);
+                  navigationService.moveTo(NearMeScreen.name);
                 },
                 child: AbsorbPointer(
                   child: Container(

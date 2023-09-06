@@ -135,7 +135,7 @@ class TopNewsCardContainer extends HookWidget {
       heroTag: heroTag,
     ).toJson((inner) => inner.toJson());
     return InkWell(
-      onTap: () => navigationService.navigateTo(
+      onTap: () => navigationService.pushTo(
         HomeScreen.name + NewsDetailScreen.name,
         pathParameters: {
           NewsDetailScreen.pathParamId: data.id,

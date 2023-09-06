@@ -3,21 +3,21 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recive/components/card_container.dart';
-import 'package:recive/features/categories_page/categories_screen.dart';
-import 'package:recive/features/categories_page/category_detail_screen.dart';
-import 'package:recive/features/categories_page/widgets/category_card_container.dart';
+import 'package:recive/features/package_page/package_detail_screen.dart';
+import 'package:recive/features/package_page/packages_screen.dart';
+import 'package:recive/features/package_page/widgets/package_card_container.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
-class CategoryExpandedCardContainer extends HookWidget {
-  const CategoryExpandedCardContainer({
+class PackageExpandedCardContainer extends HookWidget {
+  const PackageExpandedCardContainer({
     super.key,
     required this.data,
   });
-  final CategoryCardContainerData data;
+  final PackageCardContainerData data;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,10 @@ class CategoryExpandedCardContainer extends HookWidget {
     } else {
       color = color.lighten(.3);
     }
-    final heroTag = CategoryDetailScreen.name + data.id;
-    final extra = ExtraData<CategorySummaryData>(
-      summary: CategorySummaryData(
+
+    final heroTag = PackageDetailScreen.name + data.id;
+    final extra = ExtraData<PackageSummaryData>(
+      summary: PackageSummaryData(
         id: data.id,
         imageUrl: data.imageUrl,
         title: data.title,
@@ -50,9 +51,9 @@ class CategoryExpandedCardContainer extends HookWidget {
           children: [
             InkWell(
               onTap: () => navigationService.pushTo(
-                CategoriesScreen.name + CategoryDetailScreen.name,
+                PackagesScreen.name + PackageDetailScreen.name,
                 pathParameters: {
-                  CategoryDetailScreen.pathParamId: data.id,
+                  PackageDetailScreen.pathParamId: data.id,
                 },
                 extra: extra,
               ),
@@ -60,6 +61,12 @@ class CategoryExpandedCardContainer extends HookWidget {
                 tag: heroTag,
                 child: CachedNetworkImage(
                   imageUrl: data.imageUrl,
+                  placeholder: (context, _) => const SizedBox(
+                    height: 120,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
                   imageBuilder: (context, imageProvider) => Container(
                     height: 120,
                     decoration: BoxDecoration(

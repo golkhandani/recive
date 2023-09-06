@@ -1,23 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:recive/features/categories_page/category_detail_screen.dart';
-import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/package_page/models/package.dart';
+import 'package:recive/features/package_page/package_detail_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
-class CategoryCardContainerData {
+class PackageCardContainerData {
   final String id;
   final String title;
   final String subtitle;
   final String description;
   final String imageUrl;
 
-  CategoryCardContainerData({
+  PackageCardContainerData({
     required this.id,
     required this.title,
     required this.subtitle,
@@ -25,8 +25,8 @@ class CategoryCardContainerData {
     required this.imageUrl,
   });
 
-  static CategoryCardContainerData fromCategory(Category c) =>
-      CategoryCardContainerData(
+  static PackageCardContainerData fromPackage(Package c) =>
+      PackageCardContainerData(
         id: c.id,
         title: c.title,
         subtitle: c.subtitle,
@@ -35,15 +35,15 @@ class CategoryCardContainerData {
       );
 }
 
-class CategoryCardContainer extends HookWidget {
-  const CategoryCardContainer({
+class PackageCardContainer extends HookWidget {
+  const PackageCardContainer({
     super.key,
     required this.data,
     required this.constraints,
   });
 
   final BoxConstraints constraints;
-  final CategoryCardContainerData data;
+  final PackageCardContainerData data;
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +69,9 @@ class CategoryCardContainer extends HookWidget {
         ),
       ],
     );
-    final heroTag = CategoryDetailScreen.name + data.id;
-    final extra = ExtraData<CategorySummaryData>(
-      summary: CategorySummaryData(
+    final heroTag = PackageDetailScreen.name + data.id;
+    final extra = ExtraData<PackageSummaryData>(
+      summary: PackageSummaryData(
         id: data.id,
         imageUrl: data.imageUrl,
         title: data.title,
@@ -81,9 +81,9 @@ class CategoryCardContainer extends HookWidget {
 
     return InkWell(
       onTap: () => navigationService.pushTo(
-        HomeScreen.name + CategoryDetailScreen.name,
+        HomeScreen.name + PackageDetailScreen.name,
         pathParameters: {
-          CategoryDetailScreen.pathParamId: data.id,
+          PackageDetailScreen.pathParamId: data.id,
         },
         extra: extra,
       ),
@@ -92,16 +92,16 @@ class CategoryCardContainer extends HookWidget {
         child: CachedNetworkImage(
           imageUrl: data.imageUrl,
           imageBuilder: (context, imageProvider) =>
-              _buildCategoryCard(imageProvider, color, child),
-          placeholder: (context, url) => _buildCategoryLoading(color),
+              _buildPackageCard(imageProvider, color, child),
+          placeholder: (context, url) => _buildPackageLoading(color),
           errorWidget: (context, url, error) =>
-              _buildCategoryCard(null, color, child),
+              _buildPackageCard(null, color, child),
         ),
       ),
     );
   }
 
-  Container _buildCategoryLoading(Color color) {
+  Container _buildPackageLoading(Color color) {
     return Container(
       width: constraints.maxWidth,
       decoration: BoxDecoration(
@@ -114,7 +114,7 @@ class CategoryCardContainer extends HookWidget {
     );
   }
 
-  Container _buildCategoryCard(
+  Container _buildPackageCard(
     ImageProvider<Object>? imageProvider,
     Color color,
     Column child,

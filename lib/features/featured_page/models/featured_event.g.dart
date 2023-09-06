@@ -21,6 +21,7 @@ _$_FeaturedEvent _$$_FeaturedEventFromJson(Map<String, dynamic> json) =>
           .map((e) => e as String)
           .toList(),
       imageUrl: json['imageUrl'] as String,
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$_FeaturedEventToJson(_$_FeaturedEvent instance) =>
@@ -34,4 +35,5 @@ Map<String, dynamic> _$$_FeaturedEventToJson(_$_FeaturedEvent instance) =>
       'organizers': instance.organizers,
       'participants': instance.participants,
       'imageUrl': instance.imageUrl,
+      'tags': instance.tags,
     };

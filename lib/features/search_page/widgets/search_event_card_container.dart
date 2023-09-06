@@ -152,7 +152,7 @@ class SearchEventCardContainer extends HookWidget {
       heroTag: heroTag,
     ).toJson((inner) => inner.toJson());
     return InkWell(
-      onTap: () => navigationService.navigateTo(
+      onTap: () => navigationService.pushTo(
         SearchScreen.name + NearbyDetailScreen.name,
         pathParameters: {
           NearbyDetailScreen.pathParamId: data.id,

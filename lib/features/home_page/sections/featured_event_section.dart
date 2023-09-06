@@ -65,8 +65,8 @@ class HomePageFeaturedEventsSection extends HookWidget {
                           if (index == state.featuredEventsSpotlight.length) {
                             return SeeMoreButton(
                               constraints: const BoxConstraints.expand(),
-                              onTap: () => navigationService
-                                  .navigateTo(FeaturedScreen.name),
+                              onTap: () =>
+                                  navigationService.pushTo(FeaturedScreen.name),
                             );
                           }
 
@@ -75,6 +75,8 @@ class HomePageFeaturedEventsSection extends HookWidget {
                             state.featuredEventsSpotlight[index],
                           );
                           return FeaturedEventCardContainer(
+                            parentPathParams: const {},
+                            parentRoute: HomeScreen.name,
                             constraints: const BoxConstraints.expand(),
                             data: data,
                           );

@@ -7,6 +7,7 @@ final GlobalKey<NavigatorState> homeNavigatorKey = GlobalKey();
 final GlobalKey<NavigatorState> nearMeNavigatorKey = GlobalKey();
 final GlobalKey<NavigatorState> searchNavigatorKey = GlobalKey();
 final GlobalKey<NavigatorState> profileNavigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> packagesNavigatorKey = GlobalKey();
 
 class NavigationService {
   final GlobalKey<NavigatorState> rootNavigatorKey;
@@ -26,13 +27,27 @@ class NavigationService {
   GoRouterState get state => GoRouterState.of(rootContext);
   GoRouter get router => GoRouter.of(rootContext);
 
-  navigateTo(
+  moveTo(
     String name, {
     Map<String, String> pathParameters = const <String, String>{},
     Map<String, dynamic> queryParameters = const <String, dynamic>{},
     Object? extra,
   }) {
     GoRouter.of(rootContext).goNamed(
+      name,
+      pathParameters: pathParameters,
+      queryParameters: queryParameters,
+      extra: extra,
+    );
+  }
+
+  pushTo(
+    String name, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) {
+    GoRouter.of(rootContext).pushNamed(
       name,
       pathParameters: pathParameters,
       queryParameters: queryParameters,
@@ -51,7 +66,7 @@ class NavigationService {
   backTo(context) {
     GoRouter.of(rootContext).canPop()
         ? GoRouter.of(rootContext).pop()
-        : navigateTo(DashboardScreen.name);
+        : GoRouter.of(rootContext).replaceNamed(DashboardScreen.name);
   }
 
   bool get canBack => GoRouter.of(rootContext).canPop();

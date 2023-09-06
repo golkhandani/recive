@@ -27,8 +27,13 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.theme.colorScheme.secondaryContainer.withOpacity(0.6);
+    var color = context.theme.colorScheme.background;
 
+    if (context.theme.brightness == Brightness.dark) {
+      color = color.darken(.3);
+    } else {
+      color = color.lighten(.3);
+    }
     final extra = ExtraData(
       summary: FeaturedEventDetailSummaryData(
         id: data.id,
@@ -38,7 +43,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
       heroTag: data.id,
     ).toJson((inner) => inner.toJson());
     return InkWell(
-      onTap: () => navigationService.navigateTo(
+      onTap: () => navigationService.pushTo(
         FeaturedScreen.name + FeaturedEventDetailScreen.name,
         pathParameters: {
           DetailScreen.pathParamId: data.id,
@@ -81,26 +86,34 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                     data.title,
                     style: context.titleLargeOnBackground,
                   ),
-                  collapsed: Row(
-                    children: [
-                      Iconify(
-                        Bx.bxs_map,
-                        color: context.colorScheme.onBackground,
-                        size: 24,
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          data.location,
-                          maxLines: 3,
-                          overflow: TextOverflow.fade,
-                          style: context.labelLargeOnBackground,
+                  collapsed: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: kTinyPadding.horizontal / 2,
+                    ),
+                    child: Row(
+                      children: [
+                        Iconify(
+                          Bx.bxs_map,
+                          color: context.colorScheme.onBackground,
+                          size: 24,
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            data.location,
+                            maxLines: 3,
+                            overflow: TextOverflow.fade,
+                            style: context.labelLargeOnBackground,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   expanded: Container(
                     color: Colors.transparent,
+                    padding: EdgeInsets.symmetric(
+                      vertical: kTinyPadding.horizontal / 2,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

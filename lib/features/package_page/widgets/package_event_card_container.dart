@@ -15,7 +15,7 @@ import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
-class FeaturedEventCardContainerData {
+class PackageEventCardContainerData {
   final String id;
   final String title;
   final String description;
@@ -26,7 +26,7 @@ class FeaturedEventCardContainerData {
   final List<String> participants;
   final String imageUrl;
 
-  FeaturedEventCardContainerData({
+  PackageEventCardContainerData({
     required this.id,
     required this.title,
     required this.description,
@@ -38,8 +38,8 @@ class FeaturedEventCardContainerData {
     required this.imageUrl,
   });
 
-  static FeaturedEventCardContainerData fromFeaturedEvent(FeaturedEvent e) {
-    return FeaturedEventCardContainerData(
+  static PackageEventCardContainerData fromFeaturedEvent(FeaturedEvent e) {
+    return PackageEventCardContainerData(
       id: e.id,
       title: e.title,
       description: e.description,
@@ -52,8 +52,8 @@ class FeaturedEventCardContainerData {
     );
   }
 
-  static FeaturedEventCardContainerData fromEventComplete(EventComplete e) {
-    return FeaturedEventCardContainerData(
+  static PackageEventCardContainerData fromEventComplete(EventComplete e) {
+    return PackageEventCardContainerData(
       id: e.id!,
       title: e.title!,
       description: e.description!,
@@ -67,8 +67,8 @@ class FeaturedEventCardContainerData {
   }
 }
 
-class FeaturedEventCardContainer extends HookWidget {
-  const FeaturedEventCardContainer({
+class PackageEventCardContainer extends HookWidget {
+  const PackageEventCardContainer({
     super.key,
     required this.data,
     required this.constraints,
@@ -77,7 +77,7 @@ class FeaturedEventCardContainer extends HookWidget {
   });
 
   final BoxConstraints constraints;
-  final FeaturedEventCardContainerData data;
+  final PackageEventCardContainerData data;
   final String parentRoute;
   final Map<String, String> parentPathParams;
 
@@ -99,7 +99,7 @@ class FeaturedEventCardContainer extends HookWidget {
       final isBig = MediaQuery.sizeOf(context).width / 2 < box.maxWidth;
       final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
       final isSmallTall = box.maxWidth < box.maxHeight / 1;
-
+      final contentColor = context.colorScheme.onSecondary;
       if (isBig) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -107,60 +107,59 @@ class FeaturedEventCardContainer extends HookWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  color: color,
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        data.title,
-                        maxLines: 1,
-                        style: context.titleLargeOnPrimaryContainer,
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Iconify(
-                            Bx.calendar_event,
-                            color: color.lighten(0.7),
-                            size: 24,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      data.title,
+                      maxLines: 1,
+                      style: context.titleLargeOnPrimaryContainer
+                          .withColor(contentColor),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Iconify(
+                          Bx.calendar_event,
+                          color: context.colorScheme.onSecondary,
+                          size: 24,
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.titleMediumOnPrimaryContainer
+                                .withColor(contentColor),
                           ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.titleMediumOnPrimaryContainer,
-                            ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Iconify(
+                          Bx.bxs_map,
+                          color: contentColor,
+                          size: 24,
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            data.location,
+                            maxLines: isSmallTall ? 3 : 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.titleSmallOnPrimaryContainer
+                                .withColor(contentColor),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Iconify(
-                            Bx.bxs_map,
-                            color: color.lighten(0.7),
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              data.location,
-                              maxLines: isSmallTall ? 3 : 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.titleSmallOnPrimaryContainer,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -285,19 +284,27 @@ class FeaturedEventCardContainer extends HookWidget {
   ) {
     return Container(
       constraints: constraints,
-      decoration: BoxDecoration(
-        image: imageProvider == null
-            ? null
-            : DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-                opacity: 0.9,
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                image: imageProvider == null
+                    ? null
+                    : DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                        opacity: 0.9,
+                      ),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black,
               ),
-        borderRadius: BorderRadius.circular(8),
-        color: Colors.black,
+              padding: kTinyPadding,
+            ),
+          ),
+          child
+        ],
       ),
-      padding: kTinyPadding,
-      child: child,
     );
   }
 }

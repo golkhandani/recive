@@ -29,6 +29,7 @@ mixin _$FeaturedEvent {
   List<String> get organizers => throw _privateConstructorUsedError;
   List<String> get participants => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
+  List<String> get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +52,8 @@ abstract class $FeaturedEventCopyWith<$Res> {
       String location,
       List<String> organizers,
       List<String> participants,
-      String imageUrl});
+      String imageUrl,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$FeaturedEventCopyWithImpl<$Res, $Val extends FeaturedEvent>
     Object? organizers = null,
     Object? participants = null,
     Object? imageUrl = null,
+    Object? tags = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -114,6 +117,10 @@ class _$FeaturedEventCopyWithImpl<$Res, $Val extends FeaturedEvent>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -135,7 +142,8 @@ abstract class _$$_FeaturedEventCopyWith<$Res>
       String location,
       List<String> organizers,
       List<String> participants,
-      String imageUrl});
+      String imageUrl,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -158,6 +166,7 @@ class __$$_FeaturedEventCopyWithImpl<$Res>
     Object? organizers = null,
     Object? participants = null,
     Object? imageUrl = null,
+    Object? tags = null,
   }) {
     return _then(_$_FeaturedEvent(
       id: null == id
@@ -196,6 +205,10 @@ class __$$_FeaturedEventCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -212,9 +225,11 @@ class _$_FeaturedEvent implements _FeaturedEvent {
       required this.location,
       required final List<String> organizers,
       required final List<String> participants,
-      required this.imageUrl})
+      required this.imageUrl,
+      required final List<String> tags})
       : _organizers = organizers,
-        _participants = participants;
+        _participants = participants,
+        _tags = tags;
 
   factory _$_FeaturedEvent.fromJson(Map<String, dynamic> json) =>
       _$$_FeaturedEventFromJson(json);
@@ -249,10 +264,17 @@ class _$_FeaturedEvent implements _FeaturedEvent {
 
   @override
   final String imageUrl;
+  final List<String> _tags;
+  @override
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
 
   @override
   String toString() {
-    return 'FeaturedEvent(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, location: $location, organizers: $organizers, participants: $participants, imageUrl: $imageUrl)';
+    return 'FeaturedEvent(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, location: $location, organizers: $organizers, participants: $participants, imageUrl: $imageUrl, tags: $tags)';
   }
 
   @override
@@ -274,7 +296,8 @@ class _$_FeaturedEvent implements _FeaturedEvent {
             const DeepCollectionEquality()
                 .equals(other._participants, _participants) &&
             (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
+                other.imageUrl == imageUrl) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(ignore: true)
@@ -289,7 +312,8 @@ class _$_FeaturedEvent implements _FeaturedEvent {
       location,
       const DeepCollectionEquality().hash(_organizers),
       const DeepCollectionEquality().hash(_participants),
-      imageUrl);
+      imageUrl,
+      const DeepCollectionEquality().hash(_tags));
 
   @JsonKey(ignore: true)
   @override
@@ -315,7 +339,8 @@ abstract class _FeaturedEvent implements FeaturedEvent {
       required final String location,
       required final List<String> organizers,
       required final List<String> participants,
-      required final String imageUrl}) = _$_FeaturedEvent;
+      required final String imageUrl,
+      required final List<String> tags}) = _$_FeaturedEvent;
 
   factory _FeaturedEvent.fromJson(Map<String, dynamic> json) =
       _$_FeaturedEvent.fromJson;
@@ -338,6 +363,8 @@ abstract class _FeaturedEvent implements FeaturedEvent {
   List<String> get participants;
   @override
   String get imageUrl;
+  @override
+  List<String> get tags;
   @override
   @JsonKey(ignore: true)
   _$$_FeaturedEventCopyWith<_$_FeaturedEvent> get copyWith =>

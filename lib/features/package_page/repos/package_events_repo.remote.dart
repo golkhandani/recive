@@ -12,11 +12,67 @@ import 'package:recive/layout/context_ui_extension.dart';
 import 'package:routing_client_dart/routing_client_dart.dart';
 import 'package:starsview/utils/RandomUtils.dart';
 
+class RoutingMachineService {
+  final OSRMManager osrmManager;
+  RoutingMachineService({
+    required this.osrmManager,
+  });
+
+  List<LngLat> convertPointsToWay(List<LatLng> points) {
+    List<LngLat> waypoints =
+        points.map((e) => LngLat(lng: e.longitude, lat: e.latitude)).toList();
+    return waypoints;
+  }
+
+  Future<Road> getRoad(List<LngLat> waypoints) async {
+    final road = await osrmManager.getRoad(
+      waypoints: waypoints,
+      roadType: RoadType.foot,
+      geometries: Geometries.geojson,
+      steps: true,
+      language: Languages.en,
+    );
+    return road;
+  }
+
+  Future<List<RoadInstruction>> getInstructions(Road road) async {
+    final instructions = await osrmManager.buildInstructions(road);
+    return instructions;
+  }
+
+  // get string instruction grouped for each destination
+  Future<List<List<String>>> getInstructionsByDestinations(Road road) async {
+    final instructions = await osrmManager.buildInstructions(road);
+    final splittedInstructions = instructions
+        .map((e) => e.instruction)
+        .splitAfter((e) => e.contains('destination'))
+        .toList();
+    return splittedInstructions;
+  }
+
+  Future<List<String>> getDestinations(Road road) async {
+    final destinations = road.roadLegs
+        .expand((e) => e)
+        .map((e) => e.destinations)
+        .whereNotNull()
+        .toList();
+    return destinations;
+  }
+
+// get polyline that can be used in flutter_map
+  List<LatLng>? getPolyline(Road road) {
+    final polyline = road.polyline?.map((e) => LatLng(e.lat, e.lng)).toList();
+    return polyline;
+  }
+}
+
 class GQLPackageEventRepo extends IPackageEventRepo {
   final RealmGqlClient client;
+  final RoutingMachineService rms;
 
   GQLPackageEventRepo({
     required this.client,
+    required this.rms,
   });
 
   @override
@@ -69,21 +125,6 @@ class GQLPackageEventRepo extends IPackageEventRepo {
     return convertedData;
   }
 
-  final manager = OSRMManager();
-  Future<Road> _getRoad(List<LatLng> points) async {
-    List<LngLat> waypoints =
-        points.map((e) => LngLat(lng: e.longitude, lat: e.latitude)).toList();
-
-    final road = await manager.getRoad(
-      waypoints: waypoints,
-      roadType: RoadType.foot,
-      geometries: Geometries.geojson,
-      steps: true,
-      language: Languages.en,
-    );
-    return road;
-  }
-
   @override
   Future<List<Package>> packages({required int limit}) async {
     final events = await _events(
@@ -96,30 +137,29 @@ class GQLPackageEventRepo extends IPackageEventRepo {
     for (var count in counter) {
       events.shuffle();
       final packageEvents = events.take(10);
-      final road = await _getRoad(packageEvents.map((e) => e.latLng).toList());
-      final instructions = await manager.buildInstructions(road);
-      final polyline = road.polyline?.map((e) => LatLng(e.lat, e.lng)).toList();
+      final way = rms.convertPointsToWay(
+        packageEvents.map((e) => e.latLng).toList(),
+      );
+      final road = await rms.getRoad(way);
+      final destinations = await rms.getDestinations(road);
+      final polyline = rms.getPolyline(road);
+      final stepByStepInstruction =
+          await rms.getInstructionsByDestinations(road);
       final duration = Duration(seconds: road.duration.toInt());
       final tags = packageEvents.expand((e) => e.tags).toList();
 
-      final splittedInstructions = instructions
-          .map((e) => e.instruction)
-          .splitAfter((e) => e.contains('destination'));
-
-      final destinations = road.roadLegs
-          .expand((e) => e)
-          .map((e) => e.destinations)
-          .whereNotNull();
       list.add(Package(
         id: '$count',
         title:
             '${duration.toHoursMinutes()} of ${tags.randomElement(Random())}',
-        subtitle: 'From ${destinations.first} to ${destinations.last}',
+        subtitle: destinations.isNotEmpty
+            ? 'From ${destinations.first} to ${destinations.last}'
+            : '',
         description: 'You going to visit ${destinations.join(' ')}',
         imageUrl: packageEvents.last.imageUrl,
         tags: tags,
         events: packageEvents.toList(),
-        roadInstructions: splittedInstructions.toList(),
+        roadInstructions: stepByStepInstruction,
         distance: road.distance,
         duration: duration,
         polyline: polyline ?? [],

@@ -69,10 +69,13 @@ class MapButton extends StatelessWidget {
                 if (text != null) ...[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      text!,
-                      style: context.textTheme.bodyMedium?.withColor(
-                        Colors.black,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        text!,
+                        style: context.textTheme.bodyMedium?.withColor(
+                          Colors.black,
+                        ),
                       ),
                     ),
                   ),

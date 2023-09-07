@@ -31,6 +31,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:realm/realm.dart';
 import 'package:recive/utils/theme_cubit.dart';
+import 'package:routing_client_dart/routing_client_dart.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -43,6 +44,8 @@ const gSignInIosCid =
     '337988051792-depkbem06p52nihpdd0jbea1bk4lqtpm.apps.googleusercontent.com';
 const gSignInAndroidCid =
     '337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com';
+const gSignInServerCid =
+    '337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com';
 const realmAppId = 'suggesteventpath-mgnsw';
 const realmKey =
     '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH';
@@ -52,18 +55,6 @@ const realmGqlBaseUrl =
 const realmVersion = '2.0';
 const realmTimeout = 120;
 const openWeatherKey = '8af110219c55ac7762ec012dfc20f17a';
-
-Future setupNavigation() async {
-  locator.registerLazySingleton(
-    () => NavigationService(
-      rootNavigatorKey: rootNavigatorKey,
-      homeNavigatorKey: homeNavigatorKey,
-      nearMeNavigatorKey: nearMeNavigatorKey,
-      searchNavigatorKey: searchNavigatorKey,
-      profileNavigatorKey: profileNavigatorKey,
-    ),
-  );
-}
 
 class ReciveThemeAdapter implements TypeAdapter<ReciveTheme> {
   @override
@@ -78,6 +69,18 @@ class ReciveThemeAdapter implements TypeAdapter<ReciveTheme> {
   void write(BinaryWriter writer, ReciveTheme obj) {
     writer.writeInt(obj.index);
   }
+}
+
+Future setupNavigation() async {
+  locator.registerLazySingleton(
+    () => NavigationService(
+      rootNavigatorKey: rootNavigatorKey,
+      homeNavigatorKey: homeNavigatorKey,
+      nearMeNavigatorKey: nearMeNavigatorKey,
+      searchNavigatorKey: searchNavigatorKey,
+      profileNavigatorKey: profileNavigatorKey,
+    ),
+  );
 }
 
 Future setupStorage() async {
@@ -133,8 +136,7 @@ Future setupGraphQL() async {
   final googleSignIn = GoogleSignIn(
     signInOption: SignInOption.standard,
     scopes: gSignInScopes,
-    serverClientId:
-        '337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com',
+    serverClientId: gSignInServerCid,
   );
   locator.registerSingleton<GoogleSignIn>(googleSignIn);
 
@@ -163,6 +165,11 @@ Future setupGraphQL() async {
     navigationService: locator.get(),
   );
   locator.registerSingleton<RealmGqlClient>(realmGraphqlClient);
+
+  final osrmManager = OSRMManager();
+  locator.registerLazySingleton(
+    () => RoutingMachineService(osrmManager: osrmManager),
+  );
 }
 
 Future setupRepositories() async {
@@ -188,6 +195,7 @@ Future setupRepositories() async {
     ..registerLazySingleton<IPackageEventRepo>(
       () => GQLPackageEventRepo(
         client: locator.get(),
+        rms: locator.get(),
       ),
     );
 }

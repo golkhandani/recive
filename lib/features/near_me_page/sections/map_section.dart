@@ -11,6 +11,7 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
+import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
 import 'package:recive/features/near_me_page/widgets/map_button.dart';
@@ -162,6 +163,9 @@ class _MapContent extends HookWidget {
         isRefreshLoading.value = false;
         return;
       }
+      if (state.loadingState != LoadingState.done) {
+        return;
+      }
       WidgetsBinding.instance.addPostFrameCallback((_) {
         mapController.animateTo(dest: items.first.latLng).then((value) {
           showRefresh.value = false;
@@ -264,7 +268,7 @@ class _MapContent extends HookWidget {
                       ),
                     ),
                     Positioned(
-                      top: 0,
+                      bottom: 0,
                       right: 0,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

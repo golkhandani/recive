@@ -36,7 +36,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
   @override
   Widget build(BuildContext context) {
     final geolocation = useLocationData(debugLabel: 'PackageDetailMapSection');
-    final zoom = useState(10.0);
+    final zoom = useState(15.0);
     final mapController = AnimatedMapController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
@@ -52,6 +52,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
         return;
       }
       center.value = widget.events[index.value!].latLng;
+      mapController.animateTo(dest: center.value);
     }
 
     useEffect(() {
@@ -62,7 +63,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
       });
       index.addListener(updateCenter);
       return () => index.removeListener(updateCenter);
-    }, [widget.events]);
+    }, []);
 
     return MultiSliver(
       children: [
@@ -75,7 +76,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
                 borderRadius: BorderRadius.circular(8),
                 color: Colors.orange,
               ),
-              height: context.vHeight - 320,
+              height: context.vHeight - 480,
               child: Stack(
                 children: [
                   Positioned.fill(

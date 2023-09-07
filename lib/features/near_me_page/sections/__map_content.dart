@@ -90,7 +90,8 @@ class _MapContent extends HookWidget {
         isRefreshLoading.value = false;
         return;
       }
-      if (state.loadingState != LoadingState.done) {
+      if (state.loadingState != LoadingState.done ||
+          isRefreshLoading.value == false) {
         return;
       }
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -249,13 +250,17 @@ class _MapContent extends HookWidget {
                           onClicked: () {
                             if (geolocation != null) {
                               isRefreshLoading.value = true;
-                              bloc.loadNearbyEvents(
-                                latitude: center.value.latitude,
-                                longitude: center.value.longitude,
-                                maxDistance: (zoom.value * 10000).toInt(),
-                                minDistance: 0,
-                                onBackground: true,
-                              );
+                              bloc
+                                  .loadNearbyEvents(
+                                    latitude: center.value.latitude,
+                                    longitude: center.value.longitude,
+                                    maxDistance: (zoom.value * 10000).toInt(),
+                                    minDistance: 0,
+                                    onBackground: true,
+                                  )
+                                  .then(
+                                    (value) => isRefreshLoading.value = true,
+                                  );
                             }
                           },
                         ),

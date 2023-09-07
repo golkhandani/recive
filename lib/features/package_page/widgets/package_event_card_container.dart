@@ -7,7 +7,6 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:intl/intl.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
-import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/ioc/locator.dart';

@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
-import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/package_page/models/package.dart';

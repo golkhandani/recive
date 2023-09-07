@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:ferry/ferry.dart';
-import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';

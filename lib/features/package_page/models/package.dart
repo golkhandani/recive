@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
-import 'package:routing_client_dart/routing_client_dart.dart';
 
 part 'package.freezed.dart';
 part 'package.g.dart';

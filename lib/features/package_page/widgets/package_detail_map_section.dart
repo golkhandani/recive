@@ -125,10 +125,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
                                 data: e,
                                 color: context.colorScheme.tertiary,
                                 fontColor: context.colorScheme.onTertiary,
-                                onTap: () {
-                                  print("TAP ON ${i}");
-                                  index.value = i;
-                                },
+                                onTap: () => index.value = i,
                               ),
                             ),
                             if (index.value != null)
@@ -205,7 +202,6 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
                                 if ((index.value ?? 0) <= 0) {
                                   return;
                                 }
-                                print("AAAAA ${index.value}");
                                 index.value = (index.value ?? 0) - 1;
                               },
                             ),
@@ -226,7 +222,6 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
                                     return;
                                   }
 
-                                  print("AAAAA ${index.value}");
                                   index.value = (index.value ?? 0) + 1;
                                 }),
                           ),

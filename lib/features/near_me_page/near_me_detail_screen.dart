@@ -831,23 +831,4 @@ class NearbyDetailScreen extends HookWidget {
       },
     );
   }
-
-  SliverCardContainer _buildImageContainer(
-      Object heroTag, NearbyDetailSummaryData? summary, EventComplete? data) {
-    return SliverCardContainer(
-      borderRadius: BorderRadius.circular(16),
-      padding: kTinyPadding,
-      sliver: SliverToBoxAdapter(
-        child: Hero(
-          tag: heroTag,
-          child: ColoredNetworkImage(
-            imageUrl: summary?.imageUrl ?? data!.imageUrl!,
-            constraints: const BoxConstraints.expand(height: 240),
-            opacity: 0.9,
-            color: Colors.blueGrey,
-          ),
-        ),
-      ),
-    );
-  }
 }

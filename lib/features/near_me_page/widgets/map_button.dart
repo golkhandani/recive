@@ -42,7 +42,7 @@ class MapButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             alignment: Alignment.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

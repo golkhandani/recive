@@ -8,6 +8,7 @@ import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/news_page/models/news_model.dart';
 import 'package:recive/features/news_page/news_detail_screen.dart';
 import 'package:recive/ioc/locator.dart';
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';

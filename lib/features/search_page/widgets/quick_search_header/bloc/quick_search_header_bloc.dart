@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
 
 part 'quick_search_header_event.dart';

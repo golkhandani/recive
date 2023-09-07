@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
+
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey();
@@ -60,7 +62,6 @@ class NavigationService {
       backTo(rootContext);
     }
     await GoRouter.of(rootContext).pushReplacementNamed(name);
-    // await GoRouter.of(rootContext).replaceNamed(name);
   }
 
   backTo(context) {

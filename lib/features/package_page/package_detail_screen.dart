@@ -1,27 +1,31 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
+import 'package:recive/extensions/duration_extensions.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+import 'package:timelines/timelines.dart';
+
 import 'package:recive/components/card_container.dart';
+import 'package:recive/components/colored_network_image.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/extensions/string_extensions.dart';
-import 'package:recive/components/colored_network_image.dart';
-import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/package_page/cubits/packages_cubit.dart';
 import 'package:recive/features/package_page/models/package.dart';
 import 'package:recive/features/package_page/widgets/package_detail_map_section.dart';
 import 'package:recive/features/package_page/widgets/package_event_card_container.dart';
+import 'package:recive/features/package_page/widgets/package_event_card_container_data.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:timelines/timelines.dart';
 
 class PackageDetailScreen extends HookWidget {
   static const name = 'package_detail';
@@ -333,11 +337,6 @@ class PackageDetailScreen extends HookWidget {
     int index,
     BoxConstraints box,
   ) {
-    // print("data.roadInstructions ${data.roadInstructions?.length} ");
-    // data.roadInstructions?.forEach((e) => print('\n${e.last}'));
-    // print("data.events ${data.events.length}");
-    // data.events?.forEach((e) => print('\n${e.title}'));
-
     final safeInstructions = data.roadInstructions ?? [];
     final List<String> instructions = index > 0
         ? safeInstructions[max(index - 1, safeInstructions.length - 1)]

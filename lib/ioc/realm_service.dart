@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:realm/realm.dart';
 
@@ -12,7 +10,7 @@ import 'package:recive/ioc/realm_gql_client.dart';
 import 'package:recive/key_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 
-class Developer implements User {
+class _Developer implements User {
   @override
   UserState get state => UserState.loggedIn;
 
@@ -79,7 +77,7 @@ class RealmApplicationService {
   final NavigationService navigationService;
   Timer? _timer;
   User? _developer;
-  bool get isDeveloper => currentUser is Developer;
+  bool get isDeveloper => currentUser is _Developer;
   User? get currentUser => _developer ?? app.currentUser;
   late final RealmGqlClient gql = locator.get<RealmGqlClient>();
 
@@ -91,19 +89,13 @@ class RealmApplicationService {
 
   Future<void> initRefreshHandler() async {
     await updateToken();
-    if (kDebugMode) {
-      print("________ | Timer.periodic: ${_timer == null}");
-    }
+    locator.logger.d("________ | Timer.periodic: ${_timer == null}");
     _timer ??= Timer.periodic(const Duration(minutes: 15), (_) async {
       try {
-        if (kDebugMode) {
-          print("________ | Timer.periodic: update user data");
-        }
+        locator.logger.d("________ | Timer.periodic: update user data");
         await checkLogin();
       } catch (e) {
-        if (kDebugMode) {
-          print("________ | Timer.periodic: err => $e");
-        }
+        locator.logger.e("________ | Timer.periodic: Error: ", error: e);
         cancelRefreshHandler();
         await deleteTokens();
         await logout();
@@ -167,11 +159,6 @@ class RealmApplicationService {
     String id, {
     UserCustomData? data,
   }) async {
-    // 337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com
-    // 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
-    /**
-     * {"web":{"client_id":"337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com","project_id":"recive-mzg","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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"}}
-     */
     await login(Credentials.googleIdToken(id));
     final userData = data?.copyWith(userId: currentUser?.id);
     if (userData != null) {
@@ -186,7 +173,7 @@ class RealmApplicationService {
   }
 
   Future<void> loginWithApiKey() async {
-    _developer = Developer();
+    _developer = _Developer();
     await updateToken();
     gql.switchClient(isDeveloper: isDeveloper);
     return;
@@ -197,13 +184,9 @@ class RealmApplicationService {
       final user = await app.logIn(c);
       await updateToken();
       gql.switchClient(isDeveloper: isDeveloper);
-      if (kDebugMode) {
-        print("________ | login: success => ${user.id}");
-      }
+      locator.logger.d("________ | login: Success: ${user.id}");
     } catch (e) {
-      if (kDebugMode) {
-        print("________ | login: err => $e");
-      }
+      locator.logger.e("________ | login: Error: ", error: e);
       await deleteTokens();
     }
   }
@@ -228,9 +211,7 @@ class RealmApplicationService {
         return true;
       }
     } catch (e) {
-      if (kDebugMode) {
-        print("________ | checkLogin: err => $e");
-      }
+      locator.logger.e("________ | checkLogin: Error: ", error: e);
       await deleteTokens();
       return false;
     }

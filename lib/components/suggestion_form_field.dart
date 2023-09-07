@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 mixin ToggleVisibityMixin {
@@ -183,10 +184,9 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
   }
 
   void openOverlay() {
-    if (kDebugMode) {
-      print(
-          "_________________| openOverlay $_shouldDraw $_hasOpenedOverlay - ${widget.isVisible}");
-    }
+    locator.logger
+        .d('openOverlay $_shouldDraw $_hasOpenedOverlay - ${widget.isVisible}');
+
     if (_shouldDraw && widget.isVisible) {
       setState(() => _hasOpenedOverlay = true);
       _overlayEntry?.remove();

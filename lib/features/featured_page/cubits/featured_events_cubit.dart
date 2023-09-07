@@ -1,9 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:recive/enums/event_sort.dart';
+import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
-import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/enums/loading_state.dart';
+import 'package:recive/utils/maybe_emit_cubit.dart';
 
 part 'featured_events_cubit.freezed.dart';
 part 'featured_events_cubit.g.dart';
@@ -41,9 +43,9 @@ class FeatureEventsCubit extends MaybeEmitHydratedCubit<FeatureEventsState> {
       loadingState: LoadingState.loading,
     ));
 
-    final data = await repo.events(
+    final data = await repo.featuredEvents(
       limit: 50,
-      sortBy: EventSortByInput.startDateAsc,
+      sortBy: EventSortBy.startDateAsc,
     );
     data.shuffle();
 

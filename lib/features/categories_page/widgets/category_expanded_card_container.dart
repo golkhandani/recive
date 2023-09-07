@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/categories_page/category_detail_screen.dart';
-import 'package:recive/features/categories_page/widgets/category_card_container.dart';
+import 'package:recive/features/categories_page/widgets/category_card_container_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
+
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 
 part 'package.freezed.dart';

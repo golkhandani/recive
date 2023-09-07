@@ -1,19 +1,21 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:recive/extensions/color_extentions.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/news_page/cubits/news_cubit.dart';
 import 'package:recive/features/news_page/widgets/news_card_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 
 class NewsDetailScreen extends HookWidget {
   static const name = 'news_detail';

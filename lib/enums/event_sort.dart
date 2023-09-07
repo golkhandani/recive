@@ -1,27 +1,20 @@
 import 'package:recive/domain/graphql/__generated__/schema.schema.gql.dart';
-import 'package:recive/features/near_me_page/models/event_complete.dart';
 
-enum EventSortByInput {
+enum EventSortBy {
   startDateAsc,
   startDateDesc,
   ;
 }
 
-extension ConvertToGql on EventSortByInput {
+extension ConvertToGql on EventSortBy {
   GEventSortByInput toGQL() {
     switch (this) {
-      case EventSortByInput.startDateAsc:
+      case EventSortBy.startDateAsc:
         return GEventSortByInput.START_DATE_ASC;
-      case EventSortByInput.startDateDesc:
+      case EventSortBy.startDateDesc:
         return GEventSortByInput.START_DATE_DESC;
       default:
         return GEventSortByInput.START_DATE_DESC;
     }
   }
-}
-
-abstract class INearbyEventRepo {
-  Future<EventComplete> event({
-    required String id,
-  });
 }

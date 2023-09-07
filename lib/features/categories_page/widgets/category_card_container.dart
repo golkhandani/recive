@@ -1,39 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+
 import 'package:recive/features/categories_page/category_detail_screen.dart';
-import 'package:recive/features/categories_page/models/category.dart';
+import 'package:recive/features/categories_page/widgets/category_card_container_data.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/ioc/locator.dart';
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
-
-class CategoryCardContainerData {
-  final String id;
-  final String title;
-  final String subtitle;
-  final String description;
-  final String imageUrl;
-
-  CategoryCardContainerData({
-    required this.id,
-    required this.title,
-    required this.subtitle,
-    required this.description,
-    required this.imageUrl,
-  });
-
-  static CategoryCardContainerData fromCategory(Category c) =>
-      CategoryCardContainerData(
-        id: c.id,
-        title: c.title,
-        subtitle: c.subtitle,
-        description: c.description,
-        imageUrl: c.imageUrl,
-      );
-}
 
 class CategoryCardContainer extends HookWidget {
   const CategoryCardContainer({

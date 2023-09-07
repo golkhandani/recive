@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:recive/components/title_header.dart';
-import 'package:recive/extensions/string_extensions.dart';
-import 'package:recive/layout/context_ui_extension.dart';
+
 import 'package:sliver_tools/sliver_tools.dart';
+
+import 'package:recive/components/title_header.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 
 class ScreenSafeAreaHeader extends StatelessWidget {
   const ScreenSafeAreaHeader({
@@ -28,8 +29,8 @@ class ScreenSafeAreaHeader extends StatelessWidget {
           boxShadow: elevation
               ? <BoxShadow>[
                   BoxShadow(
-                    offset: const Offset(0.2, 0),
-                    blurRadius: 4,
+                    offset: const Offset(0.2, 0.2),
+                    blurRadius: 2,
                     color: context.colorScheme.shadow,
                   )
                 ]

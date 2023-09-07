@@ -3,11 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/router/extra_data.dart';
 
-extension StringLimit on String? {
-  String dynamicSub(int limit) =>
-      '${(this ?? '').length > limit ? this!.substring(0, limit) : this ?? ''}...';
-}
-
 class FeaturedEventDetailScreen extends HookWidget {
   static const name = 'featured_event_detail';
   static const pathParamId = 'id';

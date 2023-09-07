@@ -18,3 +18,5 @@ const realmGqlBaseUrl =
 const realmVersion = '2.0';
 const realmTimeout = 120;
 const openWeatherKey = '8af110219c55ac7762ec012dfc20f17a';
+
+const openAiSk = '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';

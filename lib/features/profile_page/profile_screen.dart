@@ -1,11 +1,16 @@
-import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
+
+import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/enums/loading_state.dart';
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/features/profile_page/models/user_custom_data.dart';
@@ -16,8 +21,6 @@ import 'package:recive/layout/custom_shape_background_widget.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/utils/theme_cubit.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class ProfileScreen extends HookWidget {
   static const name = 'profile';

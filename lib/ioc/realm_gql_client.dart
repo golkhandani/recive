@@ -22,7 +22,6 @@ import 'package:recive/router/navigation_service.dart';
 
 class RealmGqlClient {
   static const baseUrl = realmGqlBaseUrl;
-
   // ignore: unused_field
   final FlutterSecureStorage _secureStorage;
   final NavigationService _navigationService;

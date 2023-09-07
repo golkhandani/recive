@@ -1,32 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
+
 import 'package:recive/enums/loading_state.dart';
-
-extension DurationExtensions on Duration {
-  /// Converts the duration into a readable string
-  /// 05:15
-  String toHoursMinutes() {
-    String twoDigitMinutes = _toTwoDigits(inMinutes.remainder(60));
-    return "${_toTwoDigits(inHours)} hours and $twoDigitMinutes minutes";
-  }
-
-  /// Converts the duration into a readable string
-  /// 05:15:35
-  String toHoursMinutesSeconds() {
-    String twoDigitMinutes = _toTwoDigits(inMinutes.remainder(60));
-    String twoDigitSeconds = _toTwoDigits(inSeconds.remainder(60));
-    return "${_toTwoDigits(inHours)}:$twoDigitMinutes:$twoDigitSeconds";
-  }
-
-  String _toTwoDigits(int n) {
-    if (n >= 10) return "$n";
-    return "0$n";
-  }
-}
 
 extension TextStyleContext on BuildContext {
   ColorScheme get colorScheme => theme.colorScheme;
@@ -110,58 +89,22 @@ extension UiBreakPointDetection on BuildContext {
   }
 }
 
-extension CopyWithColor on TextStyle {
-  TextStyle? withColor(Color color) => copyWith(color: color);
-}
+extension UiConstantsExtention on BuildContext {
+  double get headerHeight => 48;
+  double get viewTopPaddingHeight => MediaQuery.of(this).padding.top == 0
+      ? 12
+      : MediaQuery.of(this).padding.top;
+  double get viewBottomPaddingHeight => MediaQuery.of(this).padding.bottom == 0
+      ? 12
+      : MediaQuery.of(this).padding.bottom;
+  EdgeInsets get viewTopPadding => EdgeInsets.only(top: viewTopPaddingHeight);
+  EdgeInsets get viewBottomPadding =>
+      EdgeInsets.only(bottom: viewBottomPaddingHeight);
 
-extension ColorEffect on Color {
-  Color darken([double amount = .1]) {
-    assert(amount >= 0 && amount <= 1);
-
-    final hsl = HSLColor.fromColor(this);
-    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
-
-    return hslDark.toColor();
-  }
-
-  Color lighten([double amount = .1]) {
-    assert(amount >= 0 && amount <= 1);
-
-    final hsl = HSLColor.fromColor(this);
-    final hslLight =
-        hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
-
-    return hslLight.toColor();
-  }
-}
-
-abstract class MaybeEmitHydratedCubit<State> extends HydratedCubit<State> {
-  MaybeEmitHydratedCubit(super.state);
-
-  @override
-  State? fromJson(Map<String, dynamic> json);
-
-  @override
-  Map<String, dynamic>? toJson(State state);
-
-  maybeEmit(State state) {
-    if (isClosed) return;
-    emit(state);
-  }
-}
-
-abstract class MaybeEmitCubit<State> extends Cubit<State> {
-  MaybeEmitCubit(super.state);
-
-  maybeEmit(State state) {
-    if (isClosed) return;
-    emit(state);
-  }
-}
-
-extension DateTimeGQL on DateTime {
-  static DateTime forceConvert(String? formattedString) =>
-      formattedString != null
-          ? DateTime.tryParse(formattedString) ?? DateTime.now()
-          : DateTime.now();
+  double get footerHeight => 88;
+  double get invisibleHeight =>
+      footerHeight +
+      viewBottomPaddingHeight +
+      headerHeight +
+      MediaQuery.of(this).padding.top;
 }

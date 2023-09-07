@@ -5,9 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/navigation_item.dart';
-import 'package:recive/extensions/string_extensions.dart';
+import 'package:recive/features/categories_page/cubits/category_fake_data.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/layout/intro_text.dart';
 import 'package:recive/layout/scaffold_shell.dart';
 
 final kBlurConfig = ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0);

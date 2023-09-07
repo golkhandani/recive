@@ -1,9 +1,11 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:recive/components/navigation_item.dart';
-import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/package_page/packages_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';

@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:built_value/serializer.dart';
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class DateSerializer implements PrimitiveSerializer<DateTime> {

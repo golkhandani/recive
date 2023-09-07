@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
+import 'package:recive/extensions/color_extentions.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
-import 'package:recive/features/search_page/widgets/search_event_card_container.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
+import 'package:recive/features/search_page/widgets/search_event_card_container.dart';
+import 'package:recive/features/search_page/widgets/search_event_card_container_data.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class SearchScreen extends HookWidget {
   static const name = 'search';

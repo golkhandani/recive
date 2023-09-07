@@ -30,11 +30,12 @@ import 'package:recive/features/package_page/repos/package_event_repo.interface.
 import 'package:recive/features/package_page/repos/package_events_repo.remote.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
-import 'package:recive/features/search_page/repos/search_events_repo.gql.dart';
+import 'package:recive/features/search_page/repos/search_events_repo.remote.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/ioc/recive_theme_adapter.dart';
+import 'package:recive/ioc/routing_machine_service.dart';
 import 'package:recive/key_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 import 'package:recive/utils/theme_cubit.dart';
@@ -204,6 +205,7 @@ Future setupBlocs() async {
     ..registerFactory(
       () => NearbyEventDetailCubit(
         repo: locator.get(),
+        eventRepo: locator.get(),
       ),
     )
     ..registerFactory(

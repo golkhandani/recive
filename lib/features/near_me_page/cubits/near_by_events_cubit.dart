@@ -1,8 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
-import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
+import 'package:recive/utils/maybe_emit_cubit.dart';
 
 part 'near_by_events_cubit.freezed.dart';
 part 'near_by_events_cubit.g.dart';
@@ -26,7 +27,7 @@ class NearbyEventsState with _$NearbyEventsState {
 }
 
 class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
-  final IEventRepo repo;
+  final INearbyEventRepo repo;
   NearbyEventsCubit({
     required this.repo,
   }) : super(NearbyEventsState.initialize());

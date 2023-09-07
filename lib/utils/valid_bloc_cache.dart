@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 /// add this property to the state class

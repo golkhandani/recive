@@ -1,70 +1,20 @@
 import 'dart:math';
 
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:starsview/utils/RandomUtils.dart';
+
 import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
-import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
+import 'package:recive/enums/event_sort.dart';
+import 'package:recive/extensions/duration_extensions.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/package_page/models/package.dart';
 import 'package:recive/features/package_page/repos/package_event_repo.interface.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
-import 'package:recive/layout/context_ui_extension.dart';
-import 'package:routing_client_dart/routing_client_dart.dart';
-import 'package:starsview/utils/RandomUtils.dart';
-
-class RoutingMachineService {
-  final OSRMManager osrmManager;
-  RoutingMachineService({
-    required this.osrmManager,
-  });
-
-  List<LngLat> convertPointsToWay(List<LatLng> points) {
-    List<LngLat> waypoints =
-        points.map((e) => LngLat(lng: e.longitude, lat: e.latitude)).toList();
-    return waypoints;
-  }
-
-  Future<Road> getRoad(List<LngLat> waypoints) async {
-    final road = await osrmManager.getRoad(
-      waypoints: waypoints,
-      roadType: RoadType.foot,
-      geometries: Geometries.geojson,
-      steps: true,
-      language: Languages.en,
-    );
-    return road;
-  }
-
-  Future<List<RoadInstruction>> getInstructions(Road road) async {
-    final instructions = await osrmManager.buildInstructions(road);
-    return instructions;
-  }
-
-  // get string instruction grouped for each destination
-  Future<List<List<String>>> getInstructionsByDestinations(Road road) async {
-    final instructions = await osrmManager.buildInstructions(road);
-    final splittedInstructions = instructions
-        .map((e) => e.instruction)
-        .splitAfter((e) => e.contains('destination'))
-        .toList();
-    return splittedInstructions;
-  }
-
-  Future<List<String>> getDestinations(Road road) async {
-    final destinations = road.roadLegs
-        .expand((e) => e)
-        .map((e) => e.destinations)
-        .whereNotNull()
-        .toList();
-    return destinations;
-  }
-
-// get polyline that can be used in flutter_map
-  List<LatLng>? getPolyline(Road road) {
-    final polyline = road.polyline?.map((e) => LatLng(e.lat, e.lng)).toList();
-    return polyline;
-  }
-}
+import 'package:recive/ioc/routing_machine_service.dart';
+import 'package:recive/key_constants.dart';
 
 class GQLPackageEventRepo extends IPackageEventRepo {
   final RealmGqlClient client;
@@ -82,7 +32,7 @@ class GQLPackageEventRepo extends IPackageEventRepo {
 
   Future<List<NearbyEvent>> _events({
     required int limit,
-    required EventSortByInput sortBy,
+    required EventSortBy sortBy,
   }) async {
     final featuredEventRequest = GGetFeaturedEventsReq(
       (b) => b
@@ -125,11 +75,39 @@ class GQLPackageEventRepo extends IPackageEventRepo {
     return convertedData;
   }
 
+  // ignore: unused_element
+  _gpt() async {
+    final openAI = OpenAI.instance.build(
+      token: openAiSk,
+      baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),
+      enableLog: true,
+    );
+
+    final request = ChatCompleteText(
+        maxToken: 200,
+        model: GptTurbo0631Model(),
+        messages: [
+          Messages(
+            role: Role.user,
+            content:
+                '''Combine this items and give me an interesting navigation guide with real data 
+                  -> here is the original guide 
+                  -> }''',
+            name: "get_current_weather",
+          ),
+        ],
+        functionCall: FunctionCall.auto);
+
+    final response = await openAI.onChatCompletion(request: request);
+
+    locator.logger.d(response);
+  }
+
   @override
   Future<List<Package>> packages({required int limit}) async {
     final events = await _events(
       limit: limit * 3,
-      sortBy: EventSortByInput.startDateDesc,
+      sortBy: EventSortBy.startDateDesc,
     );
 
     final counter = List.generate(limit, (i) => i);
@@ -147,6 +125,8 @@ class GQLPackageEventRepo extends IPackageEventRepo {
           await rms.getInstructionsByDestinations(road);
       final duration = Duration(seconds: road.duration.toInt());
       final tags = packageEvents.expand((e) => e.tags).toList();
+
+      locator.logger.d(stepByStepInstruction);
 
       list.add(Package(
         id: '$count',

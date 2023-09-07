@@ -1,8 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:recive/enums/loading_state.dart';
+import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
-import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/utils/maybe_emit_cubit.dart';
 
 part 'near_by_event_detail_cubit.freezed.dart';
 part 'near_by_event_detail_cubit.g.dart';
@@ -28,8 +30,10 @@ class NearbyEventDetailState with _$NearbyEventDetailState {
 class NearbyEventDetailCubit
     extends MaybeEmitHydratedCubit<NearbyEventDetailState> {
   final INearbyEventRepo repo;
+  final IEventRepo eventRepo;
   NearbyEventDetailCubit({
     required this.repo,
+    required this.eventRepo,
   }) : super(NearbyEventDetailState.initialize());
 
   Future<void> loadNearbyEvent(String id) async {
@@ -37,7 +41,7 @@ class NearbyEventDetailCubit
       loadingState: LoadingState.loading,
     ));
 
-    final data = await repo.event(id: id);
+    final data = await eventRepo.completeEventById(id: id);
 
     if (isClosed) return;
     maybeEmit(state.copyWith(

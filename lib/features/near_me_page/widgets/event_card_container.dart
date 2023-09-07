@@ -1,61 +1,22 @@
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:intl/intl.dart';
+
 import 'package:recive/features/detail_page/detail_screen.dart';
-import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/features/near_me_page/widgets/event_card_container_data.dart';
+import 'package:recive/ioc/locator.dart';
+import 'package:recive/extensions/color_extentions.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
-import 'package:recive/ioc/locator.dart';
-import 'package:recive/layout/context_ui_extension.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:recive/router/navigation_service.dart';
-
-class EventCardContainerData {
-  final String id;
-  final String title;
-  final String description;
-  final DateTime startDate;
-  final DateTime endDate;
-  final String location;
-  final LatLng latLng;
-  final List<String> organizers;
-  final List<String> participants;
-  final String imageUrl;
-
-  EventCardContainerData({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.startDate,
-    required this.endDate,
-    required this.location,
-    required this.latLng,
-    required this.organizers,
-    required this.participants,
-    required this.imageUrl,
-  });
-
-  static EventCardContainerData fromFeaturedEvent(NearbyEvent e) {
-    return EventCardContainerData(
-      id: e.id,
-      title: e.title,
-      description: e.description,
-      startDate: e.startDate,
-      endDate: e.endDate,
-      location: e.location,
-      organizers: e.organizers,
-      participants: e.participants,
-      imageUrl: e.imageUrl,
-      latLng: e.latLng,
-    );
-  }
-}
 
 class EventCardContainer extends StatelessWidget {
   const EventCardContainer({

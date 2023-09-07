@@ -2,20 +2,23 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:lottie/lottie.dart';
 import 'package:open_weather_client/enums/languages.dart';
 import 'package:open_weather_client/models/details.dart';
 import 'package:open_weather_client/open_weather.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+import 'package:starsview/starsview.dart';
+
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:starsview/starsview.dart';
 
 class HomePageWeatherSection extends StatefulHookWidget {
   const HomePageWeatherSection({

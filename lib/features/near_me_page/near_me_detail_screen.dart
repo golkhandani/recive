@@ -1,7 +1,7 @@
-import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
@@ -9,21 +9,23 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:intl/intl.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:recive/components/card_container.dart';
+import 'package:recive/components/colored_network_image.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/components/colored_network_image.dart';
-import 'package:recive/features/featured_page/featured_detail_screen.dart';
+import 'package:recive/extensions/color_extentions.dart';
+import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
+import 'package:recive/ioc/locator.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
-import 'package:recive/layout/context_ui_extension.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NearbyDetailScreen extends HookWidget {
   static const name = 'neerby_event_datail';
@@ -301,10 +303,7 @@ class NearbyDetailScreen extends HookWidget {
                       borderRadius: BorderRadius.circular(8),
                       splashColor: context.theme.colorScheme.tertiaryContainer,
                       onTap: () {
-                        if (kDebugMode) {
-                          print(
-                              '_________________| on tap tags ${tags[index]}');
-                        }
+                        locator.logger.d('on tap tags ${tags[index]}');
                       },
                       child: Container(
                         padding: kMediumPadding,

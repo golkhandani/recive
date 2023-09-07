@@ -87,6 +87,7 @@ dependencies:
   routing_client_dart: ^0.4.3
   logging: ^1.2.0
   logger: ^2.0.2
+  chat_gpt_sdk: ^2.2.4
 
 dev_dependencies:
   flutter_test:

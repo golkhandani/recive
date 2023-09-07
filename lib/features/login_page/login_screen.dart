@@ -1,12 +1,14 @@
-import 'package:custom_clippers/custom_clippers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
-import 'package:recive/enums/loading_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import 'package:recive/enums/loading_state.dart';
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
@@ -14,7 +16,6 @@ import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends StatefulHookWidget {
   static const name = 'login';
@@ -69,9 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onSuccess: () =>
                             navigationService.moveTo(DashboardScreen.name),
                         onFailure: () {
-                          if (kDebugMode) {
-                            print("Failed");
-                          }
+                          locator.logger.d("Failed");
                         }),
                     child: Container(
                       padding: kTinyPadding,
@@ -114,9 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onSuccess: () =>
                           navigationService.moveTo(DashboardScreen.name),
                       onFailure: () {
-                        if (kDebugMode) {
-                          print("Failed");
-                        }
+                        locator.logger.d("Failed");
                       },
                     ),
                     child: Container(
@@ -160,9 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         navigationService.moveTo(DashboardScreen.name);
                       },
                       onFailure: () {
-                        if (kDebugMode) {
-                          print("Failed");
-                        }
+                        locator.logger.d("Failed");
                       },
                     ),
                     child: Container(

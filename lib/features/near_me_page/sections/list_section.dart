@@ -1,15 +1,18 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
 import 'package:debounce_hook/debounce_hook.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+
 import 'package:recive/components/card_container.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
+import 'package:recive/features/near_me_page/widgets/event_card_container_data.dart';
 import 'package:recive/layout/ui_constants.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class NearMeScreenListViewContent extends HookWidget {
   const NearMeScreenListViewContent({
@@ -32,9 +35,18 @@ class NearMeScreenListViewContent extends HookWidget {
         'visiblity': 0,
       };
     }).toList();
+    final isUpdating = useState(false);
+    final indexUpdater = useDebounce<int>(
+      debounceDelay: 100,
+      callback: (index) {
+        if (!isUpdating.value) {
+          final i = index - 1 <= 0 ? 0 : index - 1;
+          bloc.changeSelectedIndex(i);
+        }
+      },
+    );
 
     final scrollController = useScrollController(keepScrollOffset: true);
-    final isUpdating = useState(false);
     useBlocComparativeListener<NearbyEventsCubit, NearbyEventsState>(
       bloc,
       (_, state, context) {
@@ -56,15 +68,6 @@ class NearMeScreenListViewContent extends HookWidget {
           previousState.preSelectedEventIndex !=
           currentState.preSelectedEventIndex,
     );
-
-    final indexUpdater = useDebounce<int>(
-        debounceDelay: 100,
-        callback: (index) {
-          if (!isUpdating.value) {
-            final i = index - 1 <= 0 ? 0 : index - 1;
-            bloc.changeSelectedIndex(i);
-          }
-        });
 
     return NotificationListener<ScrollNotification>(
       onNotification: (sn) {

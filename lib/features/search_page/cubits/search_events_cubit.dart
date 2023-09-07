@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
-import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/utils/maybe_emit_cubit.dart';
 
 part 'search_events_cubit.freezed.dart';
 part 'search_events_cubit.g.dart';

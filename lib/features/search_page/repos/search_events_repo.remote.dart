@@ -1,15 +1,14 @@
 import 'dart:io';
 
-import 'package:ferry/ferry.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:recive/domain/graphql/__generated__/search_event_query.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/search_keywords_query.req.gql.dart';
+import 'package:recive/extensions/date_extensions.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/search_page/repos/search.repository.interface.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
-import 'package:recive/layout/context_ui_extension.dart';
 
 class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
   final RealmGqlClient client;

@@ -1,12 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
+
 import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/categories_page/category_detail_screen.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
+import 'package:recive/features/detail_page/detail_type.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
+import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/features/login_page/splash_screen.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
@@ -14,7 +18,6 @@ import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/news_page/news_detail_screen.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
-import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/package_page/package_detail_screen.dart';
 import 'package:recive/features/package_page/packages_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
@@ -76,6 +79,40 @@ final initRoutes = [
     builder: (context, state) => TestRoute(text: state.fullPath ?? ''),
   ),
 ];
+
+/////////////// DASHBOARD ///////////////////////
+///
+///
+Page<void> dashboardPageBuilder(GoRouterState state, Widget screen) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    restorationId: state.pageKey.value,
+    child: screen,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        // FadeTransition(opacity: animation, child: child) ??
+        SlideTransition(
+      position: animation.drive(
+        Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero).chain(
+          CurveTween(curve: Curves.easeInOutCubic),
+        ),
+      ),
+      child: child,
+    ),
+  );
+}
+
+class TestRoute extends StatelessWidget {
+  const TestRoute({
+    super.key,
+    required this.text,
+  });
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaffoldShell(child: Center(child: Text(text)));
+  }
+}
 
 GoRoute featuredEventDetailRoute(String parentName) => GoRoute(
       name: parentName + FeaturedEventDetailScreen.name,
@@ -366,34 +403,3 @@ final dashboardRoutes = [
     ],
   ),
 ];
-
-Page<void> dashboardPageBuilder(GoRouterState state, Widget screen) {
-  return CustomTransitionPage<void>(
-    key: state.pageKey,
-    restorationId: state.pageKey.value,
-    child: screen,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-        // FadeTransition(opacity: animation, child: child) ??
-        SlideTransition(
-      position: animation.drive(
-        Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero).chain(
-          CurveTween(curve: Curves.easeInOutCubic),
-        ),
-      ),
-      child: child,
-    ),
-  );
-}
-
-class TestRoute extends StatelessWidget {
-  const TestRoute({
-    super.key,
-    required this.text,
-  });
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaffoldShell(child: Center(child: Text(text)));
-  }
-}

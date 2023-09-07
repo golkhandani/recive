@@ -1,22 +1,23 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:preload_page_view/preload_page_view.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/sections/list_section.dart';
 import 'package:recive/features/near_me_page/sections/map_section.dart';
 import 'package:recive/ioc/geo_location_service.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class NearMeScreen extends StatefulHookWidget {
   static const name = 'near_me';
@@ -35,9 +36,8 @@ class _NearMeScreenState extends State<NearMeScreen>
     final geolocation = useLocationData(debugLabel: 'NearMeScreen');
 
     useEffect(() {
-      if (kDebugMode) {
-        print('geolocation != null $geolocation');
-      }
+      locator.logger.d('geolocation != null $geolocation');
+
       if (geolocation != null) {
         bloc.loadNearbyEvents(
           latitude: geolocation.latitude,

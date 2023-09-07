@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recive/extensions/string_extensions.dart';
+
+import 'package:recive/layout/context_ui_extension.dart';
 
 class ScaffoldShell extends StatelessWidget {
   const ScaffoldShell({

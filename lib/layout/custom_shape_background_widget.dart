@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:recive/layout/context_ui_extension.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+
+import 'package:recive/layout/context_ui_extension.dart';
 
 class CustomShapeBackgroundWidget extends HookWidget {
   const CustomShapeBackgroundWidget({
@@ -17,7 +19,6 @@ class CustomShapeBackgroundWidget extends HookWidget {
   Widget build(BuildContext context) {
     final sensorX = useState(0.0);
     final sensorY = useState(0.0);
-    // final accelerometerState = useAccelerometer();
     useEffect(() {
       accelerometerEvents.listen((AccelerometerEvent event) {
         sensorX.value = event.x;
@@ -124,26 +125,7 @@ ClipperShadowPainter buildCustomShape({
 class CustomShapeClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    // final path = Path();
-    // path.lineTo(0, size.height * 0.8);
-
-    // final firstStart = Offset(size.width / 8, size.height);
-    // final firstEnd = Offset(size.width / 7, size.height);
-
-    // path.cubicTo(firstStart.dx, firstStart.dy, firstEnd.dx, firstEnd.dy,
-    //     size.width / 3, size.height / 2);
-
-    // final firstStart2 = Offset(size.width - 36, size.height - 24);
-    // final firstEnd2 = Offset(size.width - 24, size.height);
-
-    // path.cubicTo(firstStart2.dx, firstStart2.dy, firstEnd2.dx, firstEnd2.dy,
-    //     size.width * 0.6, size.height * 0.8);
-
-    // path.lineTo(
-    //     size.width, 0); //end with this path if you are making wave at bottom
-    // path.close();
     Path path = Path();
-    // path starts with (0.0, 0.0) point (1)
     path.lineTo(0.0, size.height - 36);
     path.quadraticBezierTo(
         size.width / 2, size.height, size.width, size.height - 150);

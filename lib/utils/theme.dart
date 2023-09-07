@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
-import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/extensions/color_extentions.dart';
 
 const MaterialColor swatch = Colors.purple;
 final ColorScheme colorScheme = ColorScheme(

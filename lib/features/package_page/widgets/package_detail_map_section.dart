@@ -262,8 +262,8 @@ class EventCardMarker extends StatelessWidget {
         Marker(
           anchorPos: AnchorPos.align(AnchorAlign.top),
           rotateAlignment: AnchorAlign.top.rotationAlignment,
-          height: useCompact ? 100 : 140,
-          width: useCompact ? 100 : 280,
+          height: useCompact ? 50 : 140,
+          width: useCompact ? 50 : 280,
           point: data.latLng,
           rotate: true,
           builder: (ctx) => GestureDetector(

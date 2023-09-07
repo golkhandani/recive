@@ -20,7 +20,7 @@ _$_Package _$$_PackageFromJson(Map<String, dynamic> json) => _$_Package(
           ?.map((e) => LatLng.fromJson(e as Map<String, dynamic>))
           .toList(),
       roadInstructions: (json['roadInstructions'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => (e as List<dynamic>).map((e) => e as String).toList())
           .toList(),
       distance: (json['distance'] as num).toDouble(),
       duration: Duration(microseconds: json['duration'] as int),

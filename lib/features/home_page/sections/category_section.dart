@@ -53,7 +53,7 @@ class _HomePageCategoriesSectionState extends State<HomePageCategoriesSection> {
               padding: kTinyPadding,
               sliver: SliverToBoxAdapter(
                 child: SizedBox(
-                  height: 76,
+                  height: 80,
                   child: LayoutBuilder(builder: (context, box) {
                     if (state.loadingState == LoadingState.loading) {
                       return const Center(child: CircularProgressIndicator());

@@ -72,7 +72,7 @@ final ColorScheme colorSchemeLight = ColorScheme(
 );
 
 TextTheme getTextTheme(ColorScheme colorScheme) {
-  return GoogleFonts.rubikIsoTextTheme().copyWith(
+  return GoogleFonts.quicksandTextTheme().copyWith(
     displayMedium: TextStyle(
       fontSize: 15,
       fontWeight: FontWeight.bold,

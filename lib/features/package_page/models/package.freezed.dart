@@ -28,7 +28,8 @@ mixin _$Package {
   List<String> get tags => throw _privateConstructorUsedError;
   List<NearbyEvent> get events => throw _privateConstructorUsedError;
   List<LatLng>? get polyline => throw _privateConstructorUsedError;
-  List<String>? get roadInstructions => throw _privateConstructorUsedError;
+  List<List<String>>? get roadInstructions =>
+      throw _privateConstructorUsedError;
   double get distance => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
 
@@ -51,7 +52,7 @@ abstract class $PackageCopyWith<$Res> {
       List<String> tags,
       List<NearbyEvent> events,
       List<LatLng>? polyline,
-      List<String>? roadInstructions,
+      List<List<String>>? roadInstructions,
       double distance,
       Duration duration});
 }
@@ -117,7 +118,7 @@ class _$PackageCopyWithImpl<$Res, $Val extends Package>
       roadInstructions: freezed == roadInstructions
           ? _value.roadInstructions
           : roadInstructions // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<List<String>>?,
       distance: null == distance
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
@@ -146,7 +147,7 @@ abstract class _$$_PackageCopyWith<$Res> implements $PackageCopyWith<$Res> {
       List<String> tags,
       List<NearbyEvent> events,
       List<LatLng>? polyline,
-      List<String>? roadInstructions,
+      List<List<String>>? roadInstructions,
       double distance,
       Duration duration});
 }
@@ -209,7 +210,7 @@ class __$$_PackageCopyWithImpl<$Res>
       roadInstructions: freezed == roadInstructions
           ? _value._roadInstructions
           : roadInstructions // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<List<String>>?,
       distance: null == distance
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
@@ -234,7 +235,7 @@ class _$_Package implements _Package {
       required final List<String> tags,
       required final List<NearbyEvent> events,
       required final List<LatLng>? polyline,
-      required final List<String>? roadInstructions,
+      required final List<List<String>>? roadInstructions,
       required this.distance,
       required this.duration})
       : _tags = tags,
@@ -281,9 +282,9 @@ class _$_Package implements _Package {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<String>? _roadInstructions;
+  final List<List<String>>? _roadInstructions;
   @override
-  List<String>? get roadInstructions {
+  List<List<String>>? get roadInstructions {
     final value = _roadInstructions;
     if (value == null) return null;
     if (_roadInstructions is EqualUnmodifiableListView)
@@ -366,7 +367,7 @@ abstract class _Package implements Package {
       required final List<String> tags,
       required final List<NearbyEvent> events,
       required final List<LatLng>? polyline,
-      required final List<String>? roadInstructions,
+      required final List<List<String>>? roadInstructions,
       required final double distance,
       required final Duration duration}) = _$_Package;
 
@@ -389,7 +390,7 @@ abstract class _Package implements Package {
   @override
   List<LatLng>? get polyline;
   @override
-  List<String>? get roadInstructions;
+  List<List<String>>? get roadInstructions;
   @override
   double get distance;
   @override

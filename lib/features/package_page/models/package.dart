@@ -16,7 +16,7 @@ class Package with _$Package {
     required List<String> tags,
     required List<NearbyEvent> events,
     required List<LatLng>? polyline,
-    required List<String>? roadInstructions,
+    required List<List<String>>? roadInstructions,
     required double distance,
     required Duration duration,
   }) = _Package;

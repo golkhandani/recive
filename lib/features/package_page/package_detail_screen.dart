@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -10,6 +12,7 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/components/colored_network_image.dart';
+import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/package_page/cubits/packages_cubit.dart';
 import 'package:recive/features/package_page/models/package.dart';
 import 'package:recive/features/package_page/widgets/package_detail_map_section.dart';
@@ -51,7 +54,7 @@ class PackageDetailScreen extends HookWidget {
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(
-            title: summary?.title ?? data?.title ?? '',
+            title: (summary?.title ?? data?.title ?? '').dynamicSub(24),
           ),
           SliverPadding(
             padding: kTinyPadding.copyWith(
@@ -92,12 +95,34 @@ class PackageDetailScreen extends HookWidget {
                                   borderRadius: BorderRadius.circular(8),
                                   color: color,
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    data.subtitle,
-                                    style: context.titleLargeOnBackground
-                                        .withColor(fontColor),
-                                  ),
+                                child: Text(
+                                  data.title,
+                                  style: context.titleLargeOnBackground
+                                      .withColor(fontColor),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                        Builder(builder: (context) {
+                          final color = context.theme.colorScheme.background;
+                          final fontColor =
+                              context.theme.colorScheme.onBackground;
+                          return SliverCardContainer(
+                            borderRadius: BorderRadius.circular(16),
+                            padding: kTinyPadding,
+                            color: color,
+                            sliver: SliverToBoxAdapter(
+                              child: Container(
+                                padding: kTinyPadding,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: color,
+                                ),
+                                child: Text(
+                                  data.subtitle,
+                                  style: context.textTheme.titleSmall
+                                      ?.withColor(fontColor),
                                 ),
                               ),
                             ),
@@ -118,11 +143,15 @@ class PackageDetailScreen extends HookWidget {
                                   borderRadius: BorderRadius.circular(8),
                                   color: color,
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    data.description,
-                                    style: infoStyle.withColor(fontColor),
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        data.description,
+                                        style: infoStyle.withColor(fontColor),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -145,18 +174,24 @@ class PackageDetailScreen extends HookWidget {
                                   borderRadius: BorderRadius.circular(8),
                                   color: color,
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    data.roadInstructions?.join('\n↵ ') ?? '',
-                                    style: infoStyle.copyWith(
-                                      color: fontColor,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Distance: ${data.distance.toInt()} km!',
+                                      style: infoStyle.withColor(fontColor),
                                     ),
-                                  ),
+                                    Text(
+                                      'Duration: ${data.duration.toHoursMinutes()}!',
+                                      style: infoStyle.withColor(fontColor),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           );
                         }),
+                        const SliverGap(height: 12),
+                        // _buildInstruction(infoStyle, data),
                         const SliverGap(height: 12),
                         PackageDetailMapSection(
                           events: data.events,
@@ -205,7 +240,7 @@ class PackageDetailScreen extends HookWidget {
 
                                     // Last
                                     if (index == data.events.length) {
-                                      return _buildLastContent(context, box);
+                                      return const SizedBox();
                                     }
 
                                     return _buildEventContent(
@@ -298,9 +333,17 @@ class PackageDetailScreen extends HookWidget {
     int index,
     BoxConstraints box,
   ) {
+    // print("data.roadInstructions ${data.roadInstructions?.length} ");
+    // data.roadInstructions?.forEach((e) => print('\n${e.last}'));
+    // print("data.events ${data.events.length}");
+    // data.events?.forEach((e) => print('\n${e.title}'));
+
+    final safeInstructions = data.roadInstructions ?? [];
+    final List<String> instructions = index > 0
+        ? safeInstructions[max(index - 1, safeInstructions.length - 1)]
+        : [];
     return Column(
       children: [
-        _buildLastContent(context, box),
         const SizedBox(height: 12),
         PackageEventCardContainer(
           parentRoute: PackageDetailScreen.name,
@@ -309,12 +352,14 @@ class PackageDetailScreen extends HookWidget {
           },
           data: PackageEventCardContainerData.fromNearbyEvent(
             data.events[index],
+            instructions,
           ),
           constraints: BoxConstraints.expand(
-            height: 320,
+            height: 360 + instructions.length * 48,
             width: box.maxWidth - 48,
           ),
         ),
+        _buildLastContent(context, box),
       ],
     );
   }
@@ -335,12 +380,12 @@ class PackageDetailScreen extends HookWidget {
     BoxConstraints box,
   ) {
     return SizedBox(
-      height: 24,
+      height: 42,
       width: box.maxWidth - 48,
       child: Text(
         'Start your journey Here!',
         style: context.titleLargeOnBackground.withColor(
-          context.colorScheme.secondary,
+          context.colorScheme.onTertiaryContainer,
         ),
       ),
     );

@@ -1,11 +1,9 @@
-import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
-import 'package:intl/intl.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
@@ -25,45 +23,50 @@ class PackageEventCardContainerData {
   final List<String> organizers;
   final List<String> participants;
   final String imageUrl;
+  final List<String> roadInstructions;
 
-  PackageEventCardContainerData({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.startDate,
-    required this.endDate,
-    required this.location,
-    required this.organizers,
-    required this.participants,
-    required this.imageUrl,
-  });
+  PackageEventCardContainerData(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.startDate,
+      required this.endDate,
+      required this.location,
+      required this.organizers,
+      required this.participants,
+      required this.imageUrl,
+      required this.roadInstructions});
 
-  static PackageEventCardContainerData fromNearbyEvent(NearbyEvent e) {
+  static PackageEventCardContainerData fromNearbyEvent(
+      NearbyEvent e, List<String>? instructions) {
     return PackageEventCardContainerData(
-      id: e.id,
-      title: e.title,
-      description: e.description,
-      startDate: e.startDate,
-      endDate: e.endDate,
-      location: e.location,
-      organizers: e.organizers,
-      participants: e.participants,
-      imageUrl: e.imageUrl,
-    );
+        id: e.id,
+        title: e.title,
+        description: e.description,
+        startDate: e.startDate,
+        endDate: e.endDate,
+        location: e.location,
+        organizers: e.organizers,
+        participants: e.participants,
+        imageUrl: e.imageUrl,
+        roadInstructions: instructions ?? []);
   }
 
-  static PackageEventCardContainerData fromEventComplete(EventComplete e) {
+  static PackageEventCardContainerData fromEventComplete(
+    EventComplete e,
+    List<String>? instructions,
+  ) {
     return PackageEventCardContainerData(
-      id: e.id!,
-      title: e.title!,
-      description: e.description!,
-      startDate: e.startDate!,
-      endDate: e.endDate!,
-      location: e.venue?.address?.localizedAddressDisplay ?? '',
-      organizers: [e.organizer?.title ?? ''],
-      participants: [],
-      imageUrl: e.imageUrl!,
-    );
+        id: e.id!,
+        title: e.title!,
+        description: e.description!,
+        startDate: e.startDate!,
+        endDate: e.endDate!,
+        location: e.venue?.address?.localizedAddressDisplay ?? '',
+        organizers: [e.organizer?.title ?? ''],
+        participants: [],
+        imageUrl: e.imageUrl!,
+        roadInstructions: instructions ?? []);
   }
 }
 
@@ -97,123 +100,47 @@ class PackageEventCardContainer extends HookWidget {
     ).toJson((inner) => inner.toJson());
 
     final child = LayoutBuilder(builder: (context, box) {
-      final isBig = MediaQuery.sizeOf(context).width / 2 < box.maxWidth;
-      final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
       final isSmallTall = box.maxWidth < box.maxHeight / 1;
-      if (isBig) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      data.title,
-                      maxLines: 1,
-                      style: context.titleLargeOnPrimaryContainer
-                          .withColor(fontColor),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Iconify(
-                          Bx.bxs_map,
-                          color: fontColor,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            data.location,
-                            maxLines: isSmallTall ? 3 : 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: context.titleSmallOnPrimaryContainer
-                                .withColor(fontColor),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        );
-      }
-
-      if (isSmallTall && isSmall) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  color: color,
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        data.title,
-                        maxLines: 2,
-                        softWrap: false,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.titleLargeOnPrimaryContainer,
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Iconify(
-                            Bx.calendar_event,
-                            color: color.lighten(0.7),
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.titleMediumOnPrimaryContainer,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      }
-
       return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                width: box.maxWidth,
-                color: color,
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  data.title,
-                  maxLines: 3,
-                  style: context.titleLargeOnPrimaryContainer,
-                ),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    data.title,
+                    maxLines: 1,
+                    style: context.titleLargeOnPrimaryContainer
+                        .withColor(fontColor),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Iconify(
+                        Bx.bxs_map,
+                        color: fontColor,
+                        size: 24,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          data.location,
+                          maxLines: isSmallTall ? 3 : 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.titleSmallOnPrimaryContainer
+                              .withColor(fontColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                ],
               ),
             ),
           ),
@@ -257,34 +184,60 @@ class PackageEventCardContainer extends HookWidget {
     );
   }
 
-  Container _buildEventCard(
+  Builder _buildEventCard(
     ImageProvider<Object>? imageProvider,
     Color color,
     Widget child,
   ) {
-    return Container(
-      constraints: constraints,
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                image: imageProvider == null
-                    ? null
-                    : DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                        opacity: 0.9,
-                      ),
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.black,
+    return Builder(builder: (context) {
+      final fontColor = context.colorScheme.onTertiaryContainer;
+      return Container(
+        constraints: constraints,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (data.roadInstructions.isNotEmpty) ...[
+              Center(
+                child: Text.rich(
+                  TextSpan(
+                    children: data.roadInstructions.mapIndexed((i, t) {
+                      final isDestination = t.contains('destination');
+                      return TextSpan(
+                        text: '${i == 0 ? '' : '\n↵'} $t',
+                        style: context.textTheme.bodyLarge?.copyWith(
+                          color: isDestination
+                              ? context.colorScheme.secondary
+                              : fontColor,
+                          fontWeight: isDestination ? FontWeight.bold : null,
+                          fontSize: isDestination ? 20 : null,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ),
-              padding: kTinyPadding,
+              const SizedBox(height: 24),
+            ],
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: imageProvider == null
+                      ? null
+                      : DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                          opacity: 0.9,
+                        ),
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.black,
+                ),
+                padding: kTinyPadding,
+              ),
             ),
-          ),
-          child
-        ],
-      ),
-    );
+            child
+          ],
+        ),
+      );
+    });
   }
 }

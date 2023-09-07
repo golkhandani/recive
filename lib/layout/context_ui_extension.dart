@@ -6,6 +6,28 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:recive/enums/loading_state.dart';
 
+extension DurationExtensions on Duration {
+  /// Converts the duration into a readable string
+  /// 05:15
+  String toHoursMinutes() {
+    String twoDigitMinutes = _toTwoDigits(inMinutes.remainder(60));
+    return "${_toTwoDigits(inHours)} hours and $twoDigitMinutes minutes";
+  }
+
+  /// Converts the duration into a readable string
+  /// 05:15:35
+  String toHoursMinutesSeconds() {
+    String twoDigitMinutes = _toTwoDigits(inMinutes.remainder(60));
+    String twoDigitSeconds = _toTwoDigits(inSeconds.remainder(60));
+    return "${_toTwoDigits(inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+  }
+
+  String _toTwoDigits(int n) {
+    if (n >= 10) return "$n";
+    return "0$n";
+  }
+}
+
 extension TextStyleContext on BuildContext {
   ColorScheme get colorScheme => theme.colorScheme;
 
@@ -58,8 +80,9 @@ extension UiBreakPointDetection on BuildContext {
       .withAlpha(255);
 
   Widget? checkLoadingState(LoadingState loadingState) {
-    if (loadingState == LoadingState.none) {
-      return const SliverToBoxAdapter(
+    if (loadingState == LoadingState.none ||
+        loadingState == LoadingState.loading) {
+      return const SliverFillRemaining(
         child: Center(child: CircularProgressIndicator()),
       );
     }

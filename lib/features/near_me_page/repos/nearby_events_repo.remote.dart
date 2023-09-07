@@ -4,6 +4,7 @@ import 'package:ferry/ferry.dart';
 import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
+import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
@@ -25,7 +26,7 @@ class GQLNearbyEventRepo extends INearbyEventRepo {
     final e = data.data!.event;
 
     if (e == null) {
-      throw HttpException('Data is empty');
+      throw const HttpException('Data is empty');
     }
 
     final o = e.organizer;
@@ -36,6 +37,7 @@ class GQLNearbyEventRepo extends INearbyEventRepo {
       endDate: DateTimeGQL.forceConvert(e.end_date?.value),
       hasAvailableTickets: e.has_available_tickets,
       imageUrl: e.image_url,
+      imageUrls: images,
       isFree: e.is_free,
       isOnlineEvent: e.is_online_event,
       isSoldOut: e.is_sold_out,

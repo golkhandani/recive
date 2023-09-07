@@ -26,7 +26,11 @@ mixin _$Package {
   String get description => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
-  List<FeaturedEvent> get events => throw _privateConstructorUsedError;
+  List<NearbyEvent> get events => throw _privateConstructorUsedError;
+  List<LatLng>? get polyline => throw _privateConstructorUsedError;
+  List<String>? get roadInstructions => throw _privateConstructorUsedError;
+  double get distance => throw _privateConstructorUsedError;
+  Duration get duration => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +49,11 @@ abstract class $PackageCopyWith<$Res> {
       String description,
       String imageUrl,
       List<String> tags,
-      List<FeaturedEvent> events});
+      List<NearbyEvent> events,
+      List<LatLng>? polyline,
+      List<String>? roadInstructions,
+      double distance,
+      Duration duration});
 }
 
 /// @nodoc
@@ -68,6 +76,10 @@ class _$PackageCopyWithImpl<$Res, $Val extends Package>
     Object? imageUrl = null,
     Object? tags = null,
     Object? events = null,
+    Object? polyline = freezed,
+    Object? roadInstructions = freezed,
+    Object? distance = null,
+    Object? duration = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -97,7 +109,23 @@ class _$PackageCopyWithImpl<$Res, $Val extends Package>
       events: null == events
           ? _value.events
           : events // ignore: cast_nullable_to_non_nullable
-              as List<FeaturedEvent>,
+              as List<NearbyEvent>,
+      polyline: freezed == polyline
+          ? _value.polyline
+          : polyline // ignore: cast_nullable_to_non_nullable
+              as List<LatLng>?,
+      roadInstructions: freezed == roadInstructions
+          ? _value.roadInstructions
+          : roadInstructions // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      distance: null == distance
+          ? _value.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double,
+      duration: null == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as Duration,
     ) as $Val);
   }
 }
@@ -116,7 +144,11 @@ abstract class _$$_PackageCopyWith<$Res> implements $PackageCopyWith<$Res> {
       String description,
       String imageUrl,
       List<String> tags,
-      List<FeaturedEvent> events});
+      List<NearbyEvent> events,
+      List<LatLng>? polyline,
+      List<String>? roadInstructions,
+      double distance,
+      Duration duration});
 }
 
 /// @nodoc
@@ -136,6 +168,10 @@ class __$$_PackageCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? tags = null,
     Object? events = null,
+    Object? polyline = freezed,
+    Object? roadInstructions = freezed,
+    Object? distance = null,
+    Object? duration = null,
   }) {
     return _then(_$_Package(
       id: null == id
@@ -165,7 +201,23 @@ class __$$_PackageCopyWithImpl<$Res>
       events: null == events
           ? _value._events
           : events // ignore: cast_nullable_to_non_nullable
-              as List<FeaturedEvent>,
+              as List<NearbyEvent>,
+      polyline: freezed == polyline
+          ? _value._polyline
+          : polyline // ignore: cast_nullable_to_non_nullable
+              as List<LatLng>?,
+      roadInstructions: freezed == roadInstructions
+          ? _value._roadInstructions
+          : roadInstructions // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      distance: null == distance
+          ? _value.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double,
+      duration: null == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as Duration,
     ));
   }
 }
@@ -180,9 +232,15 @@ class _$_Package implements _Package {
       required this.description,
       required this.imageUrl,
       required final List<String> tags,
-      required final List<FeaturedEvent> events})
+      required final List<NearbyEvent> events,
+      required final List<LatLng>? polyline,
+      required final List<String>? roadInstructions,
+      required this.distance,
+      required this.duration})
       : _tags = tags,
-        _events = events;
+        _events = events,
+        _polyline = polyline,
+        _roadInstructions = roadInstructions;
 
   factory _$_Package.fromJson(Map<String, dynamic> json) =>
       _$$_PackageFromJson(json);
@@ -205,17 +263,43 @@ class _$_Package implements _Package {
     return EqualUnmodifiableListView(_tags);
   }
 
-  final List<FeaturedEvent> _events;
+  final List<NearbyEvent> _events;
   @override
-  List<FeaturedEvent> get events {
+  List<NearbyEvent> get events {
     if (_events is EqualUnmodifiableListView) return _events;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_events);
   }
 
+  final List<LatLng>? _polyline;
+  @override
+  List<LatLng>? get polyline {
+    final value = _polyline;
+    if (value == null) return null;
+    if (_polyline is EqualUnmodifiableListView) return _polyline;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _roadInstructions;
+  @override
+  List<String>? get roadInstructions {
+    final value = _roadInstructions;
+    if (value == null) return null;
+    if (_roadInstructions is EqualUnmodifiableListView)
+      return _roadInstructions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final double distance;
+  @override
+  final Duration duration;
+
   @override
   String toString() {
-    return 'Package(id: $id, title: $title, subtitle: $subtitle, description: $description, imageUrl: $imageUrl, tags: $tags, events: $events)';
+    return 'Package(id: $id, title: $title, subtitle: $subtitle, description: $description, imageUrl: $imageUrl, tags: $tags, events: $events, polyline: $polyline, roadInstructions: $roadInstructions, distance: $distance, duration: $duration)';
   }
 
   @override
@@ -232,7 +316,14 @@ class _$_Package implements _Package {
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
-            const DeepCollectionEquality().equals(other._events, _events));
+            const DeepCollectionEquality().equals(other._events, _events) &&
+            const DeepCollectionEquality().equals(other._polyline, _polyline) &&
+            const DeepCollectionEquality()
+                .equals(other._roadInstructions, _roadInstructions) &&
+            (identical(other.distance, distance) ||
+                other.distance == distance) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration));
   }
 
   @JsonKey(ignore: true)
@@ -245,7 +336,11 @@ class _$_Package implements _Package {
       description,
       imageUrl,
       const DeepCollectionEquality().hash(_tags),
-      const DeepCollectionEquality().hash(_events));
+      const DeepCollectionEquality().hash(_events),
+      const DeepCollectionEquality().hash(_polyline),
+      const DeepCollectionEquality().hash(_roadInstructions),
+      distance,
+      duration);
 
   @JsonKey(ignore: true)
   @override
@@ -269,7 +364,11 @@ abstract class _Package implements Package {
       required final String description,
       required final String imageUrl,
       required final List<String> tags,
-      required final List<FeaturedEvent> events}) = _$_Package;
+      required final List<NearbyEvent> events,
+      required final List<LatLng>? polyline,
+      required final List<String>? roadInstructions,
+      required final double distance,
+      required final Duration duration}) = _$_Package;
 
   factory _Package.fromJson(Map<String, dynamic> json) = _$_Package.fromJson;
 
@@ -286,7 +385,15 @@ abstract class _Package implements Package {
   @override
   List<String> get tags;
   @override
-  List<FeaturedEvent> get events;
+  List<NearbyEvent> get events;
+  @override
+  List<LatLng>? get polyline;
+  @override
+  List<String>? get roadInstructions;
+  @override
+  double get distance;
+  @override
+  Duration get duration;
   @override
   @JsonKey(ignore: true)
   _$$_PackageCopyWith<_$_Package> get copyWith =>

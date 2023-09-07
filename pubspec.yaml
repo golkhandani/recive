@@ -84,6 +84,7 @@ dependencies:
   gql_dio_link: ^1.0.1
   talker_dio_logger: ^2.3.0
   timelines: ^0.1.0
+  routing_client_dart: ^0.4.3
 
 dev_dependencies:
   flutter_test:

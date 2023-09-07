@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -45,7 +47,7 @@ class NearbyDetailScreen extends HookWidget {
       return () => bloc.emptyNearbyEvent();
     }, []);
 
-    final heroTag = extra?.heroTag ?? DateTime.now();
+    final heroTag = extra?.heroTag ?? DateTime.now().toString();
     final summary = extra?.summary;
     final data = state.nearbyEvent;
     final loading = state.loadingState;
@@ -79,7 +81,8 @@ class NearbyDetailScreen extends HookWidget {
 
                   return MultiSliver(
                     children: [
-                      _buildImageContainer(heroTag, summary, data),
+                      _buildImageCarousel(summary, data, heroTag),
+                      // _buildImageContainer(heroTag, summary, data),
                       const SliverGap(height: 12),
                       Builder(
                         builder: (context) {
@@ -117,27 +120,93 @@ class NearbyDetailScreen extends HookWidget {
     );
   }
 
+  CardContainer _buildImageCarousel(
+      NearbyDetailSummaryData? summary, EventComplete? data, String heroTag) {
+    return CardContainer(
+      borderRadius: BorderRadius.circular(16),
+      padding: kTinyPadding,
+      child: LayoutBuilder(builder: (context, box) {
+        if ((summary?.imageUrl ?? data!.imageUrl) == null) {
+          return const SizedBox();
+        }
+        // Warning: To prevent rebuild issue
+        // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
+        final list = [
+          summary?.imageUrl ?? data!.imageUrl,
+          ...(data?.imageUrls?.toList() ??
+              // TO FIX THE ISSUE WITH SAME HERO TAG
+              [
+                summary?.imageUrl ?? data!.imageUrl!,
+                summary?.imageUrl ?? data!.imageUrl!,
+              ])
+        ]
+            .mapIndexed((index, data) => ColoredNetworkImage(
+                  imageUrl: data!,
+                  constraints: const BoxConstraints.expand(height: 240),
+                  color: Colors.blueGrey,
+                ))
+            .toList();
+
+        final options = CarouselOptions(
+          autoPlay: false,
+          disableCenter: true,
+          viewportFraction: .8,
+          height: 360,
+          indicatorMargin: 12.0,
+          floatingIndicator: true,
+          slideIndicator: CircularWaveSlideIndicator(
+            currentIndicatorColor: context.colorScheme.secondary,
+            indicatorBackgroundColor: context.colorScheme.primary,
+          ),
+          allowImplicitScrolling: true,
+          showIndicator: true,
+          enableInfiniteScroll: true,
+          enlargeCenterPage: true,
+          enlargeStrategy: CenterPageEnlargeStrategy.scale,
+          padEnds: true,
+        );
+        return FlutterCarousel.builder(
+          options: options,
+          itemCount: list.length,
+          itemBuilder: (context, index, realIndex) {
+            if (index == 0) {
+              return Hero(
+                tag: heroTag,
+                child: list[index],
+              );
+            }
+            return list[index];
+          },
+        );
+      }),
+    );
+  }
+
   Builder _buildSourceInfo(EventComplete? data, TextStyle infoStyle) {
     return Builder(
       key: GlobalKey(debugLabel: 'SOURCE INFO'),
       builder: (context) {
+        final color = context.colorScheme.secondary;
+        final fontColor = context.colorScheme.onSecondary;
         return SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
+          color: color,
           padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.amber,
+                color: color,
               ),
               padding: kTinyPadding,
               child: Column(
                 children: [
+                  const SizedBox(height: 12),
                   Row(
                     children: [
                       Iconify(
                         Bx.info_circle,
-                        color: context.theme.colorScheme.onBackground,
+                        color: fontColor,
                         size: 24,
                       ),
                       const SizedBox(width: 12),
@@ -154,9 +223,7 @@ class NearbyDetailScreen extends HookWidget {
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: infoStyle.copyWith(
-                            color: context.theme.colorScheme.onBackground,
-                          ),
+                          style: infoStyle.withColor(fontColor),
                         ),
                       )
                     ],
@@ -167,7 +234,7 @@ class NearbyDetailScreen extends HookWidget {
                     children: [
                       Iconify(
                         Mdi.web,
-                        color: context.theme.colorScheme.onBackground,
+                        color: fontColor,
                         size: 24,
                       ),
                       const SizedBox(width: 12),
@@ -186,20 +253,18 @@ class NearbyDetailScreen extends HookWidget {
                                       ));
                                     },
                                   style: infoStyle.copyWith(
-                                    color:
-                                        context.theme.colorScheme.onBackground,
+                                    color: fontColor,
                                     fontStyle: FontStyle.italic,
                                   ),
                                 ),
                             ],
                           ),
-                          style: infoStyle.withColor(
-                            context.theme.colorScheme.onBackground,
-                          ),
+                          style: infoStyle.withColor(fontColor),
                         ),
-                      )
+                      ),
                     ],
                   ),
+                  const SizedBox(height: 12),
                 ],
               ),
             ),
@@ -213,16 +278,18 @@ class NearbyDetailScreen extends HookWidget {
     return Builder(
       key: GlobalKey(debugLabel: 'TAG INFO'),
       builder: (context) {
+        final color = context.theme.colorScheme.surface;
         final tags = data?.tags ?? [];
         return SliverToBoxAdapter(
           child: CardContainer(
             borderRadius: BorderRadius.circular(16),
+            color: color,
             child: Center(
               child: Wrap(
                 alignment: WrapAlignment.spaceAround,
                 direction: Axis.horizontal,
                 clipBehavior: Clip.hardEdge,
-                spacing: 12,
+                spacing: 4,
                 runSpacing: 12,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: List.generate(
@@ -246,7 +313,9 @@ class NearbyDetailScreen extends HookWidget {
                         ),
                         child: Text(
                           tags[index],
-                          style: context.textTheme.titleMedium,
+                          style: context.textTheme.bodyMedium?.withColor(
+                            context.theme.colorScheme.onTertiaryContainer,
+                          ),
                         ),
                       ),
                     ),
@@ -264,14 +333,17 @@ class NearbyDetailScreen extends HookWidget {
     return Builder(
       key: GlobalKey(debugLabel: 'ORGANIZER INFO'),
       builder: (context) {
+        final color = context.theme.colorScheme.surface;
+        final fontColor = context.theme.colorScheme.onSurface;
         return SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
+          color: color,
           padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: const Color.fromARGB(255, 53, 65, 146),
+                color: color,
               ),
               padding: kTinyPadding,
               child: Column(
@@ -280,7 +352,7 @@ class NearbyDetailScreen extends HookWidget {
                     children: [
                       Iconify(
                         Mdi.briefcase_outline,
-                        color: context.theme.colorScheme.onPrimaryContainer,
+                        color: fontColor,
                         size: 24,
                       ),
                       const SizedBox(width: 12),
@@ -288,7 +360,11 @@ class NearbyDetailScreen extends HookWidget {
                         child: Text.rich(
                           TextSpan(
                             children: [
-                              const TextSpan(text: 'Organizer : '),
+                              TextSpan(
+                                text: 'Organizer : ',
+                                style: context.textTheme.titleMedium
+                                    ?.withColor(fontColor),
+                              ),
                               if (data?.organizer?.title != null)
                                 TextSpan(
                                   text: data?.organizer?.title,
@@ -297,7 +373,7 @@ class NearbyDetailScreen extends HookWidget {
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: infoStyle,
+                          style: infoStyle.withColor(fontColor),
                         ),
                       )
                     ],
@@ -307,7 +383,7 @@ class NearbyDetailScreen extends HookWidget {
                     children: [
                       Iconify(
                         Mdi.person_group_outline,
-                        color: context.theme.colorScheme.onPrimaryContainer,
+                        color: fontColor,
                         size: 24,
                       ),
                       const SizedBox(width: 12),
@@ -315,7 +391,11 @@ class NearbyDetailScreen extends HookWidget {
                         child: Text.rich(
                           TextSpan(
                             children: [
-                              const TextSpan(text: 'Followers : '),
+                              TextSpan(
+                                text: 'Followers : ',
+                                style: context.textTheme.titleMedium
+                                    ?.withColor(fontColor),
+                              ),
                               if (data?.organizer?.numFollowers != null)
                                 TextSpan(
                                   text:
@@ -325,7 +405,7 @@ class NearbyDetailScreen extends HookWidget {
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: infoStyle,
+                          style: infoStyle.withColor(fontColor),
                         ),
                       )
                     ],
@@ -336,7 +416,7 @@ class NearbyDetailScreen extends HookWidget {
                     children: [
                       Iconify(
                         Mdi.web,
-                        color: context.theme.colorScheme.onPrimaryContainer,
+                        color: fontColor,
                         size: 24,
                       ),
                       const SizedBox(width: 12),
@@ -344,7 +424,11 @@ class NearbyDetailScreen extends HookWidget {
                         child: Text.rich(
                           TextSpan(
                             children: [
-                              const TextSpan(text: 'Web : '),
+                              TextSpan(
+                                text: 'Web : ',
+                                style: context.textTheme.titleMedium
+                                    ?.withColor(fontColor),
+                              ),
                               if (data?.organizer?.description != null)
                                 TextSpan(
                                   text: data?.organizer?.websiteUrl,
@@ -355,8 +439,7 @@ class NearbyDetailScreen extends HookWidget {
                                       ));
                                     },
                                   style: infoStyle.copyWith(
-                                    color: context
-                                        .theme.colorScheme.onTertiaryContainer,
+                                    color: fontColor,
                                     fontStyle: FontStyle.italic,
                                   ),
                                 ),
@@ -381,16 +464,21 @@ class NearbyDetailScreen extends HookWidget {
     return Builder(
       key: GlobalKey(debugLabel: 'PRICE INFO'),
       builder: (context) {
+        final color = (data?.isFree ?? false)
+            ? context.colorScheme.tertiaryContainer
+            : context.colorScheme.errorContainer;
+        final fontColor = (data?.isFree ?? false)
+            ? context.colorScheme.onTertiaryContainer
+            : context.colorScheme.onErrorContainer;
         return SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
+          color: color,
           padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: (data?.isFree ?? false)
-                    ? context.colorScheme.tertiaryContainer
-                    : context.colorScheme.errorContainer,
+                color: color,
               ),
               padding: kTinyPadding,
               child: Column(
@@ -399,7 +487,7 @@ class NearbyDetailScreen extends HookWidget {
                     children: [
                       Iconify(
                         Bx.bx_money_withdraw,
-                        color: context.theme.colorScheme.onPrimaryContainer,
+                        color: fontColor,
                         size: 24,
                       ),
                       const SizedBox(width: 12),
@@ -407,20 +495,32 @@ class NearbyDetailScreen extends HookWidget {
                         child: Text.rich(
                           TextSpan(
                             children: [
-                              const TextSpan(text: 'Price : '),
+                              TextSpan(
+                                text: 'Price : ',
+                                style: context.textTheme.titleMedium
+                                    ?.withColor(fontColor),
+                              ),
                               if (data?.isFree ?? false) ...[
-                                const TextSpan(text: 'It\'s Free'),
+                                TextSpan(
+                                  text: 'It\'s Free',
+                                  style: context.textTheme.bodyLarge
+                                      ?.withColor(fontColor),
+                                ),
                               ] else ...[
                                 if (data?.minPrice != null)
                                   TextSpan(
                                     text:
                                         'From \$${(data!.minPrice ?? 0).toStringAsFixed(2)} ',
+                                    style: context.textTheme.bodyLarge
+                                        ?.withColor(fontColor),
                                   ),
                                 if (data?.maxPrice != null &&
                                     data?.maxPrice != data?.minPrice)
                                   TextSpan(
                                     text:
                                         'To \$${(data!.maxPrice ?? 0).toStringAsFixed(2)} ',
+                                    style: context.textTheme.bodyLarge
+                                        ?.withColor(fontColor),
                                   ),
                               ]
                             ],
@@ -437,7 +537,7 @@ class NearbyDetailScreen extends HookWidget {
                     children: [
                       Iconify(
                         Mdi.ticket_percent_outline,
-                        color: context.theme.colorScheme.onPrimaryContainer,
+                        color: fontColor,
                         size: 24,
                       ),
                       const SizedBox(width: 12),
@@ -445,14 +545,22 @@ class NearbyDetailScreen extends HookWidget {
                         child: Text.rich(
                           TextSpan(
                             children: [
-                              const TextSpan(text: 'Ticket : '),
+                              TextSpan(
+                                text: 'Ticket : ',
+                                style: context.textTheme.titleMedium
+                                    ?.withColor(fontColor),
+                              ),
                               if (data?.isSoldOut ?? false)
-                                const TextSpan(
+                                TextSpan(
                                   text: 'Tickets are sold out',
+                                  style: context.textTheme.bodyLarge
+                                      ?.withColor(fontColor),
                                 ),
                               if (data?.hasAvailableTickets ?? false)
-                                const TextSpan(
+                                TextSpan(
                                   text: 'Tickets are still available',
+                                  style: context.textTheme.bodyLarge
+                                      ?.withColor(fontColor),
                                 ),
                             ],
                           ),
@@ -468,29 +576,37 @@ class NearbyDetailScreen extends HookWidget {
                     children: [
                       Iconify(
                         Bx.calendar_event,
-                        color: context.theme.colorScheme.surface,
+                        color: fontColor,
                         size: 24,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text.rich(
                           TextSpan(children: [
+                            TextSpan(
+                              text: 'Date : ',
+                              style: context.textTheme.titleMedium
+                                  ?.withColor(fontColor),
+                            ),
                             if (data?.startDate != null)
                               TextSpan(
                                 text:
                                     DateFormat.yMMMd().format(data!.startDate!),
+                                style: context.textTheme.bodyLarge
+                                    ?.withColor(fontColor),
                               ),
                             if (data?.endDate != null)
                               TextSpan(
                                 text:
                                     '- ${DateFormat.yMMMd().format(data!.endDate!)}',
+                                style: context.textTheme.bodyLarge
+                                    ?.withColor(fontColor),
                               )
                           ]),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: context.textTheme.labelLarge!.copyWith(
-                            color: context.theme.colorScheme.onPrimaryContainer,
-                          ),
+                          style: context.textTheme.titleMedium
+                              ?.withColor(fontColor),
                         ),
                       ),
                     ],
@@ -508,27 +624,31 @@ class NearbyDetailScreen extends HookWidget {
     return Builder(
         key: GlobalKey(debugLabel: 'BASIC INFO'),
         builder: (context) {
+          final color = context.theme.colorScheme.surface;
+          final fontColor = context.theme.colorScheme.onSurface;
           if (data == null) {
             return kSliverFillLoading;
           }
           return SliverCardContainer(
             borderRadius: BorderRadius.circular(16),
+            color: color,
             padding: kTinyPadding,
             sliver: SliverToBoxAdapter(
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: context.theme.colorScheme.primaryContainer,
+                  color: color,
                 ),
                 padding: kTinyPadding,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 12),
                     Center(
                       child: Text(
                         data.description ?? '',
-                        style: context.textTheme.bodyLarge!.copyWith(
-                          color: context.theme.colorScheme.onPrimaryContainer,
-                        ),
+                        style: context.textTheme.bodyLarge!
+                            .copyWith(color: fontColor),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -537,7 +657,7 @@ class NearbyDetailScreen extends HookWidget {
                       children: [
                         Iconify(
                           Mdi.resource_description_framework,
-                          color: context.theme.colorScheme.onPrimaryContainer,
+                          color: fontColor,
                           size: 24,
                         ),
                         const SizedBox(width: 12),
@@ -545,17 +665,22 @@ class NearbyDetailScreen extends HookWidget {
                           child: Text.rich(
                             TextSpan(
                               children: [
-                                const TextSpan(text: 'About : \n'),
+                                TextSpan(
+                                  text: 'About : \n',
+                                  style: context.textTheme.titleMedium
+                                      ?.withColor(fontColor),
+                                ),
                                 if (data.organizer?.description != null)
                                   TextSpan(
                                     text: data.organizer?.description,
                                     style: infoStyle.copyWith(
+                                      color: fontColor,
                                       fontStyle: FontStyle.italic,
                                     ),
                                   ),
                               ],
                             ),
-                            style: infoStyle,
+                            style: infoStyle.withColor(fontColor),
                           ),
                         )
                       ],
@@ -566,7 +691,7 @@ class NearbyDetailScreen extends HookWidget {
                       children: [
                         Iconify(
                           Bx.bxs_map,
-                          color: context.theme.colorScheme.surface,
+                          color: fontColor,
                           size: 24,
                         ),
                         const SizedBox(width: 12),
@@ -574,10 +699,8 @@ class NearbyDetailScreen extends HookWidget {
                           child: Text(
                             data.venue?.address?.localizedAddressDisplay ?? '',
                             overflow: TextOverflow.fade,
-                            style: context.textTheme.bodyLarge!.copyWith(
-                              color:
-                                  context.theme.colorScheme.onPrimaryContainer,
-                            ),
+                            style: context.textTheme.bodyLarge!
+                                .copyWith(color: fontColor),
                           ),
                         ),
                       ],
@@ -588,7 +711,7 @@ class NearbyDetailScreen extends HookWidget {
                         children: [
                           Iconify(
                             Bx.briefcase,
-                            color: context.theme.colorScheme.onPrimaryContainer,
+                            color: fontColor,
                             size: 24,
                           ),
                           const SizedBox(width: 12),
@@ -598,13 +721,13 @@ class NearbyDetailScreen extends HookWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: context.textTheme.bodyLarge!.copyWith(
-                                color: context
-                                    .theme.colorScheme.onPrimaryContainer,
+                                color: fontColor,
                               ),
                             ),
                           ),
                         ],
                       ),
+                    const SizedBox(height: 12),
                   ],
                 ),
               ),
@@ -614,7 +737,9 @@ class NearbyDetailScreen extends HookWidget {
   }
 
   Builder _buildTitleInfo(
-      NearbyDetailSummaryData? summary, EventComplete? data) {
+    NearbyDetailSummaryData? summary,
+    EventComplete? data,
+  ) {
     return Builder(
         key: GlobalKey(debugLabel: 'TITLE INFO'),
         builder: (context) {
@@ -624,12 +749,13 @@ class NearbyDetailScreen extends HookWidget {
           }
           return SliverCardContainer(
             borderRadius: BorderRadius.circular(16),
-            padding: kTinyPadding,
+            color: context.colorScheme.background,
+            padding: EdgeInsets.zero,
             sliver: SliverToBoxAdapter(
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: context.theme.colorScheme.secondary,
+                  // color: context.theme.colorScheme.secondary,
                 ),
                 padding: kTinyPadding,
                 child: Column(
@@ -638,7 +764,9 @@ class NearbyDetailScreen extends HookWidget {
                       child: Text(
                         title,
                         textAlign: TextAlign.center,
-                        style: context.titleLargeOnPrimaryContainer,
+                        style: context.titleLargeOnPrimaryContainer.withColor(
+                          context.colorScheme.onBackground,
+                        ),
                       ),
                     ),
                   ],
@@ -651,16 +779,16 @@ class NearbyDetailScreen extends HookWidget {
 
   Builder _buildTypeInfo(bool isOnline, TextStyle infoStyle) {
     return Builder(
-      key: GlobalKey(debugLabel: 'PRICE INFO'),
+      key: GlobalKey(debugLabel: 'TYPE INFO'),
       builder: (context) {
         return SliverCardContainer(
           borderRadius: BorderRadius.circular(16),
-          padding: kTinyPadding,
+          color: context.colorScheme.background,
+          padding: EdgeInsets.zero,
           sliver: SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: context.colorScheme.surface,
               ),
               padding: kTinyPadding,
               child: Column(

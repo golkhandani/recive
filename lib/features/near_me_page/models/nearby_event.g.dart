@@ -20,6 +20,7 @@ _$_NearbyEvent _$$_NearbyEventFromJson(Map<String, dynamic> json) =>
       participants: (json['participants'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       imageUrl: json['imageUrl'] as String,
       latLng: LatLng.fromJson(json['latLng'] as Map<String, dynamic>),
     );
@@ -34,6 +35,7 @@ Map<String, dynamic> _$$_NearbyEventToJson(_$_NearbyEvent instance) =>
       'location': instance.location,
       'organizers': instance.organizers,
       'participants': instance.participants,
+      'tags': instance.tags,
       'imageUrl': instance.imageUrl,
       'latLng': instance.latLng,
     };

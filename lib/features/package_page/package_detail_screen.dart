@@ -13,6 +13,7 @@ import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/components/colored_network_image.dart';
 import 'package:recive/features/package_page/cubits/packages_cubit.dart';
 import 'package:recive/features/package_page/models/package.dart';
+import 'package:recive/features/package_page/widgets/package_detail_map_section.dart';
 import 'package:recive/features/package_page/widgets/package_event_card_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -73,50 +74,95 @@ class PackageDetailScreen extends HookWidget {
                     }
 
                     final infoStyle = context.textTheme.bodyLarge!.copyWith(
-                        color: context.theme.colorScheme.onPrimaryContainer);
+                      color: context.theme.colorScheme.onPrimaryContainer,
+                    );
                     return MultiSliver(
                       children: [
-                        SliverCardContainer(
-                          borderRadius: BorderRadius.circular(16),
-                          padding: kTinyPadding,
-                          sliver: SliverToBoxAdapter(
-                            child: Container(
-                              padding: kTinyPadding,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.black,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  data.subtitle,
-                                  style: infoStyle,
+                        Builder(builder: (context) {
+                          final color = context.theme.colorScheme.background;
+                          final fontColor =
+                              context.theme.colorScheme.onBackground;
+                          return SliverCardContainer(
+                            borderRadius: BorderRadius.circular(16),
+                            padding: kTinyPadding,
+                            color: color,
+                            sliver: SliverToBoxAdapter(
+                              child: Container(
+                                padding: kTinyPadding,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: color,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    data.subtitle,
+                                    style: context.titleLargeOnBackground
+                                        .withColor(fontColor),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        }),
                         const SliverGap(height: 12),
-                        SliverCardContainer(
-                          borderRadius: BorderRadius.circular(16),
-                          padding: kTinyPadding,
-                          sliver: SliverToBoxAdapter(
-                            child: Container(
-                              padding: kTinyPadding,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.blueAccent,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  data.description,
-                                  style: infoStyle,
+                        Builder(builder: (context) {
+                          final color = context.theme.colorScheme.surface;
+                          final fontColor = context.theme.colorScheme.onSurface;
+                          return SliverCardContainer(
+                            borderRadius: BorderRadius.circular(16),
+                            padding: kTinyPadding,
+                            color: color,
+                            sliver: SliverToBoxAdapter(
+                              child: Container(
+                                padding: kTinyPadding,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: color,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    data.description,
+                                    style: infoStyle.withColor(fontColor),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        }),
                         const SliverGap(height: 12),
                         _buildTagInfo(data.tags.take(10).toList()),
+                        const SliverGap(height: 12),
+                        Builder(builder: (context) {
+                          final color = context.theme.colorScheme.surface;
+                          final fontColor = context.theme.colorScheme.onSurface;
+                          return SliverCardContainer(
+                            borderRadius: BorderRadius.circular(16),
+                            padding: kTinyPadding,
+                            color: color,
+                            sliver: SliverToBoxAdapter(
+                              child: Container(
+                                padding: kTinyPadding,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: color,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    data.roadInstructions?.join('\n↵ ') ?? '',
+                                    style: infoStyle.copyWith(
+                                      color: fontColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                        const SliverGap(height: 12),
+                        PackageDetailMapSection(
+                          events: data.events,
+                          polyline: data.polyline ?? [],
+                        ),
                         const SliverGap(height: 12),
                         CardContainer(
                           borderRadius: BorderRadius.circular(16),
@@ -125,11 +171,11 @@ class PackageDetailScreen extends HookWidget {
                             return FixedTimeline.tileBuilder(
                               theme: TimelineThemeData(
                                 connectorTheme: ConnectorThemeData(
-                                  color: context.colorScheme.secondaryContainer,
+                                  color: context.colorScheme.secondary,
                                   thickness: 5,
                                 ),
                                 indicatorTheme: IndicatorThemeData(
-                                  color: context.colorScheme.secondaryContainer,
+                                  color: context.colorScheme.secondary,
                                   size: 25,
                                 ),
                                 nodeItemOverlap: true,
@@ -262,7 +308,7 @@ class PackageDetailScreen extends HookWidget {
           parentPathParams: {
             PackageDetailScreen.pathParamId: data.id,
           },
-          data: PackageEventCardContainerData.fromFeaturedEvent(
+          data: PackageEventCardContainerData.fromNearbyEvent(
             data.events[index],
           ),
           constraints: BoxConstraints.expand(
@@ -294,7 +340,9 @@ class PackageDetailScreen extends HookWidget {
       width: box.maxWidth - 48,
       child: Text(
         'Start your journey Here!',
-        style: context.titleLargeOnBackground,
+        style: context.titleLargeOnBackground.withColor(
+          context.colorScheme.secondary,
+        ),
       ),
     );
   }
@@ -304,15 +352,19 @@ class PackageDetailScreen extends HookWidget {
       key: GlobalKey(debugLabel: 'TAG INFO'),
       builder: (context) {
         final tags = data ?? [];
+        final color = context.theme.colorScheme.surface;
+        final fontColor = context.theme.colorScheme.onTertiaryContainer;
+
         return SliverToBoxAdapter(
           child: CardContainer(
             borderRadius: BorderRadius.circular(16),
+            color: color,
             child: Center(
               child: Wrap(
                 alignment: WrapAlignment.spaceAround,
                 direction: Axis.horizontal,
                 clipBehavior: Clip.hardEdge,
-                spacing: 12,
+                spacing: 4,
                 runSpacing: 12,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: List.generate(
@@ -323,12 +375,7 @@ class PackageDetailScreen extends HookWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8),
                       splashColor: context.theme.colorScheme.tertiaryContainer,
-                      onTap: () {
-                        if (kDebugMode) {
-                          print(
-                              '_________________| on tap tags ${tags[index]}');
-                        }
-                      },
+                      onTap: () {},
                       child: Container(
                         padding: kMediumPadding,
                         decoration: BoxDecoration(
@@ -336,7 +383,8 @@ class PackageDetailScreen extends HookWidget {
                         ),
                         child: Text(
                           tags[index],
-                          style: context.textTheme.titleMedium,
+                          style: context.textTheme.bodyMedium
+                              ?.withColor(fontColor),
                         ),
                       ),
                     ),

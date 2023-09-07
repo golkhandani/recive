@@ -11,6 +11,7 @@ class EventComplete with _$EventComplete {
     DateTime? endDate,
     bool? hasAvailableTickets,
     String? imageUrl,
+    List<String>? imageUrls,
     bool? isFree,
     bool? isOnlineEvent,
     bool? isSoldOut,

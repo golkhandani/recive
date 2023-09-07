@@ -215,8 +215,8 @@ class SearchScreen extends HookWidget {
                   alignment: WrapAlignment.spaceAround,
                   direction: Axis.horizontal,
                   clipBehavior: Clip.hardEdge,
-                  spacing: 6,
-                  runSpacing: 18,
+                  spacing: 4,
+                  runSpacing: 12,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: List.generate(
                     state.searchedkeywords.length,
@@ -239,7 +239,7 @@ class SearchScreen extends HookWidget {
                           ),
                           child: Text(
                             state.searchedkeywords[index],
-                            style: context.textTheme.titleMedium,
+                            style: context.textTheme.bodyLarge,
                           ),
                         ),
                       ),

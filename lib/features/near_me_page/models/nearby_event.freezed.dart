@@ -28,6 +28,7 @@ mixin _$NearbyEvent {
   String get location => throw _privateConstructorUsedError;
   List<String> get organizers => throw _privateConstructorUsedError;
   List<String> get participants => throw _privateConstructorUsedError;
+  List<String> get tags => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   LatLng get latLng => throw _privateConstructorUsedError;
 
@@ -52,6 +53,7 @@ abstract class $NearbyEventCopyWith<$Res> {
       String location,
       List<String> organizers,
       List<String> participants,
+      List<String> tags,
       String imageUrl,
       LatLng latLng});
 }
@@ -77,6 +79,7 @@ class _$NearbyEventCopyWithImpl<$Res, $Val extends NearbyEvent>
     Object? location = null,
     Object? organizers = null,
     Object? participants = null,
+    Object? tags = null,
     Object? imageUrl = null,
     Object? latLng = null,
   }) {
@@ -113,6 +116,10 @@ class _$NearbyEventCopyWithImpl<$Res, $Val extends NearbyEvent>
           ? _value.participants
           : participants // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -142,6 +149,7 @@ abstract class _$$_NearbyEventCopyWith<$Res>
       String location,
       List<String> organizers,
       List<String> participants,
+      List<String> tags,
       String imageUrl,
       LatLng latLng});
 }
@@ -165,6 +173,7 @@ class __$$_NearbyEventCopyWithImpl<$Res>
     Object? location = null,
     Object? organizers = null,
     Object? participants = null,
+    Object? tags = null,
     Object? imageUrl = null,
     Object? latLng = null,
   }) {
@@ -201,6 +210,10 @@ class __$$_NearbyEventCopyWithImpl<$Res>
           ? _value._participants
           : participants // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -225,10 +238,12 @@ class _$_NearbyEvent implements _NearbyEvent {
       required this.location,
       required final List<String> organizers,
       required final List<String> participants,
+      required final List<String> tags,
       required this.imageUrl,
       required this.latLng})
       : _organizers = organizers,
-        _participants = participants;
+        _participants = participants,
+        _tags = tags;
 
   factory _$_NearbyEvent.fromJson(Map<String, dynamic> json) =>
       _$$_NearbyEventFromJson(json);
@@ -261,6 +276,14 @@ class _$_NearbyEvent implements _NearbyEvent {
     return EqualUnmodifiableListView(_participants);
   }
 
+  final List<String> _tags;
+  @override
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
+
   @override
   final String imageUrl;
   @override
@@ -268,7 +291,7 @@ class _$_NearbyEvent implements _NearbyEvent {
 
   @override
   String toString() {
-    return 'NearbyEvent(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, location: $location, organizers: $organizers, participants: $participants, imageUrl: $imageUrl, latLng: $latLng)';
+    return 'NearbyEvent(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, location: $location, organizers: $organizers, participants: $participants, tags: $tags, imageUrl: $imageUrl, latLng: $latLng)';
   }
 
   @override
@@ -289,6 +312,7 @@ class _$_NearbyEvent implements _NearbyEvent {
                 .equals(other._organizers, _organizers) &&
             const DeepCollectionEquality()
                 .equals(other._participants, _participants) &&
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.latLng, latLng) || other.latLng == latLng));
@@ -306,6 +330,7 @@ class _$_NearbyEvent implements _NearbyEvent {
       location,
       const DeepCollectionEquality().hash(_organizers),
       const DeepCollectionEquality().hash(_participants),
+      const DeepCollectionEquality().hash(_tags),
       imageUrl,
       latLng);
 
@@ -333,6 +358,7 @@ abstract class _NearbyEvent implements NearbyEvent {
       required final String location,
       required final List<String> organizers,
       required final List<String> participants,
+      required final List<String> tags,
       required final String imageUrl,
       required final LatLng latLng}) = _$_NearbyEvent;
 
@@ -355,6 +381,8 @@ abstract class _NearbyEvent implements NearbyEvent {
   List<String> get organizers;
   @override
   List<String> get participants;
+  @override
+  List<String> get tags;
   @override
   String get imageUrl;
   @override

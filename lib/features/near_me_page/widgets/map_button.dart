@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
+enum MapButtonTextPosition {
+  left,
+  right,
+}
+
 class MapButton extends StatelessWidget {
   const MapButton({
     Key? key,
     required this.icon,
     this.onClicked,
+    this.textPosition = MapButtonTextPosition.right,
     this.text,
     this.isLoading = false,
   }) : super(key: key);
@@ -14,6 +20,8 @@ class MapButton extends StatelessWidget {
   final String? text;
   final bool isLoading;
   final VoidCallback? onClicked;
+  final MapButtonTextPosition textPosition;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,9 +42,13 @@ class MapButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
             ),
+            padding: EdgeInsets.symmetric(horizontal: 4),
             alignment: Alignment.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              textDirection: textPosition == MapButtonTextPosition.right
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
               children: [
                 if (isLoading) ...[
                   const SizedBox(
@@ -55,10 +67,13 @@ class MapButton extends StatelessWidget {
                   ),
                 ],
                 if (text != null) ...[
-                  Text(
-                    text!,
-                    style: context.textTheme.bodyMedium?.withColor(
-                      Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      text!,
+                      style: context.textTheme.bodyMedium?.withColor(
+                        Colors.black,
+                      ),
                     ),
                   ),
                 ]

@@ -24,6 +24,7 @@ mixin _$EventComplete {
   DateTime? get endDate => throw _privateConstructorUsedError;
   bool? get hasAvailableTickets => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
+  List<String>? get imageUrls => throw _privateConstructorUsedError;
   bool? get isFree => throw _privateConstructorUsedError;
   bool? get isOnlineEvent => throw _privateConstructorUsedError;
   bool? get isSoldOut => throw _privateConstructorUsedError;
@@ -55,6 +56,7 @@ abstract class $EventCompleteCopyWith<$Res> {
       DateTime? endDate,
       bool? hasAvailableTickets,
       String? imageUrl,
+      List<String>? imageUrls,
       bool? isFree,
       bool? isOnlineEvent,
       bool? isSoldOut,
@@ -91,6 +93,7 @@ class _$EventCompleteCopyWithImpl<$Res, $Val extends EventComplete>
     Object? endDate = freezed,
     Object? hasAvailableTickets = freezed,
     Object? imageUrl = freezed,
+    Object? imageUrls = freezed,
     Object? isFree = freezed,
     Object? isOnlineEvent = freezed,
     Object? isSoldOut = freezed,
@@ -122,6 +125,10 @@ class _$EventCompleteCopyWithImpl<$Res, $Val extends EventComplete>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      imageUrls: freezed == imageUrls
+          ? _value.imageUrls
+          : imageUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       isFree: freezed == isFree
           ? _value.isFree
           : isFree // ignore: cast_nullable_to_non_nullable
@@ -227,6 +234,7 @@ abstract class _$$_EventCompleteCopyWith<$Res>
       DateTime? endDate,
       bool? hasAvailableTickets,
       String? imageUrl,
+      List<String>? imageUrls,
       bool? isFree,
       bool? isOnlineEvent,
       bool? isSoldOut,
@@ -264,6 +272,7 @@ class __$$_EventCompleteCopyWithImpl<$Res>
     Object? endDate = freezed,
     Object? hasAvailableTickets = freezed,
     Object? imageUrl = freezed,
+    Object? imageUrls = freezed,
     Object? isFree = freezed,
     Object? isOnlineEvent = freezed,
     Object? isSoldOut = freezed,
@@ -295,6 +304,10 @@ class __$$_EventCompleteCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      imageUrls: freezed == imageUrls
+          ? _value._imageUrls
+          : imageUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       isFree: freezed == isFree
           ? _value.isFree
           : isFree // ignore: cast_nullable_to_non_nullable
@@ -359,6 +372,7 @@ class _$_EventComplete implements _EventComplete {
       this.endDate,
       this.hasAvailableTickets,
       this.imageUrl,
+      final List<String>? imageUrls,
       this.isFree,
       this.isOnlineEvent,
       this.isSoldOut,
@@ -372,7 +386,8 @@ class _$_EventComplete implements _EventComplete {
       final List<String>? tags,
       this.venue,
       this.source})
-      : _tags = tags;
+      : _imageUrls = imageUrls,
+        _tags = tags;
 
   factory _$_EventComplete.fromJson(Map<String, dynamic> json) =>
       _$$_EventCompleteFromJson(json);
@@ -385,6 +400,16 @@ class _$_EventComplete implements _EventComplete {
   final bool? hasAvailableTickets;
   @override
   final String? imageUrl;
+  final List<String>? _imageUrls;
+  @override
+  List<String>? get imageUrls {
+    final value = _imageUrls;
+    if (value == null) return null;
+    if (_imageUrls is EqualUnmodifiableListView) return _imageUrls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final bool? isFree;
   @override
@@ -422,7 +447,7 @@ class _$_EventComplete implements _EventComplete {
 
   @override
   String toString() {
-    return 'EventComplete(id: $id, endDate: $endDate, hasAvailableTickets: $hasAvailableTickets, imageUrl: $imageUrl, isFree: $isFree, isOnlineEvent: $isOnlineEvent, isSoldOut: $isSoldOut, maxPrice: $maxPrice, minPrice: $minPrice, title: $title, organizer: $organizer, publishedDate: $publishedDate, startDate: $startDate, description: $description, tags: $tags, venue: $venue, source: $source)';
+    return 'EventComplete(id: $id, endDate: $endDate, hasAvailableTickets: $hasAvailableTickets, imageUrl: $imageUrl, imageUrls: $imageUrls, isFree: $isFree, isOnlineEvent: $isOnlineEvent, isSoldOut: $isSoldOut, maxPrice: $maxPrice, minPrice: $minPrice, title: $title, organizer: $organizer, publishedDate: $publishedDate, startDate: $startDate, description: $description, tags: $tags, venue: $venue, source: $source)';
   }
 
   @override
@@ -436,6 +461,8 @@ class _$_EventComplete implements _EventComplete {
                 other.hasAvailableTickets == hasAvailableTickets) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            const DeepCollectionEquality()
+                .equals(other._imageUrls, _imageUrls) &&
             (identical(other.isFree, isFree) || other.isFree == isFree) &&
             (identical(other.isOnlineEvent, isOnlineEvent) ||
                 other.isOnlineEvent == isOnlineEvent) &&
@@ -467,6 +494,7 @@ class _$_EventComplete implements _EventComplete {
       endDate,
       hasAvailableTickets,
       imageUrl,
+      const DeepCollectionEquality().hash(_imageUrls),
       isFree,
       isOnlineEvent,
       isSoldOut,
@@ -501,6 +529,7 @@ abstract class _EventComplete implements EventComplete {
       final DateTime? endDate,
       final bool? hasAvailableTickets,
       final String? imageUrl,
+      final List<String>? imageUrls,
       final bool? isFree,
       final bool? isOnlineEvent,
       final bool? isSoldOut,
@@ -526,6 +555,8 @@ abstract class _EventComplete implements EventComplete {
   bool? get hasAvailableTickets;
   @override
   String? get imageUrl;
+  @override
+  List<String>? get imageUrls;
   @override
   bool? get isFree;
   @override

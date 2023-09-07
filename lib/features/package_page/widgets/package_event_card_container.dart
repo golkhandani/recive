@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
+import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -38,7 +39,7 @@ class PackageEventCardContainerData {
     required this.imageUrl,
   });
 
-  static PackageEventCardContainerData fromFeaturedEvent(FeaturedEvent e) {
+  static PackageEventCardContainerData fromNearbyEvent(NearbyEvent e) {
     return PackageEventCardContainerData(
       id: e.id,
       title: e.title,
@@ -85,7 +86,7 @@ class PackageEventCardContainer extends HookWidget {
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
     final color = context.theme.colorScheme.secondaryContainer.withOpacity(0.6);
-    final fontColor = context.colorScheme.onSecondaryContainer;
+    final fontColor = context.colorScheme.onTertiaryContainer;
     final heroTag = parentRoute + data.id;
     final extraJson = ExtraData(
       summary: FeaturedEventDetailSummaryData(
@@ -118,26 +119,6 @@ class PackageEventCardContainer extends HookWidget {
                       maxLines: 1,
                       style: context.titleLargeOnPrimaryContainer
                           .withColor(fontColor),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Iconify(
-                          Bx.calendar_event,
-                          color: context.colorScheme.onSecondary,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: context.titleMediumOnPrimaryContainer
-                                .withColor(fontColor),
-                          ),
-                        ),
-                      ],
                     ),
                     const SizedBox(height: 12),
                     Row(

@@ -107,27 +107,29 @@ class GQLEventRepo extends IEventRepo {
     final convertedData = data.data?.GetEventsByDistance
             ?.map(
               (e) => NearbyEvent(
-                  id: e!.G_id!.value,
-                  title: e.name ?? '',
-                  description: e.summary ?? '',
-                  startDate: e.start_date?.value != null
-                      ? DateTime.parse(e.start_date!.value)
-                      : DateTime.now(),
-                  endDate: e.end_date?.value != null
-                      ? DateTime.parse(e.start_date!.value)
-                      : DateTime.now(),
-                  location: e.venue?.address?.localized_address_display ?? '',
-                  organizers: [e.organizer?.website_url ?? '']
-                      .whereNot((element) => element.isEmpty)
-                      .toList(),
-                  participants: [e.eventbrite_url ?? '']
-                      .whereNot((element) => element.isEmpty)
-                      .toList(),
-                  imageUrl: e.image_url ?? '',
-                  latLng: LatLng(
-                    double.tryParse(e.venue!.address!.latitude!) ?? 0,
-                    double.tryParse(e.venue!.address!.longitude!) ?? 0,
-                  )),
+                id: e!.G_id!.value,
+                title: e.name ?? '',
+                description: e.summary ?? '',
+                startDate: e.start_date?.value != null
+                    ? DateTime.parse(e.start_date!.value)
+                    : DateTime.now(),
+                endDate: e.end_date?.value != null
+                    ? DateTime.parse(e.start_date!.value)
+                    : DateTime.now(),
+                location: e.venue?.address?.localized_address_display ?? '',
+                organizers: [e.organizer?.website_url ?? '']
+                    .whereNot((element) => element.isEmpty)
+                    .toList(),
+                participants: [e.eventbrite_url ?? '']
+                    .whereNot((element) => element.isEmpty)
+                    .toList(),
+                imageUrl: e.image_url ?? '',
+                tags: e.tags?.whereNotNull().toList() ?? [],
+                latLng: LatLng(
+                  double.tryParse(e.venue!.address!.latitude!) ?? 0,
+                  double.tryParse(e.venue!.address!.longitude!) ?? 0,
+                ),
+              ),
             )
             .whereType<NearbyEvent>()
             .toList() ??
@@ -164,6 +166,7 @@ class GQLEventRepo extends IEventRepo {
           .whereNot((element) => element.isEmpty)
           .toList(),
       imageUrl: e.image_url ?? '',
+      tags: e.tags?.whereNotNull().toList() ?? [],
       latLng: LatLng(
         double.tryParse(e.venue!.address!.latitude!) ?? 0,
         double.tryParse(e.venue!.address!.longitude!) ?? 0,

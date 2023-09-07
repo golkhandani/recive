@@ -15,6 +15,7 @@ class NearbyEvent with _$NearbyEvent {
     required String location,
     required List<String> organizers,
     required List<String> participants,
+    required List<String> tags,
     required String imageUrl,
     required LatLng latLng,
   }) = _NearbyEvent;

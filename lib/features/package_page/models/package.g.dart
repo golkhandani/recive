@@ -14,8 +14,16 @@ _$_Package _$$_PackageFromJson(Map<String, dynamic> json) => _$_Package(
       imageUrl: json['imageUrl'] as String,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       events: (json['events'] as List<dynamic>)
-          .map((e) => FeaturedEvent.fromJson(e as Map<String, dynamic>))
+          .map((e) => NearbyEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
+      polyline: (json['polyline'] as List<dynamic>?)
+          ?.map((e) => LatLng.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      roadInstructions: (json['roadInstructions'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      distance: (json['distance'] as num).toDouble(),
+      duration: Duration(microseconds: json['duration'] as int),
     );
 
 Map<String, dynamic> _$$_PackageToJson(_$_Package instance) =>
@@ -27,4 +35,8 @@ Map<String, dynamic> _$$_PackageToJson(_$_Package instance) =>
       'imageUrl': instance.imageUrl,
       'tags': instance.tags,
       'events': instance.events,
+      'polyline': instance.polyline,
+      'roadInstructions': instance.roadInstructions,
+      'distance': instance.distance,
+      'duration': instance.duration.inMicroseconds,
     };

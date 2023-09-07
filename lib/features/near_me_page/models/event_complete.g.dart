@@ -14,6 +14,9 @@ _$_EventComplete _$$_EventCompleteFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['endDate'] as String),
       hasAvailableTickets: json['hasAvailableTickets'] as bool?,
       imageUrl: json['imageUrl'] as String?,
+      imageUrls: (json['imageUrls'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       isFree: json['isFree'] as bool?,
       isOnlineEvent: json['isOnlineEvent'] as bool?,
       isSoldOut: json['isSoldOut'] as bool?,
@@ -45,6 +48,7 @@ Map<String, dynamic> _$$_EventCompleteToJson(_$_EventComplete instance) =>
       'endDate': instance.endDate?.toIso8601String(),
       'hasAvailableTickets': instance.hasAvailableTickets,
       'imageUrl': instance.imageUrl,
+      'imageUrls': instance.imageUrls,
       'isFree': instance.isFree,
       'isOnlineEvent': instance.isOnlineEvent,
       'isSoldOut': instance.isSoldOut,

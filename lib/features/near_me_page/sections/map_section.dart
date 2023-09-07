@@ -216,30 +216,6 @@ class _MapContent extends HookWidget {
                               zoom.value = position.zoom!;
                               mapInitialized.value = true;
                             },
-                            onMapEvent: (event) {
-                              // if (event is MapEventMoveStart) {
-                              //   interations.value = InteractiveFlag.all &
-                              //       ~InteractiveFlag.rotate;
-
-                              //   return;
-                              // }
-
-                              // if (event is MapEventMoveEnd) {
-                              //   interactionUpdater.onChanged(event);
-                              //   return;
-                              // }
-
-                              // if (event is MapEventRotateStart) {
-                              //   interations.value = InteractiveFlag.rotate;
-                              //   return;
-                              // }
-                              // if (event is MapEventRotateEnd) {
-                              //   interactionUpdater.onChanged(event);
-                              //   return;
-                              // }
-
-                              //  print("EVENNT ${event}");
-                            },
                           ),
                           nonRotatedChildren: const [
                             FlutterMapAttribution(),

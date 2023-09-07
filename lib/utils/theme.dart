@@ -46,7 +46,7 @@ final ColorScheme colorSchemeLight = ColorScheme(
   onPrimaryContainer: Colors.white,
   //
   secondary: const Color.fromARGB(255, 49, 84, 150),
-  onSecondary: Colors.black,
+  onSecondary: Colors.white,
   secondaryContainer: const Color.fromARGB(255, 12, 18, 56),
   onSecondaryContainer: Colors.white,
   //
@@ -72,23 +72,31 @@ final ColorScheme colorSchemeLight = ColorScheme(
 );
 
 TextTheme getTextTheme(ColorScheme colorScheme) {
-  return GoogleFonts.spaceGroteskTextTheme().copyWith(
+  return GoogleFonts.rubikIsoTextTheme().copyWith(
     displayMedium: TextStyle(
       fontSize: 15,
       fontWeight: FontWeight.bold,
       letterSpacing: 1.1,
+      height: 1.5,
       color: colorScheme.onSurface,
     ),
     bodyLarge: TextStyle(
+      height: 2,
       color: colorScheme.onSurface,
+      fontSize: 16,
     ),
     bodyMedium: TextStyle(
+      height: 1.5,
       color: colorScheme.onSurface,
+      fontSize: 14,
     ),
     bodySmall: TextStyle(
+      height: 1.2,
       color: colorScheme.onSurface,
+      fontSize: 12,
     ),
     labelMedium: TextStyle(
+      height: 1.5,
       color: colorScheme.onSurface,
     ),
     headlineSmall: TextStyle(
@@ -96,30 +104,35 @@ TextTheme getTextTheme(ColorScheme colorScheme) {
       fontSize: 16,
       fontWeight: FontWeight.bold,
       letterSpacing: 1.2,
+      height: 1.2,
     ),
     headlineLarge: TextStyle(
       color: colorScheme.onSurface,
       fontSize: 32,
       fontWeight: FontWeight.bold,
       letterSpacing: 1.2,
+      height: 2,
     ),
     titleSmall: TextStyle(
       color: colorScheme.onSurface,
       fontSize: 14,
       fontWeight: FontWeight.bold,
       letterSpacing: 1.2,
+      height: 1.2,
     ),
     titleMedium: TextStyle(
       color: colorScheme.onSurface,
       fontSize: 16,
       fontWeight: FontWeight.bold,
       letterSpacing: 1.2,
+      height: 1.5,
     ),
     titleLarge: TextStyle(
       color: colorScheme.onSurface,
       fontSize: 18,
       fontWeight: FontWeight.bold,
       letterSpacing: 1.2,
+      height: 2,
     ),
   );
 }

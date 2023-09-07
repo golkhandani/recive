@@ -73,11 +73,11 @@ class TitleHeader extends HookWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12)
                       .copyWith(bottom: 4),
                   child: FittedBox(
-                    fit: BoxFit.contain,
+                    fit: BoxFit.none,
                     child: Text(
                       title,
-                      style: context.textTheme.titleSmall?.withColor(
-                        titleColorV,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        color: titleColorV,
                       ),
                     ),
                   ),

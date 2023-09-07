@@ -9,12 +9,14 @@ class SliverCardContainer extends StatelessWidget {
     this.padding = const EdgeInsets.all(24),
     this.color,
     this.borderRadius = BorderRadius.zero,
+    this.hasShadow = false,
   });
 
   final Widget sliver;
   final EdgeInsets padding;
   final Color? color;
   final BorderRadius borderRadius;
+  final bool hasShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +27,15 @@ class SliverCardContainer extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: color ?? context.colorScheme.tertiaryContainer,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  offset: const Offset(.2, .2),
-                  blurRadius: 2,
-                  color: context.colorScheme.tertiaryContainer,
-                )
-              ],
+              boxShadow: hasShadow
+                  ? <BoxShadow>[
+                      BoxShadow(
+                        offset: const Offset(.2, .2),
+                        blurRadius: 2,
+                        color: context.colorScheme.tertiaryContainer,
+                      )
+                    ]
+                  : null,
               borderRadius: borderRadius,
             ),
           ),

@@ -13,7 +13,7 @@ import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
-import 'package:recive/features/near_me_page/repos/nearby_events_repo.gql.dart';
+import 'package:recive/features/near_me_page/repos/nearby_events_repo.remote.dart';
 import 'package:recive/features/news_page/cubits/news_cubit.dart';
 import 'package:recive/features/package_page/cubits/packages_cubit.dart';
 import 'package:recive/features/package_page/repos/package_event_repo.interface.dart';

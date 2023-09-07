@@ -86,6 +86,7 @@ dependencies:
   timelines: ^0.1.0
   routing_client_dart: ^0.4.3
   logging: ^1.2.0
+  logger: ^2.0.2
 
 dev_dependencies:
   flutter_test:

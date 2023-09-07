@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/router/navigation_service.dart';
@@ -21,8 +22,10 @@ class AuthInterceptor extends Interceptor {
   /// The number of retries in case of 401
   final int maxRetries;
 
-  RequestOptions _seAuthHeaders(RequestOptions options,
-      {required String token}) {
+  RequestOptions _seAuthHeaders(
+    RequestOptions options, {
+    required String token,
+  }) {
     final accessToken = '${isDeveloper ? '' : 'Bearer '}$token';
     options.headers[!isDeveloper ? 'apiKey' : 'Authorization'] = null;
     options.headers[isDeveloper ? 'apiKey' : 'Authorization'] = accessToken;

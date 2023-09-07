@@ -1,10 +1,20 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
+
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:open_weather_client/services/open_weather_api_service.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:realm/realm.dart';
+import 'package:routing_client_dart/routing_client_dart.dart';
+
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
@@ -22,56 +32,22 @@ import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
 import 'package:recive/features/search_page/repos/search_events_repo.gql.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
 import 'package:recive/ioc/realm_service.dart';
+import 'package:recive/ioc/recive_theme_adapter.dart';
+import 'package:recive/key_constants.dart';
 import 'package:recive/router/navigation_service.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-// ignore: depend_on_referenced_packages
-import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:realm/realm.dart';
 import 'package:recive/utils/theme_cubit.dart';
-import 'package:routing_client_dart/routing_client_dart.dart';
 
 GetIt locator = GetIt.instance;
 
-const hiveStoreFolderName = 'hive_data';
-const hiveStoreGqlBoxName = 'graphql';
-const hiveStoreThemeBoxName = 'theme_box';
-
-const gSignInScopes = ['profile', 'email'];
-const gSignInIosCid =
-    '337988051792-depkbem06p52nihpdd0jbea1bk4lqtpm.apps.googleusercontent.com';
-const gSignInAndroidCid =
-    '337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com';
-const gSignInServerCid =
-    '337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com';
-const realmAppId = 'suggesteventpath-mgnsw';
-const realmKey =
-    '3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH';
-const realmBaseUrl = 'https://us-east-1.aws.realm.mongodb.com';
-const realmGqlBaseUrl =
-    'https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql';
-const realmVersion = '2.0';
-const realmTimeout = 120;
-const openWeatherKey = '8af110219c55ac7762ec012dfc20f17a';
-
-class ReciveThemeAdapter implements TypeAdapter<ReciveTheme> {
-  @override
-  ReciveTheme read(BinaryReader reader) {
-    return ReciveTheme.values[(reader.readInt())];
-  }
-
-  @override
-  int get typeId => 0102;
-
-  @override
-  void write(BinaryWriter writer, ReciveTheme obj) {
-    writer.writeInt(obj.index);
-  }
+extension LoggerLocator on GetIt {
+  Logger get logger => GetIt.instance.get<Logger>();
 }
 
 Future setupNavigation() async {
+  final logger = Logger();
+  locator.registerSingleton(logger);
   locator.registerLazySingleton(
     () => NavigationService(
       rootNavigatorKey: rootNavigatorKey,

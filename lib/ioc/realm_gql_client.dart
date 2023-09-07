@@ -1,20 +1,21 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
-import 'package:recive/features/login_page/login_screen.dart';
+import "package:dio/dio.dart" as dio;
+import 'package:ferry/ferry.dart';
+import 'package:ferry_hive_store/ferry_hive_store.dart' as qql_store;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import "package:gql_dio_link/gql_dio_link.dart";
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
+import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
+
+import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/ioc/dio_x.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
+import 'package:recive/key_constants.dart';
 import 'package:recive/router/navigation_service.dart';
-import 'package:ferry/ferry.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ferry_hive_store/ferry_hive_store.dart' as qql_store;
-import "package:dio/dio.dart" as dio;
-import "package:gql_dio_link/gql_dio_link.dart";
-import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
-import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 
 // npm install -g get-graphql-schema
 // get-graphql-schema -h 'apiKey=3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH' https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql > lib/schema.graphql
@@ -94,9 +95,7 @@ class RealmGqlClient {
       OperationRequest<TData, TVars> req) async {
     try {
       final res = await _client.request(req).asyncMap((res) async {
-        if (kDebugMode) {
-          print("_________________| graph ${res.hasErrors} ${res.dataSource}");
-        }
+        locator.logger.d('graph ${res.hasErrors} ${res.dataSource}');
         if (res.hasErrors) {
           await _handleErrors(res, req.hashCode);
         }
@@ -108,10 +107,7 @@ class RealmGqlClient {
 
       return res;
     } catch (e) {
-      if (kDebugMode) {
-        print("______||| GQL request ERROR");
-        print(e);
-      }
+      locator.logger.e('GQL request ERROR', error: e);
       await _realmApplicationService.logout();
       await _navigationService.logoutTo(LoginScreen.name);
       rethrow;
@@ -126,12 +122,9 @@ class RealmGqlClient {
       ...(res.graphqlErrors?.map((e) => e.message) ?? []).toList(),
       // (res.linkException as ServerException).parsedResponse?.response['error']
     ].whereNotNull();
-    if (kDebugMode) {
-      print("______||| GQL ERROR");
-      print(res.linkException);
-      print(res.graphqlErrors);
-      print(errors);
-    }
+    locator.logger.e('GQL linkException ERROR', error: res.linkException);
+    locator.logger.e('GQL graphqlErrors ERROR', error: res.graphqlErrors);
+    locator.logger.e('GQL errors ERROR', error: errors);
 
     throw Exception(errors.join(' '));
   }

@@ -1,7 +1,10 @@
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
+
+import 'package:recive/ioc/locator.dart';
 
 @immutable
 class UserLocation {
@@ -71,21 +74,21 @@ class LocationService {
     if (serviceEnabled) {
       return;
     }
-    debugPrint("__| LocationService 1 $serviceEnabled");
+    locator.logger.d("__| LocationService 1 $serviceEnabled");
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      debugPrint("__| LocationService 2 $serviceEnabled");
+      locator.logger.d("__| LocationService 2 $serviceEnabled");
       return Future.error('Location services are disabled.');
     }
     permission = await Geolocator.checkPermission();
-    debugPrint("__| LocationService 3 $serviceEnabled");
+    locator.logger.d("__| LocationService 3 $serviceEnabled");
     if (permission == LocationPermission.denied) {
-      debugPrint("__| LocationService 4 $serviceEnabled");
+      locator.logger.d("__| LocationService 4 $serviceEnabled");
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        debugPrint("__| LocationService 5 $serviceEnabled");
+        locator.logger.d("__| LocationService 5 $serviceEnabled");
         // Permissions are denied, next time you could try
         // requesting permissions again (this is also where
         // Android's shouldShowRequestPermissionRationale
@@ -96,7 +99,7 @@ class LocationService {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      debugPrint("__| LocationService 7 $serviceEnabled");
+      locator.logger.d("__| LocationService 7 $serviceEnabled");
       // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
@@ -127,9 +130,7 @@ final locationService = LocationService.instance;
 Position? useLocationData({
   required String debugLabel,
 }) {
-  if (kDebugMode) {
-    print("_________________| $debugLabel - useLocationData");
-  }
+  locator.logger.d("$debugLabel - useLocationData");
 
   final locationData =
       useState<Position?>(locationService.lastUserLocation?.position);
@@ -164,9 +165,7 @@ UserLocation useUserLocation({
   required String debugLabel,
   LocationSettings? locationSettings,
 }) {
-  if (kDebugMode) {
-    print("_________________| useUserLocation");
-  }
+  locator.logger.d("_________________| useUserLocation");
 
   locationService.requestService(onGrantedPermission: () => {});
 
@@ -192,9 +191,8 @@ UserLocation useUserLocation({
       );
 
   final positionChanged = useStream(useMemoized(() {
-    if (kDebugMode) {
-      print("_________________| useMemoized useUserLocation");
-    }
+    locator.logger.d("_________________| useMemoized useUserLocation");
+
     return Geolocator.getPositionStream(locationSettings: settings);
   }));
 
@@ -213,11 +211,10 @@ UserLocation useUserLocation({
   if (state.value.position != null) {
     locationService.updateUastUserLocation(state.value.position);
   }
-  if (kDebugMode) {
-    print("1 $debugLabel $debugLabel ${DateTime.now()}");
-    print("1 locationData ${locationData?.timestamp}");
-    print("2 locationData ${locationService.getLastTimestamp}");
-  }
+
+  locator.logger.d("1 $debugLabel $debugLabel ${DateTime.now()}");
+  locator.logger.d("2 locationData ${locationData?.timestamp}");
+  locator.logger.d("3 locationData ${locationService.getLastTimestamp}");
 
   return state.value;
 }

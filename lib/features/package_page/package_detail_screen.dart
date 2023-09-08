@@ -2,11 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:recive/extensions/duration_extensions.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:timelines/timelines.dart';
 
@@ -17,6 +16,7 @@ import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
+import 'package:recive/extensions/duration_extensions.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/package_page/cubits/packages_cubit.dart';
 import 'package:recive/features/package_page/models/package.dart';
@@ -288,44 +288,35 @@ class PackageDetailScreen extends HookWidget {
                 summary?.imageUrl ?? data!.imageUrl,
                 summary?.imageUrl ?? data!.imageUrl,
               ])
-        ]
-            .mapIndexed((index, data) => ColoredNetworkImage(
-                  imageUrl: data,
-                  constraints: const BoxConstraints.expand(height: 240),
-                  color: Colors.blueGrey,
-                ))
-            .toList();
+        ].mapIndexed((index, data) {
+          final item = ColoredNetworkImage(
+            imageUrl: data,
+            constraints: const BoxConstraints.expand(height: 240),
+            color: Colors.blueGrey,
+          );
+          if (index == 0) {
+            return Hero(
+              tag: heroTag,
+              child: item,
+            );
+          }
+          return item;
+        }).toList();
 
         final options = CarouselOptions(
           autoPlay: false,
           disableCenter: true,
-          viewportFraction: .8,
+          viewportFraction: 0.8,
           height: 360,
-          indicatorMargin: 12.0,
-          floatingIndicator: true,
-          slideIndicator: CircularWaveSlideIndicator(
-            currentIndicatorColor: context.colorScheme.secondary,
-            indicatorBackgroundColor: context.colorScheme.primary,
-          ),
-          allowImplicitScrolling: true,
-          showIndicator: true,
           enableInfiniteScroll: true,
           enlargeCenterPage: true,
+          enlargeFactor: 0.24,
           enlargeStrategy: CenterPageEnlargeStrategy.scale,
           padEnds: true,
         );
-        return FlutterCarousel.builder(
+        return CarouselSlider(
+          items: list,
           options: options,
-          itemCount: list.length,
-          itemBuilder: (context, index, realIndex) {
-            if (index == 0) {
-              return Hero(
-                tag: heroTag,
-                child: list[index],
-              );
-            }
-            return list[index];
-          },
         );
       }),
     );

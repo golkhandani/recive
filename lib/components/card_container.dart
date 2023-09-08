@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
 class CardContainer extends StatelessWidget {
@@ -21,45 +20,46 @@ class CardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    locator.logger.i("CardContainer ERRORCHEK rebuild");
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: color ?? context.colorScheme.tertiaryContainer,
-        boxShadow: hasShadow
-            ? <BoxShadow>[
-                BoxShadow(
-                  offset: const Offset(.2, .2),
-                  blurRadius: 2,
-                  color: context.colorScheme.tertiaryContainer,
-                )
-              ]
-            : null,
-        borderRadius: borderRadius,
-      ),
-      child: ClipRRect(
-        borderRadius: borderRadius,
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: color ?? context.colorScheme.tertiaryContainer,
-                  boxShadow: const <BoxShadow>[
-                    BoxShadow(
-                      offset: Offset(2.2, 2.2),
-                      blurRadius: 10,
-                      color: Colors.black,
-                    )
-                  ],
-                  borderRadius: borderRadius,
+    return RepaintBoundary(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: color ?? context.colorScheme.tertiaryContainer,
+          boxShadow: hasShadow
+              ? <BoxShadow>[
+                  BoxShadow(
+                    offset: const Offset(.2, .2),
+                    blurRadius: 2,
+                    color: context.colorScheme.tertiaryContainer,
+                  )
+                ]
+              : null,
+          borderRadius: borderRadius,
+        ),
+        child: ClipRRect(
+          borderRadius: borderRadius,
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: color ?? context.colorScheme.tertiaryContainer,
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        offset: Offset(2.2, 2.2),
+                        blurRadius: 10,
+                        color: Colors.black,
+                      )
+                    ],
+                    borderRadius: borderRadius,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: padding,
-              child: child,
-            )
-          ],
+              Padding(
+                padding: padding,
+                child: child,
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/plugin_api.dart';
@@ -21,7 +21,6 @@ import 'package:recive/features/near_me_page/widgets/event_card_container_data.d
 import 'package:recive/features/near_me_page/widgets/map_button.dart';
 import 'package:recive/features/near_me_page/widgets/selected_marker.dart';
 import 'package:recive/ioc/geo_location_service.dart';
-import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/flutter_map/flutter_map_attribution.dart';
 import 'package:recive/layout/flutter_map/flutter_map_tile_layer.dart';

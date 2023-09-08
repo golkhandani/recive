@@ -73,27 +73,34 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
                   borderRadius: BorderRadius.circular(16),
                   padding: kTinyPadding,
                   sliver: SliverToBoxAdapter(
-                    child: LayoutBuilder(builder: (context, box) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.orange,
-                        ),
-                        width: box.maxWidth,
-                        height: min(box.maxWidth / 2.8, 120),
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: weatherData.value!.details.first
-                                    .animatedWidget(context, weatherData.value),
+                    child: RepaintBoundary(
+                      child: LayoutBuilder(builder: (context, box) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.orange,
+                          ),
+                          width: box.maxWidth,
+                          height: min(box.maxWidth / 2.8, 120),
+                          child: Stack(
+                            children: [
+                              Positioned.fill(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: RepaintBoundary(
+                                    child: weatherData.value!.details.first
+                                        .animatedWidget(
+                                      context,
+                                      weatherData.value,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
+                            ],
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ),
               ],
@@ -171,19 +178,25 @@ extension AnimatedWeatherWidget on Details {
       color: color,
       child: Stack(
         children: [
-          if (lottieFile.isNotEmpty) ...[
-            if (id != 800)
-              Positioned.fill(
-                left: size.width / 12,
-                child: lottie,
-              ),
-            Positioned.fill(
-              top: 24,
-              left: size.width / 6,
-              child: lottie,
+          RepaintBoundary(
+            child: Stack(
+              children: [
+                if (lottieFile.isNotEmpty) ...[
+                  if (id != 800)
+                    Positioned.fill(
+                      left: size.width / 12,
+                      child: lottie,
+                    ),
+                  Positioned.fill(
+                    top: 24,
+                    left: size.width / 6,
+                    child: lottie,
+                  ),
+                ],
+                if (id != 800) const Positioned.fill(child: StarsView(fps: 1)),
+              ],
             ),
-          ],
-          if (id != 800) const Positioned.fill(child: StarsView(fps: 1)),
+          ),
           Positioned(
             top: 0,
             bottom: 0,

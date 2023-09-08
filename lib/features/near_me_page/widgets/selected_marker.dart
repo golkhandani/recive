@@ -28,7 +28,7 @@ class SelectedMarker extends StatelessWidget {
           rotate: true,
           builder: (ctx) => Icon(
             FluentIcons.location_12_filled,
-            color: context.colorScheme.tertiaryContainer,
+            color: context.colorScheme.secondary,
             size: 50,
           ),
         )

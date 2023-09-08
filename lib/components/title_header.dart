@@ -69,7 +69,6 @@ class TitleHeader extends HookWidget {
                             color: context.schema.tertiary.withOpacity(1),
                           ),
                           child: Builder(builder: (context) {
-                            locator.logger.d("@WFREWWQE");
                             return backbtn;
                           }),
                         );

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:recive/ioc/geo_location_service.dart';
+import 'package:recive/layout/context_ui_extension.dart';
 
 class FlutterMapUserMarker extends StatelessWidget {
   const FlutterMapUserMarker({
@@ -16,16 +17,17 @@ class FlutterMapUserMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final spinkit = SpinKitRipple(
+      color: context.colorScheme.secondaryContainer,
+      size: 50.0,
+    );
     return MarkerLayer(
       markers: [
         Marker(
           point: geolocation.latLng!,
           width: 80,
           height: 80,
-          builder: (context) => LoadingAnimationWidget.beat(
-            color: const Color.fromARGB(255, 8, 12, 93),
-            size: 25,
-          ),
+          builder: (context) => RepaintBoundary(child: spinkit),
         ),
       ],
     );

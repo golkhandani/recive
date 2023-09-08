@@ -126,8 +126,6 @@ class GQLPackageEventRepo extends IPackageEventRepo {
       final duration = Duration(seconds: road.duration.toInt());
       final tags = packageEvents.expand((e) => e.tags).toList();
 
-      locator.logger.d(stepByStepInstruction);
-
       list.add(Package(
         id: '$count',
         title:

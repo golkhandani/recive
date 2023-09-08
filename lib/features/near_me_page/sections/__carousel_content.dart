@@ -53,42 +53,40 @@ class _CarouselContent extends HookWidget {
           borderRadius: BorderRadius.circular(16),
           padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
-            child: LayoutBuilder(builder: (context, box) {
-              // Warning: To prevent rebuild issue
-              // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
-              final list = items
-                  .mapIndexed((index, data) => EventCardContainer(
-                        constraints: BoxConstraints.expand(
-                          width: box.maxWidth / 1.1,
-                        ),
-                        data: data,
-                      ))
-                  .toList();
-              return FlutterCarousel.builder(
-                options: CarouselOptions(
-                  controller: controller,
-                  autoPlay: false,
-                  disableCenter: true,
-                  viewportFraction: .8,
-                  height: listSectionHeight,
-                  indicatorMargin: 8.0,
-                  enableInfiniteScroll: true,
-                  showIndicator: false,
-                  padEnds: true,
-                  enlargeCenterPage: true,
-                  onPageChanged: (index, reason) {
-                    if (!isUpdating.value) {
-                      isUpdating.value = true;
-                      bloc.changeSelectedIndex(index);
-                    }
-                  },
-                ),
-                itemCount: items.length,
-                itemBuilder: (context, index, _) {
-                  return list[index];
-                },
-              );
-            }),
+            child: RepaintBoundary(
+              child: LayoutBuilder(builder: (context, box) {
+                // Warning: To prevent rebuild issue
+                // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
+                final list = items
+                    .mapIndexed((index, data) => EventCardContainer(
+                          constraints: BoxConstraints.expand(
+                            width: box.maxWidth / 1.4,
+                          ),
+                          data: data,
+                        ))
+                    .toList();
+                return CarouselSlider(
+                  items: list,
+                  carouselController: controller,
+                  options: CarouselOptions(
+                    autoPlay: false,
+                    disableCenter: true,
+                    viewportFraction: 0.8,
+                    height: listSectionHeight,
+                    enableInfiniteScroll: true,
+                    padEnds: true,
+                    enlargeFactor: 0.24,
+                    enlargeCenterPage: true,
+                    onPageChanged: (index, reason) {
+                      if (!isUpdating.value) {
+                        isUpdating.value = true;
+                        bloc.changeSelectedIndex(index);
+                      }
+                    },
+                  ),
+                );
+              }),
+            ),
           ),
         ),
       ],

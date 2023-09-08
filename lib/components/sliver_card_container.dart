@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:sliver_tools/sliver_tools.dart';
 
-import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
 class SliverCardContainer extends StatelessWidget {
@@ -23,7 +22,6 @@ class SliverCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    locator.logger.i("SliverCardContainer rebuild");
     return SliverStack(
       insetOnOverlap: false, // defaults to false
       children: <Widget>[

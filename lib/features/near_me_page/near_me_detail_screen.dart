@@ -147,7 +147,6 @@ class NearbyDetailScreen extends HookWidget {
             constraints: const BoxConstraints.expand(height: 240),
             color: Colors.blueGrey,
           );
-          locator.logger.e("WRERWE");
           if (index == 0) {
             return Hero(
               tag: heroTag,
@@ -168,7 +167,7 @@ class NearbyDetailScreen extends HookWidget {
             autoPlay: false,
             autoPlayCurve: Curves.fastOutSlowIn,
             enlargeCenterPage: true,
-            enlargeFactor: 0.2,
+            enlargeFactor: 0.24,
             scrollDirection: Axis.horizontal,
           ),
         );

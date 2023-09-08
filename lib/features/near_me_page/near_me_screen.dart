@@ -37,7 +37,6 @@ class _NearMeScreenState extends State<NearMeScreen>
 
     useEffect(() {
       locator.logger.d('geolocation != null $geolocation');
-
       if (geolocation != null) {
         bloc.loadNearbyEvents(
           latitude: geolocation.latitude,
@@ -149,35 +148,37 @@ class _NearMeScreenState extends State<NearMeScreen>
                       );
                     }
                     return SliverToBoxAdapter(
-                      child: Container(
-                        color: Colors.transparent,
-                        height: contentHeight + 120,
-                        width: box.maxWidth,
-                        child: PreloadPageView(
-                          //  allowImplicitScrolling: false,
-                          controller: pageController,
-                          onPageChanged: (value) => switchIndex.value = value,
-                          children: [
-                            CustomScrollView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              slivers: [
-                                NearMeScreenMapViewContent(
-                                  switchIndex: switchIndex,
-                                  switchItems: switchItems,
-                                  mapSectionHeight: mapSectionHeight,
-                                  listSectionHeight: listSectionHeight,
-                                  mapController: mapController,
-                                  bloc: bloc,
-                                  state: state,
-                                ),
-                              ],
-                            ),
-                            NearMeScreenListViewContent(
-                              switchIndex: switchIndex,
-                              bloc: bloc,
-                              state: state,
-                            ),
-                          ],
+                      child: RepaintBoundary(
+                        child: Container(
+                          color: Colors.transparent,
+                          height: contentHeight + 120,
+                          width: box.maxWidth,
+                          child: PreloadPageView(
+                            //  allowImplicitScrolling: false,
+                            controller: pageController,
+                            onPageChanged: (value) => switchIndex.value = value,
+                            children: [
+                              CustomScrollView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                slivers: [
+                                  NearMeScreenMapViewContent(
+                                    switchIndex: switchIndex,
+                                    switchItems: switchItems,
+                                    mapSectionHeight: mapSectionHeight,
+                                    listSectionHeight: listSectionHeight,
+                                    mapController: mapController,
+                                    bloc: bloc,
+                                    state: state,
+                                  ),
+                                ],
+                              ),
+                              NearMeScreenListViewContent(
+                                switchIndex: switchIndex,
+                                bloc: bloc,
+                                state: state,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

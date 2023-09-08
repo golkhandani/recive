@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bx.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:intl/intl.dart';
+
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/news_page/models/news_model.dart';
 import 'package:recive/features/news_page/news_detail_screen.dart';
 import 'package:recive/ioc/locator.dart';
-import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
@@ -88,10 +88,10 @@ class TopNewsCardContainer extends HookWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Iconify(
-              Bx.calendar_event,
+            Icon(
+              FluentIcons.calendar_12_regular,
               color: color.lighten(0.7),
-              size: 12,
+              size: 24,
             ),
             const SizedBox(width: 4),
             Text(
@@ -103,10 +103,10 @@ class TopNewsCardContainer extends HookWidget {
               ),
             ),
             const SizedBox(width: 12),
-            Iconify(
-              Mdi.volume_source,
+            Icon(
+              FluentIcons.sound_source_20_regular,
               color: color.lighten(0.7),
-              size: 12,
+              size: 24,
             ),
             const SizedBox(width: 4),
             Expanded(

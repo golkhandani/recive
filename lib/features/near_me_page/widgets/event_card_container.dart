@@ -3,16 +3,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bx.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:intl/intl.dart';
 
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/near_me_page/widgets/event_card_container_data.dart';
 import 'package:recive/ioc/locator.dart';
-import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
@@ -60,8 +59,8 @@ class EventCardContainer extends StatelessWidget {
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          Iconify(
-                            Bx.calendar_event,
+                          Icon(
+                            FluentIcons.calendar_12_regular,
                             color: fontColor,
                             size: 24,
                           ),
@@ -79,25 +78,6 @@ class EventCardContainer extends StatelessWidget {
                       ),
                     ],
                     const SizedBox(height: 12),
-                    // Row(
-                    //   children: [
-                    //     Iconify(
-                    //       Bx.bxs_map,
-                    //       color: fontColor,
-                    //       size: 24,
-                    //     ),
-                    //     const SizedBox(width: 4),
-                    //     Expanded(
-                    //       child: Text(
-                    //         data.location,
-                    //         maxLines: 1,
-                    //         overflow: TextOverflow.ellipsis,
-                    //         style: context.titleSmallOnPrimaryContainer
-                    //             .withColor(fontColor),
-                    //       ),
-                    //     ),
-                    // ],
-                    //),
                   ],
                 ),
               ),

@@ -51,7 +51,7 @@ class HomePageTopNewsSections extends HookWidget {
               sliver: SliverToBoxAdapter(
                 child: LayoutBuilder(builder: (context, box) {
                   return SizedBox(
-                    height: 120,
+                    height: 124,
                     child: Builder(builder: (context) {
                       if (state.loadingState == LoadingState.loading) {
                         return const Center(

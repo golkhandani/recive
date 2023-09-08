@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bx.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:recive/enums/loading_state.dart';
@@ -89,11 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Iconify(
-                                  Bx.bxl_google,
-                                  color: context
-                                      .theme.colorScheme.onErrorContainer,
-                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   "Login with Google",
@@ -133,11 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Iconify(
-                                  Bx.bxl_apple,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(width: 4),
                                 Text(
                                   "Login with Apple",
                                   textAlign: TextAlign.center,
@@ -177,12 +165,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Iconify(
-                                  Bx.key,
-                                  color: context
-                                      .theme.colorScheme.onErrorContainer,
-                                ),
-                                const SizedBox(width: 4),
                                 Text(
                                   "Login with ApiKey",
                                   textAlign: TextAlign.center,

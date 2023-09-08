@@ -40,7 +40,6 @@ dependencies:
   flutter_bloc: ^8.1.3
   flutter_hooks: ^0.18.6
   cached_network_image: ^3.2.3
-  iconify_flutter: ^0.0.5
   google_fonts: ^5.1.0
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.1
@@ -88,6 +87,10 @@ dependencies:
   logging: ^1.2.0
   logger: ^2.0.2
   chat_gpt_sdk: ^2.2.4
+  line_icons: ^2.0.3
+  fluentui_system_icons: ^1.1.211
+  infinite_carousel: ^1.0.3
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

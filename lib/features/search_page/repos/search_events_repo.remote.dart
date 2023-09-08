@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:latlong2/latlong.dart';
+
 import 'package:recive/domain/graphql/__generated__/search_event_query.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/search_keywords_query.req.gql.dart';
 import 'package:recive/extensions/date_extensions.dart';
@@ -33,7 +34,7 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
     final events = data.data?.events;
 
     if (events == null) {
-      throw HttpException('Data is empty');
+      throw const HttpException('Data is empty');
     }
 
     final convertedData = events
@@ -133,7 +134,7 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
     final events = data.data?.events;
 
     if (events == null) {
-      throw HttpException('Data is empty');
+      throw const HttpException('Data is empty');
     }
 
     final convertedData = events

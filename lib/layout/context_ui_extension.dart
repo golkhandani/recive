@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:recive/enums/loading_state.dart';
 
@@ -74,11 +73,17 @@ extension UiBreakPointDetection on BuildContext {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Iconify(Mdi.error, color: Colors.redAccent),
+              Icon(
+                FluentIcons.error_circle_12_regular,
+                color: Colors.redAccent,
+                size: 12,
+              ),
               SizedBox(width: 12),
               Text(
                 'Something went wrong',
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(
+                  color: Colors.redAccent,
+                ),
               ),
             ],
           ),

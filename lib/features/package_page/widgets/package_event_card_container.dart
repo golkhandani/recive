@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bx.dart';
 
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
@@ -67,8 +66,8 @@ class PackageEventCardContainer extends HookWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Iconify(
-                        Bx.bxs_map,
+                      Icon(
+                        FluentIcons.location_12_filled,
                         color: fontColor,
                         size: 24,
                       ),

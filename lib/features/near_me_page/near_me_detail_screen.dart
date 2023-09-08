@@ -1,14 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bx.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:intl/intl.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -122,7 +121,7 @@ class NearbyDetailScreen extends HookWidget {
     );
   }
 
-  CardContainer _buildImageCarousel(
+  Widget _buildImageCarousel(
       NearbyDetailSummaryData? summary, EventComplete? data, String heroTag) {
     return CardContainer(
       borderRadius: BorderRadius.circular(16),
@@ -131,6 +130,7 @@ class NearbyDetailScreen extends HookWidget {
         if ((summary?.imageUrl ?? data!.imageUrl) == null) {
           return const SizedBox();
         }
+
         // Warning: To prevent rebuild issue
         // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
         final list = [
@@ -141,44 +141,36 @@ class NearbyDetailScreen extends HookWidget {
                 summary?.imageUrl ?? data!.imageUrl!,
                 summary?.imageUrl ?? data!.imageUrl!,
               ])
-        ]
-            .mapIndexed((index, data) => ColoredNetworkImage(
-                  imageUrl: data!,
-                  constraints: const BoxConstraints.expand(height: 240),
-                  color: Colors.blueGrey,
-                ))
-            .toList();
+        ].mapIndexed((index, data) {
+          final item = ColoredNetworkImage(
+            imageUrl: data!,
+            constraints: const BoxConstraints.expand(height: 240),
+            color: Colors.blueGrey,
+          );
+          locator.logger.e("WRERWE");
+          if (index == 0) {
+            return Hero(
+              tag: heroTag,
+              child: item,
+            );
+          }
+          return item;
+        }).toList();
 
-        final options = CarouselOptions(
-          autoPlay: false,
-          disableCenter: true,
-          viewportFraction: .8,
-          height: 360,
-          indicatorMargin: 12.0,
-          floatingIndicator: true,
-          slideIndicator: CircularWaveSlideIndicator(
-            currentIndicatorColor: context.colorScheme.secondary,
-            indicatorBackgroundColor: context.colorScheme.primary,
+        return CarouselSlider(
+          items: list,
+          options: CarouselOptions(
+            height: 360,
+            viewportFraction: 0.8,
+            initialPage: 0,
+            enableInfiniteScroll: true,
+            reverse: false,
+            autoPlay: false,
+            autoPlayCurve: Curves.fastOutSlowIn,
+            enlargeCenterPage: true,
+            enlargeFactor: 0.2,
+            scrollDirection: Axis.horizontal,
           ),
-          allowImplicitScrolling: true,
-          showIndicator: true,
-          enableInfiniteScroll: true,
-          enlargeCenterPage: true,
-          enlargeStrategy: CenterPageEnlargeStrategy.scale,
-          padEnds: true,
-        );
-        return FlutterCarousel.builder(
-          options: options,
-          itemCount: list.length,
-          itemBuilder: (context, index, realIndex) {
-            if (index == 0) {
-              return Hero(
-                tag: heroTag,
-                child: list[index],
-              );
-            }
-            return list[index];
-          },
         );
       }),
     );
@@ -206,8 +198,8 @@ class NearbyDetailScreen extends HookWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Iconify(
-                        Bx.info_circle,
+                      Icon(
+                        FluentIcons.info_12_regular,
                         color: fontColor,
                         size: 24,
                       ),
@@ -234,8 +226,8 @@ class NearbyDetailScreen extends HookWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Iconify(
-                        Mdi.web,
+                      Icon(
+                        FluentIcons.web_asset_16_regular,
                         color: fontColor,
                         size: 24,
                       ),
@@ -349,8 +341,8 @@ class NearbyDetailScreen extends HookWidget {
                 children: [
                   Row(
                     children: [
-                      Iconify(
-                        Mdi.briefcase_outline,
+                      Icon(
+                        FluentIcons.briefcase_12_regular,
                         color: fontColor,
                         size: 24,
                       ),
@@ -380,8 +372,8 @@ class NearbyDetailScreen extends HookWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Iconify(
-                        Mdi.person_group_outline,
+                      Icon(
+                        FluentIcons.group_20_regular,
                         color: fontColor,
                         size: 24,
                       ),
@@ -413,8 +405,8 @@ class NearbyDetailScreen extends HookWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Iconify(
-                        Mdi.web,
+                      Icon(
+                        FluentIcons.web_asset_16_regular,
                         color: fontColor,
                         size: 24,
                       ),
@@ -484,8 +476,8 @@ class NearbyDetailScreen extends HookWidget {
                 children: [
                   Row(
                     children: [
-                      Iconify(
-                        Bx.bx_money_withdraw,
+                      Icon(
+                        FluentIcons.money_16_regular,
                         color: fontColor,
                         size: 24,
                       ),
@@ -534,8 +526,8 @@ class NearbyDetailScreen extends HookWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Iconify(
-                        Mdi.ticket_percent_outline,
+                      Icon(
+                        FluentIcons.ticket_horizontal_20_regular,
                         color: fontColor,
                         size: 24,
                       ),
@@ -573,8 +565,8 @@ class NearbyDetailScreen extends HookWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Iconify(
-                        Bx.calendar_event,
+                      Icon(
+                        FluentIcons.calendar_12_regular,
                         color: fontColor,
                         size: 24,
                       ),
@@ -654,10 +646,10 @@ class NearbyDetailScreen extends HookWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Iconify(
-                          Mdi.resource_description_framework,
+                        Icon(
+                          LineIcons.objectGroup,
                           color: fontColor,
-                          size: 24,
+                          size: 36,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -688,10 +680,10 @@ class NearbyDetailScreen extends HookWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Iconify(
-                          Bx.bxs_map,
+                        Icon(
+                          LineIcons.addressCard,
                           color: fontColor,
-                          size: 24,
+                          size: 36,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -708,10 +700,10 @@ class NearbyDetailScreen extends HookWidget {
                     if (data.organizer?.title != null)
                       Row(
                         children: [
-                          Iconify(
-                            Bx.briefcase,
+                          Icon(
+                            LineIcons.peopleCarry,
                             color: fontColor,
-                            size: 24,
+                            size: 36,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -794,10 +786,10 @@ class NearbyDetailScreen extends HookWidget {
                 children: [
                   Row(
                     children: [
-                      const Iconify(
-                        Mdi.warning,
-                        color: Colors.redAccent,
-                        size: 24,
+                      Icon(
+                        FluentIcons.warning_12_filled,
+                        color: context.colorScheme.error,
+                        size: 36,
                       ),
                       const SizedBox(width: 12),
                       Expanded(

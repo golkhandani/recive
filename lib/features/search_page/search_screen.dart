@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
-import 'package:recive/extensions/color_extentions.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -12,6 +10,7 @@ import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
@@ -106,8 +105,8 @@ class SearchScreen extends HookWidget {
                         height: 56,
                         margin: const EdgeInsets.only(bottom: 12, right: 12),
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Iconify(
-                          Mdi.filter,
+                        child: Icon(
+                          FluentIcons.filter_12_filled,
                           color: context.schema.onTertiaryContainer,
                           size: 36,
                         ),

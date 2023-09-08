@@ -32,10 +32,10 @@ class _MapContent extends HookWidget {
           onTap: () {
             bloc.changeSelectedIndex(index);
           },
-          child: Iconify(
-            Bx.bxs_map,
+          child: Icon(
+            FluentIcons.location_12_filled,
             color: color,
-            size: 50,
+            size: 24,
           ),
         ),
       );

@@ -1,17 +1,17 @@
+import 'package:flutter/material.dart';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:expandable/expandable.dart';
-import 'package:flutter/material.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bx.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:intl/intl.dart';
+
 import 'package:recive/components/card_container.dart';
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/news_page/news_detail_screen.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/news_page/widgets/news_card_container.dart';
 import 'package:recive/ioc/locator.dart';
-import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
@@ -116,10 +116,10 @@ class TopNewsExpandedCardContainer extends HookWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Iconify(
-                            Bx.calendar_event,
+                          Icon(
+                            FluentIcons.calendar_12_regular,
                             color: fontColor,
-                            size: 12,
+                            size: 24,
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -131,10 +131,10 @@ class TopNewsExpandedCardContainer extends HookWidget {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          Iconify(
-                            Mdi.volume_source,
+                          Icon(
+                            FluentIcons.sound_source_20_regular,
                             color: fontColor,
-                            size: 12,
+                            size: 24,
                           ),
                           const SizedBox(width: 4),
                           Expanded(
@@ -160,8 +160,8 @@ class TopNewsExpandedCardContainer extends HookWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Iconify(
-                              Bx.calendar_event,
+                            Icon(
+                              FluentIcons.calendar_12_regular,
                               color: fontColor,
                               size: 12,
                             ),
@@ -175,8 +175,8 @@ class TopNewsExpandedCardContainer extends HookWidget {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Iconify(
-                              Mdi.volume_source,
+                            Icon(
+                              FluentIcons.sound_source_20_regular,
                               color: fontColor,
                               size: 12,
                             ),

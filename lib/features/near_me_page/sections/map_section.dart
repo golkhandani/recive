@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -8,8 +9,6 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bx.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 

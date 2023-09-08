@@ -3,16 +3,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/bx.dart';
 import 'package:intl/intl.dart';
 
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/features/search_page/widgets/search_event_card_container_data.dart';
 import 'package:recive/ioc/locator.dart';
-import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
@@ -59,8 +58,8 @@ class SearchEventCardContainer extends HookWidget {
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          Iconify(
-                            Bx.calendar_event,
+                          Icon(
+                            FluentIcons.calendar_12_regular,
                             color: color.lighten(0.7),
                             size: 24,
                           ),
@@ -79,8 +78,8 @@ class SearchEventCardContainer extends HookWidget {
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        Iconify(
-                          Bx.bxs_map,
+                        Icon(
+                          FluentIcons.location_12_filled,
                           color: color.lighten(0.7),
                           size: 24,
                         ),

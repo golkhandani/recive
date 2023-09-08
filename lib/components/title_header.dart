@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/navigation_service.dart';
+import 'package:recive/utils/theme.dart';
 
 class TitleHeader extends HookWidget {
   const TitleHeader({
@@ -27,6 +26,16 @@ class TitleHeader extends HookWidget {
     final backgroundColorV =
         backgroundColor ?? context.theme.colorScheme.primary;
     final titleColorV = titleColor ?? context.theme.colorScheme.onPrimary;
+    final color = colorSchemeLight.onTertiary;
+    final backbtn = SizedBox(
+      width: 32,
+      height: 32,
+      child: Icon(
+        Icons.arrow_back,
+        size: 24,
+        color: color,
+      ),
+    );
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
@@ -53,17 +62,18 @@ class TitleHeader extends HookWidget {
                       onTap: () {
                         navigationService.backTo(context);
                       },
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: context.schema.tertiary.withOpacity(1),
-                        ),
-                        child: Iconify(
-                          Mdi.arrow_back,
-                          color: context.schema.onTertiary,
-                          size: 32,
-                        ),
-                      ),
+                      child: Builder(builder: (context) {
+                        return Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: context.schema.tertiary.withOpacity(1),
+                          ),
+                          child: Builder(builder: (context) {
+                            locator.logger.d("@WFREWWQE");
+                            return backbtn;
+                          }),
+                        );
+                      }),
                     ),
                   ),
                 ),

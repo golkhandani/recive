@@ -114,7 +114,7 @@ class GQLPackageEventRepo extends IPackageEventRepo {
     final list = <Package>[];
     for (var count in counter) {
       events.shuffle();
-      final packageEvents = events.take(10);
+      final packageEvents = events.take(3);
       final way = rms.convertPointsToWay(
         packageEvents.map((e) => e.latLng).toList(),
       );

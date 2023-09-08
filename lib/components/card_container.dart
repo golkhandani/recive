@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
 class CardContainer extends StatelessWidget {
@@ -20,6 +21,7 @@ class CardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    locator.logger.i("CardContainer ERRORCHEK rebuild");
     return DecoratedBox(
       decoration: BoxDecoration(
         color: color ?? context.colorScheme.tertiaryContainer,

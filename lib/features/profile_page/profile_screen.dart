@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:custom_clippers/custom_clippers.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
+import 'package:recive/features/introduction_page/cubits/setting_loader_cubit.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/features/profile_page/models/user_custom_data.dart';
@@ -35,8 +37,16 @@ class ProfileScreen extends HookWidget {
     final bloc = useBloc<LoginCubit>();
     final state = useBlocBuilder(bloc);
 
-    final themeBloc = useBloc<ReciveThemeCubit>();
+    final themeBloc = context.read<ReciveThemeCubit>();
     final theme = useBlocBuilder(themeBloc);
+
+    final settingbloc = useBloc<SettingLoaderCubit>();
+    final setting = useBlocBuilder(settingbloc);
+
+    useEffect(() {
+      settingbloc.loadSetting();
+      return;
+    }, []);
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
@@ -167,40 +177,37 @@ class ProfileScreen extends HookWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                // Text(theme.toString()),
+                                const SizedBox(height: 12),
+                                _buildThemeSettingSection(
+                                  box,
+                                  theme,
+                                  context,
+                                  themeBloc,
+                                ),
                                 const SizedBox(height: 12),
                                 Row(
                                   children: [
-                                    const Text("Theme:"),
+                                    const Text("Intro has been viewed:"),
                                     const Spacer(),
-                                    ToggleSwitch(
-                                      minWidth: box.maxWidth / 4,
-                                      minHeight: 42.0,
-                                      fontSize: 16.0,
-                                      initialLabelIndex: theme.index,
-                                      activeBgColor: [
-                                        context
-                                            .theme.colorScheme.primaryContainer
-                                      ],
-                                      activeFgColor: context
-                                          .theme.colorScheme.onPrimaryContainer,
-                                      inactiveBgColor:
-                                          context.theme.colorScheme.tertiary,
-                                      inactiveFgColor:
-                                          context.theme.colorScheme.onTertiary,
-                                      totalSwitches: ReciveTheme.values.length,
-                                      animationDuration: 100,
-                                      labels: ReciveTheme.values
-                                          .map((e) => e.name.capitalize())
-                                          .toList(),
-                                      animate: true,
-                                      onToggle: (index) {
-                                        final val = index ?? 0;
-                                        themeBloc.switchTheme(val);
-                                      },
+                                    Theme(
+                                      data: ThemeData(useMaterial3: true),
+                                      child: Switch(
+                                        value: setting.isIntroViewed,
+                                        trackOutlineWidth:
+                                            const MaterialStatePropertyAll(0),
+                                        activeColor: context
+                                            .colorScheme.primaryContainer,
+                                        inactiveTrackColor:
+                                            context.theme.colorScheme.tertiary,
+                                        inactiveThumbColor: context
+                                            .theme.colorScheme.onTertiary,
+                                        onChanged: (value) {
+                                          settingbloc.switchIntroSetting(value);
+                                        },
+                                      ),
                                     ),
                                   ],
-                                ),
+                                )
                               ],
                             ),
                             const Spacer(),
@@ -267,6 +274,34 @@ class ProfileScreen extends HookWidget {
           ],
         );
       }),
+    );
+  }
+
+  Row _buildThemeSettingSection(BoxConstraints box, ReciveTheme theme,
+      BuildContext context, ReciveThemeCubit themeBloc) {
+    return Row(
+      children: [
+        const Text("Theme:"),
+        const Spacer(),
+        ToggleSwitch(
+          minWidth: box.maxWidth / 4,
+          minHeight: 42.0,
+          fontSize: 16.0,
+          initialLabelIndex: theme.index,
+          activeBgColor: [context.theme.colorScheme.primaryContainer],
+          activeFgColor: context.theme.colorScheme.onPrimaryContainer,
+          inactiveBgColor: context.theme.colorScheme.tertiary,
+          inactiveFgColor: context.theme.colorScheme.onTertiary,
+          totalSwitches: ReciveTheme.values.length,
+          animationDuration: 100,
+          labels: ReciveTheme.values.map((e) => e.name.capitalize()).toList(),
+          animate: true,
+          onToggle: (index) {
+            final val = index ?? 0;
+            themeBloc.switchTheme(val);
+          },
+        ),
+      ],
     );
   }
 }

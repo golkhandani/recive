@@ -68,21 +68,24 @@ class LocationService {
   UserLocation? lastUserLocation;
 
   Future<void> requestService({
-    required VoidCallback onGrantedPermission,
+    required Function(LocationPermission) onDone,
   }) async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (serviceEnabled) {
-      return;
-    }
-    locator.logger.d("__| LocationService 1 $serviceEnabled");
+
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
       locator.logger.d("__| LocationService 2 $serviceEnabled");
-      return Future.error('Location services are disabled.');
+      return onDone(permission);
+      // return Future.error('Location services are disabled.');
     }
+    locator.logger.d("__| LocationService 1 $serviceEnabled");
+
     permission = await Geolocator.checkPermission();
+    if (serviceEnabled) {
+      return onDone(permission);
+    }
     locator.logger.d("__| LocationService 3 $serviceEnabled");
     if (permission == LocationPermission.denied) {
       locator.logger.d("__| LocationService 4 $serviceEnabled");
@@ -94,15 +97,17 @@ class LocationService {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
+        return onDone(permission);
+        // return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       locator.logger.d("__| LocationService 7 $serviceEnabled");
       // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return onDone(permission);
+      // return Future.error(
+      //     'Location permissions are permanently denied, we cannot request permissions.');
     }
 
     final position = await Geolocator.getCurrentPosition();
@@ -111,7 +116,7 @@ class LocationService {
       position: position,
       timestamp: position.timestamp,
     );
-    return onGrantedPermission();
+    return onDone(permission);
   }
 
   updateUastUserLocation(Position? position) {
@@ -167,7 +172,7 @@ UserLocation useUserLocation({
 }) {
   locator.logger.d("_________________| useUserLocation");
 
-  locationService.requestService(onGrantedPermission: () => {});
+  locationService.requestService(onDone: (permission) => {});
 
   final mount = useIsMounted();
   final state = useRef(

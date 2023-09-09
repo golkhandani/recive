@@ -1,9 +1,8 @@
 part of 'map_section.dart';
 
-class _MapContent extends HookWidget {
+class _MapContent extends StatefulHookWidget {
   static const double maxZoom = 18;
   static const double minZoom = 10;
-  static const double initalZoom = 15;
   const _MapContent({
     required this.mapSectionHeight,
     required this.mapController,
@@ -16,6 +15,11 @@ class _MapContent extends HookWidget {
   final NearbyEventsCubit bloc;
   final NearbyEventsState state;
 
+  @override
+  State<_MapContent> createState() => _MapContentState();
+}
+
+class _MapContentState extends State<_MapContent> {
   Marker _createMarker(
     LatLng point,
     Color color,
@@ -30,7 +34,7 @@ class _MapContent extends HookWidget {
         rotate: true,
         builder: (ctx) => InkWell(
           onTap: () {
-            bloc.changeSelectedIndex(index);
+            widget.bloc.changeSelectedIndex(index);
           },
           child: Icon(
             FluentIcons.location_12_filled,
@@ -40,25 +44,25 @@ class _MapContent extends HookWidget {
         ),
       );
 
-  List<EventCardContainerData> calcItems() {
-    return state.nearbyEvents
-        .map((e) => EventCardContainerData.fromFeaturedEvent(e))
-        .toList();
-  }
+  final SuperclusterMutableController sc = SuperclusterMutableController();
+
+  late List<EventCardContainerData> items;
 
   @override
-  Widget build(BuildContext context) {
-    List<EventCardContainerData> items = calcItems();
-    LatLng? ltlg;
-    const defaultPosition = LatLng(51.509364, -0.128928);
-    final geolocation = useLocationData(debugLabel: 'MapContent');
-    final zoom = useState(_MapContent.initalZoom);
+  void initState() {
+    super.initState();
+    updateItems();
+  }
 
-    final center = useState(
-      items.isNotEmpty ? items.first.latLng : (ltlg ?? defaultPosition),
-    );
+  List<EventCardContainerData> updateItems() {
+    items = widget.state.nearbyEvents
+        .map((e) => EventCardContainerData.fromFeaturedEvent(e))
+        .toList();
+    return items;
+  }
 
-    List<Marker> markers = items
+  List<Marker> updateMarkers() {
+    final updatedMarkers = items
         .mapIndexed(
           (index, data) => _createMarker(
             data.latLng,
@@ -67,43 +71,48 @@ class _MapContent extends HookWidget {
           ),
         )
         .toList();
+    sc.clear();
+    sc.replaceAll(updatedMarkers);
+    return updatedMarkers;
+  }
 
-    final showRefresh = useState(false);
-    final isRefreshLoading = useState(false);
-    final mapInitialized = useState(false);
+  @override
+  Widget build(BuildContext context) {
+    final geolocation = useLocationData(debugLabel: 'MapContent');
+    final mapBloc = useBloc<MapControlCubit>();
+    final mapState = useBlocComparativeBuilder(
+      mapBloc,
+      buildWhen: (old, updated) {
+        return old != updated;
+      },
+    );
+
+    final positionUpdater = useDebounce<MapControlState>(
+      debounceDelay: 500,
+      callback: (val) => mapBloc.updateState(val),
+    );
 
     useEffect(() {
-      if (geolocation != null) {
-        ltlg = LatLng(
-          geolocation.latitude,
-          geolocation.longitude,
-        );
-      }
-      return;
-    }, [geolocation?.timestamp]);
+      updateItems();
 
-    useEffect(() {
-      if (state.preSelectedEventIndex != 0) {
-        items = calcItems();
-        showRefresh.value = false;
-        isRefreshLoading.value = false;
+      if (widget.state.preSelectedEventIndex != 0) {
+        mapBloc.updateState(mapState.copyWith(showRefresh: false));
         return;
       }
-      if (state.loadingState != LoadingState.done ||
-          isRefreshLoading.value == false) {
+      if (widget.state.loadingState != LoadingState.done ||
+          widget.state.isRefreshLoading != false) {
         return;
       }
+      locator.logger.w("GOING TO UPDATE MARKERS");
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        mapController.animateTo(dest: items.first.latLng).then((value) {
-          showRefresh.value = false;
-          isRefreshLoading.value = false;
+        updateMarkers();
+        widget.mapController.animateTo(dest: items.first.latLng).then((value) {
+          mapBloc.updateState(mapState.copyWith(showRefresh: false));
         });
       });
 
       return;
-    }, [state.nearbyEvents]);
-
-    final interations = useState(InteractiveFlag.all & ~InteractiveFlag.rotate);
+    }, [widget.state.nearbyEvents]);
 
     return MultiSliver(children: [
       SliverCardContainer(
@@ -120,20 +129,20 @@ class _MapContent extends HookWidget {
                     color: Colors.orangeAccent,
                   ),
                   width: box.maxWidth,
-                  height: mapSectionHeight,
+                  height: widget.mapSectionHeight,
                   child: Stack(
                     children: [
                       Positioned.fill(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: FlutterMap(
-                            mapController: mapController.mapController,
+                            mapController: widget.mapController.mapController,
                             options: MapOptions(
-                              center: center.value,
-                              zoom: zoom.value,
+                              center: mapState.center,
+                              zoom: mapState.zoom,
                               adaptiveBoundaries: false,
                               keepAlive: true,
-                              interactiveFlags: interations.value,
+                              interactiveFlags: mapState.interations,
                               maxZoom: _MapContent.maxZoom,
                               minZoom: _MapContent.minZoom,
                               rotationThreshold: 45,
@@ -145,10 +154,14 @@ class _MapContent extends HookWidget {
                               pinchMoveWinGestures:
                                   MultiFingerGesture.pinchMove,
                               onPositionChanged: (position, hasGesture) {
-                                showRefresh.value = true;
-                                center.value = position.center!;
-                                zoom.value = position.zoom!;
-                                mapInitialized.value = true;
+                                positionUpdater.onChanged(
+                                  mapState.copyWith(
+                                    showRefresh: true,
+                                    center: position.center!,
+                                    zoom: position.zoom!,
+                                    mapInitialized: true,
+                                  ),
+                                );
                               },
                             ),
                             nonRotatedChildren: const [
@@ -156,40 +169,11 @@ class _MapContent extends HookWidget {
                             ],
                             children: [
                               const FlutterMapTileLayer(),
-                              SuperclusterLayer.mutable(
-                                initialMarkers: markers,
-                                indexBuilder: IndexBuilders.rootIsolate,
-                                clusterWidgetSize: const Size(40, 40),
-                                maxClusterRadius: 40,
-                                minimumClusterSize: 2,
-                                anchor: AnchorPos.align(AnchorAlign.center),
-                                calculateAggregatedClusterData: true,
-                                builder: (
-                                  context,
-                                  position,
-                                  markerCount,
-                                  extraClusterData,
-                                ) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      color: context.colorScheme.errorContainer,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        markerCount.toString(),
-                                        style: TextStyle(
-                                          color: context
-                                              .colorScheme.onErrorContainer,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
+                              FutterMapClusterLayer(controller: sc),
                               SelectedMarker(
                                 latLng:
-                                    items[state.preSelectedEventIndex].latLng,
+                                    items[widget.state.preSelectedEventIndex]
+                                        .latLng,
                               ),
                               if (geolocation != null) ...[
                                 FlutterMapUserMarker(geolocation: geolocation),
@@ -198,75 +182,19 @@ class _MapContent extends HookWidget {
                           ),
                         ),
                       ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              MapButton(
-                                  icon: Icons.center_focus_strong,
-                                  onClicked: () {
-                                    mapController.animateTo(
-                                      dest: geolocation?.latLng,
-                                    );
-                                  }),
-                              MapButton(
-                                icon: Icons.zoom_in,
-                                onClicked: () {
-                                  if (zoom.value > _MapContent.maxZoom) {
-                                    return;
-                                  }
-                                  zoom.value = zoom.value + 1;
-                                  mapController.animatedZoomTo(zoom.value);
-                                },
-                              ),
-                              MapButton(
-                                icon: Icons.zoom_out,
-                                onClicked: () {
-                                  if (zoom.value < _MapContent.minZoom) {
-                                    return;
-                                  }
-                                  zoom.value = zoom.value - 1;
-                                  mapController.animatedZoomTo(zoom.value);
-                                },
-                              ),
-                              MapButton(
-                                icon: Icons.near_me_outlined,
-                                onClicked: () {
-                                  mapController.animatedRotateReset();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                      FlutterMapControlButtons(
+                        mapController: widget.mapController,
+                        geolocation: geolocation,
+                        mapState: mapState,
+                        mapBloc: mapBloc,
                       ),
-                      if (showRefresh.value)
-                        Positioned(
-                          bottom: 12,
-                          left: 12,
-                          child: MapButton(
-                            text: 'Search in this area!',
-                            icon: Icons.refresh,
-                            isLoading: isRefreshLoading.value,
-                            onClicked: () {
-                              if (geolocation != null) {
-                                isRefreshLoading.value = true;
-                                bloc
-                                    .loadNearbyEvents(
-                                      latitude: center.value.latitude,
-                                      longitude: center.value.longitude,
-                                      maxDistance: (zoom.value * 10000).toInt(),
-                                      minDistance: 0,
-                                      onBackground: true,
-                                    )
-                                    .then(
-                                      (value) => isRefreshLoading.value = true,
-                                    );
-                              }
-                            },
-                          ),
+                      if (mapState.showRefresh &&
+                          mapState.center != items.first.latLng)
+                        FlutterMapSearchRefreshButton(
+                          geolocation: geolocation,
+                          mapState: mapState,
+                          searchState: widget.state,
+                          searchBloc: widget.bloc,
                         )
                     ],
                   ),
@@ -277,5 +205,159 @@ class _MapContent extends HookWidget {
         ),
       )
     ]);
+  }
+}
+
+class FlutterMapSearchRefreshButton extends StatelessWidget {
+  const FlutterMapSearchRefreshButton({
+    super.key,
+    required this.geolocation,
+    required this.mapState,
+    required this.searchState,
+    required this.searchBloc,
+  });
+
+  final Position? geolocation;
+  final MapControlState mapState;
+  final NearbyEventsState searchState;
+  final NearbyEventsCubit searchBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: 12,
+      left: 12,
+      child: MapButton(
+        text: 'Search in this area!',
+        icon: Icons.refresh,
+        isLoading: searchState.isRefreshLoading,
+        onClicked: () {
+          if (geolocation != null) {
+            searchBloc.loadNearbyEvents(
+              latitude: mapState.center.latitude,
+              longitude: mapState.center.longitude,
+              maxDistance: (mapState.zoom * 10000).toInt(),
+              minDistance: 0,
+              onBackground: true,
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class FutterMapClusterLayer extends StatelessWidget {
+  const FutterMapClusterLayer({
+    super.key,
+    required this.controller,
+  });
+
+  final SuperclusterMutableController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return SuperclusterLayer.mutable(
+      initialMarkers: const [],
+      controller: controller,
+      loadingOverlayBuilder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      indexBuilder: IndexBuilders.rootIsolate,
+      clusterWidgetSize: const Size(40, 40),
+      maxClusterRadius: 40,
+      minimumClusterSize: 2,
+      anchor: AnchorPos.align(AnchorAlign.center),
+      calculateAggregatedClusterData: true,
+      builder: (context, position, markerCount, extraClusterData) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            color: context.colorScheme.errorContainer,
+          ),
+          child: Center(
+            child: Text(
+              markerCount.toString(),
+              style: TextStyle(
+                color: context.colorScheme.onErrorContainer,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class FlutterMapControlButtons extends StatelessWidget {
+  const FlutterMapControlButtons({
+    super.key,
+    required this.geolocation,
+    required this.mapState,
+    required this.mapBloc,
+    required this.mapController,
+  });
+
+  final Position? geolocation;
+  final MapControlState mapState;
+  final MapControlCubit mapBloc;
+  final AnimatedMapController mapController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            MapButton(
+                icon: Icons.center_focus_strong,
+                onClicked: () {
+                  mapController.animateTo(
+                    dest: geolocation?.latLng,
+                  );
+                }),
+            MapButton(
+              icon: Icons.zoom_in,
+              onClicked: () {
+                if (mapState.zoom > _MapContent.maxZoom) {
+                  return;
+                }
+                final updatedZoom = mapState.zoom + 1;
+                mapBloc.updateState(
+                  mapState.copyWith(zoom: updatedZoom),
+                );
+                mapController.animatedZoomTo(
+                  updatedZoom,
+                );
+              },
+            ),
+            MapButton(
+              icon: Icons.zoom_out,
+              onClicked: () {
+                if (mapState.zoom < _MapContent.minZoom) {
+                  return;
+                }
+                final updatedZoom = mapState.zoom - 1;
+                mapBloc.updateState(
+                  mapState.copyWith(zoom: updatedZoom),
+                );
+                mapController.animatedZoomTo(
+                  updatedZoom,
+                );
+              },
+            ),
+            MapButton(
+              icon: Icons.near_me_outlined,
+              onClicked: () {
+                mapController.animatedRotateReset();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
+import 'package:recive/features/introduction_page/splash_screen.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
 import 'package:recive/ioc/locator.dart';
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   InkWell(
                     onTap: () => bloc.loginWithGoogle(
                         onSuccess: () =>
-                            navigationService.moveTo(DashboardScreen.name),
+                            navigationService.moveTo(SplashScreen.name),
                         onFailure: () {
                           locator.logger.d("Failed");
                         }),

@@ -23,6 +23,7 @@ mixin _$NearbyEventsState {
   int get preSelectedEventIndex => throw _privateConstructorUsedError;
   List<NearbyEvent> get nearbyEvents => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
+  bool get isRefreshLoading => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +40,8 @@ abstract class $NearbyEventsStateCopyWith<$Res> {
   $Res call(
       {int preSelectedEventIndex,
       List<NearbyEvent> nearbyEvents,
-      LoadingState loadingState});
+      LoadingState loadingState,
+      bool isRefreshLoading});
 }
 
 /// @nodoc
@@ -58,6 +60,7 @@ class _$NearbyEventsStateCopyWithImpl<$Res, $Val extends NearbyEventsState>
     Object? preSelectedEventIndex = null,
     Object? nearbyEvents = null,
     Object? loadingState = null,
+    Object? isRefreshLoading = null,
   }) {
     return _then(_value.copyWith(
       preSelectedEventIndex: null == preSelectedEventIndex
@@ -72,6 +75,10 @@ class _$NearbyEventsStateCopyWithImpl<$Res, $Val extends NearbyEventsState>
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
               as LoadingState,
+      isRefreshLoading: null == isRefreshLoading
+          ? _value.isRefreshLoading
+          : isRefreshLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -87,7 +94,8 @@ abstract class _$$_NearbyEventsStateCopyWith<$Res>
   $Res call(
       {int preSelectedEventIndex,
       List<NearbyEvent> nearbyEvents,
-      LoadingState loadingState});
+      LoadingState loadingState,
+      bool isRefreshLoading});
 }
 
 /// @nodoc
@@ -104,6 +112,7 @@ class __$$_NearbyEventsStateCopyWithImpl<$Res>
     Object? preSelectedEventIndex = null,
     Object? nearbyEvents = null,
     Object? loadingState = null,
+    Object? isRefreshLoading = null,
   }) {
     return _then(_$_NearbyEventsState(
       preSelectedEventIndex: null == preSelectedEventIndex
@@ -118,6 +127,10 @@ class __$$_NearbyEventsStateCopyWithImpl<$Res>
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
               as LoadingState,
+      isRefreshLoading: null == isRefreshLoading
+          ? _value.isRefreshLoading
+          : isRefreshLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -128,7 +141,8 @@ class _$_NearbyEventsState implements _NearbyEventsState {
   const _$_NearbyEventsState(
       {required this.preSelectedEventIndex,
       required final List<NearbyEvent> nearbyEvents,
-      required this.loadingState})
+      required this.loadingState,
+      required this.isRefreshLoading})
       : _nearbyEvents = nearbyEvents;
 
   factory _$_NearbyEventsState.fromJson(Map<String, dynamic> json) =>
@@ -146,10 +160,12 @@ class _$_NearbyEventsState implements _NearbyEventsState {
 
   @override
   final LoadingState loadingState;
+  @override
+  final bool isRefreshLoading;
 
   @override
   String toString() {
-    return 'NearbyEventsState(preSelectedEventIndex: $preSelectedEventIndex, nearbyEvents: $nearbyEvents, loadingState: $loadingState)';
+    return 'NearbyEventsState(preSelectedEventIndex: $preSelectedEventIndex, nearbyEvents: $nearbyEvents, loadingState: $loadingState, isRefreshLoading: $isRefreshLoading)';
   }
 
   @override
@@ -162,13 +178,19 @@ class _$_NearbyEventsState implements _NearbyEventsState {
             const DeepCollectionEquality()
                 .equals(other._nearbyEvents, _nearbyEvents) &&
             (identical(other.loadingState, loadingState) ||
-                other.loadingState == loadingState));
+                other.loadingState == loadingState) &&
+            (identical(other.isRefreshLoading, isRefreshLoading) ||
+                other.isRefreshLoading == isRefreshLoading));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, preSelectedEventIndex,
-      const DeepCollectionEquality().hash(_nearbyEvents), loadingState);
+  int get hashCode => Object.hash(
+      runtimeType,
+      preSelectedEventIndex,
+      const DeepCollectionEquality().hash(_nearbyEvents),
+      loadingState,
+      isRefreshLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -189,7 +211,8 @@ abstract class _NearbyEventsState implements NearbyEventsState {
   const factory _NearbyEventsState(
       {required final int preSelectedEventIndex,
       required final List<NearbyEvent> nearbyEvents,
-      required final LoadingState loadingState}) = _$_NearbyEventsState;
+      required final LoadingState loadingState,
+      required final bool isRefreshLoading}) = _$_NearbyEventsState;
 
   factory _NearbyEventsState.fromJson(Map<String, dynamic> json) =
       _$_NearbyEventsState.fromJson;
@@ -200,6 +223,8 @@ abstract class _NearbyEventsState implements NearbyEventsState {
   List<NearbyEvent> get nearbyEvents;
   @override
   LoadingState get loadingState;
+  @override
+  bool get isRefreshLoading;
   @override
   @JsonKey(ignore: true)
   _$$_NearbyEventsStateCopyWith<_$_NearbyEventsState> get copyWith =>

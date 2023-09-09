@@ -14,12 +14,14 @@ class NearbyEventsState with _$NearbyEventsState {
     required int preSelectedEventIndex,
     required List<NearbyEvent> nearbyEvents,
     required LoadingState loadingState,
+    required bool isRefreshLoading,
   }) = _NearbyEventsState;
 
   factory NearbyEventsState.initialize() => const NearbyEventsState(
         preSelectedEventIndex: 0,
         nearbyEvents: [],
         loadingState: LoadingState.none,
+        isRefreshLoading: false,
       );
 
   factory NearbyEventsState.fromJson(Map<String, Object?> json) =>
@@ -45,7 +47,7 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
       ));
     }
     maybeEmit(state.copyWith(
-      preSelectedEventIndex: 0,
+      isRefreshLoading: true,
     ));
 
     final data = await repo.nearbyEvents(
@@ -57,8 +59,10 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
 
     if (isClosed) return;
     maybeEmit(state.copyWith(
+      preSelectedEventIndex: 0,
       nearbyEvents: data.take(30).toList(),
       loadingState: LoadingState.done,
+      isRefreshLoading: false,
     ));
   }
 

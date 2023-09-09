@@ -1,6 +1,9 @@
+import 'package:latlong2/latlong.dart';
+
 const hiveStoreFolderName = 'hive_data';
 const hiveStoreGqlBoxName = 'graphql';
 const hiveStoreThemeBoxName = 'theme_box';
+const hiveStoreIntroductionBoxName = 'intro_box';
 
 const gSignInScopes = ['profile', 'email'];
 const gSignInIosCid =
@@ -20,3 +23,5 @@ const realmTimeout = 120;
 const openWeatherKey = '8af110219c55ac7762ec012dfc20f17a';
 
 const openAiSk = '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';
+
+const defaultPosition = LatLng(51.509364, -0.128928);

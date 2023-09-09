@@ -32,7 +32,9 @@ class _NearMeScreenState extends State<NearMeScreen>
   @override
   Widget build(BuildContext context) {
     final bloc = useBloc<NearbyEventsCubit>();
-    final state = useBlocBuilder(bloc);
+    final state = useBlocComparativeBuilder(bloc, buildWhen: (old, updated) {
+      return true;
+    });
     final geolocation = useLocationData(debugLabel: 'NearMeScreen');
 
     useEffect(() {
@@ -84,14 +86,12 @@ class _NearMeScreenState extends State<NearMeScreen>
                           fontSize: 16.0,
                           initialLabelIndex: switchIndex.value,
                           activeBgColor: [
-                            context.theme.colorScheme.tertiaryContainer
+                            context.theme.colorScheme.primaryContainer
                           ],
                           activeFgColor:
-                              context.theme.colorScheme.onTertiaryContainer,
-                          inactiveBgColor:
-                              context.theme.colorScheme.primaryContainer,
-                          inactiveFgColor:
                               context.theme.colorScheme.onPrimaryContainer,
+                          inactiveBgColor: context.theme.colorScheme.tertiary,
+                          inactiveFgColor: context.theme.colorScheme.onTertiary,
                           totalSwitches: 2,
                           labels: switchItems,
                           animate: true,

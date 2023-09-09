@@ -3,12 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
 
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/profile_page/models/user_custom_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
+import 'package:recive/utils/theme_cubit.dart';
 
 part 'login_cubit.freezed.dart';
 part 'login_cubit.g.dart';
@@ -37,11 +39,15 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
   final FlutterSecureStorage storage;
   final GoogleSignIn googleSignIn;
   final RealmApplicationService applicationService;
+  final Box<ReciveTheme> themeBox;
+  final Box<bool> introBox;
 
   LoginCubit({
     required this.storage,
     required this.googleSignIn,
     required this.applicationService,
+    required this.themeBox,
+    required this.introBox,
   }) : super(LoginState.initialize());
 
   Future<void> loginWithGoogle({
@@ -128,6 +134,9 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       maybeEmit(state.copyWith(
         logoutLoadingState: LoadingState.loading,
       ));
+
+      await themeBox.clear();
+      await introBox.clear();
 
       await applicationService.logout();
 

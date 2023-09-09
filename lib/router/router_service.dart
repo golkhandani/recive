@@ -11,8 +11,9 @@ import 'package:recive/features/detail_page/detail_type.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/introduction_page/introduction_screen.dart';
+import 'package:recive/features/introduction_page/splash_screen.dart';
 import 'package:recive/features/login_page/login_screen.dart';
-import 'package:recive/features/login_page/splash_screen.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/news_page/news_detail_screen.dart';
@@ -74,9 +75,9 @@ final dashboardExtraRoutes = [
 
 final initRoutes = [
   GoRoute(
-    name: 'intro',
-    path: '/intro',
-    builder: (context, state) => TestRoute(text: state.fullPath ?? ''),
+    name: IntroductionScreen.name,
+    path: '/${IntroductionScreen.name}',
+    builder: (context, state) => const IntroductionScreen(),
   ),
 ];
 

@@ -19,7 +19,9 @@ import 'package:recive/features/categories_page/cubits/category_section_cubit.da
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/featured_page/repos/events_repo.remote.dart';
+import 'package:recive/features/introduction_page/cubits/setting_loader_cubit.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
+import 'package:recive/features/near_me_page/cubits/map_control_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
@@ -32,6 +34,7 @@ import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
 import 'package:recive/features/search_page/repos/search_events_repo.remote.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
+import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/ioc/recive_theme_adapter.dart';
@@ -72,12 +75,16 @@ Future setupStorage() async {
   final themeBox = await Hive.openBox<ReciveTheme>(hiveStoreThemeBoxName);
   final theme = themeBox.get(ReciveThemeCubit.themeStoreKey);
   locator.registerSingleton<Box<ReciveTheme>>(themeBox);
-  locator.registerLazySingleton(
+  locator.registerFactory(
     () => ReciveThemeCubit(
       box: locator.get(),
       initalValue: theme,
     ),
   );
+
+  final introductionBox =
+      await Hive.openBox<bool>(hiveStoreIntroductionBoxName);
+  locator.registerSingleton<Box<bool>>(introductionBox);
   // END REGISTER Hive REQUEST CACHE STORE
 
   // START REGISTER HydratedBloc CACHE STORE
@@ -107,6 +114,8 @@ Future setupStorage() async {
     // FMTC.instance('FlutterMapTileStore').getTileProvider(),
     return NetworkTileProvider();
   });
+
+  locator.registerSingleton(locationService);
 }
 
 Future setupGraphQL() async {
@@ -180,8 +189,17 @@ Future setupRepositories() async {
 Future setupBlocs() async {
   locator
     ..registerFactory(
+      () => SettingLoaderCubit(
+        applicationService: locator.get(),
+        storage: locator.get(),
+        introductionBox: locator.get(),
+      ),
+    )
+    ..registerFactory(
       () => LoginCubit(
         storage: locator.get(),
+        introBox: locator.get(),
+        themeBox: locator.get(),
         applicationService: locator.get(),
         googleSignIn: locator.get(),
       ),
@@ -196,6 +214,9 @@ Future setupBlocs() async {
     )
     ..registerFactory(
       () => NewsCubit(),
+    )
+    ..registerFactory(
+      () => MapControlCubit(),
     )
     ..registerFactory(
       () => NearbyEventsCubit(

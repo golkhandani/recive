@@ -4,7 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 
 import 'package:recive/features/dashboard/dashboard_screen.dart';
-import 'package:recive/features/login_page/cubits/login_cubit.dart';
+import 'package:recive/features/introduction_page/cubits/setting_loader_cubit.dart';
+import 'package:recive/features/introduction_page/introduction_screen.dart';
 import 'package:recive/features/login_page/login_screen.dart';
 import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
 import 'package:recive/ioc/locator.dart';
@@ -24,11 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final bloc = useBloc<LoginCubit>();
+    final bloc = useBloc<SettingLoaderCubit>();
     useEffect(() {
       Future.delayed(kLoadingDuration).then(
-        (value) => bloc.checkLogin(
-          onLogin: () => navigationService.moveTo(DashboardScreen.name),
+        (value) => bloc.checkInitialization(
+          onIntro: () => navigationService.moveTo(IntroductionScreen.name),
+          onLoggedin: () => navigationService.moveTo(DashboardScreen.name),
           onNeedLogin: () => navigationService.moveTo(LoginScreen.name),
         ),
       );

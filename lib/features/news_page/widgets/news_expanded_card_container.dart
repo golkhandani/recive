@@ -61,100 +61,58 @@ class TopNewsExpandedCardContainer extends HookWidget {
     final colorDynamic =
         TopNewsCardContainerData.sourceToColorMap[data.source]?.darken(.3) ??
             context.randomColor;
-    return Hero(
-      tag: heroTag,
-      child: CardContainer(
-        borderRadius: BorderRadius.circular(16),
-        padding: kTinyPadding,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: color,
-          ),
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () => navigationService.pushTo(
-                  NewsScreen.name + NewsDetailScreen.name,
-                  pathParameters: {
-                    NewsDetailScreen.pathParamId: data.id,
-                  },
-                  extra: extra,
-                ),
-                child: Container(
-                  height: 112,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: colorDynamic,
+    return RepaintBoundary(
+      child: Hero(
+        tag: heroTag,
+        child: CardContainer(
+          borderRadius: BorderRadius.circular(16),
+          padding: kTinyPadding,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: color,
+            ),
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () => navigationService.pushTo(
+                    NewsScreen.name + NewsDetailScreen.name,
+                    pathParameters: {
+                      NewsDetailScreen.pathParamId: data.id,
+                    },
+                    extra: extra,
                   ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AbsorbPointer(
-                        child: AnimatedTextKit(
-                          animatedTexts: rotateTitles,
-                          pause: const Duration(milliseconds: 300),
-                          displayFullTextOnTap: false,
-                          stopPauseOnTap: false,
-                          repeatForever: true,
+                  child: Container(
+                    height: 112,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: colorDynamic,
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AbsorbPointer(
+                          child: AnimatedTextKit(
+                            animatedTexts: rotateTitles,
+                            pause: const Duration(milliseconds: 300),
+                            displayFullTextOnTap: false,
+                            stopPauseOnTap: false,
+                            repeatForever: true,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ExpandablePanel(
-                  header: Text(
-                    data.title,
-                    style: context.titleLargeOnBackground.withColor(fontColor),
-                  ),
-                  collapsed: Column(
-                    children: [
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(
-                            FluentIcons.calendar_12_regular,
-                            color: fontColor,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            DateFormat.MMMd().format(data.publishDate),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: context.textTheme.labelSmall!.copyWith(
-                              color: fontColor,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Icon(
-                            FluentIcons.sound_source_20_regular,
-                            color: fontColor,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              data.source,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.textTheme.labelSmall!.copyWith(
-                                color: fontColor,
-                              ),
-                            ),
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                    ],
-                  ),
-                  expanded: Container(
-                    color: Colors.transparent,
-                    child: Column(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ExpandablePanel(
+                    header: Text(
+                      data.title,
+                      style:
+                          context.titleLargeOnBackground.withColor(fontColor),
+                    ),
+                    collapsed: Column(
                       children: [
                         const SizedBox(height: 12),
                         Row(
@@ -163,7 +121,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                             Icon(
                               FluentIcons.calendar_12_regular,
                               color: fontColor,
-                              size: 12,
+                              size: 24,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -178,7 +136,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                             Icon(
                               FluentIcons.sound_source_20_regular,
                               color: fontColor,
-                              size: 12,
+                              size: 24,
                             ),
                             const SizedBox(width: 4),
                             Expanded(
@@ -194,29 +152,74 @@ class TopNewsExpandedCardContainer extends HookWidget {
                             const Spacer(),
                           ],
                         ),
-                        const SizedBox(height: 12),
-                        Text(
-                          data.description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.textTheme.bodyMedium!.copyWith(
-                            color: fontColor,
-                          ),
-                        ),
                       ],
                     ),
-                  ),
-                  theme: ExpandableThemeData(
-                    iconSize: 20,
-                    iconPadding: const EdgeInsets.only(bottom: 12),
-                    iconColor: fontColor,
-                    animationDuration: const Duration(milliseconds: 200),
-                    useInkWell: true,
-                    alignment: Alignment.topRight,
+                    expanded: Container(
+                      color: Colors.transparent,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Icon(
+                                FluentIcons.calendar_12_regular,
+                                color: fontColor,
+                                size: 12,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                DateFormat.MMMd().format(data.publishDate),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: context.textTheme.labelSmall!.copyWith(
+                                  color: fontColor,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Icon(
+                                FluentIcons.sound_source_20_regular,
+                                color: fontColor,
+                                size: 12,
+                              ),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  data.source,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: context.textTheme.labelSmall!.copyWith(
+                                    color: fontColor,
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            data.description,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.textTheme.bodyMedium!.copyWith(
+                              color: fontColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    theme: ExpandableThemeData(
+                      iconSize: 20,
+                      iconPadding: const EdgeInsets.only(bottom: 12),
+                      iconColor: fontColor,
+                      animationDuration: const Duration(milliseconds: 200),
+                      useInkWell: true,
+                      alignment: Alignment.topRight,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

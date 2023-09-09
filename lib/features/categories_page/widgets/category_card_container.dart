@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/categories_page/category_detail_screen.dart';
 import 'package:recive/features/categories_page/widgets/category_card_container_data.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/ioc/locator.dart';
-import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
@@ -58,23 +58,25 @@ class CategoryCardContainer extends HookWidget {
       heroTag: heroTag,
     ).toJson((inner) => inner.toJson());
 
-    return InkWell(
-      onTap: () => navigationService.pushTo(
-        HomeScreen.name + CategoryDetailScreen.name,
-        pathParameters: {
-          CategoryDetailScreen.pathParamId: data.id,
-        },
-        extra: extra,
-      ),
-      child: Hero(
-        tag: heroTag,
-        child: CachedNetworkImage(
-          imageUrl: data.imageUrl,
-          imageBuilder: (context, imageProvider) =>
-              _buildCategoryCard(imageProvider, color, child),
-          placeholder: (context, url) => _buildCategoryLoading(color),
-          errorWidget: (context, url, error) =>
-              _buildCategoryCard(null, color, child),
+    return RepaintBoundary(
+      child: InkWell(
+        onTap: () => navigationService.pushTo(
+          HomeScreen.name + CategoryDetailScreen.name,
+          pathParameters: {
+            CategoryDetailScreen.pathParamId: data.id,
+          },
+          extra: extra,
+        ),
+        child: Hero(
+          tag: heroTag,
+          child: CachedNetworkImage(
+            imageUrl: data.imageUrl,
+            imageBuilder: (context, imageProvider) =>
+                _buildCategoryCard(imageProvider, color, child),
+            placeholder: (context, url) => _buildCategoryLoading(color),
+            errorWidget: (context, url, error) =>
+                _buildCategoryCard(null, color, child),
+          ),
         ),
       ),
     );

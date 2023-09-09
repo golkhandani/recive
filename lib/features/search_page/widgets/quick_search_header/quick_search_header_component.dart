@@ -168,78 +168,81 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
     }
 
     final bg = widget.backgroundColor ?? context.schema.tertiaryContainer;
+
     return Container(
       color: bg,
       padding: widget.padding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AsyncSearchBar(
-            constraints: BoxConstraints(minHeight: widget.height),
-            controller: textEditingController,
-            backgroundColor: context.colorScheme.primaryContainer,
-            boxBorder: Border.all(color: context.colorScheme.primary),
-            hintText: "Search what you're looking for!",
-            hintStyle: textStyle.copyWith(
-              color: context.schema.onPrimaryContainer.withOpacity(0.7),
-            ),
-            textStyle: textStyle,
-            itemBuilder: (_, item, index) => Container(
-              height: 48,
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    item,
-                    style: textStyle,
-                  )),
-            ),
-            onTextChanged: onChangeList,
-            suggestions: state.suggestions,
-            isLoading: state.isLoading,
-            isSelected: state.isSelected,
-            suffix: Material(
-              borderRadius: BorderRadius.zero,
-              borderOnForeground: true,
-              color: context.schema.primaryContainer,
-              child: Row(
-                children: [
-                  if (textEditingController.text.isNotEmpty) ...[
+          Builder(builder: (context) {
+            return AsyncSearchBar(
+              constraints: BoxConstraints(minHeight: widget.height),
+              controller: textEditingController,
+              backgroundColor: context.colorScheme.primaryContainer,
+              boxBorder: Border.all(color: context.colorScheme.primary),
+              hintText: "Search what you're looking for!",
+              hintStyle: textStyle.copyWith(
+                color: context.schema.onPrimaryContainer.withOpacity(0.7),
+              ),
+              textStyle: textStyle,
+              itemBuilder: (_, item, index) => Container(
+                height: 48,
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      item,
+                      style: textStyle,
+                    )),
+              ),
+              onTextChanged: onChangeList,
+              suggestions: state.suggestions,
+              isLoading: state.isLoading,
+              isSelected: state.isSelected,
+              suffix: Material(
+                borderRadius: BorderRadius.zero,
+                borderOnForeground: true,
+                color: context.schema.primaryContainer,
+                child: Row(
+                  children: [
+                    if (textEditingController.text.isNotEmpty) ...[
+                      InkWell(
+                        splashFactory: NoSplash.splashFactory,
+                        onTap: () {
+                          textEditingController.clear();
+                          widget.onTextChanged?.call('');
+                        },
+                        splashColor: context.schema.primaryContainer,
+                        child: SizedBox(
+                          height: 48,
+                          width: 48,
+                          child: Icon(
+                            Icons.close,
+                            size: 24,
+                            color: context.schema.tertiary.withOpacity(0.9),
+                          ),
+                        ),
+                      ),
+                    ],
                     InkWell(
-                      splashFactory: NoSplash.splashFactory,
-                      onTap: () {
-                        textEditingController.clear();
-                        widget.onTextChanged?.call('');
-                      },
+                      onTap: () {},
                       splashColor: context.schema.primaryContainer,
                       child: SizedBox(
                         height: 48,
                         width: 48,
                         child: Icon(
-                          Icons.close,
-                          size: 24,
-                          color: context.schema.tertiary.withOpacity(0.9),
+                          Icons.search,
+                          size: 32,
+                          color: context.schema.onTertiaryContainer,
                         ),
                       ),
                     ),
                   ],
-                  InkWell(
-                    onTap: () {},
-                    splashColor: context.schema.primaryContainer,
-                    child: SizedBox(
-                      height: 48,
-                      width: 48,
-                      child: Icon(
-                        Icons.search,
-                        size: 32,
-                        color: context.schema.onTertiaryContainer,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );

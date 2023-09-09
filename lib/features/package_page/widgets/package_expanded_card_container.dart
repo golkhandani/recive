@@ -37,79 +37,81 @@ class PackageExpandedCardContainer extends HookWidget {
       ),
       heroTag: heroTag,
     ).toJson((inner) => inner.toJson());
-    return CardContainer(
-      borderRadius: BorderRadius.circular(16),
-      padding: kTinyPadding,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: color,
-        ),
-        child: Column(
-          children: [
-            InkWell(
-              onTap: () => navigationService.pushTo(
-                PackagesScreen.name + PackageDetailScreen.name,
-                pathParameters: {
-                  PackageDetailScreen.pathParamId: data.id,
-                },
-                extra: extra,
-              ),
-              child: Hero(
-                tag: heroTag,
-                child: CachedNetworkImage(
-                  imageUrl: data.imageUrl,
-                  placeholder: (context, _) => const SizedBox(
-                    height: 120,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                  imageBuilder: (context, imageProvider) => Container(
-                    height: 120,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                        opacity: 0.9,
+    return RepaintBoundary(
+      child: CardContainer(
+        borderRadius: BorderRadius.circular(16),
+        padding: kTinyPadding,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: color,
+          ),
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () => navigationService.pushTo(
+                  PackagesScreen.name + PackageDetailScreen.name,
+                  pathParameters: {
+                    PackageDetailScreen.pathParamId: data.id,
+                  },
+                  extra: extra,
+                ),
+                child: Hero(
+                  tag: heroTag,
+                  child: CachedNetworkImage(
+                    imageUrl: data.imageUrl,
+                    placeholder: (context, _) => const SizedBox(
+                      height: 120,
+                      child: Center(
+                        child: CircularProgressIndicator(),
                       ),
-                      borderRadius: BorderRadius.circular(8),
-                      color: color,
+                    ),
+                    imageBuilder: (context, imageProvider) => Container(
+                      height: 120,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                          opacity: 0.9,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                        color: color,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ExpandablePanel(
-                header: Text(
-                  data.title,
-                  style: context.textTheme.titleMedium?.withColor(fontColor),
-                ),
-                collapsed: Text(
-                  data.subtitle,
-                  softWrap: true,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.textTheme.bodyMedium?.withColor(fontColor),
-                ),
-                expanded: Text(
-                  data.description,
-                  softWrap: true,
-                  style: context.textTheme.bodyMedium?.withColor(fontColor),
-                ),
-                theme: ExpandableThemeData(
-                  iconSize: 20,
-                  iconPadding: const EdgeInsets.only(bottom: 12),
-                  iconColor: fontColor,
-                  animationDuration: const Duration(milliseconds: 200),
-                  useInkWell: true,
-                  alignment: Alignment.topRight,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ExpandablePanel(
+                  header: Text(
+                    data.title,
+                    style: context.textTheme.titleMedium?.withColor(fontColor),
+                  ),
+                  collapsed: Text(
+                    data.subtitle,
+                    softWrap: true,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textTheme.bodyMedium?.withColor(fontColor),
+                  ),
+                  expanded: Text(
+                    data.description,
+                    softWrap: true,
+                    style: context.textTheme.bodyMedium?.withColor(fontColor),
+                  ),
+                  theme: ExpandableThemeData(
+                    iconSize: 20,
+                    iconPadding: const EdgeInsets.only(bottom: 12),
+                    iconColor: fontColor,
+                    animationDuration: const Duration(milliseconds: 200),
+                    useInkWell: true,
+                    alignment: Alignment.topRight,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

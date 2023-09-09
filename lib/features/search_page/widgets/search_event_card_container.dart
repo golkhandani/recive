@@ -111,23 +111,25 @@ class SearchEventCardContainer extends HookWidget {
       ),
       heroTag: heroTag,
     ).toJson((inner) => inner.toJson());
-    return InkWell(
-      onTap: () => navigationService.pushTo(
-        SearchScreen.name + NearbyDetailScreen.name,
-        pathParameters: {
-          NearbyDetailScreen.pathParamId: data.id,
-        },
-        extra: extraJson,
-      ),
-      child: Hero(
-        tag: heroTag,
-        child: CachedNetworkImage(
-          imageUrl: data.imageUrl,
-          imageBuilder: (context, imageProvider) =>
-              _buildEventCard(imageProvider, color, child),
-          placeholder: (context, url) => _buildEventLoading(color),
-          errorWidget: (context, url, error) =>
-              _buildEventCard(null, color, child),
+    return RepaintBoundary(
+      child: InkWell(
+        onTap: () => navigationService.pushTo(
+          SearchScreen.name + NearbyDetailScreen.name,
+          pathParameters: {
+            NearbyDetailScreen.pathParamId: data.id,
+          },
+          extra: extraJson,
+        ),
+        child: Hero(
+          tag: heroTag,
+          child: CachedNetworkImage(
+            imageUrl: data.imageUrl,
+            imageBuilder: (context, imageProvider) =>
+                _buildEventCard(imageProvider, color, child),
+            placeholder: (context, url) => _buildEventLoading(color),
+            errorWidget: (context, url, error) =>
+                _buildEventCard(null, color, child),
+          ),
         ),
       ),
     );

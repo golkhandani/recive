@@ -23,6 +23,7 @@ import 'package:recive/features/package_page/models/package.dart';
 import 'package:recive/features/package_page/widgets/package_detail_map_section.dart';
 import 'package:recive/features/package_page/widgets/package_event_card_container.dart';
 import 'package:recive/features/package_page/widgets/package_event_card_container_data.dart';
+import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
@@ -387,7 +388,6 @@ class PackageDetailScreen extends HookWidget {
       builder: (context) {
         final tags = data ?? [];
         final color = context.theme.colorScheme.surface;
-        final fontColor = context.theme.colorScheme.onTertiaryContainer;
 
         return SliverToBoxAdapter(
           child: CardContainer(
@@ -403,25 +403,9 @@ class PackageDetailScreen extends HookWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: List.generate(
                   tags.length,
-                  (index) => Material(
-                    borderRadius: BorderRadius.circular(8),
-                    color: context.theme.colorScheme.tertiary,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8),
-                      splashColor: context.theme.colorScheme.tertiaryContainer,
-                      onTap: () {},
-                      child: Container(
-                        padding: kMediumPadding,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          tags[index],
-                          style: context.textTheme.bodyMedium
-                              ?.withColor(fontColor),
-                        ),
-                      ),
-                    ),
+                  (index) => TagChipContainer(
+                    onTap: () {},
+                    tag: tags[index],
                   ),
                 ),
               ),

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/package_page/package_detail_screen.dart';
 import 'package:recive/features/package_page/widgets/package_card_container_data.dart';
 import 'package:recive/ioc/locator.dart';
-import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
@@ -59,23 +59,25 @@ class PackageCardContainer extends HookWidget {
       heroTag: heroTag,
     ).toJson((inner) => inner.toJson());
 
-    return InkWell(
-      onTap: () => navigationService.pushTo(
-        HomeScreen.name + PackageDetailScreen.name,
-        pathParameters: {
-          PackageDetailScreen.pathParamId: data.id,
-        },
-        extra: extra,
-      ),
-      child: Hero(
-        tag: heroTag,
-        child: CachedNetworkImage(
-          imageUrl: data.imageUrl,
-          imageBuilder: (context, imageProvider) =>
-              _buildPackageCard(imageProvider, color, child),
-          placeholder: (context, url) => _buildPackageLoading(color),
-          errorWidget: (context, url, error) =>
-              _buildPackageCard(null, color, child),
+    return RepaintBoundary(
+      child: InkWell(
+        onTap: () => navigationService.pushTo(
+          HomeScreen.name + PackageDetailScreen.name,
+          pathParameters: {
+            PackageDetailScreen.pathParamId: data.id,
+          },
+          extra: extra,
+        ),
+        child: Hero(
+          tag: heroTag,
+          child: CachedNetworkImage(
+            imageUrl: data.imageUrl,
+            imageBuilder: (context, imageProvider) =>
+                _buildPackageCard(imageProvider, color, child),
+            placeholder: (context, url) => _buildPackageLoading(color),
+            errorWidget: (context, url, error) =>
+                _buildPackageCard(null, color, child),
+          ),
         ),
       ),
     );

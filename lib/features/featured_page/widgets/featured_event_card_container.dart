@@ -198,24 +198,26 @@ class FeaturedEventCardContainer extends HookWidget {
       );
     });
 
-    return InkWell(
-      onTap: () => navigationService.pushTo(
-        parentRoute + FeaturedEventDetailScreen.name,
-        pathParameters: {
-          ...parentPathParams,
-          FeaturedEventDetailScreen.pathParamId: data.id,
-        },
-        extra: extraJson,
-      ),
-      child: Hero(
-        tag: heroTag,
-        child: CachedNetworkImage(
-          imageUrl: data.imageUrl,
-          imageBuilder: (context, imageProvider) =>
-              _buildEventCard(imageProvider, color, child),
-          placeholder: (context, url) => _buildEventLoading(color),
-          errorWidget: (context, url, error) =>
-              _buildEventCard(null, color, child),
+    return RepaintBoundary(
+      child: InkWell(
+        onTap: () => navigationService.pushTo(
+          parentRoute + FeaturedEventDetailScreen.name,
+          pathParameters: {
+            ...parentPathParams,
+            FeaturedEventDetailScreen.pathParamId: data.id,
+          },
+          extra: extraJson,
+        ),
+        child: Hero(
+          tag: heroTag,
+          child: CachedNetworkImage(
+            imageUrl: data.imageUrl,
+            imageBuilder: (context, imageProvider) =>
+                _buildEventCard(imageProvider, color, child),
+            placeholder: (context, url) => _buildEventLoading(color),
+            errorWidget: (context, url, error) =>
+                _buildEventCard(null, color, child),
+          ),
         ),
       ),
     );

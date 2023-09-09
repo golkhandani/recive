@@ -87,6 +87,7 @@ class NearMeScreenListViewContent extends HookWidget {
                 EdgeInsets.symmetric(horizontal: kTinyPadding.horizontal / 2)
                     .copyWith(bottom: 112),
             sliver: SliverList.builder(
+                addRepaintBoundaries: true,
                 itemCount: indexedKeyItems.length,
                 addAutomaticKeepAlives: true,
                 itemBuilder: (context, index) {

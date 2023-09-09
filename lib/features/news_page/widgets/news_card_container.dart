@@ -138,32 +138,34 @@ class TopNewsCardContainer extends HookWidget {
       summary: NewsSummaryData(id: data.id, title: data.title),
       heroTag: heroTag,
     ).toJson((inner) => inner.toJson());
-    return InkWell(
-      onTap: () => navigationService.pushTo(
-        HomeScreen.name + NewsDetailScreen.name,
-        pathParameters: {
-          NewsDetailScreen.pathParamId: data.id,
-        },
-        extra: extra,
-      ),
-      child: Hero(
-        tag: heroTag,
-        child: Container(
-          constraints: constraints,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: color.darken(),
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                color,
-                color.darken(),
-              ],
+    return RepaintBoundary(
+      child: InkWell(
+        onTap: () => navigationService.pushTo(
+          HomeScreen.name + NewsDetailScreen.name,
+          pathParameters: {
+            NewsDetailScreen.pathParamId: data.id,
+          },
+          extra: extra,
+        ),
+        child: Hero(
+          tag: heroTag,
+          child: Container(
+            constraints: constraints,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: color.darken(),
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  color,
+                  color.darken(),
+                ],
+              ),
             ),
+            padding: kTinyPadding,
+            child: child,
           ),
-          padding: kTinyPadding,
-          child: child,
         ),
       ),
     );

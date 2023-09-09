@@ -16,6 +16,7 @@ import 'package:recive/features/search_page/widgets/quick_search_header/bloc/qui
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/features/search_page/widgets/search_event_card_container.dart';
 import 'package:recive/features/search_page/widgets/search_event_card_container_data.dart';
+import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 
@@ -205,51 +206,39 @@ class SearchScreen extends HookWidget {
       child: CardContainer(
         borderRadius: BorderRadius.circular(16),
         padding: kTinyPadding,
-        child: state.searchedkeywords.isEmpty
-            ? ConstrainedBox(
-                constraints: const BoxConstraints.expand(height: 300),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Wrap(
-                  alignment: WrapAlignment.spaceAround,
-                  direction: Axis.horizontal,
-                  clipBehavior: Clip.hardEdge,
-                  spacing: 4,
-                  runSpacing: 12,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: List.generate(
-                    state.searchedkeywords.length,
-                    (index) => Material(
-                      borderRadius: BorderRadius.circular(8),
-                      color: context.theme.colorScheme.tertiary,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(8),
-                        splashColor:
-                            context.theme.colorScheme.tertiaryContainer,
-                        onTap: () {
-                          textEditingController.text =
-                              state.searchedkeywords[index];
-                          resultState.value = 1;
-                        },
-                        child: Container(
-                          padding: kMediumPadding,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            state.searchedkeywords[index],
-                            style: context.textTheme.bodyLarge,
-                          ),
+        child: Builder(builder: (context) {
+          return state.searchedkeywords.isEmpty
+              ? ConstrainedBox(
+                  constraints: const BoxConstraints.expand(height: 300),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: RepaintBoundary(
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceAround,
+                      direction: Axis.horizontal,
+                      clipBehavior: Clip.hardEdge,
+                      spacing: 4,
+                      runSpacing: 12,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: List.generate(
+                        state.searchedkeywords.length,
+                        (index) => TagChipContainer(
+                          tag: state.searchedkeywords[index],
+                          onTap: () {
+                            textEditingController.text =
+                                state.searchedkeywords[index];
+                            resultState.value = 1;
+                          },
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+        }),
       ),
     );
   }

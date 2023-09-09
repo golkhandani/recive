@@ -21,6 +21,7 @@ import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
+import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -287,28 +288,11 @@ class NearbyDetailScreen extends HookWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: List.generate(
                   tags.length,
-                  (index) => Material(
-                    borderRadius: BorderRadius.circular(8),
-                    color: context.theme.colorScheme.tertiary,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8),
-                      splashColor: context.theme.colorScheme.tertiaryContainer,
-                      onTap: () {
-                        locator.logger.d('on tap tags ${tags[index]}');
-                      },
-                      child: Container(
-                        padding: kMediumPadding,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          tags[index],
-                          style: context.textTheme.bodyMedium?.withColor(
-                            context.theme.colorScheme.onTertiaryContainer,
-                          ),
-                        ),
-                      ),
-                    ),
+                  (index) => TagChipContainer(
+                    onTap: () {
+                      locator.logger.d('on tap tags ${tags[index]}');
+                    },
+                    tag: tags[index],
                   ),
                 ),
               ),

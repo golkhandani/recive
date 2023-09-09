@@ -399,95 +399,98 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
                 Text(widget.label!, style: _labelStyle),
                 SizedBox(height: widget.labelGap),
               ],
-              CompositedTransformTarget(
-                link: _layerLink,
-                child: Container(
-                  key: _textFieldKey,
-                  height: _height,
-                  width: _width,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        widget.borderRadius.add(BorderRadius.circular(1)),
-                    border: widget.border,
-                    color: widget.inputBackgroundColor,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: widget.borderRadius,
-                    child: Row(
-                      children: [
-                        // prefix
-                        if (widget.prefix != null)
-                          Container(
-                            alignment: Alignment.center,
-                            child: widget.prefix,
-                          ),
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              AnimatedOpacity(
-                                duration: const Duration(milliseconds: 100),
-                                opacity: widget.hint != null && !isEditingText
-                                    ? 1
-                                    : 0,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                    padding: widget.contentPadding,
-                                    child: Text(
-                                      widget.hint!,
-                                      style: _hintStyle,
-                                      textAlign: TextAlign.left,
+              RepaintBoundary(
+                child: CompositedTransformTarget(
+                  link: _layerLink,
+                  child: Container(
+                    key: _textFieldKey,
+                    height: _height,
+                    width: _width,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          widget.borderRadius.add(BorderRadius.circular(1)),
+                      border: widget.border,
+                      color: widget.inputBackgroundColor,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: widget.borderRadius,
+                      child: Row(
+                        children: [
+                          // prefix
+                          if (widget.prefix != null)
+                            Container(
+                              alignment: Alignment.center,
+                              child: widget.prefix,
+                            ),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                AnimatedOpacity(
+                                  duration: const Duration(milliseconds: 100),
+                                  opacity: widget.hint != null && !isEditingText
+                                      ? 1
+                                      : 0,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: widget.contentPadding,
+                                      child: Text(
+                                        widget.hint!,
+                                        style: _hintStyle,
+                                        textAlign: TextAlign.left,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: widget.contentPadding,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: EditableText(
-                                    onTapOutside: (_) => FocusManager
-                                        .instance.primaryFocus
-                                        ?.unfocus(),
-                                    forceLine: true,
-                                    textHeightBehavior:
-                                        const TextHeightBehavior(
-                                      leadingDistribution:
-                                          TextLeadingDistribution.even,
-                                      applyHeightToFirstAscent: false,
-                                      applyHeightToLastDescent: true,
+                                Padding(
+                                  padding: widget.contentPadding,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: EditableText(
+                                      onTapOutside: (_) => FocusManager
+                                          .instance.primaryFocus
+                                          ?.unfocus(),
+                                      forceLine: true,
+                                      textHeightBehavior:
+                                          const TextHeightBehavior(
+                                        leadingDistribution:
+                                            TextLeadingDistribution.even,
+                                        applyHeightToFirstAscent: false,
+                                        applyHeightToLastDescent: true,
+                                      ),
+                                      onChanged: widget.onChanged,
+                                      onEditingComplete:
+                                          widget.onEditingComplete,
+                                      onSubmitted: widget.onSubmitted,
+                                      obscureText: widget.obscureText,
+                                      obscuringCharacter:
+                                          widget.obscuringCharacter,
+                                      inputFormatters: widget.inputFormatters,
+                                      keyboardType: widget.keyboardType,
+                                      controller: _controller,
+                                      focusNode: _focusNode,
+                                      readOnly: widget.disabled,
+                                      textAlign: widget.textAlign,
+                                      style: _textStyle.copyWith(
+                                        textBaseline: TextBaseline.ideographic,
+                                      ),
+                                      cursorColor: _cursorColor,
+                                      backgroundCursorColor:
+                                          _backgroundCursorColor,
                                     ),
-                                    onChanged: widget.onChanged,
-                                    onEditingComplete: widget.onEditingComplete,
-                                    onSubmitted: widget.onSubmitted,
-                                    obscureText: widget.obscureText,
-                                    obscuringCharacter:
-                                        widget.obscuringCharacter,
-                                    inputFormatters: widget.inputFormatters,
-                                    keyboardType: widget.keyboardType,
-                                    controller: _controller,
-                                    focusNode: _focusNode,
-                                    readOnly: widget.disabled,
-                                    textAlign: widget.textAlign,
-                                    style: _textStyle.copyWith(
-                                      textBaseline: TextBaseline.ideographic,
-                                    ),
-                                    cursorColor: _cursorColor,
-                                    backgroundCursorColor:
-                                        _backgroundCursorColor,
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        // suffix
-                        if (widget.suffix != null)
-                          Container(
-                            alignment: Alignment.center,
-                            child: widget.suffix,
-                          ),
-                      ],
+                          // suffix
+                          if (widget.suffix != null)
+                            Container(
+                              alignment: Alignment.center,
+                              child: widget.suffix,
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

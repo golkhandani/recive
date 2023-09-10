@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final state = useBlocBuilder(bloc);
     return Scaffold(
       body: Container(
-        color: context.theme.colorScheme.background,
+        color: context.theme.colorScheme.surface,
         child: Column(
           children: [
             Flexible(
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 40),
                       Center(
                         child: Text(
-                          "Welcome to VanExplore",
+                          "Welcome to City Explorer",
                           textAlign: TextAlign.center,
                           style: context.titleLargePrimaryContainer,
                         ),
@@ -82,23 +83,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           side: BorderSide(width: 0, color: Colors.transparent),
                         ),
                       ),
-                      child: state.googleLoginLoadingState ==
-                              LoadingState.loading
-                          ? const CircularProgressIndicator()
-                          : Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const SizedBox(width: 4),
-                                Text(
-                                  "Login with Google",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      context.textTheme.titleMedium!.withColor(
-                                    context.theme.colorScheme.onErrorContainer,
-                                  ),
+                      child:
+                          state.googleLoginLoadingState == LoadingState.loading
+                              ? const CircularProgressIndicator()
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const FaIcon(
+                                      FontAwesomeIcons.google,
+                                      color: Colors.white,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      "Login with Google",
+                                      textAlign: TextAlign.center,
+                                      style: context.textTheme.titleMedium!
+                                          .withColor(Colors.white),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -127,6 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+                                const FaIcon(
+                                  FontAwesomeIcons.apple,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 12),
                                 Text(
                                   "Login with Apple",
                                   textAlign: TextAlign.center,
@@ -155,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const BoxConstraints.expand(height: 64, width: 350),
                       alignment: Alignment.center,
                       decoration: const ShapeDecoration(
-                        color: Colors.teal,
+                        color: Colors.amber,
                         shape: StadiumBorder(
                           side: BorderSide(width: 0, color: Colors.transparent),
                         ),
@@ -166,13 +174,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           : Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+                                const FaIcon(
+                                  FontAwesomeIcons.keycdn,
+                                  color: Colors.black,
+                                ),
+                                const SizedBox(width: 12),
                                 Text(
                                   "Login with ApiKey",
                                   textAlign: TextAlign.center,
                                   style:
                                       context.textTheme.titleMedium!.withColor(
-                                    context
-                                        .theme.colorScheme.onPrimaryContainer,
+                                    Colors.black,
                                   ),
                                 ),
                               ],

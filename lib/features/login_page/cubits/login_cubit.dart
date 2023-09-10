@@ -162,6 +162,8 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       ));
 
       if (applicationService.currentUser != null) {
+        await themeBox.clear();
+        await introBox.clear();
         await applicationService.delete();
         await applicationService.logout();
       }

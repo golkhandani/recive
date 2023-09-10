@@ -15,13 +15,14 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:realm/realm.dart';
 import 'package:routing_client_dart/routing_client_dart.dart';
 
+import 'package:recive/components/map_card_container/cubit/map_control_cubit.dart';
+import 'package:recive/components/map_card_container/flutter_map_cached_tile_provider.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/featured_page/repos/events_repo.remote.dart';
 import 'package:recive/features/introduction_page/cubits/setting_loader_cubit.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
-import 'package:recive/features/near_me_page/cubits/map_control_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
@@ -112,7 +113,7 @@ Future setupStorage() async {
     // await FlutterMapTileCaching.initialise();
     // await FMTC.instance('FlutterMapTileStore').manage.createAsync();
     // FMTC.instance('FlutterMapTileStore').getTileProvider(),
-    return NetworkTileProvider();
+    return FlutterMapCachedTileProvider();
   });
 
   locator.registerSingleton(locationService);

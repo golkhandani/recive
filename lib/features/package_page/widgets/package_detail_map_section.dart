@@ -18,6 +18,9 @@ import 'package:recive/layout/flutter_map/flutter_map_attribution.dart';
 import 'package:recive/layout/flutter_map/flutter_map_tile_layer.dart';
 import 'package:recive/layout/flutter_map/flutter_map_user_marker.dart';
 
+// TODO: this thing need a major refactoring
+// for now I have more important things to do
+
 class PackageDetailMapSection extends StatefulHookWidget {
   const PackageDetailMapSection(
       {super.key, required this.events, required this.polyline});
@@ -54,7 +57,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
     final center = useState<LatLng?>(
       widget.events.firstOrNull?.latLng ?? geolocation?.latLng,
     );
-    final index = useState<int?>(null);
+    final index = useState<int?>(0);
 
     updateCenter() {
       if (index.value == null) {
@@ -131,22 +134,29 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
                                     ],
                                   );
                                 }),
-                              ...widget.events.mapIndexed(
-                                (i, e) => EventCardMarker(
-                                  data: e,
-                                  color: context.colorScheme.tertiary,
-                                  fontColor: context.colorScheme.onTertiary,
-                                  onTap: () => index.value = i,
-                                ),
+                              MarkerLayer(
+                                markers: [
+                                  ...widget.events
+                                      .mapIndexed(
+                                        (i, e) => EventCardMarker(
+                                          data: e,
+                                          color: context.colorScheme.tertiary,
+                                          fontColor:
+                                              context.colorScheme.onTertiary,
+                                          onTap: () => index.value = i,
+                                        ).marker(context),
+                                      )
+                                      .toList(),
+                                  if (index.value != null)
+                                    EventCardMarker(
+                                      data: widget.events[index.value!],
+                                      color: context.colorScheme.primary,
+                                      fontColor: context.colorScheme.onPrimary,
+                                      onTap: null,
+                                      useCompact: false,
+                                    ).marker(context),
+                                ],
                               ),
-                              if (index.value != null)
-                                EventCardMarker(
-                                  data: widget.events[index.value!],
-                                  color: context.colorScheme.primary,
-                                  fontColor: context.colorScheme.onPrimary,
-                                  onTap: null,
-                                  useCompact: false,
-                                ),
                             ],
                           );
                         }),

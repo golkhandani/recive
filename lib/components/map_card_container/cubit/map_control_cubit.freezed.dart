@@ -20,6 +20,7 @@ MapControlState _$MapControlStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MapControlState {
+  LatLng get userLocation => throw _privateConstructorUsedError;
   bool get showRefresh => throw _privateConstructorUsedError;
   LatLng get center => throw _privateConstructorUsedError;
   double get zoom => throw _privateConstructorUsedError;
@@ -39,7 +40,8 @@ abstract class $MapControlStateCopyWith<$Res> {
       _$MapControlStateCopyWithImpl<$Res, MapControlState>;
   @useResult
   $Res call(
-      {bool showRefresh,
+      {LatLng userLocation,
+      bool showRefresh,
       LatLng center,
       double zoom,
       bool mapInitialized,
@@ -59,6 +61,7 @@ class _$MapControlStateCopyWithImpl<$Res, $Val extends MapControlState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userLocation = null,
     Object? showRefresh = null,
     Object? center = null,
     Object? zoom = null,
@@ -66,6 +69,10 @@ class _$MapControlStateCopyWithImpl<$Res, $Val extends MapControlState>
     Object? interations = null,
   }) {
     return _then(_value.copyWith(
+      userLocation: null == userLocation
+          ? _value.userLocation
+          : userLocation // ignore: cast_nullable_to_non_nullable
+              as LatLng,
       showRefresh: null == showRefresh
           ? _value.showRefresh
           : showRefresh // ignore: cast_nullable_to_non_nullable
@@ -99,7 +106,8 @@ abstract class _$$_MapControlStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool showRefresh,
+      {LatLng userLocation,
+      bool showRefresh,
       LatLng center,
       double zoom,
       bool mapInitialized,
@@ -117,6 +125,7 @@ class __$$_MapControlStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userLocation = null,
     Object? showRefresh = null,
     Object? center = null,
     Object? zoom = null,
@@ -124,6 +133,10 @@ class __$$_MapControlStateCopyWithImpl<$Res>
     Object? interations = null,
   }) {
     return _then(_$_MapControlState(
+      userLocation: null == userLocation
+          ? _value.userLocation
+          : userLocation // ignore: cast_nullable_to_non_nullable
+              as LatLng,
       showRefresh: null == showRefresh
           ? _value.showRefresh
           : showRefresh // ignore: cast_nullable_to_non_nullable
@@ -152,7 +165,8 @@ class __$$_MapControlStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MapControlState implements _MapControlState {
   const _$_MapControlState(
-      {required this.showRefresh,
+      {required this.userLocation,
+      required this.showRefresh,
       required this.center,
       required this.zoom,
       required this.mapInitialized,
@@ -161,6 +175,8 @@ class _$_MapControlState implements _MapControlState {
   factory _$_MapControlState.fromJson(Map<String, dynamic> json) =>
       _$$_MapControlStateFromJson(json);
 
+  @override
+  final LatLng userLocation;
   @override
   final bool showRefresh;
   @override
@@ -174,7 +190,7 @@ class _$_MapControlState implements _MapControlState {
 
   @override
   String toString() {
-    return 'MapControlState(showRefresh: $showRefresh, center: $center, zoom: $zoom, mapInitialized: $mapInitialized, interations: $interations)';
+    return 'MapControlState(userLocation: $userLocation, showRefresh: $showRefresh, center: $center, zoom: $zoom, mapInitialized: $mapInitialized, interations: $interations)';
   }
 
   @override
@@ -182,6 +198,8 @@ class _$_MapControlState implements _MapControlState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MapControlState &&
+            (identical(other.userLocation, userLocation) ||
+                other.userLocation == userLocation) &&
             (identical(other.showRefresh, showRefresh) ||
                 other.showRefresh == showRefresh) &&
             (identical(other.center, center) || other.center == center) &&
@@ -194,8 +212,8 @@ class _$_MapControlState implements _MapControlState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, showRefresh, center, zoom, mapInitialized, interations);
+  int get hashCode => Object.hash(runtimeType, userLocation, showRefresh,
+      center, zoom, mapInitialized, interations);
 
   @JsonKey(ignore: true)
   @override
@@ -213,7 +231,8 @@ class _$_MapControlState implements _MapControlState {
 
 abstract class _MapControlState implements MapControlState {
   const factory _MapControlState(
-      {required final bool showRefresh,
+      {required final LatLng userLocation,
+      required final bool showRefresh,
       required final LatLng center,
       required final double zoom,
       required final bool mapInitialized,
@@ -222,6 +241,8 @@ abstract class _MapControlState implements MapControlState {
   factory _MapControlState.fromJson(Map<String, dynamic> json) =
       _$_MapControlState.fromJson;
 
+  @override
+  LatLng get userLocation;
   @override
   bool get showRefresh;
   @override

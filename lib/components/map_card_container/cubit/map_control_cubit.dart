@@ -12,6 +12,7 @@ part 'map_control_cubit.g.dart';
 class MapControlState with _$MapControlState {
   static const double defaultZoom = 15;
   const factory MapControlState({
+    required LatLng userLocation,
     required bool showRefresh,
     required LatLng center,
     required double zoom,
@@ -20,6 +21,7 @@ class MapControlState with _$MapControlState {
   }) = _MapControlState;
 
   factory MapControlState.initialize() => const MapControlState(
+      userLocation: defaultPosition,
       showRefresh: false,
       center: defaultPosition,
       zoom: defaultZoom,

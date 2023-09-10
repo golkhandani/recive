@@ -8,6 +8,8 @@ part of 'map_control_cubit.dart';
 
 _$_MapControlState _$$_MapControlStateFromJson(Map<String, dynamic> json) =>
     _$_MapControlState(
+      userLocation:
+          LatLng.fromJson(json['userLocation'] as Map<String, dynamic>),
       showRefresh: json['showRefresh'] as bool,
       center: LatLng.fromJson(json['center'] as Map<String, dynamic>),
       zoom: (json['zoom'] as num).toDouble(),
@@ -17,6 +19,7 @@ _$_MapControlState _$$_MapControlStateFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_MapControlStateToJson(_$_MapControlState instance) =>
     <String, dynamic>{
+      'userLocation': instance.userLocation,
       'showRefresh': instance.showRefresh,
       'center': instance.center,
       'zoom': instance.zoom,

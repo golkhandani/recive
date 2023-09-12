@@ -30,10 +30,11 @@ class SearchEventCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorScheme.tertiaryContainer.withOpacity(0.6);
+    final color = context.theme.colorScheme.tertiary.withOpacity(0.6);
+    final fontColor = context.colorScheme.onTertiary;
 
     final child = LayoutBuilder(builder: (context, box) {
-      final isShort = box.maxHeight < 120;
+      final isShort = box.maxHeight < 160;
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -52,15 +53,16 @@ class SearchEventCardContainer extends HookWidget {
                     Text(
                       data.title,
                       maxLines: 1,
-                      style: context.titleMediumOnPrimaryContainer,
+                      style: context.titleMediumOnPrimaryContainer
+                          .withColor(fontColor),
                     ),
-                    if (isShort) ...[
+                    if (!isShort) ...[
                       const SizedBox(height: 12),
                       Row(
                         children: [
                           Icon(
                             FluentIcons.calendar_12_regular,
-                            color: color.lighten(0.7),
+                            color: fontColor,
                             size: 24,
                           ),
                           const SizedBox(width: 4),
@@ -69,7 +71,8 @@ class SearchEventCardContainer extends HookWidget {
                               '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.titleSmallOnPrimaryContainer,
+                              style: context.titleSmallOnPrimaryContainer
+                                  .withColor(fontColor),
                             ),
                           ),
                         ],
@@ -80,7 +83,7 @@ class SearchEventCardContainer extends HookWidget {
                       children: [
                         Icon(
                           FluentIcons.location_12_filled,
-                          color: color.lighten(0.7),
+                          color: fontColor,
                           size: 24,
                         ),
                         const SizedBox(width: 4),
@@ -89,7 +92,8 @@ class SearchEventCardContainer extends HookWidget {
                             data.location,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: context.titleSmallOnPrimaryContainer,
+                            style: context.titleSmallOnPrimaryContainer
+                                .withColor(fontColor),
                           ),
                         ),
                       ],

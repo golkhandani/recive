@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:latlong2/latlong.dart';
 
-import 'package:recive/domain/graphql/__generated__/search_event_query.req.gql.dart';
-import 'package:recive/domain/graphql/__generated__/search_keywords_query.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/search_events.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/search_keywords.req.gql.dart';
 import 'package:recive/extensions/date_extensions.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';

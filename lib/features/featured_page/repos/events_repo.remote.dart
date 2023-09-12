@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
-import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
-import 'package:recive/domain/graphql/__generated__/get_favaourite_events.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_bookmark_events.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_featured_event_by_id.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_featured_events.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/schema.schema.gql.dart';
 import 'package:recive/enums/event_sort.dart';
 import 'package:recive/extensions/date_extensions.dart';
@@ -180,7 +180,7 @@ class GQLEventRepo extends IEventRepo {
     required int limit,
     required List<String> ids,
   }) async {
-    final favouriteEventRequest = GGetFavouriteEventsReq(
+    final favouriteEventRequest = GGetBookmarksEventsReq(
       (b) => b
         ..vars.limit = limit
         ..vars.eventIds.addAll(ids.map((e) => GObjectId(e))),

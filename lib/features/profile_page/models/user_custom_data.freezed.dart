@@ -28,7 +28,7 @@ mixin _$UserCustomData {
   String? get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'favourite_events')
+  @JsonKey(name: 'bookmark_events')
   List<String>? get bookmarkEvents => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $UserCustomDataCopyWith<$Res> {
       @JsonKey(name: 'email') String? email,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'favourite_events') List<String>? bookmarkEvents});
+      @JsonKey(name: 'bookmark_events') List<String>? bookmarkEvents});
 }
 
 /// @nodoc
@@ -108,7 +108,7 @@ abstract class _$$_UserCustomDataCopyWith<$Res>
       @JsonKey(name: 'email') String? email,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'favourite_events') List<String>? bookmarkEvents});
+      @JsonKey(name: 'bookmark_events') List<String>? bookmarkEvents});
 }
 
 /// @nodoc
@@ -161,7 +161,7 @@ class _$_UserCustomData implements _UserCustomData {
       @JsonKey(name: 'email') this.email,
       @JsonKey(name: 'image_url') this.imageUrl,
       @JsonKey(name: 'name') this.name,
-      @JsonKey(name: 'favourite_events') final List<String>? bookmarkEvents})
+      @JsonKey(name: 'bookmark_events') final List<String>? bookmarkEvents})
       : _bookmarkEvents = bookmarkEvents;
 
   factory _$_UserCustomData.fromJson(Map<String, dynamic> json) =>
@@ -181,7 +181,7 @@ class _$_UserCustomData implements _UserCustomData {
   final String? name;
   final List<String>? _bookmarkEvents;
   @override
-  @JsonKey(name: 'favourite_events')
+  @JsonKey(name: 'bookmark_events')
   List<String>? get bookmarkEvents {
     final value = _bookmarkEvents;
     if (value == null) return null;
@@ -234,7 +234,7 @@ abstract class _UserCustomData implements UserCustomData {
       @JsonKey(name: 'email') final String? email,
       @JsonKey(name: 'image_url') final String? imageUrl,
       @JsonKey(name: 'name') final String? name,
-      @JsonKey(name: 'favourite_events')
+      @JsonKey(name: 'bookmark_events')
       final List<String>? bookmarkEvents}) = _$_UserCustomData;
 
   factory _UserCustomData.fromJson(Map<String, dynamic> json) =
@@ -253,7 +253,7 @@ abstract class _UserCustomData implements UserCustomData {
   @JsonKey(name: 'name')
   String? get name;
   @override
-  @JsonKey(name: 'favourite_events')
+  @JsonKey(name: 'bookmark_events')
   List<String>? get bookmarkEvents;
   @override
   @JsonKey(ignore: true)

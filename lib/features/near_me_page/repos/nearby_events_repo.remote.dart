@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'package:recive/domain/graphql/__generated__/event_query.req.gql.dart';
-import 'package:recive/domain/graphql/__generated__/near_by_query.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_featured_event_by_id.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_nearby_events.req.gql.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
 import 'package:recive/ioc/realm_gql_client.dart';

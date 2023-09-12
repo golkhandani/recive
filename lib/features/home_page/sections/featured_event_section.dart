@@ -7,7 +7,6 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
@@ -53,51 +52,52 @@ class HomePageFeaturedEventsSection extends HookWidget {
               padding: kTinyPadding,
               sliver: Builder(
                 builder: (context) {
-                  if (state.loadingState == LoadingState.loading) {
-                    return const SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 600,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    );
-                  }
+                  // if (state.loadingState == LoadingState.loading) {
+                  //   return const SliverToBoxAdapter(
+                  //     child: SizedBox(
+                  //       height: 600,
+                  //       child: Center(
+                  //         child: CircularProgressIndicator(),
+                  //       ),
+                  //     ),
+                  //   );
+                  // }
                   return MultiSliver(
                     children: [
                       SliverGrid(
                         delegate: SliverChildBuilderDelegate(
-                            childCount: state.featuredEventsSpotlight.length +
-                                1, (context, index) {
-                          if (index == state.featuredEventsSpotlight.length) {
-                            return SeeMoreButton(
-                              constraints: const BoxConstraints.expand(),
-                              onTap: () =>
-                                  navigationService.pushTo(FeaturedScreen.name),
-                            );
-                          }
+                          childCount: state.featuredEventsSpotlight.length + 1,
+                          (context, index) {
+                            if (index == state.featuredEventsSpotlight.length) {
+                              return SeeMoreButton(
+                                constraints: const BoxConstraints.expand(),
+                                onTap: () => navigationService
+                                    .pushTo(FeaturedScreen.name),
+                              );
+                            }
 
-                          final data =
-                              FeaturedEventCardContainerData.fromFeaturedEvent(
-                            state.featuredEventsSpotlight[index],
-                          );
-                          return FeaturedEventCardContainer(
-                            parentPathParams: const {},
-                            parentRoute: HomeScreen.name,
-                            constraints: const BoxConstraints.expand(),
-                            data: data,
-                          );
-                        }),
+                            final data = FeaturedEventCardContainerData
+                                .fromFeaturedEvent(
+                              state.featuredEventsSpotlight[index],
+                            );
+                            return FeaturedEventCardContainer(
+                              parentPathParams: const {},
+                              parentRoute: HomeScreen.name,
+                              constraints: const BoxConstraints.expand(),
+                              data: data,
+                            );
+                          },
+                        ),
                         gridDelegate: SliverQuiltedGridDelegate(
-                          crossAxisCount: 4,
+                          crossAxisCount: 5,
                           mainAxisSpacing: 12,
                           crossAxisSpacing: 12,
                           repeatPattern: QuiltedGridRepeatPattern.same,
                           pattern: const [
-                            QuiltedGridTile(3, 4),
-                            QuiltedGridTile(3, 2),
-                            QuiltedGridTile(2, 2),
-                            QuiltedGridTile(1, 2),
+                            QuiltedGridTile(4, 5),
+                            QuiltedGridTile(5, 2),
+                            QuiltedGridTile(4, 3),
+                            QuiltedGridTile(1, 3),
                           ],
                         ),
                       ),

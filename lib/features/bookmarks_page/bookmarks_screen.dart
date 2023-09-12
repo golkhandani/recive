@@ -22,7 +22,7 @@ class BookmarksScreen extends HookWidget {
     final state = useBlocBuilder(bloc);
 
     useEffect(() {
-      bloc.loadFavourites();
+      bloc.loadBookmarks();
       return;
     }, []);
 

@@ -1,4 +1,4 @@
-query GetFavouriteEvents($eventIds: [ObjectId], $limit: Int) {
+query GetBookmarksEvents($eventIds: [ObjectId], $limit: Int) {
   events(limit: $limit, query: { _id_in: $eventIds }) {
     _id
     end_date

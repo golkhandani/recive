@@ -29,8 +29,8 @@ class EventCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = context.colorScheme.tertiaryContainer.withOpacity(0.6);
-    final fontColor = context.colorScheme.onTertiaryContainer;
+    final color = context.theme.colorScheme.tertiary.withOpacity(0.6);
+    final fontColor = context.colorScheme.onTertiary;
 
     final child = LayoutBuilder(builder: (context, box) {
       final isShort = box.maxHeight < 120;
@@ -55,7 +55,7 @@ class EventCardContainer extends StatelessWidget {
                       style: context.titleMediumOnPrimaryContainer
                           .withColor(fontColor),
                     ),
-                    if (isShort) ...[
+                    if (!isShort) ...[
                       const SizedBox(height: 12),
                       Row(
                         children: [
@@ -153,7 +153,7 @@ class EventCardContainer extends StatelessWidget {
             : DecorationImage(
                 image: imageProvider,
                 fit: BoxFit.cover,
-                opacity: 0.7,
+                opacity: 0.9,
               ),
         borderRadius: BorderRadius.circular(8),
         color: Colors.black,

@@ -33,8 +33,8 @@ class FeaturedEventCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.theme.colorScheme.secondaryContainer.withOpacity(0.6);
-    final fontColor = context.colorScheme.onSecondaryContainer;
+    final color = context.theme.colorScheme.tertiary.withOpacity(0.6);
+    final fontColor = context.colorScheme.onTertiary;
     final heroTag = parentRoute + data.id;
     final extraJson = ExtraData(
       summary: FeaturedEventDetailSummaryData(
@@ -50,7 +50,7 @@ class FeaturedEventCardContainer extends HookWidget {
       final isSmall = MediaQuery.sizeOf(context).width / 2 > box.maxWidth;
       final isSmallTall = box.maxWidth < box.maxHeight / 1;
 
-      if (isBig) {
+      if (isBig && !isSmallTall) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -121,7 +121,7 @@ class FeaturedEventCardContainer extends HookWidget {
         );
       }
 
-      if (isSmallTall && isSmall) {
+      if (isSmallTall && !isSmall) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -135,6 +135,7 @@ class FeaturedEventCardContainer extends HookWidget {
                   padding: const EdgeInsets.all(8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         data.title,
@@ -187,7 +188,7 @@ class FeaturedEventCardContainer extends HookWidget {
                 padding: const EdgeInsets.all(8),
                 child: Text(
                   data.title,
-                  maxLines: 3,
+                  maxLines: 2,
                   style:
                       context.titleLargeOnPrimaryContainer.withColor(fontColor),
                 ),

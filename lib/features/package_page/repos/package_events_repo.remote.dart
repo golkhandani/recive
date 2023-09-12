@@ -5,7 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:starsview/utils/RandomUtils.dart';
 
-import 'package:recive/domain/graphql/__generated__/events_query.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_featured_events.req.gql.dart';
 import 'package:recive/enums/event_sort.dart';
 import 'package:recive/extensions/duration_extensions.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
@@ -112,9 +112,10 @@ class GQLPackageEventRepo extends IPackageEventRepo {
 
     final counter = List.generate(limit, (i) => i);
     final list = <Package>[];
-    for (var count in counter) {
+    for (var _ in counter) {
       events.shuffle();
       final packageEvents = events.take(3);
+      final packageEventId = packageEvents.map((e) => e.id).join('@');
       final way = rms.convertPointsToWay(
         packageEvents.map((e) => e.latLng).toList(),
       );
@@ -127,7 +128,7 @@ class GQLPackageEventRepo extends IPackageEventRepo {
       final tags = packageEvents.expand((e) => e.tags).toList();
 
       list.add(Package(
-        id: '$count',
+        id: packageEventId,
         title:
             '${duration.toHoursMinutes()} of ${tags.randomElement(Random())}',
         subtitle: destinations.isNotEmpty

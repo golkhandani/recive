@@ -20,7 +20,7 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/extensions/string_extensions.dart';
-import 'package:recive/features/favourites_page/cubits/favourite_cubit.dart';
+import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
@@ -45,7 +45,7 @@ class NearbyDetailScreen extends HookWidget {
   Widget build(BuildContext context) {
     final bloc = useBloc<NearbyEventDetailCubit>();
     final state = useBlocBuilder(bloc);
-    final favouriteBloc = context.read<FavouritesCubit>();
+    final bookmarksBloc = context.read<BookmarksCubit>();
 
     useEffect(() {
       bloc.loadNearbyEvent(id);
@@ -113,7 +113,7 @@ class NearbyDetailScreen extends HookWidget {
                                           child: IconButton(
                                             onPressed: () {
                                               bloc.toggleFavorite(id);
-                                              favouriteBloc.toggleFavorite(id);
+                                              bookmarksBloc.toggleFavorite(id);
                                             },
                                             icon: Icon(
                                               state.isFavourite

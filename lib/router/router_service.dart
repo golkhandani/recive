@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 
+import 'package:recive/features/bookmarks_page/bookmarks_screen.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/categories_page/category_detail_screen.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/detail_page/detail_type.dart';
-import 'package:recive/features/favourites_page/favourites_screen.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
@@ -401,14 +401,14 @@ final dashboardRoutes = [
             ),
             routes: [
               GoRoute(
-                name: FavouritesScreen.name,
-                path: FavouritesScreen.name,
+                name: BookmarksScreen.name,
+                path: BookmarksScreen.name,
                 pageBuilder: (context, state) => dashboardPageBuilder(
                   state,
-                  const FavouritesScreen(),
+                  const BookmarksScreen(),
                 ),
                 routes: [
-                  featuredEventDetailRoute(FavouritesScreen.name),
+                  featuredEventDetailRoute(BookmarksScreen.name),
                 ],
               ),
             ],

@@ -12,8 +12,8 @@ import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
-import 'package:recive/features/favourites_page/cubits/favourite_cubit.dart';
-import 'package:recive/features/favourites_page/favourites_screen.dart';
+import 'package:recive/features/bookmarks_page/bookmarks_screen.dart';
+import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
 import 'package:recive/features/introduction_page/cubits/setting_loader_cubit.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/login_screen.dart';
@@ -39,8 +39,8 @@ class ProfileScreen extends HookWidget {
     final bloc = useBloc<LoginCubit>();
     final state = useBlocBuilder(bloc);
 
-    final favouriteBloc = context.read<FavouritesCubit>();
-    final favouriteState = useBlocBuilder(favouriteBloc);
+    final bookmarksBloc = context.read<BookmarksCubit>();
+    final bookmarksState = useBlocBuilder(bookmarksBloc);
 
     final themeBloc = context.read<ReciveThemeCubit>();
     final theme = useBlocBuilder(themeBloc);
@@ -50,9 +50,9 @@ class ProfileScreen extends HookWidget {
 
     useEffect(() {
       settingbloc.loadSetting();
-      favouriteBloc.loadFavourites();
+      bookmarksBloc.loadBookmarks();
       return;
-    }, [favouriteState.count]);
+    }, [bookmarksState.count]);
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
@@ -218,15 +218,15 @@ class ProfileScreen extends HookWidget {
                                 Row(
                                   children: [
                                     const Expanded(
-                                      child: Text("Total favourites:"),
+                                      child: Text("Total bookmarks:"),
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: InkWell(
-                                        onTap: favouriteState.count == 0
+                                        onTap: bookmarksState.count == 0
                                             ? null
                                             : () => navigationService.pushTo(
-                                                  FavouritesScreen.name,
+                                                  BookmarksScreen.name,
                                                 ),
                                         child: Container(
                                           padding: kTinyPadding,
@@ -236,7 +236,7 @@ class ProfileScreen extends HookWidget {
                                             height: 42,
                                           ),
                                           decoration: ShapeDecoration(
-                                            color: favouriteState.count == 0
+                                            color: bookmarksState.count == 0
                                                 ? context
                                                     .colorScheme.surfaceVariant
                                                 : context
@@ -248,7 +248,7 @@ class ProfileScreen extends HookWidget {
                                               ),
                                             ),
                                           ),
-                                          child: favouriteState.loadingState ==
+                                          child: bookmarksState.loadingState ==
                                                   LoadingState.loading
                                               ? const Center(
                                                   child: SizedBox(
@@ -258,15 +258,15 @@ class ProfileScreen extends HookWidget {
                                                       CircularProgressIndicator(),
                                                 ))
                                               : Text(
-                                                  favouriteState.count == 0
+                                                  bookmarksState.count == 0
                                                       ? 'No items'
-                                                      : 'View ${favouriteState.count} items',
+                                                      : 'View ${bookmarksState.count} items',
                                                   textAlign: TextAlign.center,
                                                   style: context
                                                       .textTheme.titleSmall!
                                                       .copyWith(
                                                     color:
-                                                        favouriteState.count ==
+                                                        bookmarksState.count ==
                                                                 0
                                                             ? context
                                                                 .colorScheme

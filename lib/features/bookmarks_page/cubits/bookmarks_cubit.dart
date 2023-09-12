@@ -4,59 +4,59 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/favourites_page/models/favourite_storage.dart';
+import 'package:recive/features/bookmarks_page/models/favourite_storage.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 
-part 'favourite_cubit.freezed.dart';
-part 'favourite_cubit.g.dart';
+part 'bookmarks_cubit.freezed.dart';
+part 'bookmarks_cubit.g.dart';
 
 @freezed
-class FavouritesState with _$FavouritesState {
+class BookmarksState with _$BookmarksState {
   static const favouriteStateKey = 'favouriteStateKey';
-  const factory FavouritesState({
+  const factory BookmarksState({
     required List<String> ids,
     required int count,
-    required List<FeaturedEvent> favouriteEvents,
+    required List<FeaturedEvent> bookmarkEvents,
     required LoadingState loadingState,
-  }) = _FavouritesState;
+  }) = _BookmarksState;
 
-  factory FavouritesState.initialize() => const FavouritesState(
+  factory BookmarksState.initialize() => const BookmarksState(
         loadingState: LoadingState.none,
         count: 0,
         ids: [],
-        favouriteEvents: [],
+        bookmarkEvents: [],
       );
 
-  factory FavouritesState.fromJson(Map<String, Object?> json) =>
-      _$FavouritesStateFromJson(json);
+  factory BookmarksState.fromJson(Map<String, Object?> json) =>
+      _$BookmarksStateFromJson(json);
 }
 
-class FavouritesCubit extends MaybeEmitHydratedCubit<FavouritesState> {
+class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
   final IEventRepo repo;
-  final Box<FavouriteStroage> favouriteBox;
+  final Box<BookmarkStore> bookmarkBox;
   final RealmApplicationService applicationService;
-  FavouritesCubit({
+  BookmarksCubit({
     required this.repo,
-    required this.favouriteBox,
+    required this.bookmarkBox,
     required this.applicationService,
-  }) : super(FavouritesState.initialize());
+  }) : super(BookmarksState.initialize());
 
-  Future<void> loadFavourites() async {
+  Future<void> loadBookmarks() async {
     maybeEmit(state.copyWith(
       loadingState: LoadingState.loading,
     ));
     final userFavourites =
-        applicationService.currentUserCustomData?.favouriteEvent ?? [];
-    final current = favouriteBox.get(FavouriteStroage.favouriteItemsKey);
+        applicationService.currentUserCustomData?.bookmarkEvents ?? [];
+    final current = bookmarkBox.get(BookmarkStore.keyName);
 
     if (userFavourites.length != current?.ids.length) {
       // update local box
-      await favouriteBox.put(
-        FavouriteStroage.favouriteItemsKey,
-        FavouriteStroage(
+      await bookmarkBox.put(
+        BookmarkStore.keyName,
+        BookmarkStore(
           ids: userFavourites,
           count: userFavourites.length,
         ),
@@ -70,16 +70,16 @@ class FavouritesCubit extends MaybeEmitHydratedCubit<FavouritesState> {
       ),
     );
 
-    final data = await repo.favouriteEvents(limit: 10, ids: current?.ids ?? []);
+    final data = await repo.bookmarkEvents(limit: 10, ids: current?.ids ?? []);
     maybeEmit(
       state.copyWith(
-        favouriteEvents: data,
+        bookmarkEvents: data,
       ),
     );
   }
 
   Future<void> toggleFavorite(String id) async {
-    final current = favouriteBox.get(FavouriteStroage.favouriteItemsKey);
+    final current = bookmarkBox.get(BookmarkStore.keyName);
     var ids = List<String>.from(current?.ids ?? []);
     final isFavourite = ids.contains(id);
 
@@ -90,16 +90,16 @@ class FavouritesCubit extends MaybeEmitHydratedCubit<FavouritesState> {
     }
     ids = ids.toSet().toList();
 
-    await favouriteBox.put(
-      FavouriteStroage.favouriteItemsKey,
-      FavouriteStroage(
+    await bookmarkBox.put(
+      BookmarkStore.keyName,
+      BookmarkStore(
         ids: ids,
         count: ids.length,
       ),
     );
     await applicationService.updateFavouriteEventIds(ids);
 
-    final updated = favouriteBox.get(FavouriteStroage.favouriteItemsKey);
+    final updated = bookmarkBox.get(BookmarkStore.keyName);
     final updatedIds = updated?.ids ?? [];
     maybeEmit(state.copyWith(
       loadingState: LoadingState.done,
@@ -109,12 +109,12 @@ class FavouritesCubit extends MaybeEmitHydratedCubit<FavouritesState> {
   }
 
   @override
-  FavouritesState? fromJson(Map<String, dynamic> json) {
-    return FavouritesState.fromJson(json);
+  BookmarksState? fromJson(Map<String, dynamic> json) {
+    return BookmarksState.fromJson(json);
   }
 
   @override
-  Map<String, dynamic>? toJson(FavouritesState state) {
+  Map<String, dynamic>? toJson(BookmarksState state) {
     return state.toJson();
   }
 }

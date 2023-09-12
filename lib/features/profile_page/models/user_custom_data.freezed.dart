@@ -29,7 +29,7 @@ mixin _$UserCustomData {
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'favourite_events')
-  List<String>? get favouriteEvent => throw _privateConstructorUsedError;
+  List<String>? get bookmarkEvents => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +48,7 @@ abstract class $UserCustomDataCopyWith<$Res> {
       @JsonKey(name: 'email') String? email,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'favourite_events') List<String>? favouriteEvent});
+      @JsonKey(name: 'favourite_events') List<String>? bookmarkEvents});
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$UserCustomDataCopyWithImpl<$Res, $Val extends UserCustomData>
     Object? email = freezed,
     Object? imageUrl = freezed,
     Object? name = freezed,
-    Object? favouriteEvent = freezed,
+    Object? bookmarkEvents = freezed,
   }) {
     return _then(_value.copyWith(
       userId: freezed == userId
@@ -87,9 +87,9 @@ class _$UserCustomDataCopyWithImpl<$Res, $Val extends UserCustomData>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      favouriteEvent: freezed == favouriteEvent
-          ? _value.favouriteEvent
-          : favouriteEvent // ignore: cast_nullable_to_non_nullable
+      bookmarkEvents: freezed == bookmarkEvents
+          ? _value.bookmarkEvents
+          : bookmarkEvents // ignore: cast_nullable_to_non_nullable
               as List<String>?,
     ) as $Val);
   }
@@ -108,7 +108,7 @@ abstract class _$$_UserCustomDataCopyWith<$Res>
       @JsonKey(name: 'email') String? email,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'favourite_events') List<String>? favouriteEvent});
+      @JsonKey(name: 'favourite_events') List<String>? bookmarkEvents});
 }
 
 /// @nodoc
@@ -126,7 +126,7 @@ class __$$_UserCustomDataCopyWithImpl<$Res>
     Object? email = freezed,
     Object? imageUrl = freezed,
     Object? name = freezed,
-    Object? favouriteEvent = freezed,
+    Object? bookmarkEvents = freezed,
   }) {
     return _then(_$_UserCustomData(
       userId: freezed == userId
@@ -145,9 +145,9 @@ class __$$_UserCustomDataCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      favouriteEvent: freezed == favouriteEvent
-          ? _value._favouriteEvent
-          : favouriteEvent // ignore: cast_nullable_to_non_nullable
+      bookmarkEvents: freezed == bookmarkEvents
+          ? _value._bookmarkEvents
+          : bookmarkEvents // ignore: cast_nullable_to_non_nullable
               as List<String>?,
     ));
   }
@@ -161,8 +161,8 @@ class _$_UserCustomData implements _UserCustomData {
       @JsonKey(name: 'email') this.email,
       @JsonKey(name: 'image_url') this.imageUrl,
       @JsonKey(name: 'name') this.name,
-      @JsonKey(name: 'favourite_events') final List<String>? favouriteEvent})
-      : _favouriteEvent = favouriteEvent;
+      @JsonKey(name: 'favourite_events') final List<String>? bookmarkEvents})
+      : _bookmarkEvents = bookmarkEvents;
 
   factory _$_UserCustomData.fromJson(Map<String, dynamic> json) =>
       _$$_UserCustomDataFromJson(json);
@@ -179,20 +179,20 @@ class _$_UserCustomData implements _UserCustomData {
   @override
   @JsonKey(name: 'name')
   final String? name;
-  final List<String>? _favouriteEvent;
+  final List<String>? _bookmarkEvents;
   @override
   @JsonKey(name: 'favourite_events')
-  List<String>? get favouriteEvent {
-    final value = _favouriteEvent;
+  List<String>? get bookmarkEvents {
+    final value = _bookmarkEvents;
     if (value == null) return null;
-    if (_favouriteEvent is EqualUnmodifiableListView) return _favouriteEvent;
+    if (_bookmarkEvents is EqualUnmodifiableListView) return _bookmarkEvents;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
   @override
   String toString() {
-    return 'UserCustomData(userId: $userId, email: $email, imageUrl: $imageUrl, name: $name, favouriteEvent: $favouriteEvent)';
+    return 'UserCustomData(userId: $userId, email: $email, imageUrl: $imageUrl, name: $name, bookmarkEvents: $bookmarkEvents)';
   }
 
   @override
@@ -206,13 +206,13 @@ class _$_UserCustomData implements _UserCustomData {
                 other.imageUrl == imageUrl) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
-                .equals(other._favouriteEvent, _favouriteEvent));
+                .equals(other._bookmarkEvents, _bookmarkEvents));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, userId, email, imageUrl, name,
-      const DeepCollectionEquality().hash(_favouriteEvent));
+      const DeepCollectionEquality().hash(_bookmarkEvents));
 
   @JsonKey(ignore: true)
   @override
@@ -235,7 +235,7 @@ abstract class _UserCustomData implements UserCustomData {
       @JsonKey(name: 'image_url') final String? imageUrl,
       @JsonKey(name: 'name') final String? name,
       @JsonKey(name: 'favourite_events')
-      final List<String>? favouriteEvent}) = _$_UserCustomData;
+      final List<String>? bookmarkEvents}) = _$_UserCustomData;
 
   factory _UserCustomData.fromJson(Map<String, dynamic> json) =
       _$_UserCustomData.fromJson;
@@ -254,7 +254,7 @@ abstract class _UserCustomData implements UserCustomData {
   String? get name;
   @override
   @JsonKey(name: 'favourite_events')
-  List<String>? get favouriteEvent;
+  List<String>? get bookmarkEvents;
   @override
   @JsonKey(ignore: true)
   _$$_UserCustomDataCopyWith<_$_UserCustomData> get copyWith =>

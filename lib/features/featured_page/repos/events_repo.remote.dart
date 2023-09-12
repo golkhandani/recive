@@ -176,7 +176,7 @@ class GQLEventRepo extends IEventRepo {
   }
 
   @override
-  Future<List<FeaturedEvent>> favouriteEvents({
+  Future<List<FeaturedEvent>> bookmarkEvents({
     required int limit,
     required List<String> ids,
   }) async {

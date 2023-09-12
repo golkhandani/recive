@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/favourites_page/models/favourite_storage.dart';
+import 'package:recive/features/bookmarks_page/models/favourite_storage.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
@@ -35,11 +35,11 @@ class NearbyEventDetailCubit
     extends MaybeEmitHydratedCubit<NearbyEventDetailState> {
   final INearbyEventRepo repo;
   final IEventRepo eventRepo;
-  final Box<FavouriteStroage> favouriteBox;
+  final Box<BookmarkStore> bookmarkBox;
   NearbyEventDetailCubit({
     required this.repo,
     required this.eventRepo,
-    required this.favouriteBox,
+    required this.bookmarkBox,
   }) : super(NearbyEventDetailState.initialize());
 
   Future<void> loadNearbyEvent(String id) async {
@@ -55,7 +55,7 @@ class NearbyEventDetailCubit
       loadingState: LoadingState.done,
     ));
 
-    final current = favouriteBox.get(FavouriteStroage.favouriteItemsKey);
+    final current = bookmarkBox.get(BookmarkStore.keyName);
     maybeEmit(state.copyWith(
       isFavourite: current?.ids.contains(id) ?? false,
     ));

@@ -225,7 +225,7 @@ class RealmApplicationService {
   ////
   Future<void> updateFavouriteEventIds(List<String> ids) async {
     final updatedCustomData = currentUserCustomData?.copyWith(
-      favouriteEvent: ids,
+      bookmarkEvents: ids,
     );
     if (updatedCustomData != null) {
       await currentUser?.functions.call(

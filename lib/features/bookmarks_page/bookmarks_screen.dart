@@ -6,19 +6,19 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/screen_safe_area_header.dart';
-import 'package:recive/features/favourites_page/cubits/favourite_cubit.dart';
+import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_expanded_card_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 
-class FavouritesScreen extends HookWidget {
-  static const name = 'favourites';
-  const FavouritesScreen({super.key});
+class BookmarksScreen extends HookWidget {
+  static const name = 'bookmarks';
+  const BookmarksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<FavouritesCubit>();
+    final bloc = context.read<BookmarksCubit>();
     final state = useBlocBuilder(bloc);
 
     useEffect(() {
@@ -43,11 +43,11 @@ class FavouritesScreen extends HookWidget {
                     children: [
                       SliverList.builder(
                         addAutomaticKeepAlives: true,
-                        itemCount: state.favouriteEvents.length,
+                        itemCount: state.bookmarkEvents.length,
                         itemBuilder: (context, index) {
                           final data =
                               FeaturedEventCardContainerData.fromFeaturedEvent(
-                            state.favouriteEvents[index],
+                            state.bookmarkEvents[index],
                           );
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),

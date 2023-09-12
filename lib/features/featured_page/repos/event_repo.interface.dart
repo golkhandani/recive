@@ -8,7 +8,7 @@ abstract class IEventRepo {
     required EventSortBy sortBy,
   });
 
-  Future<List<FeaturedEvent>> favouriteEvents({
+  Future<List<FeaturedEvent>> bookmarkEvents({
     required int limit,
     required List<String> ids,
   });

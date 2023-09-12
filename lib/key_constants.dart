@@ -4,7 +4,7 @@ const hiveStoreFolderName = 'hive_data';
 const hiveStoreGqlBoxName = 'graphql';
 const hiveStoreThemeBoxName = 'theme_box';
 const hiveStoreIntroductionBoxName = 'intro_box';
-const hiveStoreFavouriteBoxName = 'favourit_box';
+const hiveStoreBookmarksBoxName = 'bookmarks_box';
 
 const gSignInScopes = ['profile', 'email'];
 const gSignInIosCid =

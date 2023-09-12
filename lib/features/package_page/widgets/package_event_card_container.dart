@@ -102,16 +102,13 @@ class PackageEventCardContainer extends HookWidget {
           },
           extra: extraJson,
         ),
-        child: Hero(
-          tag: heroTag,
-          child: CachedNetworkImage(
-            imageUrl: data.imageUrl,
-            imageBuilder: (context, imageProvider) =>
-                _buildEventCard(imageProvider, color, child),
-            placeholder: (context, url) => _buildEventLoading(color),
-            errorWidget: (context, url, error) =>
-                _buildEventCard(null, color, child),
-          ),
+        child: CachedNetworkImage(
+          imageUrl: data.imageUrl,
+          imageBuilder: (context, imageProvider) =>
+              _buildEventCard(imageProvider, color, heroTag, child),
+          placeholder: (context, url) => _buildEventLoading(color),
+          errorWidget: (context, url, error) =>
+              _buildEventCard(null, color, heroTag, child),
         ),
       ),
     );
@@ -133,6 +130,7 @@ class PackageEventCardContainer extends HookWidget {
   Builder _buildEventCard(
     ImageProvider<Object>? imageProvider,
     Color color,
+    String heroTag,
     Widget child,
   ) {
     return Builder(builder: (context) {
@@ -165,19 +163,22 @@ class PackageEventCardContainer extends HookWidget {
               const SizedBox(height: 24),
             ],
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: imageProvider == null
-                      ? null
-                      : DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                          opacity: 0.9,
-                        ),
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.black,
+              child: Hero(
+                tag: heroTag,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: imageProvider == null
+                        ? null
+                        : DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                            opacity: 0.9,
+                          ),
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.black,
+                  ),
+                  padding: kTinyPadding,
                 ),
-                padding: kTinyPadding,
               ),
             ),
             child

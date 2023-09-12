@@ -104,6 +104,7 @@ class PackageDetailScreen extends HookWidget {
                                   data.title,
                                   style: context.titleLargeOnBackground
                                       .withColor(fontColor),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
@@ -128,6 +129,7 @@ class PackageDetailScreen extends HookWidget {
                                   data.subtitle,
                                   style: context.textTheme.titleSmall
                                       ?.withColor(fontColor),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
@@ -204,8 +206,9 @@ class PackageDetailScreen extends HookWidget {
                         ),
                         const SliverGap(height: 12),
                         CardContainer(
+                          color: context.theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(16),
-                          padding: kTinyPadding.copyWith(left: 24, top: 24),
+                          padding: kTinyPadding.copyWith(left: 12, top: 24),
                           child: LayoutBuilder(builder: (context, box) {
                             return FixedTimeline.tileBuilder(
                               theme: TimelineThemeData(

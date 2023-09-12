@@ -11,6 +11,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 
+import 'package:recive/features/favourites_page/cubits/favourite_cubit.dart';
 import 'package:recive/features/introduction_page/splash_screen.dart';
 import 'package:recive/firebase_options.dart';
 import 'package:recive/ioc/locator.dart';
@@ -85,8 +86,12 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeBloc = locator.get<ReciveThemeCubit>();
-    final child = BlocProvider.value(
-      value: themeBloc,
+    final favouriteBloc = locator.get<FavouritesCubit>();
+    final child = MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: themeBloc),
+        BlocProvider.value(value: favouriteBloc),
+      ],
       child: BlocBuilder<ReciveThemeCubit, ReciveTheme>(
           bloc: themeBloc,
           builder: (context, reciveTheme) {

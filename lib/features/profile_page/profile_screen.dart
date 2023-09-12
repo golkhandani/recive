@@ -12,6 +12,8 @@ import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
+import 'package:recive/features/favourites_page/cubits/favourite_cubit.dart';
+import 'package:recive/features/favourites_page/favourites_screen.dart';
 import 'package:recive/features/introduction_page/cubits/setting_loader_cubit.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
 import 'package:recive/features/login_page/login_screen.dart';
@@ -37,6 +39,9 @@ class ProfileScreen extends HookWidget {
     final bloc = useBloc<LoginCubit>();
     final state = useBlocBuilder(bloc);
 
+    final favouriteBloc = context.read<FavouritesCubit>();
+    final favouriteState = useBlocBuilder(favouriteBloc);
+
     final themeBloc = context.read<ReciveThemeCubit>();
     final theme = useBlocBuilder(themeBloc);
 
@@ -45,8 +50,9 @@ class ProfileScreen extends HookWidget {
 
     useEffect(() {
       settingbloc.loadSetting();
+      favouriteBloc.loadFavourites();
       return;
-    }, []);
+    }, [favouriteState.count]);
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
@@ -204,6 +210,75 @@ class ProfileScreen extends HookWidget {
                                         onChanged: (value) {
                                           settingbloc.switchIntroSetting(value);
                                         },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Text("Total favourites:"),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: favouriteState.count == 0
+                                            ? null
+                                            : () => navigationService.pushTo(
+                                                  FavouritesScreen.name,
+                                                ),
+                                        child: Container(
+                                          padding: kTinyPadding,
+                                          alignment: Alignment.center,
+                                          constraints:
+                                              const BoxConstraints.expand(
+                                            height: 42,
+                                          ),
+                                          decoration: ShapeDecoration(
+                                            color: favouriteState.count == 0
+                                                ? context
+                                                    .colorScheme.surfaceVariant
+                                                : context
+                                                    .theme.colorScheme.tertiary,
+                                            shape: const StadiumBorder(
+                                              side: BorderSide(
+                                                width: 0,
+                                                color: Colors.transparent,
+                                              ),
+                                            ),
+                                          ),
+                                          child: favouriteState.loadingState ==
+                                                  LoadingState.loading
+                                              ? const Center(
+                                                  child: SizedBox(
+                                                  width: 24,
+                                                  height: 24,
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ))
+                                              : Text(
+                                                  favouriteState.count == 0
+                                                      ? 'No items'
+                                                      : 'View ${favouriteState.count} items',
+                                                  textAlign: TextAlign.center,
+                                                  style: context
+                                                      .textTheme.titleSmall!
+                                                      .copyWith(
+                                                    color:
+                                                        favouriteState.count ==
+                                                                0
+                                                            ? context
+                                                                .colorScheme
+                                                                .onTertiary
+                                                                .withOpacity(.5)
+                                                            : context
+                                                                .theme
+                                                                .colorScheme
+                                                                .onTertiary,
+                                                  ),
+                                                ),
+                                        ),
                                       ),
                                     ),
                                   ],

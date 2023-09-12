@@ -94,11 +94,13 @@ class _MapCardContainerState extends State<MapCardContainer>
 
     if (widget.userLocationCentered) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        mapBloc.updateState(mapState.copyWith(
-          userLocation: geolocation!.latLng!,
-        ));
-        final center = geolocation.latLng;
-        controller.animateTo(dest: center);
+        if (geolocation.latLng != null) {
+          mapBloc.updateState(mapState.copyWith(
+            userLocation: geolocation.latLng!,
+          ));
+          final center = geolocation.latLng;
+          controller.animateTo(dest: center);
+        }
       });
     }
 

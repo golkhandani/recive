@@ -9,6 +9,7 @@ part of 'near_by_event_detail_cubit.dart';
 _$_NearbyEventDetailState _$$_NearbyEventDetailStateFromJson(
         Map<String, dynamic> json) =>
     _$_NearbyEventDetailState(
+      isFavourite: json['isFavourite'] as bool,
       preSelectedEventIndex: json['preSelectedEventIndex'] as int,
       nearbyEvent: json['nearbyEvent'] == null
           ? null
@@ -19,6 +20,7 @@ _$_NearbyEventDetailState _$$_NearbyEventDetailStateFromJson(
 Map<String, dynamic> _$$_NearbyEventDetailStateToJson(
         _$_NearbyEventDetailState instance) =>
     <String, dynamic>{
+      'isFavourite': instance.isFavourite,
       'preSelectedEventIndex': instance.preSelectedEventIndex,
       'nearbyEvent': instance.nearbyEvent,
       'loadingState': _$LoadingStateEnumMap[instance.loadingState]!,

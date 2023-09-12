@@ -8,7 +8,6 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
-import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
@@ -161,47 +160,41 @@ class SearchScreen extends HookWidget {
 
   SliverList _buildSearchResult(SearchEventsState state) {
     return SliverList.builder(
+        addAutomaticKeepAlives: true,
+        addRepaintBoundaries: true,
         itemCount: state.searchedEvents.length,
         itemBuilder: (context, index) {
           final data = SearchEventCardContainerData.fromEventComplete(
             state.searchedEvents[index],
           );
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: CardContainer(
-              borderRadius: BorderRadius.circular(16),
-              padding: kTinyPadding,
-              child: SearchEventCardContainer(
-                constraints: const BoxConstraints.expand(
-                  height: 220,
+          return RepaintBoundary(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: CardContainer(
+                borderRadius: BorderRadius.circular(16),
+                padding: kTinyPadding,
+                child: SearchEventCardContainer(
+                  constraints: const BoxConstraints.expand(
+                    height: 220,
+                  ),
+                  data: data,
                 ),
-                data: data,
               ),
             ),
           );
         });
   }
 
-  SliverCardContainer _buildLoading() {
-    return SliverCardContainer(
-      borderRadius: BorderRadius.circular(16),
-      padding: kTinyPadding,
-      sliver: SliverFillRemaining(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints.expand(height: 300),
-          child: const Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
-    );
+  Widget _buildLoading() {
+    return kSliverFillLoading;
   }
 
   SliverToBoxAdapter _buildKeywords(
-      SearchEventsState state,
-      BuildContext context,
-      TextEditingController textEditingController,
-      ValueNotifier<int> resultState) {
+    SearchEventsState state,
+    BuildContext context,
+    TextEditingController textEditingController,
+    ValueNotifier<int> resultState,
+  ) {
     return SliverToBoxAdapter(
       child: CardContainer(
         borderRadius: BorderRadius.circular(16),
@@ -255,114 +248,120 @@ class SearchScreen extends HookWidget {
   ) {
     return SliverPinnedHeader(
       child: LayoutBuilder(builder: (context, box) {
-        return AnimatedSize(
-          duration: const Duration(milliseconds: 400),
-          child: showFilters.value
-              ? Container(
-                  padding: kTinyPadding,
-                  decoration: BoxDecoration(
-                    color: context.theme.colorScheme.surface,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        offset: const Offset(0.2, 0),
-                        blurRadius: 4,
-                        color: context.colorScheme.primary.darken(0.2),
-                      )
-                    ],
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 12),
-                      // Here, default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
-                      ToggleSwitch(
-                        minWidth: (box.maxWidth - 32) / dateFilters.length,
-                        initialLabelIndex: dateFilterSwitchIndex.value,
-                        activeBgColor: [
-                          context.theme.colorScheme.primaryContainer
-                        ],
-                        activeFgColor:
-                            context.theme.colorScheme.onPrimaryContainer,
-                        inactiveBgColor: context.theme.colorScheme.tertiary,
-                        inactiveFgColor: context.theme.colorScheme.onTertiary,
-                        totalSwitches: dateFilters.length,
-                        labels: dateFilters,
-                        animate: true,
-                        fontSize: 12,
-                        animationDuration: 200,
-                        onToggle: (index) {
-                          dateFilterSwitchIndex.value = index ?? 0;
-                        },
-                      ),
-                      const SizedBox(height: 12),
-                      ToggleSwitch(
-                        minWidth: (box.maxWidth - 32) / distancesFilters.length,
-                        initialLabelIndex: distanceFiltersSwitchIndex.value,
-                        activeBgColor: [
-                          context.theme.colorScheme.primaryContainer
-                        ],
-                        activeFgColor:
-                            context.theme.colorScheme.onPrimaryContainer,
-                        inactiveBgColor: context.theme.colorScheme.tertiary,
-                        inactiveFgColor: context.theme.colorScheme.onTertiary,
-                        totalSwitches: distancesFilters.length,
-                        labels: distancesFilters,
-                        animate: true,
-                        animationDuration: 200,
-                        fontSize: 12,
-                        onToggle: (index) {
-                          distanceFiltersSwitchIndex.value = index ?? 0;
-                        },
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            child: Center(
-                              child: Text(
-                                  '${priceFilterStartValue.value == 0 && priceFilterEndValue.value == pricesFilters.length - 1 ? 'Any price' : '${pricesFilters[priceFilterStartValue.value]} ${priceFilterEndValue.value == priceFilterStartValue.value ? '' : '- ${pricesFilters[priceFilterEndValue.value]}'}'} '),
-                            ),
-                          ),
-                          Expanded(
-                            child: SliderTheme(
-                              data: SliderTheme.of(context).copyWith(
-                                trackShape: const RectangularSliderTrackShape(),
-                                trackHeight: 6.0,
-                                valueIndicatorShape:
-                                    const RoundSliderOverlayShape(),
-                                rangeThumbShape:
-                                    const RoundRangeSliderThumbShape(
-                                        enabledThumbRadius: 16),
-                                rangeValueIndicatorShape:
-                                    const PaddleRangeSliderValueIndicatorShape(),
-                              ),
-                              child: RangeSlider(
-                                activeColor:
-                                    context.theme.colorScheme.primaryContainer,
-                                inactiveColor:
-                                    context.theme.colorScheme.tertiary,
-                                onChanged: (RangeValues values) {
-                                  priceFilterStartValue.value =
-                                      values.start.toInt();
-                                  priceFilterEndValue.value =
-                                      values.end.toInt();
-                                },
-                                max: pricesFilters.length - 1,
-                                divisions: pricesFilters.length - 1,
-                                values: RangeValues(
-                                  priceFilterStartValue.value.toDouble(),
-                                  priceFilterEndValue.value.toDouble(),
+        return RepaintBoundary(
+          child: AnimatedSize(
+            duration: const Duration(milliseconds: 400),
+            child: showFilters.value
+                ? Container(
+                    padding: kTinyPadding,
+                    decoration: BoxDecoration(
+                      color: context.theme.colorScheme.surface,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          offset: const Offset(0.2, 0),
+                          blurRadius: 4,
+                          color: context.colorScheme.primary.darken(0.2),
+                        )
+                      ],
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 12),
+                        // Here, default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
+                        ToggleSwitch(
+                          minWidth: (box.maxWidth - 32) / dateFilters.length,
+                          initialLabelIndex: dateFilterSwitchIndex.value,
+                          activeBgColor: [
+                            context.theme.colorScheme.primaryContainer
+                          ],
+                          activeFgColor:
+                              context.theme.colorScheme.onPrimaryContainer,
+                          inactiveBgColor: context.theme.colorScheme.tertiary,
+                          inactiveFgColor: context.theme.colorScheme.onTertiary,
+                          totalSwitches: dateFilters.length,
+                          labels: dateFilters,
+                          animate: true,
+                          fontSize: 12,
+                          animationDuration: 200,
+                          onToggle: (index) {
+                            dateFilterSwitchIndex.value = index ?? 0;
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        ToggleSwitch(
+                          minWidth:
+                              (box.maxWidth - 32) / distancesFilters.length,
+                          initialLabelIndex: distanceFiltersSwitchIndex.value,
+                          activeBgColor: [
+                            context.theme.colorScheme.primaryContainer
+                          ],
+                          activeFgColor:
+                              context.theme.colorScheme.onPrimaryContainer,
+                          inactiveBgColor: context.theme.colorScheme.tertiary,
+                          inactiveFgColor: context.theme.colorScheme.onTertiary,
+                          totalSwitches: distancesFilters.length,
+                          labels: distancesFilters,
+                          animate: true,
+                          animationDuration: 200,
+                          fontSize: 12,
+                          onToggle: (index) {
+                            distanceFiltersSwitchIndex.value = index ?? 0;
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        RepaintBoundary(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: Center(
+                                  child: Text(
+                                      '${priceFilterStartValue.value == 0 && priceFilterEndValue.value == pricesFilters.length - 1 ? 'Any price' : '${pricesFilters[priceFilterStartValue.value]} ${priceFilterEndValue.value == priceFilterStartValue.value ? '' : '- ${pricesFilters[priceFilterEndValue.value]}'}'} '),
                                 ),
                               ),
-                            ),
+                              Expanded(
+                                child: SliderTheme(
+                                  data: SliderTheme.of(context).copyWith(
+                                    trackShape:
+                                        const RectangularSliderTrackShape(),
+                                    trackHeight: 6.0,
+                                    valueIndicatorShape:
+                                        const RoundSliderOverlayShape(),
+                                    rangeThumbShape:
+                                        const RoundRangeSliderThumbShape(
+                                            enabledThumbRadius: 16),
+                                    rangeValueIndicatorShape:
+                                        const PaddleRangeSliderValueIndicatorShape(),
+                                  ),
+                                  child: RangeSlider(
+                                    activeColor: context
+                                        .theme.colorScheme.primaryContainer,
+                                    inactiveColor:
+                                        context.theme.colorScheme.tertiary,
+                                    onChanged: (RangeValues values) {
+                                      priceFilterStartValue.value =
+                                          values.start.toInt();
+                                      priceFilterEndValue.value =
+                                          values.end.toInt();
+                                    },
+                                    max: pricesFilters.length - 1,
+                                    divisions: pricesFilters.length - 1,
+                                    values: RangeValues(
+                                      priceFilterStartValue.value.toDouble(),
+                                      priceFilterEndValue.value.toDouble(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              : const SizedBox.shrink(),
+                        )
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
         );
       }),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,7 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/extensions/string_extensions.dart';
+import 'package:recive/features/favourites_page/cubits/favourite_cubit.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
@@ -43,6 +45,7 @@ class NearbyDetailScreen extends HookWidget {
   Widget build(BuildContext context) {
     final bloc = useBloc<NearbyEventDetailCubit>();
     final state = useBlocBuilder(bloc);
+    final favouriteBloc = context.read<FavouritesCubit>();
 
     useEffect(() {
       bloc.loadNearbyEvent(id);
@@ -93,6 +96,40 @@ class NearbyDetailScreen extends HookWidget {
                           }
                           return MultiSliver(
                             children: [
+                              SliverCardContainer(
+                                borderRadius: BorderRadius.circular(16),
+                                color: context.colorScheme.background,
+                                padding: EdgeInsets.zero,
+                                sliver: SliverToBoxAdapter(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      // color: context.theme.colorScheme.secondary,
+                                    ),
+                                    padding: kTinyPadding,
+                                    child: Column(
+                                      children: [
+                                        Center(
+                                          child: IconButton(
+                                            onPressed: () {
+                                              bloc.toggleFavorite(id);
+                                              favouriteBloc.toggleFavorite(id);
+                                            },
+                                            icon: Icon(
+                                              state.isFavourite
+                                                  ? Icons.favorite_rounded
+                                                  : Icons
+                                                      .favorite_border_rounded,
+                                              color: Colors.redAccent,
+                                              size: 48,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                               _buildTitleInfo(summary, data),
                               const SliverGap(height: 12),
                               _buildBasicInfo(data, infoStyle),

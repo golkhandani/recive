@@ -21,6 +21,7 @@ NearbyEventDetailState _$NearbyEventDetailStateFromJson(
 
 /// @nodoc
 mixin _$NearbyEventDetailState {
+  bool get isFavourite => throw _privateConstructorUsedError;
   int get preSelectedEventIndex => throw _privateConstructorUsedError;
   EventComplete? get nearbyEvent => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
@@ -38,7 +39,8 @@ abstract class $NearbyEventDetailStateCopyWith<$Res> {
       _$NearbyEventDetailStateCopyWithImpl<$Res, NearbyEventDetailState>;
   @useResult
   $Res call(
-      {int preSelectedEventIndex,
+      {bool isFavourite,
+      int preSelectedEventIndex,
       EventComplete? nearbyEvent,
       LoadingState loadingState});
 
@@ -59,11 +61,16 @@ class _$NearbyEventDetailStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isFavourite = null,
     Object? preSelectedEventIndex = null,
     Object? nearbyEvent = freezed,
     Object? loadingState = null,
   }) {
     return _then(_value.copyWith(
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
       preSelectedEventIndex: null == preSelectedEventIndex
           ? _value.preSelectedEventIndex
           : preSelectedEventIndex // ignore: cast_nullable_to_non_nullable
@@ -101,7 +108,8 @@ abstract class _$$_NearbyEventDetailStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int preSelectedEventIndex,
+      {bool isFavourite,
+      int preSelectedEventIndex,
       EventComplete? nearbyEvent,
       LoadingState loadingState});
 
@@ -121,11 +129,16 @@ class __$$_NearbyEventDetailStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isFavourite = null,
     Object? preSelectedEventIndex = null,
     Object? nearbyEvent = freezed,
     Object? loadingState = null,
   }) {
     return _then(_$_NearbyEventDetailState(
+      isFavourite: null == isFavourite
+          ? _value.isFavourite
+          : isFavourite // ignore: cast_nullable_to_non_nullable
+              as bool,
       preSelectedEventIndex: null == preSelectedEventIndex
           ? _value.preSelectedEventIndex
           : preSelectedEventIndex // ignore: cast_nullable_to_non_nullable
@@ -146,13 +159,16 @@ class __$$_NearbyEventDetailStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_NearbyEventDetailState implements _NearbyEventDetailState {
   const _$_NearbyEventDetailState(
-      {required this.preSelectedEventIndex,
+      {required this.isFavourite,
+      required this.preSelectedEventIndex,
       required this.nearbyEvent,
       required this.loadingState});
 
   factory _$_NearbyEventDetailState.fromJson(Map<String, dynamic> json) =>
       _$$_NearbyEventDetailStateFromJson(json);
 
+  @override
+  final bool isFavourite;
   @override
   final int preSelectedEventIndex;
   @override
@@ -162,7 +178,7 @@ class _$_NearbyEventDetailState implements _NearbyEventDetailState {
 
   @override
   String toString() {
-    return 'NearbyEventDetailState(preSelectedEventIndex: $preSelectedEventIndex, nearbyEvent: $nearbyEvent, loadingState: $loadingState)';
+    return 'NearbyEventDetailState(isFavourite: $isFavourite, preSelectedEventIndex: $preSelectedEventIndex, nearbyEvent: $nearbyEvent, loadingState: $loadingState)';
   }
 
   @override
@@ -170,6 +186,8 @@ class _$_NearbyEventDetailState implements _NearbyEventDetailState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_NearbyEventDetailState &&
+            (identical(other.isFavourite, isFavourite) ||
+                other.isFavourite == isFavourite) &&
             (identical(other.preSelectedEventIndex, preSelectedEventIndex) ||
                 other.preSelectedEventIndex == preSelectedEventIndex) &&
             (identical(other.nearbyEvent, nearbyEvent) ||
@@ -180,8 +198,8 @@ class _$_NearbyEventDetailState implements _NearbyEventDetailState {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, preSelectedEventIndex, nearbyEvent, loadingState);
+  int get hashCode => Object.hash(runtimeType, isFavourite,
+      preSelectedEventIndex, nearbyEvent, loadingState);
 
   @JsonKey(ignore: true)
   @override
@@ -200,13 +218,16 @@ class _$_NearbyEventDetailState implements _NearbyEventDetailState {
 
 abstract class _NearbyEventDetailState implements NearbyEventDetailState {
   const factory _NearbyEventDetailState(
-      {required final int preSelectedEventIndex,
+      {required final bool isFavourite,
+      required final int preSelectedEventIndex,
       required final EventComplete? nearbyEvent,
       required final LoadingState loadingState}) = _$_NearbyEventDetailState;
 
   factory _NearbyEventDetailState.fromJson(Map<String, dynamic> json) =
       _$_NearbyEventDetailState.fromJson;
 
+  @override
+  bool get isFavourite;
   @override
   int get preSelectedEventIndex;
   @override

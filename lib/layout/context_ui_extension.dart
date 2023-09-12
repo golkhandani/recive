@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:recive/enums/loading_state.dart';
+import 'package:recive/layout/ui_constants.dart';
 
 extension TextStyleContext on BuildContext {
   ColorScheme get colorScheme => theme.colorScheme;
@@ -60,9 +61,7 @@ extension UiBreakPointDetection on BuildContext {
   Widget? checkLoadingState(LoadingState loadingState) {
     if (loadingState == LoadingState.none ||
         loadingState == LoadingState.loading) {
-      return const SliverFillRemaining(
-        child: Center(child: CircularProgressIndicator()),
-      );
+      return kSliverFillLoading;
     }
 
     if (loadingState == LoadingState.error) {

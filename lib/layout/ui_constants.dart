@@ -2,9 +2,17 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
+
+// const kSliverFillLoading = SliverFillRemaining(
+//   child: Center(
+//     child: CircularProgressIndicator(),
+//   ),
+// );
+
 const kSliverFillLoading = SliverFillRemaining(
   child: Center(
-    child: CircularProgressIndicator(),
+    child: LottieLoadingIndicator(),
   ),
 );
 
@@ -17,9 +25,11 @@ const kLoadingBox = Center(
     height: 32.0,
     width: 32.0,
     child: Center(
-      child: CircularProgressIndicator(
-        color: Colors.white,
-      ),
+      child: LottieLoadingIndicator(),
+
+      // CircularProgressIndicator(
+      //   color: Colors.white,
+      // ),
     ),
   ),
 );

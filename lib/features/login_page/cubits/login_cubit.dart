@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 
 import 'package:recive/enums/loading_state.dart';
+import 'package:recive/features/favourites_page/models/favourite_storage.dart';
 import 'package:recive/features/profile_page/models/user_custom_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
@@ -41,6 +42,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
   final RealmApplicationService applicationService;
   final Box<ReciveTheme> themeBox;
   final Box<bool> introBox;
+  final Box<FavouriteStroage> favouriteBox;
 
   LoginCubit({
     required this.storage,
@@ -48,6 +50,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
     required this.applicationService,
     required this.themeBox,
     required this.introBox,
+    required this.favouriteBox,
   }) : super(LoginState.initialize());
 
   Future<void> loginWithGoogle({
@@ -137,6 +140,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
 
       await themeBox.clear();
       await introBox.clear();
+      await favouriteBox.clear();
 
       await applicationService.logout();
 
@@ -164,6 +168,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       if (applicationService.currentUser != null) {
         await themeBox.clear();
         await introBox.clear();
+        await favouriteBox.clear();
         await applicationService.delete();
         await applicationService.logout();
       }

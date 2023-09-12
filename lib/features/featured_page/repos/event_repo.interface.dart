@@ -7,6 +7,12 @@ abstract class IEventRepo {
     required int limit,
     required EventSortBy sortBy,
   });
+
+  Future<List<FeaturedEvent>> favouriteEvents({
+    required int limit,
+    required List<String> ids,
+  });
+
   Future<FeaturedEvent> featuredEventById({
     required String id,
   });

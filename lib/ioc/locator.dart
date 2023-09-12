@@ -18,6 +18,8 @@ import 'package:routing_client_dart/routing_client_dart.dart';
 import 'package:recive/components/map_card_container/cubit/map_control_cubit.dart';
 import 'package:recive/components/map_card_container/flutter_map_cached_tile_provider.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
+import 'package:recive/features/favourites_page/cubits/favourite_cubit.dart';
+import 'package:recive/features/favourites_page/models/favourite_storage.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/featured_page/repos/events_repo.remote.dart';
@@ -68,6 +70,7 @@ Future setupStorage() async {
   // START REGISTER Hive REQUEST CACHE STORE
   Hive.init(hiveStoreFolderName);
   Hive.registerAdapter(ReciveThemeAdapter());
+  Hive.registerAdapter(FavouriteStroageAdapter());
 
   await Hive.initFlutter();
   final box = await Hive.openBox(hiveStoreGqlBoxName);
@@ -82,6 +85,10 @@ Future setupStorage() async {
       initalValue: theme,
     ),
   );
+
+  final favouriteBox =
+      await Hive.openBox<FavouriteStroage>(hiveStoreFavouriteBoxName);
+  locator.registerSingleton<Box<FavouriteStroage>>(favouriteBox);
 
   final introductionBox =
       await Hive.openBox<bool>(hiveStoreIntroductionBoxName);
@@ -153,7 +160,10 @@ Future setupGraphQL() async {
   );
   locator.registerSingleton<RealmGqlClient>(realmGraphqlClient);
 
-  final osrmManager = OSRMManager();
+  final osrmManager = OSRMManager.custom(
+    server: "https://routing.openstreetmap.de",
+    roadType: RoadType.foot,
+  );
   locator.registerLazySingleton(
     () => RoutingMachineService(osrmManager: osrmManager),
   );
@@ -201,6 +211,7 @@ Future setupBlocs() async {
         storage: locator.get(),
         introBox: locator.get(),
         themeBox: locator.get(),
+        favouriteBox: locator.get(),
         applicationService: locator.get(),
         googleSignIn: locator.get(),
       ),
@@ -228,6 +239,7 @@ Future setupBlocs() async {
       () => NearbyEventDetailCubit(
         repo: locator.get(),
         eventRepo: locator.get(),
+        favouriteBox: locator.get(),
       ),
     )
     ..registerFactory(
@@ -243,6 +255,13 @@ Future setupBlocs() async {
     ..registerFactory(
       () => PackagesCubit(
         repo: locator.get(),
+      ),
+    )
+    ..registerFactory(
+      () => FavouritesCubit(
+        repo: locator.get(),
+        favouriteBox: locator.get(),
+        applicationService: locator.get(),
       ),
     );
 }

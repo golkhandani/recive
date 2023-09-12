@@ -79,6 +79,11 @@ class RealmApplicationService {
   User? _developer;
   bool get isDeveloper => currentUser is _Developer;
   User? get currentUser => _developer ?? app.currentUser;
+  UserCustomData? get currentUserCustomData => currentUser?.customData != null
+      ? UserCustomData.fromJson(
+          currentUser?.customData,
+        )
+      : null;
   late final RealmGqlClient gql = locator.get<RealmGqlClient>();
 
   RealmApplicationService({
@@ -215,5 +220,20 @@ class RealmApplicationService {
       await deleteTokens();
       return false;
     }
+  }
+
+  ////
+  Future<void> updateFavouriteEventIds(List<String> ids) async {
+    final updatedCustomData = currentUserCustomData?.copyWith(
+      favouriteEvent: ids,
+    );
+    if (updatedCustomData != null) {
+      await currentUser?.functions.call(
+        "writeCustomUserData",
+        [updatedCustomData.toJson()],
+      );
+    }
+
+    return;
   }
 }

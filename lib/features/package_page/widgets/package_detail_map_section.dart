@@ -18,7 +18,7 @@ import 'package:recive/layout/flutter_map/flutter_map_attribution.dart';
 import 'package:recive/layout/flutter_map/flutter_map_tile_layer.dart';
 import 'package:recive/layout/flutter_map/flutter_map_user_marker.dart';
 
-// TODO: this thing need a major refactoring
+// Note: this thing need a major refactoring
 // for now I have more important things to do
 
 class PackageDetailMapSection extends StatefulHookWidget {

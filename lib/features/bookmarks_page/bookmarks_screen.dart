@@ -31,7 +31,7 @@ class BookmarksScreen extends HookWidget {
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(
-            title: 'Favourites',
+            title: 'Bookmarks',
           ),
           SliverPadding(
             padding: kMediumPadding.copyWith(

@@ -69,7 +69,7 @@ class FeaturedEventCardContainer extends HookWidget {
                       Text(
                         data.title,
                         maxLines: 1,
-                        style: context.titleLargeOnPrimaryContainer
+                        style: context.titleMediumOnPrimaryContainer
                             .withColor(fontColor),
                       ),
                       const SizedBox(height: 12),
@@ -86,7 +86,7 @@ class FeaturedEventCardContainer extends HookWidget {
                               '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.titleMediumOnPrimaryContainer
+                              style: context.titleSmallOnPrimaryContainer
                                   .withColor(fontColor),
                             ),
                           ),
@@ -142,7 +142,7 @@ class FeaturedEventCardContainer extends HookWidget {
                         maxLines: 2,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
-                        style: context.titleLargeOnPrimaryContainer
+                        style: context.titleMediumOnPrimaryContainer
                             .withColor(fontColor),
                       ),
                       const SizedBox(height: 12),
@@ -159,7 +159,7 @@ class FeaturedEventCardContainer extends HookWidget {
                               '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.titleMediumOnPrimaryContainer
+                              style: context.titleSmallOnPrimaryContainer
                                   .withColor(fontColor),
                             ),
                           ),
@@ -189,8 +189,8 @@ class FeaturedEventCardContainer extends HookWidget {
                 child: Text(
                   data.title,
                   maxLines: 2,
-                  style:
-                      context.titleLargeOnPrimaryContainer.withColor(fontColor),
+                  style: context.titleMediumOnPrimaryContainer
+                      .withColor(fontColor),
                 ),
               ),
             ),

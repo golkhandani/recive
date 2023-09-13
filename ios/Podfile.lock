@@ -54,6 +54,8 @@ PODS:
     - Flutter
   - sensors_plus (0.0.1):
     - Flutter
+  - share_plus (0.0.1):
+    - Flutter
   - sqflite (0.0.3):
     - Flutter
     - FMDB (>= 2.7.5)
@@ -72,6 +74,7 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - realm (from `.symlinks/plugins/realm/ios`)
   - sensors_plus (from `.symlinks/plugins/sensors_plus/ios`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
@@ -111,6 +114,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/realm/ios"
   sensors_plus:
     :path: ".symlinks/plugins/sensors_plus/ios"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher_ios:
@@ -138,6 +143,7 @@ SPEC CHECKSUMS:
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   realm: c2addf1bd84d27e131cf90b66381762c7d13ba19
   sensors_plus: bda64198ccc7d3ccbb49e6ae17d92f67687bee20
+  share_plus: 599aa54e4ea31d4b4c0e9c911bcc26c55e791028
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 

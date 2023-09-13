@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:like_button/like_button.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,6 +29,7 @@ import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
+import 'package:recive/utils/share_service.dart';
 
 class NearbyDetailScreen extends HookWidget {
   static const name = 'neerby_event_datail';
@@ -87,7 +89,6 @@ class NearbyDetailScreen extends HookWidget {
                   return MultiSliver(
                     children: [
                       _buildImageCarousel(summary, data, heroTag),
-                      // _buildImageContainer(heroTag, summary, data),
                       const SliverGap(height: 12),
                       Builder(
                         builder: (context) {
@@ -104,26 +105,80 @@ class NearbyDetailScreen extends HookWidget {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
-                                      // color: context.theme.colorScheme.secondary,
                                     ),
+                                    constraints:
+                                        const BoxConstraints.expand(height: 56),
                                     padding: kTinyPadding,
-                                    child: Column(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Center(
-                                          child: IconButton(
-                                            onPressed: () {
-                                              bloc.toggleFavorite(id);
-                                              bookmarksBloc.toggleFavorite(id);
-                                            },
-                                            icon: Icon(
-                                              state.isFavourite
-                                                  ? Icons.favorite_rounded
-                                                  : Icons
-                                                      .favorite_border_rounded,
-                                              color: Colors.redAccent,
-                                              size: 48,
-                                            ),
+                                        LikeButton(
+                                          padding: EdgeInsets.zero,
+                                          size: 50,
+                                          onTap: (isLiked) async {
+                                            bloc.toggleFavorite(id);
+                                            bookmarksBloc.toggleFavorite(
+                                              id,
+                                              onFailure: () =>
+                                                  bloc.toggleFavorite(id),
+                                            );
+                                            return !isLiked;
+                                          },
+                                          bubblesColor: BubblesColor(
+                                            dotPrimaryColor:
+                                                context.colorScheme.primary,
+                                            dotSecondaryColor:
+                                                context.colorScheme.secondary,
                                           ),
+                                          isLiked: state.isBookmarked,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          likeBuilder: (isLiked) => Icon(
+                                            isLiked
+                                                ? Icons.bookmark_rounded
+                                                : Icons.bookmark_border_rounded,
+                                            size: 50,
+                                            color:
+                                                context.colorScheme.onSurface,
+                                          ),
+                                        ),
+                                        LikeButton(
+                                          padding: EdgeInsets.zero,
+                                          size: 50,
+                                          onTap: (isLiked) async {
+                                            return !isLiked;
+                                          },
+                                          bubblesColor: BubblesColor(
+                                            dotPrimaryColor:
+                                                context.colorScheme.primary,
+                                            dotSecondaryColor: Colors.redAccent,
+                                          ),
+                                          likeBuilder: (isLiked) => Icon(
+                                            isLiked
+                                                ? Icons.favorite_rounded
+                                                : Icons.favorite_border_rounded,
+                                            size: 50,
+                                            color: Colors.redAccent,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        IconButton(
+                                          padding: EdgeInsets.zero,
+                                          icon: Icon(
+                                            Icons.ios_share,
+                                            size: 42,
+                                            color:
+                                                context.colorScheme.onSurface,
+                                          ),
+                                          onPressed: () {
+                                            locator
+                                                .get<ShareService>()
+                                                .shareEvent(
+                                                  context,
+                                                  title: data?.title ?? '',
+                                                );
+                                          },
                                         ),
                                       ],
                                     ),

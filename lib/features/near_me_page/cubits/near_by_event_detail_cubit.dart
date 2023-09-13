@@ -14,14 +14,14 @@ part 'near_by_event_detail_cubit.g.dart';
 @freezed
 class NearbyEventDetailState with _$NearbyEventDetailState {
   const factory NearbyEventDetailState({
-    required bool isFavourite,
+    required bool isBookmarked,
     required int preSelectedEventIndex,
     required EventComplete? nearbyEvent,
     required LoadingState loadingState,
   }) = _NearbyEventDetailState;
 
   factory NearbyEventDetailState.initialize() => const NearbyEventDetailState(
-        isFavourite: false,
+        isBookmarked: false,
         preSelectedEventIndex: 0,
         nearbyEvent: null,
         loadingState: LoadingState.none,
@@ -57,7 +57,7 @@ class NearbyEventDetailCubit
 
     final current = bookmarkBox.get(BookmarkStore.keyName);
     maybeEmit(state.copyWith(
-      isFavourite: current?.ids.contains(id) ?? false,
+      isBookmarked: current?.ids.contains(id) ?? false,
     ));
   }
 
@@ -66,9 +66,9 @@ class NearbyEventDetailCubit
   }
 
   Future<void> toggleFavorite(String id) async {
-    final isFavourite = state.isFavourite;
+    final isBookmarked = state.isBookmarked;
     maybeEmit(state.copyWith(
-      isFavourite: !isFavourite,
+      isBookmarked: !isBookmarked,
       loadingState: LoadingState.done,
     ));
   }

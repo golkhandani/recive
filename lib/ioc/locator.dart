@@ -44,6 +44,7 @@ import 'package:recive/ioc/recive_theme_adapter.dart';
 import 'package:recive/ioc/routing_machine_service.dart';
 import 'package:recive/key_constants.dart';
 import 'package:recive/router/navigation_service.dart';
+import 'package:recive/utils/share_service.dart';
 import 'package:recive/utils/theme_cubit.dart';
 
 GetIt locator = GetIt.instance;
@@ -63,6 +64,9 @@ Future setupNavigation() async {
       searchNavigatorKey: searchNavigatorKey,
       profileNavigatorKey: profileNavigatorKey,
     ),
+  );
+  locator.registerLazySingleton(
+    () => ShareService(navigationService: locator.get()),
   );
 }
 

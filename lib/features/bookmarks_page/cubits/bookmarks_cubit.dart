@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
@@ -7,6 +8,7 @@ import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/bookmarks_page/models/favourite_storage.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 
@@ -78,34 +80,42 @@ class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
     );
   }
 
-  Future<void> toggleFavorite(String id) async {
-    final current = bookmarkBox.get(BookmarkStore.keyName);
-    var ids = List<String>.from(current?.ids ?? []);
-    final isFavourite = ids.contains(id);
+  Future<void> toggleFavorite(
+    String id, {
+    required VoidCallback onFailure,
+  }) async {
+    try {
+      final current = bookmarkBox.get(BookmarkStore.keyName);
+      var ids = List<String>.from(current?.ids ?? []);
+      final isFavourite = ids.contains(id);
 
-    if (!isFavourite) {
-      ids.add(id);
-    } else {
-      ids.remove(id);
+      if (!isFavourite) {
+        ids.add(id);
+      } else {
+        ids.remove(id);
+      }
+      ids = ids.toSet().toList();
+
+      await bookmarkBox.put(
+        BookmarkStore.keyName,
+        BookmarkStore(
+          ids: ids,
+          count: ids.length,
+        ),
+      );
+      await applicationService.updateFavouriteEventIds(ids);
+
+      final updated = bookmarkBox.get(BookmarkStore.keyName);
+      final updatedIds = updated?.ids ?? [];
+      maybeEmit(state.copyWith(
+        loadingState: LoadingState.done,
+        ids: updatedIds,
+        count: updatedIds.length,
+      ));
+    } catch (e) {
+      locator.logger.e("Bookmark failed: ", error: e);
+      onFailure();
     }
-    ids = ids.toSet().toList();
-
-    await bookmarkBox.put(
-      BookmarkStore.keyName,
-      BookmarkStore(
-        ids: ids,
-        count: ids.length,
-      ),
-    );
-    await applicationService.updateFavouriteEventIds(ids);
-
-    final updated = bookmarkBox.get(BookmarkStore.keyName);
-    final updatedIds = updated?.ids ?? [];
-    maybeEmit(state.copyWith(
-      loadingState: LoadingState.done,
-      ids: updatedIds,
-      count: updatedIds.length,
-    ));
   }
 
   @override

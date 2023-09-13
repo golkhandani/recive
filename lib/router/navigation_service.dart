@@ -71,4 +71,6 @@ class NavigationService {
   }
 
   bool get canBack => GoRouter.of(rootContext).canPop();
+
+  Uri getUri(context) => GoRouterState.of(context).uri;
 }

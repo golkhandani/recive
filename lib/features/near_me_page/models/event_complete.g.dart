@@ -83,17 +83,13 @@ Map<String, dynamic> _$$_OrganizerToJson(_$_Organizer instance) =>
 
 _$_Source _$$_SourceFromJson(Map<String, dynamic> json) => _$_Source(
       id: json['id'] as String?,
-      organizerId: json['organizerId'] as String?,
       url: json['url'] as String?,
-      venueId: json['venueId'] as String?,
       name: json['name'] as String?,
     );
 
 Map<String, dynamic> _$$_SourceToJson(_$_Source instance) => <String, dynamic>{
       'id': instance.id,
-      'organizerId': instance.organizerId,
       'url': instance.url,
-      'venueId': instance.venueId,
       'name': instance.name,
     };
 

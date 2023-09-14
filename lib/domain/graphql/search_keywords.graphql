@@ -1,5 +1,0 @@
-query GetSearchKeywords($limit: Int) {
-  events(limit: $limit) {
-    tags
-  }
-}

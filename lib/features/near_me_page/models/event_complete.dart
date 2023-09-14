@@ -49,9 +49,7 @@ class Organizer with _$Organizer {
 class Source with _$Source {
   const factory Source({
     String? id,
-    String? organizerId,
     String? url,
-    String? venueId,
     String? name,
   }) = _Source;
 

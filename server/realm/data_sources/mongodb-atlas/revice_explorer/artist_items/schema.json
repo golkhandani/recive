@@ -1,0 +1,29 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "biography": {
+            "bsonType": "string"
+        },
+        "country": {
+            "bsonType": "string"
+        },
+        "images": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "objectId"
+            }
+        },
+        "name": {
+            "bsonType": "string"
+        },
+        "original_id": {
+            "bsonType": "int"
+        },
+        "url": {
+            "bsonType": "string"
+        }
+    },
+    "title": "artist_item"
+}

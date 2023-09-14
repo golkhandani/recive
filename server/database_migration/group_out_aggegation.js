@@ -162,7 +162,7 @@ async function run() {
                         biography: originalArtist.biography,
                         country: originalArtist.country,
                     }
-                    let insertedArtists = await db.collection('artist_items').updateOne({ _id: finalArtist._id }, {}, { upsert: true });
+                    let insertedArtists = await db.collection('artist_items').updateOne({ _id: finalArtist._id }, { "$setOnInsert": finalArtist }, { upsert: true });
                     finalArtists.push(finalArtist);
                 }
             }
@@ -217,7 +217,10 @@ async function run() {
                     orginalData.yearofinstallation,
                     ...originalDetailsData.tags,
                 ])),
-                venue: venue._id,
+                location: {
+                    geolocation: venue.geolocation,
+                    venue: venue._id
+                },
                 source: finalSource._id,
                 artists: finalArtists.map((e) => e._id),
             }

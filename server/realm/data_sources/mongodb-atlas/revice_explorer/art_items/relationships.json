@@ -1,0 +1,26 @@
+{
+    "artists": {
+        "ref": "#/relationship/mongodb-atlas/revice_explorer/artist_items",
+        "source_key": "artists",
+        "foreign_key": "_id",
+        "is_list": true
+    },
+    "images": {
+        "ref": "#/relationship/mongodb-atlas/revice_explorer/image_items",
+        "source_key": "images",
+        "foreign_key": "_id",
+        "is_list": true
+    },
+    "source": {
+        "ref": "#/relationship/mongodb-atlas/revice_explorer/source_items",
+        "source_key": "source",
+        "foreign_key": "_id",
+        "is_list": false
+    },
+    "venue": {
+        "ref": "#/relationship/mongodb-atlas/revice_explorer/venue_items",
+        "source_key": "venue",
+        "foreign_key": "_id",
+        "is_list": false
+    }
+}

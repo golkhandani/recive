@@ -1,0 +1,34 @@
+{
+    "field_name": "art_items_near",
+    "function_name": "getArtsNear",
+    "input_type": {
+        "properties": {
+            "limit": {
+                "bsonType": "double"
+            },
+            "query": {
+                "properties": {
+                    "lat": {
+                        "bsonType": "double"
+                    },
+                    "long": {
+                        "bsonType": "double"
+                    },
+                    "maxDistance": {
+                        "bsonType": "double"
+                    },
+                    "minDistance": {
+                        "bsonType": "double"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "title": "art_items_nearQueryInput",
+        "type": "object"
+    },
+    "input_type_format": "custom",
+    "on_type": "Query",
+    "payload_type": "Art_item",
+    "payload_type_format": "generated-list"
+}

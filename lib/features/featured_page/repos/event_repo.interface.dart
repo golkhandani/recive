@@ -5,16 +5,12 @@ import 'package:recive/features/near_me_page/models/event_complete.dart';
 abstract class IEventRepo {
   Future<List<FeaturedEvent>> featuredEvents({
     required int limit,
-    required EventSortBy sortBy,
+    required ArtItemSortBy sortBy,
   });
 
   Future<List<FeaturedEvent>> bookmarkEvents({
     required int limit,
     required List<String> ids,
-  });
-
-  Future<FeaturedEvent> featuredEventById({
-    required String id,
   });
 
   Future<EventComplete> completeEventById({

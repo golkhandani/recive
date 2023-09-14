@@ -1,11 +1,10 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'package:recive/domain/graphql/__generated__/search_events.req.gql.dart';
-import 'package:recive/domain/graphql/__generated__/search_keywords.req.gql.dart';
-import 'package:recive/extensions/date_extensions.dart';
-import 'package:recive/extensions/string_extensions.dart';
+import 'package:recive/domain/graphql/__generated__/get_arts.req.gql.dart';
+import 'package:recive/features/categories_page/cubits/category_fake_data.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/search_page/repos/search.repository.interface.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
@@ -23,15 +22,14 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
     required int limit,
     required String query,
   }) async {
-    final featuredEventRequest = GGetSearchEventsReq(
+    final featuredEventRequest = GGetArtsReq(
       (b) => b
         ..vars.limit = limit
-        ..vars.q = query
-        ..vars.cq = query.toCapitalized(),
+        ..vars.query.tags_in.add(query),
     );
 
     final data = await client.request(featuredEventRequest);
-    final events = data.data?.events;
+    final events = data.data?.art_items;
 
     if (events == null) {
       throw const HttpException('Data is empty');
@@ -42,32 +40,35 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
           if (e == null) {
             return null;
           }
-          final o = e.organizer;
-          final v = e.venue;
+          final o = e.artists?.first;
+          final v = e.location?.venue;
+          final s = e.source;
+          final imageUrls = e.images?.map((p0) => p0?.image_url).whereNotNull();
 
           return EventComplete(
             id: e.G_id?.value,
-            endDate: DateTimeGQL.forceConvert(e.end_date?.value),
-            hasAvailableTickets: e.has_available_tickets,
-            imageUrl: e.image_url,
-            isFree: e.is_free,
-            isOnlineEvent: e.is_online_event,
-            isSoldOut: e.is_sold_out,
-            maxPrice: e.max_price,
-            minPrice: e.min_price,
-            title: e.name,
+            endDate: DateTime.now(),
+            hasAvailableTickets: false,
+            imageUrl: imageUrls?.first,
+            imageUrls: [...?imageUrls, ...images],
+            isFree: true,
+            isOnlineEvent: false,
+            isSoldOut: false,
+            maxPrice: 0,
+            minPrice: 0,
+            title: e.title,
             organizer: o != null
                 ? Organizer(
                     title: o.name ?? '',
-                    organizerId: o.eventbrite_id,
-                    numFollowers: o.num_followers,
-                    description: o.summary,
-                    websiteUrl: o.website_url,
+                    organizerId: o.G_id?.value,
+                    numFollowers: 0,
+                    description: o.biography,
+                    websiteUrl: o.name,
                   )
                 : null,
-            publishedDate: DateTimeGQL.forceConvert(e.published_date?.value),
-            startDate: DateTimeGQL.forceConvert(e.start_date?.value),
-            description: e.summary,
+            publishedDate: DateTime.now(),
+            startDate: DateTime.now(),
+            description: e.description,
             tags: e.tags?.whereType<String>().toList() ?? [],
             venue: v != null
                 ? Venue(
@@ -77,34 +78,32 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
                             country: v.address?.country,
                             latitude: v.address?.latitude == null
                                 ? 0
-                                : double.tryParse(v.address!.latitude!),
+                                : v.address!.latitude,
                             localizedAddressDisplay:
-                                v.address?.localized_address_display,
+                                v.address?.localizedAddressDisplay,
                             longitude: v.address?.longitude == null
                                 ? 0
-                                : double.tryParse(v.address!.longitude!),
-                            postalCode: v.address?.postal_code,
+                                : v.address!.longitude,
+                            postalCode: v.address?.postalCode,
                             region: v.address?.region,
                           )
                         : null,
-                    title: v.name,
-                    venueId: v.eventbrite_id,
+                    title: v.title,
+                    venueId: v.osm_venue_id.toString(),
                     latLng: LatLng(
                       v.address?.latitude == null
                           ? 0
-                          : double.tryParse(v.address!.latitude!) ?? 0,
+                          : v.address!.latitude ?? 0,
                       v.address?.longitude == null
                           ? 0
-                          : double.tryParse(v.address!.longitude!) ?? 0,
+                          : v.address!.longitude ?? 0,
                     ),
                   )
                 : null,
             source: Source(
-              id: e.eventbrite_id,
-              url: e.eventbrite_url,
-              venueId: v?.eventbrite_id,
-              organizerId: e.eventbrite_organization_id,
-              name: 'Event Brite',
+              id: s?.G_id?.value,
+              url: s?.data_url,
+              name: s?.name,
             ),
           );
         })
@@ -126,12 +125,12 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
 
   @override
   Future<List<String>> keywords({required int limit}) async {
-    final featuredEventRequest = GGetSearchKeywordsReq(
+    final featuredEventRequest = GGetArtsReq(
       (b) => b..vars.limit = limit,
     );
 
     final data = await client.request(featuredEventRequest);
-    final events = data.data?.events;
+    final events = data.data?.art_items;
 
     if (events == null) {
       throw const HttpException('Data is empty');

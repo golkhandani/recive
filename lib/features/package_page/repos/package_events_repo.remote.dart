@@ -5,7 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:starsview/utils/RandomUtils.dart';
 
-import 'package:recive/domain/graphql/__generated__/get_featured_events.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_arts.req.gql.dart';
 import 'package:recive/enums/event_sort.dart';
 import 'package:recive/extensions/duration_extensions.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
@@ -32,39 +32,33 @@ class GQLPackageEventRepo extends IPackageEventRepo {
 
   Future<List<NearbyEvent>> _events({
     required int limit,
-    required EventSortBy sortBy,
+    required ArtItemSortBy sortBy,
   }) async {
-    final featuredEventRequest = GGetFeaturedEventsReq(
-      (b) => b
-        ..vars.limit = limit
-        ..vars.sortBy = sortBy.toGQL(),
+    final featuredEventRequest = GGetArtsReq(
+      (b) => b..vars.limit = limit,
+      // ..vars.sortBy = sortBy.toGQL(),
     );
 
     final data = await client.request(featuredEventRequest);
-    final convertedData = data.data?.events
+    final convertedData = data.data?.art_items
             .map(
               (e) => NearbyEvent(
                 id: e!.G_id!.value,
-                title: e.name ?? '',
-                description: e.summary ?? '',
-                startDate: e.start_date?.value != null
-                    ? DateTime.parse(e.start_date!.value)
-                    : DateTime.now(),
-                endDate: e.end_date?.value != null
-                    ? DateTime.parse(e.start_date!.value)
-                    : DateTime.now(),
-                location: e.venue?.address?.localized_address_display ?? '',
-                organizers: [e.organizer?.website_url ?? '']
-                    .whereNot((element) => element.isEmpty)
-                    .toList(),
-                participants: [e.eventbrite_url ?? '']
-                    .whereNot((element) => element.isEmpty)
-                    .toList(),
-                imageUrl: e.image_url ?? '',
+                title: e.title ?? '',
+                description: e.description ?? '',
+                startDate: DateTime.now(),
+                endDate: DateTime.now(),
+                location:
+                    e.location?.venue?.address?.localizedAddressDisplay ?? '',
+                organizers:
+                    [''].whereNot((element) => element.isEmpty).toList(),
+                participants:
+                    [''].whereNot((element) => element.isEmpty).toList(),
+                imageUrl: e.images?[0]?.image_url ?? '',
                 tags: e.tags?.whereNotNull().toList() ?? [],
                 latLng: LatLng(
-                  double.tryParse(e.venue!.address!.latitude!) ?? 0,
-                  double.tryParse(e.venue!.address!.longitude!) ?? 0,
+                  e.location?.venue!.address!.latitude! ?? 0,
+                  e.location?.venue!.address!.longitude! ?? 0,
                 ),
               ),
             )
@@ -107,7 +101,7 @@ class GQLPackageEventRepo extends IPackageEventRepo {
   Future<List<Package>> packages({required int limit}) async {
     final events = await _events(
       limit: limit * 3,
-      sortBy: EventSortBy.startDateDesc,
+      sortBy: ArtItemSortBy.idAsc,
     );
 
     final counter = List.generate(limit, (i) => i);

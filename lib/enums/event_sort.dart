@@ -1,20 +1,20 @@
 import 'package:recive/domain/graphql/__generated__/schema.schema.gql.dart';
 
-enum EventSortBy {
-  startDateAsc,
-  startDateDesc,
+enum ArtItemSortBy {
+  idAsc,
+  idDesc,
   ;
 }
 
-extension ConvertToGql on EventSortBy {
-  GEventSortByInput toGQL() {
+extension ConvertToGql on ArtItemSortBy {
+  GArt_itemSortByInput toGQL() {
     switch (this) {
-      case EventSortBy.startDateAsc:
-        return GEventSortByInput.START_DATE_ASC;
-      case EventSortBy.startDateDesc:
-        return GEventSortByInput.START_DATE_DESC;
+      case ArtItemSortBy.idAsc:
+        return GArt_itemSortByInput.G_ID_ASC;
+      case ArtItemSortBy.idDesc:
+        return GArt_itemSortByInput.G_ID_DESC;
       default:
-        return GEventSortByInput.START_DATE_DESC;
+        return GArt_itemSortByInput.G_ID_ASC;
     }
   }
 }

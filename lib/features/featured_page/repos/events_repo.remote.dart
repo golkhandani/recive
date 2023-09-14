@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'package:recive/domain/graphql/__generated__/get_bookmark_events.req.gql.dart';
-import 'package:recive/domain/graphql/__generated__/get_featured_event_by_id.req.gql.dart';
-import 'package:recive/domain/graphql/__generated__/get_featured_events.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_art.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_arts.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/schema.schema.gql.dart';
 import 'package:recive/enums/event_sort.dart';
-import 'package:recive/extensions/date_extensions.dart';
 import 'package:recive/features/categories_page/cubits/category_fake_data.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
@@ -24,43 +22,44 @@ class GQLEventRepo extends IEventRepo {
 
   @override
   Future<EventComplete> completeEventById({required String id}) async {
-    final featuredEventRequest =
-        GGetFeaturedEventReq((b) => b..vars.eventId.value = id);
+    final featuredEventRequest = GGetArtByIdReq((b) => b..vars.id.value = id);
 
     final data = await client.request(featuredEventRequest);
-    final e = data.data!.event;
+    final e = data.data!.art_item;
 
     if (e == null) {
       throw const HttpException('Data is empty');
     }
 
-    final o = e.organizer;
-    final v = e.venue;
+    final o = e.artists?.first;
+    final v = e.location?.venue;
+    final s = e.source;
+    final imageUrls = e.images?.map((p0) => p0?.image_url).whereNotNull();
 
     return EventComplete(
       id: id,
-      endDate: DateTimeGQL.forceConvert(e.end_date?.value),
-      hasAvailableTickets: e.has_available_tickets,
-      imageUrl: e.image_url,
-      imageUrls: images,
-      isFree: e.is_free,
-      isOnlineEvent: e.is_online_event,
-      isSoldOut: e.is_sold_out,
-      maxPrice: e.max_price,
-      minPrice: e.min_price,
-      title: e.name,
+      endDate: DateTime.now(),
+      hasAvailableTickets: false,
+      imageUrl: imageUrls?.first,
+      imageUrls: [...?imageUrls, ...images],
+      isFree: true,
+      isOnlineEvent: false,
+      isSoldOut: false,
+      maxPrice: 0,
+      minPrice: 0,
+      title: e.title,
       organizer: o != null
           ? Organizer(
               title: o.name ?? '',
-              organizerId: o.eventbrite_id,
-              numFollowers: o.num_followers,
-              description: o.summary,
-              websiteUrl: o.website_url,
+              organizerId: o.G_id?.value,
+              numFollowers: 0,
+              description: o.biography,
+              websiteUrl: o.name,
             )
           : null,
-      publishedDate: DateTimeGQL.forceConvert(e.published_date?.value),
-      startDate: DateTimeGQL.forceConvert(e.start_date?.value),
-      description: e.summary,
+      publishedDate: DateTime.now(),
+      startDate: DateTime.now(),
+      description: e.description,
       tags: e.tags?.whereType<String>().toList() ?? [],
       venue: v != null
           ? Venue(
@@ -68,103 +67,56 @@ class GQLEventRepo extends IEventRepo {
                   ? Address(
                       city: v.address?.city,
                       country: v.address?.country,
-                      latitude: v.address?.latitude == null
-                          ? 0
-                          : double.tryParse(v.address!.latitude!),
+                      latitude:
+                          v.address?.latitude == null ? 0 : v.address!.latitude,
                       localizedAddressDisplay:
-                          v.address?.localized_address_display,
+                          v.address?.localizedAddressDisplay,
                       longitude: v.address?.longitude == null
                           ? 0
-                          : double.tryParse(v.address!.longitude!),
-                      postalCode: v.address?.postal_code,
+                          : v.address!.longitude,
+                      postalCode: v.address?.postalCode,
                       region: v.address?.region,
                     )
                   : null,
-              title: v.name,
-              venueId: v.eventbrite_id,
+              title: v.title,
+              venueId: v.osm_venue_id.toString(),
               latLng: LatLng(
-                v.address?.latitude == null
-                    ? 0
-                    : double.tryParse(v.address!.latitude!) ?? 0,
-                v.address?.longitude == null
-                    ? 0
-                    : double.tryParse(v.address!.longitude!) ?? 0,
+                v.address?.latitude == null ? 0 : v.address!.latitude ?? 0,
+                v.address?.longitude == null ? 0 : v.address!.longitude ?? 0,
               ),
             )
           : null,
       source: Source(
-        id: e.eventbrite_id,
-        url: e.eventbrite_url,
-        venueId: v?.eventbrite_id,
-        organizerId: e.eventbrite_organization_id,
-        name: 'Event Brite',
+        id: s?.G_id?.value,
+        url: s?.data_url,
+        name: s?.name,
       ),
-    );
-  }
-
-  @override
-  Future<FeaturedEvent> featuredEventById({required String id}) async {
-    final featuredEventRequest = GGetFeaturedEventReq(
-      (b) => b..vars.eventId.value = id,
-    );
-
-    final data = await client.request(featuredEventRequest);
-    final e = data.data!.event!;
-
-    return FeaturedEvent(
-      id: e.G_id!.value,
-      title: e.name ?? '',
-      description: e.summary ?? '',
-      startDate: e.start_date?.value != null
-          ? DateTime.parse(e.start_date!.value)
-          : DateTime.now(),
-      endDate: e.end_date?.value != null
-          ? DateTime.parse(e.start_date!.value)
-          : DateTime.now(),
-      location: e.venue?.address?.localized_address_display ?? '',
-      organizers: [e.organizer?.website_url ?? '']
-          .whereNot((element) => element.isEmpty)
-          .toList(),
-      participants: [e.eventbrite_url ?? '']
-          .whereNot((element) => element.isEmpty)
-          .toList(),
-      imageUrl: e.image_url ?? '',
-      tags: e.tags?.whereNotNull().toList() ?? [],
     );
   }
 
   @override
   Future<List<FeaturedEvent>> featuredEvents({
     required int limit,
-    required EventSortBy sortBy,
+    required ArtItemSortBy sortBy,
   }) async {
-    final featuredEventRequest = GGetFeaturedEventsReq(
-      (b) => b
-        ..vars.limit = limit
-        ..vars.sortBy = sortBy.toGQL(),
-    );
+    final featuredEventRequest = GGetArtsReq((b) => b..vars.limit = limit);
 
     final data = await client.request(featuredEventRequest);
-    final convertedData = data.data?.events
+    final convertedData = data.data?.art_items
             .map(
               (e) => FeaturedEvent(
                 id: e!.G_id!.value,
-                title: e.name ?? '',
-                description: e.summary ?? '',
-                startDate: e.start_date?.value != null
-                    ? DateTime.parse(e.start_date!.value)
-                    : DateTime.now(),
-                endDate: e.end_date?.value != null
-                    ? DateTime.parse(e.start_date!.value)
-                    : DateTime.now(),
-                location: e.venue?.address?.localized_address_display ?? '',
-                organizers: [e.organizer?.website_url ?? '']
-                    .whereNot((element) => element.isEmpty)
-                    .toList(),
-                participants: [e.eventbrite_url ?? '']
-                    .whereNot((element) => element.isEmpty)
-                    .toList(),
-                imageUrl: e.image_url ?? '',
+                title: e.title ?? '',
+                description: e.description ?? '',
+                startDate: DateTime.now(),
+                endDate: DateTime.now(),
+                location:
+                    e.location?.venue?.address?.localizedAddressDisplay ?? '',
+                organizers:
+                    [''].whereNot((element) => element.isEmpty).toList(),
+                participants:
+                    [''].whereNot((element) => element.isEmpty).toList(),
+                imageUrl: e.images?[0]?.image_url ?? '',
                 tags: e.tags?.whereNotNull().toList() ?? [],
               ),
             )
@@ -180,33 +132,28 @@ class GQLEventRepo extends IEventRepo {
     required int limit,
     required List<String> ids,
   }) async {
-    final favouriteEventRequest = GGetBookmarksEventsReq(
+    final favouriteEventRequest = GGetArtsReq(
       (b) => b
         ..vars.limit = limit
-        ..vars.eventIds.addAll(ids.map((e) => GObjectId(e))),
+        ..vars.query.G_id_in.addAll(ids.map((e) => GObjectId(e))),
     );
 
     final data = await client.request(favouriteEventRequest);
-    final convertedData = data.data?.events
+    final convertedData = data.data?.art_items
             .map(
               (e) => FeaturedEvent(
                 id: e!.G_id!.value,
-                title: e.name ?? '',
-                description: e.summary ?? '',
-                startDate: e.start_date?.value != null
-                    ? DateTime.parse(e.start_date!.value)
-                    : DateTime.now(),
-                endDate: e.end_date?.value != null
-                    ? DateTime.parse(e.start_date!.value)
-                    : DateTime.now(),
-                location: e.venue?.address?.localized_address_display ?? '',
-                organizers: [e.organizer?.website_url ?? '']
-                    .whereNot((element) => element.isEmpty)
-                    .toList(),
-                participants: [e.eventbrite_url ?? '']
-                    .whereNot((element) => element.isEmpty)
-                    .toList(),
-                imageUrl: e.image_url ?? '',
+                title: e.title ?? '',
+                description: e.description ?? '',
+                startDate: DateTime.now(),
+                endDate: DateTime.now(),
+                location:
+                    e.location?.venue?.address?.localizedAddressDisplay ?? '',
+                organizers:
+                    [''].whereNot((element) => element.isEmpty).toList(),
+                participants:
+                    [''].whereNot((element) => element.isEmpty).toList(),
+                imageUrl: e.images?[0]?.image_url ?? '',
                 tags: e.tags?.whereNotNull().toList() ?? [],
               ),
             )

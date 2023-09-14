@@ -141,6 +141,9 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       await themeBox.flush();
       await introBox.flush();
       await bookmarkBox.flush();
+      await themeBox.clear();
+      await introBox.clear();
+      await bookmarkBox.clear();
 
       await applicationService.logout();
 
@@ -164,11 +167,15 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       maybeEmit(state.copyWith(
         logoutLoadingState: LoadingState.loading,
       ));
+      await themeBox.flush();
+      await introBox.flush();
+      await bookmarkBox.flush();
+
+      await themeBox.clear();
+      await introBox.clear();
+      await bookmarkBox.clear();
 
       if (applicationService.currentUser != null) {
-        await themeBox.flush();
-        await introBox.flush();
-        await bookmarkBox.flush();
         await applicationService.delete();
         await applicationService.logout();
       }

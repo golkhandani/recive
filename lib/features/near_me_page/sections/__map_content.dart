@@ -108,7 +108,7 @@ class _MapContentState extends State<_MapContent> {
               .loadNearbyEvents(
                 latitude: mapState.center.latitude,
                 longitude: mapState.center.longitude,
-                maxDistance: (mapState.zoom * 10000).toInt(),
+                maxDistance: mapState.zoom * 10000,
                 minDistance: 0,
                 onBackground: true,
               )

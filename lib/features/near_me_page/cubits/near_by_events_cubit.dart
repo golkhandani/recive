@@ -37,8 +37,8 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
   Future<void> loadNearbyEvents({
     required double latitude,
     required double longitude,
-    required int minDistance,
-    required int maxDistance,
+    required double minDistance,
+    required double maxDistance,
     bool onBackground = false,
   }) async {
     if (!onBackground) {

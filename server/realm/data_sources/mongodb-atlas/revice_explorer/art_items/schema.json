@@ -1,0 +1,59 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "art_type": {
+            "bsonType": "string"
+        },
+        "artists": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "objectId"
+            }
+        },
+        "description": {
+            "bsonType": "string"
+        },
+        "images": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "objectId"
+            }
+        },
+        "material": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "original_id": {
+            "bsonType": "int"
+        },
+        "original_url": {
+            "bsonType": "string"
+        },
+        "ownership": {
+            "bsonType": "string"
+        },
+        "source": {
+            "bsonType": "objectId"
+        },
+        "statement": {
+            "bsonType": "string"
+        },
+        "tags": {
+            "bsonType": "array",
+            "items": {
+                "bsonType": "string"
+            }
+        },
+        "title": {
+            "bsonType": "string"
+        },
+        "venue": {
+            "bsonType": "objectId"
+        }
+    },
+    "title": "art_item"
+}

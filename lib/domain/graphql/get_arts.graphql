@@ -1,0 +1,73 @@
+query GetArts($limit: Int, $query: Art_itemQueryInput) {
+  art_items(limit: $limit, query: $query) {
+    __typename
+    _id
+    title
+    original_id
+    original_url
+    art_type
+    artists {
+      __typename
+      _id
+      name
+      biography
+      country
+      original_id
+      images {
+        __typename
+        _id
+        image_url
+        image_data
+        image_credit
+      }
+    }
+    description
+    statement
+    images {
+      __typename
+      _id
+      image_url
+      image_data
+      image_credit
+    }
+    material
+    ownership
+    tags
+    location {
+      geolocation {
+        __typename
+        coordinates
+        type
+      }
+      venue {
+        __typename
+        _id
+        title
+        address {
+          area
+          city
+          region
+          country
+          latitude
+          longitude
+          postalCode
+          localizedAddressDisplay
+        }
+        geolocation {
+          __typename
+          type
+          coordinates
+        }
+        osm_id
+        osm_licence
+        osm_venue_id
+      }
+    }
+    source {
+      _id
+      copy_right
+      data_url
+      name
+    }
+  }
+}

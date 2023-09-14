@@ -1,0 +1,63 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "address": {
+            "bsonType": "object",
+            "properties": {
+                "area": {
+                    "bsonType": "string"
+                },
+                "city": {
+                    "bsonType": "string"
+                },
+                "country": {
+                    "bsonType": "string"
+                },
+                "latitude": {
+                    "bsonType": "double"
+                },
+                "localizedAddressDisplay": {
+                    "bsonType": "string"
+                },
+                "longitude": {
+                    "bsonType": "double"
+                },
+                "postalCode": {
+                    "bsonType": "string"
+                },
+                "region": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "geolocation": {
+            "bsonType": "object",
+            "properties": {
+                "coordinates": {
+                    "bsonType": "array",
+                    "items": {
+                        "bsonType": "double"
+                    }
+                },
+                "type": {
+                    "bsonType": "string"
+                }
+            }
+        },
+        "osm_id": {
+            "bsonType": "double"
+        },
+        "osm_licence": {
+            "bsonType": "string"
+        },
+        "osm_venue_id": {
+            "bsonType": "int"
+        },
+        "title": {
+            "bsonType": "string"
+        }
+    },
+    "title": "venue_item"
+}

@@ -1,0 +1,8 @@
+{
+    "images": {
+        "ref": "#/relationship/mongodb-atlas/revice_explorer/image_items",
+        "source_key": "images",
+        "foreign_key": "_id",
+        "is_list": true
+    }
+}

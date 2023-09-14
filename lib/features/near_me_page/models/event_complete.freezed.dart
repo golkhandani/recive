@@ -819,9 +819,7 @@ Source _$SourceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Source {
   String? get id => throw _privateConstructorUsedError;
-  String? get organizerId => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
-  String? get venueId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -834,12 +832,7 @@ abstract class $SourceCopyWith<$Res> {
   factory $SourceCopyWith(Source value, $Res Function(Source) then) =
       _$SourceCopyWithImpl<$Res, Source>;
   @useResult
-  $Res call(
-      {String? id,
-      String? organizerId,
-      String? url,
-      String? venueId,
-      String? name});
+  $Res call({String? id, String? url, String? name});
 }
 
 /// @nodoc
@@ -856,9 +849,7 @@ class _$SourceCopyWithImpl<$Res, $Val extends Source>
   @override
   $Res call({
     Object? id = freezed,
-    Object? organizerId = freezed,
     Object? url = freezed,
-    Object? venueId = freezed,
     Object? name = freezed,
   }) {
     return _then(_value.copyWith(
@@ -866,17 +857,9 @@ class _$SourceCopyWithImpl<$Res, $Val extends Source>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      organizerId: freezed == organizerId
-          ? _value.organizerId
-          : organizerId // ignore: cast_nullable_to_non_nullable
-              as String?,
       url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String?,
-      venueId: freezed == venueId
-          ? _value.venueId
-          : venueId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -892,12 +875,7 @@ abstract class _$$_SourceCopyWith<$Res> implements $SourceCopyWith<$Res> {
       __$$_SourceCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? id,
-      String? organizerId,
-      String? url,
-      String? venueId,
-      String? name});
+  $Res call({String? id, String? url, String? name});
 }
 
 /// @nodoc
@@ -911,9 +889,7 @@ class __$$_SourceCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? organizerId = freezed,
     Object? url = freezed,
-    Object? venueId = freezed,
     Object? name = freezed,
   }) {
     return _then(_$_Source(
@@ -921,17 +897,9 @@ class __$$_SourceCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      organizerId: freezed == organizerId
-          ? _value.organizerId
-          : organizerId // ignore: cast_nullable_to_non_nullable
-              as String?,
       url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String?,
-      venueId: freezed == venueId
-          ? _value.venueId
-          : venueId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -944,8 +912,7 @@ class __$$_SourceCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Source implements _Source {
-  const _$_Source(
-      {this.id, this.organizerId, this.url, this.venueId, this.name});
+  const _$_Source({this.id, this.url, this.name});
 
   factory _$_Source.fromJson(Map<String, dynamic> json) =>
       _$$_SourceFromJson(json);
@@ -953,17 +920,13 @@ class _$_Source implements _Source {
   @override
   final String? id;
   @override
-  final String? organizerId;
-  @override
   final String? url;
-  @override
-  final String? venueId;
   @override
   final String? name;
 
   @override
   String toString() {
-    return 'Source(id: $id, organizerId: $organizerId, url: $url, venueId: $venueId, name: $name)';
+    return 'Source(id: $id, url: $url, name: $name)';
   }
 
   @override
@@ -972,17 +935,13 @@ class _$_Source implements _Source {
         (other.runtimeType == runtimeType &&
             other is _$_Source &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.organizerId, organizerId) ||
-                other.organizerId == organizerId) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.venueId, venueId) || other.venueId == venueId) &&
             (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, organizerId, url, venueId, name);
+  int get hashCode => Object.hash(runtimeType, id, url, name);
 
   @JsonKey(ignore: true)
   @override
@@ -1000,22 +959,14 @@ class _$_Source implements _Source {
 
 abstract class _Source implements Source {
   const factory _Source(
-      {final String? id,
-      final String? organizerId,
-      final String? url,
-      final String? venueId,
-      final String? name}) = _$_Source;
+      {final String? id, final String? url, final String? name}) = _$_Source;
 
   factory _Source.fromJson(Map<String, dynamic> json) = _$_Source.fromJson;
 
   @override
   String? get id;
   @override
-  String? get organizerId;
-  @override
   String? get url;
-  @override
-  String? get venueId;
   @override
   String? get name;
   @override

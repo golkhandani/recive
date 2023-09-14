@@ -1,0 +1,17 @@
+{
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "image_credit": {
+            "bsonType": "string"
+        },
+        "image_data": {
+            "bsonType": "string"
+        },
+        "image_url": {
+            "bsonType": "string"
+        }
+    },
+    "title": "image_item"
+}

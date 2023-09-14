@@ -1,14 +1,8 @@
-import 'dart:async';
-import 'dart:ui';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive/hive.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
-import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 

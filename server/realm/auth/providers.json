@@ -1,0 +1,19 @@
+{
+    "api-key": {
+        "name": "api-key",
+        "type": "api-key",
+        "disabled": false
+    },
+    "oauth2-google": {
+        "name": "oauth2-google",
+        "type": "oauth2-google",
+        "config": {
+            "clientId": "337988051792-khuhmiv6pjgv50dd2ap94puaj2fp7lls.apps.googleusercontent.com",
+            "openId": true
+        },
+        "secret_config": {
+            "clientSecret": "WebSecret"
+        },
+        "disabled": false
+    }
+}

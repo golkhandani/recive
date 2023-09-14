@@ -45,7 +45,7 @@ class FeatureEventsCubit extends MaybeEmitHydratedCubit<FeatureEventsState> {
 
     final data = await repo.featuredEvents(
       limit: 50,
-      sortBy: EventSortBy.startDateAsc,
+      sortBy: ArtItemSortBy.idAsc,
     );
     data.shuffle();
 

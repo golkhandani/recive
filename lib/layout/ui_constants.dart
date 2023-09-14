@@ -9,7 +9,8 @@ import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
 //     child: CircularProgressIndicator(),
 //   ),
 // );
-
+const kImagePlaceholder =
+    'https://unsplash.com/photos/MzCeUhY3Xy0/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Nnx8dmFuY291dmVyfGVufDB8fHx8MTY5NDczMTM0MXww&force=true&w=640';
 const kSliverFillLoading = SliverFillRemaining(
   child: Center(
     child: LottieLoadingIndicator(),

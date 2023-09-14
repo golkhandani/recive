@@ -23,8 +23,6 @@ mixin _$FeaturedEvent {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  DateTime get startDate => throw _privateConstructorUsedError;
-  DateTime get endDate => throw _privateConstructorUsedError;
   String get location => throw _privateConstructorUsedError;
   List<String> get organizers => throw _privateConstructorUsedError;
   List<String> get participants => throw _privateConstructorUsedError;
@@ -47,8 +45,6 @@ abstract class $FeaturedEventCopyWith<$Res> {
       {String id,
       String title,
       String description,
-      DateTime startDate,
-      DateTime endDate,
       String location,
       List<String> organizers,
       List<String> participants,
@@ -72,8 +68,6 @@ class _$FeaturedEventCopyWithImpl<$Res, $Val extends FeaturedEvent>
     Object? id = null,
     Object? title = null,
     Object? description = null,
-    Object? startDate = null,
-    Object? endDate = null,
     Object? location = null,
     Object? organizers = null,
     Object? participants = null,
@@ -93,14 +87,6 @@ class _$FeaturedEventCopyWithImpl<$Res, $Val extends FeaturedEvent>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -137,8 +123,6 @@ abstract class _$$_FeaturedEventCopyWith<$Res>
       {String id,
       String title,
       String description,
-      DateTime startDate,
-      DateTime endDate,
       String location,
       List<String> organizers,
       List<String> participants,
@@ -160,8 +144,6 @@ class __$$_FeaturedEventCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? description = null,
-    Object? startDate = null,
-    Object? endDate = null,
     Object? location = null,
     Object? organizers = null,
     Object? participants = null,
@@ -181,14 +163,6 @@ class __$$_FeaturedEventCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -220,8 +194,6 @@ class _$_FeaturedEvent implements _FeaturedEvent {
       {required this.id,
       required this.title,
       required this.description,
-      required this.startDate,
-      required this.endDate,
       required this.location,
       required final List<String> organizers,
       required final List<String> participants,
@@ -240,10 +212,6 @@ class _$_FeaturedEvent implements _FeaturedEvent {
   final String title;
   @override
   final String description;
-  @override
-  final DateTime startDate;
-  @override
-  final DateTime endDate;
   @override
   final String location;
   final List<String> _organizers;
@@ -274,7 +242,7 @@ class _$_FeaturedEvent implements _FeaturedEvent {
 
   @override
   String toString() {
-    return 'FeaturedEvent(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, location: $location, organizers: $organizers, participants: $participants, imageUrl: $imageUrl, tags: $tags)';
+    return 'FeaturedEvent(id: $id, title: $title, description: $description, location: $location, organizers: $organizers, participants: $participants, imageUrl: $imageUrl, tags: $tags)';
   }
 
   @override
@@ -286,9 +254,6 @@ class _$_FeaturedEvent implements _FeaturedEvent {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.startDate, startDate) ||
-                other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             const DeepCollectionEquality()
@@ -307,8 +272,6 @@ class _$_FeaturedEvent implements _FeaturedEvent {
       id,
       title,
       description,
-      startDate,
-      endDate,
       location,
       const DeepCollectionEquality().hash(_organizers),
       const DeepCollectionEquality().hash(_participants),
@@ -334,8 +297,6 @@ abstract class _FeaturedEvent implements FeaturedEvent {
       {required final String id,
       required final String title,
       required final String description,
-      required final DateTime startDate,
-      required final DateTime endDate,
       required final String location,
       required final List<String> organizers,
       required final List<String> participants,
@@ -351,10 +312,6 @@ abstract class _FeaturedEvent implements FeaturedEvent {
   String get title;
   @override
   String get description;
-  @override
-  DateTime get startDate;
-  @override
-  DateTime get endDate;
   @override
   String get location;
   @override

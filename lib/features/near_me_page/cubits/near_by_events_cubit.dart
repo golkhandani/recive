@@ -60,7 +60,7 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
     if (isClosed) return;
     maybeEmit(state.copyWith(
       preSelectedEventIndex: 0,
-      nearbyEvents: data.take(30).toList(),
+      nearbyEvents: data,
       loadingState: LoadingState.done,
       isRefreshLoading: false,
     ));

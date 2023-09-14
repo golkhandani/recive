@@ -23,8 +23,6 @@ mixin _$NearbyEvent {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  DateTime get startDate => throw _privateConstructorUsedError;
-  DateTime get endDate => throw _privateConstructorUsedError;
   String get location => throw _privateConstructorUsedError;
   List<String> get organizers => throw _privateConstructorUsedError;
   List<String> get participants => throw _privateConstructorUsedError;
@@ -48,8 +46,6 @@ abstract class $NearbyEventCopyWith<$Res> {
       {String id,
       String title,
       String description,
-      DateTime startDate,
-      DateTime endDate,
       String location,
       List<String> organizers,
       List<String> participants,
@@ -74,8 +70,6 @@ class _$NearbyEventCopyWithImpl<$Res, $Val extends NearbyEvent>
     Object? id = null,
     Object? title = null,
     Object? description = null,
-    Object? startDate = null,
-    Object? endDate = null,
     Object? location = null,
     Object? organizers = null,
     Object? participants = null,
@@ -96,14 +90,6 @@ class _$NearbyEventCopyWithImpl<$Res, $Val extends NearbyEvent>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -144,8 +130,6 @@ abstract class _$$_NearbyEventCopyWith<$Res>
       {String id,
       String title,
       String description,
-      DateTime startDate,
-      DateTime endDate,
       String location,
       List<String> organizers,
       List<String> participants,
@@ -168,8 +152,6 @@ class __$$_NearbyEventCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? description = null,
-    Object? startDate = null,
-    Object? endDate = null,
     Object? location = null,
     Object? organizers = null,
     Object? participants = null,
@@ -190,14 +172,6 @@ class __$$_NearbyEventCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      startDate: null == startDate
-          ? _value.startDate
-          : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endDate: null == endDate
-          ? _value.endDate
-          : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -233,8 +207,6 @@ class _$_NearbyEvent implements _NearbyEvent {
       {required this.id,
       required this.title,
       required this.description,
-      required this.startDate,
-      required this.endDate,
       required this.location,
       required final List<String> organizers,
       required final List<String> participants,
@@ -254,10 +226,6 @@ class _$_NearbyEvent implements _NearbyEvent {
   final String title;
   @override
   final String description;
-  @override
-  final DateTime startDate;
-  @override
-  final DateTime endDate;
   @override
   final String location;
   final List<String> _organizers;
@@ -291,7 +259,7 @@ class _$_NearbyEvent implements _NearbyEvent {
 
   @override
   String toString() {
-    return 'NearbyEvent(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate, location: $location, organizers: $organizers, participants: $participants, tags: $tags, imageUrl: $imageUrl, latLng: $latLng)';
+    return 'NearbyEvent(id: $id, title: $title, description: $description, location: $location, organizers: $organizers, participants: $participants, tags: $tags, imageUrl: $imageUrl, latLng: $latLng)';
   }
 
   @override
@@ -303,9 +271,6 @@ class _$_NearbyEvent implements _NearbyEvent {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.startDate, startDate) ||
-                other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             const DeepCollectionEquality()
@@ -325,8 +290,6 @@ class _$_NearbyEvent implements _NearbyEvent {
       id,
       title,
       description,
-      startDate,
-      endDate,
       location,
       const DeepCollectionEquality().hash(_organizers),
       const DeepCollectionEquality().hash(_participants),
@@ -353,8 +316,6 @@ abstract class _NearbyEvent implements NearbyEvent {
       {required final String id,
       required final String title,
       required final String description,
-      required final DateTime startDate,
-      required final DateTime endDate,
       required final String location,
       required final List<String> organizers,
       required final List<String> participants,
@@ -371,10 +332,6 @@ abstract class _NearbyEvent implements NearbyEvent {
   String get title;
   @override
   String get description;
-  @override
-  DateTime get startDate;
-  @override
-  DateTime get endDate;
   @override
   String get location;
   @override

@@ -1,4 +1,5 @@
 import 'package:latlong2/latlong.dart';
+
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 
 class SearchEventCardContainerData {
@@ -29,8 +30,8 @@ class SearchEventCardContainerData {
   static SearchEventCardContainerData fromEventComplete(EventComplete e) {
     return SearchEventCardContainerData(
       id: e.id!,
-      title: e.title!,
-      description: e.description!,
+      title: e.title ?? '',
+      description: e.description ?? '',
       startDate: e.startDate!,
       endDate: e.endDate!,
       location: e.venue?.address?.localizedAddressDisplay ?? '',

@@ -12,6 +12,7 @@ import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
+import 'package:recive/layout/ui_constants.dart';
 
 class GQLEventRepo extends IEventRepo {
   final RealmGqlClient client;
@@ -40,8 +41,12 @@ class GQLEventRepo extends IEventRepo {
       id: id,
       endDate: DateTime.now(),
       hasAvailableTickets: false,
-      imageUrl: imageUrls?.first,
-      imageUrls: [...?imageUrls, ...images],
+      imageUrl:
+          (imageUrls?.isEmpty ?? true) ? kImagePlaceholder : imageUrls?.first,
+      imageUrls: [
+        if (!(imageUrls?.isEmpty ?? true)) ...imageUrls!,
+        ...images,
+      ],
       isFree: true,
       isOnlineEvent: false,
       isSoldOut: false,
@@ -108,15 +113,15 @@ class GQLEventRepo extends IEventRepo {
                 id: e!.G_id!.value,
                 title: e.title ?? '',
                 description: e.description ?? '',
-                startDate: DateTime.now(),
-                endDate: DateTime.now(),
-                location:
-                    e.location?.venue?.address?.localizedAddressDisplay ?? '',
+                location: e.location?.venue?.address?.localizedAddressDisplay ??
+                    'Not In Place',
                 organizers:
                     [''].whereNot((element) => element.isEmpty).toList(),
                 participants:
                     [''].whereNot((element) => element.isEmpty).toList(),
-                imageUrl: e.images?[0]?.image_url ?? '',
+                imageUrl: (e.images?.isEmpty ?? true)
+                    ? kImagePlaceholder
+                    : e.images?[0]?.image_url ?? '',
                 tags: e.tags?.whereNotNull().toList() ?? [],
               ),
             )
@@ -145,15 +150,15 @@ class GQLEventRepo extends IEventRepo {
                 id: e!.G_id!.value,
                 title: e.title ?? '',
                 description: e.description ?? '',
-                startDate: DateTime.now(),
-                endDate: DateTime.now(),
-                location:
-                    e.location?.venue?.address?.localizedAddressDisplay ?? '',
+                location: e.location?.venue?.address?.localizedAddressDisplay ??
+                    'Not In Place',
                 organizers:
                     [''].whereNot((element) => element.isEmpty).toList(),
                 participants:
                     [''].whereNot((element) => element.isEmpty).toList(),
-                imageUrl: e.images?[0]?.image_url ?? '',
+                imageUrl: (e.images?.isEmpty ?? true)
+                    ? kImagePlaceholder
+                    : e.images?[0]?.image_url ?? '',
                 tags: e.tags?.whereNotNull().toList() ?? [],
               ),
             )

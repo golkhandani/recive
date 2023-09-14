@@ -60,11 +60,11 @@ class DashboardWrapper extends StatelessWidget {
     final currentIndex = calculateDashboardSelectedIndex();
     final items = [
       NavigationItem(
-        iconData: Icons.calendar_month,
-        label: 'Events',
+        iconData: Icons.home_outlined,
+        label: 'Home',
       ),
       NavigationItem(
-        iconData: Icons.near_me_rounded,
+        iconData: Icons.near_me_outlined,
         label: 'Near Me',
       ),
       NavigationItem(
@@ -72,11 +72,11 @@ class DashboardWrapper extends StatelessWidget {
         label: 'Packages',
       ),
       NavigationItem(
-        iconData: Icons.business,
+        iconData: Icons.search,
         label: 'Search',
       ),
       NavigationItem(
-        iconData: Icons.notification_important_rounded,
+        iconData: Icons.person_outline,
         label: 'Profile',
       ),
     ];

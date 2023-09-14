@@ -31,7 +31,7 @@ async function run() {
         //         }
         //     ]).toArray();
 
-        let result = await db.collection('arts').find().limit(10).skip(0).toArray();
+        let result = await db.collection('arts').find().skip(0).toArray();
 
 
         let source_id = new ObjectId();
@@ -45,37 +45,39 @@ async function run() {
             data_url: source_url,
         };
 
-        await db.dropCollection('art_items');
-        await db.dropCollection('artist_items');
-        await db.dropCollection('image_items');
-        await db.dropCollection('source_items');
-        await db.dropCollection('venue_items');
+        // await db.dropCollection('art_items');
+        // await db.dropCollection('artist_items');
+        // await db.dropCollection('image_items');
+        // await db.dropCollection('source_items');
+        // await db.dropCollection('venue_items');
 
 
-        await db.createCollection('art_items');
-        await db.createCollection('artist_items');
-        await db.createCollection('image_items');
-        await db.createCollection('source_items');
-        await db.createCollection('venue_items');
+        // await db.createCollection('art_items');
+        // await db.createCollection('artist_items');
+        // await db.createCollection('image_items');
+        // await db.createCollection('source_items');
+        // await db.createCollection('venue_items');
 
         let insertedSource = await db.collection('source_items').insertOne(finalSource);
 
-        for (let index = 0; index < result.length; index++) {
-            const orginalData = result[index];
+        for (let index = 439; index < result.length; index++) {
 
-            await new Promise(r => setTimeout(r, 5000));
-            console.log(orginalData);
+            const orginalData = result[index];
+            console.log(`STARTED WORKING ON ${index} ${orginalData._id} ${orginalData.title_of_work}`)
+            await new Promise(r => setTimeout(r, 2000));
+            // console.log(orginalData);
             let defLoc = {
                 _id: new ObjectId(),
                 osm_id: null,
                 osm_venue_id: null,
                 osm_licence: null,
-                title: orginalData.sitename,
+                title: orginalData.sitename == null ? 'Vancouver' : orginalData.sitename,
                 address: {
                     city: 'Vancouver',
                     country: 'Canada',
                     latitude: 49.2608724,
-                    localizedAddressDisplay: `${orginalData.sitename}, ${orginalData.siteaddress}`,
+                    localizedAddressDisplay: orginalData.sitename == null || orginalData.siteaddress == null ? orginalData.neighbourhood :
+                        `${orginalData.sitename}, ${orginalData.siteaddress}`,
                     longitude: -123.113952,
                     postalCode: null,
                     region: 'British Columbia',
@@ -89,8 +91,8 @@ async function run() {
             }
             let originalMapData = orginalData.geo_point_2d == null ? null : await (await fetch(`https://geocode.maps.co/reverse?lat=${orginalData.geo_point_2d.lat}&lon=${orginalData.geo_point_2d.lon}`)).json()
 
-            console.log(originalMapData);
-            let originalArtists = await db.collection('artists').find({ artistid: { $in: orginalData.artists.map((item) => parseInt(item)) } }).toArray()
+            // console.log(originalMapData);
+            let originalArtists = await db.collection('artists').find({ artistid: { $in: (orginalData.artists ?? []).map((item) => parseInt(item)) } }).toArray()
 
 
 
@@ -116,8 +118,13 @@ async function run() {
                 });
             }
 
-            let insertedImages = await db.collection('image_items').insertMany(artImages);
-            console.log(insertedImages.insertedIds)
+
+            console.log(artImages.length);
+            if (artImages.length != 0) {
+                let insertedImages = await db.collection('image_items').insertMany(artImages);
+            }
+
+
 
             let finalArtists = [];
             for (let index = 0; index < originalArtists.length; index++) {
@@ -174,7 +181,7 @@ async function run() {
                 osm_id: originalMapData.osm_id,
                 osm_venue_id: originalMapData.place_id,
                 osm_licence: originalMapData.licence,
-                title: originalMapData.address.historic,
+                title: originalMapData.address.historic ?? orginalData.sitename == null ? 'Vancouver' : orginalData.sitename,
                 address: {
                     city: originalMapData.address.city,
                     country: originalMapData.address.country,
@@ -201,7 +208,7 @@ async function run() {
                 title: orginalData.title_of_work,
                 statement: orginalData.artistprojectstatement,
                 description: orginalData.descriptionofwork,
-                images: artImages.map((e) => e._id),
+                images: artImages.length == 0 ? [] : artImages.map((e) => e._id),
                 // Extra
                 art_type: orginalData.type,
                 ownership: orginalData.ownership,
@@ -241,16 +248,16 @@ async function run() {
 async function fetchDetails(url) {
     let page = await fetch(url);
     let body = await page.text();
-    console.log(body);
+    // console.log(body);
     let $ = cheerio.load(body);
     let title = $('title').text().trim();
 
-    console.log(title);
+    // console.log(title);
     let tags = $('meta[name="keywords"]').attr('content').split(',');
-    console.log(tags);
+    // console.log(tags);
 
     let mainTitle = $("img[id*='wtWebScreenTitleDesktop']").text();
-    console.log(mainTitle);
+    // console.log(mainTitle);
 
     // let photoUrl = $("div.CornerImageContainer img.ImageWithBorder").attr('src');
     // console.log(photoUrl);
@@ -259,14 +266,14 @@ async function fetchDetails(url) {
     $("span.ListRecords img").each((i, el) => {
         photoUrls.push(`https:${$(el).attr('src')}`.replace('Thumb', 'Large'));
     });
-    console.log(photoUrls);
+    // console.log(photoUrls);
 
 
     let photoBy = $("div.Section_content div.OSAutoMarginTop:contains('Photo:')").text();
-    console.log(photoBy);
+    // console.log(photoBy);
 
     let learnMore = $("label[id*='wtURLLink']:contains('Learn More:')").next().attr('href');
-    console.log(learnMore);
+    // console.log(learnMore);
 
     return {
         title: mainTitle,

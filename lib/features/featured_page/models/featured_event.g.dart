@@ -11,8 +11,6 @@ _$_FeaturedEvent _$$_FeaturedEventFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
-      startDate: DateTime.parse(json['startDate'] as String),
-      endDate: DateTime.parse(json['endDate'] as String),
       location: json['location'] as String,
       organizers: (json['organizers'] as List<dynamic>)
           .map((e) => e as String)
@@ -29,8 +27,6 @@ Map<String, dynamic> _$$_FeaturedEventToJson(_$_FeaturedEvent instance) =>
       'id': instance.id,
       'title': instance.title,
       'description': instance.description,
-      'startDate': instance.startDate.toIso8601String(),
-      'endDate': instance.endDate.toIso8601String(),
       'location': instance.location,
       'organizers': instance.organizers,
       'participants': instance.participants,

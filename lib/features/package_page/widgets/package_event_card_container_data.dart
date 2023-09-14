@@ -5,8 +5,6 @@ class PackageEventCardContainerData {
   final String id;
   final String title;
   final String description;
-  final DateTime startDate;
-  final DateTime endDate;
   final String location;
   final List<String> organizers;
   final List<String> participants;
@@ -17,8 +15,6 @@ class PackageEventCardContainerData {
       {required this.id,
       required this.title,
       required this.description,
-      required this.startDate,
-      required this.endDate,
       required this.location,
       required this.organizers,
       required this.participants,
@@ -31,8 +27,6 @@ class PackageEventCardContainerData {
         id: e.id,
         title: e.title,
         description: e.description,
-        startDate: e.startDate,
-        endDate: e.endDate,
         location: e.location,
         organizers: e.organizers,
         participants: e.participants,
@@ -48,8 +42,6 @@ class PackageEventCardContainerData {
         id: e.id!,
         title: e.title!,
         description: e.description!,
-        startDate: e.startDate!,
-        endDate: e.endDate!,
         location: e.venue?.address?.localizedAddressDisplay ?? '',
         organizers: [e.organizer?.title ?? ''],
         participants: [],

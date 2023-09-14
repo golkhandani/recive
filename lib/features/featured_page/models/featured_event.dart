@@ -9,8 +9,6 @@ class FeaturedEvent with _$FeaturedEvent {
     required String id,
     required String title,
     required String description,
-    required DateTime startDate,
-    required DateTime endDate,
     required String location,
     required List<String> organizers,
     required List<String> participants,

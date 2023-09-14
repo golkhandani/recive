@@ -5,6 +5,7 @@ import 'package:recive/domain/graphql/__generated__/get_arts_near.req.gql.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
+import 'package:recive/layout/ui_constants.dart';
 
 class GQLNearbyEventRepo extends INearbyEventRepo {
   final RealmGqlClient client;
@@ -37,15 +38,15 @@ class GQLNearbyEventRepo extends INearbyEventRepo {
                 id: e!.G_id!.value,
                 title: e.title ?? '',
                 description: e.description ?? '',
-                startDate: DateTime.now(),
-                endDate: DateTime.now(),
-                location:
-                    e.location?.venue?.address?.localizedAddressDisplay ?? '',
+                location: e.location?.venue?.address?.localizedAddressDisplay ??
+                    'Not In Place',
                 organizers:
                     [''].whereNot((element) => element.isEmpty).toList(),
                 participants:
                     [''].whereNot((element) => element.isEmpty).toList(),
-                imageUrl: e.images?[0]?.image_url ?? '',
+                imageUrl: (e.images?.isEmpty ?? true)
+                    ? kImagePlaceholder
+                    : e.images?[0]?.image_url ?? '',
                 tags: e.tags?.whereNotNull().toList() ?? [],
                 latLng: LatLng(
                   e.location?.venue!.address!.latitude! ?? 0,

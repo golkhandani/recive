@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:intl/intl.dart';
 
 import 'package:recive/components/card_container.dart';
 import 'package:recive/extensions/color_extentions.dart';
@@ -139,26 +138,6 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                                   maxLines: 3,
                                   overflow: TextOverflow.fade,
                                   style: context.textTheme.labelLarge!
-                                      .withColor(fontColor),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            children: [
-                              Icon(
-                                FluentIcons.calendar_12_regular,
-                                color: fontColor,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                child: Text(
-                                  '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: context.labelLargeOnBackground
                                       .withColor(fontColor),
                                 ),
                               ),

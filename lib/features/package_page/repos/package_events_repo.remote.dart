@@ -46,8 +46,6 @@ class GQLPackageEventRepo extends IPackageEventRepo {
                 id: e!.G_id!.value,
                 title: e.title ?? '',
                 description: e.description ?? '',
-                startDate: DateTime.now(),
-                endDate: DateTime.now(),
                 location:
                     e.location?.venue?.address?.localizedAddressDisplay ?? '',
                 organizers:

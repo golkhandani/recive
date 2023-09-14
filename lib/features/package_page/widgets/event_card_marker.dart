@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
-import 'package:intl/intl.dart';
 
 import 'package:recive/components/card_container.dart';
 import 'package:recive/extensions/color_extentions.dart';
@@ -73,13 +72,6 @@ class EventCardMarker {
                           data.title,
                           maxLines: 3,
                           style: context.labelLargeOnPrimaryContainer
-                              .withColor(fontColor),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          DateFormat.yMMMd().format(data.startDate),
-                          maxLines: 1,
-                          style: context.labelSmallOnPrimaryContainer
                               .withColor(fontColor),
                         ),
                         const SizedBox(height: 8),

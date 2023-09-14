@@ -76,14 +76,10 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
                         ? Address(
                             city: v.address?.city,
                             country: v.address?.country,
-                            latitude: v.address?.latitude == null
-                                ? 0
-                                : v.address!.latitude,
+                            latitude: v.address?.latitude ?? 0,
                             localizedAddressDisplay:
                                 v.address?.localizedAddressDisplay,
-                            longitude: v.address?.longitude == null
-                                ? 0
-                                : v.address!.longitude,
+                            longitude: v.address?.longitude ?? 0,
                             postalCode: v.address?.postalCode,
                             region: v.address?.region,
                           )
@@ -93,10 +89,10 @@ class GQLSearchEventRepo extends ISearchEventRepo implements ISearchRepository {
                     latLng: LatLng(
                       v.address?.latitude == null
                           ? 0
-                          : v.address!.latitude ?? 0,
+                          : v.address?.latitude ?? 0,
                       v.address?.longitude == null
                           ? 0
-                          : v.address!.longitude ?? 0,
+                          : v.address?.longitude ?? 0,
                     ),
                   )
                 : null,

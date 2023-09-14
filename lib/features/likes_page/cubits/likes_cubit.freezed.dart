@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'bookmarks_cubit.dart';
+part of 'likes_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-BookmarksState _$BookmarksStateFromJson(Map<String, dynamic> json) {
-  return _BookmarksState.fromJson(json);
+LikesState _$LikesStateFromJson(Map<String, dynamic> json) {
+  return _LikesState.fromJson(json);
 }
 
 /// @nodoc
-mixin _$BookmarksState {
+mixin _$LikesState {
   List<String> get ids => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
   List<FeaturedEvent> get bookmarkEvents => throw _privateConstructorUsedError;
@@ -27,15 +27,15 @@ mixin _$BookmarksState {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $BookmarksStateCopyWith<BookmarksState> get copyWith =>
+  $LikesStateCopyWith<LikesState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BookmarksStateCopyWith<$Res> {
-  factory $BookmarksStateCopyWith(
-          BookmarksState value, $Res Function(BookmarksState) then) =
-      _$BookmarksStateCopyWithImpl<$Res, BookmarksState>;
+abstract class $LikesStateCopyWith<$Res> {
+  factory $LikesStateCopyWith(
+          LikesState value, $Res Function(LikesState) then) =
+      _$LikesStateCopyWithImpl<$Res, LikesState>;
   @useResult
   $Res call(
       {List<String> ids,
@@ -45,9 +45,9 @@ abstract class $BookmarksStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BookmarksStateCopyWithImpl<$Res, $Val extends BookmarksState>
-    implements $BookmarksStateCopyWith<$Res> {
-  _$BookmarksStateCopyWithImpl(this._value, this._then);
+class _$LikesStateCopyWithImpl<$Res, $Val extends LikesState>
+    implements $LikesStateCopyWith<$Res> {
+  _$LikesStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -84,11 +84,11 @@ class _$BookmarksStateCopyWithImpl<$Res, $Val extends BookmarksState>
 }
 
 /// @nodoc
-abstract class _$$_BookmarksStateCopyWith<$Res>
-    implements $BookmarksStateCopyWith<$Res> {
-  factory _$$_BookmarksStateCopyWith(
-          _$_BookmarksState value, $Res Function(_$_BookmarksState) then) =
-      __$$_BookmarksStateCopyWithImpl<$Res>;
+abstract class _$$_LikesStateCopyWith<$Res>
+    implements $LikesStateCopyWith<$Res> {
+  factory _$$_LikesStateCopyWith(
+          _$_LikesState value, $Res Function(_$_LikesState) then) =
+      __$$_LikesStateCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -99,11 +99,11 @@ abstract class _$$_BookmarksStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BookmarksStateCopyWithImpl<$Res>
-    extends _$BookmarksStateCopyWithImpl<$Res, _$_BookmarksState>
-    implements _$$_BookmarksStateCopyWith<$Res> {
-  __$$_BookmarksStateCopyWithImpl(
-      _$_BookmarksState _value, $Res Function(_$_BookmarksState) _then)
+class __$$_LikesStateCopyWithImpl<$Res>
+    extends _$LikesStateCopyWithImpl<$Res, _$_LikesState>
+    implements _$$_LikesStateCopyWith<$Res> {
+  __$$_LikesStateCopyWithImpl(
+      _$_LikesState _value, $Res Function(_$_LikesState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -114,7 +114,7 @@ class __$$_BookmarksStateCopyWithImpl<$Res>
     Object? bookmarkEvents = null,
     Object? loadingState = null,
   }) {
-    return _then(_$_BookmarksState(
+    return _then(_$_LikesState(
       ids: null == ids
           ? _value._ids
           : ids // ignore: cast_nullable_to_non_nullable
@@ -137,10 +137,8 @@ class __$$_BookmarksStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BookmarksState
-    with DiagnosticableTreeMixin
-    implements _BookmarksState {
-  const _$_BookmarksState(
+class _$_LikesState implements _LikesState {
+  const _$_LikesState(
       {required final List<String> ids,
       required this.count,
       required final List<FeaturedEvent> bookmarkEvents,
@@ -148,8 +146,8 @@ class _$_BookmarksState
       : _ids = ids,
         _bookmarkEvents = bookmarkEvents;
 
-  factory _$_BookmarksState.fromJson(Map<String, dynamic> json) =>
-      _$$_BookmarksStateFromJson(json);
+  factory _$_LikesState.fromJson(Map<String, dynamic> json) =>
+      _$$_LikesStateFromJson(json);
 
   final List<String> _ids;
   @override
@@ -173,26 +171,15 @@ class _$_BookmarksState
   final LoadingState loadingState;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'BookmarksState(ids: $ids, count: $count, bookmarkEvents: $bookmarkEvents, loadingState: $loadingState)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'BookmarksState'))
-      ..add(DiagnosticsProperty('ids', ids))
-      ..add(DiagnosticsProperty('count', count))
-      ..add(DiagnosticsProperty('bookmarkEvents', bookmarkEvents))
-      ..add(DiagnosticsProperty('loadingState', loadingState));
+  String toString() {
+    return 'LikesState(ids: $ids, count: $count, bookmarkEvents: $bookmarkEvents, loadingState: $loadingState)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BookmarksState &&
+            other is _$_LikesState &&
             const DeepCollectionEquality().equals(other._ids, _ids) &&
             (identical(other.count, count) || other.count == count) &&
             const DeepCollectionEquality()
@@ -213,26 +200,26 @@ class _$_BookmarksState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BookmarksStateCopyWith<_$_BookmarksState> get copyWith =>
-      __$$_BookmarksStateCopyWithImpl<_$_BookmarksState>(this, _$identity);
+  _$$_LikesStateCopyWith<_$_LikesState> get copyWith =>
+      __$$_LikesStateCopyWithImpl<_$_LikesState>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BookmarksStateToJson(
+    return _$$_LikesStateToJson(
       this,
     );
   }
 }
 
-abstract class _BookmarksState implements BookmarksState {
-  const factory _BookmarksState(
+abstract class _LikesState implements LikesState {
+  const factory _LikesState(
       {required final List<String> ids,
       required final int count,
       required final List<FeaturedEvent> bookmarkEvents,
-      required final LoadingState loadingState}) = _$_BookmarksState;
+      required final LoadingState loadingState}) = _$_LikesState;
 
-  factory _BookmarksState.fromJson(Map<String, dynamic> json) =
-      _$_BookmarksState.fromJson;
+  factory _LikesState.fromJson(Map<String, dynamic> json) =
+      _$_LikesState.fromJson;
 
   @override
   List<String> get ids;
@@ -244,6 +231,6 @@ abstract class _BookmarksState implements BookmarksState {
   LoadingState get loadingState;
   @override
   @JsonKey(ignore: true)
-  _$$_BookmarksStateCopyWith<_$_BookmarksState> get copyWith =>
+  _$$_LikesStateCopyWith<_$_LikesState> get copyWith =>
       throw _privateConstructorUsedError;
 }

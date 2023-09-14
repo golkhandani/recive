@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/bookmarks_page/models/favourite_storage.dart';
+import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
@@ -35,7 +35,7 @@ class NearbyEventDetailCubit
     extends MaybeEmitHydratedCubit<NearbyEventDetailState> {
   final INearbyEventRepo repo;
   final IEventRepo eventRepo;
-  final Box<BookmarkStore> bookmarkBox;
+  final Box<BookmarkHiveObject> bookmarkBox;
   NearbyEventDetailCubit({
     required this.repo,
     required this.eventRepo,
@@ -55,9 +55,9 @@ class NearbyEventDetailCubit
       loadingState: LoadingState.done,
     ));
 
-    final current = bookmarkBox.get(BookmarkStore.keyName);
+    final isBookmarked = bookmarkBox.get(id) != null;
     maybeEmit(state.copyWith(
-      isBookmarked: current?.ids.contains(id) ?? false,
+      isBookmarked: isBookmarked,
     ));
   }
 

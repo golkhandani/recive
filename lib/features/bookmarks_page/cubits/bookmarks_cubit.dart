@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
+
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/bookmarks_page/models/favourite_storage.dart';
+import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/ioc/locator.dart';
@@ -38,44 +41,43 @@ class BookmarksState with _$BookmarksState {
 
 class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
   final IEventRepo repo;
-  final Box<BookmarkStore> bookmarkBox;
+  final Box<BookmarkHiveObject> bookmarkBox;
   final RealmApplicationService applicationService;
   BookmarksCubit({
     required this.repo,
     required this.bookmarkBox,
     required this.applicationService,
-  }) : super(BookmarksState.initialize());
+  }) : super(BookmarksState.initialize()) {
+    loadBookmarks();
+  }
 
   Future<void> loadBookmarks() async {
     maybeEmit(state.copyWith(
       loadingState: LoadingState.loading,
     ));
-    final userFavourites =
-        applicationService.currentUserCustomData?.bookmarkEvents ?? [];
-    final current = bookmarkBox.get(BookmarkStore.keyName);
 
-    if (userFavourites.length != current?.ids.length) {
-      // update local box
-      await bookmarkBox.put(
-        BookmarkStore.keyName,
-        BookmarkStore(
-          ids: userFavourites,
-          count: userFavourites.length,
-        ),
-      );
-    }
+    final objects = bookmarkBox.values.toList();
+
+    final cIds = objects
+        .sorted((a, b) => a.dateTime.isBefore(b.dateTime) ? 1 : 0)
+        .map((e) => e.id)
+        .toList();
     maybeEmit(
       state.copyWith(
         loadingState: LoadingState.done,
-        ids: current?.ids ?? [],
-        count: current?.count ?? 0,
+        ids: cIds,
+        count: objects.length,
       ),
     );
 
-    final data = await repo.bookmarkEvents(limit: 10, ids: current?.ids ?? []);
+    final data = await repo.bookmarkEvents(limit: 10, ids: cIds);
     maybeEmit(
       state.copyWith(
-        bookmarkEvents: data,
+        bookmarkEvents: cIds
+            .map(
+              (e) => data.firstWhere((d) => d.id == e),
+            )
+            .toList(),
       ),
     );
   }
@@ -85,32 +87,31 @@ class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
     required VoidCallback onFailure,
   }) async {
     try {
-      final current = bookmarkBox.get(BookmarkStore.keyName);
-      var ids = List<String>.from(current?.ids ?? []);
-      final isFavourite = ids.contains(id);
+      final objects = bookmarkBox.values;
+      var ids = List<String>.from(objects.map((e) => e.id));
+      final isBookmarked = bookmarkBox.get(id) != null;
 
-      if (!isFavourite) {
+      if (!isBookmarked) {
         ids.add(id);
+        await bookmarkBox.put(
+          id,
+          BookmarkHiveObject(
+            id: id,
+            dateTime: DateTime.now(),
+          ),
+        );
       } else {
         ids.remove(id);
+        await bookmarkBox.delete(id);
       }
       ids = ids.toSet().toList();
 
-      await bookmarkBox.put(
-        BookmarkStore.keyName,
-        BookmarkStore(
-          ids: ids,
-          count: ids.length,
-        ),
-      );
       await applicationService.updateFavouriteEventIds(ids);
 
-      final updated = bookmarkBox.get(BookmarkStore.keyName);
-      final updatedIds = updated?.ids ?? [];
       maybeEmit(state.copyWith(
         loadingState: LoadingState.done,
-        ids: updatedIds,
-        count: updatedIds.length,
+        ids: ids,
+        count: ids.length,
       ));
     } catch (e) {
       locator.logger.e("Bookmark failed: ", error: e);

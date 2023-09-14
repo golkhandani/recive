@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/bookmarks_page/models/favourite_storage.dart';
+import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart';
 import 'package:recive/features/profile_page/models/user_custom_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
@@ -42,7 +42,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
   final RealmApplicationService applicationService;
   final Box<ReciveTheme> themeBox;
   final Box<bool> introBox;
-  final Box<BookmarkStore> bookmarkBox;
+  final Box<BookmarkHiveObject> bookmarkBox;
 
   LoginCubit({
     required this.storage,
@@ -138,9 +138,9 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
         logoutLoadingState: LoadingState.loading,
       ));
 
-      await themeBox.clear();
-      await introBox.clear();
-      await bookmarkBox.clear();
+      await themeBox.flush();
+      await introBox.flush();
+      await bookmarkBox.flush();
 
       await applicationService.logout();
 
@@ -166,9 +166,9 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       ));
 
       if (applicationService.currentUser != null) {
-        await themeBox.clear();
-        await introBox.clear();
-        await bookmarkBox.clear();
+        await themeBox.flush();
+        await introBox.flush();
+        await bookmarkBox.flush();
         await applicationService.delete();
         await applicationService.logout();
       }

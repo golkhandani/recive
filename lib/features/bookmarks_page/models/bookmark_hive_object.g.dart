@@ -1,35 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'favourite_storage.dart';
+part of 'bookmark_hive_object.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class BookmarkStoreAdapter extends TypeAdapter<BookmarkStore> {
+class BookmarkHiveObjectAdapter extends TypeAdapter<BookmarkHiveObject> {
   @override
-  final int typeId = 103;
+  final int typeId = 104;
 
   @override
-  BookmarkStore read(BinaryReader reader) {
+  BookmarkHiveObject read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return BookmarkStore(
-      ids: (fields[0] as List).cast<String>(),
-      count: fields[1] as int,
+    return BookmarkHiveObject(
+      id: fields[0] as String,
+      dateTime: fields[1] as DateTime,
     );
   }
 
   @override
-  void write(BinaryWriter writer, BookmarkStore obj) {
+  void write(BinaryWriter writer, BookmarkHiveObject obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.ids)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.count);
+      ..write(obj.dateTime);
   }
 
   @override
@@ -38,7 +38,7 @@ class BookmarkStoreAdapter extends TypeAdapter<BookmarkStore> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BookmarkStoreAdapter &&
+      other is BookmarkHiveObjectAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -18,7 +18,7 @@ import 'package:routing_client_dart/routing_client_dart.dart';
 import 'package:recive/components/map_card_container/cubit/map_control_cubit.dart';
 import 'package:recive/components/map_card_container/flutter_map_cached_tile_provider.dart';
 import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
-import 'package:recive/features/bookmarks_page/models/favourite_storage.dart';
+import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
@@ -74,7 +74,7 @@ Future setupStorage() async {
   // START REGISTER Hive REQUEST CACHE STORE
   Hive.init(hiveStoreFolderName);
   Hive.registerAdapter(ReciveThemeAdapter());
-  Hive.registerAdapter(BookmarkStoreAdapter());
+  Hive.registerAdapter(BookmarkHiveObjectAdapter());
 
   await Hive.initFlutter();
   final box = await Hive.openBox(hiveStoreGqlBoxName);
@@ -91,8 +91,8 @@ Future setupStorage() async {
   );
 
   final favouriteBox =
-      await Hive.openBox<BookmarkStore>(hiveStoreBookmarksBoxName);
-  locator.registerSingleton<Box<BookmarkStore>>(favouriteBox);
+      await Hive.openBox<BookmarkHiveObject>(hiveStoreBookmarksBoxName);
+  locator.registerSingleton<Box<BookmarkHiveObject>>(favouriteBox);
 
   final introductionBox =
       await Hive.openBox<bool>(hiveStoreIntroductionBoxName);

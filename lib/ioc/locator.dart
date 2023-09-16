@@ -20,6 +20,8 @@ import 'package:recive/components/map_card_container/flutter_map_cached_tile_pro
 import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
 import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
+import 'package:recive/features/categories_page/repos/categories_repo.interface.dart';
+import 'package:recive/features/categories_page/repos/categories_repo.remote.dart';
 import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/featured_page/repos/events_repo.remote.dart';
@@ -198,6 +200,9 @@ Future setupRepositories() async {
         client: locator.get(),
         rms: locator.get(),
       ),
+    )
+    ..registerLazySingleton<ICategoryRepo>(
+      () => GQLCategoryRepo(client: locator.get()),
     );
 }
 
@@ -221,7 +226,10 @@ Future setupBlocs() async {
       ),
     )
     ..registerFactory(
-      () => CategoriesCubit(),
+      () => CategoriesCubit(
+        categoryRepo: locator.get(),
+        eventRepo: locator.get(),
+      ),
     )
     ..registerFactory(
       () => FeatureEventsCubit(

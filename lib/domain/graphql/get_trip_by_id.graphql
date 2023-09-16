@@ -1,0 +1,73 @@
+query GetTripById($id: ObjectId) {
+  trip_item(query: { _id: $id }) {
+    _id
+    description
+    title
+    tags
+    images {
+      _id
+      image_credit
+      image_data
+      image_url
+    }
+    arts {
+      _id
+      art_type
+      description
+      original_id
+      original_url
+      ownership
+      statement
+      title
+      tags
+      images {
+        _id
+        image_credit
+        image_data
+        image_url
+      }
+      location {
+        geolocation {
+          coordinates
+          type
+        }
+        venue {
+          __typename
+          _id
+          title
+          address {
+            area
+            city
+            region
+            country
+            latitude
+            longitude
+            postalCode
+            localizedAddressDisplay
+          }
+          geolocation {
+            __typename
+            type
+            coordinates
+          }
+          osm_id
+          osm_licence
+          osm_venue_id
+        }
+      }
+    }
+    trip {
+      distance
+      duration
+      polyline {
+        coordinates
+      }
+      instructions {
+        distance
+        duration
+        summary
+        steps
+      }
+    }
+  }
+}

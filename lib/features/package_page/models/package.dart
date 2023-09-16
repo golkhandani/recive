@@ -25,3 +25,19 @@ class Package with _$Package {
   factory Package.fromJson(Map<String, Object?> json) =>
       _$PackageFromJson(json);
 }
+
+@freezed
+class PackageAbstract with _$PackageAbstract {
+  const factory PackageAbstract({
+    required String id,
+    required String title,
+    required String description,
+    required String subtitle,
+    required String imageUrl,
+    required double distance,
+    required Duration duration,
+  }) = _PackageAbstract;
+
+  factory PackageAbstract.fromJson(Map<String, Object?> json) =>
+      _$PackageAbstractFromJson(json);
+}

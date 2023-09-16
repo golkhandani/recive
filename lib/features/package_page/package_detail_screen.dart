@@ -184,7 +184,7 @@ class PackageDetailScreen extends HookWidget {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'Distance: ${data.distance.toInt()} km!',
+                                      'Distance: ${data.distance.toInt() / 1000} km!',
                                       style: infoStyle.withColor(fontColor),
                                     ),
                                     Text(

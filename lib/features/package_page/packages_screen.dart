@@ -43,7 +43,8 @@ class PackagesScreen extends HookWidget {
                       SliverList.builder(
                           itemCount: state.packages.length,
                           itemBuilder: (context, index) {
-                            final data = PackageCardContainerData.fromPackage(
+                            final data =
+                                PackageCardContainerData.fromPackageAbstract(
                               state.packages[index],
                             );
                             return Padding(

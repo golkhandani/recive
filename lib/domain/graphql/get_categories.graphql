@@ -1,0 +1,9 @@
+query GetCategories {
+  category_items {
+    _id
+    description
+    imageUrl
+    subtitle
+    title
+  }
+}

@@ -22,8 +22,9 @@ PackagesState _$PackagesStateFromJson(Map<String, dynamic> json) {
 mixin _$PackagesState {
   LoadingState get packageLoadingState => throw _privateConstructorUsedError;
   Package? get package => throw _privateConstructorUsedError;
-  List<Package> get packages => throw _privateConstructorUsedError;
-  List<Package> get packagesSpotlight => throw _privateConstructorUsedError;
+  List<PackageAbstract> get packages => throw _privateConstructorUsedError;
+  List<PackageAbstract> get packagesSpotlight =>
+      throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,8 +42,8 @@ abstract class $PackagesStateCopyWith<$Res> {
   $Res call(
       {LoadingState packageLoadingState,
       Package? package,
-      List<Package> packages,
-      List<Package> packagesSpotlight,
+      List<PackageAbstract> packages,
+      List<PackageAbstract> packagesSpotlight,
       LoadingState loadingState});
 
   $PackageCopyWith<$Res>? get package;
@@ -79,11 +80,11 @@ class _$PackagesStateCopyWithImpl<$Res, $Val extends PackagesState>
       packages: null == packages
           ? _value.packages
           : packages // ignore: cast_nullable_to_non_nullable
-              as List<Package>,
+              as List<PackageAbstract>,
       packagesSpotlight: null == packagesSpotlight
           ? _value.packagesSpotlight
           : packagesSpotlight // ignore: cast_nullable_to_non_nullable
-              as List<Package>,
+              as List<PackageAbstract>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -115,8 +116,8 @@ abstract class _$$_PackagesStateCopyWith<$Res>
   $Res call(
       {LoadingState packageLoadingState,
       Package? package,
-      List<Package> packages,
-      List<Package> packagesSpotlight,
+      List<PackageAbstract> packages,
+      List<PackageAbstract> packagesSpotlight,
       LoadingState loadingState});
 
   @override
@@ -152,11 +153,11 @@ class __$$_PackagesStateCopyWithImpl<$Res>
       packages: null == packages
           ? _value._packages
           : packages // ignore: cast_nullable_to_non_nullable
-              as List<Package>,
+              as List<PackageAbstract>,
       packagesSpotlight: null == packagesSpotlight
           ? _value._packagesSpotlight
           : packagesSpotlight // ignore: cast_nullable_to_non_nullable
-              as List<Package>,
+              as List<PackageAbstract>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -171,8 +172,8 @@ class _$_PackagesState implements _PackagesState {
   const _$_PackagesState(
       {required this.packageLoadingState,
       required this.package,
-      required final List<Package> packages,
-      required final List<Package> packagesSpotlight,
+      required final List<PackageAbstract> packages,
+      required final List<PackageAbstract> packagesSpotlight,
       required this.loadingState})
       : _packages = packages,
         _packagesSpotlight = packagesSpotlight;
@@ -184,17 +185,17 @@ class _$_PackagesState implements _PackagesState {
   final LoadingState packageLoadingState;
   @override
   final Package? package;
-  final List<Package> _packages;
+  final List<PackageAbstract> _packages;
   @override
-  List<Package> get packages {
+  List<PackageAbstract> get packages {
     if (_packages is EqualUnmodifiableListView) return _packages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_packages);
   }
 
-  final List<Package> _packagesSpotlight;
+  final List<PackageAbstract> _packagesSpotlight;
   @override
-  List<Package> get packagesSpotlight {
+  List<PackageAbstract> get packagesSpotlight {
     if (_packagesSpotlight is EqualUnmodifiableListView)
       return _packagesSpotlight;
     // ignore: implicit_dynamic_type
@@ -252,8 +253,8 @@ abstract class _PackagesState implements PackagesState {
   const factory _PackagesState(
       {required final LoadingState packageLoadingState,
       required final Package? package,
-      required final List<Package> packages,
-      required final List<Package> packagesSpotlight,
+      required final List<PackageAbstract> packages,
+      required final List<PackageAbstract> packagesSpotlight,
       required final LoadingState loadingState}) = _$_PackagesState;
 
   factory _PackagesState.fromJson(Map<String, dynamic> json) =
@@ -264,9 +265,9 @@ abstract class _PackagesState implements PackagesState {
   @override
   Package? get package;
   @override
-  List<Package> get packages;
+  List<PackageAbstract> get packages;
   @override
-  List<Package> get packagesSpotlight;
+  List<PackageAbstract> get packagesSpotlight;
   @override
   LoadingState get loadingState;
   @override

@@ -15,7 +15,7 @@ class PackageCardContainerData {
     required this.imageUrl,
   });
 
-  static PackageCardContainerData fromPackage(Package c) =>
+  static PackageCardContainerData fromPackageAbstract(PackageAbstract c) =>
       PackageCardContainerData(
         id: c.id,
         title: c.title,

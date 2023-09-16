@@ -8,6 +8,7 @@ import 'package:recive/domain/graphql/__generated__/get_arts.req.gql.dart';
 import 'package:recive/domain/graphql/__generated__/schema.schema.gql.dart';
 import 'package:recive/enums/event_sort.dart';
 import 'package:recive/features/categories_page/cubits/category_fake_data.dart';
+import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
 import 'package:recive/features/near_me_page/models/event_complete.dart';
@@ -144,6 +145,43 @@ class GQLEventRepo extends IEventRepo {
     );
 
     final data = await client.request(favouriteEventRequest);
+    final convertedData = data.data?.art_items
+            .map(
+              (e) => FeaturedEvent(
+                id: e!.G_id!.value,
+                title: e.title ?? '',
+                description: e.description ?? '',
+                location: e.location?.venue?.address?.localizedAddressDisplay ??
+                    'Not In Place',
+                organizers:
+                    [''].whereNot((element) => element.isEmpty).toList(),
+                participants:
+                    [''].whereNot((element) => element.isEmpty).toList(),
+                imageUrl: (e.images?.isEmpty ?? true)
+                    ? kImagePlaceholder
+                    : e.images?[0]?.image_url ?? '',
+                tags: e.tags?.whereNotNull().toList() ?? [],
+              ),
+            )
+            .whereType<FeaturedEvent>()
+            .toList() ??
+        [];
+
+    return convertedData;
+  }
+
+  @override
+  Future<List<FeaturedEvent>> categoryEvents({
+    required int limit,
+    required Category category,
+  }) async {
+    final featuredEventRequest = GGetArtsReq(
+      (b) => b
+        ..vars.limit = limit
+        ..vars.query.art_type = category.title,
+    );
+
+    final data = await client.request(featuredEventRequest);
     final convertedData = data.data?.art_items
             .map(
               (e) => FeaturedEvent(

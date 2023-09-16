@@ -1,0 +1,18 @@
+query GetTrips($limit: Int) {
+  trip_items(limit: $limit) {
+    _id
+    description
+    title
+    tags
+    images {
+      _id
+      image_credit
+      image_data
+      image_url
+    }
+    trip {
+      distance
+      duration
+    }
+  }
+}

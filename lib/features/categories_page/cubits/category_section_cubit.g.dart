@@ -19,6 +19,9 @@ _$_CategoriesState _$$_CategoriesStateFromJson(Map<String, dynamic> json) =>
       categoriesSpotlight: (json['categoriesSpotlight'] as List<dynamic>)
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
+      items: (json['items'] as List<dynamic>)
+          .map((e) => FeaturedEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
 
@@ -29,6 +32,7 @@ Map<String, dynamic> _$$_CategoriesStateToJson(_$_CategoriesState instance) =>
       'category': instance.category,
       'categories': instance.categories,
       'categoriesSpotlight': instance.categoriesSpotlight,
+      'items': instance.items,
       'loadingState': _$LoadingStateEnumMap[instance.loadingState]!,
     };
 

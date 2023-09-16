@@ -13,8 +13,8 @@ class PackagesState with _$PackagesState {
   const factory PackagesState({
     required LoadingState packageLoadingState,
     required Package? package,
-    required List<Package> packages,
-    required List<Package> packagesSpotlight,
+    required List<PackageAbstract> packages,
+    required List<PackageAbstract> packagesSpotlight,
     required LoadingState loadingState,
   }) = _PackagesState;
 
@@ -58,10 +58,11 @@ class PackagesCubit extends MaybeEmitHydratedCubit<PackagesState> {
       packageLoadingState: LoadingState.loading,
     ));
 
-    await Future.delayed(const Duration(seconds: 1));
+    final data = await repo.packageById(id: id);
+    Future.delayed(const Duration(seconds: 1));
 
     maybeEmit(state.copyWith(
-      package: state.packages.firstWhere((element) => element.id == id),
+      package: data,
       packageLoadingState: LoadingState.done,
     ));
   }

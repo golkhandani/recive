@@ -1,20 +1,15 @@
-import 'dart:math';
-
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:starsview/utils/RandomUtils.dart';
 
-import 'package:recive/domain/graphql/__generated__/get_arts.req.gql.dart';
-import 'package:recive/enums/event_sort.dart';
-import 'package:recive/extensions/duration_extensions.dart';
+import 'package:recive/domain/graphql/__generated__/get_trip_by_id.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_trips.req.gql.dart';
+import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 import 'package:recive/features/package_page/models/package.dart';
 import 'package:recive/features/package_page/repos/package_event_repo.interface.dart';
-import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
 import 'package:recive/ioc/routing_machine_service.dart';
-import 'package:recive/key_constants.dart';
+import 'package:recive/layout/ui_constants.dart';
 
 class GQLPackageEventRepo extends IPackageEventRepo {
   final RealmGqlClient client;
@@ -26,117 +21,89 @@ class GQLPackageEventRepo extends IPackageEventRepo {
   });
 
   @override
-  Future<Package> packageById({required String id}) {
-    throw UnimplementedError();
-  }
+  Future<Package> packageById({required String id}) async {
+    final tripsRequest = GGetTripByIdReq((b) => b..vars.id.value = id);
 
-  Future<List<NearbyEvent>> _events({
-    required int limit,
-    required ArtItemSortBy sortBy,
-  }) async {
-    final featuredEventRequest = GGetArtsReq(
-      (b) => b..vars.limit = limit,
-      // ..vars.sortBy = sortBy.toGQL(),
-    );
+    final data = await client.request(tripsRequest);
 
-    final data = await client.request(featuredEventRequest);
-    final convertedData = data.data?.art_items
-            .map(
-              (e) => NearbyEvent(
-                id: e!.G_id!.value,
-                title: e.title ?? '',
-                description: e.description ?? '',
-                location:
-                    e.location?.venue?.address?.localizedAddressDisplay ?? '',
-                organizers:
-                    [''].whereNot((element) => element.isEmpty).toList(),
-                participants:
-                    [''].whereNot((element) => element.isEmpty).toList(),
-                imageUrl: e.images?[0]?.image_url ?? '',
-                tags: e.tags?.whereNotNull().toList() ?? [],
-                latLng: LatLng(
-                  e.location?.venue!.address!.latitude! ?? 0,
-                  e.location?.venue!.address!.longitude! ?? 0,
+    final item = data.data?.trip_item;
+    final convertedData = Package(
+      id: item!.G_id!.value,
+      title: item.title ?? '',
+      description: item.description ?? '',
+      imageUrl: item.images?.first?.image_url ?? kImagePlaceholder,
+      distance: item.trip?.distance ?? 0,
+      duration: Duration(seconds: item.trip?.duration?.toInt() ?? 0),
+      subtitle: (item.description ?? '').dynamicSub(20),
+      tags: item.tags?.whereNotNull().toList() ?? [],
+      roadInstructions: item.trip?.instructions
+              ?.map(
+                (instruction) =>
+                    instruction?.steps?.whereNotNull().toList() ?? [],
+              )
+              .whereNotNull()
+              .toList() ??
+          [],
+      events: item.arts
+              ?.map(
+                (e) => NearbyEvent(
+                  id: e!.G_id!.value,
+                  title: e.title ?? '',
+                  description: e.description ?? '',
+                  location:
+                      e.location?.venue?.address?.localizedAddressDisplay ??
+                          'Not In Place',
+                  organizers:
+                      [''].whereNot((element) => element.isEmpty).toList(),
+                  participants:
+                      [''].whereNot((element) => element.isEmpty).toList(),
+                  imageUrl: (e.images?.isEmpty ?? true)
+                      ? kImagePlaceholder
+                      : e.images?[0]?.image_url ?? '',
+                  tags: e.tags?.whereNotNull().toList() ?? [],
+                  latLng: LatLng(
+                    e.location?.venue!.address!.latitude! ?? 0,
+                    e.location?.venue!.address!.longitude! ?? 0,
+                  ),
                 ),
-              ),
-            )
-            .whereType<NearbyEvent>()
-            .toList() ??
-        [];
+              )
+              .whereType<NearbyEvent>()
+              .toList() ??
+          [],
+      polyline: item.trip?.polyline
+              ?.map(
+                (pl) => LatLng(
+                  pl!.coordinates![1]!,
+                  pl.coordinates![0]!,
+                ),
+              )
+              .whereType<LatLng>()
+              .toList() ??
+          [],
+    );
 
     return convertedData;
   }
 
-  // ignore: unused_element
-  _gpt() async {
-    final openAI = OpenAI.instance.build(
-      token: openAiSk,
-      baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)),
-      enableLog: true,
-    );
-
-    final request = ChatCompleteText(
-        maxToken: 200,
-        model: GptTurbo0631Model(),
-        messages: [
-          Messages(
-            role: Role.user,
-            content:
-                '''Combine this items and give me an interesting navigation guide with real data 
-                  -> here is the original guide 
-                  -> }''',
-            name: "get_current_weather",
-          ),
-        ],
-        functionCall: FunctionCall.auto);
-
-    final response = await openAI.onChatCompletion(request: request);
-
-    locator.logger.d(response);
-  }
-
   @override
-  Future<List<Package>> packages({required int limit}) async {
-    final events = await _events(
-      limit: limit * 3,
-      sortBy: ArtItemSortBy.idAsc,
-    );
+  Future<List<PackageAbstract>> packages({required int limit}) async {
+    final tripsRequest = GGetTripsReq((b) => b..vars.limit = limit);
 
-    final counter = List.generate(limit, (i) => i);
-    final list = <Package>[];
-    for (var _ in counter) {
-      events.shuffle();
-      final packageEvents = events.take(3);
-      final packageEventId = packageEvents.map((e) => e.id).join('@');
-      final way = rms.convertPointsToWay(
-        packageEvents.map((e) => e.latLng).toList(),
-      );
-      final road = await rms.getRoad(way);
-      final destinations = await rms.getDestinations(road);
-      final polyline = rms.getPolyline(road);
-      final stepByStepInstruction =
-          await rms.getInstructionsByDestinations(road);
-      final duration = Duration(seconds: road.duration.toInt());
-      final tags = packageEvents.expand((e) => e.tags).toList();
+    final data = await client.request(tripsRequest);
 
-      list.add(Package(
-        id: packageEventId,
-        title:
-            '${duration.toHoursMinutes()} of ${tags.randomElement(Random())}',
-        subtitle: destinations.isNotEmpty
-            ? 'From ${destinations.first} to ${destinations.last}'
-            : '',
-        description: 'You going to visit ${destinations.join(' ')}',
-        imageUrl: packageEvents.last.imageUrl,
-        tags: tags,
-        events: packageEvents.toList(),
-        roadInstructions: stepByStepInstruction,
-        distance: road.distance,
-        duration: duration,
-        polyline: polyline ?? [],
-      ));
-    }
+    final convertedData = data.data?.trip_items.map((item) {
+          return PackageAbstract(
+            id: item!.G_id!.value,
+            title: item.title ?? '',
+            description: item.description ?? '',
+            subtitle: (item.description ?? '').dynamicSub(20),
+            imageUrl: item.images?.first?.image_url ?? kImagePlaceholder,
+            distance: item.trip?.distance ?? 0,
+            duration: Duration(seconds: item.trip?.duration?.toInt() ?? 0),
+          );
+        }).toList() ??
+        [];
 
-    return list;
+    return convertedData;
   }
 }

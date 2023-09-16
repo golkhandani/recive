@@ -40,3 +40,25 @@ Map<String, dynamic> _$$_PackageToJson(_$_Package instance) =>
       'distance': instance.distance,
       'duration': instance.duration.inMicroseconds,
     };
+
+_$_PackageAbstract _$$_PackageAbstractFromJson(Map<String, dynamic> json) =>
+    _$_PackageAbstract(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      subtitle: json['subtitle'] as String,
+      imageUrl: json['imageUrl'] as String,
+      distance: (json['distance'] as num).toDouble(),
+      duration: Duration(microseconds: json['duration'] as int),
+    );
+
+Map<String, dynamic> _$$_PackageAbstractToJson(_$_PackageAbstract instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'description': instance.description,
+      'subtitle': instance.subtitle,
+      'imageUrl': instance.imageUrl,
+      'distance': instance.distance,
+      'duration': instance.duration.inMicroseconds,
+    };

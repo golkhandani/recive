@@ -400,3 +400,269 @@ abstract class _Package implements Package {
   _$$_PackageCopyWith<_$_Package> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+PackageAbstract _$PackageAbstractFromJson(Map<String, dynamic> json) {
+  return _PackageAbstract.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PackageAbstract {
+  String get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  String get subtitle => throw _privateConstructorUsedError;
+  String get imageUrl => throw _privateConstructorUsedError;
+  double get distance => throw _privateConstructorUsedError;
+  Duration get duration => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PackageAbstractCopyWith<PackageAbstract> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PackageAbstractCopyWith<$Res> {
+  factory $PackageAbstractCopyWith(
+          PackageAbstract value, $Res Function(PackageAbstract) then) =
+      _$PackageAbstractCopyWithImpl<$Res, PackageAbstract>;
+  @useResult
+  $Res call(
+      {String id,
+      String title,
+      String description,
+      String subtitle,
+      String imageUrl,
+      double distance,
+      Duration duration});
+}
+
+/// @nodoc
+class _$PackageAbstractCopyWithImpl<$Res, $Val extends PackageAbstract>
+    implements $PackageAbstractCopyWith<$Res> {
+  _$PackageAbstractCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? description = null,
+    Object? subtitle = null,
+    Object? imageUrl = null,
+    Object? distance = null,
+    Object? duration = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      subtitle: null == subtitle
+          ? _value.subtitle
+          : subtitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      distance: null == distance
+          ? _value.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double,
+      duration: null == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_PackageAbstractCopyWith<$Res>
+    implements $PackageAbstractCopyWith<$Res> {
+  factory _$$_PackageAbstractCopyWith(
+          _$_PackageAbstract value, $Res Function(_$_PackageAbstract) then) =
+      __$$_PackageAbstractCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String title,
+      String description,
+      String subtitle,
+      String imageUrl,
+      double distance,
+      Duration duration});
+}
+
+/// @nodoc
+class __$$_PackageAbstractCopyWithImpl<$Res>
+    extends _$PackageAbstractCopyWithImpl<$Res, _$_PackageAbstract>
+    implements _$$_PackageAbstractCopyWith<$Res> {
+  __$$_PackageAbstractCopyWithImpl(
+      _$_PackageAbstract _value, $Res Function(_$_PackageAbstract) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? description = null,
+    Object? subtitle = null,
+    Object? imageUrl = null,
+    Object? distance = null,
+    Object? duration = null,
+  }) {
+    return _then(_$_PackageAbstract(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      subtitle: null == subtitle
+          ? _value.subtitle
+          : subtitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: null == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      distance: null == distance
+          ? _value.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double,
+      duration: null == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PackageAbstract implements _PackageAbstract {
+  const _$_PackageAbstract(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.subtitle,
+      required this.imageUrl,
+      required this.distance,
+      required this.duration});
+
+  factory _$_PackageAbstract.fromJson(Map<String, dynamic> json) =>
+      _$$_PackageAbstractFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String title;
+  @override
+  final String description;
+  @override
+  final String subtitle;
+  @override
+  final String imageUrl;
+  @override
+  final double distance;
+  @override
+  final Duration duration;
+
+  @override
+  String toString() {
+    return 'PackageAbstract(id: $id, title: $title, description: $description, subtitle: $subtitle, imageUrl: $imageUrl, distance: $distance, duration: $duration)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PackageAbstract &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.subtitle, subtitle) ||
+                other.subtitle == subtitle) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
+            (identical(other.distance, distance) ||
+                other.distance == distance) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, description, subtitle,
+      imageUrl, distance, duration);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_PackageAbstractCopyWith<_$_PackageAbstract> get copyWith =>
+      __$$_PackageAbstractCopyWithImpl<_$_PackageAbstract>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PackageAbstractToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PackageAbstract implements PackageAbstract {
+  const factory _PackageAbstract(
+      {required final String id,
+      required final String title,
+      required final String description,
+      required final String subtitle,
+      required final String imageUrl,
+      required final double distance,
+      required final Duration duration}) = _$_PackageAbstract;
+
+  factory _PackageAbstract.fromJson(Map<String, dynamic> json) =
+      _$_PackageAbstract.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get title;
+  @override
+  String get description;
+  @override
+  String get subtitle;
+  @override
+  String get imageUrl;
+  @override
+  double get distance;
+  @override
+  Duration get duration;
+  @override
+  @JsonKey(ignore: true)
+  _$$_PackageAbstractCopyWith<_$_PackageAbstract> get copyWith =>
+      throw _privateConstructorUsedError;
+}

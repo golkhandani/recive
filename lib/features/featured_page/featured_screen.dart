@@ -42,11 +42,11 @@ class FeaturedScreen extends HookWidget {
                     children: [
                       SliverList.builder(
                         addAutomaticKeepAlives: true,
-                        itemCount: state.featuredEvents.length,
+                        itemCount: state.artAbstractItems.length,
                         itemBuilder: (context, index) {
                           final data =
-                              FeaturedEventCardContainerData.fromFeaturedEvent(
-                            state.featuredEvents[index],
+                              FeaturedArtCardContainerData.fromFeaturedEvent(
+                            state.artAbstractItems[index],
                           );
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),

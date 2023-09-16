@@ -23,7 +23,7 @@ class BookmarksState with _$BookmarksState {
   const factory BookmarksState({
     required List<String> ids,
     required int count,
-    required List<FeaturedEvent> bookmarkEvents,
+    required List<ArtAbstractModel> bookmarkEvents,
     required LoadingState loadingState,
   }) = _BookmarksState;
 

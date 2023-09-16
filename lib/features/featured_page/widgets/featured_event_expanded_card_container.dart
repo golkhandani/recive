@@ -23,7 +23,7 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
     required this.data,
   });
 
-  final FeaturedEventCardContainerData data;
+  final FeaturedArtCardContainerData data;
 
   @override
   Widget build(BuildContext context) {
@@ -138,26 +138,6 @@ class FeaturedEventExpandedCardContainer extends HookWidget {
                                   maxLines: 3,
                                   overflow: TextOverflow.fade,
                                   style: context.textTheme.labelLarge!
-                                      .withColor(fontColor),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            children: [
-                              Icon(
-                                FluentIcons.briefcase_12_regular,
-                                color: fontColor,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                child: Text(
-                                  data.organizers.join(' '),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: context.labelLargeOnBackground
                                       .withColor(fontColor),
                                 ),
                               ),

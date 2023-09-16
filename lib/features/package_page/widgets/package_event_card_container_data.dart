@@ -1,4 +1,4 @@
-import 'package:recive/features/near_me_page/models/event_complete.dart';
+import 'package:recive/features/featured_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
 
 class PackageEventCardContainerData {
@@ -35,17 +35,18 @@ class PackageEventCardContainerData {
   }
 
   static PackageEventCardContainerData fromEventComplete(
-    EventComplete e,
+    ArtModel e,
     List<String>? instructions,
   ) {
     return PackageEventCardContainerData(
-        id: e.id!,
-        title: e.title!,
-        description: e.description!,
-        location: e.venue?.address?.localizedAddressDisplay ?? '',
-        organizers: [e.organizer?.title ?? ''],
-        participants: [],
-        imageUrl: e.imageUrl!,
-        roadInstructions: instructions ?? []);
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      location: e.location.venue.address.localizedAddressDisplay,
+      organizers: [],
+      participants: [],
+      imageUrl: e.images.first.imageUrl,
+      roadInstructions: instructions ?? [],
+    );
   }
 }

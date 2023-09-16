@@ -14,7 +14,7 @@ class LikesState with _$LikesState {
   const factory LikesState({
     required List<String> ids,
     required int count,
-    required List<FeaturedEvent> bookmarkEvents,
+    required List<ArtAbstractModel> bookmarkEvents,
     required LoadingState loadingState,
   }) = _LikesState;
 

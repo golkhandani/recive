@@ -2,9 +2,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:recive/enums/event_sort.dart';
 import 'package:recive/enums/loading_state.dart';
+import 'package:recive/features/featured_page/models/event_complete.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
-import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 
 part 'featured_events_cubit.freezed.dart';
@@ -13,19 +13,20 @@ part 'featured_events_cubit.g.dart';
 @freezed
 class FeatureEventsState with _$FeatureEventsState {
   const factory FeatureEventsState({
-    required FeaturedEvent? featuredEventSummary,
-    required EventComplete? featuredEvent,
-    required List<FeaturedEvent> featuredEvents,
-    required List<FeaturedEvent> featuredEventsSpotlight,
+    required ArtAbstractModel? artAbstractItem,
+    required ArtModel? artItem,
+    required List<ArtAbstractModel> artAbstractItems,
+    required List<ArtAbstractModel> artAbstractItemsSpotlight,
     required LoadingState loadingState,
   }) = _FeatureEventsState;
 
   factory FeatureEventsState.initialize() => const FeatureEventsState(
-        featuredEvents: [],
-        featuredEventsSpotlight: [],
+        artAbstractItem: null,
+        artItem: null,
+        //
+        artAbstractItems: [],
+        artAbstractItemsSpotlight: [],
         loadingState: LoadingState.none,
-        featuredEventSummary: null,
-        featuredEvent: null,
       );
 
   factory FeatureEventsState.fromJson(Map<String, Object?> json) =>
@@ -50,8 +51,8 @@ class FeatureEventsCubit extends MaybeEmitHydratedCubit<FeatureEventsState> {
     data.shuffle();
 
     maybeEmit(state.copyWith(
-      featuredEvents: data,
-      featuredEventsSpotlight: data.take(3).toList(),
+      artAbstractItems: data,
+      artAbstractItemsSpotlight: data.take(3).toList(),
       loadingState: LoadingState.done,
     ));
   }

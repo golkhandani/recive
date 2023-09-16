@@ -20,7 +20,7 @@ _$_CategoriesState _$$_CategoriesStateFromJson(Map<String, dynamic> json) =>
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
       items: (json['items'] as List<dynamic>)
-          .map((e) => FeaturedEvent.fromJson(e as Map<String, dynamic>))
+          .map((e) => ArtAbstractModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );

@@ -15,8 +15,8 @@ import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
-class FeaturedEventCardContainer extends HookWidget {
-  const FeaturedEventCardContainer({
+class FeaturedArtCardContainer extends HookWidget {
+  const FeaturedArtCardContainer({
     super.key,
     required this.data,
     required this.constraints,
@@ -25,7 +25,7 @@ class FeaturedEventCardContainer extends HookWidget {
   });
 
   final BoxConstraints constraints;
-  final FeaturedEventCardContainerData data;
+  final FeaturedArtCardContainerData data;
   final String parentRoute;
   final Map<String, String> parentPathParams;
 

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -13,11 +12,15 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
+import 'package:recive/features/featured_page/featured_screen.dart';
+import 'package:recive/features/featured_page/widgets/featured_event_card_container.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
-import 'package:recive/features/featured_page/widgets/featured_event_expanded_card_container.dart';
+import 'package:recive/features/home_page/widgets/see_more_button.dart';
+import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
+import 'package:recive/router/navigation_service.dart';
 
 class CategoryDetailScreen extends HookWidget {
   static const name = 'category_detail';
@@ -33,6 +36,7 @@ class CategoryDetailScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navigationService = locator.get<NavigationService>();
     final bloc = useBloc<CategoriesCubit>();
     final state = useBlocBuilder(bloc);
 
@@ -147,38 +151,51 @@ class CategoryDetailScreen extends HookWidget {
                           ),
                         ),
                         const SliverGap(height: 12),
-                        SliverCardContainer(
-                          borderRadius: BorderRadius.circular(16),
-                          padding: kTinyPadding,
-                          sliver: SliverToBoxAdapter(
-                            child: RepaintBoundary(
-                              child: LayoutBuilder(builder: (context, box) {
-                                // Warning: To prevent rebuild issue
-                                // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
-                                final list = state.items
-                                    .mapIndexed((index, data) =>
-                                        FeaturedEventExpandedCardContainer(
-                                          data: FeaturedEventCardContainerData
-                                              .fromFeaturedEvent(data),
-                                        ))
-                                    .toList();
-                                return CarouselSlider(
-                                  items: list,
-                                  options: CarouselOptions(
-                                    autoPlay: false,
-                                    disableCenter: true,
-                                    viewportFraction: 0.8,
-                                    height: 400,
-                                    enableInfiniteScroll: true,
-                                    padEnds: true,
-                                    enlargeFactor: 0.24,
-                                    enlargeCenterPage: true,
-                                  ),
+                        SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            childCount: state.items.length + 1,
+                            (context, index) {
+                              if (index == state.items.length) {
+                                return SeeMoreButton(
+                                  constraints: const BoxConstraints.expand(),
+                                  onTap: () => navigationService
+                                      .pushTo(FeaturedScreen.name),
                                 );
-                              }),
-                            ),
+                              }
+
+                              final data = FeaturedArtCardContainerData
+                                  .fromFeaturedEvent(
+                                state.items[index],
+                              );
+                              return FeaturedArtCardContainer(
+                                parentPathParams: const {},
+                                parentRoute: CategoryDetailScreen.name,
+                                constraints: const BoxConstraints.expand(),
+                                data: data,
+                              );
+                            },
+                          ),
+                          gridDelegate: SliverQuiltedGridDelegate(
+                            crossAxisCount: 5,
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 12,
+                            repeatPattern: QuiltedGridRepeatPattern.same,
+                            pattern: const [
+                              QuiltedGridTile(4, 5),
+                              QuiltedGridTile(5, 3),
+                              QuiltedGridTile(5, 2),
+                              QuiltedGridTile(3, 5),
+                              QuiltedGridTile(5, 3),
+                              QuiltedGridTile(5, 2),
+                              QuiltedGridTile(3, 3),
+                              QuiltedGridTile(3, 2),
+                              QuiltedGridTile(5, 2),
+                              QuiltedGridTile(4, 3),
+                              QuiltedGridTile(1, 3),
+                            ],
                           ),
                         ),
+                        const SliverGap(height: 12),
                       ],
                     );
                   })

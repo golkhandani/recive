@@ -22,7 +22,8 @@ BookmarksState _$BookmarksStateFromJson(Map<String, dynamic> json) {
 mixin _$BookmarksState {
   List<String> get ids => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
-  List<FeaturedEvent> get bookmarkEvents => throw _privateConstructorUsedError;
+  List<ArtAbstractModel> get bookmarkEvents =>
+      throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +41,7 @@ abstract class $BookmarksStateCopyWith<$Res> {
   $Res call(
       {List<String> ids,
       int count,
-      List<FeaturedEvent> bookmarkEvents,
+      List<ArtAbstractModel> bookmarkEvents,
       LoadingState loadingState});
 }
 
@@ -74,7 +75,7 @@ class _$BookmarksStateCopyWithImpl<$Res, $Val extends BookmarksState>
       bookmarkEvents: null == bookmarkEvents
           ? _value.bookmarkEvents
           : bookmarkEvents // ignore: cast_nullable_to_non_nullable
-              as List<FeaturedEvent>,
+              as List<ArtAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -94,7 +95,7 @@ abstract class _$$_BookmarksStateCopyWith<$Res>
   $Res call(
       {List<String> ids,
       int count,
-      List<FeaturedEvent> bookmarkEvents,
+      List<ArtAbstractModel> bookmarkEvents,
       LoadingState loadingState});
 }
 
@@ -126,7 +127,7 @@ class __$$_BookmarksStateCopyWithImpl<$Res>
       bookmarkEvents: null == bookmarkEvents
           ? _value._bookmarkEvents
           : bookmarkEvents // ignore: cast_nullable_to_non_nullable
-              as List<FeaturedEvent>,
+              as List<ArtAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -143,7 +144,7 @@ class _$_BookmarksState
   const _$_BookmarksState(
       {required final List<String> ids,
       required this.count,
-      required final List<FeaturedEvent> bookmarkEvents,
+      required final List<ArtAbstractModel> bookmarkEvents,
       required this.loadingState})
       : _ids = ids,
         _bookmarkEvents = bookmarkEvents;
@@ -161,9 +162,9 @@ class _$_BookmarksState
 
   @override
   final int count;
-  final List<FeaturedEvent> _bookmarkEvents;
+  final List<ArtAbstractModel> _bookmarkEvents;
   @override
-  List<FeaturedEvent> get bookmarkEvents {
+  List<ArtAbstractModel> get bookmarkEvents {
     if (_bookmarkEvents is EqualUnmodifiableListView) return _bookmarkEvents;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_bookmarkEvents);
@@ -228,7 +229,7 @@ abstract class _BookmarksState implements BookmarksState {
   const factory _BookmarksState(
       {required final List<String> ids,
       required final int count,
-      required final List<FeaturedEvent> bookmarkEvents,
+      required final List<ArtAbstractModel> bookmarkEvents,
       required final LoadingState loadingState}) = _$_BookmarksState;
 
   factory _BookmarksState.fromJson(Map<String, dynamic> json) =
@@ -239,7 +240,7 @@ abstract class _BookmarksState implements BookmarksState {
   @override
   int get count;
   @override
-  List<FeaturedEvent> get bookmarkEvents;
+  List<ArtAbstractModel> get bookmarkEvents;
   @override
   LoadingState get loadingState;
   @override

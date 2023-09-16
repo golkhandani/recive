@@ -20,6 +20,7 @@ query GetArtsNear($limit: Int!, $query: Art_items_nearQueryInputQuery) {
         image_data
         image_credit
       }
+      website
     }
     description
     statement

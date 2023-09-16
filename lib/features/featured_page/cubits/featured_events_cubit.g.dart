@@ -9,20 +9,19 @@ part of 'featured_events_cubit.dart';
 _$_FeatureEventsState _$$_FeatureEventsStateFromJson(
         Map<String, dynamic> json) =>
     _$_FeatureEventsState(
-      featuredEventSummary: json['featuredEventSummary'] == null
+      artAbstractItem: json['artAbstractItem'] == null
           ? null
-          : FeaturedEvent.fromJson(
-              json['featuredEventSummary'] as Map<String, dynamic>),
-      featuredEvent: json['featuredEvent'] == null
+          : ArtAbstractModel.fromJson(
+              json['artAbstractItem'] as Map<String, dynamic>),
+      artItem: json['artItem'] == null
           ? null
-          : EventComplete.fromJson(
-              json['featuredEvent'] as Map<String, dynamic>),
-      featuredEvents: (json['featuredEvents'] as List<dynamic>)
-          .map((e) => FeaturedEvent.fromJson(e as Map<String, dynamic>))
+          : ArtModel.fromJson(json['artItem'] as Map<String, dynamic>),
+      artAbstractItems: (json['artAbstractItems'] as List<dynamic>)
+          .map((e) => ArtAbstractModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      featuredEventsSpotlight:
-          (json['featuredEventsSpotlight'] as List<dynamic>)
-              .map((e) => FeaturedEvent.fromJson(e as Map<String, dynamic>))
+      artAbstractItemsSpotlight:
+          (json['artAbstractItemsSpotlight'] as List<dynamic>)
+              .map((e) => ArtAbstractModel.fromJson(e as Map<String, dynamic>))
               .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
@@ -30,10 +29,10 @@ _$_FeatureEventsState _$$_FeatureEventsStateFromJson(
 Map<String, dynamic> _$$_FeatureEventsStateToJson(
         _$_FeatureEventsState instance) =>
     <String, dynamic>{
-      'featuredEventSummary': instance.featuredEventSummary,
-      'featuredEvent': instance.featuredEvent,
-      'featuredEvents': instance.featuredEvents,
-      'featuredEventsSpotlight': instance.featuredEventsSpotlight,
+      'artAbstractItem': instance.artAbstractItem,
+      'artItem': instance.artItem,
+      'artAbstractItems': instance.artAbstractItems,
+      'artAbstractItemsSpotlight': instance.artAbstractItemsSpotlight,
       'loadingState': _$LoadingStateEnumMap[instance.loadingState]!,
     };
 

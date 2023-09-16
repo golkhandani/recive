@@ -52,23 +52,15 @@ class HomePageFeaturedEventsSection extends HookWidget {
               padding: kTinyPadding,
               sliver: Builder(
                 builder: (context) {
-                  // if (state.loadingState == LoadingState.loading) {
-                  //   return const SliverToBoxAdapter(
-                  //     child: SizedBox(
-                  //       height: 600,
-                  //       child: Center(
-                  //         child: CircularProgressIndicator(),
-                  //       ),
-                  //     ),
-                  //   );
-                  // }
                   return MultiSliver(
                     children: [
                       SliverGrid(
                         delegate: SliverChildBuilderDelegate(
-                          childCount: state.featuredEventsSpotlight.length + 1,
+                          childCount:
+                              state.artAbstractItemsSpotlight.length + 1,
                           (context, index) {
-                            if (index == state.featuredEventsSpotlight.length) {
+                            if (index ==
+                                state.artAbstractItemsSpotlight.length) {
                               return SeeMoreButton(
                                 constraints: const BoxConstraints.expand(),
                                 onTap: () => navigationService
@@ -76,11 +68,11 @@ class HomePageFeaturedEventsSection extends HookWidget {
                               );
                             }
 
-                            final data = FeaturedEventCardContainerData
-                                .fromFeaturedEvent(
-                              state.featuredEventsSpotlight[index],
+                            final data =
+                                FeaturedArtCardContainerData.fromFeaturedEvent(
+                              state.artAbstractItemsSpotlight[index],
                             );
-                            return FeaturedEventCardContainer(
+                            return FeaturedArtCardContainer(
                               parentPathParams: const {},
                               parentRoute: HomeScreen.name,
                               constraints: const BoxConstraints.expand(),

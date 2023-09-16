@@ -21,7 +21,7 @@ SearchEventsState _$SearchEventsStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$SearchEventsState {
   int get preSelectedEventIndex => throw _privateConstructorUsedError;
-  List<EventComplete> get searchedEvents => throw _privateConstructorUsedError;
+  List<ArtModel> get searchedEvents => throw _privateConstructorUsedError;
   List<String> get searchedkeywords => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
 
@@ -39,7 +39,7 @@ abstract class $SearchEventsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {int preSelectedEventIndex,
-      List<EventComplete> searchedEvents,
+      List<ArtModel> searchedEvents,
       List<String> searchedkeywords,
       LoadingState loadingState});
 }
@@ -70,7 +70,7 @@ class _$SearchEventsStateCopyWithImpl<$Res, $Val extends SearchEventsState>
       searchedEvents: null == searchedEvents
           ? _value.searchedEvents
           : searchedEvents // ignore: cast_nullable_to_non_nullable
-              as List<EventComplete>,
+              as List<ArtModel>,
       searchedkeywords: null == searchedkeywords
           ? _value.searchedkeywords
           : searchedkeywords // ignore: cast_nullable_to_non_nullable
@@ -93,7 +93,7 @@ abstract class _$$_SearchEventsStateCopyWith<$Res>
   @useResult
   $Res call(
       {int preSelectedEventIndex,
-      List<EventComplete> searchedEvents,
+      List<ArtModel> searchedEvents,
       List<String> searchedkeywords,
       LoadingState loadingState});
 }
@@ -122,7 +122,7 @@ class __$$_SearchEventsStateCopyWithImpl<$Res>
       searchedEvents: null == searchedEvents
           ? _value._searchedEvents
           : searchedEvents // ignore: cast_nullable_to_non_nullable
-              as List<EventComplete>,
+              as List<ArtModel>,
       searchedkeywords: null == searchedkeywords
           ? _value._searchedkeywords
           : searchedkeywords // ignore: cast_nullable_to_non_nullable
@@ -140,7 +140,7 @@ class __$$_SearchEventsStateCopyWithImpl<$Res>
 class _$_SearchEventsState implements _SearchEventsState {
   const _$_SearchEventsState(
       {required this.preSelectedEventIndex,
-      required final List<EventComplete> searchedEvents,
+      required final List<ArtModel> searchedEvents,
       required final List<String> searchedkeywords,
       required this.loadingState})
       : _searchedEvents = searchedEvents,
@@ -151,9 +151,9 @@ class _$_SearchEventsState implements _SearchEventsState {
 
   @override
   final int preSelectedEventIndex;
-  final List<EventComplete> _searchedEvents;
+  final List<ArtModel> _searchedEvents;
   @override
-  List<EventComplete> get searchedEvents {
+  List<ArtModel> get searchedEvents {
     if (_searchedEvents is EqualUnmodifiableListView) return _searchedEvents;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_searchedEvents);
@@ -218,7 +218,7 @@ class _$_SearchEventsState implements _SearchEventsState {
 abstract class _SearchEventsState implements SearchEventsState {
   const factory _SearchEventsState(
       {required final int preSelectedEventIndex,
-      required final List<EventComplete> searchedEvents,
+      required final List<ArtModel> searchedEvents,
       required final List<String> searchedkeywords,
       required final LoadingState loadingState}) = _$_SearchEventsState;
 
@@ -228,7 +228,7 @@ abstract class _SearchEventsState implements SearchEventsState {
   @override
   int get preSelectedEventIndex;
   @override
-  List<EventComplete> get searchedEvents;
+  List<ArtModel> get searchedEvents;
   @override
   List<String> get searchedkeywords;
   @override

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:intl/intl.dart';
 
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
@@ -34,7 +33,6 @@ class SearchEventCardContainer extends HookWidget {
     final fontColor = context.colorScheme.onTertiary;
 
     final child = LayoutBuilder(builder: (context, box) {
-      final isShort = box.maxHeight < 160;
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -56,28 +54,6 @@ class SearchEventCardContainer extends HookWidget {
                       style: context.titleMediumOnPrimaryContainer
                           .withColor(fontColor),
                     ),
-                    if (!isShort) ...[
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Icon(
-                            FluentIcons.calendar_12_regular,
-                            color: fontColor,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              '${DateFormat.yMMMd().format(data.startDate)} - ${DateFormat.yMMMd().format(data.endDate)}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.titleSmallOnPrimaryContainer
-                                  .withColor(fontColor),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
                     const SizedBox(height: 12),
                     Row(
                       children: [

@@ -7,7 +7,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:like_button/like_button.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -22,8 +21,8 @@ import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
+import 'package:recive/features/featured_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
-import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -84,7 +83,6 @@ class NearbyDetailScreen extends HookWidget {
                   final infoStyle = context.textTheme.bodyLarge!.copyWith(
                     color: context.theme.colorScheme.onPrimaryContainer,
                   );
-                  final isOnline = (data?.isOnlineEvent ?? false);
 
                   return MultiSliver(
                     children: [
@@ -189,13 +187,9 @@ class NearbyDetailScreen extends HookWidget {
                               const SliverGap(height: 12),
                               _buildBasicInfo(data, infoStyle),
                               const SliverGap(height: 12),
-                              _buildPriceInfo(data, infoStyle),
-                              const SliverGap(height: 12),
                               _buildOrganizerInfo(data, infoStyle),
                               const SliverGap(height: 12),
                               _buildTagInfo(data),
-                              const SliverGap(height: 12),
-                              _buildTypeInfo(isOnline, infoStyle),
                               const SliverGap(height: 12),
                               _buildSourceInfo(data, infoStyle),
                             ],
@@ -215,28 +209,28 @@ class NearbyDetailScreen extends HookWidget {
   }
 
   Widget _buildImageCarousel(
-      NearbyDetailSummaryData? summary, EventComplete? data, String heroTag) {
+      NearbyDetailSummaryData? summary, ArtModel? data, String heroTag) {
     return CardContainer(
       borderRadius: BorderRadius.circular(16),
       padding: kTinyPadding,
       child: LayoutBuilder(builder: (context, box) {
-        if ((summary?.imageUrl ?? data!.imageUrl) == null) {
+        if ((summary?.imageUrl ?? data!.images.firstOrNull?.imageUrl) == null) {
           return const SizedBox();
         }
 
         // Warning: To prevent rebuild issue
         // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
         final list = [
-          summary?.imageUrl ?? data!.imageUrl,
-          ...(data?.imageUrls?.toList() ??
+          summary?.imageUrl ?? data!.images.first.imageUrl,
+          ...(data?.images.map((e) => e.imageUrl).toList() ??
               // TO FIX THE ISSUE WITH SAME HERO TAG
               [
-                summary?.imageUrl ?? data!.imageUrl!,
-                summary?.imageUrl ?? data!.imageUrl!,
+                summary?.imageUrl ?? data!.images.first.imageUrl,
+                summary?.imageUrl ?? data!.images.first.imageUrl,
               ])
         ].mapIndexed((index, data) {
           final item = ColoredNetworkImage(
-            imageUrl: data!,
+            imageUrl: data,
             constraints: const BoxConstraints.expand(height: 240),
             color: Colors.blueGrey,
           );
@@ -268,7 +262,7 @@ class NearbyDetailScreen extends HookWidget {
     );
   }
 
-  Builder _buildSourceInfo(EventComplete? data, TextStyle infoStyle) {
+  Builder _buildSourceInfo(ArtModel? data, TextStyle infoStyle) {
     return Builder(
       key: GlobalKey(debugLabel: 'SOURCE INFO'),
       builder: (context) {
@@ -301,9 +295,9 @@ class NearbyDetailScreen extends HookWidget {
                           TextSpan(
                             children: [
                               const TextSpan(text: 'Source : '),
-                              if (data?.source?.name != null)
+                              if (data?.source.name != null)
                                 TextSpan(
-                                  text: data?.source?.name,
+                                  text: data?.source.name,
                                 ),
                             ],
                           ),
@@ -329,13 +323,13 @@ class NearbyDetailScreen extends HookWidget {
                           TextSpan(
                             children: [
                               const TextSpan(text: 'Source URL : '),
-                              if (data?.source?.url != null)
+                              if (data?.source.copyRight != null)
                                 TextSpan(
-                                  text: data?.source?.url,
+                                  text: data?.source.copyRight,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       launchUrl(Uri.parse(
-                                        data!.source!.url!,
+                                        data!.source.copyRight,
                                       ));
                                     },
                                   style: infoStyle.copyWith(
@@ -360,7 +354,7 @@ class NearbyDetailScreen extends HookWidget {
     );
   }
 
-  Builder _buildTagInfo(EventComplete? data) {
+  Builder _buildTagInfo(ArtModel? data) {
     return Builder(
       key: GlobalKey(debugLabel: 'TAG INFO'),
       builder: (context) {
@@ -395,7 +389,7 @@ class NearbyDetailScreen extends HookWidget {
     );
   }
 
-  Builder _buildOrganizerInfo(EventComplete? data, TextStyle infoStyle) {
+  Builder _buildOrganizerInfo(ArtModel? data, TextStyle infoStyle) {
     return Builder(
       key: GlobalKey(debugLabel: 'ORGANIZER INFO'),
       builder: (context) {
@@ -431,10 +425,8 @@ class NearbyDetailScreen extends HookWidget {
                                 style: context.textTheme.titleMedium
                                     ?.withColor(fontColor),
                               ),
-                              if (data?.organizer?.title != null)
-                                TextSpan(
-                                  text: data?.organizer?.title,
-                                ),
+                              if (data?.artists.firstOrNull?.name != null)
+                                TextSpan(text: data?.artists.firstOrNull?.name),
                             ],
                           ),
                           maxLines: 1,
@@ -458,15 +450,13 @@ class NearbyDetailScreen extends HookWidget {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Followers : ',
+                                text: 'Bio : ',
                                 style: context.textTheme.titleMedium
                                     ?.withColor(fontColor),
                               ),
-                              if (data?.organizer?.numFollowers != null)
+                              if (data?.artists.firstOrNull?.biography != null)
                                 TextSpan(
-                                  text:
-                                      data?.organizer?.numFollowers.toString(),
-                                ),
+                                    text: data?.artists.firstOrNull?.biography),
                             ],
                           ),
                           maxLines: 1,
@@ -491,17 +481,17 @@ class NearbyDetailScreen extends HookWidget {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Web : ',
+                                text: 'Website : ',
                                 style: context.textTheme.titleMedium
                                     ?.withColor(fontColor),
                               ),
-                              if (data?.organizer?.description != null)
+                              if (data?.artists.firstOrNull?.website != null)
                                 TextSpan(
-                                  text: data?.organizer?.websiteUrl,
+                                  text: data?.artists.firstOrNull?.website,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       launchUrl(Uri.parse(
-                                        data!.organizer!.websiteUrl!,
+                                        data!.artists.firstOrNull!.website,
                                       ));
                                     },
                                   style: infoStyle.copyWith(
@@ -526,167 +516,7 @@ class NearbyDetailScreen extends HookWidget {
     );
   }
 
-  Builder _buildPriceInfo(EventComplete? data, TextStyle infoStyle) {
-    return Builder(
-      key: GlobalKey(debugLabel: 'PRICE INFO'),
-      builder: (context) {
-        final color = (data?.isFree ?? false)
-            ? context.colorScheme.tertiaryContainer
-            : context.colorScheme.errorContainer;
-        final fontColor = (data?.isFree ?? false)
-            ? context.colorScheme.onTertiaryContainer
-            : context.colorScheme.onErrorContainer;
-        return SliverCardContainer(
-          borderRadius: BorderRadius.circular(16),
-          color: color,
-          padding: kTinyPadding,
-          sliver: SliverToBoxAdapter(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: color,
-              ),
-              padding: kTinyPadding,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        FluentIcons.money_16_regular,
-                        color: fontColor,
-                        size: 24,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Price : ',
-                                style: context.textTheme.titleMedium
-                                    ?.withColor(fontColor),
-                              ),
-                              if (data?.isFree ?? false) ...[
-                                TextSpan(
-                                  text: 'It\'s Free',
-                                  style: context.textTheme.bodyLarge
-                                      ?.withColor(fontColor),
-                                ),
-                              ] else ...[
-                                if (data?.minPrice != null)
-                                  TextSpan(
-                                    text:
-                                        'From \$${(data!.minPrice ?? 0).toStringAsFixed(2)} ',
-                                    style: context.textTheme.bodyLarge
-                                        ?.withColor(fontColor),
-                                  ),
-                                if (data?.maxPrice != null &&
-                                    data?.maxPrice != data?.minPrice)
-                                  TextSpan(
-                                    text:
-                                        'To \$${(data!.maxPrice ?? 0).toStringAsFixed(2)} ',
-                                    style: context.textTheme.bodyLarge
-                                        ?.withColor(fontColor),
-                                  ),
-                              ]
-                            ],
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: infoStyle,
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Icon(
-                        FluentIcons.ticket_horizontal_20_regular,
-                        color: fontColor,
-                        size: 24,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Ticket : ',
-                                style: context.textTheme.titleMedium
-                                    ?.withColor(fontColor),
-                              ),
-                              if (data?.isSoldOut ?? false)
-                                TextSpan(
-                                  text: 'Tickets are sold out',
-                                  style: context.textTheme.bodyLarge
-                                      ?.withColor(fontColor),
-                                ),
-                              if (data?.hasAvailableTickets ?? false)
-                                TextSpan(
-                                  text: 'Tickets are still available',
-                                  style: context.textTheme.bodyLarge
-                                      ?.withColor(fontColor),
-                                ),
-                            ],
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: infoStyle,
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Icon(
-                        FluentIcons.calendar_12_regular,
-                        color: fontColor,
-                        size: 24,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text.rich(
-                          TextSpan(children: [
-                            TextSpan(
-                              text: 'Date : ',
-                              style: context.textTheme.titleMedium
-                                  ?.withColor(fontColor),
-                            ),
-                            if (data?.startDate != null)
-                              TextSpan(
-                                text:
-                                    DateFormat.yMMMd().format(data!.startDate!),
-                                style: context.textTheme.bodyLarge
-                                    ?.withColor(fontColor),
-                              ),
-                            if (data?.endDate != null)
-                              TextSpan(
-                                text:
-                                    '- ${DateFormat.yMMMd().format(data!.endDate!)}',
-                                style: context.textTheme.bodyLarge
-                                    ?.withColor(fontColor),
-                              )
-                          ]),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: context.textTheme.titleMedium
-                              ?.withColor(fontColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Builder _buildBasicInfo(EventComplete? data, TextStyle infoStyle) {
+  Builder _buildBasicInfo(ArtModel? data, TextStyle infoStyle) {
     return Builder(
         key: GlobalKey(debugLabel: 'BASIC INFO'),
         builder: (context) {
@@ -712,44 +542,10 @@ class NearbyDetailScreen extends HookWidget {
                     const SizedBox(height: 12),
                     Center(
                       child: Text(
-                        data.description ?? '',
+                        data.description,
                         style: context.textTheme.bodyLarge!
                             .copyWith(color: fontColor),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          LineIcons.objectGroup,
-                          color: fontColor,
-                          size: 36,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'About : \n',
-                                  style: context.textTheme.titleMedium
-                                      ?.withColor(fontColor),
-                                ),
-                                if (data.organizer?.description != null)
-                                  TextSpan(
-                                    text: data.organizer?.description,
-                                    style: infoStyle.copyWith(
-                                      color: fontColor,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                              ],
-                            ),
-                            style: infoStyle.withColor(fontColor),
-                          ),
-                        )
-                      ],
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -763,7 +559,7 @@ class NearbyDetailScreen extends HookWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
-                            data.venue?.address?.localizedAddressDisplay ?? '',
+                            data.location.venue.address.localizedAddressDisplay,
                             overflow: TextOverflow.fade,
                             style: context.textTheme.bodyLarge!
                                 .copyWith(color: fontColor),
@@ -772,27 +568,6 @@ class NearbyDetailScreen extends HookWidget {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    if (data.organizer?.title != null)
-                      Row(
-                        children: [
-                          Icon(
-                            LineIcons.peopleCarry,
-                            color: fontColor,
-                            size: 36,
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              data.organizer?.title ?? '',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.textTheme.bodyLarge!.copyWith(
-                                color: fontColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     const SizedBox(height: 12),
                   ],
                 ),
@@ -804,7 +579,7 @@ class NearbyDetailScreen extends HookWidget {
 
   Builder _buildTitleInfo(
     NearbyDetailSummaryData? summary,
-    EventComplete? data,
+    ArtModel? data,
   ) {
     return Builder(
         key: GlobalKey(debugLabel: 'TITLE INFO'),
@@ -841,60 +616,5 @@ class NearbyDetailScreen extends HookWidget {
             ),
           );
         });
-  }
-
-  Builder _buildTypeInfo(bool isOnline, TextStyle infoStyle) {
-    return Builder(
-      key: GlobalKey(debugLabel: 'TYPE INFO'),
-      builder: (context) {
-        return SliverCardContainer(
-          borderRadius: BorderRadius.circular(16),
-          color: context.colorScheme.background,
-          padding: EdgeInsets.zero,
-          sliver: SliverToBoxAdapter(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              padding: kTinyPadding,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        FluentIcons.warning_12_filled,
-                        color: context.colorScheme.error,
-                        size: 36,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text:
-                                    'This is an ${isOnline ? 'online' : 'in-person'} event !',
-                              ),
-                            ],
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: infoStyle.copyWith(
-                            color: Colors.redAccent,
-                            fontSize: 20,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 }

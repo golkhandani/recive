@@ -13,7 +13,7 @@ _$_NearbyEventDetailState _$$_NearbyEventDetailStateFromJson(
       preSelectedEventIndex: json['preSelectedEventIndex'] as int,
       nearbyEvent: json['nearbyEvent'] == null
           ? null
-          : EventComplete.fromJson(json['nearbyEvent'] as Map<String, dynamic>),
+          : ArtModel.fromJson(json['nearbyEvent'] as Map<String, dynamic>),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
 

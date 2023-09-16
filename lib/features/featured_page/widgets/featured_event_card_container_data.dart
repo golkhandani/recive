@@ -1,46 +1,38 @@
+import 'package:recive/features/featured_page/models/event_complete.dart';
 import 'package:recive/features/featured_page/models/featured_event.dart';
-import 'package:recive/features/near_me_page/models/event_complete.dart';
 
-class FeaturedEventCardContainerData {
+class FeaturedArtCardContainerData {
   final String id;
   final String title;
   final String description;
   final String location;
-  final List<String> organizers;
-  final List<String> participants;
   final String imageUrl;
 
-  FeaturedEventCardContainerData({
+  FeaturedArtCardContainerData({
     required this.id,
     required this.title,
     required this.description,
     required this.location,
-    required this.organizers,
-    required this.participants,
     required this.imageUrl,
   });
 
-  static FeaturedEventCardContainerData fromFeaturedEvent(FeaturedEvent e) {
-    return FeaturedEventCardContainerData(
+  static FeaturedArtCardContainerData fromFeaturedEvent(ArtAbstractModel e) {
+    return FeaturedArtCardContainerData(
       id: e.id,
       title: e.title,
       description: e.description,
       location: e.location,
-      organizers: e.organizers,
-      participants: e.participants,
       imageUrl: e.imageUrl,
     );
   }
 
-  static FeaturedEventCardContainerData fromEventComplete(EventComplete e) {
-    return FeaturedEventCardContainerData(
-      id: e.id!,
-      title: e.title!,
-      description: e.description!,
-      location: e.venue?.address?.localizedAddressDisplay ?? 'Not In Place',
-      organizers: [e.organizer?.title ?? ''],
-      participants: [],
-      imageUrl: e.imageUrl!,
+  static FeaturedArtCardContainerData fromEventComplete(ArtModel e) {
+    return FeaturedArtCardContainerData(
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      location: e.location.venue.address.localizedAddressDisplay,
+      imageUrl: e.images.first.imageUrl,
     );
   }
 }

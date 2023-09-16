@@ -1,21 +1,21 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:latlong2/latlong.dart';
 
 part 'featured_event.freezed.dart';
 part 'featured_event.g.dart';
 
 @freezed
-class FeaturedEvent with _$FeaturedEvent {
-  const factory FeaturedEvent({
+class ArtAbstractModel with _$ArtAbstractModel {
+  const factory ArtAbstractModel({
     required String id,
     required String title,
     required String description,
     required String location,
-    required List<String> organizers,
-    required List<String> participants,
+    required LatLng geoLocation,
     required String imageUrl,
     required List<String> tags,
-  }) = _FeaturedEvent;
+  }) = _ArtAbstractModel;
 
-  factory FeaturedEvent.fromJson(Map<String, Object?> json) =>
-      _$FeaturedEventFromJson(json);
+  factory ArtAbstractModel.fromJson(Map<String, Object?> json) =>
+      _$ArtAbstractModelFromJson(json);
 }

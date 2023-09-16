@@ -46,7 +46,7 @@ class BookmarksScreen extends HookWidget {
                         itemCount: state.bookmarkEvents.length,
                         itemBuilder: (context, index) {
                           final data =
-                              FeaturedEventCardContainerData.fromFeaturedEvent(
+                              FeaturedArtCardContainerData.fromFeaturedEvent(
                             state.bookmarkEvents[index],
                           );
                           return Padding(

@@ -3,8 +3,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart';
+import 'package:recive/features/featured_page/models/event_complete.dart';
 import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
-import 'package:recive/features/near_me_page/models/event_complete.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 
@@ -16,7 +16,7 @@ class NearbyEventDetailState with _$NearbyEventDetailState {
   const factory NearbyEventDetailState({
     required bool isBookmarked,
     required int preSelectedEventIndex,
-    required EventComplete? nearbyEvent,
+    required ArtModel? nearbyEvent,
     required LoadingState loadingState,
   }) = _NearbyEventDetailState;
 

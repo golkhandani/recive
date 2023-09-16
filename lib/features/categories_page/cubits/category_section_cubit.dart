@@ -18,7 +18,7 @@ class CategoriesState with _$CategoriesState {
     required Category? category,
     required List<Category> categories,
     required List<Category> categoriesSpotlight,
-    required List<FeaturedEvent> items,
+    required List<ArtAbstractModel> items,
     required LoadingState loadingState,
   }) = _CategoriesState;
 

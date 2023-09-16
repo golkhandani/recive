@@ -20,6 +20,7 @@ query GetArtById($id: ObjectId) {
         image_data
         image_credit
       }
+      website
     }
     description
     statement

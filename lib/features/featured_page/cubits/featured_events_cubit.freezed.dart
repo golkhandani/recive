@@ -20,10 +20,11 @@ FeatureEventsState _$FeatureEventsStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FeatureEventsState {
-  FeaturedEvent? get featuredEventSummary => throw _privateConstructorUsedError;
-  EventComplete? get featuredEvent => throw _privateConstructorUsedError;
-  List<FeaturedEvent> get featuredEvents => throw _privateConstructorUsedError;
-  List<FeaturedEvent> get featuredEventsSpotlight =>
+  ArtAbstractModel? get artAbstractItem => throw _privateConstructorUsedError;
+  ArtModel? get artItem => throw _privateConstructorUsedError;
+  List<ArtAbstractModel> get artAbstractItems =>
+      throw _privateConstructorUsedError;
+  List<ArtAbstractModel> get artAbstractItemsSpotlight =>
       throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
 
@@ -40,14 +41,14 @@ abstract class $FeatureEventsStateCopyWith<$Res> {
       _$FeatureEventsStateCopyWithImpl<$Res, FeatureEventsState>;
   @useResult
   $Res call(
-      {FeaturedEvent? featuredEventSummary,
-      EventComplete? featuredEvent,
-      List<FeaturedEvent> featuredEvents,
-      List<FeaturedEvent> featuredEventsSpotlight,
+      {ArtAbstractModel? artAbstractItem,
+      ArtModel? artItem,
+      List<ArtAbstractModel> artAbstractItems,
+      List<ArtAbstractModel> artAbstractItemsSpotlight,
       LoadingState loadingState});
 
-  $FeaturedEventCopyWith<$Res>? get featuredEventSummary;
-  $EventCompleteCopyWith<$Res>? get featuredEvent;
+  $ArtAbstractModelCopyWith<$Res>? get artAbstractItem;
+  $ArtModelCopyWith<$Res>? get artItem;
 }
 
 /// @nodoc
@@ -63,29 +64,29 @@ class _$FeatureEventsStateCopyWithImpl<$Res, $Val extends FeatureEventsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? featuredEventSummary = freezed,
-    Object? featuredEvent = freezed,
-    Object? featuredEvents = null,
-    Object? featuredEventsSpotlight = null,
+    Object? artAbstractItem = freezed,
+    Object? artItem = freezed,
+    Object? artAbstractItems = null,
+    Object? artAbstractItemsSpotlight = null,
     Object? loadingState = null,
   }) {
     return _then(_value.copyWith(
-      featuredEventSummary: freezed == featuredEventSummary
-          ? _value.featuredEventSummary
-          : featuredEventSummary // ignore: cast_nullable_to_non_nullable
-              as FeaturedEvent?,
-      featuredEvent: freezed == featuredEvent
-          ? _value.featuredEvent
-          : featuredEvent // ignore: cast_nullable_to_non_nullable
-              as EventComplete?,
-      featuredEvents: null == featuredEvents
-          ? _value.featuredEvents
-          : featuredEvents // ignore: cast_nullable_to_non_nullable
-              as List<FeaturedEvent>,
-      featuredEventsSpotlight: null == featuredEventsSpotlight
-          ? _value.featuredEventsSpotlight
-          : featuredEventsSpotlight // ignore: cast_nullable_to_non_nullable
-              as List<FeaturedEvent>,
+      artAbstractItem: freezed == artAbstractItem
+          ? _value.artAbstractItem
+          : artAbstractItem // ignore: cast_nullable_to_non_nullable
+              as ArtAbstractModel?,
+      artItem: freezed == artItem
+          ? _value.artItem
+          : artItem // ignore: cast_nullable_to_non_nullable
+              as ArtModel?,
+      artAbstractItems: null == artAbstractItems
+          ? _value.artAbstractItems
+          : artAbstractItems // ignore: cast_nullable_to_non_nullable
+              as List<ArtAbstractModel>,
+      artAbstractItemsSpotlight: null == artAbstractItemsSpotlight
+          ? _value.artAbstractItemsSpotlight
+          : artAbstractItemsSpotlight // ignore: cast_nullable_to_non_nullable
+              as List<ArtAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -95,25 +96,25 @@ class _$FeatureEventsStateCopyWithImpl<$Res, $Val extends FeatureEventsState>
 
   @override
   @pragma('vm:prefer-inline')
-  $FeaturedEventCopyWith<$Res>? get featuredEventSummary {
-    if (_value.featuredEventSummary == null) {
+  $ArtAbstractModelCopyWith<$Res>? get artAbstractItem {
+    if (_value.artAbstractItem == null) {
       return null;
     }
 
-    return $FeaturedEventCopyWith<$Res>(_value.featuredEventSummary!, (value) {
-      return _then(_value.copyWith(featuredEventSummary: value) as $Val);
+    return $ArtAbstractModelCopyWith<$Res>(_value.artAbstractItem!, (value) {
+      return _then(_value.copyWith(artAbstractItem: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $EventCompleteCopyWith<$Res>? get featuredEvent {
-    if (_value.featuredEvent == null) {
+  $ArtModelCopyWith<$Res>? get artItem {
+    if (_value.artItem == null) {
       return null;
     }
 
-    return $EventCompleteCopyWith<$Res>(_value.featuredEvent!, (value) {
-      return _then(_value.copyWith(featuredEvent: value) as $Val);
+    return $ArtModelCopyWith<$Res>(_value.artItem!, (value) {
+      return _then(_value.copyWith(artItem: value) as $Val);
     });
   }
 }
@@ -127,16 +128,16 @@ abstract class _$$_FeatureEventsStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {FeaturedEvent? featuredEventSummary,
-      EventComplete? featuredEvent,
-      List<FeaturedEvent> featuredEvents,
-      List<FeaturedEvent> featuredEventsSpotlight,
+      {ArtAbstractModel? artAbstractItem,
+      ArtModel? artItem,
+      List<ArtAbstractModel> artAbstractItems,
+      List<ArtAbstractModel> artAbstractItemsSpotlight,
       LoadingState loadingState});
 
   @override
-  $FeaturedEventCopyWith<$Res>? get featuredEventSummary;
+  $ArtAbstractModelCopyWith<$Res>? get artAbstractItem;
   @override
-  $EventCompleteCopyWith<$Res>? get featuredEvent;
+  $ArtModelCopyWith<$Res>? get artItem;
 }
 
 /// @nodoc
@@ -150,29 +151,29 @@ class __$$_FeatureEventsStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? featuredEventSummary = freezed,
-    Object? featuredEvent = freezed,
-    Object? featuredEvents = null,
-    Object? featuredEventsSpotlight = null,
+    Object? artAbstractItem = freezed,
+    Object? artItem = freezed,
+    Object? artAbstractItems = null,
+    Object? artAbstractItemsSpotlight = null,
     Object? loadingState = null,
   }) {
     return _then(_$_FeatureEventsState(
-      featuredEventSummary: freezed == featuredEventSummary
-          ? _value.featuredEventSummary
-          : featuredEventSummary // ignore: cast_nullable_to_non_nullable
-              as FeaturedEvent?,
-      featuredEvent: freezed == featuredEvent
-          ? _value.featuredEvent
-          : featuredEvent // ignore: cast_nullable_to_non_nullable
-              as EventComplete?,
-      featuredEvents: null == featuredEvents
-          ? _value._featuredEvents
-          : featuredEvents // ignore: cast_nullable_to_non_nullable
-              as List<FeaturedEvent>,
-      featuredEventsSpotlight: null == featuredEventsSpotlight
-          ? _value._featuredEventsSpotlight
-          : featuredEventsSpotlight // ignore: cast_nullable_to_non_nullable
-              as List<FeaturedEvent>,
+      artAbstractItem: freezed == artAbstractItem
+          ? _value.artAbstractItem
+          : artAbstractItem // ignore: cast_nullable_to_non_nullable
+              as ArtAbstractModel?,
+      artItem: freezed == artItem
+          ? _value.artItem
+          : artItem // ignore: cast_nullable_to_non_nullable
+              as ArtModel?,
+      artAbstractItems: null == artAbstractItems
+          ? _value._artAbstractItems
+          : artAbstractItems // ignore: cast_nullable_to_non_nullable
+              as List<ArtAbstractModel>,
+      artAbstractItemsSpotlight: null == artAbstractItemsSpotlight
+          ? _value._artAbstractItemsSpotlight
+          : artAbstractItemsSpotlight // ignore: cast_nullable_to_non_nullable
+              as List<ArtAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -185,36 +186,37 @@ class __$$_FeatureEventsStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_FeatureEventsState implements _FeatureEventsState {
   const _$_FeatureEventsState(
-      {required this.featuredEventSummary,
-      required this.featuredEvent,
-      required final List<FeaturedEvent> featuredEvents,
-      required final List<FeaturedEvent> featuredEventsSpotlight,
+      {required this.artAbstractItem,
+      required this.artItem,
+      required final List<ArtAbstractModel> artAbstractItems,
+      required final List<ArtAbstractModel> artAbstractItemsSpotlight,
       required this.loadingState})
-      : _featuredEvents = featuredEvents,
-        _featuredEventsSpotlight = featuredEventsSpotlight;
+      : _artAbstractItems = artAbstractItems,
+        _artAbstractItemsSpotlight = artAbstractItemsSpotlight;
 
   factory _$_FeatureEventsState.fromJson(Map<String, dynamic> json) =>
       _$$_FeatureEventsStateFromJson(json);
 
   @override
-  final FeaturedEvent? featuredEventSummary;
+  final ArtAbstractModel? artAbstractItem;
   @override
-  final EventComplete? featuredEvent;
-  final List<FeaturedEvent> _featuredEvents;
+  final ArtModel? artItem;
+  final List<ArtAbstractModel> _artAbstractItems;
   @override
-  List<FeaturedEvent> get featuredEvents {
-    if (_featuredEvents is EqualUnmodifiableListView) return _featuredEvents;
+  List<ArtAbstractModel> get artAbstractItems {
+    if (_artAbstractItems is EqualUnmodifiableListView)
+      return _artAbstractItems;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_featuredEvents);
+    return EqualUnmodifiableListView(_artAbstractItems);
   }
 
-  final List<FeaturedEvent> _featuredEventsSpotlight;
+  final List<ArtAbstractModel> _artAbstractItemsSpotlight;
   @override
-  List<FeaturedEvent> get featuredEventsSpotlight {
-    if (_featuredEventsSpotlight is EqualUnmodifiableListView)
-      return _featuredEventsSpotlight;
+  List<ArtAbstractModel> get artAbstractItemsSpotlight {
+    if (_artAbstractItemsSpotlight is EqualUnmodifiableListView)
+      return _artAbstractItemsSpotlight;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_featuredEventsSpotlight);
+    return EqualUnmodifiableListView(_artAbstractItemsSpotlight);
   }
 
   @override
@@ -222,7 +224,7 @@ class _$_FeatureEventsState implements _FeatureEventsState {
 
   @override
   String toString() {
-    return 'FeatureEventsState(featuredEventSummary: $featuredEventSummary, featuredEvent: $featuredEvent, featuredEvents: $featuredEvents, featuredEventsSpotlight: $featuredEventsSpotlight, loadingState: $loadingState)';
+    return 'FeatureEventsState(artAbstractItem: $artAbstractItem, artItem: $artItem, artAbstractItems: $artAbstractItems, artAbstractItemsSpotlight: $artAbstractItemsSpotlight, loadingState: $loadingState)';
   }
 
   @override
@@ -230,14 +232,13 @@ class _$_FeatureEventsState implements _FeatureEventsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_FeatureEventsState &&
-            (identical(other.featuredEventSummary, featuredEventSummary) ||
-                other.featuredEventSummary == featuredEventSummary) &&
-            (identical(other.featuredEvent, featuredEvent) ||
-                other.featuredEvent == featuredEvent) &&
+            (identical(other.artAbstractItem, artAbstractItem) ||
+                other.artAbstractItem == artAbstractItem) &&
+            (identical(other.artItem, artItem) || other.artItem == artItem) &&
             const DeepCollectionEquality()
-                .equals(other._featuredEvents, _featuredEvents) &&
+                .equals(other._artAbstractItems, _artAbstractItems) &&
             const DeepCollectionEquality().equals(
-                other._featuredEventsSpotlight, _featuredEventsSpotlight) &&
+                other._artAbstractItemsSpotlight, _artAbstractItemsSpotlight) &&
             (identical(other.loadingState, loadingState) ||
                 other.loadingState == loadingState));
   }
@@ -246,10 +247,10 @@ class _$_FeatureEventsState implements _FeatureEventsState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      featuredEventSummary,
-      featuredEvent,
-      const DeepCollectionEquality().hash(_featuredEvents),
-      const DeepCollectionEquality().hash(_featuredEventsSpotlight),
+      artAbstractItem,
+      artItem,
+      const DeepCollectionEquality().hash(_artAbstractItems),
+      const DeepCollectionEquality().hash(_artAbstractItemsSpotlight),
       loadingState);
 
   @JsonKey(ignore: true)
@@ -269,23 +270,23 @@ class _$_FeatureEventsState implements _FeatureEventsState {
 
 abstract class _FeatureEventsState implements FeatureEventsState {
   const factory _FeatureEventsState(
-      {required final FeaturedEvent? featuredEventSummary,
-      required final EventComplete? featuredEvent,
-      required final List<FeaturedEvent> featuredEvents,
-      required final List<FeaturedEvent> featuredEventsSpotlight,
+      {required final ArtAbstractModel? artAbstractItem,
+      required final ArtModel? artItem,
+      required final List<ArtAbstractModel> artAbstractItems,
+      required final List<ArtAbstractModel> artAbstractItemsSpotlight,
       required final LoadingState loadingState}) = _$_FeatureEventsState;
 
   factory _FeatureEventsState.fromJson(Map<String, dynamic> json) =
       _$_FeatureEventsState.fromJson;
 
   @override
-  FeaturedEvent? get featuredEventSummary;
+  ArtAbstractModel? get artAbstractItem;
   @override
-  EventComplete? get featuredEvent;
+  ArtModel? get artItem;
   @override
-  List<FeaturedEvent> get featuredEvents;
+  List<ArtAbstractModel> get artAbstractItems;
   @override
-  List<FeaturedEvent> get featuredEventsSpotlight;
+  List<ArtAbstractModel> get artAbstractItemsSpotlight;
   @override
   LoadingState get loadingState;
   @override

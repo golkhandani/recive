@@ -1,13 +1,13 @@
 import 'package:latlong2/latlong.dart';
 
-import 'package:recive/features/near_me_page/models/event_complete.dart';
+import 'package:recive/features/featured_page/models/event_complete.dart';
+import 'package:recive/features/featured_page/models/featured_event.dart';
 
 class SearchEventCardContainerData {
   final String id;
   final String title;
   final String description;
-  final DateTime startDate;
-  final DateTime endDate;
+
   final String location;
   final List<String> organizers;
   final List<String> participants;
@@ -18,8 +18,6 @@ class SearchEventCardContainerData {
     required this.id,
     required this.title,
     required this.description,
-    required this.startDate,
-    required this.endDate,
     required this.location,
     required this.organizers,
     required this.participants,
@@ -27,18 +25,29 @@ class SearchEventCardContainerData {
     required this.latlng,
   });
 
-  static SearchEventCardContainerData fromEventComplete(EventComplete e) {
+  static SearchEventCardContainerData fromEventComplete(ArtModel e) {
     return SearchEventCardContainerData(
-      id: e.id!,
-      title: e.title ?? '',
-      description: e.description ?? '',
-      startDate: e.startDate!,
-      endDate: e.endDate!,
-      location: e.venue?.address?.localizedAddressDisplay ?? '',
-      organizers: [e.organizer?.title ?? ''],
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      location: e.location.venue.address.localizedAddressDisplay,
+      organizers: [],
       participants: [],
-      imageUrl: e.imageUrl!,
-      latlng: e.venue?.latLng ?? const LatLng(0, 0),
+      imageUrl: e.images.first.imageUrl,
+      latlng: e.location.latLng,
+    );
+  }
+
+  static SearchEventCardContainerData fromFeaturedEvent(ArtAbstractModel e) {
+    return SearchEventCardContainerData(
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      location: e.location,
+      organizers: [],
+      participants: [],
+      imageUrl: e.imageUrl,
+      latlng: const LatLng(0, 0),
     );
   }
 }

@@ -23,7 +23,7 @@ NearbyEventDetailState _$NearbyEventDetailStateFromJson(
 mixin _$NearbyEventDetailState {
   bool get isBookmarked => throw _privateConstructorUsedError;
   int get preSelectedEventIndex => throw _privateConstructorUsedError;
-  EventComplete? get nearbyEvent => throw _privateConstructorUsedError;
+  ArtModel? get nearbyEvent => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,10 +41,10 @@ abstract class $NearbyEventDetailStateCopyWith<$Res> {
   $Res call(
       {bool isBookmarked,
       int preSelectedEventIndex,
-      EventComplete? nearbyEvent,
+      ArtModel? nearbyEvent,
       LoadingState loadingState});
 
-  $EventCompleteCopyWith<$Res>? get nearbyEvent;
+  $ArtModelCopyWith<$Res>? get nearbyEvent;
 }
 
 /// @nodoc
@@ -78,7 +78,7 @@ class _$NearbyEventDetailStateCopyWithImpl<$Res,
       nearbyEvent: freezed == nearbyEvent
           ? _value.nearbyEvent
           : nearbyEvent // ignore: cast_nullable_to_non_nullable
-              as EventComplete?,
+              as ArtModel?,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -88,12 +88,12 @@ class _$NearbyEventDetailStateCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
-  $EventCompleteCopyWith<$Res>? get nearbyEvent {
+  $ArtModelCopyWith<$Res>? get nearbyEvent {
     if (_value.nearbyEvent == null) {
       return null;
     }
 
-    return $EventCompleteCopyWith<$Res>(_value.nearbyEvent!, (value) {
+    return $ArtModelCopyWith<$Res>(_value.nearbyEvent!, (value) {
       return _then(_value.copyWith(nearbyEvent: value) as $Val);
     });
   }
@@ -110,11 +110,11 @@ abstract class _$$_NearbyEventDetailStateCopyWith<$Res>
   $Res call(
       {bool isBookmarked,
       int preSelectedEventIndex,
-      EventComplete? nearbyEvent,
+      ArtModel? nearbyEvent,
       LoadingState loadingState});
 
   @override
-  $EventCompleteCopyWith<$Res>? get nearbyEvent;
+  $ArtModelCopyWith<$Res>? get nearbyEvent;
 }
 
 /// @nodoc
@@ -146,7 +146,7 @@ class __$$_NearbyEventDetailStateCopyWithImpl<$Res>
       nearbyEvent: freezed == nearbyEvent
           ? _value.nearbyEvent
           : nearbyEvent // ignore: cast_nullable_to_non_nullable
-              as EventComplete?,
+              as ArtModel?,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -172,7 +172,7 @@ class _$_NearbyEventDetailState implements _NearbyEventDetailState {
   @override
   final int preSelectedEventIndex;
   @override
-  final EventComplete? nearbyEvent;
+  final ArtModel? nearbyEvent;
   @override
   final LoadingState loadingState;
 
@@ -220,7 +220,7 @@ abstract class _NearbyEventDetailState implements NearbyEventDetailState {
   const factory _NearbyEventDetailState(
       {required final bool isBookmarked,
       required final int preSelectedEventIndex,
-      required final EventComplete? nearbyEvent,
+      required final ArtModel? nearbyEvent,
       required final LoadingState loadingState}) = _$_NearbyEventDetailState;
 
   factory _NearbyEventDetailState.fromJson(Map<String, dynamic> json) =
@@ -231,7 +231,7 @@ abstract class _NearbyEventDetailState implements NearbyEventDetailState {
   @override
   int get preSelectedEventIndex;
   @override
-  EventComplete? get nearbyEvent;
+  ArtModel? get nearbyEvent;
   @override
   LoadingState get loadingState;
   @override

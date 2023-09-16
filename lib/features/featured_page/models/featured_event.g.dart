@@ -6,30 +6,24 @@ part of 'featured_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_FeaturedEvent _$$_FeaturedEventFromJson(Map<String, dynamic> json) =>
-    _$_FeaturedEvent(
+_$_ArtAbstractModel _$$_ArtAbstractModelFromJson(Map<String, dynamic> json) =>
+    _$_ArtAbstractModel(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
       location: json['location'] as String,
-      organizers: (json['organizers'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      participants: (json['participants'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      geoLocation: LatLng.fromJson(json['geoLocation'] as Map<String, dynamic>),
       imageUrl: json['imageUrl'] as String,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$_FeaturedEventToJson(_$_FeaturedEvent instance) =>
+Map<String, dynamic> _$$_ArtAbstractModelToJson(_$_ArtAbstractModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'description': instance.description,
       'location': instance.location,
-      'organizers': instance.organizers,
-      'participants': instance.participants,
+      'geoLocation': instance.geoLocation,
       'imageUrl': instance.imageUrl,
       'tags': instance.tags,
     };

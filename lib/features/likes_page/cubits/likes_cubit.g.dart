@@ -11,7 +11,7 @@ _$_LikesState _$$_LikesStateFromJson(Map<String, dynamic> json) =>
       ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
       count: json['count'] as int,
       bookmarkEvents: (json['bookmarkEvents'] as List<dynamic>)
-          .map((e) => FeaturedEvent.fromJson(e as Map<String, dynamic>))
+          .map((e) => ArtAbstractModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );

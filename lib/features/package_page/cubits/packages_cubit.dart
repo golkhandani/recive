@@ -16,6 +16,7 @@ class PackagesState with _$PackagesState {
     required List<PackageAbstract> packages,
     required List<PackageAbstract> packagesSpotlight,
     required LoadingState loadingState,
+    required LoadingState loadingMoreState,
   }) = _PackagesState;
 
   factory PackagesState.initialize() => const PackagesState(
@@ -25,6 +26,7 @@ class PackagesState with _$PackagesState {
         packages: [],
         packagesSpotlight: [],
         loadingState: LoadingState.none,
+        loadingMoreState: LoadingState.none,
       );
 
   factory PackagesState.fromJson(Map<String, Object?> json) =>
@@ -45,11 +47,30 @@ class PackagesCubit extends MaybeEmitHydratedCubit<PackagesState> {
     final data = await repo.packages(
       limit: 10,
     );
-    data.shuffle();
 
     maybeEmit(state.copyWith(
       packages: data,
       loadingState: LoadingState.done,
+    ));
+  }
+
+  Future<void> loadMorePackages() async {
+    if (state.loadingMoreState == LoadingState.loading ||
+        state.loadingState == LoadingState.loading) {
+      return;
+    }
+    maybeEmit(state.copyWith(
+      loadingMoreState: LoadingState.loading,
+    ));
+
+    final data = await repo.packages(
+      limit: 10,
+      lastItem: state.packages.last,
+    );
+
+    maybeEmit(state.copyWith(
+      packages: [...state.packages, ...data],
+      loadingMoreState: LoadingState.done,
     ));
   }
 

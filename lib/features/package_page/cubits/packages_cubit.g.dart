@@ -20,6 +20,8 @@ _$_PackagesState _$$_PackagesStateFromJson(Map<String, dynamic> json) =>
           .map((e) => PackageAbstract.fromJson(e as Map<String, dynamic>))
           .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
+      loadingMoreState:
+          $enumDecode(_$LoadingStateEnumMap, json['loadingMoreState']),
     );
 
 Map<String, dynamic> _$$_PackagesStateToJson(_$_PackagesState instance) =>
@@ -30,6 +32,7 @@ Map<String, dynamic> _$$_PackagesStateToJson(_$_PackagesState instance) =>
       'packages': instance.packages,
       'packagesSpotlight': instance.packagesSpotlight,
       'loadingState': _$LoadingStateEnumMap[instance.loadingState]!,
+      'loadingMoreState': _$LoadingStateEnumMap[instance.loadingMoreState]!,
     };
 
 const _$LoadingStateEnumMap = {

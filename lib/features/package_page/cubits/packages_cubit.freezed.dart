@@ -26,6 +26,7 @@ mixin _$PackagesState {
   List<PackageAbstract> get packagesSpotlight =>
       throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
+  LoadingState get loadingMoreState => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +45,8 @@ abstract class $PackagesStateCopyWith<$Res> {
       Package? package,
       List<PackageAbstract> packages,
       List<PackageAbstract> packagesSpotlight,
-      LoadingState loadingState});
+      LoadingState loadingState,
+      LoadingState loadingMoreState});
 
   $PackageCopyWith<$Res>? get package;
 }
@@ -67,6 +69,7 @@ class _$PackagesStateCopyWithImpl<$Res, $Val extends PackagesState>
     Object? packages = null,
     Object? packagesSpotlight = null,
     Object? loadingState = null,
+    Object? loadingMoreState = null,
   }) {
     return _then(_value.copyWith(
       packageLoadingState: null == packageLoadingState
@@ -88,6 +91,10 @@ class _$PackagesStateCopyWithImpl<$Res, $Val extends PackagesState>
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
+              as LoadingState,
+      loadingMoreState: null == loadingMoreState
+          ? _value.loadingMoreState
+          : loadingMoreState // ignore: cast_nullable_to_non_nullable
               as LoadingState,
     ) as $Val);
   }
@@ -118,7 +125,8 @@ abstract class _$$_PackagesStateCopyWith<$Res>
       Package? package,
       List<PackageAbstract> packages,
       List<PackageAbstract> packagesSpotlight,
-      LoadingState loadingState});
+      LoadingState loadingState,
+      LoadingState loadingMoreState});
 
   @override
   $PackageCopyWith<$Res>? get package;
@@ -140,6 +148,7 @@ class __$$_PackagesStateCopyWithImpl<$Res>
     Object? packages = null,
     Object? packagesSpotlight = null,
     Object? loadingState = null,
+    Object? loadingMoreState = null,
   }) {
     return _then(_$_PackagesState(
       packageLoadingState: null == packageLoadingState
@@ -162,6 +171,10 @@ class __$$_PackagesStateCopyWithImpl<$Res>
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
               as LoadingState,
+      loadingMoreState: null == loadingMoreState
+          ? _value.loadingMoreState
+          : loadingMoreState // ignore: cast_nullable_to_non_nullable
+              as LoadingState,
     ));
   }
 }
@@ -174,7 +187,8 @@ class _$_PackagesState implements _PackagesState {
       required this.package,
       required final List<PackageAbstract> packages,
       required final List<PackageAbstract> packagesSpotlight,
-      required this.loadingState})
+      required this.loadingState,
+      required this.loadingMoreState})
       : _packages = packages,
         _packagesSpotlight = packagesSpotlight;
 
@@ -204,10 +218,12 @@ class _$_PackagesState implements _PackagesState {
 
   @override
   final LoadingState loadingState;
+  @override
+  final LoadingState loadingMoreState;
 
   @override
   String toString() {
-    return 'PackagesState(packageLoadingState: $packageLoadingState, package: $package, packages: $packages, packagesSpotlight: $packagesSpotlight, loadingState: $loadingState)';
+    return 'PackagesState(packageLoadingState: $packageLoadingState, package: $package, packages: $packages, packagesSpotlight: $packagesSpotlight, loadingState: $loadingState, loadingMoreState: $loadingMoreState)';
   }
 
   @override
@@ -222,7 +238,9 @@ class _$_PackagesState implements _PackagesState {
             const DeepCollectionEquality()
                 .equals(other._packagesSpotlight, _packagesSpotlight) &&
             (identical(other.loadingState, loadingState) ||
-                other.loadingState == loadingState));
+                other.loadingState == loadingState) &&
+            (identical(other.loadingMoreState, loadingMoreState) ||
+                other.loadingMoreState == loadingMoreState));
   }
 
   @JsonKey(ignore: true)
@@ -233,7 +251,8 @@ class _$_PackagesState implements _PackagesState {
       package,
       const DeepCollectionEquality().hash(_packages),
       const DeepCollectionEquality().hash(_packagesSpotlight),
-      loadingState);
+      loadingState,
+      loadingMoreState);
 
   @JsonKey(ignore: true)
   @override
@@ -255,7 +274,8 @@ abstract class _PackagesState implements PackagesState {
       required final Package? package,
       required final List<PackageAbstract> packages,
       required final List<PackageAbstract> packagesSpotlight,
-      required final LoadingState loadingState}) = _$_PackagesState;
+      required final LoadingState loadingState,
+      required final LoadingState loadingMoreState}) = _$_PackagesState;
 
   factory _PackagesState.fromJson(Map<String, dynamic> json) =
       _$_PackagesState.fromJson;
@@ -270,6 +290,8 @@ abstract class _PackagesState implements PackagesState {
   List<PackageAbstract> get packagesSpotlight;
   @override
   LoadingState get loadingState;
+  @override
+  LoadingState get loadingMoreState;
   @override
   @JsonKey(ignore: true)
   _$$_PackagesStateCopyWith<_$_PackagesState> get copyWith =>

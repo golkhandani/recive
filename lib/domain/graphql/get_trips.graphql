@@ -1,5 +1,5 @@
-query GetTrips($limit: Int) {
-  trip_items(limit: $limit) {
+query GetTrips($limit: Int, $query: Trip_itemQueryInput) {
+  trip_items(limit: $limit, query: $query) {
     _id
     description
     title

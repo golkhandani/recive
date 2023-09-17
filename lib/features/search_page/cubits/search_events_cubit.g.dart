@@ -10,7 +10,7 @@ _$_SearchEventsState _$$_SearchEventsStateFromJson(Map<String, dynamic> json) =>
     _$_SearchEventsState(
       preSelectedEventIndex: json['preSelectedEventIndex'] as int,
       searchedEvents: (json['searchedEvents'] as List<dynamic>)
-          .map((e) => ArtModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => PackageAbstract.fromJson(e as Map<String, dynamic>))
           .toList(),
       searchedkeywords: (json['searchedkeywords'] as List<dynamic>)
           .map((e) => e as String)

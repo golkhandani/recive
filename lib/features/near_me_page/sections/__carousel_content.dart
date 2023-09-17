@@ -35,11 +35,11 @@ class _CarouselContent extends HookWidget {
           isUpdating.value = true;
           controller.animateToPage(state.preSelectedEventIndex);
         }
-        mapController
-            .animateTo(
-              dest: state.nearbyEvents[state.preSelectedEventIndex].latLng,
-            )
-            .then((value) => isUpdating.value = false);
+        // mapController
+        //     .animateTo(
+        //       dest: state.nearbyEvents[state.preSelectedEventIndex].latLng,
+        //     )
+        //     .then((value) => isUpdating.value = false);
         isUpdating.value = false;
       },
       listenWhen: (previousState, currentState) =>
@@ -78,7 +78,8 @@ class _CarouselContent extends HookWidget {
                     enlargeFactor: 0.24,
                     enlargeCenterPage: true,
                     onPageChanged: (index, reason) {
-                      if (!isUpdating.value) {
+                      if (!isUpdating.value &&
+                          reason != CarouselPageChangedReason.controller) {
                         isUpdating.value = true;
                         bloc.changeSelectedIndex(index);
                       }

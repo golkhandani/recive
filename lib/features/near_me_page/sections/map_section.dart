@@ -19,7 +19,6 @@ import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
 import 'package:recive/features/near_me_page/widgets/event_card_container_data.dart';
-import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 

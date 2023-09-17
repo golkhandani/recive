@@ -17,6 +17,10 @@ const kSliverFillLoading = SliverFillRemaining(
   ),
 );
 
+const kSliverBoxLoading = SliverToBoxAdapter(
+  child: Align(alignment: Alignment.topCenter, child: LottieLoadingIndicator()),
+);
+
 const kMediumPadding = EdgeInsets.all(16);
 const kSmallPadding = EdgeInsets.all(12);
 const kTinyPadding = EdgeInsets.all(8);

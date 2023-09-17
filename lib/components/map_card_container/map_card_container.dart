@@ -76,18 +76,10 @@ class _MapCardContainerState extends State<MapCardContainer>
     );
 
     useEffect(() {
-      if (geolocation != null) {
-        final updatedCenter = LatLng(
-          geolocation.latitude,
-          geolocation.longitude,
-        );
-
-        final center = mapState.center;
-
-        if (center.latitude != updatedCenter.latitude ||
-            center.longitude != updatedCenter.longitude) {
-          mapBloc.updateState(mapState.copyWith(userLocation: center));
-        }
+      if (geolocation.latLng != null) {
+        mapBloc.updateState(mapState.copyWith(
+          userLocation: geolocation.latLng!,
+        ));
       }
       return;
     }, [geolocation?.timestamp]);

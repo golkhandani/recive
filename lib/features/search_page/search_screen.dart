@@ -164,7 +164,7 @@ class SearchScreen extends HookWidget {
         addRepaintBoundaries: true,
         itemCount: state.searchedEvents.length,
         itemBuilder: (context, index) {
-          final data = SearchEventCardContainerData.fromEventComplete(
+          final data = SearchEventCardContainerData.fromPackageAbstract(
             state.searchedEvents[index],
           );
           return RepaintBoundary(

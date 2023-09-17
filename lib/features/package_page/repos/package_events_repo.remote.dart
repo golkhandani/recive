@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:recive/domain/graphql/__generated__/get_trip_by_id.req.gql.dart';
+import 'package:recive/domain/graphql/__generated__/get_trips.data.gql.dart';
 import 'package:recive/domain/graphql/__generated__/get_trips.req.gql.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/near_me_page/models/nearby_event.dart';
@@ -86,24 +87,39 @@ class GQLPackageEventRepo extends IPackageEventRepo {
   }
 
   @override
-  Future<List<PackageAbstract>> packages({required int limit}) async {
-    final tripsRequest = GGetTripsReq((b) => b..vars.limit = limit);
+  Future<List<PackageAbstract>> packages({
+    required int limit,
+    PackageAbstract? lastItem,
+  }) async {
+    final tripsRequest = GGetTripsReq(
+      (b) {
+        b.vars.limit = limit;
+        if (lastItem != null) {
+          b.vars.query.G_id_gt.value = lastItem.id;
+        }
+        return b;
+      },
+    );
 
     final data = await client.request(tripsRequest);
 
     final convertedData = data.data?.trip_items.map((item) {
-          return PackageAbstract(
-            id: item!.G_id!.value,
-            title: item.title ?? '',
-            description: item.description ?? '',
-            subtitle: (item.description ?? '').dynamicSub(20),
-            imageUrl: item.images?.first?.image_url ?? kImagePlaceholder,
-            distance: item.trip?.distance ?? 0,
-            duration: Duration(seconds: item.trip?.duration?.toInt() ?? 0),
-          );
+          return gqlTripsToPackageAbstract(item);
         }).toList() ??
         [];
 
     return convertedData;
   }
+}
+
+PackageAbstract gqlTripsToPackageAbstract(GGetTripsData_trip_items? item) {
+  return PackageAbstract(
+    id: item!.G_id!.value,
+    title: item.title ?? '',
+    description: item.description ?? '',
+    subtitle: (item.description ?? '').dynamicSub(20),
+    imageUrl: item.images?.first?.image_url ?? kImagePlaceholder,
+    distance: item.trip?.distance ?? 0,
+    duration: Duration(seconds: item.trip?.duration?.toInt() ?? 0),
+  );
 }

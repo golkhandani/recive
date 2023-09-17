@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/featured_page/models/event_complete.dart';
+import 'package:recive/features/package_page/models/package.dart';
 import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 
@@ -14,7 +14,7 @@ part 'search_events_cubit.g.dart';
 class SearchEventsState with _$SearchEventsState {
   const factory SearchEventsState({
     required int preSelectedEventIndex,
-    required List<ArtModel> searchedEvents,
+    required List<PackageAbstract> searchedEvents,
     required List<String> searchedkeywords,
     required LoadingState loadingState,
   }) = _SearchEventsState;

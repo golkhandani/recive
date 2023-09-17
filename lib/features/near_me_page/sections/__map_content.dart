@@ -37,7 +37,7 @@ class _MapContentState extends State<_MapContent> {
           child: Icon(
             FluentIcons.location_12_filled,
             color: color,
-            size: 24,
+            size: 50,
           ),
         ),
       );
@@ -77,50 +77,52 @@ class _MapContentState extends State<_MapContent> {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      updateItems();
-
-      if (widget.state.preSelectedEventIndex != 0) {
-        return;
-      }
-
-      if (widget.state.loadingState != LoadingState.done ||
-          widget.state.isRefreshLoading != false) {
-        return;
-      }
-      locator.logger.w("GOING TO UPDATE MARKERS");
       WidgetsBinding.instance.addPostFrameCallback((_) {
         updateMarkers();
-        widget.mapController.animateTo(dest: items.first.latLng);
+        if (widget.state.preSelectedEventIndex != 0) {
+          return;
+        }
+
+        if (widget.state.loadingState != LoadingState.done ||
+            widget.state.isRefreshLoading != false) {
+          return;
+        }
+
+        widget.mapController.animateTo(
+          dest: items[widget.state.preSelectedEventIndex].latLng,
+        );
       });
 
       return;
-    }, [widget.state.nearbyEvents]);
+    }, [widget.state.nearbyEvents, widget.state.preSelectedEventIndex]);
 
     return MultiSliver(children: [
-      MapCardContainer(
-        onPositionUpdated: (position) => {},
-        clusterController: sc,
-        markers: items.map((e) => e.latLng).toList(),
-        selectedLatLng: items[widget.state.preSelectedEventIndex].latLng,
-        isRefreshingData: widget.state.isRefreshLoading,
-        onRefreshDataClicked: (mapBloc, mapState) {
-          widget.bloc
-              .loadNearbyEvents(
-                latitude: mapState.center.latitude,
-                longitude: mapState.center.longitude,
-                maxDistance: mapState.zoom * 10000,
-                minDistance: 0,
-                onBackground: true,
-              )
-              .then(
-                (value) => mapBloc.updateState(
-                  mapState.copyWith(showRefresh: false),
-                ),
-              );
-        },
-        height: widget.mapSectionHeight,
-        mapController: widget.mapController,
-      )
+      Builder(builder: (context) {
+        return MapCardContainer(
+          onPositionUpdated: (position) => {},
+          clusterController: sc,
+          markers: items.map((e) => e.latLng).toList(),
+          selectedLatLng: items[widget.state.preSelectedEventIndex].latLng,
+          isRefreshingData: widget.state.isRefreshLoading,
+          onRefreshDataClicked: (mapBloc, mapState) {
+            widget.bloc
+                .loadNearbyEvents(
+                  latitude: mapState.center.latitude,
+                  longitude: mapState.center.longitude,
+                  maxDistance: mapState.zoom * 10000,
+                  minDistance: 0,
+                  onBackground: true,
+                )
+                .then(
+                  (value) => mapBloc.updateState(
+                    mapState.copyWith(showRefresh: false),
+                  ),
+                );
+          },
+          height: widget.mapSectionHeight,
+          mapController: widget.mapController,
+        );
+      })
     ]);
   }
 }

@@ -30,7 +30,7 @@ class FlutterMapControlButtons extends StatelessWidget {
             MapButton(
                 icon: Icons.center_focus_strong,
                 onClicked: () {
-                  mapController.animateTo(dest: mapState.center);
+                  mapController.animateTo(dest: mapState.userLocation);
                 }),
             MapButton(
               icon: Icons.zoom_in,

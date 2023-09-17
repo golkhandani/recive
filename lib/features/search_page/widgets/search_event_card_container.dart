@@ -3,12 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:recive/extensions/color_extentions.dart';
-import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
-import 'package:recive/features/search_page/search_screen.dart';
+import 'package:recive/features/package_page/package_detail_screen.dart';
+import 'package:recive/features/package_page/packages_screen.dart';
 import 'package:recive/features/search_page/widgets/search_event_card_container_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -54,26 +53,6 @@ class SearchEventCardContainer extends HookWidget {
                       style: context.titleMediumOnPrimaryContainer
                           .withColor(fontColor),
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Icon(
-                          FluentIcons.location_12_filled,
-                          color: fontColor,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            data.location,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: context.titleSmallOnPrimaryContainer
-                                .withColor(fontColor),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
@@ -84,7 +63,7 @@ class SearchEventCardContainer extends HookWidget {
     });
     final heroTag = data.id + DateTime.now().toString();
     final extraJson = ExtraData(
-      summary: NearbyDetailSummaryData(
+      summary: PackageSummaryData(
         id: data.id,
         title: data.title,
         imageUrl: data.imageUrl,
@@ -94,9 +73,9 @@ class SearchEventCardContainer extends HookWidget {
     return RepaintBoundary(
       child: InkWell(
         onTap: () => navigationService.pushTo(
-          SearchScreen.name + NearbyDetailScreen.name,
+          PackagesScreen.name + PackageDetailScreen.name,
           pathParameters: {
-            NearbyDetailScreen.pathParamId: data.id,
+            PackageDetailScreen.pathParamId: data.id,
           },
           extra: extraJson,
         ),
@@ -141,7 +120,7 @@ class SearchEventCardContainer extends HookWidget {
             : DecorationImage(
                 image: imageProvider,
                 fit: BoxFit.cover,
-                opacity: 0.7,
+                opacity: 0.9,
               ),
         borderRadius: BorderRadius.circular(8),
         color: Colors.black,

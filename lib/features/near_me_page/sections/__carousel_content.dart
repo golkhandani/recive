@@ -1,17 +1,26 @@
-part of 'map_section.dart';
+import 'package:flutter/material.dart';
 
-class _CarouselContent extends HookWidget {
-  const _CarouselContent({
-    required this.switchIndex,
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooked_bloc/hooked_bloc.dart';
+import 'package:sliver_tools/sliver_tools.dart';
+
+import 'package:recive/components/sliver_card_container.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
+import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
+import 'package:recive/features/near_me_page/widgets/event_card_container_data.dart';
+import 'package:recive/layout/ui_constants.dart';
+
+class NearbyCarouselContent extends HookWidget {
+  const NearbyCarouselContent({
+    super.key,
     required this.listSectionHeight,
-    required this.mapController,
     required this.bloc,
     required this.state,
   });
 
-  final ValueNotifier<int> switchIndex;
   final double listSectionHeight;
-  final AnimatedMapController mapController;
   final NearbyEventsCubit bloc;
   final NearbyEventsState state;
 

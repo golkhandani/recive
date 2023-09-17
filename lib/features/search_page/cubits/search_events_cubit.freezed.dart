@@ -23,8 +23,11 @@ mixin _$SearchEventsState {
   int get preSelectedEventIndex => throw _privateConstructorUsedError;
   List<PackageAbstract> get searchedEvents =>
       throw _privateConstructorUsedError;
+  LoadingState get loadingKeywordsState => throw _privateConstructorUsedError;
   List<String> get searchedkeywords => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
+  int? get distanceFilter => throw _privateConstructorUsedError;
+  String? get queryFilter => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,8 +44,11 @@ abstract class $SearchEventsStateCopyWith<$Res> {
   $Res call(
       {int preSelectedEventIndex,
       List<PackageAbstract> searchedEvents,
+      LoadingState loadingKeywordsState,
       List<String> searchedkeywords,
-      LoadingState loadingState});
+      LoadingState loadingState,
+      int? distanceFilter,
+      String? queryFilter});
 }
 
 /// @nodoc
@@ -60,8 +66,11 @@ class _$SearchEventsStateCopyWithImpl<$Res, $Val extends SearchEventsState>
   $Res call({
     Object? preSelectedEventIndex = null,
     Object? searchedEvents = null,
+    Object? loadingKeywordsState = null,
     Object? searchedkeywords = null,
     Object? loadingState = null,
+    Object? distanceFilter = freezed,
+    Object? queryFilter = freezed,
   }) {
     return _then(_value.copyWith(
       preSelectedEventIndex: null == preSelectedEventIndex
@@ -72,6 +81,10 @@ class _$SearchEventsStateCopyWithImpl<$Res, $Val extends SearchEventsState>
           ? _value.searchedEvents
           : searchedEvents // ignore: cast_nullable_to_non_nullable
               as List<PackageAbstract>,
+      loadingKeywordsState: null == loadingKeywordsState
+          ? _value.loadingKeywordsState
+          : loadingKeywordsState // ignore: cast_nullable_to_non_nullable
+              as LoadingState,
       searchedkeywords: null == searchedkeywords
           ? _value.searchedkeywords
           : searchedkeywords // ignore: cast_nullable_to_non_nullable
@@ -80,6 +93,14 @@ class _$SearchEventsStateCopyWithImpl<$Res, $Val extends SearchEventsState>
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
               as LoadingState,
+      distanceFilter: freezed == distanceFilter
+          ? _value.distanceFilter
+          : distanceFilter // ignore: cast_nullable_to_non_nullable
+              as int?,
+      queryFilter: freezed == queryFilter
+          ? _value.queryFilter
+          : queryFilter // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -95,8 +116,11 @@ abstract class _$$_SearchEventsStateCopyWith<$Res>
   $Res call(
       {int preSelectedEventIndex,
       List<PackageAbstract> searchedEvents,
+      LoadingState loadingKeywordsState,
       List<String> searchedkeywords,
-      LoadingState loadingState});
+      LoadingState loadingState,
+      int? distanceFilter,
+      String? queryFilter});
 }
 
 /// @nodoc
@@ -112,8 +136,11 @@ class __$$_SearchEventsStateCopyWithImpl<$Res>
   $Res call({
     Object? preSelectedEventIndex = null,
     Object? searchedEvents = null,
+    Object? loadingKeywordsState = null,
     Object? searchedkeywords = null,
     Object? loadingState = null,
+    Object? distanceFilter = freezed,
+    Object? queryFilter = freezed,
   }) {
     return _then(_$_SearchEventsState(
       preSelectedEventIndex: null == preSelectedEventIndex
@@ -124,6 +151,10 @@ class __$$_SearchEventsStateCopyWithImpl<$Res>
           ? _value._searchedEvents
           : searchedEvents // ignore: cast_nullable_to_non_nullable
               as List<PackageAbstract>,
+      loadingKeywordsState: null == loadingKeywordsState
+          ? _value.loadingKeywordsState
+          : loadingKeywordsState // ignore: cast_nullable_to_non_nullable
+              as LoadingState,
       searchedkeywords: null == searchedkeywords
           ? _value._searchedkeywords
           : searchedkeywords // ignore: cast_nullable_to_non_nullable
@@ -132,6 +163,14 @@ class __$$_SearchEventsStateCopyWithImpl<$Res>
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
               as LoadingState,
+      distanceFilter: freezed == distanceFilter
+          ? _value.distanceFilter
+          : distanceFilter // ignore: cast_nullable_to_non_nullable
+              as int?,
+      queryFilter: freezed == queryFilter
+          ? _value.queryFilter
+          : queryFilter // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -142,8 +181,11 @@ class _$_SearchEventsState implements _SearchEventsState {
   const _$_SearchEventsState(
       {required this.preSelectedEventIndex,
       required final List<PackageAbstract> searchedEvents,
+      required this.loadingKeywordsState,
       required final List<String> searchedkeywords,
-      required this.loadingState})
+      required this.loadingState,
+      required this.distanceFilter,
+      required this.queryFilter})
       : _searchedEvents = searchedEvents,
         _searchedkeywords = searchedkeywords;
 
@@ -160,6 +202,8 @@ class _$_SearchEventsState implements _SearchEventsState {
     return EqualUnmodifiableListView(_searchedEvents);
   }
 
+  @override
+  final LoadingState loadingKeywordsState;
   final List<String> _searchedkeywords;
   @override
   List<String> get searchedkeywords {
@@ -171,10 +215,14 @@ class _$_SearchEventsState implements _SearchEventsState {
 
   @override
   final LoadingState loadingState;
+  @override
+  final int? distanceFilter;
+  @override
+  final String? queryFilter;
 
   @override
   String toString() {
-    return 'SearchEventsState(preSelectedEventIndex: $preSelectedEventIndex, searchedEvents: $searchedEvents, searchedkeywords: $searchedkeywords, loadingState: $loadingState)';
+    return 'SearchEventsState(preSelectedEventIndex: $preSelectedEventIndex, searchedEvents: $searchedEvents, loadingKeywordsState: $loadingKeywordsState, searchedkeywords: $searchedkeywords, loadingState: $loadingState, distanceFilter: $distanceFilter, queryFilter: $queryFilter)';
   }
 
   @override
@@ -186,10 +234,16 @@ class _$_SearchEventsState implements _SearchEventsState {
                 other.preSelectedEventIndex == preSelectedEventIndex) &&
             const DeepCollectionEquality()
                 .equals(other._searchedEvents, _searchedEvents) &&
+            (identical(other.loadingKeywordsState, loadingKeywordsState) ||
+                other.loadingKeywordsState == loadingKeywordsState) &&
             const DeepCollectionEquality()
                 .equals(other._searchedkeywords, _searchedkeywords) &&
             (identical(other.loadingState, loadingState) ||
-                other.loadingState == loadingState));
+                other.loadingState == loadingState) &&
+            (identical(other.distanceFilter, distanceFilter) ||
+                other.distanceFilter == distanceFilter) &&
+            (identical(other.queryFilter, queryFilter) ||
+                other.queryFilter == queryFilter));
   }
 
   @JsonKey(ignore: true)
@@ -198,8 +252,11 @@ class _$_SearchEventsState implements _SearchEventsState {
       runtimeType,
       preSelectedEventIndex,
       const DeepCollectionEquality().hash(_searchedEvents),
+      loadingKeywordsState,
       const DeepCollectionEquality().hash(_searchedkeywords),
-      loadingState);
+      loadingState,
+      distanceFilter,
+      queryFilter);
 
   @JsonKey(ignore: true)
   @override
@@ -220,8 +277,11 @@ abstract class _SearchEventsState implements SearchEventsState {
   const factory _SearchEventsState(
       {required final int preSelectedEventIndex,
       required final List<PackageAbstract> searchedEvents,
+      required final LoadingState loadingKeywordsState,
       required final List<String> searchedkeywords,
-      required final LoadingState loadingState}) = _$_SearchEventsState;
+      required final LoadingState loadingState,
+      required final int? distanceFilter,
+      required final String? queryFilter}) = _$_SearchEventsState;
 
   factory _SearchEventsState.fromJson(Map<String, dynamic> json) =
       _$_SearchEventsState.fromJson;
@@ -231,9 +291,15 @@ abstract class _SearchEventsState implements SearchEventsState {
   @override
   List<PackageAbstract> get searchedEvents;
   @override
+  LoadingState get loadingKeywordsState;
+  @override
   List<String> get searchedkeywords;
   @override
   LoadingState get loadingState;
+  @override
+  int? get distanceFilter;
+  @override
+  String? get queryFilter;
   @override
   @JsonKey(ignore: true)
   _$$_SearchEventsStateCopyWith<_$_SearchEventsState> get copyWith =>

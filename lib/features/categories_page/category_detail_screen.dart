@@ -12,10 +12,11 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
-import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
+import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/home_page/widgets/see_more_button.dart';
+import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -48,13 +49,13 @@ class CategoryDetailScreen extends HookWidget {
     final data = state.category;
     final summary = extra?.summary;
 
+    final title = summary?.title ?? data?.title ?? '';
+
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: CustomScrollView(
         slivers: [
-          ScreenSafeAreaHeader(
-            title: summary?.title ?? data?.title ?? '',
-          ),
+          ScreenSafeAreaHeader(title: title),
           SliverPadding(
             padding: kMediumPadding.copyWith(
               bottom: context.footerHeight + 32,
@@ -158,8 +159,12 @@ class CategoryDetailScreen extends HookWidget {
                               if (index == state.items.length) {
                                 return SeeMoreButton(
                                   constraints: const BoxConstraints.expand(),
-                                  onTap: () => navigationService
-                                      .pushTo(FeaturedScreen.name),
+                                  onTap: () => navigationService.moveTo(
+                                    SearchScreen.name,
+                                    queryParameters: {
+                                      SearchScreen.keywordQueryKey: title
+                                    },
+                                  ),
                                 );
                               }
 
@@ -169,7 +174,7 @@ class CategoryDetailScreen extends HookWidget {
                               );
                               return FeaturedArtCardContainer(
                                 parentPathParams: const {},
-                                parentRoute: CategoryDetailScreen.name,
+                                parentRoute: HomeScreen.name,
                                 constraints: const BoxConstraints.expand(),
                                 data: data,
                               );

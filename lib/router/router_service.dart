@@ -379,10 +379,17 @@ final dashboardRoutes = [
           GoRoute(
             name: SearchScreen.name,
             path: '/${DashboardScreen.name}/${SearchScreen.name}',
-            pageBuilder: (context, state) => dashboardPageBuilder(
-              state,
-              const SearchScreen(),
-            ),
+            pageBuilder: (context, state) {
+              // GoRouterState.of(context).;
+              // keyworkQueryKey
+              return dashboardPageBuilder(
+                state,
+                SearchScreen(
+                  keyword:
+                      state.uri.queryParameters[SearchScreen.keywordQueryKey],
+                ),
+              );
+            },
             routes: [
               nearbyEventDetailRoute(SearchScreen.name),
             ],

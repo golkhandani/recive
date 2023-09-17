@@ -9,6 +9,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
+import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
@@ -19,10 +20,27 @@ import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 
-class SearchScreen extends HookWidget {
-  static const name = 'search';
-  const SearchScreen({super.key});
+class DistanceFilter {
+  final String title;
+  final double? distance;
+  DistanceFilter(this.title, this.distance);
+}
 
+class SearchScreen extends StatefulHookWidget {
+  static const name = 'search';
+  static const keywordQueryKey = 'keyword';
+  const SearchScreen({
+    super.key,
+    this.keyword,
+  });
+
+  final String? keyword;
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final scrollController = useScrollController();
@@ -31,34 +49,35 @@ class SearchScreen extends HookWidget {
     final bloc = useBloc<SearchEventsCubit>();
     final state = useBlocBuilder(bloc);
 
-    useEffect(() {
-      bloc.loadSearchedKeywords();
-      return;
-    }, []);
+    final quickSearchBloc = useBloc<QuickSearchHeaderBloc>();
 
-    final resultState = useState(0);
-
-    useEffect(() {
+    void textEditingListener() {
       final query = textEditingController.text;
       if (query.length > 1) {
-        bloc.searchedEvents(query, () => resultState.value = 2);
+        bloc.searchedEvents(query);
         scrollController.jumpTo(0);
       }
-      return;
-    }, [textEditingController.text]);
+    }
+
+    useEffect(() {
+      bloc.loadSearchedKeywords();
+      textEditingController.addListener(textEditingListener);
+      if (widget.keyword != null) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          textEditingController.text = widget.keyword!;
+        });
+      }
+      return () => textEditingController.dispose();
+    }, []);
 
     final showFilters = useState(false);
 
-    final dateFilters = ['Any time', 'Today', 'This Week', 'This Month'];
-    final dateFilterSwitchIndex = useState(0);
-
-    final distancesFilters = ['Any where', '1 KM', '5 KM', '15 KM'];
-    final distanceFiltersSwitchIndex = useState(0);
-
-    final pricesFilters = ['Free', '\$', '\$\$', '\$\$\$\$'];
-    final priceFilterStartValue = useState(0);
-    final priceFilterEndValue = useState(pricesFilters.length - 1);
-    final quickSearchBloc = useBloc<QuickSearchHeaderBloc>();
+    final distancesFilters = [
+      DistanceFilter('Any distance', null),
+      DistanceFilter('100 M', 100),
+      DistanceFilter('300 M', 300),
+      DistanceFilter('500 M', 500),
+    ];
 
     return ColoredBox(
       color: context.theme.colorScheme.background,
@@ -93,9 +112,9 @@ class SearchScreen extends HookWidget {
                             const EdgeInsets.all(12).copyWith(top: 0, right: 0),
                         height: 54,
                         bloc: quickSearchBloc,
-                        onSelect: (text) => resultState.value = 1,
+                        onSelect: (text) => bloc.resetSearchResult(),
                         onTextChanged: (text) =>
-                            text.isNotEmpty ? null : resultState.value = 0,
+                            text.isNotEmpty ? null : bloc.resetSearchResult(),
                         textController: textEditingController,
                       ),
                     ),
@@ -119,14 +138,10 @@ class SearchScreen extends HookWidget {
             ),
             ...[
               _buildFilterSection(
+                bloc,
+                state,
                 showFilters,
-                dateFilters,
-                dateFilterSwitchIndex,
                 distancesFilters,
-                distanceFiltersSwitchIndex,
-                priceFilterStartValue,
-                priceFilterEndValue,
-                pricesFilters,
               ),
             ],
             const SliverGap(height: 12),
@@ -136,20 +151,21 @@ class SearchScreen extends HookWidget {
                       .copyWith(bottom: 112),
               sliver: MultiSliver(
                 children: [
-                  if (resultState.value == 0) ...[
+                  if (state.loadingKeywordsState == LoadingState.loading ||
+                      state.loadingState == LoadingState.loading) ...[
+                    _buildLoading()
+                  ],
+                  if (state.loadingKeywordsState == LoadingState.done &&
+                      state.searchedEvents.isEmpty) ...[
                     _buildKeywords(
                       state,
                       context,
                       textEditingController,
-                      resultState,
                     )
                   ],
-                  if (resultState.value == 1) ...[
-                    _buildLoading(),
-                  ],
-                  if (resultState.value == 2) ...[
+                  if (state.loadingState == LoadingState.done) ...[
                     _buildSearchResult(state),
-                  ],
+                  ]
                 ],
               ),
             )
@@ -194,7 +210,6 @@ class SearchScreen extends HookWidget {
     SearchEventsState state,
     BuildContext context,
     TextEditingController textEditingController,
-    ValueNotifier<int> resultState,
   ) {
     return SliverToBoxAdapter(
       child: CardContainer(
@@ -225,7 +240,6 @@ class SearchScreen extends HookWidget {
                           onTap: () {
                             textEditingController.text =
                                 state.searchedkeywords[index];
-                            resultState.value = 1;
                           },
                         ),
                       ),
@@ -238,14 +252,10 @@ class SearchScreen extends HookWidget {
   }
 
   SliverPinnedHeader _buildFilterSection(
+    SearchEventsCubit bloc,
+    SearchEventsState state,
     ValueNotifier<bool> showFilters,
-    List<String> dateFilters,
-    ValueNotifier<int> dateFilterSwitchIndex,
-    List<String> distancesFilters,
-    ValueNotifier<int> distanceFiltersSwitchIndex,
-    ValueNotifier<int> priceFilterStartValue,
-    ValueNotifier<int> priceFilterEndValue,
-    List<String> pricesFilters,
+    List<DistanceFilter> distancesFilters,
   ) {
     return SliverPinnedHeader(
       child: LayoutBuilder(builder: (context, box) {
@@ -269,31 +279,13 @@ class SearchScreen extends HookWidget {
                     child: Column(
                       children: [
                         const SizedBox(height: 12),
-                        // Here, default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
-                        ToggleSwitch(
-                          minWidth: (box.maxWidth - 32) / dateFilters.length,
-                          initialLabelIndex: dateFilterSwitchIndex.value,
-                          activeBgColor: [
-                            context.theme.colorScheme.primaryContainer
-                          ],
-                          activeFgColor:
-                              context.theme.colorScheme.onPrimaryContainer,
-                          inactiveBgColor: context.theme.colorScheme.tertiary,
-                          inactiveFgColor: context.theme.colorScheme.onTertiary,
-                          totalSwitches: dateFilters.length,
-                          labels: dateFilters,
-                          animate: true,
-                          fontSize: 12,
-                          animationDuration: 200,
-                          onToggle: (index) {
-                            dateFilterSwitchIndex.value = index ?? 0;
-                          },
-                        ),
-                        const SizedBox(height: 12),
                         ToggleSwitch(
                           minWidth:
                               (box.maxWidth - 32) / distancesFilters.length,
-                          initialLabelIndex: distanceFiltersSwitchIndex.value,
+                          initialLabelIndex: distancesFilters.indexWhere(
+                            (element) =>
+                                element.distance == state.distanceFilter,
+                          ),
                           activeBgColor: [
                             context.theme.colorScheme.primaryContainer
                           ],
@@ -302,62 +294,17 @@ class SearchScreen extends HookWidget {
                           inactiveBgColor: context.theme.colorScheme.tertiary,
                           inactiveFgColor: context.theme.colorScheme.onTertiary,
                           totalSwitches: distancesFilters.length,
-                          labels: distancesFilters,
+                          labels: distancesFilters.map((e) => e.title).toList(),
                           animate: true,
                           animationDuration: 200,
                           fontSize: 12,
                           onToggle: (index) {
-                            distanceFiltersSwitchIndex.value = index ?? 0;
+                            bloc.updateDistanceFilter(
+                              distancesFilters[index ?? 0].distance?.toInt(),
+                            );
                           },
                         ),
                         const SizedBox(height: 12),
-                        RepaintBoundary(
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 100,
-                                child: Center(
-                                  child: Text(
-                                      '${priceFilterStartValue.value == 0 && priceFilterEndValue.value == pricesFilters.length - 1 ? 'Any price' : '${pricesFilters[priceFilterStartValue.value]} ${priceFilterEndValue.value == priceFilterStartValue.value ? '' : '- ${pricesFilters[priceFilterEndValue.value]}'}'} '),
-                                ),
-                              ),
-                              Expanded(
-                                child: SliderTheme(
-                                  data: SliderTheme.of(context).copyWith(
-                                    trackShape:
-                                        const RectangularSliderTrackShape(),
-                                    trackHeight: 6.0,
-                                    valueIndicatorShape:
-                                        const RoundSliderOverlayShape(),
-                                    rangeThumbShape:
-                                        const RoundRangeSliderThumbShape(
-                                            enabledThumbRadius: 16),
-                                    rangeValueIndicatorShape:
-                                        const PaddleRangeSliderValueIndicatorShape(),
-                                  ),
-                                  child: RangeSlider(
-                                    activeColor: context
-                                        .theme.colorScheme.primaryContainer,
-                                    inactiveColor:
-                                        context.theme.colorScheme.tertiary,
-                                    onChanged: (RangeValues values) {
-                                      priceFilterStartValue.value =
-                                          values.start.toInt();
-                                      priceFilterEndValue.value =
-                                          values.end.toInt();
-                                    },
-                                    max: pricesFilters.length - 1,
-                                    divisions: pricesFilters.length - 1,
-                                    values: RangeValues(
-                                      priceFilterStartValue.value.toDouble(),
-                                      priceFilterEndValue.value.toDouble(),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
                       ],
                     ),
                   )

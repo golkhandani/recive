@@ -5,6 +5,7 @@ abstract class ISearchEventRepo implements IQuickSearchRepository {
   Future<List<PackageAbstract>> search({
     required int limit,
     required String query,
+    required double? distanceFilter,
   });
 
   Future<List<String>> keywords({

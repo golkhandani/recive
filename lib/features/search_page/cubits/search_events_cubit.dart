@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:recive/enums/loading_state.dart';
@@ -15,8 +13,11 @@ class SearchEventsState with _$SearchEventsState {
   const factory SearchEventsState({
     required int preSelectedEventIndex,
     required List<PackageAbstract> searchedEvents,
+    required LoadingState loadingKeywordsState,
     required List<String> searchedkeywords,
     required LoadingState loadingState,
+    required int? distanceFilter,
+    required String? queryFilter,
   }) = _SearchEventsState;
 
   factory SearchEventsState.initialize() => const SearchEventsState(
@@ -24,6 +25,9 @@ class SearchEventsState with _$SearchEventsState {
         searchedEvents: [],
         searchedkeywords: [],
         loadingState: LoadingState.none,
+        loadingKeywordsState: LoadingState.none,
+        distanceFilter: null,
+        queryFilter: null,
       );
 
   factory SearchEventsState.fromJson(Map<String, Object?> json) =>
@@ -36,25 +40,36 @@ class SearchEventsCubit extends MaybeEmitHydratedCubit<SearchEventsState> {
     required this.repo,
   }) : super(SearchEventsState.initialize());
 
-  Future<void> searchedEvents(String q, VoidCallback cb) async {
+  Future<void> searchedEvents(String? q) async {
     maybeEmit(state.copyWith(
       loadingState: LoadingState.loading,
       searchedEvents: [],
+      queryFilter: q ?? state.queryFilter,
     ));
 
-    final data = await repo.search(limit: 5, query: q);
+    final data = await repo.search(
+      limit: 5,
+      query: state.queryFilter ?? '',
+      distanceFilter: state.distanceFilter?.toDouble(),
+    );
 
     if (isClosed) return;
     maybeEmit(state.copyWith(
       searchedEvents: data,
       loadingState: LoadingState.done,
     ));
-    cb.call();
+  }
+
+  Future<void> updateDistanceFilter(int? distanceFilter) async {
+    maybeEmit(state.copyWith(
+      distanceFilter: distanceFilter,
+    ));
+    searchedEvents(null);
   }
 
   Future<void> loadSearchedKeywords() async {
     maybeEmit(state.copyWith(
-      loadingState: LoadingState.loading,
+      loadingKeywordsState: LoadingState.loading,
     ));
 
     final data = await repo.keywords(limit: 10);
@@ -62,7 +77,14 @@ class SearchEventsCubit extends MaybeEmitHydratedCubit<SearchEventsState> {
     if (isClosed) return;
     maybeEmit(state.copyWith(
       searchedkeywords: data,
-      loadingState: LoadingState.done,
+      loadingKeywordsState: LoadingState.done,
+    ));
+  }
+
+  Future<void> resetSearchResult() async {
+    maybeEmit(state.copyWith(
+      loadingState: LoadingState.none,
+      searchedEvents: [],
     ));
   }
 

@@ -20,10 +20,12 @@ class GQLSearchEventRepo extends ISearchEventRepo
   Future<List<PackageAbstract>> search({
     required int limit,
     required String query,
+    required double? distanceFilter,
   }) async {
     final featuredEventRequest = GGetTripsReq(
       (b) => b
         ..vars.limit = limit
+        ..vars.query.trip.distance_lte = distanceFilter
         ..vars.query.tags_in.add(query),
     );
 

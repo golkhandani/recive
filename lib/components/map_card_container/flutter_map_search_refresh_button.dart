@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 
 import 'package:recive/features/near_me_page/widgets/map_button.dart';
 
+class FlutterMapSearchRefreshController extends ValueNotifier<bool> {
+  FlutterMapSearchRefreshController() : super(false);
+
+  void updateValue(bool newValue) {
+    value = newValue;
+  }
+}
+
 class FlutterMapSearchRefreshButton extends StatelessWidget {
   const FlutterMapSearchRefreshButton({
     super.key,
-    required this.isRefreshingData,
+    required this.refreshController,
     required this.onRefreshDataClicked,
   });
 
-  final bool isRefreshingData;
+  final FlutterMapSearchRefreshController refreshController;
   final VoidCallback onRefreshDataClicked;
 
   @override
@@ -17,11 +25,16 @@ class FlutterMapSearchRefreshButton extends StatelessWidget {
     return Positioned(
       bottom: 12,
       left: 12,
-      child: MapButton(
-        text: 'Search in this area!',
-        icon: Icons.refresh,
-        isLoading: isRefreshingData,
-        onClicked: onRefreshDataClicked,
+      child: ValueListenableBuilder(
+        valueListenable: refreshController,
+        builder: (context, value, child) {
+          return MapButton(
+            text: 'Search in this area!',
+            icon: Icons.refresh,
+            isLoading: value,
+            onClicked: onRefreshDataClicked,
+          );
+        },
       ),
     );
   }

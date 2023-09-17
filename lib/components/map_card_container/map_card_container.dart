@@ -4,14 +4,12 @@ import 'package:debounce_hook/debounce_hook.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
-import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:recive/components/map_card_container/cubit/map_control_cubit.dart';
 import 'package:recive/components/map_card_container/flutter_map_control_buttons.dart';
 import 'package:recive/components/map_card_container/flutter_map_search_refresh_button.dart';
-import 'package:recive/components/map_card_container/futter_map_cluster_layer.dart';
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/features/near_me_page/widgets/selected_marker.dart';
 import 'package:recive/ioc/geo_location_service.dart';
@@ -26,12 +24,13 @@ class MapCardContainer extends StatefulHookWidget {
   const MapCardContainer({
     super.key,
     this.onPositionUpdated,
-    this.clusterController,
     this.mapController,
+    this.selectedController,
+    this.markersController,
     this.markers = const [],
     required this.height,
     this.selectedLatLng,
-    this.isRefreshingData = false,
+    this.refreshController,
     this.onRefreshDataClicked,
     this.onMapContainerCliked,
     this.showControls = true,
@@ -39,13 +38,14 @@ class MapCardContainer extends StatefulHookWidget {
   });
 
   final double height;
-  final SuperclusterMutableController? clusterController;
-  final List<LatLng> markers;
+  final List<Marker> markers;
 
   final Function(MapPosition)? onPositionUpdated;
   final AnimatedMapController? mapController;
+  final SelectedMarker2Controller? selectedController;
+  final FlutterMapMarkerClusterLayerController? markersController;
   final LatLng? selectedLatLng;
-  final bool isRefreshingData;
+  final FlutterMapSearchRefreshController? refreshController;
   final Function(MapControlCubit, MapControlState)? onRefreshDataClicked;
   final VoidCallback? onMapContainerCliked;
   final bool showControls;
@@ -134,12 +134,9 @@ class _MapCardContainerState extends State<MapCardContainer>
                             if (widget.onMapContainerCliked != null) {
                               return;
                             }
-                            final isSameLatLng = widget.markers.isNotEmpty &&
-                                position.center != widget.markers.first;
                             positionUpdater.onChanged(
                               mapState.copyWith(
-                                showRefresh:
-                                    isSameLatLng && mapState.mapInitialized,
+                                showRefresh: hasGesture,
                                 center: position.center!,
                                 zoom: position.zoom!,
                                 mapInitialized: true,
@@ -153,11 +150,14 @@ class _MapCardContainerState extends State<MapCardContainer>
                         ],
                         children: [
                           const FlutterMapTileLayer(),
-                          FutterMapClusterLayer(
-                            controller: widget.clusterController,
-                          ),
-                          if (widget.selectedLatLng != null)
-                            SelectedMarker(latLng: widget.selectedLatLng!),
+                          if (widget.markersController != null)
+                            FlutterMapMarkerClusterLayer(
+                              controller: widget.markersController!,
+                            ),
+                          if (widget.selectedController != null)
+                            SelectedMarker2(
+                              controller: widget.selectedController!,
+                            ),
                           if (geolocation != null) ...[
                             FlutterMapUserMarker(geolocation: geolocation),
                           ]
@@ -171,10 +171,9 @@ class _MapCardContainerState extends State<MapCardContainer>
                       mapState: mapState,
                       mapBloc: mapBloc,
                     ),
-                  if (mapState.showRefresh &&
-                      widget.onRefreshDataClicked != null)
+                  if (widget.refreshController != null && mapState.showRefresh)
                     FlutterMapSearchRefreshButton(
-                      isRefreshingData: widget.isRefreshingData,
+                      refreshController: widget.refreshController!,
                       onRefreshDataClicked: () => widget.onRefreshDataClicked!(
                         mapBloc,
                         mapState,

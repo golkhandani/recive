@@ -57,7 +57,6 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
       maxDistance: maxDistance,
     );
 
-    if (isClosed) return;
     maybeEmit(state.copyWith(
       preSelectedEventIndex: 0,
       nearbyEvents: data,

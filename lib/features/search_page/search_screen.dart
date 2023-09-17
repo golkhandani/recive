@@ -25,6 +25,9 @@ class SearchScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = useScrollController();
+    final textEditingController = useTextEditingController();
+
     final bloc = useBloc<SearchEventsCubit>();
     final state = useBlocBuilder(bloc);
 
@@ -35,8 +38,6 @@ class SearchScreen extends HookWidget {
 
     final resultState = useState(0);
 
-    final textEditingController = useTextEditingController();
-    final scrollController = useScrollController();
     useEffect(() {
       final query = textEditingController.text;
       if (query.length > 1) {

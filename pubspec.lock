@@ -606,6 +606,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.1"
+  flutter_map_marker_cluster:
+    dependency: "direct main"
+    description:
+      name: flutter_map_marker_cluster
+      sha256: "14bb31b9dd3a759ab4a1ba320d19bbb554d8d7952c8812029c6f6b7bda956906"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   flutter_map_marker_popup:
     dependency: transitive
     description:

@@ -96,6 +96,7 @@ dependencies:
   hive_generator: ^2.0.1
   like_button: ^2.0.5
   share_plus: ^7.1.0
+  flutter_map_marker_cluster: ^1.2.0
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ class _MapContentState extends State<_MapContent> {
   Marker _createMarker(
     LatLng point,
     Color color,
-    int index,
+    int? index,
   ) =>
       Marker(
         anchorPos: AnchorPos.align(AnchorAlign.top),
@@ -32,6 +32,7 @@ class _MapContentState extends State<_MapContent> {
         rotate: true,
         builder: (ctx) => InkWell(
           onTap: () {
+            if (index == null) return;
             widget.bloc.changeSelectedIndex(index);
           },
           child: Icon(
@@ -42,69 +43,71 @@ class _MapContentState extends State<_MapContent> {
         ),
       );
 
-  final SuperclusterMutableController sc = SuperclusterMutableController();
-
-  late List<EventCardContainerData> items;
-
   @override
   void initState() {
     super.initState();
-    updateItems();
   }
 
-  List<EventCardContainerData> updateItems() {
-    items = widget.state.nearbyEvents
-        .map((e) => EventCardContainerData.fromFeaturedEvent(e))
-        .toList();
-    return items;
-  }
+  late final SelectedMarker2Controller sc = SelectedMarker2Controller(
+    widget.state.nearbyEvents.first.latLng,
+  );
 
-  List<Marker> updateMarkers() {
-    final updatedMarkers = items
-        .mapIndexed(
-          (index, data) => _createMarker(
-            data.latLng,
-            context.colorScheme.errorContainer,
-            index,
-          ),
-        )
-        .toList();
-    sc.clear();
-    sc.replaceAll(updatedMarkers);
-    return updatedMarkers;
-  }
+  late final FlutterMapMarkerClusterLayerController fc =
+      FlutterMapMarkerClusterLayerController();
+
+  late final FlutterMapSearchRefreshController fr =
+      FlutterMapSearchRefreshController();
 
   @override
   Widget build(BuildContext context) {
+    useBlocComparativeListener<NearbyEventsCubit, NearbyEventsState>(
+      widget.bloc,
+      (bloc, current, context) {
+        final newPos =
+            current.nearbyEvents[current.preSelectedEventIndex].latLng;
+        widget.mapController.animateTo(
+          dest: newPos,
+        );
+        sc.updateValue(newPos);
+      },
+      listenWhen: (old, updated) {
+        return old.preSelectedEventIndex != updated.preSelectedEventIndex;
+      },
+    );
+
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        updateMarkers();
-        if (widget.state.preSelectedEventIndex != 0) {
-          return;
-        }
+        fc.updateValue(
+          widget.state.nearbyEvents
+              .mapIndexed(
+                (index, point) => _createMarker(
+                  point.latLng,
+                  context.colorScheme.errorContainer,
+                  index,
+                ),
+              )
+              .toList(),
+        );
 
         if (widget.state.loadingState != LoadingState.done ||
             widget.state.isRefreshLoading != false) {
           return;
         }
-
-        widget.mapController.animateTo(
-          dest: items[widget.state.preSelectedEventIndex].latLng,
-        );
+        final updated = widget
+            .state.nearbyEvents[widget.state.preSelectedEventIndex].latLng;
+        sc.updateValue(updated);
+        widget.mapController.animateTo(dest: updated);
       });
 
       return;
-    }, [widget.state.nearbyEvents, widget.state.preSelectedEventIndex]);
+    }, [widget.state.nearbyEvents]);
 
     return MultiSliver(children: [
       Builder(builder: (context) {
         return MapCardContainer(
           onPositionUpdated: (position) => {},
-          clusterController: sc,
-          markers: items.map((e) => e.latLng).toList(),
-          selectedLatLng: items[widget.state.preSelectedEventIndex].latLng,
-          isRefreshingData: widget.state.isRefreshLoading,
           onRefreshDataClicked: (mapBloc, mapState) {
+            fr.updateValue(true);
             widget.bloc
                 .loadNearbyEvents(
                   latitude: mapState.center.latitude,
@@ -113,6 +116,7 @@ class _MapContentState extends State<_MapContent> {
                   minDistance: 0,
                   onBackground: true,
                 )
+                .then((value) => fr.updateValue(false))
                 .then(
                   (value) => mapBloc.updateState(
                     mapState.copyWith(showRefresh: false),
@@ -121,6 +125,9 @@ class _MapContentState extends State<_MapContent> {
           },
           height: widget.mapSectionHeight,
           mapController: widget.mapController,
+          selectedController: sc,
+          markersController: fc,
+          refreshController: fr,
         );
       })
     ]);

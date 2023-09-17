@@ -33,7 +33,7 @@ class _NearMeScreenState extends State<NearMeScreen>
   Widget build(BuildContext context) {
     final bloc = useBloc<NearbyEventsCubit>();
     final state = useBlocComparativeBuilder(bloc, buildWhen: (old, updated) {
-      return true;
+      return old.loadingState != updated.loadingState;
     });
     final geolocation = useLocationData(debugLabel: 'NearMeScreen');
 

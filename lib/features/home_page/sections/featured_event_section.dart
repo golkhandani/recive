@@ -49,7 +49,7 @@ class HomePageFeaturedEventsSection extends HookWidget {
             const SliverGap(height: 12),
             SliverCardContainer(
               borderRadius: BorderRadius.circular(16),
-              padding: kTinyPadding,
+              padding: kTinyPadding.copyWith(right: 0, bottom: 0),
               sliver: Builder(
                 builder: (context) {
                   return MultiSliver(
@@ -61,10 +61,17 @@ class HomePageFeaturedEventsSection extends HookWidget {
                           (context, index) {
                             if (index ==
                                 state.artAbstractItemsSpotlight.length) {
-                              return SeeMoreButton(
-                                constraints: const BoxConstraints.expand(),
-                                onTap: () => navigationService
-                                    .pushTo(FeaturedScreen.name),
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: kTinyPadding.bottom,
+                                  right: kTinyPadding.right,
+                                ),
+                                child: SeeMoreButton(
+                                  constraints: const BoxConstraints.expand(),
+                                  onTap: () => navigationService.moveTo(
+                                    FeaturedScreen.name,
+                                  ),
+                                ),
                               );
                             }
 
@@ -72,24 +79,29 @@ class HomePageFeaturedEventsSection extends HookWidget {
                                 FeaturedArtCardContainerData.fromFeaturedEvent(
                               state.artAbstractItemsSpotlight[index],
                             );
-                            return FeaturedArtCardContainer(
-                              parentPathParams: const {},
-                              parentRoute: HomeScreen.name,
-                              constraints: const BoxConstraints.expand(),
-                              data: data,
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                bottom: kTinyPadding.bottom,
+                                right: kTinyPadding.right,
+                              ),
+                              child: FeaturedArtCardContainer(
+                                parentPathParams: const {},
+                                parentRoute: HomeScreen.name,
+                                constraints: const BoxConstraints.expand(),
+                                data: data,
+                              ),
                             );
                           },
                         ),
-                        gridDelegate: SliverQuiltedGridDelegate(
-                          crossAxisCount: 5,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          repeatPattern: QuiltedGridRepeatPattern.same,
+                        gridDelegate: SliverStairedGridDelegate(
+                          startCrossAxisDirectionReversed: true,
                           pattern: const [
-                            QuiltedGridTile(4, 5),
-                            QuiltedGridTile(5, 2),
-                            QuiltedGridTile(4, 3),
-                            QuiltedGridTile(1, 3),
+                            StairedGridTile(1, 1.4),
+                            StairedGridTile(0.4, 0.5),
+                            StairedGridTile(0.6, 0.75),
+                            StairedGridTile(0.4, 0.5),
+                            StairedGridTile(0.6, 0.75),
+                            StairedGridTile(1, 6),
                           ],
                         ),
                       ),

@@ -59,7 +59,7 @@ class CategoriesCubit extends MaybeEmitHydratedCubit<CategoriesState> {
         await eventRepo.categoryEvents(limit: 10, category: state.category!);
 
     maybeEmit(state.copyWith(
-      items: items,
+      items: items.take(6).toList(),
       categoryLoadingState: LoadingState.done,
     ));
   }

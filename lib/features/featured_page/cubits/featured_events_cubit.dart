@@ -52,7 +52,7 @@ class FeatureEventsCubit extends MaybeEmitHydratedCubit<FeatureEventsState> {
 
     maybeEmit(state.copyWith(
       artAbstractItems: data,
-      artAbstractItemsSpotlight: data.take(3).toList(),
+      artAbstractItemsSpotlight: data.take(5).toList(),
       loadingState: LoadingState.done,
     ));
   }

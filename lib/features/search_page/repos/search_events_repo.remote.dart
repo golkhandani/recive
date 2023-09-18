@@ -21,13 +21,21 @@ class GQLSearchEventRepo extends ISearchEventRepo
     required int limit,
     required String query,
     required double? distanceFilter,
+    required PackageAbstract? lastItem,
   }) async {
-    final featuredEventRequest = GGetTripsReq(
-      (b) => b
+    final featuredEventRequest = GGetTripsReq((b) {
+      if (query.isNotEmpty) {
+        b.vars.query.tags_in.add(query);
+      }
+      if (lastItem != null) {
+        b.vars.query.G_id_gt.value = lastItem.id;
+      }
+      b
         ..vars.limit = limit
-        ..vars.query.trip.distance_lte = distanceFilter
-        ..vars.query.tags_in.add(query),
-    );
+        ..vars.query.trip.distance_lte = distanceFilter;
+
+      return b;
+    });
 
     final data = await client.request(featuredEventRequest);
     final events = data.data?.trip_items;

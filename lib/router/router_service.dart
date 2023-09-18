@@ -21,7 +21,6 @@ import 'package:recive/features/news_page/news_detail_screen.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/package_page/package_detail_screen.dart';
-import 'package:recive/features/package_page/packages_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
@@ -355,22 +354,22 @@ final dashboardRoutes = [
               ]),
         ],
       ),
-      StatefulShellBranch(
-        navigatorKey: packagesNavigatorKey,
-        routes: <RouteBase>[
-          GoRoute(
-            name: PackagesScreen.name,
-            path: '/${DashboardScreen.name}/${PackagesScreen.name}',
-            pageBuilder: (context, state) => dashboardPageBuilder(
-              state,
-              const PackagesScreen(),
-            ),
-            routes: [
-              packageDetailRoute(PackagesScreen.name),
-            ],
-          ),
-        ],
-      ),
+      // StatefulShellBranch(
+      //   navigatorKey: packagesNavigatorKey,
+      //   routes: <RouteBase>[
+      //     GoRoute(
+      //       name: PackagesScreen.name,
+      //       path: '/${DashboardScreen.name}/${PackagesScreen.name}',
+      //       pageBuilder: (context, state) => dashboardPageBuilder(
+      //         state,
+      //         const PackagesScreen(),
+      //       ),
+      //       routes: [
+      //         packageDetailRoute(PackagesScreen.name),
+      //       ],
+      //     ),
+      //   ],
+      // ),
 
       /// SEARCH SCREEN
       StatefulShellBranch(
@@ -392,6 +391,7 @@ final dashboardRoutes = [
             },
             routes: [
               nearbyEventDetailRoute(SearchScreen.name),
+              packageDetailRoute(SearchScreen.name),
             ],
           ),
         ],

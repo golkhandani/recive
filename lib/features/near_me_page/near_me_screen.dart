@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
@@ -14,12 +15,15 @@ import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/sections/list_section.dart';
 import 'package:recive/features/near_me_page/sections/map_section.dart';
+import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
+import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class NearMeScreen extends StatefulHookWidget {
+  static const enableQuery = false;
   static const name = 'near_me';
   const NearMeScreen({super.key});
 
@@ -33,9 +37,10 @@ class _NearMeScreenState extends State<NearMeScreen>
   Widget build(BuildContext context) {
     final bloc = useBloc<NearbyEventsCubit>();
     final state = useBlocComparativeBuilder(bloc, buildWhen: (old, updated) {
-      return old.loadingState != updated.loadingState;
+      return true;
     });
     final geolocation = useLocationData(debugLabel: 'NearMeScreen');
+    final textEditingController = useTextEditingController();
 
     useEffect(() {
       locator.logger.d('geolocation != null $geolocation');
@@ -61,10 +66,17 @@ class _NearMeScreenState extends State<NearMeScreen>
       curve: Curves.easeInOut,
     );
 
+    final quickSearchBloc = useBloc<QuickSearchHeaderBloc>();
+    final showFilters = useState(false);
+
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
-        final contentHeight = box.maxHeight - context.invisibleHeight - 24 - 24;
+        final contentHeight = box.maxHeight -
+            context.invisibleHeight -
+            24 -
+            24 -
+            (NearMeScreen.enableQuery ? 72 : 0);
         final mapSectionHeight = (contentHeight * 0.75) - 24;
         final listSectionHeight = (contentHeight * 0.25) - 24;
         return CustomScrollView(
@@ -72,7 +84,60 @@ class _NearMeScreenState extends State<NearMeScreen>
           slivers: [
             const ScreenSafeAreaHeader(
               title: 'Near me!',
+              elevation: !NearMeScreen.enableQuery,
             ),
+            // COMING SOON !!!
+            if (NearMeScreen.enableQuery) ...[
+              SliverPinnedHeader(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: context.schema.tertiaryContainer,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        offset: const Offset(0.2, 0),
+                        blurRadius: 4,
+                        color: context.colorScheme.shadow,
+                      )
+                    ],
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: PinnedSearchHeader(
+                          backgroundColor: context.schema.tertiaryContainer,
+                          padding: const EdgeInsets.all(12)
+                              .copyWith(top: 0, right: 0),
+                          height: 54,
+                          bloc: quickSearchBloc,
+                          onSelect: (text) => {}, //  bloc.resetSearchResult(),
+                          onTextChanged: (text) => {},
+                          // text.isNotEmpty ? null : bloc.resetSearchResult(),
+                          textController: textEditingController,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      InkWell(
+                        onTap: () => showFilters.value = !showFilters.value,
+                        child: Container(
+                          height: 56,
+                          margin: const EdgeInsets.only(bottom: 12, right: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Icon(
+                            FluentIcons.filter_12_filled,
+                            color: context.schema.onTertiaryContainer,
+                            size: 36,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              _buildFilterSection(showFilters),
+            ],
+
             const SliverGap(height: 12),
             Builder(builder: (context) {
               return MultiSliver(
@@ -189,6 +254,24 @@ class _NearMeScreenState extends State<NearMeScreen>
           ],
         );
       }),
+    );
+  }
+
+  Widget _buildFilterSection(
+    ValueNotifier<bool> showFilters,
+  ) {
+    return SliverPinnedHeader(
+      child: RepaintBoundary(
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 400),
+          child: showFilters.value
+              ? Container(
+                  height: 200,
+                  color: Colors.red,
+                )
+              : const SizedBox.shrink(),
+        ),
+      ),
     );
   }
 }

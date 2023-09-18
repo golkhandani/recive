@@ -6,16 +6,15 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
+import 'package:recive/features/package_page/widgets/package_card_container_data.dart';
+import 'package:recive/features/package_page/widgets/package_expanded_card_container.dart';
 import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
-import 'package:recive/features/search_page/widgets/search_event_card_container.dart';
-import 'package:recive/features/search_page/widgets/search_event_card_container_data.dart';
 import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -41,6 +40,8 @@ class SearchScreen extends StatefulHookWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final GlobalKey<SliverAnimatedListState> _listKey =
+      GlobalKey<SliverAnimatedListState>();
   @override
   Widget build(BuildContext context) {
     final scrollController = useScrollController();
@@ -51,29 +52,63 @@ class _SearchScreenState extends State<SearchScreen> {
 
     final quickSearchBloc = useBloc<QuickSearchHeaderBloc>();
 
+    useBlocComparativeListener<SearchEventsCubit, SearchEventsState>(
+      bloc,
+      (bloc, current, context) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          for (var item in current.searchedEvents) {
+            final index = current.searchedEvents.indexOf(item);
+            _listKey.currentState?.insertItem(
+              index,
+              duration: const Duration(milliseconds: 200),
+            );
+          }
+        });
+      },
+      listenWhen: (o, n) => o.searchedEvents.length != n.searchedEvents.length,
+    );
+
     void textEditingListener() {
       final query = textEditingController.text;
-      if (query.length > 1) {
+      if (query.length > 1 && scrollController.hasClients) {
         bloc.searchedEvents(query);
         scrollController.jumpTo(0);
       }
     }
 
+    void loadMoreOnScroll() {
+      if (state.loadingState == LoadingState.loading ||
+          state.loadingState == LoadingState.updating) {
+        return;
+      }
+      if (scrollController.offset + 10 >
+          scrollController.position.maxScrollExtent) {
+        bloc.loadMoreSearchedEvents();
+      }
+    }
+
     useEffect(() {
       bloc.loadSearchedKeywords();
-      textEditingController.addListener(textEditingListener);
-      if (widget.keyword != null) {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        textEditingController.addListener(textEditingListener);
+        scrollController.addListener(loadMoreOnScroll);
+
+        if (widget.keyword != null) {
           textEditingController.text = widget.keyword!;
-        });
-      }
-      return () => textEditingController.dispose();
+        }
+      });
+
+      bloc.searchedEvents('');
+      return () {
+        textEditingController.dispose();
+        scrollController.dispose();
+      };
     }, []);
 
     final showFilters = useState(false);
 
     final distancesFilters = [
-      DistanceFilter('Any distance', null),
+      DistanceFilter('Any', null),
       DistanceFilter('100 M', 100),
       DistanceFilter('300 M', 300),
       DistanceFilter('500 M', 500),
@@ -86,7 +121,7 @@ class _SearchScreenState extends State<SearchScreen> {
           controller: scrollController,
           slivers: [
             const ScreenSafeAreaHeader(
-              title: 'Search',
+              title: 'Search Routes',
               elevation: false,
             ),
             SliverPinnedHeader(
@@ -95,8 +130,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   color: context.schema.tertiaryContainer,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      offset: const Offset(0.2, 0),
-                      blurRadius: 4,
+                      offset: const Offset(0.1, 0.1),
+                      blurRadius: 0.5,
                       color: context.colorScheme.shadow,
                     )
                   ],
@@ -142,6 +177,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 state,
                 showFilters,
                 distancesFilters,
+                textEditingController,
               ),
             ],
             const SliverGap(height: 12),
@@ -155,100 +191,47 @@ class _SearchScreenState extends State<SearchScreen> {
                       state.loadingState == LoadingState.loading) ...[
                     _buildLoading()
                   ],
-                  if (state.loadingKeywordsState == LoadingState.done &&
-                      state.searchedEvents.isEmpty) ...[
-                    _buildKeywords(
-                      state,
-                      context,
-                      textEditingController,
-                    )
-                  ],
-                  if (state.loadingState == LoadingState.done) ...[
+                  if (state.loadingState == LoadingState.done ||
+                      state.loadingState == LoadingState.updating) ...[
                     _buildSearchResult(state),
                   ]
                 ],
               ),
-            )
+            ),
+            if (state.loadingState == LoadingState.updating)
+              SliverPadding(
+                padding: EdgeInsets.only(bottom: context.footerHeight + 16),
+                sliver: kSliverBoxLoading,
+              ),
           ],
         );
       }),
     );
   }
 
-  SliverList _buildSearchResult(SearchEventsState state) {
-    return SliverList.builder(
-        addAutomaticKeepAlives: true,
-        addRepaintBoundaries: true,
-        itemCount: state.searchedEvents.length,
-        itemBuilder: (context, index) {
-          final data = SearchEventCardContainerData.fromPackageAbstract(
-            state.searchedEvents[index],
-          );
-          return RepaintBoundary(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: CardContainer(
-                borderRadius: BorderRadius.circular(16),
-                padding: kTinyPadding,
-                child: SearchEventCardContainer(
-                  constraints: const BoxConstraints.expand(
-                    height: 220,
-                  ),
-                  data: data,
-                ),
-              ),
-            ),
-          );
-        });
+  Widget _buildSearchResult(SearchEventsState state) {
+    return SliverAnimatedList(
+      key: _listKey,
+      itemBuilder: (context, index, animation) {
+        // Note: handle pre-view scroll items
+        if (index > state.searchedEvents.length - 1) {
+          return const SizedBox();
+        }
+        final data = PackageCardContainerData.fromPackageAbstract(
+          state.searchedEvents[index],
+        );
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: PackageExpandedCardContainer(
+            data: data,
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildLoading() {
     return kSliverFillLoading;
-  }
-
-  SliverToBoxAdapter _buildKeywords(
-    SearchEventsState state,
-    BuildContext context,
-    TextEditingController textEditingController,
-  ) {
-    return SliverToBoxAdapter(
-      child: CardContainer(
-        borderRadius: BorderRadius.circular(16),
-        padding: kTinyPadding,
-        child: Builder(builder: (context) {
-          return state.searchedkeywords.isEmpty
-              ? ConstrainedBox(
-                  constraints: const BoxConstraints.expand(height: 300),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RepaintBoundary(
-                    child: Wrap(
-                      alignment: WrapAlignment.spaceAround,
-                      direction: Axis.horizontal,
-                      clipBehavior: Clip.hardEdge,
-                      spacing: 4,
-                      runSpacing: 12,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: List.generate(
-                        state.searchedkeywords.length,
-                        (index) => TagChipContainer(
-                          tag: state.searchedkeywords[index],
-                          onTap: () {
-                            textEditingController.text =
-                                state.searchedkeywords[index];
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-        }),
-      ),
-    );
   }
 
   SliverPinnedHeader _buildFilterSection(
@@ -256,6 +239,7 @@ class _SearchScreenState extends State<SearchScreen> {
     SearchEventsState state,
     ValueNotifier<bool> showFilters,
     List<DistanceFilter> distancesFilters,
+    TextEditingController textEditingController,
   ) {
     return SliverPinnedHeader(
       child: LayoutBuilder(builder: (context, box) {
@@ -279,6 +263,15 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Column(
                       children: [
                         const SizedBox(height: 12),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: kTinyPadding,
+                          child: Text(
+                            'Begin to end distance: ',
+                            style: context.textTheme.bodyMedium,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
                         ToggleSwitch(
                           minWidth:
                               (box.maxWidth - 32) / distancesFilters.length,
@@ -302,6 +295,54 @@ class _SearchScreenState extends State<SearchScreen> {
                             bloc.updateDistanceFilter(
                               distancesFilters[index ?? 0].distance?.toInt(),
                             );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: kTinyPadding,
+                          child: Text(
+                            'Popular tags:',
+                            style: context.textTheme.bodyMedium,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        Builder(
+                          builder: (context) {
+                            return state.searchedkeywords.isEmpty
+                                ? ConstrainedBox(
+                                    constraints: const BoxConstraints.expand(
+                                        height: 300),
+                                    child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  )
+                                : RepaintBoundary(
+                                    child: Wrap(
+                                      alignment: WrapAlignment.spaceBetween,
+                                      direction: Axis.horizontal,
+                                      clipBehavior: Clip.hardEdge,
+                                      spacing: 4,
+                                      runSpacing: 8,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: List.generate(
+                                        state.searchedkeywords.length,
+                                        (index) => SizedBox(
+                                          width: (box.maxWidth - 42) / 3,
+                                          height: 64,
+                                          child: FilterTagChipContainer(
+                                            tag: state.searchedkeywords[index],
+                                            onTap: () {
+                                              textEditingController.text =
+                                                  state.searchedkeywords[index];
+                                              showFilters.value = false;
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
                           },
                         ),
                         const SizedBox(height: 12),

@@ -48,14 +48,38 @@ class SearchEventsCubit extends MaybeEmitHydratedCubit<SearchEventsState> {
     ));
 
     final data = await repo.search(
-      limit: 5,
+      limit: 10,
       query: state.queryFilter ?? '',
       distanceFilter: state.distanceFilter?.toDouble(),
+      lastItem: null,
     );
 
     if (isClosed) return;
     maybeEmit(state.copyWith(
       searchedEvents: data,
+      loadingState: LoadingState.done,
+    ));
+  }
+
+  Future<void> loadMoreSearchedEvents() async {
+    if (state.loadingState == LoadingState.updating ||
+        state.loadingState == LoadingState.loading) {
+      return;
+    }
+    maybeEmit(state.copyWith(
+      loadingState: LoadingState.updating,
+    ));
+
+    final data = await repo.search(
+      limit: 10,
+      query: state.queryFilter ?? '',
+      distanceFilter: state.distanceFilter?.toDouble(),
+      lastItem: state.searchedEvents.last,
+    );
+
+    if (isClosed) return;
+    maybeEmit(state.copyWith(
+      searchedEvents: [...state.searchedEvents, ...data],
       loadingState: LoadingState.done,
     ));
   }
@@ -73,10 +97,10 @@ class SearchEventsCubit extends MaybeEmitHydratedCubit<SearchEventsState> {
     ));
 
     final data = await repo.keywords(limit: 10);
-
+    data.shuffle();
     if (isClosed) return;
     maybeEmit(state.copyWith(
-      searchedkeywords: data,
+      searchedkeywords: data.take(9).toList(),
       loadingKeywordsState: LoadingState.done,
     ));
   }

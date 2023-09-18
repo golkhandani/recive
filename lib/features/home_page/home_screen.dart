@@ -8,7 +8,6 @@ import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/home_page/sections/category_section.dart';
 import 'package:recive/features/home_page/sections/featured_event_section.dart';
 import 'package:recive/features/home_page/sections/map_section.dart';
-import 'package:recive/features/home_page/sections/top_news_section.dart';
 import 'package:recive/features/home_page/sections/weather_section.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -26,8 +25,8 @@ class HomeScreen extends HookWidget {
       HomePageFeaturedEventsSection(),
       SliverGap(height: 32),
       HomePageWeatherSection(),
-      SliverGap(height: 32),
-      HomePageTopNewsSections(), // Weather Updates
+      // SliverGap(height: 32),
+      // HomePageTopNewsSections(), // Weather Updates
       SliverGap(height: 32),
       HomePageMapSection(),
     ];

@@ -152,52 +152,99 @@ class CategoryDetailScreen extends HookWidget {
                           ),
                         ),
                         const SliverGap(height: 12),
-                        SliverGrid(
-                          delegate: SliverChildBuilderDelegate(
-                            childCount: state.items.length + 1,
-                            (context, index) {
-                              if (index == state.items.length) {
-                                return SeeMoreButton(
-                                  constraints: const BoxConstraints.expand(),
-                                  onTap: () => navigationService.moveTo(
-                                    SearchScreen.name,
-                                    queryParameters: {
-                                      SearchScreen.keywordQueryKey: title
-                                    },
+                        // SliverToBoxAdapter(
+                        //   child: SizedBox(
+                        //     height: 1000,
+                        //     width: 400,
+                        //     child: GridView.builder(
+                        //       physics: NeverScrollableScrollPhysics(),
+                        //       itemCount: state.items.length,
+                        //       gridDelegate: SliverStairedGridDelegate(
+                        //         // crossAxisSpacing: 12,
+                        //         // mainAxisSpacing: 12,
+                        //         startCrossAxisDirectionReversed: true,
+                        //         pattern: [
+                        //           StairedGridTile(1, 2),
+                        //           StairedGridTile(0.5, 1),
+                        //           StairedGridTile(0.5, 1),
+
+                        //         ],
+                        //       ),
+                        //       itemBuilder: (context, index) {
+                        //         final data = FeaturedArtCardContainerData
+                        //             .fromFeaturedEvent(
+                        //           state.items[index],
+                        //         );
+                        //         return Padding(
+                        //           padding: const EdgeInsets.all(4),
+                        //           child: FeaturedArtCardContainer(
+                        //             parentPathParams: const {},
+                        //             parentRoute: HomeScreen.name,
+                        //             constraints: const BoxConstraints.expand(),
+                        //             data: data,
+                        //           ),
+                        //         );
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
+                        SliverCardContainer(
+                          borderRadius: BorderRadius.circular(16),
+                          padding: kTinyPadding.copyWith(right: 0, bottom: 0),
+                          color: context.colorScheme.surface,
+                          sliver: SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: state.items.length + 1,
+                              (context, index) {
+                                if (index == state.items.length) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      bottom: kTinyPadding.bottom,
+                                      right: kTinyPadding.right,
+                                    ),
+                                    child: SeeMoreButton(
+                                      constraints:
+                                          const BoxConstraints.expand(),
+                                      onTap: () => navigationService.moveTo(
+                                        SearchScreen.name,
+                                        queryParameters: {
+                                          SearchScreen.keywordQueryKey: title
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                final data = FeaturedArtCardContainerData
+                                    .fromFeaturedEvent(
+                                  state.items[index],
+                                );
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: kTinyPadding.bottom,
+                                    right: kTinyPadding.right,
+                                  ),
+                                  child: FeaturedArtCardContainer(
+                                    parentPathParams: const {},
+                                    parentRoute: HomeScreen.name,
+                                    constraints: const BoxConstraints.expand(),
+                                    data: data,
                                   ),
                                 );
-                              }
-
-                              final data = FeaturedArtCardContainerData
-                                  .fromFeaturedEvent(
-                                state.items[index],
-                              );
-                              return FeaturedArtCardContainer(
-                                parentPathParams: const {},
-                                parentRoute: HomeScreen.name,
-                                constraints: const BoxConstraints.expand(),
-                                data: data,
-                              );
-                            },
-                          ),
-                          gridDelegate: SliverQuiltedGridDelegate(
-                            crossAxisCount: 5,
-                            mainAxisSpacing: 12,
-                            crossAxisSpacing: 12,
-                            repeatPattern: QuiltedGridRepeatPattern.same,
-                            pattern: const [
-                              QuiltedGridTile(4, 5),
-                              QuiltedGridTile(5, 3),
-                              QuiltedGridTile(5, 2),
-                              QuiltedGridTile(3, 5),
-                              QuiltedGridTile(5, 3),
-                              QuiltedGridTile(5, 2),
-                              QuiltedGridTile(3, 3),
-                              QuiltedGridTile(3, 2),
-                              QuiltedGridTile(5, 2),
-                              QuiltedGridTile(4, 3),
-                              QuiltedGridTile(1, 3),
-                            ],
+                              },
+                            ),
+                            gridDelegate: SliverStairedGridDelegate(
+                              startCrossAxisDirectionReversed: true,
+                              pattern: const [
+                                StairedGridTile(1, 1.4),
+                                StairedGridTile(0.4, 0.5),
+                                StairedGridTile(0.6, 0.75),
+                                StairedGridTile(0.4, 0.5),
+                                StairedGridTile(0.6, 0.75),
+                                StairedGridTile(1, 1),
+                                StairedGridTile(1, 6),
+                              ],
+                            ),
                           ),
                         ),
                         const SliverGap(height: 12),

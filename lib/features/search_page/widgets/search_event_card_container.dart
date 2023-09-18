@@ -7,7 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/package_page/package_detail_screen.dart';
-import 'package:recive/features/package_page/packages_screen.dart';
+import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/features/search_page/widgets/search_event_card_container_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -61,7 +61,7 @@ class SearchEventCardContainer extends HookWidget {
         ],
       );
     });
-    final heroTag = data.id + DateTime.now().toString();
+    final heroTag = data.id;
     final extraJson = ExtraData(
       summary: PackageSummaryData(
         id: data.id,
@@ -73,7 +73,7 @@ class SearchEventCardContainer extends HookWidget {
     return RepaintBoundary(
       child: InkWell(
         onTap: () => navigationService.pushTo(
-          PackagesScreen.name + PackageDetailScreen.name,
+          SearchScreen.name + PackageDetailScreen.name,
           pathParameters: {
             PackageDetailScreen.pathParamId: data.id,
           },

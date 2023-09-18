@@ -52,7 +52,7 @@ class PackageDetailScreen extends HookWidget {
 
     final data = state.package;
     final summary = extra?.summary;
-    final heroTag = extra?.heroTag ?? id;
+    final heroTag = extra?.heroTag ?? "RWE@";
 
     return ColoredBox(
       color: context.theme.colorScheme.background,

@@ -29,8 +29,8 @@ class ScreenSafeAreaHeader extends StatelessWidget {
           boxShadow: elevation
               ? <BoxShadow>[
                   BoxShadow(
-                    offset: const Offset(0.2, 0.2),
-                    blurRadius: 2,
+                    offset: const Offset(0.1, 0.1),
+                    blurRadius: 0.5,
                     color: context.colorScheme.shadow,
                   )
                 ]

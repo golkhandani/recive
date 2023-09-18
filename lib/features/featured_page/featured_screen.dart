@@ -30,7 +30,7 @@ class FeaturedScreen extends HookWidget {
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(
-            title: 'Featured Events',
+            title: 'Featured Arts',
           ),
           SliverPadding(
             padding: kMediumPadding.copyWith(

@@ -45,7 +45,7 @@ class _HomePageCategoriesSectionState extends State<HomePageCategoriesSection> {
           children: [
             SliverToBoxAdapter(
               child: Text(
-                "Event Categories",
+                "Art Categories",
                 style: context.textTheme.headlineSmall?.withColor(
                   context.colorScheme.onBackground,
                 ),

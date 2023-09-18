@@ -24,21 +24,34 @@ class HomePageMapSection extends HookWidget {
       children: [
         SliverToBoxAdapter(
           child: Text(
-            "City Highlights (Map)",
+            "Find Arts on map",
             style: context.textTheme.headlineSmall?.withColor(
               context.colorScheme.onBackground,
             ),
           ),
         ),
         const SliverGap(height: 12),
-        MapCardContainer(
-          markers: const [],
-          height: 200,
-          showControls: false,
-          onMapContainerCliked: () {
-            navigationService.moveTo(NearMeScreen.name);
-          },
-          userLocationCentered: true,
+        SliverStack(
+          children: [
+            MapCardContainer(
+              markers: const [],
+              height: 120,
+              showControls: false,
+              onMapContainerCliked: () {
+                navigationService.moveTo(NearMeScreen.name);
+              },
+              userLocationCentered: true,
+            ),
+            SliverPositioned.fill(
+              child: Center(
+                child: Icon(
+                  Icons.touch_app,
+                  color: context.colorScheme.secondaryContainer,
+                  size: 50,
+                ),
+              ),
+            )
+          ],
         ),
       ],
     );

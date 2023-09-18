@@ -24,11 +24,11 @@ class HomeScreen extends HookWidget {
       SliverGap(height: 12),
       HomePageFeaturedEventsSection(),
       SliverGap(height: 32),
+      HomePageMapSection(),
+      SliverGap(height: 32),
       HomePageWeatherSection(),
       // SliverGap(height: 32),
       // HomePageTopNewsSections(), // Weather Updates
-      SliverGap(height: 32),
-      HomePageMapSection(),
     ];
 
     return ColoredBox(

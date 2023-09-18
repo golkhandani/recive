@@ -205,7 +205,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                               borderRadius: BorderRadius.circular(16),
                               padding: kTinyPadding,
                               child: const Center(
-                                child: Text("No Event has been found!"),
+                                child: Text("No Art has been found!"),
                               ),
                             ),
                           ),

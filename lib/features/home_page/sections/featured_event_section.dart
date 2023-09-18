@@ -40,7 +40,7 @@ class HomePageFeaturedEventsSection extends HookWidget {
           children: [
             SliverToBoxAdapter(
               child: Text(
-                "Featured Events",
+                "Featured Art",
                 style: context.textTheme.headlineSmall?.withColor(
                   context.colorScheme.onBackground,
                 ),

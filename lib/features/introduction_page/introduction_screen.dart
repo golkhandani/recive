@@ -38,7 +38,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     final pages = [
       intro.PageViewModel(
         decoration: decoration,
-        title: "Event and Adventure Companion",
+        title: "Art and Adventure Companion",
         body:
             "Get ready to explore amazing city landmarks and enjoy unforgettable experiences without the hassle of planning.",
         image: Center(

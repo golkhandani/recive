@@ -34,7 +34,7 @@ class FeaturedArtCardContainer extends HookWidget {
     final navigationService = locator.get<NavigationService>();
     final color = context.theme.colorScheme.tertiary.withOpacity(0.6);
     final fontColor = context.colorScheme.onTertiary;
-    final heroTag = parentRoute + data.id;
+    final heroTag = parentRoute + data.id + DateTime.now().toString();
     final extraJson = ExtraData(
       summary: FeaturedEventDetailSummaryData(
         id: data.id,

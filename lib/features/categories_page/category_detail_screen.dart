@@ -14,7 +14,6 @@ import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
-import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/home_page/widgets/see_more_button.dart';
 import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
@@ -226,7 +225,7 @@ class CategoryDetailScreen extends HookWidget {
                                   ),
                                   child: FeaturedArtCardContainer(
                                     parentPathParams: const {},
-                                    parentRoute: HomeScreen.name,
+                                    parentRoute: CategoryDetailScreen.name,
                                     constraints: const BoxConstraints.expand(),
                                     data: data,
                                   ),

@@ -9,6 +9,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
+import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -34,7 +35,7 @@ class FeaturedArtCardContainer extends HookWidget {
     final navigationService = locator.get<NavigationService>();
     final color = context.theme.colorScheme.tertiary.withOpacity(0.6);
     final fontColor = context.colorScheme.onTertiary;
-    final heroTag = parentRoute + data.id + DateTime.now().toString();
+    final heroTag = parentRoute + data.id;
     final extraJson = ExtraData(
       summary: FeaturedEventDetailSummaryData(
         id: data.id,
@@ -181,7 +182,7 @@ class FeaturedArtCardContainer extends HookWidget {
     return RepaintBoundary(
       child: InkWell(
         onTap: () => navigationService.pushTo(
-          parentRoute + FeaturedEventDetailScreen.name,
+          HomeScreen.name + FeaturedEventDetailScreen.name,
           pathParameters: {
             ...parentPathParams,
             FeaturedEventDetailScreen.pathParamId: data.id,

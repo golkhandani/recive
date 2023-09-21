@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -32,7 +33,7 @@ class _HomePageCategoriesSectionState extends State<HomePageCategoriesSection> {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final bloc = useBloc<CategoriesCubit>();
+    final bloc = context.read<CategoriesCubit>();
     final state = useBlocBuilder(bloc);
 
     useEffect(() {

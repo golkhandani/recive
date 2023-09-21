@@ -21,6 +21,7 @@ import 'package:recive/features/news_page/news_detail_screen.dart';
 import 'package:recive/features/news_page/news_screen.dart';
 import 'package:recive/features/notification/notification_screen.dart';
 import 'package:recive/features/package_page/package_detail_screen.dart';
+import 'package:recive/features/package_page/packages_screen.dart';
 import 'package:recive/features/profile_page/profile_screen.dart';
 import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
@@ -300,6 +301,8 @@ final dashboardRoutes = [
                 testDetailRoute(HomeScreen.name),
                 categoryDetailRoute(HomeScreen.name),
                 newsDetailRoute(HomeScreen.name),
+                packageDetailRoute(PackagesScreen.name),
+                featuredEventDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: CategoriesScreen.name,
                   path: CategoriesScreen.name,
@@ -322,7 +325,6 @@ final dashboardRoutes = [
                     newsDetailRoute(NewsScreen.name),
                   ],
                 ),
-                featuredEventDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: FeaturedScreen.name,
                   path: FeaturedScreen.name,
@@ -391,7 +393,6 @@ final dashboardRoutes = [
             },
             routes: [
               nearbyEventDetailRoute(SearchScreen.name),
-              packageDetailRoute(SearchScreen.name),
             ],
           ),
         ],

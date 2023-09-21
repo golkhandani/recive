@@ -15,6 +15,13 @@ class NearbyEventsState with _$NearbyEventsState {
     required List<NearbyEvent> nearbyEvents,
     required LoadingState loadingState,
     required bool isRefreshLoading,
+    required String? queryFilter,
+
+    ///
+    required double latitude,
+    required double longitude,
+    required double minDistance,
+    required double maxDistance,
   }) = _NearbyEventsState;
 
   factory NearbyEventsState.initialize() => const NearbyEventsState(
@@ -22,6 +29,13 @@ class NearbyEventsState with _$NearbyEventsState {
         nearbyEvents: [],
         loadingState: LoadingState.none,
         isRefreshLoading: false,
+        queryFilter: null,
+
+        ///
+        latitude: 0,
+        longitude: 0,
+        minDistance: 0,
+        maxDistance: 0,
       );
 
   factory NearbyEventsState.fromJson(Map<String, Object?> json) =>
@@ -55,6 +69,7 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
       longitude: longitude,
       minDistance: minDistance,
       maxDistance: maxDistance,
+      text: state.queryFilter,
     );
 
     maybeEmit(state.copyWith(
@@ -62,7 +77,26 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
       nearbyEvents: data,
       loadingState: LoadingState.done,
       isRefreshLoading: false,
+
+      ///
+      latitude: latitude,
+      longitude: longitude,
+      minDistance: minDistance,
+      maxDistance: maxDistance,
     ));
+  }
+
+  Future<void> updateQueryFilter(String? queryFilter) async {
+    maybeEmit(state.copyWith(
+      queryFilter: queryFilter,
+    ));
+    loadNearbyEvents(
+      latitude: state.latitude,
+      longitude: state.longitude,
+      minDistance: state.minDistance,
+      maxDistance: state.maxDistance,
+      onBackground: true,
+    );
   }
 
   Future<void> changeSelectedIndex(int index) async {

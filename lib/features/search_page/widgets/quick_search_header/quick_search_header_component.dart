@@ -225,19 +225,19 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
                         ),
                       ),
                     ],
-                    InkWell(
-                      onTap: () {},
-                      splashColor: context.schema.primaryContainer,
-                      child: SizedBox(
-                        height: 48,
-                        width: 48,
-                        child: Icon(
-                          Icons.search,
-                          size: 32,
-                          color: context.schema.onTertiaryContainer,
-                        ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {},
+                    //   splashColor: context.schema.primaryContainer,
+                    //   child: SizedBox(
+                    //     height: 48,
+                    //     width: 48,
+                    //     child: Icon(
+                    //       Icons.search,
+                    //       size: 32,
+                    //       color: context.schema.onTertiaryContainer,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

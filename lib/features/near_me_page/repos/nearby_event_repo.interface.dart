@@ -7,5 +7,6 @@ abstract class INearbyEventRepo {
     required double longitude,
     required double minDistance,
     required double maxDistance,
+    String? text,
   });
 }

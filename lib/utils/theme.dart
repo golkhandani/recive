@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:recive/extensions/color_extentions.dart';
 
 const MaterialColor swatch = Colors.purple;
@@ -43,7 +44,7 @@ final ColorScheme colorSchemeLight = ColorScheme(
   //
   primary: const Color.fromARGB(255, 78, 196, 200),
   onPrimary: Colors.black,
-  primaryContainer: const Color.fromARGB(255, 67, 142, 145),
+  primaryContainer: const Color.fromARGB(255, 38, 114, 116),
   onPrimaryContainer: Colors.white,
   //
   secondary: const Color.fromARGB(255, 49, 84, 150),
@@ -53,7 +54,7 @@ final ColorScheme colorSchemeLight = ColorScheme(
   //
   tertiary: const Color.fromARGB(255, 185, 226, 223),
   onTertiary: Colors.black,
-  tertiaryContainer: const Color.fromARGB(255, 148, 212, 216),
+  tertiaryContainer: const Color.fromARGB(255, 226, 248, 249),
   onTertiaryContainer: Colors.black,
 
   //

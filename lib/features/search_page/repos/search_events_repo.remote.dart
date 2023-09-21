@@ -58,6 +58,7 @@ class GQLSearchEventRepo extends ISearchEventRepo
 
     filteredList = filteredList
         .where((element) => element.toLowerCase().contains(query.toLowerCase()))
+        .toSet()
         .toList();
     return filteredList;
   }

@@ -143,13 +143,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     Expanded(
                       child: PinnedSearchHeader(
                         backgroundColor: context.schema.tertiaryContainer,
-                        padding:
-                            const EdgeInsets.all(12).copyWith(top: 0, right: 0),
+                        padding: const EdgeInsets.only(bottom: 12, left: 12),
                         height: 54,
                         bloc: quickSearchBloc,
-                        onSelect: (text) => bloc.resetSearchResult(),
-                        onTextChanged: (text) =>
-                            text.isNotEmpty ? null : bloc.resetSearchResult(),
+                        onSelect: (text) => bloc.searchedEvents(text),
+                        onTextChanged: (text) => bloc.searchedEvents(text),
                         textController: textEditingController,
                       ),
                     ),

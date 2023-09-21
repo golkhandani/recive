@@ -44,17 +44,19 @@ class FilterTagChipContainer extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.tag,
+    this.color,
   });
 
   final VoidCallback onTap;
   final String tag;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: Material(
         borderRadius: BorderRadius.circular(8),
-        color: context.theme.colorScheme.tertiary,
+        color: color ?? context.theme.colorScheme.tertiary,
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
           splashColor: context.theme.colorScheme.tertiaryContainer,

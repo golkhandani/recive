@@ -24,6 +24,13 @@ mixin _$NearbyEventsState {
   List<NearbyEvent> get nearbyEvents => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
   bool get isRefreshLoading => throw _privateConstructorUsedError;
+  String? get queryFilter => throw _privateConstructorUsedError;
+
+  ///
+  double get latitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError;
+  double get minDistance => throw _privateConstructorUsedError;
+  double get maxDistance => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +48,12 @@ abstract class $NearbyEventsStateCopyWith<$Res> {
       {int preSelectedEventIndex,
       List<NearbyEvent> nearbyEvents,
       LoadingState loadingState,
-      bool isRefreshLoading});
+      bool isRefreshLoading,
+      String? queryFilter,
+      double latitude,
+      double longitude,
+      double minDistance,
+      double maxDistance});
 }
 
 /// @nodoc
@@ -61,6 +73,11 @@ class _$NearbyEventsStateCopyWithImpl<$Res, $Val extends NearbyEventsState>
     Object? nearbyEvents = null,
     Object? loadingState = null,
     Object? isRefreshLoading = null,
+    Object? queryFilter = freezed,
+    Object? latitude = null,
+    Object? longitude = null,
+    Object? minDistance = null,
+    Object? maxDistance = null,
   }) {
     return _then(_value.copyWith(
       preSelectedEventIndex: null == preSelectedEventIndex
@@ -79,6 +96,26 @@ class _$NearbyEventsStateCopyWithImpl<$Res, $Val extends NearbyEventsState>
           ? _value.isRefreshLoading
           : isRefreshLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      queryFilter: freezed == queryFilter
+          ? _value.queryFilter
+          : queryFilter // ignore: cast_nullable_to_non_nullable
+              as String?,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      minDistance: null == minDistance
+          ? _value.minDistance
+          : minDistance // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxDistance: null == maxDistance
+          ? _value.maxDistance
+          : maxDistance // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -95,7 +132,12 @@ abstract class _$$_NearbyEventsStateCopyWith<$Res>
       {int preSelectedEventIndex,
       List<NearbyEvent> nearbyEvents,
       LoadingState loadingState,
-      bool isRefreshLoading});
+      bool isRefreshLoading,
+      String? queryFilter,
+      double latitude,
+      double longitude,
+      double minDistance,
+      double maxDistance});
 }
 
 /// @nodoc
@@ -113,6 +155,11 @@ class __$$_NearbyEventsStateCopyWithImpl<$Res>
     Object? nearbyEvents = null,
     Object? loadingState = null,
     Object? isRefreshLoading = null,
+    Object? queryFilter = freezed,
+    Object? latitude = null,
+    Object? longitude = null,
+    Object? minDistance = null,
+    Object? maxDistance = null,
   }) {
     return _then(_$_NearbyEventsState(
       preSelectedEventIndex: null == preSelectedEventIndex
@@ -131,6 +178,26 @@ class __$$_NearbyEventsStateCopyWithImpl<$Res>
           ? _value.isRefreshLoading
           : isRefreshLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      queryFilter: freezed == queryFilter
+          ? _value.queryFilter
+          : queryFilter // ignore: cast_nullable_to_non_nullable
+              as String?,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      minDistance: null == minDistance
+          ? _value.minDistance
+          : minDistance // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxDistance: null == maxDistance
+          ? _value.maxDistance
+          : maxDistance // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -142,7 +209,12 @@ class _$_NearbyEventsState implements _NearbyEventsState {
       {required this.preSelectedEventIndex,
       required final List<NearbyEvent> nearbyEvents,
       required this.loadingState,
-      required this.isRefreshLoading})
+      required this.isRefreshLoading,
+      required this.queryFilter,
+      required this.latitude,
+      required this.longitude,
+      required this.minDistance,
+      required this.maxDistance})
       : _nearbyEvents = nearbyEvents;
 
   factory _$_NearbyEventsState.fromJson(Map<String, dynamic> json) =>
@@ -162,10 +234,22 @@ class _$_NearbyEventsState implements _NearbyEventsState {
   final LoadingState loadingState;
   @override
   final bool isRefreshLoading;
+  @override
+  final String? queryFilter;
+
+  ///
+  @override
+  final double latitude;
+  @override
+  final double longitude;
+  @override
+  final double minDistance;
+  @override
+  final double maxDistance;
 
   @override
   String toString() {
-    return 'NearbyEventsState(preSelectedEventIndex: $preSelectedEventIndex, nearbyEvents: $nearbyEvents, loadingState: $loadingState, isRefreshLoading: $isRefreshLoading)';
+    return 'NearbyEventsState(preSelectedEventIndex: $preSelectedEventIndex, nearbyEvents: $nearbyEvents, loadingState: $loadingState, isRefreshLoading: $isRefreshLoading, queryFilter: $queryFilter, latitude: $latitude, longitude: $longitude, minDistance: $minDistance, maxDistance: $maxDistance)';
   }
 
   @override
@@ -180,7 +264,17 @@ class _$_NearbyEventsState implements _NearbyEventsState {
             (identical(other.loadingState, loadingState) ||
                 other.loadingState == loadingState) &&
             (identical(other.isRefreshLoading, isRefreshLoading) ||
-                other.isRefreshLoading == isRefreshLoading));
+                other.isRefreshLoading == isRefreshLoading) &&
+            (identical(other.queryFilter, queryFilter) ||
+                other.queryFilter == queryFilter) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
+            (identical(other.minDistance, minDistance) ||
+                other.minDistance == minDistance) &&
+            (identical(other.maxDistance, maxDistance) ||
+                other.maxDistance == maxDistance));
   }
 
   @JsonKey(ignore: true)
@@ -190,7 +284,12 @@ class _$_NearbyEventsState implements _NearbyEventsState {
       preSelectedEventIndex,
       const DeepCollectionEquality().hash(_nearbyEvents),
       loadingState,
-      isRefreshLoading);
+      isRefreshLoading,
+      queryFilter,
+      latitude,
+      longitude,
+      minDistance,
+      maxDistance);
 
   @JsonKey(ignore: true)
   @override
@@ -212,7 +311,12 @@ abstract class _NearbyEventsState implements NearbyEventsState {
       {required final int preSelectedEventIndex,
       required final List<NearbyEvent> nearbyEvents,
       required final LoadingState loadingState,
-      required final bool isRefreshLoading}) = _$_NearbyEventsState;
+      required final bool isRefreshLoading,
+      required final String? queryFilter,
+      required final double latitude,
+      required final double longitude,
+      required final double minDistance,
+      required final double maxDistance}) = _$_NearbyEventsState;
 
   factory _NearbyEventsState.fromJson(Map<String, dynamic> json) =
       _$_NearbyEventsState.fromJson;
@@ -225,6 +329,18 @@ abstract class _NearbyEventsState implements NearbyEventsState {
   LoadingState get loadingState;
   @override
   bool get isRefreshLoading;
+  @override
+  String? get queryFilter;
+  @override
+
+  ///
+  double get latitude;
+  @override
+  double get longitude;
+  @override
+  double get minDistance;
+  @override
+  double get maxDistance;
   @override
   @JsonKey(ignore: true)
   _$$_NearbyEventsStateCopyWith<_$_NearbyEventsState> get copyWith =>

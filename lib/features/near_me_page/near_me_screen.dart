@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
@@ -12,18 +13,28 @@ import 'package:recive/components/card_container.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
+import 'package:recive/extensions/color_extentions.dart';
+import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
+import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/sections/list_section.dart';
 import 'package:recive/features/near_me_page/sections/map_section.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
+import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 
+class ArtTypeFilter {
+  final String title;
+  final Category? category;
+  ArtTypeFilter(this.title, this.category);
+}
+
 class NearMeScreen extends StatefulHookWidget {
-  static const enableQuery = false;
+  static const enableQuery = true;
   static const name = 'near_me';
   const NearMeScreen({super.key});
 
@@ -35,6 +46,8 @@ class _NearMeScreenState extends State<NearMeScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    final categoriesBloc = context.read<CategoriesCubit>();
+    final categoriesState = useBlocBuilder(categoriesBloc);
     final bloc = useBloc<NearbyEventsCubit>();
     final state = useBlocComparativeBuilder(bloc, buildWhen: (old, updated) {
       return true;
@@ -68,6 +81,12 @@ class _NearMeScreenState extends State<NearMeScreen>
 
     final quickSearchBloc = useBloc<QuickSearchHeaderBloc>();
     final showFilters = useState(false);
+    final artTypeFilters = [
+      ArtTypeFilter('All', null),
+      ...categoriesState.categories.map(
+        (e) => ArtTypeFilter(e.title, e),
+      ),
+    ];
 
     return ColoredBox(
       color: context.theme.colorScheme.background,
@@ -94,8 +113,8 @@ class _NearMeScreenState extends State<NearMeScreen>
                     color: context.schema.tertiaryContainer,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        offset: const Offset(0.2, 0),
-                        blurRadius: 4,
+                        offset: const Offset(0.1, 0.1),
+                        blurRadius: 0.5,
                         color: context.colorScheme.shadow,
                       )
                     ],
@@ -111,9 +130,8 @@ class _NearMeScreenState extends State<NearMeScreen>
                               .copyWith(top: 0, right: 0),
                           height: 54,
                           bloc: quickSearchBloc,
-                          onSelect: (text) => {}, //  bloc.resetSearchResult(),
+                          onSelect: (text) => bloc.updateQueryFilter(text),
                           onTextChanged: (text) => {},
-                          // text.isNotEmpty ? null : bloc.resetSearchResult(),
                           textController: textEditingController,
                         ),
                       ),
@@ -135,7 +153,13 @@ class _NearMeScreenState extends State<NearMeScreen>
                   ),
                 ),
               ),
-              _buildFilterSection(showFilters),
+              _buildFilterSection(
+                bloc,
+                state,
+                textEditingController,
+                showFilters,
+                artTypeFilters,
+              ),
             ],
 
             const SliverGap(height: 12),
@@ -258,20 +282,100 @@ class _NearMeScreenState extends State<NearMeScreen>
   }
 
   Widget _buildFilterSection(
+    NearbyEventsCubit bloc,
+    NearbyEventsState state,
+    TextEditingController textEditingController,
     ValueNotifier<bool> showFilters,
+    List<ArtTypeFilter> artTypeFilters,
   ) {
     return SliverPinnedHeader(
-      child: RepaintBoundary(
-        child: AnimatedSize(
-          duration: const Duration(milliseconds: 400),
-          child: showFilters.value
-              ? Container(
-                  height: 200,
-                  color: Colors.red,
-                )
-              : const SizedBox.shrink(),
-        ),
-      ),
+      child: LayoutBuilder(builder: (context, box) {
+        return RepaintBoundary(
+          child: AnimatedSize(
+            duration: const Duration(milliseconds: 400),
+            child: showFilters.value
+                ? Container(
+                    padding: kTinyPadding,
+                    decoration: BoxDecoration(
+                      color: context.theme.colorScheme.surface,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          offset: const Offset(0.2, 0),
+                          blurRadius: 4,
+                          color: context.colorScheme.primary.darken(0.2),
+                        )
+                      ],
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: kTinyPadding,
+                          child: Text(
+                            'Popular Categories:',
+                            style: context.textTheme.bodyMedium,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        Builder(
+                          builder: (context) {
+                            return artTypeFilters.isEmpty
+                                ? ConstrainedBox(
+                                    constraints: const BoxConstraints.expand(
+                                        height: 300),
+                                    child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  )
+                                : RepaintBoundary(
+                                    child: Wrap(
+                                      alignment: WrapAlignment.spaceBetween,
+                                      direction: Axis.horizontal,
+                                      clipBehavior: Clip.hardEdge,
+                                      spacing: 4,
+                                      runSpacing: 8,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.center,
+                                      children: List.generate(
+                                        artTypeFilters.length,
+                                        (index) => SizedBox(
+                                          width: (box.maxWidth - 42) / 3,
+                                          height: 64,
+                                          child: FilterTagChipContainer(
+                                            color: artTypeFilters[index]
+                                                        .category
+                                                        ?.title ==
+                                                    state.queryFilter
+                                                ? context.colorScheme
+                                                    .tertiaryContainer
+                                                : null,
+                                            tag: artTypeFilters[index].title,
+                                            onTap: () {
+                                              bloc.updateQueryFilter(
+                                                artTypeFilters[index]
+                                                    .category
+                                                    ?.title,
+                                              );
+                                              textEditingController.text =
+                                                  artTypeFilters[index].title;
+                                              showFilters.value = false;
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                          },
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        );
+      }),
     );
   }
 }

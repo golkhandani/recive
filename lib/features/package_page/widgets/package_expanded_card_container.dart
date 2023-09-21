@@ -61,13 +61,13 @@ class PackageExpandedCardContainer extends HookWidget {
                   child: CachedNetworkImage(
                     imageUrl: data.imageUrl,
                     placeholder: (context, _) => const SizedBox(
-                      height: 120,
+                      height: 180,
                       child: Center(
                         child: CircularProgressIndicator(),
                       ),
                     ),
                     imageBuilder: (context, imageProvider) => Container(
-                      height: 120,
+                      height: 180,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: imageProvider,

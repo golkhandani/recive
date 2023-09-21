@@ -5,6 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
+import 'package:recive/components/card_container.dart';
 import 'package:recive/components/colored_network_image.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_card_container.dart';
@@ -151,102 +152,68 @@ class CategoryDetailScreen extends HookWidget {
                           ),
                         ),
                         const SliverGap(height: 12),
-                        // SliverToBoxAdapter(
-                        //   child: SizedBox(
-                        //     height: 1000,
-                        //     width: 400,
-                        //     child: GridView.builder(
-                        //       physics: NeverScrollableScrollPhysics(),
-                        //       itemCount: state.items.length,
-                        //       gridDelegate: SliverStairedGridDelegate(
-                        //         // crossAxisSpacing: 12,
-                        //         // mainAxisSpacing: 12,
-                        //         startCrossAxisDirectionReversed: true,
-                        //         pattern: [
-                        //           StairedGridTile(1, 2),
-                        //           StairedGridTile(0.5, 1),
-                        //           StairedGridTile(0.5, 1),
-
-                        //         ],
-                        //       ),
-                        //       itemBuilder: (context, index) {
-                        //         final data = FeaturedArtCardContainerData
-                        //             .fromFeaturedEvent(
-                        //           state.items[index],
-                        //         );
-                        //         return Padding(
-                        //           padding: const EdgeInsets.all(4),
-                        //           child: FeaturedArtCardContainer(
-                        //             parentPathParams: const {},
-                        //             parentRoute: HomeScreen.name,
-                        //             constraints: const BoxConstraints.expand(),
-                        //             data: data,
-                        //           ),
-                        //         );
-                        //       },
-                        //     ),
-                        //   ),
-                        // ),
-                        SliverCardContainer(
-                          borderRadius: BorderRadius.circular(16),
-                          padding: kTinyPadding.copyWith(right: 0, bottom: 0),
-                          color: context.colorScheme.surface,
-                          sliver: SliverGrid(
-                            delegate: SliverChildBuilderDelegate(
-                              childCount: state.items.length + 1,
-                              (context, index) {
-                                if (index == state.items.length) {
+                        if (state.items.isNotEmpty)
+                          SliverCardContainer(
+                            borderRadius: BorderRadius.circular(16),
+                            padding: kTinyPadding.copyWith(right: 0, bottom: 0),
+                            color: context.colorScheme.surface,
+                            sliver: SliverGrid(
+                              delegate: SliverChildBuilderDelegate(
+                                childCount: state.items.length,
+                                (context, index) {
+                                  final data = FeaturedArtCardContainerData
+                                      .fromFeaturedEvent(
+                                    state.items[index],
+                                  );
                                   return Padding(
                                     padding: EdgeInsets.only(
                                       bottom: kTinyPadding.bottom,
                                       right: kTinyPadding.right,
                                     ),
-                                    child: SeeMoreButton(
+                                    child: FeaturedArtCardContainer(
+                                      parentPathParams: const {},
+                                      parentRoute: CategoryDetailScreen.name,
                                       constraints:
                                           const BoxConstraints.expand(),
-                                      onTap: () => navigationService.moveTo(
-                                        SearchScreen.name,
-                                        queryParameters: {
-                                          SearchScreen.keywordQueryKey: title
-                                        },
-                                      ),
+                                      data: data,
                                     ),
                                   );
-                                }
-
-                                final data = FeaturedArtCardContainerData
-                                    .fromFeaturedEvent(
-                                  state.items[index],
-                                );
-                                return Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: kTinyPadding.bottom,
-                                    right: kTinyPadding.right,
-                                  ),
-                                  child: FeaturedArtCardContainer(
-                                    parentPathParams: const {},
-                                    parentRoute: CategoryDetailScreen.name,
-                                    constraints: const BoxConstraints.expand(),
-                                    data: data,
-                                  ),
-                                );
-                              },
-                            ),
-                            gridDelegate: SliverStairedGridDelegate(
-                              startCrossAxisDirectionReversed: true,
-                              pattern: const [
-                                StairedGridTile(1, 1.4),
-                                StairedGridTile(0.4, 0.5),
-                                StairedGridTile(0.6, 0.75),
-                                StairedGridTile(0.4, 0.5),
-                                StairedGridTile(0.6, 0.75),
-                                StairedGridTile(1, 1),
-                                StairedGridTile(1, 6),
-                              ],
+                                },
+                              ),
+                              gridDelegate: SliverStairedGridDelegate(
+                                startCrossAxisDirectionReversed: true,
+                                pattern: const [
+                                  StairedGridTile(1, 1.4),
+                                  StairedGridTile(0.4, 0.5),
+                                  StairedGridTile(0.6, 0.75),
+                                  StairedGridTile(0.4, 0.5),
+                                  StairedGridTile(0.6, 0.75),
+                                  StairedGridTile(1, 1),
+                                  // StairedGridTile(1, 6),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
                         const SliverGap(height: 12),
+                        CardContainer(
+                          borderRadius: BorderRadius.circular(16),
+                          padding: EdgeInsets.zero,
+                          child: SizedBox(
+                            height: 54,
+                            width: double.infinity,
+                            child: SeeMoreButton(
+                              color: context.colorScheme.secondary,
+                              text: "Routes contains these items",
+                              constraints: const BoxConstraints.expand(),
+                              onTap: () => navigationService.moveTo(
+                                SearchScreen.name,
+                                queryParameters: {
+                                  SearchScreen.keywordQueryKey: title
+                                },
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     );
                   })

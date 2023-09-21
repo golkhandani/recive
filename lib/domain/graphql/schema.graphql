@@ -1,171 +1,94 @@
-input Trip_itemTripInstructionInsertInput {
-  summary: String
-  distance: Float
-  duration: Float
-  steps: [String]
+input Art_itemLocationInsertInput {
+  geolocation: Art_itemLocationGeolocationInsertInput
+  venue: Art_itemLocationVenueRelationInput
 }
-input Art_itemImagesRelationInput {
-  create: [Image_itemInsertInput]
+type InsertManyPayload {
+  insertedIds: [ObjectId]!
+}
+input Trip_itemUpdateInput {
+  description_unset: Boolean
+  images_unset: Boolean
+  tags: [String]
+  tags_unset: Boolean
+  points_geo_locations: [Trip_itemPoints_geo_locationUpdateInput]
+  arts: Trip_itemArtsRelationInput
+  images: Trip_itemImagesRelationInput
+  points_geo_locations_unset: Boolean
+  _id_unset: Boolean
+  description: String
+  trip: Trip_itemTripUpdateInput
+  _id: ObjectId
+  arts_unset: Boolean
+  trip_unset: Boolean
+  art_types: [String]
+  title: String
+  art_types_unset: Boolean
+  title_unset: Boolean
+}
+input Image_itemQueryInput {
+  image_url_nin: [String]
+  image_url: String
+  image_url_lte: String
+  image_url_lt: String
+  _id_in: [ObjectId]
+  image_url_gte: String
+  image_credit_gt: String
+  image_credit_exists: Boolean
+  _id_gte: ObjectId
+  image_credit_gte: String
+  _id_exists: Boolean
+  image_data_exists: Boolean
+  image_credit_ne: String
+  image_url_exists: Boolean
+  image_url_in: [String]
+  image_data_gt: String
+  image_data_lte: String
+  image_data_in: [String]
+  _id: ObjectId
+  _id_lte: ObjectId
+  image_url_gt: String
+  image_credit: String
+  image_url_ne: String
+  image_data_ne: String
+  image_data_nin: [String]
+  image_data_lt: String
+  image_data: String
+  image_credit_lte: String
+  _id_nin: [ObjectId]
+  image_credit_nin: [String]
+  image_credit_in: [String]
+  OR: [Image_itemQueryInput!]
+  image_data_gte: String
+  AND: [Image_itemQueryInput!]
+  _id_ne: ObjectId
+  image_credit_lt: String
+  _id_gt: ObjectId
+  _id_lt: ObjectId
+}
+input Trip_itemTripPolylineQueryInput {
+  coordinates_in: [Float]
+  coordinates_nin: [Float]
+  coordinates_exists: Boolean
+  OR: [Trip_itemTripPolylineQueryInput!]
+  AND: [Trip_itemTripPolylineQueryInput!]
+  coordinates: [Float]
+}
+input Art_itemArtistsRelationInput {
   link: [ObjectId]
+  create: [Artist_itemInsertInput]
+}
+input Venue_itemInsertInput {
+  title: String
+  _id: ObjectId
+  address: Venue_itemAddressInsertInput
+  geolocation: Venue_itemGeolocationInsertInput
+  osm_id: Float
+  osm_licence: String
+  osm_venue_id: Int
 }
 input Trip_itemTripPolylineUpdateInput {
   coordinates: [Float]
   coordinates_unset: Boolean
-}
-input Art_itemLocationGeolocationQueryInput {
-  coordinates_in: [Float]
-  type: String
-  type_gt: String
-  coordinates: [Float]
-  coordinates_exists: Boolean
-  type_in: [String]
-  OR: [Art_itemLocationGeolocationQueryInput!]
-  AND: [Art_itemLocationGeolocationQueryInput!]
-  coordinates_nin: [Float]
-  type_ne: String
-  type_exists: Boolean
-  type_lte: String
-  type_gte: String
-  type_lt: String
-  type_nin: [String]
-}
-type Category_item {
-  _id: ObjectId
-  description: String
-  imageUrl: String
-  subtitle: String
-  title: String
-}
-enum Image_itemSortByInput {
-  IMAGE_DATA_ASC
-  IMAGE_DATA_DESC
-  IMAGE_URL_ASC
-  IMAGE_URL_DESC
-  _ID_ASC
-  _ID_DESC
-  IMAGE_CREDIT_ASC
-  IMAGE_CREDIT_DESC
-}
-type Query {
-  art_item(query: Art_itemQueryInput): Art_item
-  art_items(
-    query: Art_itemQueryInput
-    limit: Int = 100
-    sortBy: Art_itemSortByInput
-  ): [Art_item]!
-  art_items_near(input: Art_items_nearQueryInput): [Art_item]
-  artist_item(query: Artist_itemQueryInput): Artist_item
-  artist_items(
-    sortBy: Artist_itemSortByInput
-    query: Artist_itemQueryInput
-    limit: Int = 100
-  ): [Artist_item]!
-  category_item(query: Category_itemQueryInput): Category_item
-  category_items(
-    query: Category_itemQueryInput
-    limit: Int = 100
-    sortBy: Category_itemSortByInput
-  ): [Category_item]!
-  image_item(query: Image_itemQueryInput): Image_item
-  image_items(
-    sortBy: Image_itemSortByInput
-    query: Image_itemQueryInput
-    limit: Int = 100
-  ): [Image_item]!
-  source_item(query: Source_itemQueryInput): Source_item
-  source_items(
-    query: Source_itemQueryInput
-    limit: Int = 100
-    sortBy: Source_itemSortByInput
-  ): [Source_item]!
-  trip_item(query: Trip_itemQueryInput): Trip_item
-  trip_items(
-    query: Trip_itemQueryInput
-    limit: Int = 100
-    sortBy: Trip_itemSortByInput
-  ): [Trip_item]!
-  venue_item(query: Venue_itemQueryInput): Venue_item
-  venue_items(
-    query: Venue_itemQueryInput
-    limit: Int = 100
-    sortBy: Venue_itemSortByInput
-  ): [Venue_item]!
-}
-input Venue_itemAddressQueryInput {
-  country_lt: String
-  postalCode_nin: [String]
-  city_lt: String
-  postalCode_gte: String
-  latitude_lt: Float
-  region_ne: String
-  AND: [Venue_itemAddressQueryInput!]
-  country_gte: String
-  region_lte: String
-  country_in: [String]
-  region: String
-  region_exists: Boolean
-  area_lt: String
-  area_nin: [String]
-  longitude_gte: Float
-  country: String
-  latitude: Float
-  longitude_lt: Float
-  localizedAddressDisplay_gt: String
-  latitude_gte: Float
-  area: String
-  postalCode_in: [String]
-  latitude_gt: Float
-  city_exists: Boolean
-  country_exists: Boolean
-  postalCode: String
-  localizedAddressDisplay_nin: [String]
-  region_nin: [String]
-  localizedAddressDisplay_in: [String]
-  postalCode_exists: Boolean
-  city_in: [String]
-  longitude_exists: Boolean
-  latitude_ne: Float
-  localizedAddressDisplay_gte: String
-  longitude: Float
-  latitude_exists: Boolean
-  city_nin: [String]
-  postalCode_lte: String
-  longitude_nin: [Float]
-  region_gte: String
-  postalCode_ne: String
-  area_exists: Boolean
-  localizedAddressDisplay: String
-  localizedAddressDisplay_exists: Boolean
-  area_ne: String
-  city: String
-  region_lt: String
-  OR: [Venue_itemAddressQueryInput!]
-  city_gt: String
-  longitude_ne: Float
-  city_ne: String
-  area_lte: String
-  city_lte: String
-  postalCode_gt: String
-  longitude_gt: Float
-  latitude_in: [Float]
-  country_ne: String
-  localizedAddressDisplay_lt: String
-  country_lte: String
-  city_gte: String
-  region_in: [String]
-  region_gt: String
-  latitude_lte: Float
-  area_gte: String
-  area_gt: String
-  country_gt: String
-  localizedAddressDisplay_ne: String
-  country_nin: [String]
-  localizedAddressDisplay_lte: String
-  longitude_in: [Float]
-  area_in: [String]
-  latitude_nin: [Float]
-  longitude_lte: Float
-  postalCode_lt: String
 }
 type Venue_item {
   _id: ObjectId
@@ -176,461 +99,78 @@ type Venue_item {
   osm_venue_id: Int
   title: String
 }
-input Artist_itemUpdateInput {
-  original_id_unset: Boolean
-  images_unset: Boolean
-  url_unset: Boolean
-  name: String
-  country_unset: Boolean
-  original_id: Int
-  _id_unset: Boolean
-  country: String
-  url: String
-  images: Artist_itemImagesRelationInput
-  biography_unset: Boolean
-  _id: ObjectId
-  name_unset: Boolean
-  original_id_inc: Int
-  website: String
-  website_unset: Boolean
-  biography: String
-}
-input Trip_itemArtsRelationInput {
-  create: [Art_itemInsertInput]
-  link: [ObjectId]
-}
-input Source_itemUpdateInput {
-  data_url_unset: Boolean
-  name: String
-  name_unset: Boolean
-  _id: ObjectId
-  _id_unset: Boolean
-  copy_right: String
-  copy_right_unset: Boolean
-  data_url: String
-}
-input Trip_itemPoints_geo_locationUpdateInput {
-  coordinates: [Float]
-  coordinates_unset: Boolean
-  type: String
-  type_unset: Boolean
-}
-input Art_itemQueryInput {
-  original_id_ne: Int
-  ownership_lte: String
-  original_id_nin: [Int]
-  material_exists: Boolean
-  ownership_nin: [String]
-  artists_exists: Boolean
-  material: [String]
-  description_gte: String
-  original_id_lt: Int
-  _id_lt: ObjectId
-  AND: [Art_itemQueryInput!]
-  tags: [String]
-  ownership_in: [String]
-  title_ne: String
+input Trip_itemQueryInput {
   title_gte: String
-  original_url_in: [String]
-  images_in: [Image_itemQueryInput]
-  statement: String
-  _id_exists: Boolean
-  art_type_in: [String]
-  OR: [Art_itemQueryInput!]
-  art_type_lt: String
-  _id_gt: ObjectId
-  description_gt: String
   images_nin: [Image_itemQueryInput]
-  statement_gte: String
-  original_url_nin: [String]
-  title: String
-  description_exists: Boolean
-  statement_in: [String]
-  ownership_gte: String
-  original_id_lte: Int
-  statement_gt: String
-  title_gt: String
-  _id_ne: ObjectId
-  title_lte: String
-  _id: ObjectId
-  _id_gte: ObjectId
-  material_in: [String]
-  art_type_gt: String
-  original_id_gt: Int
-  title_lt: String
-  location_exists: Boolean
-  description_lte: String
-  original_url_lt: String
-  description_lt: String
-  art_type_nin: [String]
   tags_in: [String]
-  statement_ne: String
-  _id_lte: ObjectId
-  description_nin: [String]
-  title_nin: [String]
-  source_exists: Boolean
-  artists_in: [Artist_itemQueryInput]
+  art_types: [String]
   _id_nin: [ObjectId]
-  ownership: String
-  title_exists: Boolean
-  original_url_gt: String
-  original_url_ne: String
-  statement_lte: String
-  images: [Image_itemQueryInput]
-  original_url: String
-  ownership_gt: String
-  art_type: String
-  title_in: [String]
-  art_type_exists: Boolean
-  art_type_lte: String
-  original_id: Int
-  source: Source_itemQueryInput
-  statement_lt: String
-  _id_in: [ObjectId]
-  art_type_gte: String
-  location: Art_itemLocationQueryInput
-  original_url_lte: String
-  tags_exists: Boolean
-  statement_exists: Boolean
-  material_nin: [String]
-  tags_nin: [String]
-  statement_nin: [String]
-  description_ne: String
-  original_id_exists: Boolean
-  images_exists: Boolean
-  original_id_gte: Int
-  description_in: [String]
-  description: String
-  art_type_ne: String
-  original_id_in: [Int]
-  ownership_exists: Boolean
-  ownership_ne: String
-  artists: [Artist_itemQueryInput]
-  artists_nin: [Artist_itemQueryInput]
-  ownership_lt: String
-  original_url_gte: String
-  original_url_exists: Boolean
-}
-enum Venue_itemSortByInput {
-  OSM_VENUE_ID_DESC
-  TITLE_DESC
-  OSM_ID_ASC
-  OSM_LICENCE_DESC
-  OSM_VENUE_ID_ASC
-  OSM_LICENCE_ASC
-  TITLE_ASC
-  _ID_ASC
-  _ID_DESC
-  OSM_ID_DESC
-}
-input Trip_itemPoints_geo_locationQueryInput {
-  type_gte: String
-  AND: [Trip_itemPoints_geo_locationQueryInput!]
-  coordinates_nin: [Float]
-  OR: [Trip_itemPoints_geo_locationQueryInput!]
-  type: String
-  type_gt: String
-  coordinates: [Float]
-  type_exists: Boolean
-  type_ne: String
-  type_nin: [String]
-  coordinates_in: [Float]
-  coordinates_exists: Boolean
-  type_lt: String
-  type_lte: String
-  type_in: [String]
-}
-enum Category_itemSortByInput {
-  SUBTITLE_ASC
-  _ID_ASC
-  DESCRIPTION_DESC
-  IMAGEURL_DESC
-  SUBTITLE_DESC
-  TITLE_ASC
-  TITLE_DESC
-  _ID_DESC
-  DESCRIPTION_ASC
-  IMAGEURL_ASC
-}
-input Source_itemInsertInput {
-  name: String
-  _id: ObjectId
-  copy_right: String
-  data_url: String
-}
-input Venue_itemGeolocationUpdateInput {
-  coordinates: [Float]
-  coordinates_unset: Boolean
-  type: String
-  type_unset: Boolean
-}
-input Category_itemUpdateInput {
-  subtitle: String
-  _id: ObjectId
-  _id_unset: Boolean
-  imageUrl: String
+  images_in: [Image_itemQueryInput]
+  arts_in: [Art_itemQueryInput]
+  trip_exists: Boolean
+  _id_gt: ObjectId
+  _id_gte: ObjectId
   title: String
-  imageUrl_unset: Boolean
-  subtitle_unset: Boolean
-  title_unset: Boolean
+  trip: Trip_itemTripQueryInput
+  description_lt: String
+  art_types_nin: [String]
+  description_nin: [String]
+  images: [Image_itemQueryInput]
+  AND: [Trip_itemQueryInput!]
+  arts_exists: Boolean
+  title_in: [String]
+  _id_ne: ObjectId
+  points_geo_locations_in: [Trip_itemPoints_geo_locationQueryInput]
+  tags: [String]
+  title_lt: String
+  description_exists: Boolean
+  _id_lt: ObjectId
+  description_gte: String
+  title_gt: String
+  tags_exists: Boolean
+  arts_nin: [Art_itemQueryInput]
+  _id: ObjectId
+  _id_in: [ObjectId]
+  art_types_in: [String]
+  title_ne: String
+  points_geo_locations_nin: [Trip_itemPoints_geo_locationQueryInput]
+  images_exists: Boolean
+  arts: [Art_itemQueryInput]
+  art_types_exists: Boolean
+  description_gt: String
+  title_lte: String
+  description_ne: String
+  title_exists: Boolean
+  points_geo_locations_exists: Boolean
+  _id_lte: ObjectId
+  points_geo_locations: [Trip_itemPoints_geo_locationQueryInput]
+  title_nin: [String]
+  _id_exists: Boolean
+  description_lte: String
+  tags_nin: [String]
+  OR: [Trip_itemQueryInput!]
   description: String
-  description_unset: Boolean
+  description_in: [String]
 }
-input Art_itemLocationUpdateInput {
-  geolocation_unset: Boolean
-  venue: Art_itemLocationVenueRelationInput
-  venue_unset: Boolean
-  geolocation: Art_itemLocationGeolocationUpdateInput
+type Trip_itemTrip {
+  distance: Float
+  duration: Float
+  instructions: [Trip_itemTripInstruction]
+  polyline: [Trip_itemTripPolyline]
 }
-scalar ObjectId
-type Venue_itemGeolocation {
-  coordinates: [Float]
-  type: String
+type Trip_itemTripInstruction {
+  distance: Float
+  duration: Float
+  steps: [String]
+  summary: String
 }
-enum Art_itemSortByInput {
-  DESCRIPTION_ASC
-  ORIGINAL_ID_ASC
-  ORIGINAL_ID_DESC
-  STATEMENT_ASC
-  ART_TYPE_ASC
-  ORIGINAL_URL_ASC
-  OWNERSHIP_ASC
-  SOURCE_DESC
-  STATEMENT_DESC
-  TITLE_DESC
-  _ID_ASC
-  ART_TYPE_DESC
-  ORIGINAL_URL_DESC
-  OWNERSHIP_DESC
-  _ID_DESC
-  SOURCE_ASC
-  TITLE_ASC
-  DESCRIPTION_DESC
-}
-input Art_itemArtistsRelationInput {
-  create: [Artist_itemInsertInput]
+input Artist_itemImagesRelationInput {
+  create: [Image_itemInsertInput]
   link: [ObjectId]
 }
-input Venue_itemAddressInsertInput {
-  country: String
-  latitude: Float
-  localizedAddressDisplay: String
-  longitude: Float
-  postalCode: String
-  region: String
-  area: String
-  city: String
-}
-type Trip_itemPoints_geo_location {
+input Art_itemLocationGeolocationInsertInput {
   coordinates: [Float]
   type: String
-}
-input Image_itemUpdateInput {
-  image_url: String
-  image_url_unset: Boolean
-  _id: ObjectId
-  _id_unset: Boolean
-  image_credit: String
-  image_credit_unset: Boolean
-  image_data: String
-  image_data_unset: Boolean
-}
-input Trip_itemTripPolylineQueryInput {
-  OR: [Trip_itemTripPolylineQueryInput!]
-  coordinates: [Float]
-  coordinates_nin: [Float]
-  coordinates_exists: Boolean
-  coordinates_in: [Float]
-  AND: [Trip_itemTripPolylineQueryInput!]
-}
-type Trip_item {
-  _id: ObjectId
-  art_types: [String]
-  arts: [Art_item]
-  description: String
-  images: [Image_item]
-  points_geo_locations: [Trip_itemPoints_geo_location]
-  tags: [String]
-  title: String
-  trip: Trip_itemTrip
-}
-input Art_itemInsertInput {
-  art_type: String
-  statement: String
-  description: String
-  original_url: String
-  artists: Art_itemArtistsRelationInput
-  location: Art_itemLocationInsertInput
-  title: String
-  tags: [String]
-  _id: ObjectId
-  source: Art_itemSourceRelationInput
-  material: [String]
-  original_id: Int
-  images: Art_itemImagesRelationInput
-  ownership: String
-}
-input Art_itemLocationInsertInput {
-  geolocation: Art_itemLocationGeolocationInsertInput
-  venue: Art_itemLocationVenueRelationInput
-}
-input Trip_itemTripInstructionUpdateInput {
-  summary: String
-  duration_inc: Float
-  steps: [String]
-  duration: Float
-  steps_unset: Boolean
-  summary_unset: Boolean
-  distance: Float
-  distance_unset: Boolean
-  distance_inc: Float
-  duration_unset: Boolean
-}
-input Art_itemLocationQueryInput {
-  venue: Venue_itemQueryInput
-  venue_exists: Boolean
-  OR: [Art_itemLocationQueryInput!]
-  AND: [Art_itemLocationQueryInput!]
-  geolocation: Art_itemLocationGeolocationQueryInput
-  geolocation_exists: Boolean
-}
-input Venue_itemQueryInput {
-  geolocation: Venue_itemGeolocationQueryInput
-  title: String
-  _id_lte: ObjectId
-  title_in: [String]
-  OR: [Venue_itemQueryInput!]
-  _id_exists: Boolean
-  osm_venue_id_ne: Int
-  _id_in: [ObjectId]
-  osm_venue_id_nin: [Int]
-  osm_id_lt: Float
-  osm_venue_id: Int
-  _id_ne: ObjectId
-  osm_venue_id_gte: Int
-  osm_licence_gt: String
-  osm_id_ne: Float
-  title_lte: String
-  title_ne: String
-  _id_lt: ObjectId
-  title_exists: Boolean
-  osm_licence_ne: String
-  address: Venue_itemAddressQueryInput
-  address_exists: Boolean
-  osm_licence: String
-  osm_venue_id_in: [Int]
-  osm_id_gt: Float
-  osm_licence_nin: [String]
-  osm_id_exists: Boolean
-  osm_id: Float
-  title_gte: String
-  title_lt: String
-  osm_licence_gte: String
-  osm_venue_id_gt: Int
-  osm_licence_lte: String
-  osm_id_in: [Float]
-  _id: ObjectId
-  _id_nin: [ObjectId]
-  osm_venue_id_lt: Int
-  osm_venue_id_exists: Boolean
-  osm_id_gte: Float
-  osm_id_lte: Float
-  osm_licence_exists: Boolean
-  osm_id_nin: [Float]
-  osm_licence_in: [String]
-  title_nin: [String]
-  _id_gte: ObjectId
-  AND: [Venue_itemQueryInput!]
-  osm_venue_id_lte: Int
-  _id_gt: ObjectId
-  geolocation_exists: Boolean
-  osm_licence_lt: String
-  title_gt: String
-}
-type Art_itemLocationGeolocation {
-  coordinates: [Float]
-  type: String
-}
-input Artist_itemQueryInput {
-  images_nin: [Image_itemQueryInput]
-  website_gt: String
-  country_gt: String
-  original_id_gt: Int
-  _id_in: [ObjectId]
-  country_nin: [String]
-  url_exists: Boolean
-  _id_gte: ObjectId
-  _id_exists: Boolean
-  country_exists: Boolean
-  original_id_nin: [Int]
-  country_in: [String]
-  name_exists: Boolean
-  biography_nin: [String]
-  _id_gt: ObjectId
-  website_lte: String
-  country_ne: String
-  _id_ne: ObjectId
-  name_lt: String
-  images_in: [Image_itemQueryInput]
-  name_in: [String]
-  _id_lt: ObjectId
-  images: [Image_itemQueryInput]
-  name_ne: String
-  original_id_exists: Boolean
-  biography_lte: String
-  original_id: Int
-  biography: String
-  name_lte: String
-  biography_exists: Boolean
-  country: String
-  url_ne: String
-  website_in: [String]
-  biography_gt: String
-  biography_in: [String]
-  website_exists: Boolean
-  country_gte: String
-  country_lt: String
-  original_id_lte: Int
-  website_gte: String
-  original_id_in: [Int]
-  url: String
-  website_nin: [String]
-  _id_nin: [ObjectId]
-  _id: ObjectId
-  url_gte: String
-  original_id_lt: Int
-  url_nin: [String]
-  OR: [Artist_itemQueryInput!]
-  url_lt: String
-  url_gt: String
-  url_in: [String]
-  country_lte: String
-  name_nin: [String]
-  AND: [Artist_itemQueryInput!]
-  name_gte: String
-  website_ne: String
-  website_lt: String
-  biography_ne: String
-  biography_lt: String
-  name_gt: String
-  website: String
-  _id_lte: ObjectId
-  original_id_ne: Int
-  biography_gte: String
-  name: String
-  original_id_gte: Int
-  images_exists: Boolean
-  url_lte: String
-}
-type Artist_item {
-  _id: ObjectId
-  biography: String
-  country: String
-  images: [Image_item]
-  name: String
-  original_id: Int
-  url: String
-  website: String
 }
 type Image_item {
   _id: ObjectId
@@ -638,153 +178,114 @@ type Image_item {
   image_data: String
   image_url: String
 }
-input Source_itemQueryInput {
-  data_url_lte: String
-  data_url_exists: Boolean
-  name_lte: String
-  copy_right_in: [String]
-  copy_right_gte: String
-  name_gte: String
-  _id_gt: ObjectId
-  data_url_ne: String
-  _id_exists: Boolean
-  copy_right: String
-  name_gt: String
-  data_url_lt: String
-  data_url_gt: String
-  copy_right_ne: String
-  OR: [Source_itemQueryInput!]
-  name_lt: String
-  _id_ne: ObjectId
-  data_url_in: [String]
-  copy_right_nin: [String]
-  name: String
-  data_url_gte: String
-  name_in: [String]
-  name_exists: Boolean
-  AND: [Source_itemQueryInput!]
-  _id_lte: ObjectId
-  copy_right_exists: Boolean
-  data_url_nin: [String]
-  data_url: String
-  name_ne: String
-  _id: ObjectId
-  _id_gte: ObjectId
-  copy_right_lte: String
-  _id_in: [ObjectId]
-  _id_lt: ObjectId
-  _id_nin: [ObjectId]
-  copy_right_lt: String
-  copy_right_gt: String
-  name_nin: [String]
+type Venue_itemAddress {
+  area: String
+  city: String
+  country: String
+  latitude: Float
+  localizedAddressDisplay: String
+  longitude: Float
+  postalCode: String
+  region: String
 }
-input Trip_itemQueryInput {
+type Category_item {
   _id: ObjectId
-  description_lt: String
-  images_in: [Image_itemQueryInput]
-  _id_ne: ObjectId
-  points_geo_locations: [Trip_itemPoints_geo_locationQueryInput]
-  images_exists: Boolean
-  _id_lte: ObjectId
-  title_exists: Boolean
-  title_nin: [String]
-  arts: [Art_itemQueryInput]
-  description_in: [String]
-  points_geo_locations_in: [Trip_itemPoints_geo_locationQueryInput]
-  arts_exists: Boolean
-  description_exists: Boolean
-  trip: Trip_itemTripQueryInput
-  title_gt: String
-  art_types_exists: Boolean
-  OR: [Trip_itemQueryInput!]
-  title_lte: String
-  _id_exists: Boolean
-  _id_gte: ObjectId
-  tags_in: [String]
-  tags_exists: Boolean
-  images_nin: [Image_itemQueryInput]
-  title: String
-  description_ne: String
-  arts_nin: [Art_itemQueryInput]
-  tags_nin: [String]
-  art_types: [String]
-  title_ne: String
   description: String
-  points_geo_locations_exists: Boolean
-  trip_exists: Boolean
-  art_types_nin: [String]
-  images: [Image_itemQueryInput]
-  _id_in: [ObjectId]
-  title_gte: String
-  points_geo_locations_nin: [Trip_itemPoints_geo_locationQueryInput]
-  _id_nin: [ObjectId]
-  description_lte: String
-  title_in: [String]
-  description_gte: String
-  AND: [Trip_itemQueryInput!]
-  arts_in: [Art_itemQueryInput]
-  _id_gt: ObjectId
-  description_gt: String
-  _id_lt: ObjectId
-  art_types_in: [String]
-  title_lt: String
-  tags: [String]
-  description_nin: [String]
-}
-type DeleteManyPayload {
-  deletedCount: Int!
-}
-type UpdateManyPayload {
-  matchedCount: Int!
-  modifiedCount: Int!
-}
-input Venue_itemUpdateInput {
-  address: Venue_itemAddressUpdateInput
-  _id: ObjectId
-  osm_id_inc: Float
-  osm_venue_id_inc: Int
-  osm_venue_id_unset: Boolean
-  osm_id: Float
-  osm_licence_unset: Boolean
-  geolocation_unset: Boolean
-  osm_venue_id: Int
-  title_unset: Boolean
-  address_unset: Boolean
-  osm_licence: String
+  imageUrl: String
+  subtitle: String
   title: String
-  osm_id_unset: Boolean
-  geolocation: Venue_itemGeolocationUpdateInput
-  _id_unset: Boolean
 }
-input Art_itemLocationVenueRelationInput {
-  link: ObjectId
-  create: Venue_itemInsertInput
+input Image_itemInsertInput {
+  image_data: String
+  image_url: String
+  _id: ObjectId
+  image_credit: String
 }
-enum Artist_itemSortByInput {
-  URL_ASC
-  WEBSITE_ASC
-  _ID_DESC
-  BIOGRAPHY_ASC
-  COUNTRY_DESC
-  NAME_DESC
-  ORIGINAL_ID_ASC
-  WEBSITE_DESC
-  COUNTRY_ASC
-  ORIGINAL_ID_DESC
-  _ID_ASC
-  BIOGRAPHY_DESC
-  NAME_ASC
-  URL_DESC
+input Venue_itemAddressInsertInput {
+  postalCode: String
+  region: String
+  area: String
+  city: String
+  country: String
+  latitude: Float
+  localizedAddressDisplay: String
+  longitude: Float
 }
-input Art_items_nearQueryInputQuery {
-  maxDistance: Float
-  minDistance: Float
-  _id_gt: ObjectId
-  lat: Float
-  long: Float
-}
-type Trip_itemTripPolyline {
+input Trip_itemPoints_geo_locationInsertInput {
   coordinates: [Float]
+  type: String
+}
+input Category_itemUpdateInput {
+  _id: ObjectId
+  description_unset: Boolean
+  imageUrl: String
+  imageUrl_unset: Boolean
+  title_unset: Boolean
+  title: String
+  _id_unset: Boolean
+  description: String
+  subtitle: String
+  subtitle_unset: Boolean
+}
+input Source_itemQueryInput {
+  _id_lt: ObjectId
+  copy_right_in: [String]
+  copy_right_nin: [String]
+  data_url_ne: String
+  name_lt: String
+  copy_right_gt: String
+  OR: [Source_itemQueryInput!]
+  copy_right_ne: String
+  copy_right_exists: Boolean
+  name_in: [String]
+  data_url_lte: String
+  name_gt: String
+  AND: [Source_itemQueryInput!]
+  data_url_gte: String
+  copy_right_gte: String
+  data_url_gt: String
+  copy_right_lte: String
+  name_exists: Boolean
+  data_url_exists: Boolean
+  data_url_lt: String
+  _id_gte: ObjectId
+  copy_right: String
+  _id_exists: Boolean
+  name_gte: String
+  _id: ObjectId
+  _id_in: [ObjectId]
+  name: String
+  _id_nin: [ObjectId]
+  _id_lte: ObjectId
+  copy_right_lt: String
+  data_url_in: [String]
+  data_url: String
+  data_url_nin: [String]
+  _id_ne: ObjectId
+  _id_gt: ObjectId
+  name_lte: String
+  name_nin: [String]
+  name_ne: String
+}
+enum Art_itemSortByInput {
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  ORIGINAL_ID_ASC
+  ORIGINAL_URL_DESC
+  OWNERSHIP_DESC
+  STATEMENT_DESC
+  _ID_ASC
+  _ID_DESC
+  ART_TYPE_DESC
+  ART_TYPE_ASC
+  ORIGINAL_ID_DESC
+  ORIGINAL_URL_ASC
+  SOURCE_DESC
+  TITLE_DESC
+  OWNERSHIP_ASC
+  SOURCE_ASC
+  STATEMENT_ASC
+  TITLE_ASC
 }
 type Mutation {
   deleteManyArt_items(query: Art_itemQueryInput): DeleteManyPayload
@@ -866,8 +367,8 @@ type Mutation {
     set: Source_itemUpdateInput!
   ): UpdateManyPayload
   updateManyTrip_items(
-    set: Trip_itemUpdateInput!
     query: Trip_itemQueryInput
+    set: Trip_itemUpdateInput!
   ): UpdateManyPayload
   updateManyVenue_items(
     query: Venue_itemQueryInput
@@ -878,8 +379,8 @@ type Mutation {
     set: Art_itemUpdateInput!
   ): Art_item
   updateOneArtist_item(
-    query: Artist_itemQueryInput
     set: Artist_itemUpdateInput!
+    query: Artist_itemQueryInput
   ): Artist_item
   updateOneCategory_item(
     query: Category_itemQueryInput
@@ -890,12 +391,12 @@ type Mutation {
     set: Image_itemUpdateInput!
   ): Image_item
   updateOneSource_item(
-    set: Source_itemUpdateInput!
     query: Source_itemQueryInput
+    set: Source_itemUpdateInput!
   ): Source_item
   updateOneTrip_item(
-    set: Trip_itemUpdateInput!
     query: Trip_itemQueryInput
+    set: Trip_itemUpdateInput!
   ): Trip_item
   updateOneVenue_item(
     query: Venue_itemQueryInput
@@ -926,59 +427,610 @@ type Mutation {
     query: Trip_itemQueryInput
   ): Trip_item
   upsertOneVenue_item(
-    data: Venue_itemInsertInput!
     query: Venue_itemQueryInput
+    data: Venue_itemInsertInput!
   ): Venue_item
 }
-input Trip_itemTripInsertInput {
-  distance: Float
-  duration: Float
-  instructions: [Trip_itemTripInstructionInsertInput]
-  polyline: [Trip_itemTripPolylineInsertInput]
+input Trip_itemArtsRelationInput {
+  create: [Art_itemInsertInput]
+  link: [ObjectId]
 }
-input Category_itemInsertInput {
-  description: String
-  imageUrl: String
-  subtitle: String
-  title: String
+input Source_itemInsertInput {
   _id: ObjectId
+  copy_right: String
+  data_url: String
+  name: String
 }
-input Art_itemUpdateInput {
-  original_url_unset: Boolean
-  original_url: String
-  material_unset: Boolean
-  source: Art_itemSourceRelationInput
-  original_id_inc: Int
-  statement: String
-  description: String
+scalar ObjectId
+type Artist_item {
   _id: ObjectId
-  original_id_unset: Boolean
-  statement_unset: Boolean
-  art_type_unset: Boolean
-  source_unset: Boolean
-  description_unset: Boolean
-  tags: [String]
+  biography: String
+  country: String
+  images: [Image_item]
+  name: String
   original_id: Int
-  location: Art_itemLocationUpdateInput
-  ownership_unset: Boolean
-  ownership: String
-  artists_unset: Boolean
-  art_type: String
-  title_unset: Boolean
+  url: String
+  website: String
+}
+enum Source_itemSortByInput {
+  NAME_DESC
+  _ID_ASC
+  _ID_DESC
+  COPY_RIGHT_ASC
+  COPY_RIGHT_DESC
+  DATA_URL_ASC
+  DATA_URL_DESC
+  NAME_ASC
+}
+input Art_items_nearQueryInput {
+  query: Art_items_nearQueryInputQuery
+  limit: Int
+}
+input Art_items_nearQueryInputQuery {
+  minDistance: Float
+  text: String
+  _id_gt: ObjectId
+  lat: Float
+  long: Float
+  maxDistance: Float
+}
+input Trip_itemInsertInput {
+  images: Trip_itemImagesRelationInput
+  points_geo_locations: [Trip_itemPoints_geo_locationInsertInput]
+  trip: Trip_itemTripInsertInput
+  arts: Trip_itemArtsRelationInput
   title: String
-  _id_unset: Boolean
-  location_unset: Boolean
-  tags_unset: Boolean
-  images_unset: Boolean
+  description: String
+  tags: [String]
+  _id: ObjectId
+  art_types: [String]
+}
+input Art_itemInsertInput {
+  ownership: String
+  title: String
+  description: String
+  statement: String
+  art_type: String
   material: [String]
+  original_id: Int
+  source: Art_itemSourceRelationInput
+  _id: ObjectId
   artists: Art_itemArtistsRelationInput
   images: Art_itemImagesRelationInput
+  original_url: String
+  tags: [String]
+  location: Art_itemLocationInsertInput
 }
-input Art_itemLocationGeolocationUpdateInput {
+input Art_itemLocationGeolocationQueryInput {
+  type_gt: String
+  coordinates_exists: Boolean
   coordinates: [Float]
+  OR: [Art_itemLocationGeolocationQueryInput!]
+  coordinates_in: [Float]
+  type_lte: String
+  type_ne: String
+  type_nin: [String]
+  type_exists: Boolean
+  AND: [Art_itemLocationGeolocationQueryInput!]
+  coordinates_nin: [Float]
+  type: String
+  type_in: [String]
+  type_lt: String
+  type_gte: String
+}
+type Trip_item {
+  _id: ObjectId
+  art_types: [String]
+  arts: [Art_item]
+  description: String
+  images: [Image_item]
+  points_geo_locations: [Trip_itemPoints_geo_location]
+  tags: [String]
+  title: String
+  trip: Trip_itemTrip
+}
+input Venue_itemGeolocationInsertInput {
+  coordinates: [Float]
+  type: String
+}
+input Art_itemImagesRelationInput {
+  create: [Image_itemInsertInput]
+  link: [ObjectId]
+}
+input Artist_itemUpdateInput {
+  biography_unset: Boolean
+  country_unset: Boolean
+  original_id_inc: Int
+  country: String
+  images: Artist_itemImagesRelationInput
+  _id: ObjectId
+  website: String
+  images_unset: Boolean
+  website_unset: Boolean
+  url: String
+  biography: String
+  name_unset: Boolean
+  original_id: Int
+  original_id_unset: Boolean
+  _id_unset: Boolean
+  name: String
+  url_unset: Boolean
+}
+input Image_itemUpdateInput {
+  image_credit_unset: Boolean
+  image_data: String
+  image_data_unset: Boolean
+  image_url: String
+  image_url_unset: Boolean
+  _id: ObjectId
+  _id_unset: Boolean
+  image_credit: String
+}
+input Art_itemQueryInput {
+  _id_lt: ObjectId
+  material: [String]
+  OR: [Art_itemQueryInput!]
+  material_in: [String]
+  original_url_in: [String]
+  statement_nin: [String]
+  original_id_exists: Boolean
+  original_url_ne: String
+  original_id_nin: [Int]
+  description_lt: String
+  _id_nin: [ObjectId]
+  original_url_gte: String
+  _id: ObjectId
+  description_gte: String
+  title_gte: String
+  original_id: Int
+  material_exists: Boolean
+  original_url: String
+  original_id_gt: Int
+  source: Source_itemQueryInput
+  statement_gte: String
+  ownership_lte: String
+  title_nin: [String]
+  original_id_lt: Int
+  ownership_gte: String
+  original_url_gt: String
+  images_nin: [Image_itemQueryInput]
+  location_exists: Boolean
+  description_gt: String
+  description_exists: Boolean
+  statement_lt: String
+  original_id_lte: Int
+  title_in: [String]
+  title_lte: String
+  original_url_lt: String
+  tags_in: [String]
+  art_type_ne: String
+  description_ne: String
+  AND: [Art_itemQueryInput!]
+  statement_gt: String
+  statement_exists: Boolean
+  art_type: String
+  description: String
+  title_ne: String
+  images_in: [Image_itemQueryInput]
+  images_exists: Boolean
+  ownership_in: [String]
+  ownership_exists: Boolean
+  original_url_lte: String
+  artists_nin: [Artist_itemQueryInput]
+  _id_gte: ObjectId
+  art_type_gt: String
+  original_id_in: [Int]
+  art_type_lt: String
+  artists_exists: Boolean
+  original_url_nin: [String]
+  art_type_exists: Boolean
+  art_type_nin: [String]
+  ownership_ne: String
+  title: String
+  statement: String
+  ownership_lt: String
+  tags_exists: Boolean
+  location: Art_itemLocationQueryInput
+  ownership: String
+  source_exists: Boolean
+  title_lt: String
+  artists: [Artist_itemQueryInput]
+  statement_in: [String]
+  title_gt: String
+  images: [Image_itemQueryInput]
+  art_type_gte: String
+  _id_gt: ObjectId
+  title_exists: Boolean
+  art_type_in: [String]
+  description_nin: [String]
+  tags: [String]
+  _id_in: [ObjectId]
+  _id_ne: ObjectId
+  statement_lte: String
+  ownership_nin: [String]
+  art_type_lte: String
+  original_id_gte: Int
+  description_lte: String
+  original_url_exists: Boolean
+  material_nin: [String]
+  artists_in: [Artist_itemQueryInput]
+  description_in: [String]
+  tags_nin: [String]
+  _id_lte: ObjectId
+  _id_exists: Boolean
+  statement_ne: String
+  original_id_ne: Int
+  ownership_gt: String
+}
+input Art_itemLocationQueryInput {
+  AND: [Art_itemLocationQueryInput!]
+  OR: [Art_itemLocationQueryInput!]
+  geolocation: Art_itemLocationGeolocationQueryInput
+  geolocation_exists: Boolean
+  venue: Venue_itemQueryInput
+  venue_exists: Boolean
+}
+type Art_itemLocation {
+  geolocation: Art_itemLocationGeolocation
+  venue: Venue_item
+}
+type Art_itemLocationGeolocation {
+  coordinates: [Float]
+  type: String
+}
+input Source_itemUpdateInput {
+  name: String
+  name_unset: Boolean
+  _id: ObjectId
+  _id_unset: Boolean
+  copy_right: String
+  copy_right_unset: Boolean
+  data_url: String
+  data_url_unset: Boolean
+}
+input Trip_itemTripUpdateInput {
+  instructions_unset: Boolean
+  distance: Float
+  distance_unset: Boolean
+  duration: Float
+  duration_unset: Boolean
+  instructions: [Trip_itemTripInstructionUpdateInput]
+  distance_inc: Float
+  duration_inc: Float
+  polyline: [Trip_itemTripPolylineUpdateInput]
+  polyline_unset: Boolean
+}
+enum Trip_itemSortByInput {
+  DESCRIPTION_DESC
+  TITLE_ASC
+  TITLE_DESC
+  _ID_ASC
+  _ID_DESC
+  DESCRIPTION_ASC
+}
+input Artist_itemInsertInput {
+  name: String
+  original_id: Int
+  url: String
+  website: String
+  _id: ObjectId
+  biography: String
+  country: String
+  images: Artist_itemImagesRelationInput
+}
+type DeleteManyPayload {
+  deletedCount: Int!
+}
+input Trip_itemTripInstructionUpdateInput {
+  distance_unset: Boolean
+  steps: [String]
+  distance: Float
+  duration: Float
+  duration_inc: Float
+  summary: String
+  summary_unset: Boolean
+  duration_unset: Boolean
+  steps_unset: Boolean
+  distance_inc: Float
+}
+input Venue_itemGeolocationUpdateInput {
   coordinates_unset: Boolean
   type: String
   type_unset: Boolean
+  coordinates: [Float]
+}
+input Trip_itemTripQueryInput {
+  distance: Float
+  instructions_exists: Boolean
+  distance_lte: Float
+  distance_nin: [Float]
+  duration_nin: [Float]
+  duration_gte: Float
+  polyline_nin: [Trip_itemTripPolylineQueryInput]
+  instructions_in: [Trip_itemTripInstructionQueryInput]
+  polyline_exists: Boolean
+  distance_exists: Boolean
+  duration_gt: Float
+  distance_in: [Float]
+  duration_lt: Float
+  duration_lte: Float
+  duration: Float
+  AND: [Trip_itemTripQueryInput!]
+  duration_in: [Float]
+  instructions_nin: [Trip_itemTripInstructionQueryInput]
+  distance_gte: Float
+  OR: [Trip_itemTripQueryInput!]
+  polyline: [Trip_itemTripPolylineQueryInput]
+  distance_lt: Float
+  polyline_in: [Trip_itemTripPolylineQueryInput]
+  distance_ne: Float
+  distance_gt: Float
+  instructions: [Trip_itemTripInstructionQueryInput]
+  duration_ne: Float
+  duration_exists: Boolean
+}
+input Category_itemQueryInput {
+  imageUrl_nin: [String]
+  subtitle_lt: String
+  imageUrl_gt: String
+  title_lt: String
+  title_ne: String
+  description: String
+  imageUrl_lte: String
+  title_lte: String
+  _id_gt: ObjectId
+  _id_in: [ObjectId]
+  description_lte: String
+  title_nin: [String]
+  subtitle_ne: String
+  description_ne: String
+  subtitle: String
+  _id_ne: ObjectId
+  description_in: [String]
+  imageUrl_exists: Boolean
+  description_exists: Boolean
+  description_nin: [String]
+  imageUrl_ne: String
+  OR: [Category_itemQueryInput!]
+  _id_exists: Boolean
+  title: String
+  _id: ObjectId
+  imageUrl_gte: String
+  subtitle_exists: Boolean
+  title_gte: String
+  imageUrl: String
+  imageUrl_in: [String]
+  description_lt: String
+  imageUrl_lt: String
+  _id_lt: ObjectId
+  subtitle_gt: String
+  subtitle_gte: String
+  AND: [Category_itemQueryInput!]
+  _id_lte: ObjectId
+  _id_gte: ObjectId
+  title_exists: Boolean
+  _id_nin: [ObjectId]
+  description_gte: String
+  subtitle_in: [String]
+  title_in: [String]
+  subtitle_lte: String
+  subtitle_nin: [String]
+  title_gt: String
+  description_gt: String
+}
+type Query {
+  art_item(query: Art_itemQueryInput): Art_item
+  art_items(
+    query: Art_itemQueryInput
+    limit: Int = 100
+    sortBy: Art_itemSortByInput
+  ): [Art_item]!
+  art_items_near(input: Art_items_nearQueryInput): [Art_item]
+  artist_item(query: Artist_itemQueryInput): Artist_item
+  artist_items(
+    sortBy: Artist_itemSortByInput
+    query: Artist_itemQueryInput
+    limit: Int = 100
+  ): [Artist_item]!
+  category_item(query: Category_itemQueryInput): Category_item
+  category_items(
+    query: Category_itemQueryInput
+    limit: Int = 100
+    sortBy: Category_itemSortByInput
+  ): [Category_item]!
+  image_item(query: Image_itemQueryInput): Image_item
+  image_items(
+    query: Image_itemQueryInput
+    limit: Int = 100
+    sortBy: Image_itemSortByInput
+  ): [Image_item]!
+  source_item(query: Source_itemQueryInput): Source_item
+  source_items(
+    query: Source_itemQueryInput
+    limit: Int = 100
+    sortBy: Source_itemSortByInput
+  ): [Source_item]!
+  trip_item(query: Trip_itemQueryInput): Trip_item
+  trip_items(
+    query: Trip_itemQueryInput
+    limit: Int = 100
+    sortBy: Trip_itemSortByInput
+  ): [Trip_item]!
+  venue_item(query: Venue_itemQueryInput): Venue_item
+  venue_items(
+    query: Venue_itemQueryInput
+    limit: Int = 100
+    sortBy: Venue_itemSortByInput
+  ): [Venue_item]!
+}
+type Source_item {
+  _id: ObjectId
+  copy_right: String
+  data_url: String
+  name: String
+}
+input Art_itemLocationVenueRelationInput {
+  create: Venue_itemInsertInput
+  link: ObjectId
+}
+input Trip_itemTripInsertInput {
+  polyline: [Trip_itemTripPolylineInsertInput]
+  distance: Float
+  duration: Float
+  instructions: [Trip_itemTripInstructionInsertInput]
+}
+input Trip_itemPoints_geo_locationUpdateInput {
+  type_unset: Boolean
+  coordinates: [Float]
+  coordinates_unset: Boolean
+  type: String
+}
+input Artist_itemQueryInput {
+  biography_gt: String
+  biography_nin: [String]
+  biography_exists: Boolean
+  _id_in: [ObjectId]
+  biography_lt: String
+  website_in: [String]
+  website_lte: String
+  AND: [Artist_itemQueryInput!]
+  name: String
+  url_ne: String
+  _id_gte: ObjectId
+  name_exists: Boolean
+  country_nin: [String]
+  url_gte: String
+  name_nin: [String]
+  url_gt: String
+  country_gte: String
+  country_in: [String]
+  biography: String
+  url_lt: String
+  website_nin: [String]
+  name_lte: String
+  original_id_nin: [Int]
+  OR: [Artist_itemQueryInput!]
+  _id_lt: ObjectId
+  original_id: Int
+  url_lte: String
+  _id_exists: Boolean
+  _id_lte: ObjectId
+  original_id_ne: Int
+  images_nin: [Image_itemQueryInput]
+  website_ne: String
+  name_ne: String
+  name_gt: String
+  images_exists: Boolean
+  _id_nin: [ObjectId]
+  images_in: [Image_itemQueryInput]
+  url_nin: [String]
+  biography_in: [String]
+  name_lt: String
+  website_gt: String
+  url: String
+  original_id_gt: Int
+  country_lt: String
+  images: [Image_itemQueryInput]
+  country_lte: String
+  biography_gte: String
+  country_exists: Boolean
+  original_id_lt: Int
+  name_gte: String
+  _id_gt: ObjectId
+  url_in: [String]
+  website_exists: Boolean
+  url_exists: Boolean
+  country_ne: String
+  original_id_exists: Boolean
+  original_id_gte: Int
+  original_id_in: [Int]
+  name_in: [String]
+  original_id_lte: Int
+  website_gte: String
+  biography_lte: String
+  _id_ne: ObjectId
+  country_gt: String
+  country: String
+  _id: ObjectId
+  website: String
+  biography_ne: String
+  website_lt: String
+}
+input Venue_itemAddressQueryInput {
+  latitude_gt: Float
+  area_lt: String
+  localizedAddressDisplay_gte: String
+  postalCode_lte: String
+  localizedAddressDisplay_lt: String
+  postalCode_gt: String
+  country_lt: String
+  area_ne: String
+  country_lte: String
+  latitude_in: [Float]
+  latitude_exists: Boolean
+  area_gte: String
+  latitude_nin: [Float]
+  region_ne: String
+  postalCode_in: [String]
+  localizedAddressDisplay_ne: String
+  localizedAddressDisplay_gt: String
+  city_nin: [String]
+  longitude_in: [Float]
+  postalCode_nin: [String]
+  latitude: Float
+  postalCode_exists: Boolean
+  country_gt: String
+  city_gte: String
+  longitude_gte: Float
+  region_gte: String
+  postalCode_ne: String
+  postalCode_lt: String
+  longitude: Float
+  localizedAddressDisplay_exists: Boolean
+  city_lt: String
+  postalCode: String
+  city_exists: Boolean
+  OR: [Venue_itemAddressQueryInput!]
+  country_in: [String]
+  area_nin: [String]
+  longitude_nin: [Float]
+  longitude_lte: Float
+  localizedAddressDisplay_nin: [String]
+  latitude_lte: Float
+  city_lte: String
+  longitude_gt: Float
+  area_in: [String]
+  localizedAddressDisplay_lte: String
+  city_ne: String
+  city: String
+  region_gt: String
+  country_gte: String
+  area_exists: Boolean
+  longitude_lt: Float
+  city_in: [String]
+  localizedAddressDisplay: String
+  latitude_gte: Float
+  AND: [Venue_itemAddressQueryInput!]
+  city_gt: String
+  region: String
+  country_exists: Boolean
+  region_nin: [String]
+  localizedAddressDisplay_in: [String]
+  area: String
+  area_gt: String
+  region_exists: Boolean
+  area_lte: String
+  region_lt: String
+  longitude_ne: Float
+  longitude_exists: Boolean
+  region_lte: String
+  country_ne: String
+  latitude_ne: Float
+  country_nin: [String]
+  region_in: [String]
+  country: String
+  latitude_lt: Float
+  postalCode_gte: String
 }
 type Art_item {
   _id: ObjectId
@@ -996,346 +1048,295 @@ type Art_item {
   tags: [String]
   title: String
 }
-input Trip_itemTripInstructionQueryInput {
-  summary_lte: String
-  distance_gte: Float
-  distance_nin: [Float]
-  summary_ne: String
-  OR: [Trip_itemTripInstructionQueryInput!]
-  distance_gt: Float
-  summary_gte: String
-  steps_nin: [String]
+type Trip_itemPoints_geo_location {
+  coordinates: [Float]
+  type: String
+}
+input Trip_itemTripInstructionInsertInput {
+  distance: Float
+  duration: Float
   steps: [String]
-  summary_exists: Boolean
-  steps_in: [String]
-  summary_in: [String]
-  summary_lt: String
-  distance_in: [Float]
-  summary_gt: String
-  distance_lte: Float
-  duration_ne: Float
-  duration_lt: Float
-  duration_exists: Boolean
-  duration_gte: Float
-  duration_gt: Float
-  duration: Float
-  distance_ne: Float
-  distance_lt: Float
-  duration_nin: [Float]
-  distance: Float
-  distance_exists: Boolean
-  AND: [Trip_itemTripInstructionQueryInput!]
-  summary_nin: [String]
-  duration_in: [Float]
-  duration_lte: Float
   summary: String
-  steps_exists: Boolean
 }
-input Image_itemInsertInput {
-  image_data: String
-  image_url: String
-  _id: ObjectId
-  image_credit: String
-}
-input Trip_itemInsertInput {
-  _id: ObjectId
-  art_types: [String]
-  arts: Trip_itemArtsRelationInput
-  images: Trip_itemImagesRelationInput
-  points_geo_locations: [Trip_itemPoints_geo_locationInsertInput]
-  title: String
-  trip: Trip_itemTripInsertInput
+input Art_itemUpdateInput {
+  artists_unset: Boolean
+  images_unset: Boolean
   description: String
+  images: Art_itemImagesRelationInput
+  original_id: Int
+  _id_unset: Boolean
+  art_type_unset: Boolean
+  title: String
+  ownership_unset: Boolean
+  location_unset: Boolean
+  original_id_inc: Int
+  statement_unset: Boolean
+  source: Art_itemSourceRelationInput
+  original_url_unset: Boolean
+  location: Art_itemLocationUpdateInput
+  artists: Art_itemArtistsRelationInput
   tags: [String]
+  original_url: String
+  statement: String
+  tags_unset: Boolean
+  description_unset: Boolean
+  material_unset: Boolean
+  ownership: String
+  _id: ObjectId
+  art_type: String
+  title_unset: Boolean
+  material: [String]
+  original_id_unset: Boolean
+  source_unset: Boolean
 }
-input Art_items_nearQueryInput {
-  query: Art_items_nearQueryInputQuery
-  limit: Int
-}
-input Trip_itemTripQueryInput {
-  distance_exists: Boolean
-  duration_gt: Float
-  polyline_exists: Boolean
-  duration_in: [Float]
-  polyline_nin: [Trip_itemTripPolylineQueryInput]
-  distance_gte: Float
-  instructions_nin: [Trip_itemTripInstructionQueryInput]
-  duration: Float
-  polyline_in: [Trip_itemTripPolylineQueryInput]
-  duration_ne: Float
-  distance_ne: Float
-  duration_nin: [Float]
-  instructions_exists: Boolean
-  duration_lt: Float
-  distance_in: [Float]
-  polyline: [Trip_itemTripPolylineQueryInput]
-  instructions: [Trip_itemTripInstructionQueryInput]
-  AND: [Trip_itemTripQueryInput!]
-  duration_gte: Float
-  distance_gt: Float
-  distance_lte: Float
-  duration_lte: Float
-  duration_exists: Boolean
-  distance_nin: [Float]
-  OR: [Trip_itemTripQueryInput!]
-  distance_lt: Float
-  distance: Float
-  instructions_in: [Trip_itemTripInstructionQueryInput]
-}
-input Venue_itemAddressUpdateInput {
-  postalCode: String
-  area_unset: Boolean
-  longitude: Float
-  region_unset: Boolean
-  localizedAddressDisplay: String
-  longitude_unset: Boolean
-  area: String
-  city: String
-  country_unset: Boolean
-  latitude_unset: Boolean
-  latitude_inc: Float
-  longitude_inc: Float
-  city_unset: Boolean
-  latitude: Float
-  country: String
-  localizedAddressDisplay_unset: Boolean
-  postalCode_unset: Boolean
-  region: String
-}
-input Artist_itemImagesRelationInput {
-  create: [Image_itemInsertInput]
-  link: [ObjectId]
-}
-input Art_itemLocationGeolocationInsertInput {
+input Art_itemLocationGeolocationUpdateInput {
   coordinates: [Float]
+  coordinates_unset: Boolean
   type: String
+  type_unset: Boolean
 }
-input Trip_itemPoints_geo_locationInsertInput {
-  coordinates: [Float]
-  type: String
+input Venue_itemQueryInput {
+  osm_venue_id_nin: [Int]
+  geolocation_exists: Boolean
+  title_lte: String
+  AND: [Venue_itemQueryInput!]
+  title: String
+  address_exists: Boolean
+  geolocation: Venue_itemGeolocationQueryInput
+  osm_venue_id_in: [Int]
+  title_gt: String
+  osm_id_lte: Float
+  osm_venue_id: Int
+  osm_venue_id_exists: Boolean
+  title_ne: String
+  osm_licence: String
+  osm_id_ne: Float
+  osm_licence_gt: String
+  title_lt: String
+  _id_gt: ObjectId
+  osm_id_in: [Float]
+  osm_id_lt: Float
+  osm_licence_lte: String
+  _id_in: [ObjectId]
+  _id_nin: [ObjectId]
+  osm_venue_id_lt: Int
+  osm_licence_gte: String
+  osm_licence_ne: String
+  osm_licence_in: [String]
+  _id_ne: ObjectId
+  _id_exists: Boolean
+  osm_id_gte: Float
+  osm_licence_lt: String
+  osm_venue_id_lte: Int
+  _id_lte: ObjectId
+  title_exists: Boolean
+  osm_id_nin: [Float]
+  osm_licence_nin: [String]
+  osm_venue_id_ne: Int
+  _id_gte: ObjectId
+  osm_id_gt: Float
+  _id: ObjectId
+  title_in: [String]
+  OR: [Venue_itemQueryInput!]
+  osm_id_exists: Boolean
+  osm_id: Float
+  title_gte: String
+  _id_lt: ObjectId
+  osm_licence_exists: Boolean
+  osm_venue_id_gte: Int
+  title_nin: [String]
+  address: Venue_itemAddressQueryInput
+  osm_venue_id_gt: Int
 }
-type Venue_itemAddress {
-  area: String
-  city: String
-  country: String
-  latitude: Float
-  localizedAddressDisplay: String
-  longitude: Float
-  postalCode: String
-  region: String
+enum Venue_itemSortByInput {
+  _ID_ASC
+  _ID_DESC
+  OSM_VENUE_ID_ASC
+  TITLE_ASC
+  TITLE_DESC
+  OSM_ID_ASC
+  OSM_ID_DESC
+  OSM_LICENCE_ASC
+  OSM_LICENCE_DESC
+  OSM_VENUE_ID_DESC
 }
 input Trip_itemTripPolylineInsertInput {
   coordinates: [Float]
+}
+input Art_itemLocationUpdateInput {
+  geolocation: Art_itemLocationGeolocationUpdateInput
+  geolocation_unset: Boolean
+  venue: Art_itemLocationVenueRelationInput
+  venue_unset: Boolean
+}
+type Venue_itemGeolocation {
+  coordinates: [Float]
+  type: String
+}
+input Trip_itemTripInstructionQueryInput {
+  summary_gte: String
+  summary_lte: String
+  distance_gt: Float
+  duration_lte: Float
+  distance_lte: Float
+  duration_exists: Boolean
+  duration_ne: Float
+  summary_in: [String]
+  AND: [Trip_itemTripInstructionQueryInput!]
+  distance: Float
+  distance_nin: [Float]
+  duration_nin: [Float]
+  distance_ne: Float
+  summary_lt: String
+  distance_exists: Boolean
+  duration_gte: Float
+  duration_in: [Float]
+  steps: [String]
+  steps_exists: Boolean
+  steps_nin: [String]
+  steps_in: [String]
+  duration_lt: Float
+  distance_gte: Float
+  distance_lt: Float
+  summary_gt: String
+  OR: [Trip_itemTripInstructionQueryInput!]
+  summary: String
+  distance_in: [Float]
+  duration: Float
+  duration_gt: Float
+  summary_ne: String
+  summary_exists: Boolean
+  summary_nin: [String]
 }
 input Art_itemSourceRelationInput {
   create: Source_itemInsertInput
   link: ObjectId
 }
-input Trip_itemUpdateInput {
-  _id_unset: Boolean
-  art_types: [String]
-  images_unset: Boolean
-  trip_unset: Boolean
-  _id: ObjectId
-  art_types_unset: Boolean
-  description: String
-  title: String
-  tags: [String]
-  images: Trip_itemImagesRelationInput
-  tags_unset: Boolean
-  trip: Trip_itemTripUpdateInput
-  title_unset: Boolean
-  arts: Trip_itemArtsRelationInput
-  points_geo_locations_unset: Boolean
-  arts_unset: Boolean
-  description_unset: Boolean
-  points_geo_locations: [Trip_itemPoints_geo_locationUpdateInput]
-}
-input Artist_itemInsertInput {
-  original_id: Int
-  url: String
-  website: String
-  _id: ObjectId
-  biography: String
-  country: String
-  images: Artist_itemImagesRelationInput
-  name: String
-}
-input Trip_itemTripUpdateInput {
-  instructions: [Trip_itemTripInstructionUpdateInput]
-  instructions_unset: Boolean
-  polyline: [Trip_itemTripPolylineUpdateInput]
-  distance: Float
-  distance_unset: Boolean
-  duration_unset: Boolean
-  distance_inc: Float
-  duration_inc: Float
-  duration: Float
-  polyline_unset: Boolean
-}
-input Image_itemQueryInput {
-  _id_nin: [ObjectId]
-  image_data_nin: [String]
-  _id_lte: ObjectId
-  image_credit_nin: [String]
-  image_data_ne: String
-  image_data_gte: String
-  _id_lt: ObjectId
-  image_credit_lt: String
-  image_data: String
-  _id_gte: ObjectId
-  image_credit_gt: String
-  image_url_gt: String
-  image_url_lte: String
-  image_credit_lte: String
-  image_url_ne: String
-  image_url_in: [String]
-  image_data_gt: String
-  _id_in: [ObjectId]
-  image_credit_ne: String
-  image_url_nin: [String]
-  _id: ObjectId
-  _id_ne: ObjectId
-  image_url_exists: Boolean
-  image_url_gte: String
-  image_url: String
-  image_credit_exists: Boolean
-  image_data_in: [String]
-  OR: [Image_itemQueryInput!]
-  image_url_lt: String
-  image_credit_gte: String
-  image_data_lte: String
-  image_data_exists: Boolean
-  image_credit_in: [String]
-  _id_exists: Boolean
-  _id_gt: ObjectId
-  image_data_lt: String
-  image_credit: String
-  AND: [Image_itemQueryInput!]
-}
-input Venue_itemGeolocationQueryInput {
-  type_gte: String
-  coordinates_in: [Float]
-  type_ne: String
-  type_gt: String
-  type_in: [String]
-  type: String
-  type_lt: String
-  coordinates: [Float]
-  type_lte: String
-  type_exists: Boolean
-  coordinates_exists: Boolean
-  type_nin: [String]
-  AND: [Venue_itemGeolocationQueryInput!]
-  coordinates_nin: [Float]
-  OR: [Venue_itemGeolocationQueryInput!]
-}
-type Source_item {
-  _id: ObjectId
-  copy_right: String
-  data_url: String
-  name: String
-}
-input Category_itemQueryInput {
-  _id_gt: ObjectId
-  subtitle_nin: [String]
-  subtitle_lte: String
-  subtitle_exists: Boolean
-  imageUrl_exists: Boolean
-  description_nin: [String]
-  title_nin: [String]
-  subtitle_in: [String]
-  title_gt: String
-  description_ne: String
-  imageUrl_lte: String
-  title_exists: Boolean
-  description_gte: String
-  subtitle: String
-  imageUrl_in: [String]
-  imageUrl_gt: String
-  imageUrl: String
-  subtitle_ne: String
-  _id_exists: Boolean
-  description_exists: Boolean
-  title_lte: String
-  OR: [Category_itemQueryInput!]
-  subtitle_gte: String
-  _id_lt: ObjectId
-  title_in: [String]
-  subtitle_lt: String
-  subtitle_gt: String
-  imageUrl_nin: [String]
-  imageUrl_gte: String
-  imageUrl_ne: String
-  description_lte: String
-  _id: ObjectId
-  description: String
-  title_gte: String
-  _id_lte: ObjectId
-  title_lt: String
-  imageUrl_lt: String
-  description_gt: String
-  description_lt: String
-  _id_nin: [ObjectId]
-  title: String
-  AND: [Category_itemQueryInput!]
-  _id_in: [ObjectId]
-  title_ne: String
-  description_in: [String]
-  _id_ne: ObjectId
-  _id_gte: ObjectId
-}
-enum Trip_itemSortByInput {
-  TITLE_ASC
-  TITLE_DESC
-  _ID_ASC
-  _ID_DESC
-  DESCRIPTION_ASC
-  DESCRIPTION_DESC
-}
-type Trip_itemTrip {
-  distance: Float
-  duration: Float
-  instructions: [Trip_itemTripInstruction]
-  polyline: [Trip_itemTripPolyline]
-}
-type Trip_itemTripInstruction {
-  distance: Float
-  duration: Float
-  steps: [String]
-  summary: String
-}
-input Venue_itemInsertInput {
-  address: Venue_itemAddressInsertInput
-  geolocation: Venue_itemGeolocationInsertInput
-  osm_id: Float
-  osm_licence: String
-  osm_venue_id: Int
-  title: String
-  _id: ObjectId
-}
 input Trip_itemImagesRelationInput {
   create: [Image_itemInsertInput]
   link: [ObjectId]
 }
-type Art_itemLocation {
-  geolocation: Art_itemLocationGeolocation
-  venue: Venue_item
+type UpdateManyPayload {
+  matchedCount: Int!
+  modifiedCount: Int!
 }
-enum Source_itemSortByInput {
+input Category_itemInsertInput {
+  subtitle: String
+  title: String
+  _id: ObjectId
+  description: String
+  imageUrl: String
+}
+input Trip_itemPoints_geo_locationQueryInput {
+  coordinates_nin: [Float]
+  coordinates_exists: Boolean
+  AND: [Trip_itemPoints_geo_locationQueryInput!]
+  type_gte: String
+  OR: [Trip_itemPoints_geo_locationQueryInput!]
+  type_exists: Boolean
+  type_nin: [String]
+  type_gt: String
+  coordinates_in: [Float]
+  type_ne: String
+  coordinates: [Float]
+  type_lte: String
+  type_lt: String
+  type_in: [String]
+  type: String
+}
+enum Artist_itemSortByInput {
+  COUNTRY_ASC
+  COUNTRY_DESC
+  ORIGINAL_ID_ASC
+  URL_DESC
+  WEBSITE_DESC
+  _ID_ASC
+  BIOGRAPHY_ASC
   NAME_ASC
+  ORIGINAL_ID_DESC
+  _ID_DESC
+  BIOGRAPHY_DESC
   NAME_DESC
+  URL_ASC
+  WEBSITE_ASC
+}
+enum Category_itemSortByInput {
+  DESCRIPTION_ASC
+  DESCRIPTION_DESC
+  IMAGEURL_ASC
   _ID_ASC
   _ID_DESC
-  COPY_RIGHT_ASC
-  COPY_RIGHT_DESC
-  DATA_URL_ASC
-  DATA_URL_DESC
+  SUBTITLE_DESC
+  TITLE_ASC
+  TITLE_DESC
+  IMAGEURL_DESC
+  SUBTITLE_ASC
 }
-type InsertManyPayload {
-  insertedIds: [ObjectId]!
+input Venue_itemAddressUpdateInput {
+  city_unset: Boolean
+  area_unset: Boolean
+  city: String
+  region_unset: Boolean
+  region: String
+  latitude_unset: Boolean
+  country_unset: Boolean
+  postalCode: String
+  postalCode_unset: Boolean
+  country: String
+  longitude: Float
+  latitude_inc: Float
+  longitude_unset: Boolean
+  latitude: Float
+  localizedAddressDisplay_unset: Boolean
+  area: String
+  longitude_inc: Float
+  localizedAddressDisplay: String
 }
-input Venue_itemGeolocationInsertInput {
-  coordinates: [Float]
+input Venue_itemGeolocationQueryInput {
+  coordinates_in: [Float]
   type: String
+  type_nin: [String]
+  type_exists: Boolean
+  type_in: [String]
+  type_lt: String
+  type_lte: String
+  type_ne: String
+  type_gte: String
+  AND: [Venue_itemGeolocationQueryInput!]
+  coordinates: [Float]
+  coordinates_nin: [Float]
+  OR: [Venue_itemGeolocationQueryInput!]
+  coordinates_exists: Boolean
+  type_gt: String
+}
+type Trip_itemTripPolyline {
+  coordinates: [Float]
+}
+enum Image_itemSortByInput {
+  IMAGE_DATA_DESC
+  IMAGE_URL_ASC
+  IMAGE_URL_DESC
+  _ID_ASC
+  _ID_DESC
+  IMAGE_CREDIT_ASC
+  IMAGE_CREDIT_DESC
+  IMAGE_DATA_ASC
+}
+input Venue_itemUpdateInput {
+  title: String
+  osm_venue_id: Int
+  address_unset: Boolean
+  osm_id_unset: Boolean
+  title_unset: Boolean
+  osm_licence: String
+  osm_venue_id_inc: Int
+  geolocation: Venue_itemGeolocationUpdateInput
+  address: Venue_itemAddressUpdateInput
+  osm_licence_unset: Boolean
+  osm_venue_id_unset: Boolean
+  osm_id_inc: Float
+  osm_id: Float
+  geolocation_unset: Boolean
+  _id_unset: Boolean
+  _id: ObjectId
 }

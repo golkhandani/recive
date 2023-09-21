@@ -14,6 +14,11 @@ _$_NearbyEventsState _$$_NearbyEventsStateFromJson(Map<String, dynamic> json) =>
           .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
       isRefreshLoading: json['isRefreshLoading'] as bool,
+      queryFilter: json['queryFilter'] as String?,
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
+      minDistance: (json['minDistance'] as num).toDouble(),
+      maxDistance: (json['maxDistance'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$_NearbyEventsStateToJson(
@@ -23,6 +28,11 @@ Map<String, dynamic> _$$_NearbyEventsStateToJson(
       'nearbyEvents': instance.nearbyEvents,
       'loadingState': _$LoadingStateEnumMap[instance.loadingState]!,
       'isRefreshLoading': instance.isRefreshLoading,
+      'queryFilter': instance.queryFilter,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'minDistance': instance.minDistance,
+      'maxDistance': instance.maxDistance,
     };
 
 const _$LoadingStateEnumMap = {

@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 
 import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
+import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/introduction_page/splash_screen.dart';
 import 'package:recive/firebase_options.dart';
 import 'package:recive/ioc/locator.dart';
@@ -87,10 +88,12 @@ class Application extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeBloc = locator.get<ReciveThemeCubit>();
     final bookmarksBloc = locator.get<BookmarksCubit>();
+    final categoriesBloc = locator.get<CategoriesCubit>();
     final child = MultiBlocProvider(
       providers: [
         BlocProvider.value(value: themeBloc),
         BlocProvider.value(value: bookmarksBloc),
+        BlocProvider.value(value: categoriesBloc),
       ],
       child: BlocBuilder<ReciveThemeCubit, ReciveTheme>(
           bloc: themeBloc,
@@ -99,8 +102,23 @@ class Application extends StatelessWidget {
               colorScheme: reciveTheme.scheme,
               textTheme: getTextTheme(reciveTheme.scheme),
             );
+            final statusBarItemBrightness =
+                theme.colorScheme.brightness == Brightness.light
+                    ? Brightness.dark
+                    : Brightness.light;
+
+            final systemOverlayBrightness =
+                theme.colorScheme.brightness == Brightness.light
+                    ? SystemUiOverlayStyle.dark
+                    : SystemUiOverlayStyle.light;
+            SystemChrome.setSystemUIOverlayStyle(
+              SystemUiOverlayStyle(
+                statusBarColor: theme.colorScheme.secondaryContainer,
+                statusBarIconBrightness: statusBarItemBrightness,
+              ),
+            );
             return AnnotatedRegion<SystemUiOverlayStyle>(
-              value: SystemUiOverlayStyle.light,
+              value: systemOverlayBrightness,
               child: ScrollConfiguration(
                 behavior: MyCustomScrollBehavior(),
                 child: MaterialApp.router(

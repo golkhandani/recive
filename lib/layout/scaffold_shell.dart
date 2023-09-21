@@ -25,6 +25,7 @@ class ScaffoldShell extends StatelessWidget {
     final safeBottomPadding = context.viewBottomPaddingHeight;
     return Scaffold(
       backgroundColor: safeAreaColor,
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: safeAreaColor,
         padding: EdgeInsets.only(

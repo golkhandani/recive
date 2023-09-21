@@ -21,15 +21,21 @@ class GQLNearbyEventRepo extends INearbyEventRepo {
     required double longitude,
     required double minDistance,
     required double maxDistance,
+    String? text,
   }) async {
-    final nearbyEventRequest = GGetArtsNearReq(
-      (b) => b
+    final nearbyEventRequest = GGetArtsNearReq((b) {
+      if (text?.isNotEmpty ?? false) {
+        b.vars.query.text = text;
+      }
+      b
         ..vars.limit = limit
         ..vars.query.minDistance = minDistance
         ..vars.query.maxDistance = maxDistance
         ..vars.query.lat = latitude
-        ..vars.query.long = longitude,
-    );
+        ..vars.query.long = longitude;
+
+      return b;
+    });
 
     final data = await client.request(nearbyEventRequest);
     final convertedData = data.data?.art_items_near

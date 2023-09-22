@@ -7,8 +7,8 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
-import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
-import 'package:recive/features/featured_page/widgets/featured_event_expanded_card_container.dart';
+import 'package:recive/features/near_me_page/widgets/featured_event_card_container_data.dart';
+import 'package:recive/features/near_me_page/widgets/featured_event_expanded_card_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 

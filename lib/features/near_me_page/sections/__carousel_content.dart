@@ -7,10 +7,10 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/sliver_card_container.dart';
-import 'package:recive/features/featured_page/widgets/featured_event_card_container.dart';
-import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
+import 'package:recive/features/near_me_page/widgets/featured_event_card_container.dart';
+import 'package:recive/features/near_me_page/widgets/featured_event_card_container_data.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class NearbyCarouselContent extends HookWidget {

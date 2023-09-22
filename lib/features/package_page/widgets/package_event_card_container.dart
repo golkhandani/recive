@@ -6,7 +6,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:recive/extensions/color_extentions.dart';
-import 'package:recive/features/featured_page/featured_detail_screen.dart';
+import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/features/package_page/widgets/package_event_card_container_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -95,10 +95,10 @@ class PackageEventCardContainer extends HookWidget {
     return RepaintBoundary(
       child: InkWell(
         onTap: () => navigationService.pushTo(
-          parentRoute + FeaturedEventDetailScreen.name,
+          parentRoute + NearbyDetailScreen.name,
           pathParameters: {
             ...parentPathParams,
-            FeaturedEventDetailScreen.pathParamId: data.id,
+            NearbyDetailScreen.pathParamId: data.id,
           },
           extra: extraJson,
         ),

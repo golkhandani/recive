@@ -13,9 +13,9 @@ final ColorScheme colorScheme = ColorScheme(
   primaryContainer: const Color.fromARGB(255, 190, 138, 232),
   onPrimaryContainer: Colors.black,
   //
-  secondary: const Color.fromARGB(255, 161, 215, 227),
-  onSecondary: Colors.black,
-  secondaryContainer: const Color.fromARGB(255, 15, 45, 63),
+  secondary: const Color.fromARGB(255, 49, 84, 150),
+  onSecondary: Colors.white,
+  secondaryContainer: const Color.fromARGB(255, 12, 18, 56),
   onSecondaryContainer: Colors.white,
   //
   tertiary: const Color.fromARGB(255, 124, 92, 149),

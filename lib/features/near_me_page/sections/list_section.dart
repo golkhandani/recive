@@ -12,6 +12,7 @@ import 'package:recive/components/card_container.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
+import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class NearMeScreenListViewContent extends HookWidget {
@@ -92,6 +93,7 @@ class NearMeScreenListViewContent extends HookWidget {
                 addAutomaticKeepAlives: true,
                 itemBuilder: (context, index) {
                   final indexedItem = indexedKeyItems[index];
+                  final data = indexedItem['data'];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: VisibilityDetector(
@@ -106,8 +108,10 @@ class NearMeScreenListViewContent extends HookWidget {
                         padding: kTinyPadding,
                         child: FeaturedArtCardContainer(
                           constraints: const BoxConstraints.expand(height: 200),
-                          data: indexedItem['data']
-                              as FeaturedArtCardContainerData,
+                          data: data as FeaturedArtCardContainerData,
+                          hero: NearMeScreen.name +
+                              data.id +
+                              DateTime.now().toString(),
                         ),
                       ),
                     ),

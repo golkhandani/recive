@@ -53,7 +53,7 @@ class NearbyDetailScreen extends HookWidget {
       return () => bloc.emptyNearbyEvent();
     }, []);
 
-    final heroTag = extra?.heroTag ?? DateTime.now().toString();
+    final heroTag = extra?.heroTag ?? '';
     final summary = extra?.summary;
     final data = state.nearbyEvent;
     final loading = state.loadingState;

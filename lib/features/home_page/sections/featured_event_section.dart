@@ -85,8 +85,7 @@ class HomePageFeaturedEventsSection extends HookWidget {
                                 right: kTinyPadding.right,
                               ),
                               child: FeaturedArtCardContainer(
-                                parentPathParams: const {},
-                                parentRoute: HomeScreen.name,
+                                hero: HomeScreen.name + data.id,
                                 constraints: const BoxConstraints.expand(),
                                 data: data,
                               ),

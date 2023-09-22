@@ -12,6 +12,7 @@ import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
+import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
@@ -25,7 +26,7 @@ import 'package:recive/router/navigation_service.dart';
 
 class CategoryDetailScreen extends HookWidget {
   static const name = 'category_detail';
-  static const pathParamId = 'id';
+  static const pathParamId = 'category_id';
   const CategoryDetailScreen({
     super.key,
     required this.id,
@@ -171,8 +172,9 @@ class CategoryDetailScreen extends HookWidget {
                                       right: kTinyPadding.right,
                                     ),
                                     child: FeaturedArtCardContainer(
-                                      parentPathParams: const {},
-                                      parentRoute: CategoryDetailScreen.name,
+                                      hero: CategoriesScreen.name +
+                                          CategoryDetailScreen.name +
+                                          data.id,
                                       constraints:
                                           const BoxConstraints.expand(),
                                       data: data,

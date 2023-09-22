@@ -9,7 +9,6 @@ import 'package:recive/features/categories_page/category_detail_screen.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
 import 'package:recive/features/detail_page/detail_screen.dart';
 import 'package:recive/features/detail_page/detail_type.dart';
-import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/introduction_page/introduction_screen.dart';
@@ -116,33 +115,6 @@ class TestRoute extends StatelessWidget {
   }
 }
 
-GoRoute featuredEventDetailRoute(String parentName) => GoRoute(
-      name: parentName + FeaturedEventDetailScreen.name,
-      path:
-          '${FeaturedEventDetailScreen.name}/:${FeaturedEventDetailScreen.pathParamId}',
-      pageBuilder: (context, state) {
-        final pathParamId =
-            state.pathParameters[FeaturedEventDetailScreen.pathParamId]!;
-
-        // final extraMap = state.extra as String;
-
-        final extraJson = state.extra as Map<String, dynamic>;
-        final extra = ExtraData.fromJson(
-          extraJson,
-          (inner) => FeaturedEventDetailSummaryData.fromJson(
-              inner as Map<String, dynamic>),
-        );
-
-        return dashboardPageBuilder(
-          state,
-          FeaturedEventDetailScreen(
-            id: pathParamId,
-            extra: extra,
-          ),
-        );
-      },
-    );
-
 GoRoute nearbyEventDetailRoute(String parentName) => GoRoute(
       name: parentName + NearbyDetailScreen.name,
       path: '${NearbyDetailScreen.name}/:${NearbyDetailScreen.pathParamId}',
@@ -205,7 +177,7 @@ GoRoute packageDetailRoute(String parentName) => GoRoute(
         );
       },
       routes: [
-        featuredEventDetailRoute(PackageDetailScreen.name),
+        nearbyEventDetailRoute(PackageDetailScreen.name),
       ],
     );
 
@@ -299,10 +271,10 @@ final dashboardRoutes = [
                   ),
               routes: [
                 testDetailRoute(HomeScreen.name),
-                categoryDetailRoute(HomeScreen.name),
+                // categoryDetailRoute(HomeScreen.name),
                 newsDetailRoute(HomeScreen.name),
                 packageDetailRoute(PackagesScreen.name),
-                featuredEventDetailRoute(HomeScreen.name),
+                nearbyEventDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: CategoriesScreen.name,
                   path: CategoriesScreen.name,
@@ -333,7 +305,7 @@ final dashboardRoutes = [
                     const FeaturedScreen(),
                   ),
                   routes: [
-                    featuredEventDetailRoute(FeaturedScreen.name),
+                    nearbyEventDetailRoute(FeaturedScreen.name),
                   ],
                 ),
               ]),
@@ -416,7 +388,7 @@ final dashboardRoutes = [
                   const BookmarksScreen(),
                 ),
                 routes: [
-                  featuredEventDetailRoute(BookmarksScreen.name),
+                  nearbyEventDetailRoute(BookmarksScreen.name),
                 ],
               ),
             ],

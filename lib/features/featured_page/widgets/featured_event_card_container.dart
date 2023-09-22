@@ -7,9 +7,9 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:recive/extensions/color_extentions.dart';
-import 'package:recive/features/featured_page/featured_detail_screen.dart';
 import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
-import 'package:recive/features/home_page/home_screen.dart';
+import 'package:recive/features/near_me_page/near_me_detail_screen.dart';
+import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/router/extra_data.dart';
@@ -20,21 +20,22 @@ class FeaturedArtCardContainer extends HookWidget {
     super.key,
     required this.data,
     required this.constraints,
-    this.parentRoute = '',
+    this.hero,
     this.parentPathParams = const {},
   });
 
   final BoxConstraints constraints;
   final FeaturedArtCardContainerData data;
-  final String parentRoute;
+  final String? hero;
   final Map<String, String> parentPathParams;
 
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.theme.colorScheme.tertiary.withOpacity(0.6);
-    final fontColor = context.colorScheme.onTertiary;
-    final heroTag = parentRoute + data.id;
+    final color = context.theme.colorScheme.secondaryContainer;
+    final fontColor = context.colorScheme.onSecondaryContainer;
+    final heroTag = hero ?? DateTime.now().toString();
+
     final extraJson = ExtraData(
       summary: FeaturedEventDetailSummaryData(
         id: data.id,
@@ -56,43 +57,53 @@ class FeaturedArtCardContainer extends HookWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  color: color,
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        data.title,
-                        maxLines: 1,
-                        style: context.titleMediumOnPrimaryContainer
-                            .withColor(fontColor),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Icon(
-                            FluentIcons.location_12_filled,
-                            color: fontColor,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              data.location,
-                              maxLines: isSmallTall ? 3 : 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.titleSmallOnPrimaryContainer
-                                  .withColor(fontColor),
-                            ),
-                          ),
-                        ],
-                      ),
+              child: Container(
+                // color: color,
+                padding: const EdgeInsets.all(8).copyWith(top: 36),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      color,
+                      color.withOpacity(0.9),
+                      color.withOpacity(0.7),
+                      color.withOpacity(0.3),
+                      Colors.transparent,
                     ],
                   ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      data.title,
+                      maxLines: 1,
+                      style: context.titleMediumOnPrimaryContainer
+                          .withColor(fontColor),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Icon(
+                          FluentIcons.location_12_filled,
+                          color: fontColor,
+                          size: 24,
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            data.location,
+                            maxLines: isSmallTall ? 3 : 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.titleSmallOnPrimaryContainer
+                                .withColor(fontColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -108,10 +119,22 @@ class FeaturedArtCardContainer extends HookWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
                 child: Container(
-                  color: color,
-                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        color,
+                        color.withOpacity(0.9),
+                        color.withOpacity(0.7),
+                        color.withOpacity(0.3),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(8).copyWith(top: 36),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,11 +183,23 @@ class FeaturedArtCardContainer extends HookWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
               child: Container(
                 width: box.maxWidth,
-                color: color,
-                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      color,
+                      color.withOpacity(0.9),
+                      color.withOpacity(0.7),
+                      color.withOpacity(0.3),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+                padding: const EdgeInsets.all(8).copyWith(bottom: 36),
                 child: Text(
                   data.title,
                   maxLines: 2,
@@ -180,14 +215,16 @@ class FeaturedArtCardContainer extends HookWidget {
 
     return RepaintBoundary(
       child: InkWell(
-        onTap: () => navigationService.pushTo(
-          HomeScreen.name + FeaturedEventDetailScreen.name,
-          pathParameters: {
-            ...parentPathParams,
-            FeaturedEventDetailScreen.pathParamId: data.id,
-          },
-          extra: extraJson,
-        ),
+        onTap: () => {
+          navigationService.pushTo(
+            NearMeScreen.name + NearbyDetailScreen.name,
+            pathParameters: {
+              ...parentPathParams,
+              NearbyDetailScreen.pathParamId: data.id,
+            },
+            extra: extraJson,
+          ),
+        },
         child: Hero(
           tag: heroTag,
           child: CachedNetworkImage(

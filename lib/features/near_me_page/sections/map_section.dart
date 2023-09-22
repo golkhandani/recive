@@ -6,8 +6,8 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
-import 'package:recive/features/near_me_page/sections/__carousel_content.dart';
-import 'package:recive/features/near_me_page/sections/__map_content.dart';
+import 'package:recive/features/near_me_page/sections/map_section_content/__carousel_content.dart';
+import 'package:recive/features/near_me_page/sections/map_section_content/__map_content.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class NearMeScreenMapViewContent extends HookWidget {

@@ -6,7 +6,7 @@ import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
 
 import 'package:recive/components/card_container.dart';
 import 'package:recive/extensions/color_extentions.dart';
-import 'package:recive/features/near_me_page/models/nearby_event.dart';
+import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
 class EventCardMarker {
@@ -18,7 +18,7 @@ class EventCardMarker {
     this.useCompact = true,
   });
 
-  final NearbyEvent data;
+  final ArtAbstractModel data;
   final Color color;
   final Color fontColor;
   final VoidCallback? onTap;
@@ -29,7 +29,7 @@ class EventCardMarker {
         rotateAlignment: AnchorAlign.top.rotationAlignment,
         height: useCompact ? 50 : 140,
         width: useCompact ? 50 : 280,
-        point: data.latLng,
+        point: data.geoLocation,
         rotate: true,
         builder: (ctx) => GestureDetector(
           onTap: onTap,

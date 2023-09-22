@@ -1,8 +1,10 @@
 import 'dart:ui';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
+
 import 'package:recive/components/card_container.dart';
 import 'package:recive/components/navigation_item.dart';
 import 'package:recive/features/categories_page/cubits/category_fake_data.dart';
@@ -283,26 +285,17 @@ class _NavigationShellState extends State<NavigationShell> {
   }
 
   Widget _buildBottomNavigationBar() {
-    return Container(
+    return SizedBox(
       height: 100,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: context.theme.shadowColor.withOpacity(0.3),
-            spreadRadius: 10,
-            blurRadius: 10,
-            offset: const Offset(2, 2), // changes position of shadow
-          ),
-        ],
-      ),
       child: Theme(
         data: ThemeData(
+          shadowColor: Colors.transparent,
           highlightColor: Colors.transparent,
           splashFactory: NoSplash.splashFactory,
           canvasColor: widget.backgroundColor,
         ),
         child: BottomNavigationBar(
-          elevation: 4,
+          elevation: 0,
           items: widget.items
               .mapIndexed(
                 (i, e) => BottomNavigationBarItem(

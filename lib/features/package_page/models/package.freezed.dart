@@ -26,7 +26,7 @@ mixin _$Package {
   String get description => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
-  List<NearbyEvent> get events => throw _privateConstructorUsedError;
+  List<ArtAbstractModel> get events => throw _privateConstructorUsedError;
   List<LatLng>? get polyline => throw _privateConstructorUsedError;
   List<List<String>>? get roadInstructions =>
       throw _privateConstructorUsedError;
@@ -50,7 +50,7 @@ abstract class $PackageCopyWith<$Res> {
       String description,
       String imageUrl,
       List<String> tags,
-      List<NearbyEvent> events,
+      List<ArtAbstractModel> events,
       List<LatLng>? polyline,
       List<List<String>>? roadInstructions,
       double distance,
@@ -110,7 +110,7 @@ class _$PackageCopyWithImpl<$Res, $Val extends Package>
       events: null == events
           ? _value.events
           : events // ignore: cast_nullable_to_non_nullable
-              as List<NearbyEvent>,
+              as List<ArtAbstractModel>,
       polyline: freezed == polyline
           ? _value.polyline
           : polyline // ignore: cast_nullable_to_non_nullable
@@ -145,7 +145,7 @@ abstract class _$$_PackageCopyWith<$Res> implements $PackageCopyWith<$Res> {
       String description,
       String imageUrl,
       List<String> tags,
-      List<NearbyEvent> events,
+      List<ArtAbstractModel> events,
       List<LatLng>? polyline,
       List<List<String>>? roadInstructions,
       double distance,
@@ -202,7 +202,7 @@ class __$$_PackageCopyWithImpl<$Res>
       events: null == events
           ? _value._events
           : events // ignore: cast_nullable_to_non_nullable
-              as List<NearbyEvent>,
+              as List<ArtAbstractModel>,
       polyline: freezed == polyline
           ? _value._polyline
           : polyline // ignore: cast_nullable_to_non_nullable
@@ -233,7 +233,7 @@ class _$_Package implements _Package {
       required this.description,
       required this.imageUrl,
       required final List<String> tags,
-      required final List<NearbyEvent> events,
+      required final List<ArtAbstractModel> events,
       required final List<LatLng>? polyline,
       required final List<List<String>>? roadInstructions,
       required this.distance,
@@ -264,9 +264,9 @@ class _$_Package implements _Package {
     return EqualUnmodifiableListView(_tags);
   }
 
-  final List<NearbyEvent> _events;
+  final List<ArtAbstractModel> _events;
   @override
-  List<NearbyEvent> get events {
+  List<ArtAbstractModel> get events {
     if (_events is EqualUnmodifiableListView) return _events;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_events);
@@ -365,7 +365,7 @@ abstract class _Package implements Package {
       required final String description,
       required final String imageUrl,
       required final List<String> tags,
-      required final List<NearbyEvent> events,
+      required final List<ArtAbstractModel> events,
       required final List<LatLng>? polyline,
       required final List<List<String>>? roadInstructions,
       required final double distance,
@@ -386,7 +386,7 @@ abstract class _Package implements Package {
   @override
   List<String> get tags;
   @override
-  List<NearbyEvent> get events;
+  List<ArtAbstractModel> get events;
   @override
   List<LatLng>? get polyline;
   @override

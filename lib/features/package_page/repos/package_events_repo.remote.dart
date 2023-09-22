@@ -5,7 +5,7 @@ import 'package:recive/domain/graphql/__generated__/get_trip_by_id.req.gql.dart'
 import 'package:recive/domain/graphql/__generated__/get_trips.data.gql.dart';
 import 'package:recive/domain/graphql/__generated__/get_trips.req.gql.dart';
 import 'package:recive/extensions/string_extensions.dart';
-import 'package:recive/features/near_me_page/models/nearby_event.dart';
+import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/package_page/models/package.dart';
 import 'package:recive/features/package_page/repos/package_event_repo.interface.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
@@ -47,28 +47,24 @@ class GQLPackageEventRepo extends IPackageEventRepo {
           [],
       events: item.arts
               ?.map(
-                (e) => NearbyEvent(
+                (e) => ArtAbstractModel(
                   id: e!.G_id!.value,
                   title: e.title ?? '',
                   description: e.description ?? '',
                   location:
                       e.location?.venue?.address?.localizedAddressDisplay ??
                           'Not In Place',
-                  organizers:
-                      [''].whereNot((element) => element.isEmpty).toList(),
-                  participants:
-                      [''].whereNot((element) => element.isEmpty).toList(),
                   imageUrl: (e.images?.isEmpty ?? true)
                       ? kImagePlaceholder
                       : e.images?[0]?.image_url ?? '',
                   tags: e.tags?.whereNotNull().toList() ?? [],
-                  latLng: LatLng(
+                  geoLocation: LatLng(
                     e.location?.venue!.address!.latitude! ?? 0,
                     e.location?.venue!.address!.longitude! ?? 0,
                   ),
                 ),
               )
-              .whereType<NearbyEvent>()
+              .whereType<ArtAbstractModel>()
               .toList() ??
           [],
       polyline: item.trip?.polyline

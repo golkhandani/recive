@@ -14,7 +14,7 @@ _$_Package _$$_PackageFromJson(Map<String, dynamic> json) => _$_Package(
       imageUrl: json['imageUrl'] as String,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       events: (json['events'] as List<dynamic>)
-          .map((e) => NearbyEvent.fromJson(e as Map<String, dynamic>))
+          .map((e) => ArtAbstractModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       polyline: (json['polyline'] as List<dynamic>?)
           ?.map((e) => LatLng.fromJson(e as Map<String, dynamic>))

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/near_me_page/models/nearby_event.dart';
+import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 
@@ -12,7 +12,7 @@ part 'near_by_events_cubit.g.dart';
 class NearbyEventsState with _$NearbyEventsState {
   const factory NearbyEventsState({
     required int preSelectedEventIndex,
-    required List<NearbyEvent> nearbyEvents,
+    required List<ArtAbstractModel> nearbyEvents,
     required LoadingState loadingState,
     required bool isRefreshLoading,
     required String? queryFilter,
@@ -89,6 +89,7 @@ class NearbyEventsCubit extends MaybeEmitHydratedCubit<NearbyEventsState> {
   Future<void> updateQueryFilter(String? queryFilter) async {
     maybeEmit(state.copyWith(
       queryFilter: queryFilter,
+      loadingState: LoadingState.updating,
     ));
     loadNearbyEvents(
       latitude: state.latitude,

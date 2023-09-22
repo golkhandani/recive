@@ -12,7 +12,6 @@ import 'package:recive/features/featured_page/widgets/featured_event_card_contai
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
-import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
@@ -21,8 +20,8 @@ class FeaturedArtCardContainer extends HookWidget {
     super.key,
     required this.data,
     required this.constraints,
-    required this.parentRoute,
-    required this.parentPathParams,
+    this.parentRoute = '',
+    this.parentPathParams = const {},
   });
 
   final BoxConstraints constraints;
@@ -235,7 +234,6 @@ class FeaturedArtCardContainer extends HookWidget {
         borderRadius: BorderRadius.circular(8),
         color: Colors.black,
       ),
-      padding: kTinyPadding,
       child: child,
     );
   }

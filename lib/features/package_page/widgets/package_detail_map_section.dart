@@ -9,7 +9,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/sliver_card_container.dart';
-import 'package:recive/features/near_me_page/models/nearby_event.dart';
+import 'package:recive/features/featured_page/models/featured_event.dart';
 import 'package:recive/features/near_me_page/widgets/map_button.dart';
 import 'package:recive/features/package_page/widgets/event_card_marker.dart';
 import 'package:recive/ioc/geo_location_service.dart';
@@ -25,7 +25,7 @@ class PackageDetailMapSection extends StatefulHookWidget {
   const PackageDetailMapSection(
       {super.key, required this.events, required this.polyline});
 
-  final List<NearbyEvent> events;
+  final List<ArtAbstractModel> events;
   final List<LatLng> polyline;
 
   @override
@@ -55,7 +55,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
 
     final zoom = useState(15.0);
     final center = useState<LatLng?>(
-      widget.events.firstOrNull?.latLng ?? geolocation?.latLng,
+      widget.events.firstOrNull?.geoLocation ?? geolocation?.latLng,
     );
     final index = useState<int?>(0);
 
@@ -63,7 +63,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
       if (index.value == null) {
         return;
       }
-      center.value = widget.events[index.value!].latLng;
+      center.value = widget.events[index.value!].geoLocation;
       mapController.animateTo(dest: center.value);
     }
 

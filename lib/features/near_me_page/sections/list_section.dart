@@ -9,9 +9,9 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:recive/components/card_container.dart';
+import 'package:recive/features/featured_page/widgets/featured_event_card_container.dart';
+import 'package:recive/features/featured_page/widgets/featured_event_card_container_data.dart';
 import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
-import 'package:recive/features/near_me_page/widgets/event_card_container.dart';
-import 'package:recive/features/near_me_page/widgets/event_card_container_data.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class NearMeScreenListViewContent extends HookWidget {
@@ -31,7 +31,7 @@ class NearMeScreenListViewContent extends HookWidget {
     final indexedKeyItems = state.nearbyEvents.mapIndexed((i, e) {
       return {
         'key': GlobalKey(),
-        'data': EventCardContainerData.fromFeaturedEvent(e),
+        'data': FeaturedArtCardContainerData.fromFeaturedEvent(e),
         'visiblity': 0,
       };
     }).toList();
@@ -104,9 +104,10 @@ class NearMeScreenListViewContent extends HookWidget {
                       child: CardContainer(
                         borderRadius: BorderRadius.circular(16),
                         padding: kTinyPadding,
-                        child: EventCardContainer(
+                        child: FeaturedArtCardContainer(
                           constraints: const BoxConstraints.expand(height: 200),
-                          data: indexedItem['data'] as EventCardContainerData,
+                          data: indexedItem['data']
+                              as FeaturedArtCardContainerData,
                         ),
                       ),
                     ),

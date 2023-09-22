@@ -68,7 +68,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
   }
 
   late final SelectedMarker2Controller sc = SelectedMarker2Controller(
-    widget.state.nearbyEvents.first.latLng,
+    widget.state.nearbyEvents.first.geoLocation,
   );
 
   late final FlutterMapMarkerClusterLayerController fc =
@@ -83,7 +83,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
       widget.bloc,
       (bloc, current, context) {
         final newPos =
-            current.nearbyEvents[current.preSelectedEventIndex].latLng;
+            current.nearbyEvents[current.preSelectedEventIndex].geoLocation;
         widget.mapController.animateTo(
           dest: newPos,
         );
@@ -100,7 +100,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
           widget.state.nearbyEvents
               .mapIndexed(
                 (index, point) => _createMarker(
-                  point.latLng,
+                  point.geoLocation,
                   context.colorScheme.errorContainer,
                   index,
                 ),
@@ -113,7 +113,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
           return;
         }
         final updated = widget
-            .state.nearbyEvents[widget.state.preSelectedEventIndex].latLng;
+            .state.nearbyEvents[widget.state.preSelectedEventIndex].geoLocation;
         sc.updateValue(updated);
         widget.mapController.animateTo(dest: updated);
       });

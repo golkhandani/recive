@@ -202,7 +202,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                   ),
                   const SliverGap(height: 12),
                   Builder(builder: (context) {
-                    if (state.loadingState != LoadingState.done) {
+                    if (state.loadingState == LoadingState.loading) {
                       return SliverPadding(
                         padding: kTinyPadding,
                         sliver: SliverToBoxAdapter(
@@ -228,8 +228,14 @@ class _NearMeScreenState extends State<NearMeScreen>
                             child: CardContainer(
                               borderRadius: BorderRadius.circular(16),
                               padding: kTinyPadding,
-                              child: const Center(
-                                child: Text("No Art has been found!"),
+                              child: Center(
+                                child: Text(
+                                  "No Art has been found!",
+                                  style: context.textTheme.bodyLarge?.copyWith(
+                                    color:
+                                        context.colorScheme.onTertiaryContainer,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -238,36 +244,50 @@ class _NearMeScreenState extends State<NearMeScreen>
                     }
                     return SliverToBoxAdapter(
                       child: RepaintBoundary(
-                        child: Container(
-                          color: Colors.transparent,
-                          height: contentHeight + 120,
-                          width: box.maxWidth,
-                          child: PreloadPageView(
-                            //  allowImplicitScrolling: false,
-                            controller: pageController,
-                            onPageChanged: (value) => switchIndex.value = value,
-                            children: [
-                              CustomScrollView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                slivers: [
-                                  NearMeScreenMapViewContent(
-                                    switchIndex: switchIndex,
-                                    switchItems: switchItems,
-                                    mapSectionHeight: mapSectionHeight,
-                                    listSectionHeight: listSectionHeight,
-                                    mapController: mapController,
-                                    bloc: bloc,
-                                    state: state,
-                                  ),
-                                ],
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              child: Container(
+                                color: Colors.transparent,
+                                height: contentHeight + 120,
+                                width: box.maxWidth,
+                                child: PreloadPageView(
+                                  controller: pageController,
+                                  onPageChanged: (value) =>
+                                      switchIndex.value = value,
+                                  children: [
+                                    CustomScrollView(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      slivers: [
+                                        NearMeScreenMapViewContent(
+                                          switchIndex: switchIndex,
+                                          switchItems: switchItems,
+                                          mapSectionHeight: mapSectionHeight,
+                                          listSectionHeight: listSectionHeight,
+                                          mapController: mapController,
+                                          bloc: bloc,
+                                          state: state,
+                                        ),
+                                      ],
+                                    ),
+                                    NearMeScreenListViewContent(
+                                      switchIndex: switchIndex,
+                                      bloc: bloc,
+                                      state: state,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              NearMeScreenListViewContent(
-                                switchIndex: switchIndex,
-                                bloc: bloc,
-                                state: state,
-                              ),
-                            ],
-                          ),
+                            ),
+                            if (state.loadingState == LoadingState.updating)
+                              Container(
+                                color: context.colorScheme.tertiaryContainer
+                                    .withOpacity(0.4),
+                                height: contentHeight,
+                                child: kLoadingPage,
+                              )
+                          ],
                         ),
                       ),
                     );

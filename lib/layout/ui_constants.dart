@@ -38,6 +38,20 @@ const kLoadingBox = Center(
     ),
   ),
 );
+
+const kLoadingPage = Center(
+  child: SizedBox(
+    height: 72.0,
+    width: 72.0,
+    child: Center(
+      child: LottieLoadingIndicator(),
+
+      // CircularProgressIndicator(
+      //   color: Colors.white,
+      // ),
+    ),
+  ),
+);
 const kErrorIcon = Icon(Icons.error);
 
 final kStandardBlur = ImageFilter.blur(

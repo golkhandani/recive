@@ -21,7 +21,7 @@ NearbyEventsState _$NearbyEventsStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$NearbyEventsState {
   int get preSelectedEventIndex => throw _privateConstructorUsedError;
-  List<NearbyEvent> get nearbyEvents => throw _privateConstructorUsedError;
+  List<ArtAbstractModel> get nearbyEvents => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
   bool get isRefreshLoading => throw _privateConstructorUsedError;
   String? get queryFilter => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $NearbyEventsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {int preSelectedEventIndex,
-      List<NearbyEvent> nearbyEvents,
+      List<ArtAbstractModel> nearbyEvents,
       LoadingState loadingState,
       bool isRefreshLoading,
       String? queryFilter,
@@ -87,7 +87,7 @@ class _$NearbyEventsStateCopyWithImpl<$Res, $Val extends NearbyEventsState>
       nearbyEvents: null == nearbyEvents
           ? _value.nearbyEvents
           : nearbyEvents // ignore: cast_nullable_to_non_nullable
-              as List<NearbyEvent>,
+              as List<ArtAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -130,7 +130,7 @@ abstract class _$$_NearbyEventsStateCopyWith<$Res>
   @useResult
   $Res call(
       {int preSelectedEventIndex,
-      List<NearbyEvent> nearbyEvents,
+      List<ArtAbstractModel> nearbyEvents,
       LoadingState loadingState,
       bool isRefreshLoading,
       String? queryFilter,
@@ -169,7 +169,7 @@ class __$$_NearbyEventsStateCopyWithImpl<$Res>
       nearbyEvents: null == nearbyEvents
           ? _value._nearbyEvents
           : nearbyEvents // ignore: cast_nullable_to_non_nullable
-              as List<NearbyEvent>,
+              as List<ArtAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -207,7 +207,7 @@ class __$$_NearbyEventsStateCopyWithImpl<$Res>
 class _$_NearbyEventsState implements _NearbyEventsState {
   const _$_NearbyEventsState(
       {required this.preSelectedEventIndex,
-      required final List<NearbyEvent> nearbyEvents,
+      required final List<ArtAbstractModel> nearbyEvents,
       required this.loadingState,
       required this.isRefreshLoading,
       required this.queryFilter,
@@ -222,9 +222,9 @@ class _$_NearbyEventsState implements _NearbyEventsState {
 
   @override
   final int preSelectedEventIndex;
-  final List<NearbyEvent> _nearbyEvents;
+  final List<ArtAbstractModel> _nearbyEvents;
   @override
-  List<NearbyEvent> get nearbyEvents {
+  List<ArtAbstractModel> get nearbyEvents {
     if (_nearbyEvents is EqualUnmodifiableListView) return _nearbyEvents;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_nearbyEvents);
@@ -309,7 +309,7 @@ class _$_NearbyEventsState implements _NearbyEventsState {
 abstract class _NearbyEventsState implements NearbyEventsState {
   const factory _NearbyEventsState(
       {required final int preSelectedEventIndex,
-      required final List<NearbyEvent> nearbyEvents,
+      required final List<ArtAbstractModel> nearbyEvents,
       required final LoadingState loadingState,
       required final bool isRefreshLoading,
       required final String? queryFilter,
@@ -324,7 +324,7 @@ abstract class _NearbyEventsState implements NearbyEventsState {
   @override
   int get preSelectedEventIndex;
   @override
-  List<NearbyEvent> get nearbyEvents;
+  List<ArtAbstractModel> get nearbyEvents;
   @override
   LoadingState get loadingState;
   @override

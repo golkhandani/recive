@@ -10,7 +10,7 @@ _$_NearbyEventsState _$$_NearbyEventsStateFromJson(Map<String, dynamic> json) =>
     _$_NearbyEventsState(
       preSelectedEventIndex: json['preSelectedEventIndex'] as int,
       nearbyEvents: (json['nearbyEvents'] as List<dynamic>)
-          .map((e) => NearbyEvent.fromJson(e as Map<String, dynamic>))
+          .map((e) => ArtAbstractModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
       isRefreshLoading: json['isRefreshLoading'] as bool,

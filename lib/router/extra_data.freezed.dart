@@ -171,221 +171,36 @@ abstract class _ExtraData<T> implements ExtraData<T> {
       throw _privateConstructorUsedError;
 }
 
-FeaturedEventDetailSummaryData _$FeaturedEventDetailSummaryDataFromJson(
-    Map<String, dynamic> json) {
-  return _FeaturedEventDetailSummaryData.fromJson(json);
+ArtDetailSummaryData _$ArtDetailSummaryDataFromJson(Map<String, dynamic> json) {
+  return _ArtDetailSummaryData.fromJson(json);
 }
 
 /// @nodoc
-mixin _$FeaturedEventDetailSummaryData {
+mixin _$ArtDetailSummaryData {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FeaturedEventDetailSummaryDataCopyWith<FeaturedEventDetailSummaryData>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $FeaturedEventDetailSummaryDataCopyWith<$Res> {
-  factory $FeaturedEventDetailSummaryDataCopyWith(
-          FeaturedEventDetailSummaryData value,
-          $Res Function(FeaturedEventDetailSummaryData) then) =
-      _$FeaturedEventDetailSummaryDataCopyWithImpl<$Res,
-          FeaturedEventDetailSummaryData>;
-  @useResult
-  $Res call({String id, String title, String imageUrl});
-}
-
-/// @nodoc
-class _$FeaturedEventDetailSummaryDataCopyWithImpl<$Res,
-        $Val extends FeaturedEventDetailSummaryData>
-    implements $FeaturedEventDetailSummaryDataCopyWith<$Res> {
-  _$FeaturedEventDetailSummaryDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? imageUrl = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_FeaturedEventDetailSummaryDataCopyWith<$Res>
-    implements $FeaturedEventDetailSummaryDataCopyWith<$Res> {
-  factory _$$_FeaturedEventDetailSummaryDataCopyWith(
-          _$_FeaturedEventDetailSummaryData value,
-          $Res Function(_$_FeaturedEventDetailSummaryData) then) =
-      __$$_FeaturedEventDetailSummaryDataCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String id, String title, String imageUrl});
-}
-
-/// @nodoc
-class __$$_FeaturedEventDetailSummaryDataCopyWithImpl<$Res>
-    extends _$FeaturedEventDetailSummaryDataCopyWithImpl<$Res,
-        _$_FeaturedEventDetailSummaryData>
-    implements _$$_FeaturedEventDetailSummaryDataCopyWith<$Res> {
-  __$$_FeaturedEventDetailSummaryDataCopyWithImpl(
-      _$_FeaturedEventDetailSummaryData _value,
-      $Res Function(_$_FeaturedEventDetailSummaryData) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? imageUrl = null,
-  }) {
-    return _then(_$_FeaturedEventDetailSummaryData(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_FeaturedEventDetailSummaryData
-    implements _FeaturedEventDetailSummaryData {
-  const _$_FeaturedEventDetailSummaryData(
-      {required this.id, required this.title, required this.imageUrl});
-
-  factory _$_FeaturedEventDetailSummaryData.fromJson(
-          Map<String, dynamic> json) =>
-      _$$_FeaturedEventDetailSummaryDataFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final String title;
-  @override
-  final String imageUrl;
-
-  @override
-  String toString() {
-    return 'FeaturedEventDetailSummaryData(id: $id, title: $title, imageUrl: $imageUrl)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_FeaturedEventDetailSummaryData &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, title, imageUrl);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_FeaturedEventDetailSummaryDataCopyWith<_$_FeaturedEventDetailSummaryData>
-      get copyWith => __$$_FeaturedEventDetailSummaryDataCopyWithImpl<
-          _$_FeaturedEventDetailSummaryData>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_FeaturedEventDetailSummaryDataToJson(
-      this,
-    );
-  }
-}
-
-abstract class _FeaturedEventDetailSummaryData
-    implements FeaturedEventDetailSummaryData {
-  const factory _FeaturedEventDetailSummaryData(
-      {required final String id,
-      required final String title,
-      required final String imageUrl}) = _$_FeaturedEventDetailSummaryData;
-
-  factory _FeaturedEventDetailSummaryData.fromJson(Map<String, dynamic> json) =
-      _$_FeaturedEventDetailSummaryData.fromJson;
-
-  @override
-  String get id;
-  @override
-  String get title;
-  @override
-  String get imageUrl;
-  @override
-  @JsonKey(ignore: true)
-  _$$_FeaturedEventDetailSummaryDataCopyWith<_$_FeaturedEventDetailSummaryData>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-NearbyDetailSummaryData _$NearbyDetailSummaryDataFromJson(
-    Map<String, dynamic> json) {
-  return _NearbyDetailSummaryData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$NearbyDetailSummaryData {
-  String get id => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $NearbyDetailSummaryDataCopyWith<NearbyDetailSummaryData> get copyWith =>
+  $ArtDetailSummaryDataCopyWith<ArtDetailSummaryData> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NearbyDetailSummaryDataCopyWith<$Res> {
-  factory $NearbyDetailSummaryDataCopyWith(NearbyDetailSummaryData value,
-          $Res Function(NearbyDetailSummaryData) then) =
-      _$NearbyDetailSummaryDataCopyWithImpl<$Res, NearbyDetailSummaryData>;
+abstract class $ArtDetailSummaryDataCopyWith<$Res> {
+  factory $ArtDetailSummaryDataCopyWith(ArtDetailSummaryData value,
+          $Res Function(ArtDetailSummaryData) then) =
+      _$ArtDetailSummaryDataCopyWithImpl<$Res, ArtDetailSummaryData>;
   @useResult
   $Res call({String id, String title, String imageUrl});
 }
 
 /// @nodoc
-class _$NearbyDetailSummaryDataCopyWithImpl<$Res,
-        $Val extends NearbyDetailSummaryData>
-    implements $NearbyDetailSummaryDataCopyWith<$Res> {
-  _$NearbyDetailSummaryDataCopyWithImpl(this._value, this._then);
+class _$ArtDetailSummaryDataCopyWithImpl<$Res,
+        $Val extends ArtDetailSummaryData>
+    implements $ArtDetailSummaryDataCopyWith<$Res> {
+  _$ArtDetailSummaryDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -417,23 +232,22 @@ class _$NearbyDetailSummaryDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_NearbyDetailSummaryDataCopyWith<$Res>
-    implements $NearbyDetailSummaryDataCopyWith<$Res> {
-  factory _$$_NearbyDetailSummaryDataCopyWith(_$_NearbyDetailSummaryData value,
-          $Res Function(_$_NearbyDetailSummaryData) then) =
-      __$$_NearbyDetailSummaryDataCopyWithImpl<$Res>;
+abstract class _$$_ArtDetailSummaryDataCopyWith<$Res>
+    implements $ArtDetailSummaryDataCopyWith<$Res> {
+  factory _$$_ArtDetailSummaryDataCopyWith(_$_ArtDetailSummaryData value,
+          $Res Function(_$_ArtDetailSummaryData) then) =
+      __$$_ArtDetailSummaryDataCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String title, String imageUrl});
 }
 
 /// @nodoc
-class __$$_NearbyDetailSummaryDataCopyWithImpl<$Res>
-    extends _$NearbyDetailSummaryDataCopyWithImpl<$Res,
-        _$_NearbyDetailSummaryData>
-    implements _$$_NearbyDetailSummaryDataCopyWith<$Res> {
-  __$$_NearbyDetailSummaryDataCopyWithImpl(_$_NearbyDetailSummaryData _value,
-      $Res Function(_$_NearbyDetailSummaryData) _then)
+class __$$_ArtDetailSummaryDataCopyWithImpl<$Res>
+    extends _$ArtDetailSummaryDataCopyWithImpl<$Res, _$_ArtDetailSummaryData>
+    implements _$$_ArtDetailSummaryDataCopyWith<$Res> {
+  __$$_ArtDetailSummaryDataCopyWithImpl(_$_ArtDetailSummaryData _value,
+      $Res Function(_$_ArtDetailSummaryData) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -443,7 +257,7 @@ class __$$_NearbyDetailSummaryDataCopyWithImpl<$Res>
     Object? title = null,
     Object? imageUrl = null,
   }) {
-    return _then(_$_NearbyDetailSummaryData(
+    return _then(_$_ArtDetailSummaryData(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -462,12 +276,12 @@ class __$$_NearbyDetailSummaryDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_NearbyDetailSummaryData implements _NearbyDetailSummaryData {
-  const _$_NearbyDetailSummaryData(
+class _$_ArtDetailSummaryData implements _ArtDetailSummaryData {
+  const _$_ArtDetailSummaryData(
       {required this.id, required this.title, required this.imageUrl});
 
-  factory _$_NearbyDetailSummaryData.fromJson(Map<String, dynamic> json) =>
-      _$$_NearbyDetailSummaryDataFromJson(json);
+  factory _$_ArtDetailSummaryData.fromJson(Map<String, dynamic> json) =>
+      _$$_ArtDetailSummaryDataFromJson(json);
 
   @override
   final String id;
@@ -478,14 +292,14 @@ class _$_NearbyDetailSummaryData implements _NearbyDetailSummaryData {
 
   @override
   String toString() {
-    return 'NearbyDetailSummaryData(id: $id, title: $title, imageUrl: $imageUrl)';
+    return 'ArtDetailSummaryData(id: $id, title: $title, imageUrl: $imageUrl)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NearbyDetailSummaryData &&
+            other is _$_ArtDetailSummaryData &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -499,27 +313,26 @@ class _$_NearbyDetailSummaryData implements _NearbyDetailSummaryData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NearbyDetailSummaryDataCopyWith<_$_NearbyDetailSummaryData>
-      get copyWith =>
-          __$$_NearbyDetailSummaryDataCopyWithImpl<_$_NearbyDetailSummaryData>(
-              this, _$identity);
+  _$$_ArtDetailSummaryDataCopyWith<_$_ArtDetailSummaryData> get copyWith =>
+      __$$_ArtDetailSummaryDataCopyWithImpl<_$_ArtDetailSummaryData>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NearbyDetailSummaryDataToJson(
+    return _$$_ArtDetailSummaryDataToJson(
       this,
     );
   }
 }
 
-abstract class _NearbyDetailSummaryData implements NearbyDetailSummaryData {
-  const factory _NearbyDetailSummaryData(
+abstract class _ArtDetailSummaryData implements ArtDetailSummaryData {
+  const factory _ArtDetailSummaryData(
       {required final String id,
       required final String title,
-      required final String imageUrl}) = _$_NearbyDetailSummaryData;
+      required final String imageUrl}) = _$_ArtDetailSummaryData;
 
-  factory _NearbyDetailSummaryData.fromJson(Map<String, dynamic> json) =
-      _$_NearbyDetailSummaryData.fromJson;
+  factory _ArtDetailSummaryData.fromJson(Map<String, dynamic> json) =
+      _$_ArtDetailSummaryData.fromJson;
 
   @override
   String get id;
@@ -529,8 +342,8 @@ abstract class _NearbyDetailSummaryData implements NearbyDetailSummaryData {
   String get imageUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_NearbyDetailSummaryDataCopyWith<_$_NearbyDetailSummaryData>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_ArtDetailSummaryDataCopyWith<_$_ArtDetailSummaryData> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 CategorySummaryData _$CategorySummaryDataFromJson(Map<String, dynamic> json) {

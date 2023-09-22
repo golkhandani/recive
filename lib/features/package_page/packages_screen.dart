@@ -7,8 +7,8 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/package_page/cubits/packages_cubit.dart';
-import 'package:recive/features/package_page/widgets/package_card_container_data.dart';
-import 'package:recive/features/package_page/widgets/package_expanded_card_container.dart';
+import 'package:recive/features/package_page/widgets/art_route_card_container_data.dart';
+import 'package:recive/features/package_page/widgets/art_route_expanded_card_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 
@@ -94,13 +94,12 @@ class _PackagesScreenState extends State<PackagesScreen> {
                           if (index > state.packages.length - 1) {
                             return const SizedBox();
                           }
-                          final data =
-                              PackageCardContainerData.fromPackageAbstract(
+                          final data = ArtRouteContainerData.fromAbstract(
                             state.packages[index],
                           );
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
-                            child: PackageExpandedCardContainer(
+                            child: ArtRouteExpandedCardContainer(
                               data: data,
                             ),
                           );

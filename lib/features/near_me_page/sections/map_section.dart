@@ -5,7 +5,7 @@ import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/sliver_gap.dart';
-import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_cubit.dart';
 import 'package:recive/features/near_me_page/sections/map_section_content/__carousel_content.dart';
 import 'package:recive/features/near_me_page/sections/map_section_content/__map_content.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -27,8 +27,8 @@ class NearMeScreenMapViewContent extends HookWidget {
   final double mapSectionHeight;
   final double listSectionHeight;
   final AnimatedMapController mapController;
-  final NearbyEventsCubit bloc;
-  final NearbyEventsState state;
+  final NearbyCubit bloc;
+  final NearbyState state;
 
   @override
   Widget build(BuildContext context) {

@@ -19,10 +19,10 @@ import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/extensions/duration_extensions.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/package_page/cubits/packages_cubit.dart';
-import 'package:recive/features/package_page/models/package.dart';
-import 'package:recive/features/package_page/widgets/package_detail_map_section.dart';
-import 'package:recive/features/package_page/widgets/package_event_card_container.dart';
-import 'package:recive/features/package_page/widgets/package_event_card_container_data.dart';
+import 'package:recive/features/package_page/models/art_route_model.dart';
+import 'package:recive/features/package_page/widgets/art_route_art_card_container.dart';
+import 'package:recive/features/package_page/widgets/art_route_art_card_container_data.dart';
+import 'package:recive/features/package_page/widgets/art_route_detail_map_section.dart';
 import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
@@ -201,7 +201,7 @@ class PackageDetailScreen extends HookWidget {
                         // _buildInstruction(infoStyle, data),
                         const SliverGap(height: 12),
                         PackageDetailMapSection(
-                          events: data.events,
+                          events: data.arts,
                           polyline: data.polyline ?? [],
                         ),
                         const SliverGap(height: 12),
@@ -235,7 +235,7 @@ class PackageDetailScreen extends HookWidget {
                                     index == 1
                                         ? IndicatorStyle.transparent
                                         : IndicatorStyle.dot,
-                                itemCount: data.events.length + 2,
+                                itemCount: data.arts.length + 2,
                                 contentsBuilder: (context, contentIndex) =>
                                     Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -247,11 +247,11 @@ class PackageDetailScreen extends HookWidget {
                                     }
 
                                     // Last
-                                    if (index == data.events.length) {
+                                    if (index == data.arts.length) {
                                       return const SizedBox();
                                     }
 
-                                    return _buildEventContent(
+                                    return _buildContent(
                                       context,
                                       data,
                                       index,
@@ -277,7 +277,7 @@ class PackageDetailScreen extends HookWidget {
   }
 
   CardContainer _buildImageCarousel(
-      PackageSummaryData? summary, Package? data, String heroTag) {
+      PackageSummaryData? summary, ArtRouteModel? data, String heroTag) {
     return CardContainer(
       borderRadius: BorderRadius.circular(16),
       padding: kTinyPadding,
@@ -286,7 +286,7 @@ class PackageDetailScreen extends HookWidget {
         // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
         final list = [
           summary?.imageUrl ?? data!.imageUrl,
-          ...(data?.events.map((e) => e.imageUrl).toList() ??
+          ...(data?.arts.map((e) => e.imageUrl).toList() ??
               // TO FIX THE ISSUE WITH SAME HERO TAG
               [
                 summary?.imageUrl ?? data!.imageUrl,
@@ -326,9 +326,9 @@ class PackageDetailScreen extends HookWidget {
     );
   }
 
-  Widget _buildEventContent(
+  Widget _buildContent(
     BuildContext context,
-    Package data,
+    ArtRouteModel data,
     int index,
     BoxConstraints box,
   ) {
@@ -339,13 +339,13 @@ class PackageDetailScreen extends HookWidget {
     return Column(
       children: [
         const SizedBox(height: 12),
-        PackageEventCardContainer(
+        ArtRouteCardContainer(
           parentRoute: PackageDetailScreen.name,
           parentPathParams: {
             PackageDetailScreen.pathParamId: data.id,
           },
-          data: PackageEventCardContainerData.fromNearbyEvent(
-            data.events[index],
+          data: ArtRouteArtCardContainerData.fromArtAbstract(
+            data.arts[index],
             instructions,
           ),
           constraints: BoxConstraints.expand(

@@ -9,10 +9,10 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:recive/components/card_container.dart';
-import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_cubit.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_card_container.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_card_container_data.dart';
+import 'package:recive/features/near_me_page/widgets/art_card_container.dart';
+import 'package:recive/features/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class NearMeScreenListViewContent extends HookWidget {
@@ -23,16 +23,16 @@ class NearMeScreenListViewContent extends HookWidget {
     required this.state,
   });
 
-  final NearbyEventsCubit bloc;
-  final NearbyEventsState state;
+  final NearbyCubit bloc;
+  final NearbyState state;
   final ValueNotifier<int> switchIndex;
 
   @override
   Widget build(BuildContext context) {
-    final indexedKeyItems = state.nearbyEvents.mapIndexed((i, e) {
+    final indexedKeyItems = state.nearbyArts.mapIndexed((i, e) {
       return {
         'key': GlobalKey(),
-        'data': FeaturedArtCardContainerData.fromFeaturedEvent(e),
+        'data': ArtCardContainerData.fromAbstractArt(e),
         'visiblity': 0,
       };
     }).toList();
@@ -48,7 +48,7 @@ class NearMeScreenListViewContent extends HookWidget {
     );
 
     final scrollController = useScrollController(keepScrollOffset: true);
-    useBlocComparativeListener<NearbyEventsCubit, NearbyEventsState>(
+    useBlocComparativeListener<NearbyCubit, NearbyState>(
       bloc,
       (_, state, context) {
         if (isUpdating.value || switchIndex.value == 1) {
@@ -57,17 +57,16 @@ class NearMeScreenListViewContent extends HookWidget {
         isUpdating.value = true;
         scrollController
             .animateTo(
-              state.preSelectedEventIndex * 236,
+              state.preSelectedIndex * 236,
               duration: Duration(
-                milliseconds: min(state.preSelectedEventIndex * 200 + 100, 500),
+                milliseconds: min(state.preSelectedIndex * 200 + 100, 500),
               ),
               curve: Curves.easeInOut,
             )
             .then((value) => isUpdating.value = false);
       },
       listenWhen: (previousState, currentState) =>
-          previousState.preSelectedEventIndex !=
-          currentState.preSelectedEventIndex,
+          previousState.preSelectedIndex != currentState.preSelectedIndex,
     );
 
     return NotificationListener<ScrollNotification>(
@@ -106,9 +105,9 @@ class NearMeScreenListViewContent extends HookWidget {
                       child: CardContainer(
                         borderRadius: BorderRadius.circular(16),
                         padding: kTinyPadding,
-                        child: FeaturedArtCardContainer(
+                        child: ArtCardContainer(
                           constraints: const BoxConstraints.expand(height: 200),
-                          data: data as FeaturedArtCardContainerData,
+                          data: data as ArtCardContainerData,
                           hero: NearMeScreen.name +
                               data.id +
                               DateTime.now().toString(),

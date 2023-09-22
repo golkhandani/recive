@@ -36,32 +36,16 @@ Object? _$nullableGenericToJson<T>(
 ) =>
     input == null ? null : toJson(input);
 
-_$_FeaturedEventDetailSummaryData _$$_FeaturedEventDetailSummaryDataFromJson(
+_$_ArtDetailSummaryData _$$_ArtDetailSummaryDataFromJson(
         Map<String, dynamic> json) =>
-    _$_FeaturedEventDetailSummaryData(
+    _$_ArtDetailSummaryData(
       id: json['id'] as String,
       title: json['title'] as String,
       imageUrl: json['imageUrl'] as String,
     );
 
-Map<String, dynamic> _$$_FeaturedEventDetailSummaryDataToJson(
-        _$_FeaturedEventDetailSummaryData instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'imageUrl': instance.imageUrl,
-    };
-
-_$_NearbyDetailSummaryData _$$_NearbyDetailSummaryDataFromJson(
-        Map<String, dynamic> json) =>
-    _$_NearbyDetailSummaryData(
-      id: json['id'] as String,
-      title: json['title'] as String,
-      imageUrl: json['imageUrl'] as String,
-    );
-
-Map<String, dynamic> _$$_NearbyDetailSummaryDataToJson(
-        _$_NearbyDetailSummaryData instance) =>
+Map<String, dynamic> _$$_ArtDetailSummaryDataToJson(
+        _$_ArtDetailSummaryData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

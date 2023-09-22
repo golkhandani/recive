@@ -16,7 +16,7 @@ import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/categories_page/models/category.dart';
-import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_cubit.dart';
 import 'package:recive/features/near_me_page/sections/list_section.dart';
 import 'package:recive/features/near_me_page/sections/map_section.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
@@ -48,7 +48,7 @@ class _NearMeScreenState extends State<NearMeScreen>
   Widget build(BuildContext context) {
     final categoriesBloc = context.read<CategoriesCubit>();
     final categoriesState = useBlocBuilder(categoriesBloc);
-    final bloc = useBloc<NearbyEventsCubit>();
+    final bloc = useBloc<NearbyCubit>();
     final state = useBlocComparativeBuilder(bloc, buildWhen: (old, updated) {
       return true;
     });
@@ -58,7 +58,7 @@ class _NearMeScreenState extends State<NearMeScreen>
     useEffect(() {
       locator.logger.d('geolocation != null $geolocation');
       if (geolocation != null) {
-        bloc.loadNearbyEvents(
+        bloc.loadNearbyArts(
           latitude: geolocation.latitude,
           longitude: geolocation.longitude,
           maxDistance: 100000,
@@ -188,7 +188,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                           onToggle: (index) {
                             final val = index ?? 0;
                             switchIndex.value = val;
-                            if (state.nearbyEvents.isNotEmpty) {
+                            if (state.nearbyArts.isNotEmpty) {
                               pageController.animateToPage(
                                 val,
                                 duration: switchDuration,
@@ -219,7 +219,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                         ),
                       );
                     }
-                    if (state.nearbyEvents.isEmpty) {
+                    if (state.nearbyArts.isEmpty) {
                       return SliverPadding(
                         padding: kTinyPadding,
                         sliver: SliverToBoxAdapter(
@@ -302,8 +302,8 @@ class _NearMeScreenState extends State<NearMeScreen>
   }
 
   Widget _buildFilterSection(
-    NearbyEventsCubit bloc,
-    NearbyEventsState state,
+    NearbyCubit bloc,
+    NearbyState state,
     TextEditingController textEditingController,
     ValueNotifier<bool> showFilters,
     List<ArtTypeFilter> artTypeFilters,

@@ -21,9 +21,10 @@ PackagesState _$PackagesStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PackagesState {
   LoadingState get packageLoadingState => throw _privateConstructorUsedError;
-  Package? get package => throw _privateConstructorUsedError;
-  List<PackageAbstract> get packages => throw _privateConstructorUsedError;
-  List<PackageAbstract> get packagesSpotlight =>
+  ArtRouteModel? get package => throw _privateConstructorUsedError;
+  List<ArtRouteAbstractModel> get packages =>
+      throw _privateConstructorUsedError;
+  List<ArtRouteAbstractModel> get packagesSpotlight =>
       throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
   LoadingState get loadingMoreState => throw _privateConstructorUsedError;
@@ -42,13 +43,13 @@ abstract class $PackagesStateCopyWith<$Res> {
   @useResult
   $Res call(
       {LoadingState packageLoadingState,
-      Package? package,
-      List<PackageAbstract> packages,
-      List<PackageAbstract> packagesSpotlight,
+      ArtRouteModel? package,
+      List<ArtRouteAbstractModel> packages,
+      List<ArtRouteAbstractModel> packagesSpotlight,
       LoadingState loadingState,
       LoadingState loadingMoreState});
 
-  $PackageCopyWith<$Res>? get package;
+  $ArtRouteModelCopyWith<$Res>? get package;
 }
 
 /// @nodoc
@@ -79,15 +80,15 @@ class _$PackagesStateCopyWithImpl<$Res, $Val extends PackagesState>
       package: freezed == package
           ? _value.package
           : package // ignore: cast_nullable_to_non_nullable
-              as Package?,
+              as ArtRouteModel?,
       packages: null == packages
           ? _value.packages
           : packages // ignore: cast_nullable_to_non_nullable
-              as List<PackageAbstract>,
+              as List<ArtRouteAbstractModel>,
       packagesSpotlight: null == packagesSpotlight
           ? _value.packagesSpotlight
           : packagesSpotlight // ignore: cast_nullable_to_non_nullable
-              as List<PackageAbstract>,
+              as List<ArtRouteAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -101,12 +102,12 @@ class _$PackagesStateCopyWithImpl<$Res, $Val extends PackagesState>
 
   @override
   @pragma('vm:prefer-inline')
-  $PackageCopyWith<$Res>? get package {
+  $ArtRouteModelCopyWith<$Res>? get package {
     if (_value.package == null) {
       return null;
     }
 
-    return $PackageCopyWith<$Res>(_value.package!, (value) {
+    return $ArtRouteModelCopyWith<$Res>(_value.package!, (value) {
       return _then(_value.copyWith(package: value) as $Val);
     });
   }
@@ -122,14 +123,14 @@ abstract class _$$_PackagesStateCopyWith<$Res>
   @useResult
   $Res call(
       {LoadingState packageLoadingState,
-      Package? package,
-      List<PackageAbstract> packages,
-      List<PackageAbstract> packagesSpotlight,
+      ArtRouteModel? package,
+      List<ArtRouteAbstractModel> packages,
+      List<ArtRouteAbstractModel> packagesSpotlight,
       LoadingState loadingState,
       LoadingState loadingMoreState});
 
   @override
-  $PackageCopyWith<$Res>? get package;
+  $ArtRouteModelCopyWith<$Res>? get package;
 }
 
 /// @nodoc
@@ -158,15 +159,15 @@ class __$$_PackagesStateCopyWithImpl<$Res>
       package: freezed == package
           ? _value.package
           : package // ignore: cast_nullable_to_non_nullable
-              as Package?,
+              as ArtRouteModel?,
       packages: null == packages
           ? _value._packages
           : packages // ignore: cast_nullable_to_non_nullable
-              as List<PackageAbstract>,
+              as List<ArtRouteAbstractModel>,
       packagesSpotlight: null == packagesSpotlight
           ? _value._packagesSpotlight
           : packagesSpotlight // ignore: cast_nullable_to_non_nullable
-              as List<PackageAbstract>,
+              as List<ArtRouteAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
           : loadingState // ignore: cast_nullable_to_non_nullable
@@ -185,8 +186,8 @@ class _$_PackagesState implements _PackagesState {
   const _$_PackagesState(
       {required this.packageLoadingState,
       required this.package,
-      required final List<PackageAbstract> packages,
-      required final List<PackageAbstract> packagesSpotlight,
+      required final List<ArtRouteAbstractModel> packages,
+      required final List<ArtRouteAbstractModel> packagesSpotlight,
       required this.loadingState,
       required this.loadingMoreState})
       : _packages = packages,
@@ -198,18 +199,18 @@ class _$_PackagesState implements _PackagesState {
   @override
   final LoadingState packageLoadingState;
   @override
-  final Package? package;
-  final List<PackageAbstract> _packages;
+  final ArtRouteModel? package;
+  final List<ArtRouteAbstractModel> _packages;
   @override
-  List<PackageAbstract> get packages {
+  List<ArtRouteAbstractModel> get packages {
     if (_packages is EqualUnmodifiableListView) return _packages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_packages);
   }
 
-  final List<PackageAbstract> _packagesSpotlight;
+  final List<ArtRouteAbstractModel> _packagesSpotlight;
   @override
-  List<PackageAbstract> get packagesSpotlight {
+  List<ArtRouteAbstractModel> get packagesSpotlight {
     if (_packagesSpotlight is EqualUnmodifiableListView)
       return _packagesSpotlight;
     // ignore: implicit_dynamic_type
@@ -271,9 +272,9 @@ class _$_PackagesState implements _PackagesState {
 abstract class _PackagesState implements PackagesState {
   const factory _PackagesState(
       {required final LoadingState packageLoadingState,
-      required final Package? package,
-      required final List<PackageAbstract> packages,
-      required final List<PackageAbstract> packagesSpotlight,
+      required final ArtRouteModel? package,
+      required final List<ArtRouteAbstractModel> packages,
+      required final List<ArtRouteAbstractModel> packagesSpotlight,
       required final LoadingState loadingState,
       required final LoadingState loadingMoreState}) = _$_PackagesState;
 
@@ -283,11 +284,11 @@ abstract class _PackagesState implements PackagesState {
   @override
   LoadingState get packageLoadingState;
   @override
-  Package? get package;
+  ArtRouteModel? get package;
   @override
-  List<PackageAbstract> get packages;
+  List<ArtRouteAbstractModel> get packages;
   @override
-  List<PackageAbstract> get packagesSpotlight;
+  List<ArtRouteAbstractModel> get packagesSpotlight;
   @override
   LoadingState get loadingState;
   @override

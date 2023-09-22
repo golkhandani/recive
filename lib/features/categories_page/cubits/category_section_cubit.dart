@@ -1,11 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/categories_page/cubits/category_fake_data.dart';
 import 'package:recive/features/categories_page/models/category.dart';
 import 'package:recive/features/categories_page/repos/categories_repo.interface.dart';
-import 'package:recive/features/featured_page/models/featured_event.dart';
-import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
+import 'package:recive/features/featured_page/models/art_abstract_model.dart';
+import 'package:recive/features/featured_page/repos/arts_repo.interface.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 
 part 'category_section_cubit.freezed.dart';
@@ -38,10 +37,10 @@ class CategoriesState with _$CategoriesState {
 
 class CategoriesCubit extends MaybeEmitHydratedCubit<CategoriesState> {
   final ICategoryRepo categoryRepo;
-  final IEventRepo eventRepo;
+  final IArtRepo repo;
   CategoriesCubit({
     required this.categoryRepo,
-    required this.eventRepo,
+    required this.repo,
   }) : super(CategoriesState.initialize());
 
   Future<void> loadCategory(String id) async {
@@ -56,7 +55,7 @@ class CategoriesCubit extends MaybeEmitHydratedCubit<CategoriesState> {
     ));
 
     final items =
-        await eventRepo.categoryEvents(limit: 10, category: state.category!);
+        await repo.getCategoryArts(limit: 10, category: state.category!);
 
     maybeEmit(state.copyWith(
       items: items.take(6).toList(),
@@ -74,7 +73,6 @@ class CategoriesCubit extends MaybeEmitHydratedCubit<CategoriesState> {
 
   Future<void> loadCategories() async {
     maybeEmit(state.copyWith(
-      categories: mockCategoriesData,
       loadingState: LoadingState.loading,
     ));
 

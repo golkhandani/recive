@@ -18,7 +18,6 @@ import 'package:recive/key_constants.dart';
 import 'package:recive/router/navigation_service.dart';
 
 // npm install -g get-graphql-schema
-// get-graphql-schema -h 'apiKey=3nbNFOHUaGZqpdCYpXquczSG21iRaB80gPlZhRiWfnaTfJXUH9dDOjwYRzuk65mH' https://us-east-1.aws.realm.mongodb.com/api/client/v2.0/app/suggesteventpath-mgnsw/graphql > lib/schema.graphql
 
 class RealmGqlClient {
   static const baseUrl = realmGqlBaseUrl;

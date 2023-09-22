@@ -21,8 +21,8 @@ import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/extensions/string_extensions.dart';
 import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
-import 'package:recive/features/featured_page/models/event_complete.dart';
-import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
+import 'package:recive/features/featured_page/models/art_model.dart';
+import 'package:recive/features/near_me_page/cubits/art_detail_cubit.dart';
 import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -30,32 +30,32 @@ import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/utils/share_service.dart';
 
-class NearbyDetailScreen extends HookWidget {
-  static const name = 'neerby_event_datail';
+class ArtDetailScreen extends HookWidget {
+  static const name = 'art_datail';
   static const pathParamId = 'id';
-  const NearbyDetailScreen({
+  const ArtDetailScreen({
     super.key,
     required this.id,
     required this.extra,
   });
 
   final String id;
-  final ExtraData<NearbyDetailSummaryData>? extra;
+  final ExtraData<ArtDetailSummaryData>? extra;
 
   @override
   Widget build(BuildContext context) {
-    final bloc = useBloc<NearbyEventDetailCubit>();
+    final bloc = useBloc<ArtDetailCubit>();
     final state = useBlocBuilder(bloc);
     final bookmarksBloc = context.read<BookmarksCubit>();
 
     useEffect(() {
-      bloc.loadNearbyEvent(id);
-      return () => bloc.emptyNearbyEvent();
+      bloc.loadArtById(id);
+      return () => bloc.flush();
     }, []);
 
     final heroTag = extra?.heroTag ?? '';
     final summary = extra?.summary;
-    final data = state.nearbyEvent;
+    final data = state.nearbyItem;
     final loading = state.loadingState;
 
     return ColoredBox(
@@ -172,7 +172,7 @@ class NearbyDetailScreen extends HookWidget {
                                           onPressed: () {
                                             locator
                                                 .get<ShareService>()
-                                                .shareEvent(
+                                                .shareArt(
                                                   context,
                                                   title: data?.title ?? '',
                                                 );
@@ -209,7 +209,7 @@ class NearbyDetailScreen extends HookWidget {
   }
 
   Widget _buildImageCarousel(
-      NearbyDetailSummaryData? summary, ArtModel? data, String heroTag) {
+      ArtDetailSummaryData? summary, ArtModel? data, String heroTag) {
     return CardContainer(
       borderRadius: BorderRadius.circular(16),
       padding: kTinyPadding,
@@ -578,7 +578,7 @@ class NearbyDetailScreen extends HookWidget {
   }
 
   Builder _buildTitleInfo(
-    NearbyDetailSummaryData? summary,
+    ArtDetailSummaryData? summary,
     ArtModel? data,
   ) {
     return Builder(

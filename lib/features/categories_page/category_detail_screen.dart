@@ -15,8 +15,8 @@ import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/home_page/widgets/see_more_button.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_card_container.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_card_container_data.dart';
+import 'package:recive/features/near_me_page/widgets/art_card_container.dart';
+import 'package:recive/features/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/features/search_page/search_screen.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -162,8 +162,8 @@ class CategoryDetailScreen extends HookWidget {
                               delegate: SliverChildBuilderDelegate(
                                 childCount: state.items.length,
                                 (context, index) {
-                                  final data = FeaturedArtCardContainerData
-                                      .fromFeaturedEvent(
+                                  final data =
+                                      ArtCardContainerData.fromAbstractArt(
                                     state.items[index],
                                   );
                                   return Padding(
@@ -171,7 +171,7 @@ class CategoryDetailScreen extends HookWidget {
                                       bottom: kTinyPadding.bottom,
                                       right: kTinyPadding.right,
                                     ),
-                                    child: FeaturedArtCardContainer(
+                                    child: ArtCardContainer(
                                       hero: CategoriesScreen.name +
                                           CategoryDetailScreen.name +
                                           data.id,

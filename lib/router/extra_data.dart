@@ -19,27 +19,15 @@ class ExtraData<T> with _$ExtraData<T> {
 }
 
 @freezed
-class FeaturedEventDetailSummaryData with _$FeaturedEventDetailSummaryData {
-  const factory FeaturedEventDetailSummaryData({
+class ArtDetailSummaryData with _$ArtDetailSummaryData {
+  const factory ArtDetailSummaryData({
     required String id,
     required String title,
     required String imageUrl,
-  }) = _FeaturedEventDetailSummaryData;
+  }) = _ArtDetailSummaryData;
 
-  factory FeaturedEventDetailSummaryData.fromJson(Map<String, dynamic> json) =>
-      _$FeaturedEventDetailSummaryDataFromJson(json);
-}
-
-@freezed
-class NearbyDetailSummaryData with _$NearbyDetailSummaryData {
-  const factory NearbyDetailSummaryData({
-    required String id,
-    required String title,
-    required String imageUrl,
-  }) = _NearbyDetailSummaryData;
-
-  factory NearbyDetailSummaryData.fromJson(Map<String, dynamic> json) =>
-      _$NearbyDetailSummaryDataFromJson(json);
+  factory ArtDetailSummaryData.fromJson(Map<String, dynamic> json) =>
+      _$ArtDetailSummaryDataFromJson(json);
 }
 
 @freezed

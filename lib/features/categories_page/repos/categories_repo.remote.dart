@@ -12,9 +12,9 @@ class GQLCategoryRepo implements ICategoryRepo {
 
   @override
   Future<List<Category>> getCategories() async {
-    final nearbyEventRequest = GGetCategoriesReq();
+    final categoryRequest = GGetCategoriesReq();
 
-    final data = await client.request(nearbyEventRequest);
+    final data = await client.request(categoryRequest);
     final convertedData = data.data?.category_items
             .map(
               (e) => Category(

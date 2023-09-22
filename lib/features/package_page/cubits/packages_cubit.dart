@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/package_page/models/package.dart';
-import 'package:recive/features/package_page/repos/package_event_repo.interface.dart';
+import 'package:recive/features/package_page/models/art_route_model.dart';
+import 'package:recive/features/package_page/repos/art_route_repo.interface.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
 
 part 'packages_cubit.freezed.dart';
@@ -12,9 +12,9 @@ part 'packages_cubit.g.dart';
 class PackagesState with _$PackagesState {
   const factory PackagesState({
     required LoadingState packageLoadingState,
-    required Package? package,
-    required List<PackageAbstract> packages,
-    required List<PackageAbstract> packagesSpotlight,
+    required ArtRouteModel? package,
+    required List<ArtRouteAbstractModel> packages,
+    required List<ArtRouteAbstractModel> packagesSpotlight,
     required LoadingState loadingState,
     required LoadingState loadingMoreState,
   }) = _PackagesState;
@@ -34,7 +34,7 @@ class PackagesState with _$PackagesState {
 }
 
 class PackagesCubit extends MaybeEmitHydratedCubit<PackagesState> {
-  final IPackageEventRepo repo;
+  final IArtRouteRepo repo;
   PackagesCubit({
     required this.repo,
   }) : super(PackagesState.initialize());
@@ -44,7 +44,7 @@ class PackagesCubit extends MaybeEmitHydratedCubit<PackagesState> {
       loadingState: LoadingState.loading,
     ));
 
-    final data = await repo.packages(
+    final data = await repo.getArtRoutes(
       limit: 10,
     );
 
@@ -63,7 +63,7 @@ class PackagesCubit extends MaybeEmitHydratedCubit<PackagesState> {
       loadingMoreState: LoadingState.loading,
     ));
 
-    final data = await repo.packages(
+    final data = await repo.getArtRoutes(
       limit: 10,
       lastItem: state.packages.last,
     );
@@ -79,7 +79,7 @@ class PackagesCubit extends MaybeEmitHydratedCubit<PackagesState> {
       packageLoadingState: LoadingState.loading,
     ));
 
-    final data = await repo.packageById(id: id);
+    final data = await repo.getArtRouteById(id: id);
     Future.delayed(const Duration(seconds: 1));
 
     maybeEmit(state.copyWith(

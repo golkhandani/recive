@@ -22,22 +22,22 @@ import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart'
 import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/features/categories_page/repos/categories_repo.interface.dart';
 import 'package:recive/features/categories_page/repos/categories_repo.remote.dart';
-import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
-import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
-import 'package:recive/features/featured_page/repos/events_repo.remote.dart';
+import 'package:recive/features/featured_page/cubits/featured_cubit.dart';
+import 'package:recive/features/featured_page/repos/arts_repo.interface.dart';
+import 'package:recive/features/featured_page/repos/arts_repo.remote.dart';
 import 'package:recive/features/introduction_page/cubits/setting_loader_cubit.dart';
 import 'package:recive/features/login_page/cubits/login_cubit.dart';
-import 'package:recive/features/near_me_page/cubits/near_by_event_detail_cubit.dart';
-import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
-import 'package:recive/features/near_me_page/repos/nearby_event_repo.interface.dart';
-import 'package:recive/features/near_me_page/repos/nearby_events_repo.remote.dart';
+import 'package:recive/features/near_me_page/cubits/art_detail_cubit.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_cubit.dart';
+import 'package:recive/features/near_me_page/repos/nearby_arts_repo.interface.dart';
+import 'package:recive/features/near_me_page/repos/nearby_arts_repo.remote.dart';
 import 'package:recive/features/news_page/cubits/news_cubit.dart';
 import 'package:recive/features/package_page/cubits/packages_cubit.dart';
-import 'package:recive/features/package_page/repos/package_event_repo.interface.dart';
-import 'package:recive/features/package_page/repos/package_events_repo.remote.dart';
-import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
-import 'package:recive/features/search_page/repos/search_event_repo.interface.dart';
-import 'package:recive/features/search_page/repos/search_events_repo.remote.dart';
+import 'package:recive/features/package_page/repos/art_route_repo.interface.dart';
+import 'package:recive/features/package_page/repos/art_route_repo.remote.dart';
+import 'package:recive/features/search_page/cubits/search_cubit.dart';
+import 'package:recive/features/search_page/repos/search_route_repo.interface.dart';
+import 'package:recive/features/search_page/repos/search_route_repo.remote.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/ioc/geo_location_service.dart';
 import 'package:recive/ioc/realm_gql_client.dart';
@@ -180,23 +180,23 @@ Future setupRepositories() async {
     ..registerSingleton<OpenWeather>(
       OpenWeather(apiKey: openWeatherKey),
     )
-    ..registerLazySingleton<IEventRepo>(
-      () => GQLEventRepo(
+    ..registerLazySingleton<IArtRepo>(
+      () => GQLArtRepo(
         client: locator.get(),
       ),
     )
-    ..registerLazySingleton<INearbyEventRepo>(
-      () => GQLNearbyEventRepo(
+    ..registerLazySingleton<INearbyArtRepo>(
+      () => GQLNearbyArtRepo(
         client: locator.get(),
       ),
     )
-    ..registerLazySingleton<ISearchEventRepo>(
-      () => GQLSearchEventRepo(
+    ..registerLazySingleton<ISearchRouteRepo>(
+      () => GQLSearchRouteRepo(
         client: locator.get(),
       ),
     )
-    ..registerLazySingleton<IPackageEventRepo>(
-      () => GQLPackageEventRepo(
+    ..registerLazySingleton<IArtRouteRepo>(
+      () => GQLArtRouteRepo(
         client: locator.get(),
         rms: locator.get(),
       ),
@@ -228,11 +228,11 @@ Future setupBlocs() async {
     ..registerFactory(
       () => CategoriesCubit(
         categoryRepo: locator.get(),
-        eventRepo: locator.get(),
+        repo: locator.get(),
       ),
     )
     ..registerFactory(
-      () => FeatureEventsCubit(
+      () => FeaturedCubit(
         repo: locator.get(),
       ),
     )
@@ -243,19 +243,18 @@ Future setupBlocs() async {
       () => MapControlCubit(),
     )
     ..registerFactory(
-      () => NearbyEventsCubit(
+      () => NearbyCubit(
         repo: locator.get(),
       ),
     )
     ..registerFactory(
-      () => NearbyEventDetailCubit(
+      () => ArtDetailCubit(
         repo: locator.get(),
-        eventRepo: locator.get(),
         bookmarkBox: locator.get(),
       ),
     )
     ..registerFactory(
-      () => SearchEventsCubit(
+      () => SearchCubit(
         repo: locator.get(),
       ),
     )

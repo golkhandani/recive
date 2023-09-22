@@ -10,7 +10,7 @@ class ShareService {
     required this.navigationService,
   });
 
-  Future<ShareResult> shareEvent(
+  Future<ShareResult> shareArt(
     BuildContext context, {
     String? subject,
     required String title,

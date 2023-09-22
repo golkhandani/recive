@@ -22,8 +22,7 @@ BookmarksState _$BookmarksStateFromJson(Map<String, dynamic> json) {
 mixin _$BookmarksState {
   List<String> get ids => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
-  List<ArtAbstractModel> get bookmarkEvents =>
-      throw _privateConstructorUsedError;
+  List<ArtAbstractModel> get bookmarkArts => throw _privateConstructorUsedError;
   LoadingState get loadingState => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +40,7 @@ abstract class $BookmarksStateCopyWith<$Res> {
   $Res call(
       {List<String> ids,
       int count,
-      List<ArtAbstractModel> bookmarkEvents,
+      List<ArtAbstractModel> bookmarkArts,
       LoadingState loadingState});
 }
 
@@ -60,7 +59,7 @@ class _$BookmarksStateCopyWithImpl<$Res, $Val extends BookmarksState>
   $Res call({
     Object? ids = null,
     Object? count = null,
-    Object? bookmarkEvents = null,
+    Object? bookmarkArts = null,
     Object? loadingState = null,
   }) {
     return _then(_value.copyWith(
@@ -72,9 +71,9 @@ class _$BookmarksStateCopyWithImpl<$Res, $Val extends BookmarksState>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
-      bookmarkEvents: null == bookmarkEvents
-          ? _value.bookmarkEvents
-          : bookmarkEvents // ignore: cast_nullable_to_non_nullable
+      bookmarkArts: null == bookmarkArts
+          ? _value.bookmarkArts
+          : bookmarkArts // ignore: cast_nullable_to_non_nullable
               as List<ArtAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
@@ -95,7 +94,7 @@ abstract class _$$_BookmarksStateCopyWith<$Res>
   $Res call(
       {List<String> ids,
       int count,
-      List<ArtAbstractModel> bookmarkEvents,
+      List<ArtAbstractModel> bookmarkArts,
       LoadingState loadingState});
 }
 
@@ -112,7 +111,7 @@ class __$$_BookmarksStateCopyWithImpl<$Res>
   $Res call({
     Object? ids = null,
     Object? count = null,
-    Object? bookmarkEvents = null,
+    Object? bookmarkArts = null,
     Object? loadingState = null,
   }) {
     return _then(_$_BookmarksState(
@@ -124,9 +123,9 @@ class __$$_BookmarksStateCopyWithImpl<$Res>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int,
-      bookmarkEvents: null == bookmarkEvents
-          ? _value._bookmarkEvents
-          : bookmarkEvents // ignore: cast_nullable_to_non_nullable
+      bookmarkArts: null == bookmarkArts
+          ? _value._bookmarkArts
+          : bookmarkArts // ignore: cast_nullable_to_non_nullable
               as List<ArtAbstractModel>,
       loadingState: null == loadingState
           ? _value.loadingState
@@ -144,10 +143,10 @@ class _$_BookmarksState
   const _$_BookmarksState(
       {required final List<String> ids,
       required this.count,
-      required final List<ArtAbstractModel> bookmarkEvents,
+      required final List<ArtAbstractModel> bookmarkArts,
       required this.loadingState})
       : _ids = ids,
-        _bookmarkEvents = bookmarkEvents;
+        _bookmarkArts = bookmarkArts;
 
   factory _$_BookmarksState.fromJson(Map<String, dynamic> json) =>
       _$$_BookmarksStateFromJson(json);
@@ -162,12 +161,12 @@ class _$_BookmarksState
 
   @override
   final int count;
-  final List<ArtAbstractModel> _bookmarkEvents;
+  final List<ArtAbstractModel> _bookmarkArts;
   @override
-  List<ArtAbstractModel> get bookmarkEvents {
-    if (_bookmarkEvents is EqualUnmodifiableListView) return _bookmarkEvents;
+  List<ArtAbstractModel> get bookmarkArts {
+    if (_bookmarkArts is EqualUnmodifiableListView) return _bookmarkArts;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_bookmarkEvents);
+    return EqualUnmodifiableListView(_bookmarkArts);
   }
 
   @override
@@ -175,7 +174,7 @@ class _$_BookmarksState
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'BookmarksState(ids: $ids, count: $count, bookmarkEvents: $bookmarkEvents, loadingState: $loadingState)';
+    return 'BookmarksState(ids: $ids, count: $count, bookmarkArts: $bookmarkArts, loadingState: $loadingState)';
   }
 
   @override
@@ -185,7 +184,7 @@ class _$_BookmarksState
       ..add(DiagnosticsProperty('type', 'BookmarksState'))
       ..add(DiagnosticsProperty('ids', ids))
       ..add(DiagnosticsProperty('count', count))
-      ..add(DiagnosticsProperty('bookmarkEvents', bookmarkEvents))
+      ..add(DiagnosticsProperty('bookmarkArts', bookmarkArts))
       ..add(DiagnosticsProperty('loadingState', loadingState));
   }
 
@@ -197,7 +196,7 @@ class _$_BookmarksState
             const DeepCollectionEquality().equals(other._ids, _ids) &&
             (identical(other.count, count) || other.count == count) &&
             const DeepCollectionEquality()
-                .equals(other._bookmarkEvents, _bookmarkEvents) &&
+                .equals(other._bookmarkArts, _bookmarkArts) &&
             (identical(other.loadingState, loadingState) ||
                 other.loadingState == loadingState));
   }
@@ -208,7 +207,7 @@ class _$_BookmarksState
       runtimeType,
       const DeepCollectionEquality().hash(_ids),
       count,
-      const DeepCollectionEquality().hash(_bookmarkEvents),
+      const DeepCollectionEquality().hash(_bookmarkArts),
       loadingState);
 
   @JsonKey(ignore: true)
@@ -229,7 +228,7 @@ abstract class _BookmarksState implements BookmarksState {
   const factory _BookmarksState(
       {required final List<String> ids,
       required final int count,
-      required final List<ArtAbstractModel> bookmarkEvents,
+      required final List<ArtAbstractModel> bookmarkArts,
       required final LoadingState loadingState}) = _$_BookmarksState;
 
   factory _BookmarksState.fromJson(Map<String, dynamic> json) =
@@ -240,7 +239,7 @@ abstract class _BookmarksState implements BookmarksState {
   @override
   int get count;
   @override
-  List<ArtAbstractModel> get bookmarkEvents;
+  List<ArtAbstractModel> get bookmarkArts;
   @override
   LoadingState get loadingState;
   @override

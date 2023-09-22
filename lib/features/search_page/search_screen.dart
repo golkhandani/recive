@@ -10,9 +10,9 @@ import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
-import 'package:recive/features/package_page/widgets/package_card_container_data.dart';
-import 'package:recive/features/package_page/widgets/package_expanded_card_container.dart';
-import 'package:recive/features/search_page/cubits/search_events_cubit.dart';
+import 'package:recive/features/package_page/widgets/art_route_card_container_data.dart';
+import 'package:recive/features/package_page/widgets/art_route_expanded_card_container.dart';
+import 'package:recive/features/search_page/cubits/search_cubit.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/features/search_page/widgets/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/features/search_page/widgets/tag_chip_container.dart';
@@ -47,17 +47,17 @@ class _SearchScreenState extends State<SearchScreen> {
     final scrollController = useScrollController();
     final textEditingController = useTextEditingController();
 
-    final bloc = useBloc<SearchEventsCubit>();
+    final bloc = useBloc<SearchCubit>();
     final state = useBlocBuilder(bloc);
 
     final quickSearchBloc = useBloc<QuickSearchHeaderBloc>();
 
-    useBlocComparativeListener<SearchEventsCubit, SearchEventsState>(
+    useBlocComparativeListener<SearchCubit, SearchState>(
       bloc,
       (bloc, current, context) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          for (var item in current.searchedEvents) {
-            final index = current.searchedEvents.indexOf(item);
+          for (var item in current.searchedItems) {
+            final index = current.searchedItems.indexOf(item);
             _listKey.currentState?.insertItem(
               index,
               duration: const Duration(milliseconds: 200),
@@ -65,13 +65,13 @@ class _SearchScreenState extends State<SearchScreen> {
           }
         });
       },
-      listenWhen: (o, n) => o.searchedEvents.length != n.searchedEvents.length,
+      listenWhen: (o, n) => o.searchedItems.length != n.searchedItems.length,
     );
 
     void textEditingListener() {
       final query = textEditingController.text;
       if (query.length > 1 && scrollController.hasClients) {
-        bloc.searchedEvents(query);
+        bloc.loadSearchedItems(query);
         scrollController.jumpTo(0);
       }
     }
@@ -83,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
       }
       if (scrollController.offset + 10 >
           scrollController.position.maxScrollExtent) {
-        bloc.loadMoreSearchedEvents();
+        bloc.loadMoreSearchedItems();
       }
     }
 
@@ -98,7 +98,7 @@ class _SearchScreenState extends State<SearchScreen> {
         }
       });
 
-      bloc.searchedEvents('');
+      bloc.loadSearchedItems('');
       return () {
         textEditingController.dispose();
         scrollController.dispose();
@@ -146,8 +146,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         padding: const EdgeInsets.only(bottom: 12, left: 12),
                         height: 54,
                         bloc: quickSearchBloc,
-                        onSelect: (text) => bloc.searchedEvents(text),
-                        onTextChanged: (text) => bloc.searchedEvents(text),
+                        onSelect: (text) => bloc.loadSearchedItems(text),
+                        onTextChanged: (text) => bloc.loadSearchedItems(text),
                         textController: textEditingController,
                       ),
                     ),
@@ -207,20 +207,20 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildSearchResult(SearchEventsState state) {
+  Widget _buildSearchResult(SearchState state) {
     return SliverAnimatedList(
       key: _listKey,
       itemBuilder: (context, index, animation) {
         // Note: handle pre-view scroll items
-        if (index > state.searchedEvents.length - 1) {
+        if (index > state.searchedItems.length - 1) {
           return const SizedBox();
         }
-        final data = PackageCardContainerData.fromPackageAbstract(
-          state.searchedEvents[index],
+        final data = ArtRouteContainerData.fromAbstract(
+          state.searchedItems[index],
         );
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: PackageExpandedCardContainer(
+          child: ArtRouteExpandedCardContainer(
             data: data,
           ),
         );
@@ -233,8 +233,8 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   SliverPinnedHeader _buildFilterSection(
-    SearchEventsCubit bloc,
-    SearchEventsState state,
+    SearchCubit bloc,
+    SearchState state,
     ValueNotifier<bool> showFilters,
     List<DistanceFilter> distancesFilters,
     TextEditingController textEditingController,

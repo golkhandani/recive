@@ -7,8 +7,8 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_card_container_data.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_expanded_card_container.dart';
+import 'package:recive/features/near_me_page/widgets/art_card_container_data.dart';
+import 'package:recive/features/near_me_page/widgets/art_expanded_card_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 
@@ -43,15 +43,14 @@ class BookmarksScreen extends HookWidget {
                     children: [
                       SliverList.builder(
                         addAutomaticKeepAlives: true,
-                        itemCount: state.bookmarkEvents.length,
+                        itemCount: state.bookmarkArts.length,
                         itemBuilder: (context, index) {
-                          final data =
-                              FeaturedArtCardContainerData.fromFeaturedEvent(
-                            state.bookmarkEvents[index],
+                          final data = ArtCardContainerData.fromAbstractArt(
+                            state.bookmarkArts[index],
                           );
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
-                            child: FeaturedEventExpandedCardContainer(
+                            child: ArtExpandedCardContainer(
                               data: data,
                             ),
                           );

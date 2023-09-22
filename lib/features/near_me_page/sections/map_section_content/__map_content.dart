@@ -14,7 +14,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:recive/components/map_card_container/flutter_map_search_refresh_button.dart';
 import 'package:recive/components/map_card_container/map_card_container.dart';
 import 'package:recive/enums/loading_state.dart';
-import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_cubit.dart';
 import 'package:recive/features/near_me_page/widgets/selected_marker.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 
@@ -29,8 +29,8 @@ class NearbyMapContent extends StatefulHookWidget {
 
   final double mapSectionHeight;
   final AnimatedMapController mapController;
-  final NearbyEventsCubit bloc;
-  final NearbyEventsState state;
+  final NearbyCubit bloc;
+  final NearbyState state;
 
   @override
   State<NearbyMapContent> createState() => NearbyMapContentState();
@@ -68,7 +68,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
   }
 
   late final SelectedMarker2Controller sc = SelectedMarker2Controller(
-    widget.state.nearbyEvents.first.geoLocation,
+    widget.state.nearbyArts.first.geoLocation,
   );
 
   late final FlutterMapMarkerClusterLayerController fc =
@@ -79,25 +79,24 @@ class NearbyMapContentState extends State<NearbyMapContent> {
 
   @override
   Widget build(BuildContext context) {
-    useBlocComparativeListener<NearbyEventsCubit, NearbyEventsState>(
+    useBlocComparativeListener<NearbyCubit, NearbyState>(
       widget.bloc,
       (bloc, current, context) {
-        final newPos =
-            current.nearbyEvents[current.preSelectedEventIndex].geoLocation;
+        final newPos = current.nearbyArts[current.preSelectedIndex].geoLocation;
         widget.mapController.animateTo(
           dest: newPos,
         );
         sc.updateValue(newPos);
       },
       listenWhen: (old, updated) {
-        return old.preSelectedEventIndex != updated.preSelectedEventIndex;
+        return old.preSelectedIndex != updated.preSelectedIndex;
       },
     );
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         fc.updateValue(
-          widget.state.nearbyEvents
+          widget.state.nearbyArts
               .mapIndexed(
                 (index, point) => _createMarker(
                   point.geoLocation,
@@ -112,14 +111,14 @@ class NearbyMapContentState extends State<NearbyMapContent> {
             widget.state.isRefreshLoading != false) {
           return;
         }
-        final updated = widget
-            .state.nearbyEvents[widget.state.preSelectedEventIndex].geoLocation;
+        final updated =
+            widget.state.nearbyArts[widget.state.preSelectedIndex].geoLocation;
         sc.updateValue(updated);
         widget.mapController.animateTo(dest: updated);
       });
 
       return;
-    }, [widget.state.nearbyEvents]);
+    }, [widget.state.nearbyArts]);
 
     return MultiSliver(children: [
       Builder(builder: (context) {
@@ -128,7 +127,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
           onRefreshDataClicked: (mapBloc, mapState) {
             fr.updateValue(true);
             widget.bloc
-                .loadNearbyEvents(
+                .loadNearbyArts(
                   latitude: mapState.center.latitude,
                   longitude: mapState.center.longitude,
                   maxDistance: mapState.zoom * 10000,

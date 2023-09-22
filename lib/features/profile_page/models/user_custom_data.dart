@@ -12,7 +12,7 @@ class UserCustomData with _$UserCustomData {
     @JsonKey(name: 'email') String? email,
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'bookmark_events') List<String>? bookmarkEvents,
+    @JsonKey(name: 'bookmark_arts') List<String>? bookmarkArts,
   }) = _UserCustomData;
 
   factory UserCustomData.fromJson(Map<String, dynamic> json) =>

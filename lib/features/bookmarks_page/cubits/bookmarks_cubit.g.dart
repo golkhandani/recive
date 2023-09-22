@@ -10,7 +10,7 @@ _$_BookmarksState _$$_BookmarksStateFromJson(Map<String, dynamic> json) =>
     _$_BookmarksState(
       ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
       count: json['count'] as int,
-      bookmarkEvents: (json['bookmarkEvents'] as List<dynamic>)
+      bookmarkArts: (json['bookmarkArts'] as List<dynamic>)
           .map((e) => ArtAbstractModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
@@ -20,7 +20,7 @@ Map<String, dynamic> _$$_BookmarksStateToJson(_$_BookmarksState instance) =>
     <String, dynamic>{
       'ids': instance.ids,
       'count': instance.count,
-      'bookmarkEvents': instance.bookmarkEvents,
+      'bookmarkArts': instance.bookmarkArts,
       'loadingState': _$LoadingStateEnumMap[instance.loadingState]!,
     };
 

@@ -12,7 +12,7 @@ _$_UserCustomData _$$_UserCustomDataFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       imageUrl: json['image_url'] as String?,
       name: json['name'] as String?,
-      bookmarkEvents: (json['bookmark_events'] as List<dynamic>?)
+      bookmarkArts: (json['bookmark_arts'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
     );
@@ -23,5 +23,5 @@ Map<String, dynamic> _$$_UserCustomDataToJson(_$_UserCustomData instance) =>
       'email': instance.email,
       'image_url': instance.imageUrl,
       'name': instance.name,
-      'bookmark_events': instance.bookmarkEvents,
+      'bookmark_arts': instance.bookmarkArts,
     };

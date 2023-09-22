@@ -6,7 +6,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:recive/components/screen_safe_area_header.dart';
 import 'package:recive/components/sliver_gap.dart';
 import 'package:recive/features/home_page/sections/category_section.dart';
-import 'package:recive/features/home_page/sections/featured_event_section.dart';
+import 'package:recive/features/home_page/sections/featured_section.dart';
 import 'package:recive/features/home_page/sections/map_section.dart';
 import 'package:recive/features/home_page/sections/weather_section.dart';
 import 'package:recive/layout/context_ui_extension.dart';
@@ -22,7 +22,7 @@ class HomeScreen extends HookWidget {
       SliverGap(height: 32),
       HomePageCategoriesSection(),
       SliverGap(height: 12),
-      HomePageFeaturedEventsSection(),
+      HomePageFeaturedSection(),
       SliverGap(height: 32),
       HomePageMapSection(),
       SliverGap(height: 32),

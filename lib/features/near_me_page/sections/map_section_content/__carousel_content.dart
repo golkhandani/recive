@@ -7,10 +7,10 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/sliver_card_container.dart';
-import 'package:recive/features/near_me_page/cubits/near_by_events_cubit.dart';
+import 'package:recive/features/near_me_page/cubits/near_by_cubit.dart';
 import 'package:recive/features/near_me_page/near_me_screen.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_card_container.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_card_container_data.dart';
+import 'package:recive/features/near_me_page/widgets/art_card_container.dart';
+import 'package:recive/features/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/layout/ui_constants.dart';
 
 class NearbyCarouselContent extends HookWidget {
@@ -22,12 +22,12 @@ class NearbyCarouselContent extends HookWidget {
   });
 
   final double listSectionHeight;
-  final NearbyEventsCubit bloc;
-  final NearbyEventsState state;
+  final NearbyCubit bloc;
+  final NearbyState state;
 
-  List<FeaturedArtCardContainerData> calcItems() {
-    return state.nearbyEvents
-        .map((e) => FeaturedArtCardContainerData.fromFeaturedEvent(e))
+  List<ArtCardContainerData> calcItems() {
+    return state.nearbyArts
+        .map((e) => ArtCardContainerData.fromAbstractArt(e))
         .toList();
   }
 
@@ -36,22 +36,21 @@ class NearbyCarouselContent extends HookWidget {
     final CarouselController controller = CarouselController();
 
     final isUpdating = useState(false);
-    List<FeaturedArtCardContainerData> items = calcItems();
+    List<ArtCardContainerData> items = calcItems();
 
-    useBlocComparativeListener<NearbyEventsCubit, NearbyEventsState>(
+    useBlocComparativeListener<NearbyCubit, NearbyState>(
       bloc,
       (_, state, context) {
         if (!isUpdating.value) {
           isUpdating.value = true;
           controller
-              .animateToPage(state.preSelectedEventIndex)
+              .animateToPage(state.preSelectedIndex)
               .then((value) => isUpdating.value = false);
         }
         isUpdating.value = false;
       },
       listenWhen: (previousState, currentState) =>
-          previousState.preSelectedEventIndex !=
-          currentState.preSelectedEventIndex,
+          previousState.preSelectedIndex != currentState.preSelectedIndex,
     );
 
     return MultiSliver(
@@ -66,7 +65,7 @@ class NearbyCarouselContent extends HookWidget {
                 // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
                 final list = items
                     .mapIndexed(
-                      (index, data) => FeaturedArtCardContainer(
+                      (index, data) => ArtCardContainer(
                         hero: NearMeScreen.name +
                             data.id +
                             DateTime.now().toString(),

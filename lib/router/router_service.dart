@@ -7,8 +7,6 @@ import 'package:recive/features/bookmarks_page/bookmarks_screen.dart';
 import 'package:recive/features/categories_page/categories_screen.dart';
 import 'package:recive/features/categories_page/category_detail_screen.dart';
 import 'package:recive/features/dashboard/dashboard_screen.dart';
-import 'package:recive/features/detail_page/detail_screen.dart';
-import 'package:recive/features/detail_page/detail_type.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
 import 'package:recive/features/home_page/home_screen.dart';
 import 'package:recive/features/introduction_page/introduction_screen.dart';
@@ -115,22 +113,21 @@ class TestRoute extends StatelessWidget {
   }
 }
 
-GoRoute nearbyEventDetailRoute(String parentName) => GoRoute(
-      name: parentName + NearbyDetailScreen.name,
-      path: '${NearbyDetailScreen.name}/:${NearbyDetailScreen.pathParamId}',
+GoRoute nearbyArtDetailRoute(String parentName) => GoRoute(
+      name: parentName + ArtDetailScreen.name,
+      path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
       pageBuilder: (context, state) {
-        final pathParamId =
-            state.pathParameters[NearbyDetailScreen.pathParamId]!;
+        final pathParamId = state.pathParameters[ArtDetailScreen.pathParamId]!;
 
         final extraJson = state.extra as Map<String, dynamic>;
         final extra = ExtraData.fromJson(
           extraJson,
           (inner) =>
-              NearbyDetailSummaryData.fromJson(inner as Map<String, dynamic>),
+              ArtDetailSummaryData.fromJson(inner as Map<String, dynamic>),
         );
         return dashboardPageBuilder(
           state,
-          NearbyDetailScreen(id: pathParamId, extra: extra),
+          ArtDetailScreen(id: pathParamId, extra: extra),
         );
       },
     );
@@ -177,7 +174,7 @@ GoRoute packageDetailRoute(String parentName) => GoRoute(
         );
       },
       routes: [
-        nearbyEventDetailRoute(PackageDetailScreen.name),
+        nearbyArtDetailRoute(PackageDetailScreen.name),
       ],
     );
 
@@ -197,25 +194,6 @@ GoRoute newsDetailRoute(String parentName) => GoRoute(
         return dashboardPageBuilder(
           state,
           NewsDetailScreen(id: pathParamId, extra: extra),
-        );
-      },
-    );
-
-GoRoute testDetailRoute(String parentName) => GoRoute(
-      name: parentName + DetailScreen.name,
-      path:
-          '${DetailScreen.name}/:${DetailScreen.pathParamType}/:${DetailScreen.pathParamId}',
-      pageBuilder: (context, state) {
-        final pathParamId = state.pathParameters[DetailScreen.pathParamId]!;
-
-        final pathParamType = state.pathParameters[DetailScreen.pathParamType]!;
-
-        return dashboardPageBuilder(
-          state,
-          DetailScreen(
-            id: pathParamId,
-            type: DetailType.fromString(pathParamType),
-          ),
         );
       },
     );
@@ -270,11 +248,9 @@ final dashboardRoutes = [
                     const HomeScreen(),
                   ),
               routes: [
-                testDetailRoute(HomeScreen.name),
-                // categoryDetailRoute(HomeScreen.name),
                 newsDetailRoute(HomeScreen.name),
                 packageDetailRoute(PackagesScreen.name),
-                nearbyEventDetailRoute(HomeScreen.name),
+                nearbyArtDetailRoute(HomeScreen.name),
                 GoRoute(
                   name: CategoriesScreen.name,
                   path: CategoriesScreen.name,
@@ -305,7 +281,7 @@ final dashboardRoutes = [
                     const FeaturedScreen(),
                   ),
                   routes: [
-                    nearbyEventDetailRoute(FeaturedScreen.name),
+                    nearbyArtDetailRoute(FeaturedScreen.name),
                   ],
                 ),
               ]),
@@ -324,7 +300,7 @@ final dashboardRoutes = [
                     const NearMeScreen(),
                   ),
               routes: [
-                nearbyEventDetailRoute(NearMeScreen.name),
+                nearbyArtDetailRoute(NearMeScreen.name),
               ]),
         ],
       ),
@@ -364,7 +340,7 @@ final dashboardRoutes = [
               );
             },
             routes: [
-              nearbyEventDetailRoute(SearchScreen.name),
+              nearbyArtDetailRoute(SearchScreen.name),
             ],
           ),
         ],
@@ -388,7 +364,7 @@ final dashboardRoutes = [
                   const BookmarksScreen(),
                 ),
                 routes: [
-                  nearbyEventDetailRoute(BookmarksScreen.name),
+                  nearbyArtDetailRoute(BookmarksScreen.name),
                 ],
               ),
             ],

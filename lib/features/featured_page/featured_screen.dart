@@ -5,9 +5,9 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/screen_safe_area_header.dart';
-import 'package:recive/features/featured_page/cubits/featured_events_cubit.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_card_container_data.dart';
-import 'package:recive/features/near_me_page/widgets/featured_event_expanded_card_container.dart';
+import 'package:recive/features/featured_page/cubits/featured_cubit.dart';
+import 'package:recive/features/near_me_page/widgets/art_card_container_data.dart';
+import 'package:recive/features/near_me_page/widgets/art_expanded_card_container.dart';
 import 'package:recive/layout/context_ui_extension.dart';
 import 'package:recive/layout/ui_constants.dart';
 
@@ -17,11 +17,11 @@ class FeaturedScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = useBloc<FeatureEventsCubit>();
+    final bloc = useBloc<FeaturedCubit>();
     final state = useBlocBuilder(bloc);
 
     useEffect(() {
-      bloc.loadFeaturedEvents();
+      bloc.loadFeatured();
       return;
     }, []);
 
@@ -44,13 +44,12 @@ class FeaturedScreen extends HookWidget {
                         addAutomaticKeepAlives: true,
                         itemCount: state.artAbstractItems.length,
                         itemBuilder: (context, index) {
-                          final data =
-                              FeaturedArtCardContainerData.fromFeaturedEvent(
+                          final data = ArtCardContainerData.fromAbstractArt(
                             state.artAbstractItems[index],
                           );
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
-                            child: FeaturedEventExpandedCardContainer(
+                            child: ArtExpandedCardContainer(
                               data: data,
                             ),
                           );

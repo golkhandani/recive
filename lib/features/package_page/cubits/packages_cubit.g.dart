@@ -12,12 +12,12 @@ _$_PackagesState _$$_PackagesStateFromJson(Map<String, dynamic> json) =>
           $enumDecode(_$LoadingStateEnumMap, json['packageLoadingState']),
       package: json['package'] == null
           ? null
-          : Package.fromJson(json['package'] as Map<String, dynamic>),
+          : ArtRouteModel.fromJson(json['package'] as Map<String, dynamic>),
       packages: (json['packages'] as List<dynamic>)
-          .map((e) => PackageAbstract.fromJson(e as Map<String, dynamic>))
+          .map((e) => ArtRouteAbstractModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       packagesSpotlight: (json['packagesSpotlight'] as List<dynamic>)
-          .map((e) => PackageAbstract.fromJson(e as Map<String, dynamic>))
+          .map((e) => ArtRouteAbstractModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
       loadingMoreState:

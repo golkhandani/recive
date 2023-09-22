@@ -8,8 +8,8 @@ import 'package:hive/hive.dart';
 
 import 'package:recive/enums/loading_state.dart';
 import 'package:recive/features/bookmarks_page/models/bookmark_hive_object.dart';
-import 'package:recive/features/featured_page/models/featured_event.dart';
-import 'package:recive/features/featured_page/repos/event_repo.interface.dart';
+import 'package:recive/features/featured_page/models/art_abstract_model.dart';
+import 'package:recive/features/featured_page/repos/arts_repo.interface.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/ioc/realm_service.dart';
 import 'package:recive/utils/maybe_emit_cubit.dart';
@@ -23,7 +23,7 @@ class BookmarksState with _$BookmarksState {
   const factory BookmarksState({
     required List<String> ids,
     required int count,
-    required List<ArtAbstractModel> bookmarkEvents,
+    required List<ArtAbstractModel> bookmarkArts,
     required LoadingState loadingState,
   }) = _BookmarksState;
 
@@ -31,7 +31,7 @@ class BookmarksState with _$BookmarksState {
         loadingState: LoadingState.none,
         count: 0,
         ids: [],
-        bookmarkEvents: [],
+        bookmarkArts: [],
       );
 
   factory BookmarksState.fromJson(Map<String, Object?> json) =>
@@ -39,7 +39,7 @@ class BookmarksState with _$BookmarksState {
 }
 
 class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
-  final IEventRepo repo;
+  final IArtRepo repo;
   final Box<BookmarkHiveObject> bookmarkBox;
   final RealmApplicationService applicationService;
   BookmarksCubit({
@@ -69,10 +69,10 @@ class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
       ),
     );
 
-    final data = await repo.bookmarkEvents(limit: 10, ids: cIds);
+    final data = await repo.getBookmarkArts(limit: 10, ids: cIds);
     maybeEmit(
       state.copyWith(
-        bookmarkEvents: cIds
+        bookmarkArts: cIds
             .map(
               (e) => data.firstWhere((d) => d.id == e),
             )
@@ -105,7 +105,7 @@ class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
       }
       ids = ids.toSet().toList();
 
-      await applicationService.updateFavouriteEventIds(ids);
+      await applicationService.updateFavouriteArtIds(ids);
 
       maybeEmit(state.copyWith(
         loadingState: LoadingState.done,

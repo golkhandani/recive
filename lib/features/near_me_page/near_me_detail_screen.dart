@@ -218,7 +218,7 @@ class ArtDetailScreen extends HookWidget {
           return const SizedBox();
         }
 
-        // Warning: To prevent rebuild issue
+        // Warning: To stop rebuild issue
         // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
         final list = [
           summary?.imageUrl ?? data!.images.first.imageUrl,

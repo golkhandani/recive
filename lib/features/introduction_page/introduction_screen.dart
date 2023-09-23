@@ -57,7 +57,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         decoration: decoration,
         title: "Unveiling the Magic of your City",
         body:
-            "Dive into our app to discover hidden gems and thrilling events that will make every day an unforgettable journey.",
+            "Dive into our app to discover hidden gems and thrilling events and arts that will make every day an unforgettable journey.",
         image: Center(
           child: Lottie.network(
             'https://lottie.host/b8593499-d23a-4d09-81fa-6d64d123bca0/FZeVBNlmTt.json',

@@ -21,19 +21,21 @@ import 'package:recive/layout/flutter_map/flutter_map_user_marker.dart';
 // Note: this thing need a major refactoring
 // for now I have more important things to do
 
-class PackageDetailMapSection extends StatefulHookWidget {
-  const PackageDetailMapSection(
-      {super.key, required this.events, required this.polyline});
+class ArtRouteDetailMapSection extends StatefulHookWidget {
+  const ArtRouteDetailMapSection({
+    super.key,
+    required this.arts,
+    required this.polyline,
+  });
 
-  final List<ArtAbstractModel> events;
+  final List<ArtAbstractModel> arts;
   final List<LatLng> polyline;
 
   @override
-  State<PackageDetailMapSection> createState() =>
-      _PackageDetailMapSectionState();
+  State<ArtRouteDetailMapSection> createState() => _ArtRouteMapSectionState();
 }
 
-class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
+class _ArtRouteMapSectionState extends State<ArtRouteDetailMapSection>
     with TickerProviderStateMixin {
   static const double maxZoom = 18;
   static const double minZoom = 10;
@@ -51,11 +53,11 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
 
   @override
   Widget build(BuildContext context) {
-    final geolocation = useLocationData(debugLabel: 'PackageDetailMapSection');
+    final geolocation = useLocationData(debugLabel: 'ArtRouteMapSection');
 
     final zoom = useState(15.0);
     final center = useState<LatLng?>(
-      widget.events.firstOrNull?.geoLocation ?? geolocation?.latLng,
+      widget.arts.firstOrNull?.geoLocation ?? geolocation?.latLng,
     );
     final index = useState<int?>(0);
 
@@ -63,7 +65,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
       if (index.value == null) {
         return;
       }
-      center.value = widget.events[index.value!].geoLocation;
+      center.value = widget.arts[index.value!].geoLocation;
       mapController.animateTo(dest: center.value);
     }
 
@@ -136,7 +138,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
                                 }),
                               MarkerLayer(
                                 markers: [
-                                  ...widget.events
+                                  ...widget.arts
                                       .mapIndexed(
                                         (i, e) => EventCardMarker(
                                           data: e,
@@ -149,7 +151,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
                                       .toList(),
                                   if (index.value != null)
                                     EventCardMarker(
-                                      data: widget.events[index.value!],
+                                      data: widget.arts[index.value!],
                                       color: context.colorScheme.primary,
                                       fontColor: context.colorScheme.onPrimary,
                                       onTap: null,
@@ -171,7 +173,7 @@ class _PackageDetailMapSectionState extends State<PackageDetailMapSection>
                     ),
                     FlutterMapItemControlButtons(
                       index: index,
-                      itemMaxLength: widget.events.length - 1,
+                      itemMaxLength: widget.arts.length - 1,
                     ),
                   ],
                 ),

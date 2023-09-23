@@ -43,11 +43,10 @@ class QuickSearchHeader extends HookWidget {
       debounce = Timer(const Duration(milliseconds: 500), () async {
         if (selected) {
           textEditingController.text = value;
-          bloc.add(QuickSearchHeaderEvent.select(selected: value));
+          bloc.select(selected: value);
           onSelect?.call(value);
-          // navigationService.navigateTo(NotificationScreen.name);
         } else {
-          bloc.add(QuickSearchHeaderEvent.search(query: value));
+          bloc.search(query: value);
           onTextChanged?.call(value);
         }
       });
@@ -158,11 +157,11 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
       if (selected) {
         widget.onSelect?.call(value);
         textEditingController.text = value;
-        bloc.add(QuickSearchHeaderEvent.select(selected: value));
+        bloc.select(selected: value);
       } else {
         debounce = Timer(const Duration(milliseconds: 500), () async {
           widget.onTextChanged?.call(value);
-          bloc.add(QuickSearchHeaderEvent.search(query: value));
+          bloc.search(query: value);
         });
       }
     }

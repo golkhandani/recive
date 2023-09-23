@@ -200,8 +200,8 @@ class PackageDetailScreen extends HookWidget {
                         const SliverGap(height: 12),
                         // _buildInstruction(infoStyle, data),
                         const SliverGap(height: 12),
-                        PackageDetailMapSection(
-                          events: data.arts,
+                        ArtRouteDetailMapSection(
+                          arts: data.arts,
                           polyline: data.polyline ?? [],
                         ),
                         const SliverGap(height: 12),
@@ -282,12 +282,12 @@ class PackageDetailScreen extends HookWidget {
       borderRadius: BorderRadius.circular(16),
       padding: kTinyPadding,
       child: LayoutBuilder(builder: (context, box) {
-        // Warning: To prevent rebuild issue
+        // Warning: To stop rebuild issue
         // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
         final list = [
           summary?.imageUrl ?? data!.imageUrl,
           ...(data?.arts.map((e) => e.imageUrl).toList() ??
-              // TO FIX THE ISSUE WITH SAME HERO TAG
+              // Warning: TO FIX THE ISSUE WITH SAME HERO TAG
               [
                 summary?.imageUrl ?? data!.imageUrl,
                 summary?.imageUrl ?? data!.imageUrl,

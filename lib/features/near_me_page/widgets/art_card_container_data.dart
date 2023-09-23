@@ -1,5 +1,4 @@
 import 'package:recive/features/featured_page/models/art_abstract_model.dart';
-import 'package:recive/features/featured_page/models/art_model.dart';
 
 class ArtCardContainerData {
   final String id;
@@ -23,16 +22,6 @@ class ArtCardContainerData {
       description: e.description,
       location: e.location,
       imageUrl: e.imageUrl,
-    );
-  }
-
-  static ArtCardContainerData fromEventComplete(ArtModel e) {
-    return ArtCardContainerData(
-      id: e.id,
-      title: e.title,
-      description: e.description,
-      location: e.location.venue.address.localizedAddressDisplay,
-      imageUrl: e.images.first.imageUrl,
     );
   }
 }

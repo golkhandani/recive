@@ -20,9 +20,9 @@ class CustomShapeBackgroundWidget extends HookWidget {
     final sensorX = useState(0.0);
     final sensorY = useState(0.0);
     useEffect(() {
-      accelerometerEvents.listen((AccelerometerEvent event) {
-        sensorX.value = event.x;
-        sensorY.value = -event.y * 3;
+      accelerometerEvents.listen((e) {
+        sensorX.value = e.x;
+        sensorY.value = -e.y * 3;
       });
       return;
     }, []);

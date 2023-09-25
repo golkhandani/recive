@@ -71,6 +71,7 @@ class CategoryExpandedCardContainer extends HookWidget {
                         color: color,
                       ),
                     ),
+                    placeholder: (context, url) => kSkeletonLoadingBox,
                   ),
                 ),
               ),

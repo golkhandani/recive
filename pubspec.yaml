@@ -97,6 +97,7 @@ dependencies:
   like_button: ^2.0.5
   share_plus: ^7.1.0
   flutter_map_marker_cluster: ^1.2.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

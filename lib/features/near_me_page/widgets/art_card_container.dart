@@ -12,6 +12,7 @@ import 'package:recive/features/near_me_page/near_me_screen.dart';
 import 'package:recive/features/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/ioc/locator.dart';
 import 'package:recive/layout/context_ui_extension.dart';
+import 'package:recive/layout/ui_constants.dart';
 import 'package:recive/router/extra_data.dart';
 import 'package:recive/router/navigation_service.dart';
 
@@ -247,9 +248,7 @@ class ArtCardContainer extends HookWidget {
         borderRadius: BorderRadius.circular(8),
         color: color,
       ),
-      child: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      child: kSkeletonLoadingBox,
     );
   }
 

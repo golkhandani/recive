@@ -121,9 +121,7 @@ class ArtRouteCardContainer extends HookWidget {
         borderRadius: BorderRadius.circular(8),
         color: color,
       ),
-      child: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      child: kSkeletonLoadingBox,
     );
   }
 

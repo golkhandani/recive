@@ -60,7 +60,7 @@ class ArtExpandedCardContainer extends HookWidget {
                   tag: data.id,
                   child: CachedNetworkImage(
                     imageUrl: data.imageUrl,
-                    placeholder: (context, url) => const SizedBox(height: 200),
+                    placeholder: (context, url) => kSkeletonLoadingBox,
                     imageBuilder: (context, imageProvider) => Container(
                       height: 200,
                       decoration: BoxDecoration(

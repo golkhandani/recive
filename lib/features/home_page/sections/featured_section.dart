@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/components/sliver_card_container.dart';
 import 'package:recive/components/sliver_gap.dart';
+import 'package:recive/enums/loading_state.dart';
 import 'package:recive/extensions/color_extentions.dart';
 import 'package:recive/features/featured_page/cubits/featured_cubit.dart';
 import 'package:recive/features/featured_page/featured_screen.dart';
@@ -35,80 +37,86 @@ class HomePageFeaturedSection extends HookWidget {
       return;
     }, []);
 
-    return context.checkLoadingState(state.loadingState) ??
-        MultiSliver(
-          children: [
-            SliverToBoxAdapter(
-              child: Text(
-                "Featured Art",
-                style: context.textTheme.headlineSmall?.withColor(
-                  context.colorScheme.onBackground,
-                ),
-              ),
+    return MultiSliver(
+      children: [
+        SliverToBoxAdapter(
+          child: Text(
+            "Featured Art",
+            style: context.textTheme.headlineSmall?.withColor(
+              context.colorScheme.onBackground,
             ),
-            const SliverGap(height: 12),
-            SliverCardContainer(
-              borderRadius: BorderRadius.circular(16),
-              padding: kTinyPadding.copyWith(right: 0, bottom: 0),
-              sliver: Builder(
-                builder: (context) {
-                  return MultiSliver(
-                    children: [
-                      SliverGrid(
-                        delegate: SliverChildBuilderDelegate(
-                          childCount:
-                              state.artAbstractItemsSpotlight.length + 1,
-                          (context, index) {
-                            if (index ==
-                                state.artAbstractItemsSpotlight.length) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  bottom: kTinyPadding.bottom,
-                                  right: kTinyPadding.right,
-                                ),
-                                child: SeeMoreButton(
-                                  constraints: const BoxConstraints.expand(),
-                                  onTap: () => navigationService.moveTo(
-                                    FeaturedScreen.name,
-                                  ),
-                                ),
-                              );
-                            }
+          ),
+        ),
+        const SliverGap(height: 12),
+        SliverCardContainer(
+          borderRadius: BorderRadius.circular(16),
+          padding: kTinyPadding.copyWith(right: 0, bottom: 0),
+          sliver: Builder(
+            builder: (context) {
+              return MultiSliver(
+                children: [
+                  SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: state.loadingState == LoadingState.loading
+                          ? 6
+                          : state.artAbstractItemsSpotlight.length + 1,
+                      (context, index) {
+                        // handling skeleton loading
+                        if (state.loadingState == LoadingState.loading) {
+                          return kSkeletonLoadingBox;
+                        }
 
-                            final data = ArtCardContainerData.fromAbstractArt(
-                              state.artAbstractItemsSpotlight[index],
-                            );
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                bottom: kTinyPadding.bottom,
-                                right: kTinyPadding.right,
+                        // handling real data
+
+                        if (index == state.artAbstractItemsSpotlight.length) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: kTinyPadding.bottom,
+                              right: kTinyPadding.right,
+                            ),
+                            child: SeeMoreButton(
+                              constraints: const BoxConstraints.expand(),
+                              onTap: () => navigationService.moveTo(
+                                FeaturedScreen.name,
                               ),
-                              child: ArtCardContainer(
-                                hero: HomeScreen.name + data.id,
-                                constraints: const BoxConstraints.expand(),
-                                data: data,
-                              ),
-                            );
-                          },
-                        ),
-                        gridDelegate: SliverStairedGridDelegate(
-                          startCrossAxisDirectionReversed: true,
-                          pattern: const [
-                            StairedGridTile(1, 1.4),
-                            StairedGridTile(0.4, 0.5),
-                            StairedGridTile(0.6, 0.75),
-                            StairedGridTile(0.4, 0.5),
-                            StairedGridTile(0.6, 0.75),
-                            StairedGridTile(1, 6),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ],
-        );
+                            ),
+                          );
+                        }
+
+                        final data = ArtCardContainerData.fromAbstractArt(
+                          state.artAbstractItemsSpotlight[index],
+                        );
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: kTinyPadding.bottom,
+                            right: kTinyPadding.right,
+                          ),
+                          child: ArtCardContainer(
+                            hero: HomeScreen.name + data.id,
+                            constraints: const BoxConstraints.expand(),
+                            data: data,
+                          ),
+                        );
+                      },
+                    ),
+                    gridDelegate: SliverStairedGridDelegate(
+                      startCrossAxisDirectionReversed: true,
+                      pattern: const [
+                        StairedGridTile(1, 1.4),
+                        StairedGridTile(0.4, 0.5),
+                        StairedGridTile(0.6, 0.75),
+                        StairedGridTile(0.4, 0.5),
+                        StairedGridTile(0.6, 0.75),
+                        StairedGridTile(1, 6),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

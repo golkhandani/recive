@@ -60,11 +60,9 @@ class ArtRouteExpandedCardContainer extends HookWidget {
                   tag: heroTag,
                   child: CachedNetworkImage(
                     imageUrl: data.imageUrl,
-                    placeholder: (context, _) => const SizedBox(
+                    placeholder: (context, _) => SizedBox(
                       height: 180,
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      child: kSkeletonLoadingBox,
                     ),
                     imageBuilder: (context, imageProvider) => Container(
                       height: 180,

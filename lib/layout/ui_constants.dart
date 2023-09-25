@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'package:shimmer/shimmer.dart';
+
 import 'package:recive/features/login_page/widgets/lottie_safe_loading.dart';
 
 // const kSliverFillLoading = SliverFillRemaining(
@@ -38,6 +40,23 @@ const kLoadingBox = Center(
     ),
   ),
 );
+
+final kSkeletonLoadingBox = ClipRRect(
+    borderRadius: BorderRadius.circular(8),
+    child: Shimmer.fromColors(
+      baseColor: Colors.grey[200]!,
+      highlightColor: Colors.grey[400]!,
+      child: LayoutBuilder(builder: (context, box) {
+        return Column(
+          children: [
+            Container(
+              constraints: box,
+              color: Colors.grey,
+            ),
+          ],
+        );
+      }),
+    ));
 
 const kLoadingPage = Center(
   child: SizedBox(

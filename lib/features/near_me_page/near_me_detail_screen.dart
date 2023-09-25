@@ -113,7 +113,7 @@ class ArtDetailScreen extends HookWidget {
                                       children: [
                                         LikeButton(
                                           padding: EdgeInsets.zero,
-                                          size: 50,
+                                          size: 42,
                                           onTap: (isLiked) async {
                                             bloc.toggleFavorite(id);
                                             bookmarksBloc.toggleFavorite(
@@ -136,14 +136,14 @@ class ArtDetailScreen extends HookWidget {
                                             isLiked
                                                 ? Icons.bookmark_rounded
                                                 : Icons.bookmark_border_rounded,
-                                            size: 50,
+                                            size: 42,
                                             color:
                                                 context.colorScheme.onSurface,
                                           ),
                                         ),
                                         LikeButton(
                                           padding: EdgeInsets.zero,
-                                          size: 50,
+                                          size: 42,
                                           onTap: (isLiked) async {
                                             return !isLiked;
                                           },

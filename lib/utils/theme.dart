@@ -42,6 +42,40 @@ final ColorScheme colorScheme = ColorScheme(
 final ColorScheme colorSchemeLight = ColorScheme(
   brightness: Brightness.light,
   //
+  primary: const Color.fromARGB(255, 105, 42, 154),
+  onPrimary: Colors.white,
+  primaryContainer: const Color.fromARGB(255, 134, 64, 187),
+  onPrimaryContainer: const Color.fromARGB(255, 255, 255, 255),
+  //
+  secondary: const Color.fromARGB(255, 49, 84, 150),
+  onSecondary: Colors.white,
+  secondaryContainer: const Color.fromARGB(255, 12, 18, 56),
+  onSecondaryContainer: Colors.white,
+  //
+  tertiary: const Color.fromARGB(255, 221, 175, 255),
+  onTertiary: Colors.white,
+  tertiaryContainer: const Color.fromARGB(255, 240, 216, 255),
+  onTertiaryContainer: const Color.fromARGB(255, 0, 0, 0),
+
+  //
+  error: Colors.red,
+  onError: Colors.white,
+  errorContainer: const Color.fromARGB(255, 179, 48, 39),
+  onErrorContainer: Colors.white,
+
+  // keep the same as surface
+  background: const Color.fromARGB(255, 170, 123, 187).lighten(0.4),
+  onBackground: const Color.fromARGB(255, 0, 0, 0),
+  surface: const Color.fromARGB(255, 189, 163, 210).lighten(0.2),
+  onSurface: const Color.fromARGB(255, 0, 0, 0),
+  inverseSurface: const Color.fromARGB(255, 102, 91, 111).darken(0.3),
+  onInverseSurface: const Color.fromARGB(255, 0, 0, 0),
+  shadow: const Color.fromARGB(255, 108, 90, 121),
+);
+
+final ColorScheme colorSchemeLight2 = ColorScheme(
+  brightness: Brightness.light,
+  //
   primary: const Color.fromARGB(255, 78, 196, 200),
   onPrimary: Colors.black,
   primaryContainer: const Color.fromARGB(255, 38, 114, 116),

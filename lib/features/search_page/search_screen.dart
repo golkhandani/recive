@@ -98,12 +98,20 @@ class _SearchScreenState extends State<SearchScreen> {
         }
       });
 
-      bloc.loadSearchedItems('');
+      bloc.loadSearchedItems(widget.keyword ?? '');
       return () {
-        textEditingController.dispose();
         scrollController.dispose();
       };
     }, []);
+
+    useEffect(
+      () {
+        textEditingController.text = widget.keyword ?? '';
+        bloc.loadSearchedItems(widget.keyword);
+        return;
+      },
+      [widget.keyword],
+    );
 
     final showFilters = useState(false);
 

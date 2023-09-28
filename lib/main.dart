@@ -11,15 +11,16 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 
-import 'package:recive/features/bookmarks_page/cubits/bookmarks_cubit.dart';
-import 'package:recive/features/categories_page/cubits/category_section_cubit.dart';
-import 'package:recive/features/introduction_page/splash_screen.dart';
 import 'package:recive/firebase_options.dart';
-import 'package:recive/ioc/locator.dart';
-import 'package:recive/router/navigation_service.dart';
-import 'package:recive/router/router_service.dart';
-import 'package:recive/utils/theme.dart';
-import 'package:recive/utils/theme_cubit.dart';
+import 'package:recive/modules/bookmarks_page/cubits/bookmarks_cubit.dart';
+import 'package:recive/modules/categories_page/cubits/category_section_cubit.dart';
+import 'package:recive/modules/introduction_page/splash_screen.dart';
+import 'package:recive/shared/extensions/theme_extensions.dart';
+import 'package:recive/shared/ioc/locator.dart';
+import 'package:recive/shared/router/router_config.dart';
+import 'package:recive/shared/services/navigation_service.dart';
+import 'package:recive/shared/utils/theme.dart';
+import 'package:recive/shared/utils/theme_cubit.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices

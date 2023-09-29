@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:recive/modules/near_me_page/near_me_detail_screen.dart';
@@ -35,8 +36,8 @@ class ArtCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.theme.colorScheme.secondaryContainer;
-    final fontColor = context.colorScheme.onSecondaryContainer;
+    final color = context.theme.colorScheme.secondary;
+    final fontColor = context.colorScheme.onSecondary;
     final heroTag =
         hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
 
@@ -255,7 +256,7 @@ class ArtCardContainer extends HookWidget {
     );
   }
 
-  Container _buildCard(
+  Widget _buildCard(
     ImageProvider<Object>? imageProvider,
     Color color,
     Widget child,

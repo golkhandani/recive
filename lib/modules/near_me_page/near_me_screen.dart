@@ -132,7 +132,9 @@ class _NearMeScreenState extends State<NearMeScreen>
                           height: 54,
                           bloc: quickSearchBloc,
                           onSelect: (text) => bloc.updateQueryFilter(text),
-                          onTextChanged: (text) => {},
+                          onTextChanged: (text) => text.isEmpty
+                              ? bloc.updateQueryFilter(null)
+                              : null,
                           textController: textEditingController,
                         ),
                       ),

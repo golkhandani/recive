@@ -1,7 +1,9 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:recive/modules/login_page/widgets/lottie_safe_loading.dart';
@@ -59,49 +61,52 @@ final kSkeletonLoadingBox = LayoutBuilder(builder: (context, box) {
         ),
       ));
 });
+
 final kSkeletonSectionLoadingBox = LayoutBuilder(builder: (context, box) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       ClipRRect(
         borderRadius: kSmallBorderRadius,
-        child: Shimmer.fromColors(
-          baseColor: context.colorScheme.brightness == Brightness.light
-              ? Colors.grey[200]!
-              : Colors.grey[800]!,
-          highlightColor: context.colorScheme.brightness == Brightness.light
-              ? Colors.grey[400]!
-              : Colors.grey[600]!,
-          child: Container(
-            constraints: box.copyWith(
-              maxHeight: 32,
-              maxWidth: box.maxWidth / 2,
-              minWidth: 0,
-            ),
-            color: Colors.grey,
+        child: Container(
+          constraints: box.copyWith(
+            maxHeight: 32,
+            maxWidth: box.maxWidth / 2,
+            minWidth: 0,
           ),
-        ),
+          color: Colors.grey,
+        )
+            .animate(
+              autoPlay: true,
+              onComplete: (c) => c.repeat(),
+            )
+            .shimmer(
+              delay: Random().nextDouble().seconds,
+              duration: 1.seconds,
+              color: context.colorScheme.primary,
+            ),
       ),
       const SizedBox(height: 12),
       ClipRRect(
         borderRadius: kSmallBorderRadius,
-        child: Shimmer.fromColors(
-          baseColor: context.colorScheme.brightness == Brightness.light
-              ? Colors.grey[200]!
-              : Colors.grey[800]!,
-          highlightColor: context.colorScheme.brightness == Brightness.light
-              ? Colors.grey[400]!
-              : Colors.grey[600]!,
-          child: Container(
-            constraints: box.copyWith(
-              minWidth: double.infinity,
-              maxWidth: double.infinity,
-              minHeight: 400,
-            ),
-            color: Colors.grey,
+        child: Container(
+          constraints: box.copyWith(
+            minWidth: double.infinity,
+            maxWidth: double.infinity,
+            minHeight: 400,
           ),
+          color: Colors.grey,
         ),
-      ),
+      )
+          .animate(
+            autoPlay: true,
+            onComplete: (c) => c.repeat(),
+          )
+          .shimmer(
+            delay: Random().nextDouble().seconds,
+            duration: 1.seconds,
+            color: context.colorScheme.primary,
+          ),
     ],
   );
 });

@@ -71,8 +71,9 @@ class LocationService {
     required Function(LocationPermission) onDone,
   }) async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    permission = await Geolocator.requestPermission();
 
-    if (!serviceEnabled) {
+    if (!serviceEnabled && permission == LocationPermission.deniedForever) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.

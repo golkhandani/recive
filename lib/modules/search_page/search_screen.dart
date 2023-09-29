@@ -208,7 +208,7 @@ class _SearchScreenState extends State<SearchScreen> {
             if (state.loadingState == LoadingState.updating)
               SliverPadding(
                 padding: EdgeInsets.only(bottom: context.footerHeight + 16),
-                sliver: kSkeletonLoadingBox,
+                sliver: kSliverBoxAnimatedLoading,
               ),
           ],
         );

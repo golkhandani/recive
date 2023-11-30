@@ -74,22 +74,22 @@ class _$SettingLoaderStateCopyWithImpl<$Res, $Val extends SettingLoaderState>
 }
 
 /// @nodoc
-abstract class _$$_SettingLoaderStateCopyWith<$Res>
+abstract class _$$SettingLoaderStateImplCopyWith<$Res>
     implements $SettingLoaderStateCopyWith<$Res> {
-  factory _$$_SettingLoaderStateCopyWith(_$_SettingLoaderState value,
-          $Res Function(_$_SettingLoaderState) then) =
-      __$$_SettingLoaderStateCopyWithImpl<$Res>;
+  factory _$$SettingLoaderStateImplCopyWith(_$SettingLoaderStateImpl value,
+          $Res Function(_$SettingLoaderStateImpl) then) =
+      __$$SettingLoaderStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool isLoggedIn, bool isIntroViewed, LoadingState loadingState});
 }
 
 /// @nodoc
-class __$$_SettingLoaderStateCopyWithImpl<$Res>
-    extends _$SettingLoaderStateCopyWithImpl<$Res, _$_SettingLoaderState>
-    implements _$$_SettingLoaderStateCopyWith<$Res> {
-  __$$_SettingLoaderStateCopyWithImpl(
-      _$_SettingLoaderState _value, $Res Function(_$_SettingLoaderState) _then)
+class __$$SettingLoaderStateImplCopyWithImpl<$Res>
+    extends _$SettingLoaderStateCopyWithImpl<$Res, _$SettingLoaderStateImpl>
+    implements _$$SettingLoaderStateImplCopyWith<$Res> {
+  __$$SettingLoaderStateImplCopyWithImpl(_$SettingLoaderStateImpl _value,
+      $Res Function(_$SettingLoaderStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_SettingLoaderStateCopyWithImpl<$Res>
     Object? isIntroViewed = null,
     Object? loadingState = null,
   }) {
-    return _then(_$_SettingLoaderState(
+    return _then(_$SettingLoaderStateImpl(
       isLoggedIn: null == isLoggedIn
           ? _value.isLoggedIn
           : isLoggedIn // ignore: cast_nullable_to_non_nullable
@@ -118,16 +118,16 @@ class __$$_SettingLoaderStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SettingLoaderState
+class _$SettingLoaderStateImpl
     with DiagnosticableTreeMixin
     implements _SettingLoaderState {
-  const _$_SettingLoaderState(
+  const _$SettingLoaderStateImpl(
       {required this.isLoggedIn,
       required this.isIntroViewed,
       required this.loadingState});
 
-  factory _$_SettingLoaderState.fromJson(Map<String, dynamic> json) =>
-      _$$_SettingLoaderStateFromJson(json);
+  factory _$SettingLoaderStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SettingLoaderStateImplFromJson(json);
 
   @override
   final bool isLoggedIn;
@@ -155,7 +155,7 @@ class _$_SettingLoaderState
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SettingLoaderState &&
+            other is _$SettingLoaderStateImpl &&
             (identical(other.isLoggedIn, isLoggedIn) ||
                 other.isLoggedIn == isLoggedIn) &&
             (identical(other.isIntroViewed, isIntroViewed) ||
@@ -172,13 +172,13 @@ class _$_SettingLoaderState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SettingLoaderStateCopyWith<_$_SettingLoaderState> get copyWith =>
-      __$$_SettingLoaderStateCopyWithImpl<_$_SettingLoaderState>(
+  _$$SettingLoaderStateImplCopyWith<_$SettingLoaderStateImpl> get copyWith =>
+      __$$SettingLoaderStateImplCopyWithImpl<_$SettingLoaderStateImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SettingLoaderStateToJson(
+    return _$$SettingLoaderStateImplToJson(
       this,
     );
   }
@@ -188,10 +188,10 @@ abstract class _SettingLoaderState implements SettingLoaderState {
   const factory _SettingLoaderState(
       {required final bool isLoggedIn,
       required final bool isIntroViewed,
-      required final LoadingState loadingState}) = _$_SettingLoaderState;
+      required final LoadingState loadingState}) = _$SettingLoaderStateImpl;
 
   factory _SettingLoaderState.fromJson(Map<String, dynamic> json) =
-      _$_SettingLoaderState.fromJson;
+      _$SettingLoaderStateImpl.fromJson;
 
   @override
   bool get isLoggedIn;
@@ -201,6 +201,6 @@ abstract class _SettingLoaderState implements SettingLoaderState {
   LoadingState get loadingState;
   @override
   @JsonKey(ignore: true)
-  _$$_SettingLoaderStateCopyWith<_$_SettingLoaderState> get copyWith =>
+  _$$SettingLoaderStateImplCopyWith<_$SettingLoaderStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

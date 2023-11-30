@@ -105,11 +105,11 @@ class _$ArtAbstractModelCopyWithImpl<$Res, $Val extends ArtAbstractModel>
 }
 
 /// @nodoc
-abstract class _$$_ArtAbstractModelCopyWith<$Res>
+abstract class _$$ArtAbstractModelImplCopyWith<$Res>
     implements $ArtAbstractModelCopyWith<$Res> {
-  factory _$$_ArtAbstractModelCopyWith(
-          _$_ArtAbstractModel value, $Res Function(_$_ArtAbstractModel) then) =
-      __$$_ArtAbstractModelCopyWithImpl<$Res>;
+  factory _$$ArtAbstractModelImplCopyWith(_$ArtAbstractModelImpl value,
+          $Res Function(_$ArtAbstractModelImpl) then) =
+      __$$ArtAbstractModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -123,11 +123,11 @@ abstract class _$$_ArtAbstractModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ArtAbstractModelCopyWithImpl<$Res>
-    extends _$ArtAbstractModelCopyWithImpl<$Res, _$_ArtAbstractModel>
-    implements _$$_ArtAbstractModelCopyWith<$Res> {
-  __$$_ArtAbstractModelCopyWithImpl(
-      _$_ArtAbstractModel _value, $Res Function(_$_ArtAbstractModel) _then)
+class __$$ArtAbstractModelImplCopyWithImpl<$Res>
+    extends _$ArtAbstractModelCopyWithImpl<$Res, _$ArtAbstractModelImpl>
+    implements _$$ArtAbstractModelImplCopyWith<$Res> {
+  __$$ArtAbstractModelImplCopyWithImpl(_$ArtAbstractModelImpl _value,
+      $Res Function(_$ArtAbstractModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -141,7 +141,7 @@ class __$$_ArtAbstractModelCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? tags = null,
   }) {
-    return _then(_$_ArtAbstractModel(
+    return _then(_$ArtAbstractModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -176,8 +176,8 @@ class __$$_ArtAbstractModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ArtAbstractModel implements _ArtAbstractModel {
-  const _$_ArtAbstractModel(
+class _$ArtAbstractModelImpl implements _ArtAbstractModel {
+  const _$ArtAbstractModelImpl(
       {required this.id,
       required this.title,
       required this.description,
@@ -187,8 +187,8 @@ class _$_ArtAbstractModel implements _ArtAbstractModel {
       required final List<String> tags})
       : _tags = tags;
 
-  factory _$_ArtAbstractModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ArtAbstractModelFromJson(json);
+  factory _$ArtAbstractModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtAbstractModelImplFromJson(json);
 
   @override
   final String id;
@@ -219,7 +219,7 @@ class _$_ArtAbstractModel implements _ArtAbstractModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ArtAbstractModel &&
+            other is _$ArtAbstractModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
@@ -241,12 +241,13 @@ class _$_ArtAbstractModel implements _ArtAbstractModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ArtAbstractModelCopyWith<_$_ArtAbstractModel> get copyWith =>
-      __$$_ArtAbstractModelCopyWithImpl<_$_ArtAbstractModel>(this, _$identity);
+  _$$ArtAbstractModelImplCopyWith<_$ArtAbstractModelImpl> get copyWith =>
+      __$$ArtAbstractModelImplCopyWithImpl<_$ArtAbstractModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ArtAbstractModelToJson(
+    return _$$ArtAbstractModelImplToJson(
       this,
     );
   }
@@ -260,10 +261,10 @@ abstract class _ArtAbstractModel implements ArtAbstractModel {
       required final String location,
       required final LatLng geoLocation,
       required final String imageUrl,
-      required final List<String> tags}) = _$_ArtAbstractModel;
+      required final List<String> tags}) = _$ArtAbstractModelImpl;
 
   factory _ArtAbstractModel.fromJson(Map<String, dynamic> json) =
-      _$_ArtAbstractModel.fromJson;
+      _$ArtAbstractModelImpl.fromJson;
 
   @override
   String get id;
@@ -281,6 +282,6 @@ abstract class _ArtAbstractModel implements ArtAbstractModel {
   List<String> get tags;
   @override
   @JsonKey(ignore: true)
-  _$$_ArtAbstractModelCopyWith<_$_ArtAbstractModel> get copyWith =>
+  _$$ArtAbstractModelImplCopyWith<_$ArtAbstractModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,8 +6,8 @@ part of 'packages_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PackagesState _$$_PackagesStateFromJson(Map<String, dynamic> json) =>
-    _$_PackagesState(
+_$PackagesStateImpl _$$PackagesStateImplFromJson(Map<String, dynamic> json) =>
+    _$PackagesStateImpl(
       packageLoadingState:
           $enumDecode(_$LoadingStateEnumMap, json['packageLoadingState']),
       package: json['package'] == null
@@ -24,7 +24,7 @@ _$_PackagesState _$$_PackagesStateFromJson(Map<String, dynamic> json) =>
           $enumDecode(_$LoadingStateEnumMap, json['loadingMoreState']),
     );
 
-Map<String, dynamic> _$$_PackagesStateToJson(_$_PackagesState instance) =>
+Map<String, dynamic> _$$PackagesStateImplToJson(_$PackagesStateImpl instance) =>
     <String, dynamic>{
       'packageLoadingState':
           _$LoadingStateEnumMap[instance.packageLoadingState]!,

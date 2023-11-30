@@ -6,16 +6,16 @@ part of 'setting_loader_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SettingLoaderState _$$_SettingLoaderStateFromJson(
+_$SettingLoaderStateImpl _$$SettingLoaderStateImplFromJson(
         Map<String, dynamic> json) =>
-    _$_SettingLoaderState(
+    _$SettingLoaderStateImpl(
       isLoggedIn: json['isLoggedIn'] as bool,
       isIntroViewed: json['isIntroViewed'] as bool,
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
 
-Map<String, dynamic> _$$_SettingLoaderStateToJson(
-        _$_SettingLoaderState instance) =>
+Map<String, dynamic> _$$SettingLoaderStateImplToJson(
+        _$SettingLoaderStateImpl instance) =>
     <String, dynamic>{
       'isLoggedIn': instance.isLoggedIn,
       'isIntroViewed': instance.isIntroViewed,

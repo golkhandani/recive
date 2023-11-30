@@ -112,11 +112,11 @@ class _$CategoriesStateCopyWithImpl<$Res, $Val extends CategoriesState>
 }
 
 /// @nodoc
-abstract class _$$_CategoriesStateCopyWith<$Res>
+abstract class _$$CategoriesStateImplCopyWith<$Res>
     implements $CategoriesStateCopyWith<$Res> {
-  factory _$$_CategoriesStateCopyWith(
-          _$_CategoriesState value, $Res Function(_$_CategoriesState) then) =
-      __$$_CategoriesStateCopyWithImpl<$Res>;
+  factory _$$CategoriesStateImplCopyWith(_$CategoriesStateImpl value,
+          $Res Function(_$CategoriesStateImpl) then) =
+      __$$CategoriesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -132,11 +132,11 @@ abstract class _$$_CategoriesStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CategoriesStateCopyWithImpl<$Res>
-    extends _$CategoriesStateCopyWithImpl<$Res, _$_CategoriesState>
-    implements _$$_CategoriesStateCopyWith<$Res> {
-  __$$_CategoriesStateCopyWithImpl(
-      _$_CategoriesState _value, $Res Function(_$_CategoriesState) _then)
+class __$$CategoriesStateImplCopyWithImpl<$Res>
+    extends _$CategoriesStateCopyWithImpl<$Res, _$CategoriesStateImpl>
+    implements _$$CategoriesStateImplCopyWith<$Res> {
+  __$$CategoriesStateImplCopyWithImpl(
+      _$CategoriesStateImpl _value, $Res Function(_$CategoriesStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -149,7 +149,7 @@ class __$$_CategoriesStateCopyWithImpl<$Res>
     Object? items = null,
     Object? loadingState = null,
   }) {
-    return _then(_$_CategoriesState(
+    return _then(_$CategoriesStateImpl(
       categoryLoadingState: null == categoryLoadingState
           ? _value.categoryLoadingState
           : categoryLoadingState // ignore: cast_nullable_to_non_nullable
@@ -180,8 +180,8 @@ class __$$_CategoriesStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CategoriesState implements _CategoriesState {
-  const _$_CategoriesState(
+class _$CategoriesStateImpl implements _CategoriesState {
+  const _$CategoriesStateImpl(
       {required this.categoryLoadingState,
       required this.category,
       required final List<Category> categories,
@@ -192,8 +192,8 @@ class _$_CategoriesState implements _CategoriesState {
         _categoriesSpotlight = categoriesSpotlight,
         _items = items;
 
-  factory _$_CategoriesState.fromJson(Map<String, dynamic> json) =>
-      _$$_CategoriesStateFromJson(json);
+  factory _$CategoriesStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CategoriesStateImplFromJson(json);
 
   @override
   final LoadingState categoryLoadingState;
@@ -236,7 +236,7 @@ class _$_CategoriesState implements _CategoriesState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CategoriesState &&
+            other is _$CategoriesStateImpl &&
             (identical(other.categoryLoadingState, categoryLoadingState) ||
                 other.categoryLoadingState == categoryLoadingState) &&
             (identical(other.category, category) ||
@@ -264,12 +264,13 @@ class _$_CategoriesState implements _CategoriesState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CategoriesStateCopyWith<_$_CategoriesState> get copyWith =>
-      __$$_CategoriesStateCopyWithImpl<_$_CategoriesState>(this, _$identity);
+  _$$CategoriesStateImplCopyWith<_$CategoriesStateImpl> get copyWith =>
+      __$$CategoriesStateImplCopyWithImpl<_$CategoriesStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CategoriesStateToJson(
+    return _$$CategoriesStateImplToJson(
       this,
     );
   }
@@ -282,10 +283,10 @@ abstract class _CategoriesState implements CategoriesState {
       required final List<Category> categories,
       required final List<Category> categoriesSpotlight,
       required final List<ArtAbstractModel> items,
-      required final LoadingState loadingState}) = _$_CategoriesState;
+      required final LoadingState loadingState}) = _$CategoriesStateImpl;
 
   factory _CategoriesState.fromJson(Map<String, dynamic> json) =
-      _$_CategoriesState.fromJson;
+      _$CategoriesStateImpl.fromJson;
 
   @override
   LoadingState get categoryLoadingState;
@@ -301,6 +302,6 @@ abstract class _CategoriesState implements CategoriesState {
   LoadingState get loadingState;
   @override
   @JsonKey(ignore: true)
-  _$$_CategoriesStateCopyWith<_$_CategoriesState> get copyWith =>
+  _$$CategoriesStateImplCopyWith<_$CategoriesStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

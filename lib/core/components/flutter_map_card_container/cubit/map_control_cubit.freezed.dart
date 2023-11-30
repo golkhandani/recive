@@ -98,11 +98,11 @@ class _$MapControlStateCopyWithImpl<$Res, $Val extends MapControlState>
 }
 
 /// @nodoc
-abstract class _$$_MapControlStateCopyWith<$Res>
+abstract class _$$MapControlStateImplCopyWith<$Res>
     implements $MapControlStateCopyWith<$Res> {
-  factory _$$_MapControlStateCopyWith(
-          _$_MapControlState value, $Res Function(_$_MapControlState) then) =
-      __$$_MapControlStateCopyWithImpl<$Res>;
+  factory _$$MapControlStateImplCopyWith(_$MapControlStateImpl value,
+          $Res Function(_$MapControlStateImpl) then) =
+      __$$MapControlStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -115,11 +115,11 @@ abstract class _$$_MapControlStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MapControlStateCopyWithImpl<$Res>
-    extends _$MapControlStateCopyWithImpl<$Res, _$_MapControlState>
-    implements _$$_MapControlStateCopyWith<$Res> {
-  __$$_MapControlStateCopyWithImpl(
-      _$_MapControlState _value, $Res Function(_$_MapControlState) _then)
+class __$$MapControlStateImplCopyWithImpl<$Res>
+    extends _$MapControlStateCopyWithImpl<$Res, _$MapControlStateImpl>
+    implements _$$MapControlStateImplCopyWith<$Res> {
+  __$$MapControlStateImplCopyWithImpl(
+      _$MapControlStateImpl _value, $Res Function(_$MapControlStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -132,7 +132,7 @@ class __$$_MapControlStateCopyWithImpl<$Res>
     Object? mapInitialized = null,
     Object? interations = null,
   }) {
-    return _then(_$_MapControlState(
+    return _then(_$MapControlStateImpl(
       userLocation: null == userLocation
           ? _value.userLocation
           : userLocation // ignore: cast_nullable_to_non_nullable
@@ -163,8 +163,8 @@ class __$$_MapControlStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MapControlState implements _MapControlState {
-  const _$_MapControlState(
+class _$MapControlStateImpl implements _MapControlState {
+  const _$MapControlStateImpl(
       {required this.userLocation,
       required this.showRefresh,
       required this.center,
@@ -172,8 +172,8 @@ class _$_MapControlState implements _MapControlState {
       required this.mapInitialized,
       required this.interations});
 
-  factory _$_MapControlState.fromJson(Map<String, dynamic> json) =>
-      _$$_MapControlStateFromJson(json);
+  factory _$MapControlStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MapControlStateImplFromJson(json);
 
   @override
   final LatLng userLocation;
@@ -197,7 +197,7 @@ class _$_MapControlState implements _MapControlState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MapControlState &&
+            other is _$MapControlStateImpl &&
             (identical(other.userLocation, userLocation) ||
                 other.userLocation == userLocation) &&
             (identical(other.showRefresh, showRefresh) ||
@@ -218,12 +218,13 @@ class _$_MapControlState implements _MapControlState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MapControlStateCopyWith<_$_MapControlState> get copyWith =>
-      __$$_MapControlStateCopyWithImpl<_$_MapControlState>(this, _$identity);
+  _$$MapControlStateImplCopyWith<_$MapControlStateImpl> get copyWith =>
+      __$$MapControlStateImplCopyWithImpl<_$MapControlStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MapControlStateToJson(
+    return _$$MapControlStateImplToJson(
       this,
     );
   }
@@ -236,10 +237,10 @@ abstract class _MapControlState implements MapControlState {
       required final LatLng center,
       required final double zoom,
       required final bool mapInitialized,
-      required final int interations}) = _$_MapControlState;
+      required final int interations}) = _$MapControlStateImpl;
 
   factory _MapControlState.fromJson(Map<String, dynamic> json) =
-      _$_MapControlState.fromJson;
+      _$MapControlStateImpl.fromJson;
 
   @override
   LatLng get userLocation;
@@ -255,6 +256,6 @@ abstract class _MapControlState implements MapControlState {
   int get interations;
   @override
   @JsonKey(ignore: true)
-  _$$_MapControlStateCopyWith<_$_MapControlState> get copyWith =>
+  _$$MapControlStateImplCopyWith<_$MapControlStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

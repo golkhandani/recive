@@ -6,8 +6,8 @@ part of 'featured_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_FeaturedState _$$_FeaturedStateFromJson(Map<String, dynamic> json) =>
-    _$_FeaturedState(
+_$FeaturedStateImpl _$$FeaturedStateImplFromJson(Map<String, dynamic> json) =>
+    _$FeaturedStateImpl(
       artAbstractItem: json['artAbstractItem'] == null
           ? null
           : ArtAbstractModel.fromJson(
@@ -25,7 +25,7 @@ _$_FeaturedState _$$_FeaturedStateFromJson(Map<String, dynamic> json) =>
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
 
-Map<String, dynamic> _$$_FeaturedStateToJson(_$_FeaturedState instance) =>
+Map<String, dynamic> _$$FeaturedStateImplToJson(_$FeaturedStateImpl instance) =>
     <String, dynamic>{
       'artAbstractItem': instance.artAbstractItem,
       'artItem': instance.artItem,

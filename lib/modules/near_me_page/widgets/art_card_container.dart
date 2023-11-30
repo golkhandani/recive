@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:recive/modules/near_me_page/near_me_detail_screen.dart';
@@ -64,7 +63,7 @@ class ArtCardContainer extends HookWidget {
               borderRadius: kSmallBorderRadius,
               child: Container(
                 // color: color,
-                padding: const EdgeInsets.all(8).copyWith(top: 36),
+                padding: const EdgeInsets.all(8).copyWith(top: 32),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
@@ -204,7 +203,7 @@ class ArtCardContainer extends HookWidget {
                     ],
                   ),
                 ),
-                padding: const EdgeInsets.all(8).copyWith(bottom: 36),
+                padding: const EdgeInsets.all(8).copyWith(bottom: 32),
                 child: Text(
                   data.title,
                   maxLines: 2,

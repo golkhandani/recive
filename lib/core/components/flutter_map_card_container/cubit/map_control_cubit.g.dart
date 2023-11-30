@@ -6,8 +6,9 @@ part of 'map_control_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MapControlState _$$_MapControlStateFromJson(Map<String, dynamic> json) =>
-    _$_MapControlState(
+_$MapControlStateImpl _$$MapControlStateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MapControlStateImpl(
       userLocation:
           LatLng.fromJson(json['userLocation'] as Map<String, dynamic>),
       showRefresh: json['showRefresh'] as bool,
@@ -17,7 +18,8 @@ _$_MapControlState _$$_MapControlStateFromJson(Map<String, dynamic> json) =>
       interations: json['interations'] as int,
     );
 
-Map<String, dynamic> _$$_MapControlStateToJson(_$_MapControlState instance) =>
+Map<String, dynamic> _$$MapControlStateImplToJson(
+        _$MapControlStateImpl instance) =>
     <String, dynamic>{
       'userLocation': instance.userLocation,
       'showRefresh': instance.showRefresh,

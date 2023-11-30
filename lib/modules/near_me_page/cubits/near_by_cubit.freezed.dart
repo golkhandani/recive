@@ -121,11 +121,11 @@ class _$NearbyStateCopyWithImpl<$Res, $Val extends NearbyState>
 }
 
 /// @nodoc
-abstract class _$$_NearbyStateCopyWith<$Res>
+abstract class _$$NearbyStateImplCopyWith<$Res>
     implements $NearbyStateCopyWith<$Res> {
-  factory _$$_NearbyStateCopyWith(
-          _$_NearbyState value, $Res Function(_$_NearbyState) then) =
-      __$$_NearbyStateCopyWithImpl<$Res>;
+  factory _$$NearbyStateImplCopyWith(
+          _$NearbyStateImpl value, $Res Function(_$NearbyStateImpl) then) =
+      __$$NearbyStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -141,11 +141,11 @@ abstract class _$$_NearbyStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_NearbyStateCopyWithImpl<$Res>
-    extends _$NearbyStateCopyWithImpl<$Res, _$_NearbyState>
-    implements _$$_NearbyStateCopyWith<$Res> {
-  __$$_NearbyStateCopyWithImpl(
-      _$_NearbyState _value, $Res Function(_$_NearbyState) _then)
+class __$$NearbyStateImplCopyWithImpl<$Res>
+    extends _$NearbyStateCopyWithImpl<$Res, _$NearbyStateImpl>
+    implements _$$NearbyStateImplCopyWith<$Res> {
+  __$$NearbyStateImplCopyWithImpl(
+      _$NearbyStateImpl _value, $Res Function(_$NearbyStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -161,7 +161,7 @@ class __$$_NearbyStateCopyWithImpl<$Res>
     Object? minDistance = null,
     Object? maxDistance = null,
   }) {
-    return _then(_$_NearbyState(
+    return _then(_$NearbyStateImpl(
       preSelectedIndex: null == preSelectedIndex
           ? _value.preSelectedIndex
           : preSelectedIndex // ignore: cast_nullable_to_non_nullable
@@ -204,8 +204,8 @@ class __$$_NearbyStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_NearbyState implements _NearbyState {
-  const _$_NearbyState(
+class _$NearbyStateImpl extends _NearbyState {
+  const _$NearbyStateImpl(
       {required this.preSelectedIndex,
       required final List<ArtAbstractModel> nearbyArts,
       required this.loadingState,
@@ -215,10 +215,11 @@ class _$_NearbyState implements _NearbyState {
       required this.longitude,
       required this.minDistance,
       required this.maxDistance})
-      : _nearbyArts = nearbyArts;
+      : _nearbyArts = nearbyArts,
+        super._();
 
-  factory _$_NearbyState.fromJson(Map<String, dynamic> json) =>
-      _$$_NearbyStateFromJson(json);
+  factory _$NearbyStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NearbyStateImplFromJson(json);
 
   @override
   final int preSelectedIndex;
@@ -256,7 +257,7 @@ class _$_NearbyState implements _NearbyState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NearbyState &&
+            other is _$NearbyStateImpl &&
             (identical(other.preSelectedIndex, preSelectedIndex) ||
                 other.preSelectedIndex == preSelectedIndex) &&
             const DeepCollectionEquality()
@@ -294,18 +295,18 @@ class _$_NearbyState implements _NearbyState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NearbyStateCopyWith<_$_NearbyState> get copyWith =>
-      __$$_NearbyStateCopyWithImpl<_$_NearbyState>(this, _$identity);
+  _$$NearbyStateImplCopyWith<_$NearbyStateImpl> get copyWith =>
+      __$$NearbyStateImplCopyWithImpl<_$NearbyStateImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NearbyStateToJson(
+    return _$$NearbyStateImplToJson(
       this,
     );
   }
 }
 
-abstract class _NearbyState implements NearbyState {
+abstract class _NearbyState extends NearbyState {
   const factory _NearbyState(
       {required final int preSelectedIndex,
       required final List<ArtAbstractModel> nearbyArts,
@@ -315,10 +316,11 @@ abstract class _NearbyState implements NearbyState {
       required final double latitude,
       required final double longitude,
       required final double minDistance,
-      required final double maxDistance}) = _$_NearbyState;
+      required final double maxDistance}) = _$NearbyStateImpl;
+  const _NearbyState._() : super._();
 
   factory _NearbyState.fromJson(Map<String, dynamic> json) =
-      _$_NearbyState.fromJson;
+      _$NearbyStateImpl.fromJson;
 
   @override
   int get preSelectedIndex;
@@ -342,6 +344,6 @@ abstract class _NearbyState implements NearbyState {
   double get maxDistance;
   @override
   @JsonKey(ignore: true)
-  _$$_NearbyStateCopyWith<_$_NearbyState> get copyWith =>
+  _$$NearbyStateImplCopyWith<_$NearbyStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

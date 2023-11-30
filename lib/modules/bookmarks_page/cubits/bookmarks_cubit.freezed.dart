@@ -84,11 +84,11 @@ class _$BookmarksStateCopyWithImpl<$Res, $Val extends BookmarksState>
 }
 
 /// @nodoc
-abstract class _$$_BookmarksStateCopyWith<$Res>
+abstract class _$$BookmarksStateImplCopyWith<$Res>
     implements $BookmarksStateCopyWith<$Res> {
-  factory _$$_BookmarksStateCopyWith(
-          _$_BookmarksState value, $Res Function(_$_BookmarksState) then) =
-      __$$_BookmarksStateCopyWithImpl<$Res>;
+  factory _$$BookmarksStateImplCopyWith(_$BookmarksStateImpl value,
+          $Res Function(_$BookmarksStateImpl) then) =
+      __$$BookmarksStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -99,11 +99,11 @@ abstract class _$$_BookmarksStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BookmarksStateCopyWithImpl<$Res>
-    extends _$BookmarksStateCopyWithImpl<$Res, _$_BookmarksState>
-    implements _$$_BookmarksStateCopyWith<$Res> {
-  __$$_BookmarksStateCopyWithImpl(
-      _$_BookmarksState _value, $Res Function(_$_BookmarksState) _then)
+class __$$BookmarksStateImplCopyWithImpl<$Res>
+    extends _$BookmarksStateCopyWithImpl<$Res, _$BookmarksStateImpl>
+    implements _$$BookmarksStateImplCopyWith<$Res> {
+  __$$BookmarksStateImplCopyWithImpl(
+      _$BookmarksStateImpl _value, $Res Function(_$BookmarksStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -114,7 +114,7 @@ class __$$_BookmarksStateCopyWithImpl<$Res>
     Object? bookmarkArts = null,
     Object? loadingState = null,
   }) {
-    return _then(_$_BookmarksState(
+    return _then(_$BookmarksStateImpl(
       ids: null == ids
           ? _value._ids
           : ids // ignore: cast_nullable_to_non_nullable
@@ -137,10 +137,10 @@ class __$$_BookmarksStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BookmarksState
+class _$BookmarksStateImpl
     with DiagnosticableTreeMixin
     implements _BookmarksState {
-  const _$_BookmarksState(
+  const _$BookmarksStateImpl(
       {required final List<String> ids,
       required this.count,
       required final List<ArtAbstractModel> bookmarkArts,
@@ -148,8 +148,8 @@ class _$_BookmarksState
       : _ids = ids,
         _bookmarkArts = bookmarkArts;
 
-  factory _$_BookmarksState.fromJson(Map<String, dynamic> json) =>
-      _$$_BookmarksStateFromJson(json);
+  factory _$BookmarksStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BookmarksStateImplFromJson(json);
 
   final List<String> _ids;
   @override
@@ -192,7 +192,7 @@ class _$_BookmarksState
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BookmarksState &&
+            other is _$BookmarksStateImpl &&
             const DeepCollectionEquality().equals(other._ids, _ids) &&
             (identical(other.count, count) || other.count == count) &&
             const DeepCollectionEquality()
@@ -213,12 +213,13 @@ class _$_BookmarksState
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BookmarksStateCopyWith<_$_BookmarksState> get copyWith =>
-      __$$_BookmarksStateCopyWithImpl<_$_BookmarksState>(this, _$identity);
+  _$$BookmarksStateImplCopyWith<_$BookmarksStateImpl> get copyWith =>
+      __$$BookmarksStateImplCopyWithImpl<_$BookmarksStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BookmarksStateToJson(
+    return _$$BookmarksStateImplToJson(
       this,
     );
   }
@@ -229,10 +230,10 @@ abstract class _BookmarksState implements BookmarksState {
       {required final List<String> ids,
       required final int count,
       required final List<ArtAbstractModel> bookmarkArts,
-      required final LoadingState loadingState}) = _$_BookmarksState;
+      required final LoadingState loadingState}) = _$BookmarksStateImpl;
 
   factory _BookmarksState.fromJson(Map<String, dynamic> json) =
-      _$_BookmarksState.fromJson;
+      _$BookmarksStateImpl.fromJson;
 
   @override
   List<String> get ids;
@@ -244,6 +245,6 @@ abstract class _BookmarksState implements BookmarksState {
   LoadingState get loadingState;
   @override
   @JsonKey(ignore: true)
-  _$$_BookmarksStateCopyWith<_$_BookmarksState> get copyWith =>
+  _$$BookmarksStateImplCopyWith<_$BookmarksStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

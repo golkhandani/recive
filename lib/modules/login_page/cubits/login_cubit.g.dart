@@ -6,8 +6,8 @@ part of 'login_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_LoginState _$$_LoginStateFromJson(Map<String, dynamic> json) =>
-    _$_LoginState(
+_$LoginStateImpl _$$LoginStateImplFromJson(Map<String, dynamic> json) =>
+    _$LoginStateImpl(
       isLoggedIn: json['isLoggedIn'] as bool,
       googleLoginLoadingState:
           $enumDecode(_$LoadingStateEnumMap, json['googleLoginLoadingState']),
@@ -17,7 +17,7 @@ _$_LoginState _$$_LoginStateFromJson(Map<String, dynamic> json) =>
           $enumDecode(_$LoadingStateEnumMap, json['logoutLoadingState']),
     );
 
-Map<String, dynamic> _$$_LoginStateToJson(_$_LoginState instance) =>
+Map<String, dynamic> _$$LoginStateImplToJson(_$LoginStateImpl instance) =>
     <String, dynamic>{
       'isLoggedIn': instance.isLoggedIn,
       'googleLoginLoadingState':

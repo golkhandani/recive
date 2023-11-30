@@ -70,22 +70,22 @@ class _$ExtraDataCopyWithImpl<T, $Res, $Val extends ExtraData<T>>
 }
 
 /// @nodoc
-abstract class _$$_ExtraDataCopyWith<T, $Res>
+abstract class _$$ExtraDataImplCopyWith<T, $Res>
     implements $ExtraDataCopyWith<T, $Res> {
-  factory _$$_ExtraDataCopyWith(
-          _$_ExtraData<T> value, $Res Function(_$_ExtraData<T>) then) =
-      __$$_ExtraDataCopyWithImpl<T, $Res>;
+  factory _$$ExtraDataImplCopyWith(
+          _$ExtraDataImpl<T> value, $Res Function(_$ExtraDataImpl<T>) then) =
+      __$$ExtraDataImplCopyWithImpl<T, $Res>;
   @override
   @useResult
   $Res call({T? summary, String heroTag});
 }
 
 /// @nodoc
-class __$$_ExtraDataCopyWithImpl<T, $Res>
-    extends _$ExtraDataCopyWithImpl<T, $Res, _$_ExtraData<T>>
-    implements _$$_ExtraDataCopyWith<T, $Res> {
-  __$$_ExtraDataCopyWithImpl(
-      _$_ExtraData<T> _value, $Res Function(_$_ExtraData<T>) _then)
+class __$$ExtraDataImplCopyWithImpl<T, $Res>
+    extends _$ExtraDataCopyWithImpl<T, $Res, _$ExtraDataImpl<T>>
+    implements _$$ExtraDataImplCopyWith<T, $Res> {
+  __$$ExtraDataImplCopyWithImpl(
+      _$ExtraDataImpl<T> _value, $Res Function(_$ExtraDataImpl<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_ExtraDataCopyWithImpl<T, $Res>
     Object? summary = freezed,
     Object? heroTag = null,
   }) {
-    return _then(_$_ExtraData<T>(
+    return _then(_$ExtraDataImpl<T>(
       summary: freezed == summary
           ? _value.summary
           : summary // ignore: cast_nullable_to_non_nullable
@@ -109,12 +109,12 @@ class __$$_ExtraDataCopyWithImpl<T, $Res>
 
 /// @nodoc
 @JsonSerializable(genericArgumentFactories: true)
-class _$_ExtraData<T> implements _ExtraData<T> {
-  const _$_ExtraData({required this.summary, required this.heroTag});
+class _$ExtraDataImpl<T> implements _ExtraData<T> {
+  const _$ExtraDataImpl({required this.summary, required this.heroTag});
 
-  factory _$_ExtraData.fromJson(
+  factory _$ExtraDataImpl.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$$_ExtraDataFromJson(json, fromJsonT);
+      _$$ExtraDataImplFromJson(json, fromJsonT);
 
   @override
   final T? summary;
@@ -130,7 +130,7 @@ class _$_ExtraData<T> implements _ExtraData<T> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ExtraData<T> &&
+            other is _$ExtraDataImpl<T> &&
             const DeepCollectionEquality().equals(other.summary, summary) &&
             (identical(other.heroTag, heroTag) || other.heroTag == heroTag));
   }
@@ -143,23 +143,23 @@ class _$_ExtraData<T> implements _ExtraData<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ExtraDataCopyWith<T, _$_ExtraData<T>> get copyWith =>
-      __$$_ExtraDataCopyWithImpl<T, _$_ExtraData<T>>(this, _$identity);
+  _$$ExtraDataImplCopyWith<T, _$ExtraDataImpl<T>> get copyWith =>
+      __$$ExtraDataImplCopyWithImpl<T, _$ExtraDataImpl<T>>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
-    return _$$_ExtraDataToJson<T>(this, toJsonT);
+    return _$$ExtraDataImplToJson<T>(this, toJsonT);
   }
 }
 
 abstract class _ExtraData<T> implements ExtraData<T> {
   const factory _ExtraData(
       {required final T? summary,
-      required final String heroTag}) = _$_ExtraData<T>;
+      required final String heroTag}) = _$ExtraDataImpl<T>;
 
   factory _ExtraData.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =
-      _$_ExtraData<T>.fromJson;
+      _$ExtraDataImpl<T>.fromJson;
 
   @override
   T? get summary;
@@ -167,7 +167,7 @@ abstract class _ExtraData<T> implements ExtraData<T> {
   String get heroTag;
   @override
   @JsonKey(ignore: true)
-  _$$_ExtraDataCopyWith<T, _$_ExtraData<T>> get copyWith =>
+  _$$ExtraDataImplCopyWith<T, _$ExtraDataImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -232,22 +232,22 @@ class _$ArtDetailSummaryDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ArtDetailSummaryDataCopyWith<$Res>
+abstract class _$$ArtDetailSummaryDataImplCopyWith<$Res>
     implements $ArtDetailSummaryDataCopyWith<$Res> {
-  factory _$$_ArtDetailSummaryDataCopyWith(_$_ArtDetailSummaryData value,
-          $Res Function(_$_ArtDetailSummaryData) then) =
-      __$$_ArtDetailSummaryDataCopyWithImpl<$Res>;
+  factory _$$ArtDetailSummaryDataImplCopyWith(_$ArtDetailSummaryDataImpl value,
+          $Res Function(_$ArtDetailSummaryDataImpl) then) =
+      __$$ArtDetailSummaryDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String title, String imageUrl});
 }
 
 /// @nodoc
-class __$$_ArtDetailSummaryDataCopyWithImpl<$Res>
-    extends _$ArtDetailSummaryDataCopyWithImpl<$Res, _$_ArtDetailSummaryData>
-    implements _$$_ArtDetailSummaryDataCopyWith<$Res> {
-  __$$_ArtDetailSummaryDataCopyWithImpl(_$_ArtDetailSummaryData _value,
-      $Res Function(_$_ArtDetailSummaryData) _then)
+class __$$ArtDetailSummaryDataImplCopyWithImpl<$Res>
+    extends _$ArtDetailSummaryDataCopyWithImpl<$Res, _$ArtDetailSummaryDataImpl>
+    implements _$$ArtDetailSummaryDataImplCopyWith<$Res> {
+  __$$ArtDetailSummaryDataImplCopyWithImpl(_$ArtDetailSummaryDataImpl _value,
+      $Res Function(_$ArtDetailSummaryDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -257,7 +257,7 @@ class __$$_ArtDetailSummaryDataCopyWithImpl<$Res>
     Object? title = null,
     Object? imageUrl = null,
   }) {
-    return _then(_$_ArtDetailSummaryData(
+    return _then(_$ArtDetailSummaryDataImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -276,12 +276,12 @@ class __$$_ArtDetailSummaryDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ArtDetailSummaryData implements _ArtDetailSummaryData {
-  const _$_ArtDetailSummaryData(
+class _$ArtDetailSummaryDataImpl implements _ArtDetailSummaryData {
+  const _$ArtDetailSummaryDataImpl(
       {required this.id, required this.title, required this.imageUrl});
 
-  factory _$_ArtDetailSummaryData.fromJson(Map<String, dynamic> json) =>
-      _$$_ArtDetailSummaryDataFromJson(json);
+  factory _$ArtDetailSummaryDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtDetailSummaryDataImplFromJson(json);
 
   @override
   final String id;
@@ -299,7 +299,7 @@ class _$_ArtDetailSummaryData implements _ArtDetailSummaryData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ArtDetailSummaryData &&
+            other is _$ArtDetailSummaryDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -313,13 +313,14 @@ class _$_ArtDetailSummaryData implements _ArtDetailSummaryData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ArtDetailSummaryDataCopyWith<_$_ArtDetailSummaryData> get copyWith =>
-      __$$_ArtDetailSummaryDataCopyWithImpl<_$_ArtDetailSummaryData>(
-          this, _$identity);
+  _$$ArtDetailSummaryDataImplCopyWith<_$ArtDetailSummaryDataImpl>
+      get copyWith =>
+          __$$ArtDetailSummaryDataImplCopyWithImpl<_$ArtDetailSummaryDataImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ArtDetailSummaryDataToJson(
+    return _$$ArtDetailSummaryDataImplToJson(
       this,
     );
   }
@@ -329,10 +330,10 @@ abstract class _ArtDetailSummaryData implements ArtDetailSummaryData {
   const factory _ArtDetailSummaryData(
       {required final String id,
       required final String title,
-      required final String imageUrl}) = _$_ArtDetailSummaryData;
+      required final String imageUrl}) = _$ArtDetailSummaryDataImpl;
 
   factory _ArtDetailSummaryData.fromJson(Map<String, dynamic> json) =
-      _$_ArtDetailSummaryData.fromJson;
+      _$ArtDetailSummaryDataImpl.fromJson;
 
   @override
   String get id;
@@ -342,8 +343,8 @@ abstract class _ArtDetailSummaryData implements ArtDetailSummaryData {
   String get imageUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_ArtDetailSummaryDataCopyWith<_$_ArtDetailSummaryData> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ArtDetailSummaryDataImplCopyWith<_$ArtDetailSummaryDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 CategorySummaryData _$CategorySummaryDataFromJson(Map<String, dynamic> json) {
@@ -406,22 +407,22 @@ class _$CategorySummaryDataCopyWithImpl<$Res, $Val extends CategorySummaryData>
 }
 
 /// @nodoc
-abstract class _$$_CategorySummaryDataCopyWith<$Res>
+abstract class _$$CategorySummaryDataImplCopyWith<$Res>
     implements $CategorySummaryDataCopyWith<$Res> {
-  factory _$$_CategorySummaryDataCopyWith(_$_CategorySummaryData value,
-          $Res Function(_$_CategorySummaryData) then) =
-      __$$_CategorySummaryDataCopyWithImpl<$Res>;
+  factory _$$CategorySummaryDataImplCopyWith(_$CategorySummaryDataImpl value,
+          $Res Function(_$CategorySummaryDataImpl) then) =
+      __$$CategorySummaryDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String title, String imageUrl});
 }
 
 /// @nodoc
-class __$$_CategorySummaryDataCopyWithImpl<$Res>
-    extends _$CategorySummaryDataCopyWithImpl<$Res, _$_CategorySummaryData>
-    implements _$$_CategorySummaryDataCopyWith<$Res> {
-  __$$_CategorySummaryDataCopyWithImpl(_$_CategorySummaryData _value,
-      $Res Function(_$_CategorySummaryData) _then)
+class __$$CategorySummaryDataImplCopyWithImpl<$Res>
+    extends _$CategorySummaryDataCopyWithImpl<$Res, _$CategorySummaryDataImpl>
+    implements _$$CategorySummaryDataImplCopyWith<$Res> {
+  __$$CategorySummaryDataImplCopyWithImpl(_$CategorySummaryDataImpl _value,
+      $Res Function(_$CategorySummaryDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -431,7 +432,7 @@ class __$$_CategorySummaryDataCopyWithImpl<$Res>
     Object? title = null,
     Object? imageUrl = null,
   }) {
-    return _then(_$_CategorySummaryData(
+    return _then(_$CategorySummaryDataImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -450,12 +451,12 @@ class __$$_CategorySummaryDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CategorySummaryData implements _CategorySummaryData {
-  const _$_CategorySummaryData(
+class _$CategorySummaryDataImpl implements _CategorySummaryData {
+  const _$CategorySummaryDataImpl(
       {required this.id, required this.title, required this.imageUrl});
 
-  factory _$_CategorySummaryData.fromJson(Map<String, dynamic> json) =>
-      _$$_CategorySummaryDataFromJson(json);
+  factory _$CategorySummaryDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CategorySummaryDataImplFromJson(json);
 
   @override
   final String id;
@@ -473,7 +474,7 @@ class _$_CategorySummaryData implements _CategorySummaryData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CategorySummaryData &&
+            other is _$CategorySummaryDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -487,13 +488,13 @@ class _$_CategorySummaryData implements _CategorySummaryData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CategorySummaryDataCopyWith<_$_CategorySummaryData> get copyWith =>
-      __$$_CategorySummaryDataCopyWithImpl<_$_CategorySummaryData>(
+  _$$CategorySummaryDataImplCopyWith<_$CategorySummaryDataImpl> get copyWith =>
+      __$$CategorySummaryDataImplCopyWithImpl<_$CategorySummaryDataImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CategorySummaryDataToJson(
+    return _$$CategorySummaryDataImplToJson(
       this,
     );
   }
@@ -503,10 +504,10 @@ abstract class _CategorySummaryData implements CategorySummaryData {
   const factory _CategorySummaryData(
       {required final String id,
       required final String title,
-      required final String imageUrl}) = _$_CategorySummaryData;
+      required final String imageUrl}) = _$CategorySummaryDataImpl;
 
   factory _CategorySummaryData.fromJson(Map<String, dynamic> json) =
-      _$_CategorySummaryData.fromJson;
+      _$CategorySummaryDataImpl.fromJson;
 
   @override
   String get id;
@@ -516,7 +517,7 @@ abstract class _CategorySummaryData implements CategorySummaryData {
   String get imageUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_CategorySummaryDataCopyWith<_$_CategorySummaryData> get copyWith =>
+  _$$CategorySummaryDataImplCopyWith<_$CategorySummaryDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -580,22 +581,22 @@ class _$PackageSummaryDataCopyWithImpl<$Res, $Val extends PackageSummaryData>
 }
 
 /// @nodoc
-abstract class _$$_PackageSummaryDataCopyWith<$Res>
+abstract class _$$PackageSummaryDataImplCopyWith<$Res>
     implements $PackageSummaryDataCopyWith<$Res> {
-  factory _$$_PackageSummaryDataCopyWith(_$_PackageSummaryData value,
-          $Res Function(_$_PackageSummaryData) then) =
-      __$$_PackageSummaryDataCopyWithImpl<$Res>;
+  factory _$$PackageSummaryDataImplCopyWith(_$PackageSummaryDataImpl value,
+          $Res Function(_$PackageSummaryDataImpl) then) =
+      __$$PackageSummaryDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String title, String imageUrl});
 }
 
 /// @nodoc
-class __$$_PackageSummaryDataCopyWithImpl<$Res>
-    extends _$PackageSummaryDataCopyWithImpl<$Res, _$_PackageSummaryData>
-    implements _$$_PackageSummaryDataCopyWith<$Res> {
-  __$$_PackageSummaryDataCopyWithImpl(
-      _$_PackageSummaryData _value, $Res Function(_$_PackageSummaryData) _then)
+class __$$PackageSummaryDataImplCopyWithImpl<$Res>
+    extends _$PackageSummaryDataCopyWithImpl<$Res, _$PackageSummaryDataImpl>
+    implements _$$PackageSummaryDataImplCopyWith<$Res> {
+  __$$PackageSummaryDataImplCopyWithImpl(_$PackageSummaryDataImpl _value,
+      $Res Function(_$PackageSummaryDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -605,7 +606,7 @@ class __$$_PackageSummaryDataCopyWithImpl<$Res>
     Object? title = null,
     Object? imageUrl = null,
   }) {
-    return _then(_$_PackageSummaryData(
+    return _then(_$PackageSummaryDataImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -624,12 +625,12 @@ class __$$_PackageSummaryDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PackageSummaryData implements _PackageSummaryData {
-  const _$_PackageSummaryData(
+class _$PackageSummaryDataImpl implements _PackageSummaryData {
+  const _$PackageSummaryDataImpl(
       {required this.id, required this.title, required this.imageUrl});
 
-  factory _$_PackageSummaryData.fromJson(Map<String, dynamic> json) =>
-      _$$_PackageSummaryDataFromJson(json);
+  factory _$PackageSummaryDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PackageSummaryDataImplFromJson(json);
 
   @override
   final String id;
@@ -647,7 +648,7 @@ class _$_PackageSummaryData implements _PackageSummaryData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PackageSummaryData &&
+            other is _$PackageSummaryDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -661,13 +662,13 @@ class _$_PackageSummaryData implements _PackageSummaryData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PackageSummaryDataCopyWith<_$_PackageSummaryData> get copyWith =>
-      __$$_PackageSummaryDataCopyWithImpl<_$_PackageSummaryData>(
+  _$$PackageSummaryDataImplCopyWith<_$PackageSummaryDataImpl> get copyWith =>
+      __$$PackageSummaryDataImplCopyWithImpl<_$PackageSummaryDataImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PackageSummaryDataToJson(
+    return _$$PackageSummaryDataImplToJson(
       this,
     );
   }
@@ -677,10 +678,10 @@ abstract class _PackageSummaryData implements PackageSummaryData {
   const factory _PackageSummaryData(
       {required final String id,
       required final String title,
-      required final String imageUrl}) = _$_PackageSummaryData;
+      required final String imageUrl}) = _$PackageSummaryDataImpl;
 
   factory _PackageSummaryData.fromJson(Map<String, dynamic> json) =
-      _$_PackageSummaryData.fromJson;
+      _$PackageSummaryDataImpl.fromJson;
 
   @override
   String get id;
@@ -690,7 +691,7 @@ abstract class _PackageSummaryData implements PackageSummaryData {
   String get imageUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_PackageSummaryDataCopyWith<_$_PackageSummaryData> get copyWith =>
+  _$$PackageSummaryDataImplCopyWith<_$PackageSummaryDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -748,22 +749,22 @@ class _$NewsSummaryDataCopyWithImpl<$Res, $Val extends NewsSummaryData>
 }
 
 /// @nodoc
-abstract class _$$_NewsSummaryDataCopyWith<$Res>
+abstract class _$$NewsSummaryDataImplCopyWith<$Res>
     implements $NewsSummaryDataCopyWith<$Res> {
-  factory _$$_NewsSummaryDataCopyWith(
-          _$_NewsSummaryData value, $Res Function(_$_NewsSummaryData) then) =
-      __$$_NewsSummaryDataCopyWithImpl<$Res>;
+  factory _$$NewsSummaryDataImplCopyWith(_$NewsSummaryDataImpl value,
+          $Res Function(_$NewsSummaryDataImpl) then) =
+      __$$NewsSummaryDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String title});
 }
 
 /// @nodoc
-class __$$_NewsSummaryDataCopyWithImpl<$Res>
-    extends _$NewsSummaryDataCopyWithImpl<$Res, _$_NewsSummaryData>
-    implements _$$_NewsSummaryDataCopyWith<$Res> {
-  __$$_NewsSummaryDataCopyWithImpl(
-      _$_NewsSummaryData _value, $Res Function(_$_NewsSummaryData) _then)
+class __$$NewsSummaryDataImplCopyWithImpl<$Res>
+    extends _$NewsSummaryDataCopyWithImpl<$Res, _$NewsSummaryDataImpl>
+    implements _$$NewsSummaryDataImplCopyWith<$Res> {
+  __$$NewsSummaryDataImplCopyWithImpl(
+      _$NewsSummaryDataImpl _value, $Res Function(_$NewsSummaryDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -772,7 +773,7 @@ class __$$_NewsSummaryDataCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
   }) {
-    return _then(_$_NewsSummaryData(
+    return _then(_$NewsSummaryDataImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -787,11 +788,11 @@ class __$$_NewsSummaryDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_NewsSummaryData implements _NewsSummaryData {
-  const _$_NewsSummaryData({required this.id, required this.title});
+class _$NewsSummaryDataImpl implements _NewsSummaryData {
+  const _$NewsSummaryDataImpl({required this.id, required this.title});
 
-  factory _$_NewsSummaryData.fromJson(Map<String, dynamic> json) =>
-      _$$_NewsSummaryDataFromJson(json);
+  factory _$NewsSummaryDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NewsSummaryDataImplFromJson(json);
 
   @override
   final String id;
@@ -807,7 +808,7 @@ class _$_NewsSummaryData implements _NewsSummaryData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NewsSummaryData &&
+            other is _$NewsSummaryDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title));
   }
@@ -819,12 +820,13 @@ class _$_NewsSummaryData implements _NewsSummaryData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NewsSummaryDataCopyWith<_$_NewsSummaryData> get copyWith =>
-      __$$_NewsSummaryDataCopyWithImpl<_$_NewsSummaryData>(this, _$identity);
+  _$$NewsSummaryDataImplCopyWith<_$NewsSummaryDataImpl> get copyWith =>
+      __$$NewsSummaryDataImplCopyWithImpl<_$NewsSummaryDataImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NewsSummaryDataToJson(
+    return _$$NewsSummaryDataImplToJson(
       this,
     );
   }
@@ -833,10 +835,10 @@ class _$_NewsSummaryData implements _NewsSummaryData {
 abstract class _NewsSummaryData implements NewsSummaryData {
   const factory _NewsSummaryData(
       {required final String id,
-      required final String title}) = _$_NewsSummaryData;
+      required final String title}) = _$NewsSummaryDataImpl;
 
   factory _NewsSummaryData.fromJson(Map<String, dynamic> json) =
-      _$_NewsSummaryData.fromJson;
+      _$NewsSummaryDataImpl.fromJson;
 
   @override
   String get id;
@@ -844,6 +846,6 @@ abstract class _NewsSummaryData implements NewsSummaryData {
   String get title;
   @override
   @JsonKey(ignore: true)
-  _$$_NewsSummaryDataCopyWith<_$_NewsSummaryData> get copyWith =>
+  _$$NewsSummaryDataImplCopyWith<_$NewsSummaryDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

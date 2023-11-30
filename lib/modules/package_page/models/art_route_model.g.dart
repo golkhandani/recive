@@ -6,8 +6,8 @@ part of 'art_route_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ArtRouteModel _$$_ArtRouteModelFromJson(Map<String, dynamic> json) =>
-    _$_ArtRouteModel(
+_$ArtRouteModelImpl _$$ArtRouteModelImplFromJson(Map<String, dynamic> json) =>
+    _$ArtRouteModelImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       subtitle: json['subtitle'] as String,
@@ -27,7 +27,7 @@ _$_ArtRouteModel _$$_ArtRouteModelFromJson(Map<String, dynamic> json) =>
       duration: Duration(microseconds: json['duration'] as int),
     );
 
-Map<String, dynamic> _$$_ArtRouteModelToJson(_$_ArtRouteModel instance) =>
+Map<String, dynamic> _$$ArtRouteModelImplToJson(_$ArtRouteModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
@@ -42,9 +42,9 @@ Map<String, dynamic> _$$_ArtRouteModelToJson(_$_ArtRouteModel instance) =>
       'duration': instance.duration.inMicroseconds,
     };
 
-_$_ArtRouteAbstractModel _$$_ArtRouteAbstractModelFromJson(
+_$ArtRouteAbstractModelImpl _$$ArtRouteAbstractModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$_ArtRouteAbstractModel(
+    _$ArtRouteAbstractModelImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
@@ -54,8 +54,8 @@ _$_ArtRouteAbstractModel _$$_ArtRouteAbstractModelFromJson(
       duration: Duration(microseconds: json['duration'] as int),
     );
 
-Map<String, dynamic> _$$_ArtRouteAbstractModelToJson(
-        _$_ArtRouteAbstractModel instance) =>
+Map<String, dynamic> _$$ArtRouteAbstractModelImplToJson(
+        _$ArtRouteAbstractModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

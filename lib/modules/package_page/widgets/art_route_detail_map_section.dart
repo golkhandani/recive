@@ -140,17 +140,14 @@ class _ArtRouteMapSectionState extends State<ArtRouteDetailMapSection>
                                 }),
                               MarkerLayer(
                                 markers: [
-                                  ...widget.arts
-                                      .mapIndexed(
-                                        (i, e) => EventCardMarker(
-                                          data: e,
-                                          color: context.colorScheme.tertiary,
-                                          fontColor:
-                                              context.colorScheme.onTertiary,
-                                          onTap: () => index.value = i,
-                                        ).marker(context),
-                                      )
-                                      .toList(),
+                                  ...widget.arts.mapIndexed(
+                                    (i, e) => EventCardMarker(
+                                      data: e,
+                                      color: context.colorScheme.tertiary,
+                                      fontColor: context.colorScheme.onTertiary,
+                                      onTap: () => index.value = i,
+                                    ).marker(context),
+                                  ),
                                   if (index.value != null)
                                     EventCardMarker(
                                       data: widget.arts[index.value!],

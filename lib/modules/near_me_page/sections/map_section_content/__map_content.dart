@@ -15,6 +15,7 @@ import 'package:recive/core/components/flutter_map_card_container/flutter_map_se
 import 'package:recive/core/components/flutter_map_card_container/map_card_container.dart';
 import 'package:recive/core/enums/loading_state.dart';
 import 'package:recive/modules/near_me_page/cubits/near_by_cubit.dart';
+import 'package:recive/modules/near_me_page/widgets/empty_result_snackbar.dart';
 import 'package:recive/modules/near_me_page/widgets/selected_marker.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 
@@ -37,6 +38,10 @@ class NearbyMapContent extends StatefulHookWidget {
 }
 
 class NearbyMapContentState extends State<NearbyMapContent> {
+  void showEmptySnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(emptySearchResultSnackbar);
+  }
+
   Marker _createMarker(
     LatLng point,
     Color color,
@@ -62,13 +67,11 @@ class NearbyMapContentState extends State<NearbyMapContent> {
         ),
       );
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   late final SelectedMarker2Controller sc = SelectedMarker2Controller(
-    widget.state.nearbyArts.first.geoLocation,
+    widget.state.loadingState == LoadingState.done &&
+            widget.state.nearbyArts.isNotEmpty
+        ? widget.state.nearbyArts.first.geoLocation
+        : widget.state.defautlPoint,
   );
 
   late final FlutterMapMarkerClusterLayerController fc =
@@ -100,7 +103,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
               .mapIndexed(
                 (index, point) => _createMarker(
                   point.geoLocation,
-                  context.colorScheme.errorContainer,
+                  context.colorScheme.tertiaryContainer,
                   index,
                 ),
               )
@@ -111,8 +114,10 @@ class NearbyMapContentState extends State<NearbyMapContent> {
             widget.state.isRefreshLoading != false) {
           return;
         }
-        final updated =
-            widget.state.nearbyArts[widget.state.preSelectedIndex].geoLocation;
+        final updated = widget.state.nearbyArts.isEmpty
+            ? widget.state.defautlPoint
+            : widget
+                .state.nearbyArts[widget.state.preSelectedIndex].geoLocation;
         sc.updateValue(updated);
         widget.mapController.animateTo(dest: updated);
       });
@@ -133,6 +138,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
                   maxDistance: mapState.zoom * 10000,
                   minDistance: 0,
                   onBackground: true,
+                  callback: (isEmpty) => isEmpty ? showEmptySnackBar() : null,
                 )
                 .then((value) => fr.updateValue(false))
                 .then(

@@ -6,14 +6,16 @@ part of 'paginate_state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PaginationState _$$_PaginationStateFromJson(Map<String, dynamic> json) =>
-    _$_PaginationState(
+_$PaginationStateImpl _$$PaginationStateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PaginationStateImpl(
       page: json['page'] as int,
       itemPerPage: json['itemPerPage'] as int,
       total: json['total'] as int,
     );
 
-Map<String, dynamic> _$$_PaginationStateToJson(_$_PaginationState instance) =>
+Map<String, dynamic> _$$PaginationStateImplToJson(
+        _$PaginationStateImpl instance) =>
     <String, dynamic>{
       'page': instance.page,
       'itemPerPage': instance.itemPerPage,

@@ -104,10 +104,11 @@ class _$NewsStateCopyWithImpl<$Res, $Val extends NewsState>
 }
 
 /// @nodoc
-abstract class _$$_NewsStateCopyWith<$Res> implements $NewsStateCopyWith<$Res> {
-  factory _$$_NewsStateCopyWith(
-          _$_NewsState value, $Res Function(_$_NewsState) then) =
-      __$$_NewsStateCopyWithImpl<$Res>;
+abstract class _$$NewsStateImplCopyWith<$Res>
+    implements $NewsStateCopyWith<$Res> {
+  factory _$$NewsStateImplCopyWith(
+          _$NewsStateImpl value, $Res Function(_$NewsStateImpl) then) =
+      __$$NewsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -122,11 +123,11 @@ abstract class _$$_NewsStateCopyWith<$Res> implements $NewsStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NewsStateCopyWithImpl<$Res>
-    extends _$NewsStateCopyWithImpl<$Res, _$_NewsState>
-    implements _$$_NewsStateCopyWith<$Res> {
-  __$$_NewsStateCopyWithImpl(
-      _$_NewsState _value, $Res Function(_$_NewsState) _then)
+class __$$NewsStateImplCopyWithImpl<$Res>
+    extends _$NewsStateCopyWithImpl<$Res, _$NewsStateImpl>
+    implements _$$NewsStateImplCopyWith<$Res> {
+  __$$NewsStateImplCopyWithImpl(
+      _$NewsStateImpl _value, $Res Function(_$NewsStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -138,7 +139,7 @@ class __$$_NewsStateCopyWithImpl<$Res>
     Object? newsSpotlight = null,
     Object? loadingState = null,
   }) {
-    return _then(_$_NewsState(
+    return _then(_$NewsStateImpl(
       selectedLoadingState: null == selectedLoadingState
           ? _value.selectedLoadingState
           : selectedLoadingState // ignore: cast_nullable_to_non_nullable
@@ -165,8 +166,8 @@ class __$$_NewsStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_NewsState implements _NewsState {
-  const _$_NewsState(
+class _$NewsStateImpl implements _NewsState {
+  const _$NewsStateImpl(
       {required this.selectedLoadingState,
       required this.selected,
       required final List<NewsModel> news,
@@ -175,8 +176,8 @@ class _$_NewsState implements _NewsState {
       : _news = news,
         _newsSpotlight = newsSpotlight;
 
-  factory _$_NewsState.fromJson(Map<String, dynamic> json) =>
-      _$$_NewsStateFromJson(json);
+  factory _$NewsStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NewsStateImplFromJson(json);
 
   @override
   final LoadingState selectedLoadingState;
@@ -210,7 +211,7 @@ class _$_NewsState implements _NewsState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NewsState &&
+            other is _$NewsStateImpl &&
             (identical(other.selectedLoadingState, selectedLoadingState) ||
                 other.selectedLoadingState == selectedLoadingState) &&
             (identical(other.selected, selected) ||
@@ -235,12 +236,12 @@ class _$_NewsState implements _NewsState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NewsStateCopyWith<_$_NewsState> get copyWith =>
-      __$$_NewsStateCopyWithImpl<_$_NewsState>(this, _$identity);
+  _$$NewsStateImplCopyWith<_$NewsStateImpl> get copyWith =>
+      __$$NewsStateImplCopyWithImpl<_$NewsStateImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NewsStateToJson(
+    return _$$NewsStateImplToJson(
       this,
     );
   }
@@ -252,10 +253,10 @@ abstract class _NewsState implements NewsState {
       required final NewsModel? selected,
       required final List<NewsModel> news,
       required final List<NewsModel> newsSpotlight,
-      required final LoadingState loadingState}) = _$_NewsState;
+      required final LoadingState loadingState}) = _$NewsStateImpl;
 
   factory _NewsState.fromJson(Map<String, dynamic> json) =
-      _$_NewsState.fromJson;
+      _$NewsStateImpl.fromJson;
 
   @override
   LoadingState get selectedLoadingState;
@@ -269,6 +270,6 @@ abstract class _NewsState implements NewsState {
   LoadingState get loadingState;
   @override
   @JsonKey(ignore: true)
-  _$$_NewsStateCopyWith<_$_NewsState> get copyWith =>
+  _$$NewsStateImplCopyWith<_$NewsStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

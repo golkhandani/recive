@@ -6,8 +6,8 @@ part of 'art_detail_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ArtDetailState _$$_ArtDetailStateFromJson(Map<String, dynamic> json) =>
-    _$_ArtDetailState(
+_$ArtDetailStateImpl _$$ArtDetailStateImplFromJson(Map<String, dynamic> json) =>
+    _$ArtDetailStateImpl(
       isBookmarked: json['isBookmarked'] as bool,
       preSelectedIndex: json['preSelectedIndex'] as int,
       nearbyItem: json['nearbyItem'] == null
@@ -16,7 +16,8 @@ _$_ArtDetailState _$$_ArtDetailStateFromJson(Map<String, dynamic> json) =>
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
 
-Map<String, dynamic> _$$_ArtDetailStateToJson(_$_ArtDetailState instance) =>
+Map<String, dynamic> _$$ArtDetailStateImplToJson(
+        _$ArtDetailStateImpl instance) =>
     <String, dynamic>{
       'isBookmarked': instance.isBookmarked,
       'preSelectedIndex': instance.preSelectedIndex,

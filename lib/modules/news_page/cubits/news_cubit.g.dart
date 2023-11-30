@@ -6,7 +6,8 @@ part of 'news_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_NewsState _$$_NewsStateFromJson(Map<String, dynamic> json) => _$_NewsState(
+_$NewsStateImpl _$$NewsStateImplFromJson(Map<String, dynamic> json) =>
+    _$NewsStateImpl(
       selectedLoadingState:
           $enumDecode(_$LoadingStateEnumMap, json['selectedLoadingState']),
       selected: json['selected'] == null
@@ -21,7 +22,7 @@ _$_NewsState _$$_NewsStateFromJson(Map<String, dynamic> json) => _$_NewsState(
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
 
-Map<String, dynamic> _$$_NewsStateToJson(_$_NewsState instance) =>
+Map<String, dynamic> _$$NewsStateImplToJson(_$NewsStateImpl instance) =>
     <String, dynamic>{
       'selectedLoadingState':
           _$LoadingStateEnumMap[instance.selectedLoadingState]!,

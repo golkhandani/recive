@@ -24,7 +24,7 @@ class TitleHeader extends HookWidget {
     final navigationService = locator.get<NavigationService>();
     final hightlightColor = context.schema.tertiary;
     final backgroundColorV =
-        backgroundColor ?? context.theme.colorScheme.primary;
+        backgroundColor ?? context.theme.colorScheme.tertiaryContainer;
     final titleColorV = titleColor ?? context.theme.colorScheme.onPrimary;
     final color = colorSchemeLight.onTertiary;
     final backbtn = SizedBox(

@@ -106,11 +106,11 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
 }
 
 /// @nodoc
-abstract class _$$_SearchStateCopyWith<$Res>
+abstract class _$$SearchStateImplCopyWith<$Res>
     implements $SearchStateCopyWith<$Res> {
-  factory _$$_SearchStateCopyWith(
-          _$_SearchState value, $Res Function(_$_SearchState) then) =
-      __$$_SearchStateCopyWithImpl<$Res>;
+  factory _$$SearchStateImplCopyWith(
+          _$SearchStateImpl value, $Res Function(_$SearchStateImpl) then) =
+      __$$SearchStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -124,11 +124,11 @@ abstract class _$$_SearchStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SearchStateCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res, _$_SearchState>
-    implements _$$_SearchStateCopyWith<$Res> {
-  __$$_SearchStateCopyWithImpl(
-      _$_SearchState _value, $Res Function(_$_SearchState) _then)
+class __$$SearchStateImplCopyWithImpl<$Res>
+    extends _$SearchStateCopyWithImpl<$Res, _$SearchStateImpl>
+    implements _$$SearchStateImplCopyWith<$Res> {
+  __$$SearchStateImplCopyWithImpl(
+      _$SearchStateImpl _value, $Res Function(_$SearchStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -142,7 +142,7 @@ class __$$_SearchStateCopyWithImpl<$Res>
     Object? distanceFilter = freezed,
     Object? queryFilter = freezed,
   }) {
-    return _then(_$_SearchState(
+    return _then(_$SearchStateImpl(
       preSelectedIndex: null == preSelectedIndex
           ? _value.preSelectedIndex
           : preSelectedIndex // ignore: cast_nullable_to_non_nullable
@@ -177,8 +177,8 @@ class __$$_SearchStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SearchState implements _SearchState {
-  const _$_SearchState(
+class _$SearchStateImpl implements _SearchState {
+  const _$SearchStateImpl(
       {required this.preSelectedIndex,
       required final List<ArtRouteAbstractModel> searchedItems,
       required this.loadingKeywordsState,
@@ -189,8 +189,8 @@ class _$_SearchState implements _SearchState {
       : _searchedItems = searchedItems,
         _searchedkeywords = searchedkeywords;
 
-  factory _$_SearchState.fromJson(Map<String, dynamic> json) =>
-      _$$_SearchStateFromJson(json);
+  factory _$SearchStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SearchStateImplFromJson(json);
 
   @override
   final int preSelectedIndex;
@@ -229,7 +229,7 @@ class _$_SearchState implements _SearchState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SearchState &&
+            other is _$SearchStateImpl &&
             (identical(other.preSelectedIndex, preSelectedIndex) ||
                 other.preSelectedIndex == preSelectedIndex) &&
             const DeepCollectionEquality()
@@ -261,12 +261,12 @@ class _$_SearchState implements _SearchState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SearchStateCopyWith<_$_SearchState> get copyWith =>
-      __$$_SearchStateCopyWithImpl<_$_SearchState>(this, _$identity);
+  _$$SearchStateImplCopyWith<_$SearchStateImpl> get copyWith =>
+      __$$SearchStateImplCopyWithImpl<_$SearchStateImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SearchStateToJson(
+    return _$$SearchStateImplToJson(
       this,
     );
   }
@@ -280,10 +280,10 @@ abstract class _SearchState implements SearchState {
       required final List<String> searchedkeywords,
       required final LoadingState loadingState,
       required final int? distanceFilter,
-      required final String? queryFilter}) = _$_SearchState;
+      required final String? queryFilter}) = _$SearchStateImpl;
 
   factory _SearchState.fromJson(Map<String, dynamic> json) =
-      _$_SearchState.fromJson;
+      _$SearchStateImpl.fromJson;
 
   @override
   int get preSelectedIndex;
@@ -301,6 +301,6 @@ abstract class _SearchState implements SearchState {
   String? get queryFilter;
   @override
   @JsonKey(ignore: true)
-  _$$_SearchStateCopyWith<_$_SearchState> get copyWith =>
+  _$$SearchStateImplCopyWith<_$SearchStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

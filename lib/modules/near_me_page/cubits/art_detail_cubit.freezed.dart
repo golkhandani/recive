@@ -98,11 +98,11 @@ class _$ArtDetailStateCopyWithImpl<$Res, $Val extends ArtDetailState>
 }
 
 /// @nodoc
-abstract class _$$_ArtDetailStateCopyWith<$Res>
+abstract class _$$ArtDetailStateImplCopyWith<$Res>
     implements $ArtDetailStateCopyWith<$Res> {
-  factory _$$_ArtDetailStateCopyWith(
-          _$_ArtDetailState value, $Res Function(_$_ArtDetailState) then) =
-      __$$_ArtDetailStateCopyWithImpl<$Res>;
+  factory _$$ArtDetailStateImplCopyWith(_$ArtDetailStateImpl value,
+          $Res Function(_$ArtDetailStateImpl) then) =
+      __$$ArtDetailStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -116,11 +116,11 @@ abstract class _$$_ArtDetailStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ArtDetailStateCopyWithImpl<$Res>
-    extends _$ArtDetailStateCopyWithImpl<$Res, _$_ArtDetailState>
-    implements _$$_ArtDetailStateCopyWith<$Res> {
-  __$$_ArtDetailStateCopyWithImpl(
-      _$_ArtDetailState _value, $Res Function(_$_ArtDetailState) _then)
+class __$$ArtDetailStateImplCopyWithImpl<$Res>
+    extends _$ArtDetailStateCopyWithImpl<$Res, _$ArtDetailStateImpl>
+    implements _$$ArtDetailStateImplCopyWith<$Res> {
+  __$$ArtDetailStateImplCopyWithImpl(
+      _$ArtDetailStateImpl _value, $Res Function(_$ArtDetailStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -131,7 +131,7 @@ class __$$_ArtDetailStateCopyWithImpl<$Res>
     Object? nearbyItem = freezed,
     Object? loadingState = null,
   }) {
-    return _then(_$_ArtDetailState(
+    return _then(_$ArtDetailStateImpl(
       isBookmarked: null == isBookmarked
           ? _value.isBookmarked
           : isBookmarked // ignore: cast_nullable_to_non_nullable
@@ -154,15 +154,15 @@ class __$$_ArtDetailStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ArtDetailState implements _ArtDetailState {
-  const _$_ArtDetailState(
+class _$ArtDetailStateImpl implements _ArtDetailState {
+  const _$ArtDetailStateImpl(
       {required this.isBookmarked,
       required this.preSelectedIndex,
       required this.nearbyItem,
       required this.loadingState});
 
-  factory _$_ArtDetailState.fromJson(Map<String, dynamic> json) =>
-      _$$_ArtDetailStateFromJson(json);
+  factory _$ArtDetailStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtDetailStateImplFromJson(json);
 
   @override
   final bool isBookmarked;
@@ -182,7 +182,7 @@ class _$_ArtDetailState implements _ArtDetailState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ArtDetailState &&
+            other is _$ArtDetailStateImpl &&
             (identical(other.isBookmarked, isBookmarked) ||
                 other.isBookmarked == isBookmarked) &&
             (identical(other.preSelectedIndex, preSelectedIndex) ||
@@ -201,12 +201,13 @@ class _$_ArtDetailState implements _ArtDetailState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ArtDetailStateCopyWith<_$_ArtDetailState> get copyWith =>
-      __$$_ArtDetailStateCopyWithImpl<_$_ArtDetailState>(this, _$identity);
+  _$$ArtDetailStateImplCopyWith<_$ArtDetailStateImpl> get copyWith =>
+      __$$ArtDetailStateImplCopyWithImpl<_$ArtDetailStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ArtDetailStateToJson(
+    return _$$ArtDetailStateImplToJson(
       this,
     );
   }
@@ -217,10 +218,10 @@ abstract class _ArtDetailState implements ArtDetailState {
       {required final bool isBookmarked,
       required final int preSelectedIndex,
       required final ArtModel? nearbyItem,
-      required final LoadingState loadingState}) = _$_ArtDetailState;
+      required final LoadingState loadingState}) = _$ArtDetailStateImpl;
 
   factory _ArtDetailState.fromJson(Map<String, dynamic> json) =
-      _$_ArtDetailState.fromJson;
+      _$ArtDetailStateImpl.fromJson;
 
   @override
   bool get isBookmarked;
@@ -232,6 +233,6 @@ abstract class _ArtDetailState implements ArtDetailState {
   LoadingState get loadingState;
   @override
   @JsonKey(ignore: true)
-  _$$_ArtDetailStateCopyWith<_$_ArtDetailState> get copyWith =>
+  _$$ArtDetailStateImplCopyWith<_$ArtDetailStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

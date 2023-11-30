@@ -84,7 +84,7 @@ class DashboardWrapper extends StatelessWidget {
       items: items,
       currentIndex: currentIndex,
       onTap: onItemTapped,
-      activeColor: context.colorScheme.primaryContainer,
+      activeColor: context.colorScheme.primary,
       inactiveColor: context.colorScheme.onTertiaryContainer,
       backgroundColor: context.colorScheme.tertiaryContainer,
       useFloatingNavBar: true,

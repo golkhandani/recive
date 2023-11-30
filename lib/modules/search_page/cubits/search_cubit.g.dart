@@ -6,8 +6,8 @@ part of 'search_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SearchState _$$_SearchStateFromJson(Map<String, dynamic> json) =>
-    _$_SearchState(
+_$SearchStateImpl _$$SearchStateImplFromJson(Map<String, dynamic> json) =>
+    _$SearchStateImpl(
       preSelectedIndex: json['preSelectedIndex'] as int,
       searchedItems: (json['searchedItems'] as List<dynamic>)
           .map((e) => ArtRouteAbstractModel.fromJson(e as Map<String, dynamic>))
@@ -22,7 +22,7 @@ _$_SearchState _$$_SearchStateFromJson(Map<String, dynamic> json) =>
       queryFilter: json['queryFilter'] as String?,
     );
 
-Map<String, dynamic> _$$_SearchStateToJson(_$_SearchState instance) =>
+Map<String, dynamic> _$$SearchStateImplToJson(_$SearchStateImpl instance) =>
     <String, dynamic>{
       'preSelectedIndex': instance.preSelectedIndex,
       'searchedItems': instance.searchedItems,

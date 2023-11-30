@@ -6,8 +6,8 @@ part of 'bookmarks_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_BookmarksState _$$_BookmarksStateFromJson(Map<String, dynamic> json) =>
-    _$_BookmarksState(
+_$BookmarksStateImpl _$$BookmarksStateImplFromJson(Map<String, dynamic> json) =>
+    _$BookmarksStateImpl(
       ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
       count: json['count'] as int,
       bookmarkArts: (json['bookmarkArts'] as List<dynamic>)
@@ -16,7 +16,8 @@ _$_BookmarksState _$$_BookmarksStateFromJson(Map<String, dynamic> json) =>
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
 
-Map<String, dynamic> _$$_BookmarksStateToJson(_$_BookmarksState instance) =>
+Map<String, dynamic> _$$BookmarksStateImplToJson(
+        _$BookmarksStateImpl instance) =>
     <String, dynamic>{
       'ids': instance.ids,
       'count': instance.count,

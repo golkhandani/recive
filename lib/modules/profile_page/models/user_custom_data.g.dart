@@ -6,8 +6,8 @@ part of 'user_custom_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_UserCustomData _$$_UserCustomDataFromJson(Map<String, dynamic> json) =>
-    _$_UserCustomData(
+_$UserCustomDataImpl _$$UserCustomDataImplFromJson(Map<String, dynamic> json) =>
+    _$UserCustomDataImpl(
       userId: json['userId'] as String?,
       email: json['email'] as String?,
       imageUrl: json['image_url'] as String?,
@@ -17,7 +17,8 @@ _$_UserCustomData _$$_UserCustomDataFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_UserCustomDataToJson(_$_UserCustomData instance) =>
+Map<String, dynamic> _$$UserCustomDataImplToJson(
+        _$UserCustomDataImpl instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'email': instance.email,

@@ -28,7 +28,7 @@ class SelectedMarker extends StatelessWidget {
           rotate: true,
           builder: (ctx) => Icon(
             FluentIcons.location_12_filled,
-            color: context.colorScheme.secondaryContainer,
+            color: context.colorScheme.primary,
             size: 50,
           ),
         )
@@ -38,7 +38,7 @@ class SelectedMarker extends StatelessWidget {
 }
 
 class SelectedMarker2Controller extends ValueNotifier<LatLng> {
-  SelectedMarker2Controller(LatLng intialLatLng) : super(intialLatLng);
+  SelectedMarker2Controller(super.intialLatLng);
 
   void updateValue(LatLng latLng) {
     value = latLng;
@@ -69,7 +69,7 @@ class SelectedMarker2 extends StatelessWidget {
               rotate: true,
               builder: (ctx) => Icon(
                 FluentIcons.location_12_filled,
-                color: context.colorScheme.secondaryContainer,
+                color: context.colorScheme.primary,
                 size: 50,
               ),
             )

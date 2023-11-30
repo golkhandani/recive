@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -21,6 +20,7 @@ import 'package:recive/modules/profile_page/models/user_custom_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/string_extensions.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
@@ -370,7 +370,8 @@ class ProfileScreen extends HookWidget {
           inactiveFgColor: context.theme.colorScheme.onTertiary,
           totalSwitches: ReciveTheme.values.length,
           animationDuration: 100,
-          labels: ReciveTheme.values.map((e) => e.name.capitalize()).toList(),
+          labels:
+              ReciveTheme.values.map((e) => e.name.toCapitalized()).toList(),
           animate: true,
           onToggle: (index) {
             final val = index ?? 0;

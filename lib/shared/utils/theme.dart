@@ -8,6 +8,38 @@ enum ThemeName { dark, light }
 
 const MaterialColor swatch = Colors.purple;
 
+final ColorScheme peeyadeScheme = ColorScheme(
+  brightness: Brightness.light,
+
+  primary: Color.fromARGB(255, 45, 195, 198),
+  onPrimary: const Color.fromARGB(255, 0, 0, 0),
+  primaryContainer: Color.fromARGB(255, 152, 202, 202),
+  onPrimaryContainer: const Color.fromARGB(255, 0, 0, 0),
+
+  secondary: Color.fromARGB(255, 17, 71, 71),
+  onSecondary: Colors.white,
+  secondaryContainer: Color.fromRGBO(0, 0, 0, 1),
+  onSecondaryContainer: Color.fromARGB(255, 255, 255, 255),
+
+  tertiary: Color.fromARGB(255, 150, 180, 180),
+  onTertiary: Colors.white,
+  tertiaryContainer: Color.fromARGB(255, 44, 88, 88),
+  onTertiaryContainer: Color.fromRGBO(255, 255, 255, 1),
+
+  error: Colors.red,
+  onError: Colors.white,
+  errorContainer: Color.fromRGBO(141, 8, 41, 1),
+  onErrorContainer: Colors.white,
+
+  background: Color.fromARGB(255, 228, 255, 255), // Set to white
+  onBackground: Color.fromRGBO(0, 0, 0, 1),
+  surface: Color.fromRGBO(0, 0, 0, 1),
+  onSurface: Color.fromRGBO(255, 255, 255, 1),
+  inverseSurface: Color.fromRGBO(124, 128, 155, 1),
+  onInverseSurface: Color.fromRGBO(0, 0, 0, 1),
+  shadow: Color.fromRGBO(124, 128, 155, 0.5),
+);
+
 final ColorScheme colorScheme = ColorScheme(
   brightness: Brightness.dark,
   //
@@ -42,73 +74,37 @@ final ColorScheme colorScheme = ColorScheme(
   shadow: const Color.fromARGB(255, 105, 42, 154),
 );
 
-final ColorScheme colorSchemeLight = ColorScheme(
-  brightness: Brightness.light,
-  //
-  primary: const Color.fromARGB(255, 105, 42, 154),
-  onPrimary: Colors.white,
-  primaryContainer: const Color.fromARGB(255, 134, 64, 187),
-  onPrimaryContainer: const Color.fromARGB(255, 255, 255, 255),
-  //
-  secondary: const Color.fromARGB(255, 12, 18, 56),
-  onSecondary: Colors.white,
-  secondaryContainer: const Color.fromARGB(255, 49, 84, 150),
-  onSecondaryContainer: Colors.white,
-  //
-  tertiary: const Color.fromARGB(255, 221, 175, 255),
-  onTertiary: Colors.white,
-  tertiaryContainer: const Color.fromARGB(255, 240, 216, 255),
-  onTertiaryContainer: const Color.fromARGB(255, 0, 0, 0),
+final ColorScheme colorSchemeLight = peeyadeScheme ??
+    ColorScheme(
+      brightness: Brightness.light,
+      primary: Color.fromRGBO(205, 155, 255, 1),
+      onPrimary: Colors.white,
+      primaryContainer: Color.fromRGBO(0, 0, 0, 1),
+      onPrimaryContainer: Colors.white,
 
-  //
-  error: Colors.red,
-  onError: Colors.white,
-  errorContainer: const Color.fromARGB(255, 179, 48, 39),
-  onErrorContainer: Colors.white,
+      secondary: Color.fromRGBO(0, 0, 0, 1),
+      onSecondary: Colors.white,
+      secondaryContainer: Color.fromRGBO(255, 255, 255, 1),
+      onSecondaryContainer: const Color.fromARGB(255, 0, 0, 0),
 
-  // keep the same as surface
-  background: const Color.fromARGB(255, 170, 123, 187).lighten(0.4),
-  onBackground: const Color.fromARGB(255, 0, 0, 0),
-  surface: const Color.fromARGB(255, 189, 163, 210).lighten(0.2),
-  onSurface: const Color.fromARGB(255, 0, 0, 0),
-  inverseSurface: const Color.fromARGB(255, 102, 91, 111).darken(0.3),
-  onInverseSurface: const Color.fromARGB(255, 0, 0, 0),
-  shadow: const Color.fromARGB(255, 108, 90, 121),
-);
+      tertiary: Color.fromRGBO(0, 0, 0, 1),
+      onTertiary: Colors.white,
+      tertiaryContainer: Color.fromRGBO(0, 0, 0, 1),
+      onTertiaryContainer: Color.fromRGBO(255, 255, 255, 1),
 
-final ColorScheme colorSchemeLight2 = ColorScheme(
-  brightness: Brightness.light,
-  //
-  primary: const Color.fromARGB(255, 78, 196, 200),
-  onPrimary: Colors.black,
-  primaryContainer: const Color.fromARGB(255, 38, 114, 116),
-  onPrimaryContainer: Colors.white,
-  //
-  secondary: const Color.fromARGB(255, 49, 84, 150),
-  onSecondary: Colors.white,
-  secondaryContainer: const Color.fromARGB(255, 12, 18, 56),
-  onSecondaryContainer: Colors.white,
-  //
-  tertiary: const Color.fromARGB(255, 185, 226, 223),
-  onTertiary: Colors.black,
-  tertiaryContainer: const Color.fromARGB(255, 226, 248, 249),
-  onTertiaryContainer: Colors.black,
+      error: Colors.red,
+      onError: Colors.white,
+      errorContainer: Color.fromRGBO(181, 177, 178, 0.8),
+      onErrorContainer: Colors.white,
 
-  //
-  error: Colors.red,
-  onError: Colors.white,
-  errorContainer: const Color.fromARGB(255, 179, 48, 39),
-  onErrorContainer: Colors.white,
-
-  // keep the same as surface
-  background: const Color(0xFFA8DADC).lighten(0.2),
-  onBackground: Colors.black,
-  surface: const Color(0xFFA8DADC).lighten(0.1),
-  onSurface: Colors.black,
-  inverseSurface: const Color.fromARGB(255, 30, 39, 39),
-  onInverseSurface: Colors.white,
-  shadow: const Color.fromARGB(255, 30, 39, 39),
-);
+      background: Colors.white, // Set to white
+      onBackground: Color.fromRGBO(0, 0, 0, 0.8),
+      surface: Color.fromRGBO(0, 0, 0, 1),
+      onSurface: Color.fromRGBO(255, 255, 255, 1),
+      inverseSurface: Color.fromRGBO(124, 128, 155, 0.8),
+      onInverseSurface: Color.fromRGBO(0, 0, 0, 0.8),
+      shadow: Color.fromRGBO(124, 128, 155, 0.8),
+    );
 
 TextTheme getTextTheme(ColorScheme colorScheme) {
   return GoogleFonts.quicksandTextTheme().copyWith(

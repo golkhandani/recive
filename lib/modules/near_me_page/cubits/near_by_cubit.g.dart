@@ -6,8 +6,8 @@ part of 'near_by_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_NearbyState _$$_NearbyStateFromJson(Map<String, dynamic> json) =>
-    _$_NearbyState(
+_$NearbyStateImpl _$$NearbyStateImplFromJson(Map<String, dynamic> json) =>
+    _$NearbyStateImpl(
       preSelectedIndex: json['preSelectedIndex'] as int,
       nearbyArts: (json['nearbyArts'] as List<dynamic>)
           .map((e) => ArtAbstractModel.fromJson(e as Map<String, dynamic>))
@@ -21,7 +21,7 @@ _$_NearbyState _$$_NearbyStateFromJson(Map<String, dynamic> json) =>
       maxDistance: (json['maxDistance'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$_NearbyStateToJson(_$_NearbyState instance) =>
+Map<String, dynamic> _$$NearbyStateImplToJson(_$NearbyStateImpl instance) =>
     <String, dynamic>{
       'preSelectedIndex': instance.preSelectedIndex,
       'nearbyArts': instance.nearbyArts,

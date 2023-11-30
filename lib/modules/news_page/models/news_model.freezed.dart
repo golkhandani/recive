@@ -90,10 +90,11 @@ class _$NewsModelCopyWithImpl<$Res, $Val extends NewsModel>
 }
 
 /// @nodoc
-abstract class _$$_NewsModelCopyWith<$Res> implements $NewsModelCopyWith<$Res> {
-  factory _$$_NewsModelCopyWith(
-          _$_NewsModel value, $Res Function(_$_NewsModel) then) =
-      __$$_NewsModelCopyWithImpl<$Res>;
+abstract class _$$NewsModelImplCopyWith<$Res>
+    implements $NewsModelCopyWith<$Res> {
+  factory _$$NewsModelImplCopyWith(
+          _$NewsModelImpl value, $Res Function(_$NewsModelImpl) then) =
+      __$$NewsModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -105,11 +106,11 @@ abstract class _$$_NewsModelCopyWith<$Res> implements $NewsModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_NewsModelCopyWithImpl<$Res>
-    extends _$NewsModelCopyWithImpl<$Res, _$_NewsModel>
-    implements _$$_NewsModelCopyWith<$Res> {
-  __$$_NewsModelCopyWithImpl(
-      _$_NewsModel _value, $Res Function(_$_NewsModel) _then)
+class __$$NewsModelImplCopyWithImpl<$Res>
+    extends _$NewsModelCopyWithImpl<$Res, _$NewsModelImpl>
+    implements _$$NewsModelImplCopyWith<$Res> {
+  __$$NewsModelImplCopyWithImpl(
+      _$NewsModelImpl _value, $Res Function(_$NewsModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -121,7 +122,7 @@ class __$$_NewsModelCopyWithImpl<$Res>
     Object? publishDate = null,
     Object? source = null,
   }) {
-    return _then(_$_NewsModel(
+    return _then(_$NewsModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -148,16 +149,16 @@ class __$$_NewsModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_NewsModel implements _NewsModel {
-  const _$_NewsModel(
+class _$NewsModelImpl implements _NewsModel {
+  const _$NewsModelImpl(
       {required this.id,
       required this.title,
       required this.description,
       required this.publishDate,
       required this.source});
 
-  factory _$_NewsModel.fromJson(Map<String, dynamic> json) =>
-      _$$_NewsModelFromJson(json);
+  factory _$NewsModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NewsModelImplFromJson(json);
 
   @override
   final String id;
@@ -179,7 +180,7 @@ class _$_NewsModel implements _NewsModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_NewsModel &&
+            other is _$NewsModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
@@ -197,12 +198,12 @@ class _$_NewsModel implements _NewsModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NewsModelCopyWith<_$_NewsModel> get copyWith =>
-      __$$_NewsModelCopyWithImpl<_$_NewsModel>(this, _$identity);
+  _$$NewsModelImplCopyWith<_$NewsModelImpl> get copyWith =>
+      __$$NewsModelImplCopyWithImpl<_$NewsModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NewsModelToJson(
+    return _$$NewsModelImplToJson(
       this,
     );
   }
@@ -214,10 +215,10 @@ abstract class _NewsModel implements NewsModel {
       required final String title,
       required final String description,
       required final DateTime publishDate,
-      required final String source}) = _$_NewsModel;
+      required final String source}) = _$NewsModelImpl;
 
   factory _NewsModel.fromJson(Map<String, dynamic> json) =
-      _$_NewsModel.fromJson;
+      _$NewsModelImpl.fromJson;
 
   @override
   String get id;
@@ -231,6 +232,6 @@ abstract class _NewsModel implements NewsModel {
   String get source;
   @override
   @JsonKey(ignore: true)
-  _$$_NewsModelCopyWith<_$_NewsModel> get copyWith =>
+  _$$NewsModelImplCopyWith<_$NewsModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

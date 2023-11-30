@@ -6,8 +6,9 @@ part of 'category_section_cubit.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CategoriesState _$$_CategoriesStateFromJson(Map<String, dynamic> json) =>
-    _$_CategoriesState(
+_$CategoriesStateImpl _$$CategoriesStateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CategoriesStateImpl(
       categoryLoadingState:
           $enumDecode(_$LoadingStateEnumMap, json['categoryLoadingState']),
       category: json['category'] == null
@@ -25,7 +26,8 @@ _$_CategoriesState _$$_CategoriesStateFromJson(Map<String, dynamic> json) =>
       loadingState: $enumDecode(_$LoadingStateEnumMap, json['loadingState']),
     );
 
-Map<String, dynamic> _$$_CategoriesStateToJson(_$_CategoriesState instance) =>
+Map<String, dynamic> _$$CategoriesStateImplToJson(
+        _$CategoriesStateImpl instance) =>
     <String, dynamic>{
       'categoryLoadingState':
           _$LoadingStateEnumMap[instance.categoryLoadingState]!,

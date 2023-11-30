@@ -6,7 +6,8 @@ part of 'art_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ArtModel _$$_ArtModelFromJson(Map<String, dynamic> json) => _$_ArtModel(
+_$ArtModelImpl _$$ArtModelImplFromJson(Map<String, dynamic> json) =>
+    _$ArtModelImpl(
       id: json['id'] as String,
       artType: json['artType'] as String,
       artists: (json['artists'] as List<dynamic>)
@@ -29,7 +30,7 @@ _$_ArtModel _$$_ArtModelFromJson(Map<String, dynamic> json) => _$_ArtModel(
       title: json['title'] as String,
     );
 
-Map<String, dynamic> _$$_ArtModelToJson(_$_ArtModel instance) =>
+Map<String, dynamic> _$$ArtModelImplToJson(_$ArtModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'artType': instance.artType,
@@ -47,8 +48,8 @@ Map<String, dynamic> _$$_ArtModelToJson(_$_ArtModel instance) =>
       'title': instance.title,
     };
 
-_$_ArtistModel _$$_ArtistModelFromJson(Map<String, dynamic> json) =>
-    _$_ArtistModel(
+_$ArtistModelImpl _$$ArtistModelImplFromJson(Map<String, dynamic> json) =>
+    _$ArtistModelImpl(
       typename: json['typename'] as String,
       id: json['id'] as String,
       biography: json['biography'] as String,
@@ -61,7 +62,7 @@ _$_ArtistModel _$$_ArtistModelFromJson(Map<String, dynamic> json) =>
       website: json['website'] as String,
     );
 
-Map<String, dynamic> _$$_ArtistModelToJson(_$_ArtistModel instance) =>
+Map<String, dynamic> _$$ArtistModelImplToJson(_$ArtistModelImpl instance) =>
     <String, dynamic>{
       'typename': instance.typename,
       'id': instance.id,
@@ -73,8 +74,8 @@ Map<String, dynamic> _$$_ArtistModelToJson(_$_ArtistModel instance) =>
       'website': instance.website,
     };
 
-_$_ImageModel _$$_ImageModelFromJson(Map<String, dynamic> json) =>
-    _$_ImageModel(
+_$ImageModelImpl _$$ImageModelImplFromJson(Map<String, dynamic> json) =>
+    _$ImageModelImpl(
       typename: json['typename'] as String,
       id: json['id'] as String,
       imageCredit: json['imageCredit'] as String,
@@ -82,7 +83,7 @@ _$_ImageModel _$$_ImageModelFromJson(Map<String, dynamic> json) =>
       imageUrl: json['imageUrl'] as String,
     );
 
-Map<String, dynamic> _$$_ImageModelToJson(_$_ImageModel instance) =>
+Map<String, dynamic> _$$ImageModelImplToJson(_$ImageModelImpl instance) =>
     <String, dynamic>{
       'typename': instance.typename,
       'id': instance.id,
@@ -91,23 +92,24 @@ Map<String, dynamic> _$$_ImageModelToJson(_$_ImageModel instance) =>
       'imageUrl': instance.imageUrl,
     };
 
-_$_LocationModel _$$_LocationModelFromJson(Map<String, dynamic> json) =>
-    _$_LocationModel(
+_$LocationModelImpl _$$LocationModelImplFromJson(Map<String, dynamic> json) =>
+    _$LocationModelImpl(
       geolocation: GeolocationModel.fromJson(
           json['geolocation'] as Map<String, dynamic>),
       venue: VenueModel.fromJson(json['venue'] as Map<String, dynamic>),
       latLng: LatLng.fromJson(json['latLng'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_LocationModelToJson(_$_LocationModel instance) =>
+Map<String, dynamic> _$$LocationModelImplToJson(_$LocationModelImpl instance) =>
     <String, dynamic>{
       'geolocation': instance.geolocation,
       'venue': instance.venue,
       'latLng': instance.latLng,
     };
 
-_$_GeolocationModel _$$_GeolocationModelFromJson(Map<String, dynamic> json) =>
-    _$_GeolocationModel(
+_$GeolocationModelImpl _$$GeolocationModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GeolocationModelImpl(
       typename: json['typename'] as String,
       coordinates: (json['coordinates'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
@@ -115,15 +117,16 @@ _$_GeolocationModel _$$_GeolocationModelFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String,
     );
 
-Map<String, dynamic> _$$_GeolocationModelToJson(_$_GeolocationModel instance) =>
+Map<String, dynamic> _$$GeolocationModelImplToJson(
+        _$GeolocationModelImpl instance) =>
     <String, dynamic>{
       'typename': instance.typename,
       'coordinates': instance.coordinates,
       'type': instance.type,
     };
 
-_$_VenueModel _$$_VenueModelFromJson(Map<String, dynamic> json) =>
-    _$_VenueModel(
+_$VenueModelImpl _$$VenueModelImplFromJson(Map<String, dynamic> json) =>
+    _$VenueModelImpl(
       typename: json['typename'] as String,
       id: json['id'] as String,
       address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
@@ -135,7 +138,7 @@ _$_VenueModel _$$_VenueModelFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
     );
 
-Map<String, dynamic> _$$_VenueModelToJson(_$_VenueModel instance) =>
+Map<String, dynamic> _$$VenueModelImplToJson(_$VenueModelImpl instance) =>
     <String, dynamic>{
       'typename': instance.typename,
       'id': instance.id,
@@ -147,8 +150,8 @@ Map<String, dynamic> _$$_VenueModelToJson(_$_VenueModel instance) =>
       'title': instance.title,
     };
 
-_$_AddressModel _$$_AddressModelFromJson(Map<String, dynamic> json) =>
-    _$_AddressModel(
+_$AddressModelImpl _$$AddressModelImplFromJson(Map<String, dynamic> json) =>
+    _$AddressModelImpl(
       area: json['area'] as String,
       city: json['city'] as String,
       country: json['country'] as String,
@@ -159,7 +162,7 @@ _$_AddressModel _$$_AddressModelFromJson(Map<String, dynamic> json) =>
       region: json['region'] as String,
     );
 
-Map<String, dynamic> _$$_AddressModelToJson(_$_AddressModel instance) =>
+Map<String, dynamic> _$$AddressModelImplToJson(_$AddressModelImpl instance) =>
     <String, dynamic>{
       'area': instance.area,
       'city': instance.city,
@@ -171,15 +174,15 @@ Map<String, dynamic> _$$_AddressModelToJson(_$_AddressModel instance) =>
       'region': instance.region,
     };
 
-_$_SourceModel _$$_SourceModelFromJson(Map<String, dynamic> json) =>
-    _$_SourceModel(
+_$SourceModelImpl _$$SourceModelImplFromJson(Map<String, dynamic> json) =>
+    _$SourceModelImpl(
       id: json['id'] as String,
       copyRight: json['copyRight'] as String,
       dataUrl: json['dataUrl'] as String,
       name: json['name'] as String,
     );
 
-Map<String, dynamic> _$$_SourceModelToJson(_$_SourceModel instance) =>
+Map<String, dynamic> _$$SourceModelImplToJson(_$SourceModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'copyRight': instance.copyRight,

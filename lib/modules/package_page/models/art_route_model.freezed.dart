@@ -134,11 +134,11 @@ class _$ArtRouteModelCopyWithImpl<$Res, $Val extends ArtRouteModel>
 }
 
 /// @nodoc
-abstract class _$$_ArtRouteModelCopyWith<$Res>
+abstract class _$$ArtRouteModelImplCopyWith<$Res>
     implements $ArtRouteModelCopyWith<$Res> {
-  factory _$$_ArtRouteModelCopyWith(
-          _$_ArtRouteModel value, $Res Function(_$_ArtRouteModel) then) =
-      __$$_ArtRouteModelCopyWithImpl<$Res>;
+  factory _$$ArtRouteModelImplCopyWith(
+          _$ArtRouteModelImpl value, $Res Function(_$ArtRouteModelImpl) then) =
+      __$$ArtRouteModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -156,11 +156,11 @@ abstract class _$$_ArtRouteModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ArtRouteModelCopyWithImpl<$Res>
-    extends _$ArtRouteModelCopyWithImpl<$Res, _$_ArtRouteModel>
-    implements _$$_ArtRouteModelCopyWith<$Res> {
-  __$$_ArtRouteModelCopyWithImpl(
-      _$_ArtRouteModel _value, $Res Function(_$_ArtRouteModel) _then)
+class __$$ArtRouteModelImplCopyWithImpl<$Res>
+    extends _$ArtRouteModelCopyWithImpl<$Res, _$ArtRouteModelImpl>
+    implements _$$ArtRouteModelImplCopyWith<$Res> {
+  __$$ArtRouteModelImplCopyWithImpl(
+      _$ArtRouteModelImpl _value, $Res Function(_$ArtRouteModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -178,7 +178,7 @@ class __$$_ArtRouteModelCopyWithImpl<$Res>
     Object? distance = null,
     Object? duration = null,
   }) {
-    return _then(_$_ArtRouteModel(
+    return _then(_$ArtRouteModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -229,8 +229,8 @@ class __$$_ArtRouteModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ArtRouteModel implements _ArtRouteModel {
-  const _$_ArtRouteModel(
+class _$ArtRouteModelImpl implements _ArtRouteModel {
+  const _$ArtRouteModelImpl(
       {required this.id,
       required this.title,
       required this.subtitle,
@@ -247,8 +247,8 @@ class _$_ArtRouteModel implements _ArtRouteModel {
         _polyline = polyline,
         _roadInstructions = roadInstructions;
 
-  factory _$_ArtRouteModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ArtRouteModelFromJson(json);
+  factory _$ArtRouteModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtRouteModelImplFromJson(json);
 
   @override
   final String id;
@@ -311,7 +311,7 @@ class _$_ArtRouteModel implements _ArtRouteModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ArtRouteModel &&
+            other is _$ArtRouteModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.subtitle, subtitle) ||
@@ -350,12 +350,12 @@ class _$_ArtRouteModel implements _ArtRouteModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ArtRouteModelCopyWith<_$_ArtRouteModel> get copyWith =>
-      __$$_ArtRouteModelCopyWithImpl<_$_ArtRouteModel>(this, _$identity);
+  _$$ArtRouteModelImplCopyWith<_$ArtRouteModelImpl> get copyWith =>
+      __$$ArtRouteModelImplCopyWithImpl<_$ArtRouteModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ArtRouteModelToJson(
+    return _$$ArtRouteModelImplToJson(
       this,
     );
   }
@@ -373,10 +373,10 @@ abstract class _ArtRouteModel implements ArtRouteModel {
       required final List<LatLng>? polyline,
       required final List<List<String>>? roadInstructions,
       required final double distance,
-      required final Duration duration}) = _$_ArtRouteModel;
+      required final Duration duration}) = _$ArtRouteModelImpl;
 
   factory _ArtRouteModel.fromJson(Map<String, dynamic> json) =
-      _$_ArtRouteModel.fromJson;
+      _$ArtRouteModelImpl.fromJson;
 
   @override
   String get id;
@@ -402,7 +402,7 @@ abstract class _ArtRouteModel implements ArtRouteModel {
   Duration get duration;
   @override
   @JsonKey(ignore: true)
-  _$$_ArtRouteModelCopyWith<_$_ArtRouteModel> get copyWith =>
+  _$$ArtRouteModelImplCopyWith<_$ArtRouteModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -499,11 +499,12 @@ class _$ArtRouteAbstractModelCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ArtRouteAbstractModelCopyWith<$Res>
+abstract class _$$ArtRouteAbstractModelImplCopyWith<$Res>
     implements $ArtRouteAbstractModelCopyWith<$Res> {
-  factory _$$_ArtRouteAbstractModelCopyWith(_$_ArtRouteAbstractModel value,
-          $Res Function(_$_ArtRouteAbstractModel) then) =
-      __$$_ArtRouteAbstractModelCopyWithImpl<$Res>;
+  factory _$$ArtRouteAbstractModelImplCopyWith(
+          _$ArtRouteAbstractModelImpl value,
+          $Res Function(_$ArtRouteAbstractModelImpl) then) =
+      __$$ArtRouteAbstractModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -517,11 +518,12 @@ abstract class _$$_ArtRouteAbstractModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ArtRouteAbstractModelCopyWithImpl<$Res>
-    extends _$ArtRouteAbstractModelCopyWithImpl<$Res, _$_ArtRouteAbstractModel>
-    implements _$$_ArtRouteAbstractModelCopyWith<$Res> {
-  __$$_ArtRouteAbstractModelCopyWithImpl(_$_ArtRouteAbstractModel _value,
-      $Res Function(_$_ArtRouteAbstractModel) _then)
+class __$$ArtRouteAbstractModelImplCopyWithImpl<$Res>
+    extends _$ArtRouteAbstractModelCopyWithImpl<$Res,
+        _$ArtRouteAbstractModelImpl>
+    implements _$$ArtRouteAbstractModelImplCopyWith<$Res> {
+  __$$ArtRouteAbstractModelImplCopyWithImpl(_$ArtRouteAbstractModelImpl _value,
+      $Res Function(_$ArtRouteAbstractModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -535,7 +537,7 @@ class __$$_ArtRouteAbstractModelCopyWithImpl<$Res>
     Object? distance = null,
     Object? duration = null,
   }) {
-    return _then(_$_ArtRouteAbstractModel(
+    return _then(_$ArtRouteAbstractModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -570,8 +572,8 @@ class __$$_ArtRouteAbstractModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ArtRouteAbstractModel implements _ArtRouteAbstractModel {
-  const _$_ArtRouteAbstractModel(
+class _$ArtRouteAbstractModelImpl implements _ArtRouteAbstractModel {
+  const _$ArtRouteAbstractModelImpl(
       {required this.id,
       required this.title,
       required this.description,
@@ -580,8 +582,8 @@ class _$_ArtRouteAbstractModel implements _ArtRouteAbstractModel {
       required this.distance,
       required this.duration});
 
-  factory _$_ArtRouteAbstractModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ArtRouteAbstractModelFromJson(json);
+  factory _$ArtRouteAbstractModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtRouteAbstractModelImplFromJson(json);
 
   @override
   final String id;
@@ -607,7 +609,7 @@ class _$_ArtRouteAbstractModel implements _ArtRouteAbstractModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ArtRouteAbstractModel &&
+            other is _$ArtRouteAbstractModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
@@ -630,13 +632,13 @@ class _$_ArtRouteAbstractModel implements _ArtRouteAbstractModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ArtRouteAbstractModelCopyWith<_$_ArtRouteAbstractModel> get copyWith =>
-      __$$_ArtRouteAbstractModelCopyWithImpl<_$_ArtRouteAbstractModel>(
-          this, _$identity);
+  _$$ArtRouteAbstractModelImplCopyWith<_$ArtRouteAbstractModelImpl>
+      get copyWith => __$$ArtRouteAbstractModelImplCopyWithImpl<
+          _$ArtRouteAbstractModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ArtRouteAbstractModelToJson(
+    return _$$ArtRouteAbstractModelImplToJson(
       this,
     );
   }
@@ -650,10 +652,10 @@ abstract class _ArtRouteAbstractModel implements ArtRouteAbstractModel {
       required final String subtitle,
       required final String imageUrl,
       required final double distance,
-      required final Duration duration}) = _$_ArtRouteAbstractModel;
+      required final Duration duration}) = _$ArtRouteAbstractModelImpl;
 
   factory _ArtRouteAbstractModel.fromJson(Map<String, dynamic> json) =
-      _$_ArtRouteAbstractModel.fromJson;
+      _$ArtRouteAbstractModelImpl.fromJson;
 
   @override
   String get id;
@@ -671,6 +673,6 @@ abstract class _ArtRouteAbstractModel implements ArtRouteAbstractModel {
   Duration get duration;
   @override
   @JsonKey(ignore: true)
-  _$$_ArtRouteAbstractModelCopyWith<_$_ArtRouteAbstractModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ArtRouteAbstractModelImplCopyWith<_$ArtRouteAbstractModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

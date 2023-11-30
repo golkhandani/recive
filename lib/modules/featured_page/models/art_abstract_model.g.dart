@@ -6,8 +6,9 @@ part of 'art_abstract_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ArtAbstractModel _$$_ArtAbstractModelFromJson(Map<String, dynamic> json) =>
-    _$_ArtAbstractModel(
+_$ArtAbstractModelImpl _$$ArtAbstractModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ArtAbstractModelImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
@@ -17,7 +18,8 @@ _$_ArtAbstractModel _$$_ArtAbstractModelFromJson(Map<String, dynamic> json) =>
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$_ArtAbstractModelToJson(_$_ArtAbstractModel instance) =>
+Map<String, dynamic> _$$ArtAbstractModelImplToJson(
+        _$ArtAbstractModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

@@ -80,11 +80,12 @@ class _$QuickSearchHeaderStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_QuickSearchHeaderStateCopyWith<$Res>
+abstract class _$$QuickSearchHeaderStateImplCopyWith<$Res>
     implements $QuickSearchHeaderStateCopyWith<$Res> {
-  factory _$$_QuickSearchHeaderStateCopyWith(_$_QuickSearchHeaderState value,
-          $Res Function(_$_QuickSearchHeaderState) then) =
-      __$$_QuickSearchHeaderStateCopyWithImpl<$Res>;
+  factory _$$QuickSearchHeaderStateImplCopyWith(
+          _$QuickSearchHeaderStateImpl value,
+          $Res Function(_$QuickSearchHeaderStateImpl) then) =
+      __$$QuickSearchHeaderStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -95,12 +96,13 @@ abstract class _$$_QuickSearchHeaderStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_QuickSearchHeaderStateCopyWithImpl<$Res>
+class __$$QuickSearchHeaderStateImplCopyWithImpl<$Res>
     extends _$QuickSearchHeaderStateCopyWithImpl<$Res,
-        _$_QuickSearchHeaderState>
-    implements _$$_QuickSearchHeaderStateCopyWith<$Res> {
-  __$$_QuickSearchHeaderStateCopyWithImpl(_$_QuickSearchHeaderState _value,
-      $Res Function(_$_QuickSearchHeaderState) _then)
+        _$QuickSearchHeaderStateImpl>
+    implements _$$QuickSearchHeaderStateImplCopyWith<$Res> {
+  __$$QuickSearchHeaderStateImplCopyWithImpl(
+      _$QuickSearchHeaderStateImpl _value,
+      $Res Function(_$QuickSearchHeaderStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -111,7 +113,7 @@ class __$$_QuickSearchHeaderStateCopyWithImpl<$Res>
     Object? isSelected = null,
     Object? suggestions = null,
   }) {
-    return _then(_$_QuickSearchHeaderState(
+    return _then(_$QuickSearchHeaderStateImpl(
       query: null == query
           ? _value.query
           : query // ignore: cast_nullable_to_non_nullable
@@ -134,8 +136,8 @@ class __$$_QuickSearchHeaderStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_QuickSearchHeaderState implements _QuickSearchHeaderState {
-  const _$_QuickSearchHeaderState(
+class _$QuickSearchHeaderStateImpl implements _QuickSearchHeaderState {
+  const _$QuickSearchHeaderStateImpl(
       {this.query = '',
       this.isLoading = false,
       this.isSelected = false,
@@ -169,7 +171,7 @@ class _$_QuickSearchHeaderState implements _QuickSearchHeaderState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuickSearchHeaderState &&
+            other is _$QuickSearchHeaderStateImpl &&
             (identical(other.query, query) || other.query == query) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
@@ -186,9 +188,9 @@ class _$_QuickSearchHeaderState implements _QuickSearchHeaderState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuickSearchHeaderStateCopyWith<_$_QuickSearchHeaderState> get copyWith =>
-      __$$_QuickSearchHeaderStateCopyWithImpl<_$_QuickSearchHeaderState>(
-          this, _$identity);
+  _$$QuickSearchHeaderStateImplCopyWith<_$QuickSearchHeaderStateImpl>
+      get copyWith => __$$QuickSearchHeaderStateImplCopyWithImpl<
+          _$QuickSearchHeaderStateImpl>(this, _$identity);
 }
 
 abstract class _QuickSearchHeaderState implements QuickSearchHeaderState {
@@ -196,7 +198,7 @@ abstract class _QuickSearchHeaderState implements QuickSearchHeaderState {
       {final String query,
       final bool isLoading,
       final bool isSelected,
-      final List<String> suggestions}) = _$_QuickSearchHeaderState;
+      final List<String> suggestions}) = _$QuickSearchHeaderStateImpl;
 
   @override
   String get query;
@@ -208,6 +210,6 @@ abstract class _QuickSearchHeaderState implements QuickSearchHeaderState {
   List<String> get suggestions;
   @override
   @JsonKey(ignore: true)
-  _$$_QuickSearchHeaderStateCopyWith<_$_QuickSearchHeaderState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$QuickSearchHeaderStateImplCopyWith<_$QuickSearchHeaderStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

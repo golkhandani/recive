@@ -20,6 +20,7 @@ import 'package:recive/modules/categories_page/models/category.dart';
 import 'package:recive/modules/near_me_page/cubits/near_by_cubit.dart';
 import 'package:recive/modules/near_me_page/sections/list_section.dart';
 import 'package:recive/modules/near_me_page/sections/map_section.dart';
+import 'package:recive/modules/near_me_page/widgets/empty_result_snackbar.dart';
 import 'package:recive/modules/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/color_extentions.dart';
@@ -45,6 +46,10 @@ class NearMeScreen extends StatefulHookWidget {
 
 class _NearMeScreenState extends State<NearMeScreen>
     with TickerProviderStateMixin {
+  void showEmptySnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(emptySearchResultSnackbar);
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoriesBloc = context.read<CategoriesCubit>();
@@ -64,6 +69,7 @@ class _NearMeScreenState extends State<NearMeScreen>
           longitude: geolocation.longitude,
           maxDistance: 100000,
           minDistance: 0,
+          callback: (isEmpty) => isEmpty ? showEmptySnackBar() : null,
         );
       }
       return;
@@ -90,7 +96,7 @@ class _NearMeScreenState extends State<NearMeScreen>
     ];
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
         final contentHeight = box.maxHeight -
             context.invisibleHeight -
@@ -100,13 +106,14 @@ class _NearMeScreenState extends State<NearMeScreen>
         final mapSectionHeight = (contentHeight * 0.75) - 24;
         final listSectionHeight = (contentHeight * 0.25) - 24;
         return CustomScrollView(
-          physics: const NeverScrollableScrollPhysics(),
+          // physics: const NeverScrollableScrollPhysics(),
           slivers: [
-            const ScreenSafeAreaHeader(
+            ScreenSafeAreaHeader(
               title: 'Near me!',
-              elevation: !NearMeScreen.enableQuery,
+              backgroundColor: context.theme.colorScheme.tertiaryContainer,
+              // elevation: !NearMeScreen.enableQuery,
             ),
-            // COMING SOON !!!
+            // // COMING SOON !!!
             if (NearMeScreen.enableQuery) ...[
               SliverPinnedHeader(
                 child: DecoratedBox(
@@ -178,12 +185,14 @@ class _NearMeScreenState extends State<NearMeScreen>
                           fontSize: 16.0,
                           initialLabelIndex: switchIndex.value,
                           activeBgColor: [
-                            context.theme.colorScheme.primaryContainer
+                            context.theme.colorScheme.tertiaryContainer
                           ],
                           activeFgColor:
-                              context.theme.colorScheme.onPrimaryContainer,
-                          inactiveBgColor: context.theme.colorScheme.tertiary,
-                          inactiveFgColor: context.theme.colorScheme.onTertiary,
+                              context.theme.colorScheme.onTertiaryContainer,
+                          inactiveBgColor:
+                              context.theme.colorScheme.onTertiaryContainer,
+                          inactiveFgColor:
+                              context.theme.colorScheme.tertiaryContainer,
                           totalSwitches: 2,
                           labels: switchItems,
                           animate: true,
@@ -222,7 +231,8 @@ class _NearMeScreenState extends State<NearMeScreen>
                         ),
                       );
                     }
-                    if (state.nearbyArts.isEmpty) {
+                    if (state.nearbyArts.isEmpty &&
+                        state.loadingState != LoadingState.done) {
                       return SliverPadding(
                         padding: kTinyPadding,
                         sliver: SliverToBoxAdapter(
@@ -320,7 +330,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                 ? Container(
                     padding: kTinyPadding,
                     decoration: BoxDecoration(
-                      color: context.theme.colorScheme.surface,
+                      color: context.theme.colorScheme.tertiaryContainer,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                           offset: const Offset(0.2, 0),
@@ -366,12 +376,19 @@ class _NearMeScreenState extends State<NearMeScreen>
                                           width: (box.maxWidth - 42) / 3,
                                           height: 64,
                                           child: FilterTagChipContainer(
+                                            backgroundColor:
+                                                artTypeFilters[index]
+                                                            .category
+                                                            ?.title ==
+                                                        state.queryFilter
+                                                    ? context
+                                                        .colorScheme.primary
+                                                    : null,
                                             color: artTypeFilters[index]
                                                         .category
                                                         ?.title ==
                                                     state.queryFilter
-                                                ? context.colorScheme
-                                                    .tertiaryContainer
+                                                ? context.colorScheme.onPrimary
                                                 : null,
                                             tag: artTypeFilters[index].title,
                                             onTap: () {

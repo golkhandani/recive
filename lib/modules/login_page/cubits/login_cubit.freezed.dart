@@ -85,11 +85,11 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
 }
 
 /// @nodoc
-abstract class _$$_LoginStateCopyWith<$Res>
+abstract class _$$LoginStateImplCopyWith<$Res>
     implements $LoginStateCopyWith<$Res> {
-  factory _$$_LoginStateCopyWith(
-          _$_LoginState value, $Res Function(_$_LoginState) then) =
-      __$$_LoginStateCopyWithImpl<$Res>;
+  factory _$$LoginStateImplCopyWith(
+          _$LoginStateImpl value, $Res Function(_$LoginStateImpl) then) =
+      __$$LoginStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -100,11 +100,11 @@ abstract class _$$_LoginStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LoginStateCopyWithImpl<$Res>
-    extends _$LoginStateCopyWithImpl<$Res, _$_LoginState>
-    implements _$$_LoginStateCopyWith<$Res> {
-  __$$_LoginStateCopyWithImpl(
-      _$_LoginState _value, $Res Function(_$_LoginState) _then)
+class __$$LoginStateImplCopyWithImpl<$Res>
+    extends _$LoginStateCopyWithImpl<$Res, _$LoginStateImpl>
+    implements _$$LoginStateImplCopyWith<$Res> {
+  __$$LoginStateImplCopyWithImpl(
+      _$LoginStateImpl _value, $Res Function(_$LoginStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -115,7 +115,7 @@ class __$$_LoginStateCopyWithImpl<$Res>
     Object? appleLoginLoadingState = null,
     Object? logoutLoadingState = null,
   }) {
-    return _then(_$_LoginState(
+    return _then(_$LoginStateImpl(
       isLoggedIn: null == isLoggedIn
           ? _value.isLoggedIn
           : isLoggedIn // ignore: cast_nullable_to_non_nullable
@@ -138,15 +138,15 @@ class __$$_LoginStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
-  const _$_LoginState(
+class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
+  const _$LoginStateImpl(
       {required this.isLoggedIn,
       required this.googleLoginLoadingState,
       required this.appleLoginLoadingState,
       required this.logoutLoadingState});
 
-  factory _$_LoginState.fromJson(Map<String, dynamic> json) =>
-      _$$_LoginStateFromJson(json);
+  factory _$LoginStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoginStateImplFromJson(json);
 
   @override
   final bool isLoggedIn;
@@ -179,7 +179,7 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LoginState &&
+            other is _$LoginStateImpl &&
             (identical(other.isLoggedIn, isLoggedIn) ||
                 other.isLoggedIn == isLoggedIn) &&
             (identical(
@@ -199,12 +199,12 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LoginStateCopyWith<_$_LoginState> get copyWith =>
-      __$$_LoginStateCopyWithImpl<_$_LoginState>(this, _$identity);
+  _$$LoginStateImplCopyWith<_$LoginStateImpl> get copyWith =>
+      __$$LoginStateImplCopyWithImpl<_$LoginStateImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_LoginStateToJson(
+    return _$$LoginStateImplToJson(
       this,
     );
   }
@@ -215,10 +215,10 @@ abstract class _LoginState implements LoginState {
       {required final bool isLoggedIn,
       required final LoadingState googleLoginLoadingState,
       required final LoadingState appleLoginLoadingState,
-      required final LoadingState logoutLoadingState}) = _$_LoginState;
+      required final LoadingState logoutLoadingState}) = _$LoginStateImpl;
 
   factory _LoginState.fromJson(Map<String, dynamic> json) =
-      _$_LoginState.fromJson;
+      _$LoginStateImpl.fromJson;
 
   @override
   bool get isLoggedIn;
@@ -230,6 +230,6 @@ abstract class _LoginState implements LoginState {
   LoadingState get logoutLoadingState;
   @override
   @JsonKey(ignore: true)
-  _$$_LoginStateCopyWith<_$_LoginState> get copyWith =>
+  _$$LoginStateImplCopyWith<_$LoginStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

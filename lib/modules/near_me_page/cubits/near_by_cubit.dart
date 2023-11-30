@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'package:recive/core/enums/loading_state.dart';
 import 'package:recive/modules/featured_page/models/art_abstract_model.dart';
@@ -23,6 +24,9 @@ class NearbyState with _$NearbyState {
     required double minDistance,
     required double maxDistance,
   }) = _NearbyState;
+
+  LatLng get defautlPoint => LatLng(latitude, longitude);
+  const NearbyState._();
 
   factory NearbyState.initialize() => const NearbyState(
         preSelectedIndex: 0,
@@ -54,6 +58,7 @@ class NearbyCubit extends MaybeEmitHydratedCubit<NearbyState> {
     required double minDistance,
     required double maxDistance,
     bool onBackground = false,
+    required void Function(bool isEmpty)? callback,
   }) async {
     if (!onBackground) {
       maybeEmit(state.copyWith(
@@ -84,6 +89,8 @@ class NearbyCubit extends MaybeEmitHydratedCubit<NearbyState> {
       minDistance: minDistance,
       maxDistance: maxDistance,
     ));
+
+    callback?.call(data.isEmpty);
   }
 
   Future<void> updateQueryFilter(String? queryFilter) async {
@@ -97,6 +104,7 @@ class NearbyCubit extends MaybeEmitHydratedCubit<NearbyState> {
       minDistance: state.minDistance,
       maxDistance: state.maxDistance,
       onBackground: true,
+      callback: null,
     );
   }
 

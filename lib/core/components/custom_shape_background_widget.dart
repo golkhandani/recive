@@ -64,11 +64,11 @@ class ClipperShadowPainter extends StatelessWidget {
   final Widget child;
 
   const ClipperShadowPainter({
-    Key? key,
+    super.key,
     required this.shadow,
     required this.clipper,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

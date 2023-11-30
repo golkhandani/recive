@@ -119,7 +119,7 @@ class RealmGqlClient {
     final errors = [
       ...(res.graphqlErrors?.map((e) => e.message) ?? []).toList(),
       // (res.linkException as ServerException).parsedResponse?.response['error']
-    ].whereNotNull();
+    ].whereNotNull().toList();
     locator.logger.e('GQL linkException ERROR', error: res.linkException);
     locator.logger.e('GQL graphqlErrors ERROR', error: res.graphqlErrors);
     locator.logger.e('GQL errors ERROR', error: errors);

@@ -11,6 +11,7 @@ import 'package:recive/core/components/quick_search_header/quick_search_header_c
 import 'package:recive/core/components/screen_safe_area_header.dart';
 import 'package:recive/core/components/sliver_gap.dart';
 import 'package:recive/core/enums/loading_state.dart';
+import 'package:recive/modules/package_page/models/art_route_model.dart';
 import 'package:recive/modules/package_page/widgets/art_route_card_container_data.dart';
 import 'package:recive/modules/package_page/widgets/art_route_expanded_card_container.dart';
 import 'package:recive/modules/search_page/cubits/search_cubit.dart';
@@ -116,13 +117,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
     final showFilters = useState(false);
 
-    final distancesFilters = [
-      DistanceFilter('Any', null),
-      DistanceFilter('100 M', 100),
-      DistanceFilter('300 M', 300),
-      DistanceFilter('500 M', 500),
-    ];
-
     return ColoredBox(
       color: context.theme.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
@@ -179,12 +173,15 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             ...[
-              _buildFilterSection(
-                bloc,
-                state,
-                showFilters,
-                distancesFilters,
-                textEditingController,
+              SearchFilterSection(
+                bloc: bloc,
+                showFilters: showFilters,
+                selectedDistanceFilter: state.distanceFilter,
+                searchedkeywords: state.searchedkeywords,
+                onKeywordTap: (keyword) {
+                  textEditingController.text = keyword;
+                  showFilters.value = false;
+                },
               ),
             ],
             const SliverGap(height: 12),
@@ -196,11 +193,14 @@ class _SearchScreenState extends State<SearchScreen> {
                 children: [
                   if (state.loadingKeywordsState == LoadingState.loading ||
                       state.loadingState == LoadingState.loading) ...[
-                    _buildLoading()
+                    kSkeletonSectionLoadingBox,
                   ],
                   if (state.loadingState == LoadingState.done ||
                       state.loadingState == LoadingState.updating) ...[
-                    _buildSearchResult(state),
+                    SearchResultAnimatedList(
+                      listKey: _listKey,
+                      initialItem: state.searchedItems,
+                    )
                   ]
                 ],
               ),
@@ -215,39 +215,32 @@ class _SearchScreenState extends State<SearchScreen> {
       }),
     );
   }
+}
 
-  Widget _buildSearchResult(SearchState state) {
-    return SliverAnimatedList(
-      key: _listKey,
-      itemBuilder: (context, index, animation) {
-        // Note: handle pre-view scroll items
-        if (index > state.searchedItems.length - 1) {
-          return const SizedBox();
-        }
-        final data = ArtRouteContainerData.fromAbstract(
-          state.searchedItems[index],
-        );
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: ArtRouteExpandedCardContainer(
-            data: data,
-          ),
-        );
-      },
-    );
-  }
+class SearchFilterSection extends HookWidget {
+  const SearchFilterSection({
+    super.key,
+    required this.bloc,
+    required this.showFilters,
+    required this.selectedDistanceFilter,
+    required this.searchedkeywords,
+    required this.onKeywordTap,
+  });
 
-  Widget _buildLoading() {
-    return kSkeletonSectionLoadingBox;
-  }
+  final SearchCubit bloc;
+  final ValueNotifier<bool> showFilters;
+  final int? selectedDistanceFilter;
+  final List<String> searchedkeywords;
+  final void Function(String) onKeywordTap;
 
-  SliverPinnedHeader _buildFilterSection(
-    SearchCubit bloc,
-    SearchState state,
-    ValueNotifier<bool> showFilters,
-    List<DistanceFilter> distancesFilters,
-    TextEditingController textEditingController,
-  ) {
+  @override
+  Widget build(BuildContext context) {
+    final distancesFilters = [
+      DistanceFilter('Any', null),
+      DistanceFilter('100 M', 100),
+      DistanceFilter('300 M', 300),
+      DistanceFilter('500 M', 500),
+    ];
     return SliverPinnedHeader(
       child: LayoutBuilder(builder: (context, box) {
         return RepaintBoundary(
@@ -284,13 +277,12 @@ class _SearchScreenState extends State<SearchScreen> {
                               (box.maxWidth - 32) / distancesFilters.length,
                           initialLabelIndex: distancesFilters.indexWhere(
                             (element) =>
-                                element.distance == state.distanceFilter,
+                                element.distance == selectedDistanceFilter,
                           ),
                           activeBgColor: [
                             context.theme.colorScheme.primaryContainer
                           ],
-                          activeFgColor:
-                              context.theme.colorScheme.onPrimaryContainer,
+                          activeFgColor: context.theme.colorScheme.primary,
                           inactiveBgColor: context.theme.colorScheme.tertiary,
                           inactiveFgColor: context.theme.colorScheme.onTertiary,
                           totalSwitches: distancesFilters.length,
@@ -314,44 +306,38 @@ class _SearchScreenState extends State<SearchScreen> {
                             textAlign: TextAlign.left,
                           ),
                         ),
-                        Builder(
-                          builder: (context) {
-                            return state.searchedkeywords.isEmpty
-                                ? ConstrainedBox(
-                                    constraints: const BoxConstraints.expand(
-                                        height: 300),
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  )
-                                : RepaintBoundary(
-                                    child: Wrap(
-                                      alignment: WrapAlignment.spaceBetween,
-                                      direction: Axis.horizontal,
-                                      clipBehavior: Clip.hardEdge,
-                                      spacing: 4,
-                                      runSpacing: 8,
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.center,
-                                      children: List.generate(
-                                        state.searchedkeywords.length,
-                                        (index) => SizedBox(
-                                          width: (box.maxWidth - 42) / 3,
-                                          height: 64,
-                                          child: FilterTagChipContainer(
-                                            tag: state.searchedkeywords[index],
-                                            onTap: () {
-                                              textEditingController.text =
-                                                  state.searchedkeywords[index];
-                                              showFilters.value = false;
-                                            },
-                                          ),
+                        searchedkeywords.isEmpty
+                            ? ConstrainedBox(
+                                constraints: const BoxConstraints.expand(
+                                  height: 300,
+                                ),
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : RepaintBoundary(
+                                child: Wrap(
+                                  alignment: WrapAlignment.spaceBetween,
+                                  direction: Axis.horizontal,
+                                  clipBehavior: Clip.hardEdge,
+                                  spacing: 4,
+                                  runSpacing: 8,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: List.generate(
+                                    searchedkeywords.length,
+                                    (index) => SizedBox(
+                                      width: (box.maxWidth - 42) / 3,
+                                      height: 64,
+                                      child: FilterTagChipContainer(
+                                        tag: searchedkeywords[index],
+                                        onTap: () => onKeywordTap(
+                                          searchedkeywords[index],
                                         ),
                                       ),
                                     ),
-                                  );
-                          },
-                        ),
+                                  ),
+                                ),
+                              ),
                         const SizedBox(height: 12),
                       ],
                     ),
@@ -360,6 +346,39 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         );
       }),
+    );
+  }
+}
+
+class SearchResultAnimatedList extends StatelessWidget {
+  const SearchResultAnimatedList({
+    super.key,
+    required this.listKey,
+    required this.initialItem,
+  });
+
+  final GlobalKey<SliverAnimatedListState> listKey;
+  final List<ArtRouteAbstractModel> initialItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAnimatedList(
+      key: listKey,
+      itemBuilder: (context, index, animation) {
+        // Note: handle pre-view scroll items
+        if (index > initialItem.length - 1) {
+          return const SizedBox();
+        }
+        final data = ArtRouteContainerData.fromAbstract(
+          initialItem[index],
+        );
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: ArtRouteExpandedCardContainer(
+            data: data,
+          ),
+        );
+      },
     );
   }
 }

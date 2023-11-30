@@ -74,22 +74,22 @@ class _$PaginationStateCopyWithImpl<$Res, $Val extends PaginationState>
 }
 
 /// @nodoc
-abstract class _$$_PaginationStateCopyWith<$Res>
+abstract class _$$PaginationStateImplCopyWith<$Res>
     implements $PaginationStateCopyWith<$Res> {
-  factory _$$_PaginationStateCopyWith(
-          _$_PaginationState value, $Res Function(_$_PaginationState) then) =
-      __$$_PaginationStateCopyWithImpl<$Res>;
+  factory _$$PaginationStateImplCopyWith(_$PaginationStateImpl value,
+          $Res Function(_$PaginationStateImpl) then) =
+      __$$PaginationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int page, int itemPerPage, int total});
 }
 
 /// @nodoc
-class __$$_PaginationStateCopyWithImpl<$Res>
-    extends _$PaginationStateCopyWithImpl<$Res, _$_PaginationState>
-    implements _$$_PaginationStateCopyWith<$Res> {
-  __$$_PaginationStateCopyWithImpl(
-      _$_PaginationState _value, $Res Function(_$_PaginationState) _then)
+class __$$PaginationStateImplCopyWithImpl<$Res>
+    extends _$PaginationStateCopyWithImpl<$Res, _$PaginationStateImpl>
+    implements _$$PaginationStateImplCopyWith<$Res> {
+  __$$PaginationStateImplCopyWithImpl(
+      _$PaginationStateImpl _value, $Res Function(_$PaginationStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_PaginationStateCopyWithImpl<$Res>
     Object? itemPerPage = null,
     Object? total = null,
   }) {
-    return _then(_$_PaginationState(
+    return _then(_$PaginationStateImpl(
       page: null == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
@@ -118,12 +118,12 @@ class __$$_PaginationStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PaginationState implements _PaginationState {
-  const _$_PaginationState(
+class _$PaginationStateImpl implements _PaginationState {
+  const _$PaginationStateImpl(
       {required this.page, required this.itemPerPage, required this.total});
 
-  factory _$_PaginationState.fromJson(Map<String, dynamic> json) =>
-      _$$_PaginationStateFromJson(json);
+  factory _$PaginationStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PaginationStateImplFromJson(json);
 
   @override
   final int page;
@@ -141,7 +141,7 @@ class _$_PaginationState implements _PaginationState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PaginationState &&
+            other is _$PaginationStateImpl &&
             (identical(other.page, page) || other.page == page) &&
             (identical(other.itemPerPage, itemPerPage) ||
                 other.itemPerPage == itemPerPage) &&
@@ -155,12 +155,13 @@ class _$_PaginationState implements _PaginationState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PaginationStateCopyWith<_$_PaginationState> get copyWith =>
-      __$$_PaginationStateCopyWithImpl<_$_PaginationState>(this, _$identity);
+  _$$PaginationStateImplCopyWith<_$PaginationStateImpl> get copyWith =>
+      __$$PaginationStateImplCopyWithImpl<_$PaginationStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PaginationStateToJson(
+    return _$$PaginationStateImplToJson(
       this,
     );
   }
@@ -170,10 +171,10 @@ abstract class _PaginationState implements PaginationState {
   const factory _PaginationState(
       {required final int page,
       required final int itemPerPage,
-      required final int total}) = _$_PaginationState;
+      required final int total}) = _$PaginationStateImpl;
 
   factory _PaginationState.fromJson(Map<String, dynamic> json) =
-      _$_PaginationState.fromJson;
+      _$PaginationStateImpl.fromJson;
 
   @override
   int get page;
@@ -183,6 +184,6 @@ abstract class _PaginationState implements PaginationState {
   int get total;
   @override
   @JsonKey(ignore: true)
-  _$$_PaginationStateCopyWith<_$_PaginationState> get copyWith =>
+  _$$PaginationStateImplCopyWith<_$PaginationStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

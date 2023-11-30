@@ -120,11 +120,11 @@ class _$FeaturedStateCopyWithImpl<$Res, $Val extends FeaturedState>
 }
 
 /// @nodoc
-abstract class _$$_FeaturedStateCopyWith<$Res>
+abstract class _$$FeaturedStateImplCopyWith<$Res>
     implements $FeaturedStateCopyWith<$Res> {
-  factory _$$_FeaturedStateCopyWith(
-          _$_FeaturedState value, $Res Function(_$_FeaturedState) then) =
-      __$$_FeaturedStateCopyWithImpl<$Res>;
+  factory _$$FeaturedStateImplCopyWith(
+          _$FeaturedStateImpl value, $Res Function(_$FeaturedStateImpl) then) =
+      __$$FeaturedStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -141,11 +141,11 @@ abstract class _$$_FeaturedStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FeaturedStateCopyWithImpl<$Res>
-    extends _$FeaturedStateCopyWithImpl<$Res, _$_FeaturedState>
-    implements _$$_FeaturedStateCopyWith<$Res> {
-  __$$_FeaturedStateCopyWithImpl(
-      _$_FeaturedState _value, $Res Function(_$_FeaturedState) _then)
+class __$$FeaturedStateImplCopyWithImpl<$Res>
+    extends _$FeaturedStateCopyWithImpl<$Res, _$FeaturedStateImpl>
+    implements _$$FeaturedStateImplCopyWith<$Res> {
+  __$$FeaturedStateImplCopyWithImpl(
+      _$FeaturedStateImpl _value, $Res Function(_$FeaturedStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -157,7 +157,7 @@ class __$$_FeaturedStateCopyWithImpl<$Res>
     Object? artAbstractItemsSpotlight = null,
     Object? loadingState = null,
   }) {
-    return _then(_$_FeaturedState(
+    return _then(_$FeaturedStateImpl(
       artAbstractItem: freezed == artAbstractItem
           ? _value.artAbstractItem
           : artAbstractItem // ignore: cast_nullable_to_non_nullable
@@ -184,8 +184,8 @@ class __$$_FeaturedStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_FeaturedState implements _FeaturedState {
-  const _$_FeaturedState(
+class _$FeaturedStateImpl implements _FeaturedState {
+  const _$FeaturedStateImpl(
       {required this.artAbstractItem,
       required this.artItem,
       required final List<ArtAbstractModel> artAbstractItems,
@@ -194,8 +194,8 @@ class _$_FeaturedState implements _FeaturedState {
       : _artAbstractItems = artAbstractItems,
         _artAbstractItemsSpotlight = artAbstractItemsSpotlight;
 
-  factory _$_FeaturedState.fromJson(Map<String, dynamic> json) =>
-      _$$_FeaturedStateFromJson(json);
+  factory _$FeaturedStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FeaturedStateImplFromJson(json);
 
   @override
   final ArtAbstractModel? artAbstractItem;
@@ -231,7 +231,7 @@ class _$_FeaturedState implements _FeaturedState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_FeaturedState &&
+            other is _$FeaturedStateImpl &&
             (identical(other.artAbstractItem, artAbstractItem) ||
                 other.artAbstractItem == artAbstractItem) &&
             (identical(other.artItem, artItem) || other.artItem == artItem) &&
@@ -256,12 +256,12 @@ class _$_FeaturedState implements _FeaturedState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FeaturedStateCopyWith<_$_FeaturedState> get copyWith =>
-      __$$_FeaturedStateCopyWithImpl<_$_FeaturedState>(this, _$identity);
+  _$$FeaturedStateImplCopyWith<_$FeaturedStateImpl> get copyWith =>
+      __$$FeaturedStateImplCopyWithImpl<_$FeaturedStateImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FeaturedStateToJson(
+    return _$$FeaturedStateImplToJson(
       this,
     );
   }
@@ -273,10 +273,10 @@ abstract class _FeaturedState implements FeaturedState {
       required final ArtModel? artItem,
       required final List<ArtAbstractModel> artAbstractItems,
       required final List<ArtAbstractModel> artAbstractItemsSpotlight,
-      required final LoadingState loadingState}) = _$_FeaturedState;
+      required final LoadingState loadingState}) = _$FeaturedStateImpl;
 
   factory _FeaturedState.fromJson(Map<String, dynamic> json) =
-      _$_FeaturedState.fromJson;
+      _$FeaturedStateImpl.fromJson;
 
   @override
   ArtAbstractModel? get artAbstractItem;
@@ -290,6 +290,6 @@ abstract class _FeaturedState implements FeaturedState {
   LoadingState get loadingState;
   @override
   @JsonKey(ignore: true)
-  _$$_FeaturedStateCopyWith<_$_FeaturedState> get copyWith =>
+  _$$FeaturedStateImplCopyWith<_$FeaturedStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

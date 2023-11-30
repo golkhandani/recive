@@ -149,9 +149,8 @@ Position? useLocationData({
     final locationStream = locationService.geolocator
         .getPositionStream(locationSettings: locationOptions)
         .listen((position) {
-      final exp = position.timestamp?.add(const Duration(seconds: 120));
-      if ((position.timestamp != null && position.timestamp!.isAfter(exp!)) ||
-          locationData.value == null) {
+      final exp = position.timestamp.add(const Duration(seconds: 120));
+      if ((position.timestamp.isAfter(exp)) || locationData.value == null) {
         locationData.value = position;
         locationService.updateUastUserLocation(position);
       }

@@ -172,10 +172,11 @@ class _$ArtModelCopyWithImpl<$Res, $Val extends ArtModel>
 }
 
 /// @nodoc
-abstract class _$$_ArtModelCopyWith<$Res> implements $ArtModelCopyWith<$Res> {
-  factory _$$_ArtModelCopyWith(
-          _$_ArtModel value, $Res Function(_$_ArtModel) then) =
-      __$$_ArtModelCopyWithImpl<$Res>;
+abstract class _$$ArtModelImplCopyWith<$Res>
+    implements $ArtModelCopyWith<$Res> {
+  factory _$$ArtModelImplCopyWith(
+          _$ArtModelImpl value, $Res Function(_$ArtModelImpl) then) =
+      __$$ArtModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -201,11 +202,11 @@ abstract class _$$_ArtModelCopyWith<$Res> implements $ArtModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ArtModelCopyWithImpl<$Res>
-    extends _$ArtModelCopyWithImpl<$Res, _$_ArtModel>
-    implements _$$_ArtModelCopyWith<$Res> {
-  __$$_ArtModelCopyWithImpl(
-      _$_ArtModel _value, $Res Function(_$_ArtModel) _then)
+class __$$ArtModelImplCopyWithImpl<$Res>
+    extends _$ArtModelCopyWithImpl<$Res, _$ArtModelImpl>
+    implements _$$ArtModelImplCopyWith<$Res> {
+  __$$ArtModelImplCopyWithImpl(
+      _$ArtModelImpl _value, $Res Function(_$ArtModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -226,7 +227,7 @@ class __$$_ArtModelCopyWithImpl<$Res>
     Object? tags = null,
     Object? title = null,
   }) {
-    return _then(_$_ArtModel(
+    return _then(_$ArtModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -289,8 +290,8 @@ class __$$_ArtModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ArtModel implements _ArtModel {
-  const _$_ArtModel(
+class _$ArtModelImpl implements _ArtModel {
+  const _$ArtModelImpl(
       {required this.id,
       required this.artType,
       required final List<ArtistModel> artists,
@@ -310,8 +311,8 @@ class _$_ArtModel implements _ArtModel {
         _material = material,
         _tags = tags;
 
-  factory _$_ArtModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ArtModelFromJson(json);
+  factory _$ArtModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtModelImplFromJson(json);
 
   @override
   final String id;
@@ -375,7 +376,7 @@ class _$_ArtModel implements _ArtModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ArtModel &&
+            other is _$ArtModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.artType, artType) || other.artType == artType) &&
             const DeepCollectionEquality().equals(other._artists, _artists) &&
@@ -420,12 +421,12 @@ class _$_ArtModel implements _ArtModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ArtModelCopyWith<_$_ArtModel> get copyWith =>
-      __$$_ArtModelCopyWithImpl<_$_ArtModel>(this, _$identity);
+  _$$ArtModelImplCopyWith<_$ArtModelImpl> get copyWith =>
+      __$$ArtModelImplCopyWithImpl<_$ArtModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ArtModelToJson(
+    return _$$ArtModelImplToJson(
       this,
     );
   }
@@ -446,9 +447,10 @@ abstract class _ArtModel implements ArtModel {
       required final SourceModel source,
       required final String statement,
       required final List<String> tags,
-      required final String title}) = _$_ArtModel;
+      required final String title}) = _$ArtModelImpl;
 
-  factory _ArtModel.fromJson(Map<String, dynamic> json) = _$_ArtModel.fromJson;
+  factory _ArtModel.fromJson(Map<String, dynamic> json) =
+      _$ArtModelImpl.fromJson;
 
   @override
   String get id;
@@ -480,7 +482,7 @@ abstract class _ArtModel implements ArtModel {
   String get title;
   @override
   @JsonKey(ignore: true)
-  _$$_ArtModelCopyWith<_$_ArtModel> get copyWith =>
+  _$$ArtModelImplCopyWith<_$ArtModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -582,11 +584,11 @@ class _$ArtistModelCopyWithImpl<$Res, $Val extends ArtistModel>
 }
 
 /// @nodoc
-abstract class _$$_ArtistModelCopyWith<$Res>
+abstract class _$$ArtistModelImplCopyWith<$Res>
     implements $ArtistModelCopyWith<$Res> {
-  factory _$$_ArtistModelCopyWith(
-          _$_ArtistModel value, $Res Function(_$_ArtistModel) then) =
-      __$$_ArtistModelCopyWithImpl<$Res>;
+  factory _$$ArtistModelImplCopyWith(
+          _$ArtistModelImpl value, $Res Function(_$ArtistModelImpl) then) =
+      __$$ArtistModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -601,11 +603,11 @@ abstract class _$$_ArtistModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ArtistModelCopyWithImpl<$Res>
-    extends _$ArtistModelCopyWithImpl<$Res, _$_ArtistModel>
-    implements _$$_ArtistModelCopyWith<$Res> {
-  __$$_ArtistModelCopyWithImpl(
-      _$_ArtistModel _value, $Res Function(_$_ArtistModel) _then)
+class __$$ArtistModelImplCopyWithImpl<$Res>
+    extends _$ArtistModelCopyWithImpl<$Res, _$ArtistModelImpl>
+    implements _$$ArtistModelImplCopyWith<$Res> {
+  __$$ArtistModelImplCopyWithImpl(
+      _$ArtistModelImpl _value, $Res Function(_$ArtistModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -620,7 +622,7 @@ class __$$_ArtistModelCopyWithImpl<$Res>
     Object? originalId = null,
     Object? website = null,
   }) {
-    return _then(_$_ArtistModel(
+    return _then(_$ArtistModelImpl(
       typename: null == typename
           ? _value.typename
           : typename // ignore: cast_nullable_to_non_nullable
@@ -659,8 +661,8 @@ class __$$_ArtistModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ArtistModel implements _ArtistModel {
-  const _$_ArtistModel(
+class _$ArtistModelImpl implements _ArtistModel {
+  const _$ArtistModelImpl(
       {required this.typename,
       required this.id,
       required this.biography,
@@ -671,8 +673,8 @@ class _$_ArtistModel implements _ArtistModel {
       required this.website})
       : _images = images;
 
-  factory _$_ArtistModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ArtistModelFromJson(json);
+  factory _$ArtistModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ArtistModelImplFromJson(json);
 
   @override
   final String typename;
@@ -706,7 +708,7 @@ class _$_ArtistModel implements _ArtistModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ArtistModel &&
+            other is _$ArtistModelImpl &&
             (identical(other.typename, typename) ||
                 other.typename == typename) &&
             (identical(other.id, id) || other.id == id) &&
@@ -728,12 +730,12 @@ class _$_ArtistModel implements _ArtistModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ArtistModelCopyWith<_$_ArtistModel> get copyWith =>
-      __$$_ArtistModelCopyWithImpl<_$_ArtistModel>(this, _$identity);
+  _$$ArtistModelImplCopyWith<_$ArtistModelImpl> get copyWith =>
+      __$$ArtistModelImplCopyWithImpl<_$ArtistModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ArtistModelToJson(
+    return _$$ArtistModelImplToJson(
       this,
     );
   }
@@ -748,10 +750,10 @@ abstract class _ArtistModel implements ArtistModel {
       required final List<ImageModel> images,
       required final String name,
       required final int originalId,
-      required final String website}) = _$_ArtistModel;
+      required final String website}) = _$ArtistModelImpl;
 
   factory _ArtistModel.fromJson(Map<String, dynamic> json) =
-      _$_ArtistModel.fromJson;
+      _$ArtistModelImpl.fromJson;
 
   @override
   String get typename;
@@ -771,7 +773,7 @@ abstract class _ArtistModel implements ArtistModel {
   String get website;
   @override
   @JsonKey(ignore: true)
-  _$$_ArtistModelCopyWith<_$_ArtistModel> get copyWith =>
+  _$$ArtistModelImplCopyWith<_$ArtistModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -852,11 +854,11 @@ class _$ImageModelCopyWithImpl<$Res, $Val extends ImageModel>
 }
 
 /// @nodoc
-abstract class _$$_ImageModelCopyWith<$Res>
+abstract class _$$ImageModelImplCopyWith<$Res>
     implements $ImageModelCopyWith<$Res> {
-  factory _$$_ImageModelCopyWith(
-          _$_ImageModel value, $Res Function(_$_ImageModel) then) =
-      __$$_ImageModelCopyWithImpl<$Res>;
+  factory _$$ImageModelImplCopyWith(
+          _$ImageModelImpl value, $Res Function(_$ImageModelImpl) then) =
+      __$$ImageModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -868,11 +870,11 @@ abstract class _$$_ImageModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ImageModelCopyWithImpl<$Res>
-    extends _$ImageModelCopyWithImpl<$Res, _$_ImageModel>
-    implements _$$_ImageModelCopyWith<$Res> {
-  __$$_ImageModelCopyWithImpl(
-      _$_ImageModel _value, $Res Function(_$_ImageModel) _then)
+class __$$ImageModelImplCopyWithImpl<$Res>
+    extends _$ImageModelCopyWithImpl<$Res, _$ImageModelImpl>
+    implements _$$ImageModelImplCopyWith<$Res> {
+  __$$ImageModelImplCopyWithImpl(
+      _$ImageModelImpl _value, $Res Function(_$ImageModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -884,7 +886,7 @@ class __$$_ImageModelCopyWithImpl<$Res>
     Object? imageData = null,
     Object? imageUrl = null,
   }) {
-    return _then(_$_ImageModel(
+    return _then(_$ImageModelImpl(
       typename: null == typename
           ? _value.typename
           : typename // ignore: cast_nullable_to_non_nullable
@@ -911,16 +913,16 @@ class __$$_ImageModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ImageModel implements _ImageModel {
-  const _$_ImageModel(
+class _$ImageModelImpl implements _ImageModel {
+  const _$ImageModelImpl(
       {required this.typename,
       required this.id,
       required this.imageCredit,
       required this.imageData,
       required this.imageUrl});
 
-  factory _$_ImageModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ImageModelFromJson(json);
+  factory _$ImageModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ImageModelImplFromJson(json);
 
   @override
   final String typename;
@@ -942,7 +944,7 @@ class _$_ImageModel implements _ImageModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageModel &&
+            other is _$ImageModelImpl &&
             (identical(other.typename, typename) ||
                 other.typename == typename) &&
             (identical(other.id, id) || other.id == id) &&
@@ -962,12 +964,12 @@ class _$_ImageModel implements _ImageModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ImageModelCopyWith<_$_ImageModel> get copyWith =>
-      __$$_ImageModelCopyWithImpl<_$_ImageModel>(this, _$identity);
+  _$$ImageModelImplCopyWith<_$ImageModelImpl> get copyWith =>
+      __$$ImageModelImplCopyWithImpl<_$ImageModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ImageModelToJson(
+    return _$$ImageModelImplToJson(
       this,
     );
   }
@@ -979,10 +981,10 @@ abstract class _ImageModel implements ImageModel {
       required final String id,
       required final String imageCredit,
       required final String imageData,
-      required final String imageUrl}) = _$_ImageModel;
+      required final String imageUrl}) = _$ImageModelImpl;
 
   factory _ImageModel.fromJson(Map<String, dynamic> json) =
-      _$_ImageModel.fromJson;
+      _$ImageModelImpl.fromJson;
 
   @override
   String get typename;
@@ -996,7 +998,7 @@ abstract class _ImageModel implements ImageModel {
   String get imageUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_ImageModelCopyWith<_$_ImageModel> get copyWith =>
+  _$$ImageModelImplCopyWith<_$ImageModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1079,11 +1081,11 @@ class _$LocationModelCopyWithImpl<$Res, $Val extends LocationModel>
 }
 
 /// @nodoc
-abstract class _$$_LocationModelCopyWith<$Res>
+abstract class _$$LocationModelImplCopyWith<$Res>
     implements $LocationModelCopyWith<$Res> {
-  factory _$$_LocationModelCopyWith(
-          _$_LocationModel value, $Res Function(_$_LocationModel) then) =
-      __$$_LocationModelCopyWithImpl<$Res>;
+  factory _$$LocationModelImplCopyWith(
+          _$LocationModelImpl value, $Res Function(_$LocationModelImpl) then) =
+      __$$LocationModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({GeolocationModel geolocation, VenueModel venue, LatLng latLng});
@@ -1095,11 +1097,11 @@ abstract class _$$_LocationModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LocationModelCopyWithImpl<$Res>
-    extends _$LocationModelCopyWithImpl<$Res, _$_LocationModel>
-    implements _$$_LocationModelCopyWith<$Res> {
-  __$$_LocationModelCopyWithImpl(
-      _$_LocationModel _value, $Res Function(_$_LocationModel) _then)
+class __$$LocationModelImplCopyWithImpl<$Res>
+    extends _$LocationModelCopyWithImpl<$Res, _$LocationModelImpl>
+    implements _$$LocationModelImplCopyWith<$Res> {
+  __$$LocationModelImplCopyWithImpl(
+      _$LocationModelImpl _value, $Res Function(_$LocationModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1109,7 +1111,7 @@ class __$$_LocationModelCopyWithImpl<$Res>
     Object? venue = null,
     Object? latLng = null,
   }) {
-    return _then(_$_LocationModel(
+    return _then(_$LocationModelImpl(
       geolocation: null == geolocation
           ? _value.geolocation
           : geolocation // ignore: cast_nullable_to_non_nullable
@@ -1128,12 +1130,12 @@ class __$$_LocationModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_LocationModel implements _LocationModel {
-  const _$_LocationModel(
+class _$LocationModelImpl implements _LocationModel {
+  const _$LocationModelImpl(
       {required this.geolocation, required this.venue, required this.latLng});
 
-  factory _$_LocationModel.fromJson(Map<String, dynamic> json) =>
-      _$$_LocationModelFromJson(json);
+  factory _$LocationModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LocationModelImplFromJson(json);
 
   @override
   final GeolocationModel geolocation;
@@ -1151,7 +1153,7 @@ class _$_LocationModel implements _LocationModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LocationModel &&
+            other is _$LocationModelImpl &&
             (identical(other.geolocation, geolocation) ||
                 other.geolocation == geolocation) &&
             (identical(other.venue, venue) || other.venue == venue) &&
@@ -1165,12 +1167,12 @@ class _$_LocationModel implements _LocationModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LocationModelCopyWith<_$_LocationModel> get copyWith =>
-      __$$_LocationModelCopyWithImpl<_$_LocationModel>(this, _$identity);
+  _$$LocationModelImplCopyWith<_$LocationModelImpl> get copyWith =>
+      __$$LocationModelImplCopyWithImpl<_$LocationModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_LocationModelToJson(
+    return _$$LocationModelImplToJson(
       this,
     );
   }
@@ -1180,10 +1182,10 @@ abstract class _LocationModel implements LocationModel {
   const factory _LocationModel(
       {required final GeolocationModel geolocation,
       required final VenueModel venue,
-      required final LatLng latLng}) = _$_LocationModel;
+      required final LatLng latLng}) = _$LocationModelImpl;
 
   factory _LocationModel.fromJson(Map<String, dynamic> json) =
-      _$_LocationModel.fromJson;
+      _$LocationModelImpl.fromJson;
 
   @override
   GeolocationModel get geolocation;
@@ -1193,7 +1195,7 @@ abstract class _LocationModel implements LocationModel {
   LatLng get latLng;
   @override
   @JsonKey(ignore: true)
-  _$$_LocationModelCopyWith<_$_LocationModel> get copyWith =>
+  _$$LocationModelImplCopyWith<_$LocationModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1257,22 +1259,22 @@ class _$GeolocationModelCopyWithImpl<$Res, $Val extends GeolocationModel>
 }
 
 /// @nodoc
-abstract class _$$_GeolocationModelCopyWith<$Res>
+abstract class _$$GeolocationModelImplCopyWith<$Res>
     implements $GeolocationModelCopyWith<$Res> {
-  factory _$$_GeolocationModelCopyWith(
-          _$_GeolocationModel value, $Res Function(_$_GeolocationModel) then) =
-      __$$_GeolocationModelCopyWithImpl<$Res>;
+  factory _$$GeolocationModelImplCopyWith(_$GeolocationModelImpl value,
+          $Res Function(_$GeolocationModelImpl) then) =
+      __$$GeolocationModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String typename, List<double> coordinates, String type});
 }
 
 /// @nodoc
-class __$$_GeolocationModelCopyWithImpl<$Res>
-    extends _$GeolocationModelCopyWithImpl<$Res, _$_GeolocationModel>
-    implements _$$_GeolocationModelCopyWith<$Res> {
-  __$$_GeolocationModelCopyWithImpl(
-      _$_GeolocationModel _value, $Res Function(_$_GeolocationModel) _then)
+class __$$GeolocationModelImplCopyWithImpl<$Res>
+    extends _$GeolocationModelCopyWithImpl<$Res, _$GeolocationModelImpl>
+    implements _$$GeolocationModelImplCopyWith<$Res> {
+  __$$GeolocationModelImplCopyWithImpl(_$GeolocationModelImpl _value,
+      $Res Function(_$GeolocationModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1282,7 +1284,7 @@ class __$$_GeolocationModelCopyWithImpl<$Res>
     Object? coordinates = null,
     Object? type = null,
   }) {
-    return _then(_$_GeolocationModel(
+    return _then(_$GeolocationModelImpl(
       typename: null == typename
           ? _value.typename
           : typename // ignore: cast_nullable_to_non_nullable
@@ -1301,15 +1303,15 @@ class __$$_GeolocationModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GeolocationModel implements _GeolocationModel {
-  const _$_GeolocationModel(
+class _$GeolocationModelImpl implements _GeolocationModel {
+  const _$GeolocationModelImpl(
       {required this.typename,
       required final List<double> coordinates,
       required this.type})
       : _coordinates = coordinates;
 
-  factory _$_GeolocationModel.fromJson(Map<String, dynamic> json) =>
-      _$$_GeolocationModelFromJson(json);
+  factory _$GeolocationModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GeolocationModelImplFromJson(json);
 
   @override
   final String typename;
@@ -1333,7 +1335,7 @@ class _$_GeolocationModel implements _GeolocationModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GeolocationModel &&
+            other is _$GeolocationModelImpl &&
             (identical(other.typename, typename) ||
                 other.typename == typename) &&
             const DeepCollectionEquality()
@@ -1349,12 +1351,13 @@ class _$_GeolocationModel implements _GeolocationModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GeolocationModelCopyWith<_$_GeolocationModel> get copyWith =>
-      __$$_GeolocationModelCopyWithImpl<_$_GeolocationModel>(this, _$identity);
+  _$$GeolocationModelImplCopyWith<_$GeolocationModelImpl> get copyWith =>
+      __$$GeolocationModelImplCopyWithImpl<_$GeolocationModelImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GeolocationModelToJson(
+    return _$$GeolocationModelImplToJson(
       this,
     );
   }
@@ -1364,10 +1367,10 @@ abstract class _GeolocationModel implements GeolocationModel {
   const factory _GeolocationModel(
       {required final String typename,
       required final List<double> coordinates,
-      required final String type}) = _$_GeolocationModel;
+      required final String type}) = _$GeolocationModelImpl;
 
   factory _GeolocationModel.fromJson(Map<String, dynamic> json) =
-      _$_GeolocationModel.fromJson;
+      _$GeolocationModelImpl.fromJson;
 
   @override
   String get typename;
@@ -1377,7 +1380,7 @@ abstract class _GeolocationModel implements GeolocationModel {
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$_GeolocationModelCopyWith<_$_GeolocationModel> get copyWith =>
+  _$$GeolocationModelImplCopyWith<_$GeolocationModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1498,11 +1501,11 @@ class _$VenueModelCopyWithImpl<$Res, $Val extends VenueModel>
 }
 
 /// @nodoc
-abstract class _$$_VenueModelCopyWith<$Res>
+abstract class _$$VenueModelImplCopyWith<$Res>
     implements $VenueModelCopyWith<$Res> {
-  factory _$$_VenueModelCopyWith(
-          _$_VenueModel value, $Res Function(_$_VenueModel) then) =
-      __$$_VenueModelCopyWithImpl<$Res>;
+  factory _$$VenueModelImplCopyWith(
+          _$VenueModelImpl value, $Res Function(_$VenueModelImpl) then) =
+      __$$VenueModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1522,11 +1525,11 @@ abstract class _$$_VenueModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_VenueModelCopyWithImpl<$Res>
-    extends _$VenueModelCopyWithImpl<$Res, _$_VenueModel>
-    implements _$$_VenueModelCopyWith<$Res> {
-  __$$_VenueModelCopyWithImpl(
-      _$_VenueModel _value, $Res Function(_$_VenueModel) _then)
+class __$$VenueModelImplCopyWithImpl<$Res>
+    extends _$VenueModelCopyWithImpl<$Res, _$VenueModelImpl>
+    implements _$$VenueModelImplCopyWith<$Res> {
+  __$$VenueModelImplCopyWithImpl(
+      _$VenueModelImpl _value, $Res Function(_$VenueModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1541,7 +1544,7 @@ class __$$_VenueModelCopyWithImpl<$Res>
     Object? osmVenueId = null,
     Object? title = null,
   }) {
-    return _then(_$_VenueModel(
+    return _then(_$VenueModelImpl(
       typename: null == typename
           ? _value.typename
           : typename // ignore: cast_nullable_to_non_nullable
@@ -1580,8 +1583,8 @@ class __$$_VenueModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_VenueModel implements _VenueModel {
-  const _$_VenueModel(
+class _$VenueModelImpl implements _VenueModel {
+  const _$VenueModelImpl(
       {required this.typename,
       required this.id,
       required this.address,
@@ -1591,8 +1594,8 @@ class _$_VenueModel implements _VenueModel {
       required this.osmVenueId,
       required this.title});
 
-  factory _$_VenueModel.fromJson(Map<String, dynamic> json) =>
-      _$$_VenueModelFromJson(json);
+  factory _$VenueModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VenueModelImplFromJson(json);
 
   @override
   final String typename;
@@ -1620,7 +1623,7 @@ class _$_VenueModel implements _VenueModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_VenueModel &&
+            other is _$VenueModelImpl &&
             (identical(other.typename, typename) ||
                 other.typename == typename) &&
             (identical(other.id, id) || other.id == id) &&
@@ -1643,12 +1646,12 @@ class _$_VenueModel implements _VenueModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_VenueModelCopyWith<_$_VenueModel> get copyWith =>
-      __$$_VenueModelCopyWithImpl<_$_VenueModel>(this, _$identity);
+  _$$VenueModelImplCopyWith<_$VenueModelImpl> get copyWith =>
+      __$$VenueModelImplCopyWithImpl<_$VenueModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_VenueModelToJson(
+    return _$$VenueModelImplToJson(
       this,
     );
   }
@@ -1663,10 +1666,10 @@ abstract class _VenueModel implements VenueModel {
       required final int osmId,
       required final String osmLicence,
       required final int osmVenueId,
-      required final String title}) = _$_VenueModel;
+      required final String title}) = _$VenueModelImpl;
 
   factory _VenueModel.fromJson(Map<String, dynamic> json) =
-      _$_VenueModel.fromJson;
+      _$VenueModelImpl.fromJson;
 
   @override
   String get typename;
@@ -1686,7 +1689,7 @@ abstract class _VenueModel implements VenueModel {
   String get title;
   @override
   @JsonKey(ignore: true)
-  _$$_VenueModelCopyWith<_$_VenueModel> get copyWith =>
+  _$$VenueModelImplCopyWith<_$VenueModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1788,11 +1791,11 @@ class _$AddressModelCopyWithImpl<$Res, $Val extends AddressModel>
 }
 
 /// @nodoc
-abstract class _$$_AddressModelCopyWith<$Res>
+abstract class _$$AddressModelImplCopyWith<$Res>
     implements $AddressModelCopyWith<$Res> {
-  factory _$$_AddressModelCopyWith(
-          _$_AddressModel value, $Res Function(_$_AddressModel) then) =
-      __$$_AddressModelCopyWithImpl<$Res>;
+  factory _$$AddressModelImplCopyWith(
+          _$AddressModelImpl value, $Res Function(_$AddressModelImpl) then) =
+      __$$AddressModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1807,11 +1810,11 @@ abstract class _$$_AddressModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AddressModelCopyWithImpl<$Res>
-    extends _$AddressModelCopyWithImpl<$Res, _$_AddressModel>
-    implements _$$_AddressModelCopyWith<$Res> {
-  __$$_AddressModelCopyWithImpl(
-      _$_AddressModel _value, $Res Function(_$_AddressModel) _then)
+class __$$AddressModelImplCopyWithImpl<$Res>
+    extends _$AddressModelCopyWithImpl<$Res, _$AddressModelImpl>
+    implements _$$AddressModelImplCopyWith<$Res> {
+  __$$AddressModelImplCopyWithImpl(
+      _$AddressModelImpl _value, $Res Function(_$AddressModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1826,7 +1829,7 @@ class __$$_AddressModelCopyWithImpl<$Res>
     Object? postalCode = null,
     Object? region = null,
   }) {
-    return _then(_$_AddressModel(
+    return _then(_$AddressModelImpl(
       area: null == area
           ? _value.area
           : area // ignore: cast_nullable_to_non_nullable
@@ -1865,8 +1868,8 @@ class __$$_AddressModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AddressModel implements _AddressModel {
-  const _$_AddressModel(
+class _$AddressModelImpl implements _AddressModel {
+  const _$AddressModelImpl(
       {required this.area,
       required this.city,
       required this.country,
@@ -1876,8 +1879,8 @@ class _$_AddressModel implements _AddressModel {
       required this.postalCode,
       required this.region});
 
-  factory _$_AddressModel.fromJson(Map<String, dynamic> json) =>
-      _$$_AddressModelFromJson(json);
+  factory _$AddressModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AddressModelImplFromJson(json);
 
   @override
   final String area;
@@ -1905,7 +1908,7 @@ class _$_AddressModel implements _AddressModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AddressModel &&
+            other is _$AddressModelImpl &&
             (identical(other.area, area) || other.area == area) &&
             (identical(other.city, city) || other.city == city) &&
             (identical(other.country, country) || other.country == country) &&
@@ -1929,12 +1932,12 @@ class _$_AddressModel implements _AddressModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AddressModelCopyWith<_$_AddressModel> get copyWith =>
-      __$$_AddressModelCopyWithImpl<_$_AddressModel>(this, _$identity);
+  _$$AddressModelImplCopyWith<_$AddressModelImpl> get copyWith =>
+      __$$AddressModelImplCopyWithImpl<_$AddressModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AddressModelToJson(
+    return _$$AddressModelImplToJson(
       this,
     );
   }
@@ -1949,10 +1952,10 @@ abstract class _AddressModel implements AddressModel {
       required final String localizedAddressDisplay,
       required final double longitude,
       required final String postalCode,
-      required final String region}) = _$_AddressModel;
+      required final String region}) = _$AddressModelImpl;
 
   factory _AddressModel.fromJson(Map<String, dynamic> json) =
-      _$_AddressModel.fromJson;
+      _$AddressModelImpl.fromJson;
 
   @override
   String get area;
@@ -1972,7 +1975,7 @@ abstract class _AddressModel implements AddressModel {
   String get region;
   @override
   @JsonKey(ignore: true)
-  _$$_AddressModelCopyWith<_$_AddressModel> get copyWith =>
+  _$$AddressModelImplCopyWith<_$AddressModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2042,22 +2045,22 @@ class _$SourceModelCopyWithImpl<$Res, $Val extends SourceModel>
 }
 
 /// @nodoc
-abstract class _$$_SourceModelCopyWith<$Res>
+abstract class _$$SourceModelImplCopyWith<$Res>
     implements $SourceModelCopyWith<$Res> {
-  factory _$$_SourceModelCopyWith(
-          _$_SourceModel value, $Res Function(_$_SourceModel) then) =
-      __$$_SourceModelCopyWithImpl<$Res>;
+  factory _$$SourceModelImplCopyWith(
+          _$SourceModelImpl value, $Res Function(_$SourceModelImpl) then) =
+      __$$SourceModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, String copyRight, String dataUrl, String name});
 }
 
 /// @nodoc
-class __$$_SourceModelCopyWithImpl<$Res>
-    extends _$SourceModelCopyWithImpl<$Res, _$_SourceModel>
-    implements _$$_SourceModelCopyWith<$Res> {
-  __$$_SourceModelCopyWithImpl(
-      _$_SourceModel _value, $Res Function(_$_SourceModel) _then)
+class __$$SourceModelImplCopyWithImpl<$Res>
+    extends _$SourceModelCopyWithImpl<$Res, _$SourceModelImpl>
+    implements _$$SourceModelImplCopyWith<$Res> {
+  __$$SourceModelImplCopyWithImpl(
+      _$SourceModelImpl _value, $Res Function(_$SourceModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2068,7 +2071,7 @@ class __$$_SourceModelCopyWithImpl<$Res>
     Object? dataUrl = null,
     Object? name = null,
   }) {
-    return _then(_$_SourceModel(
+    return _then(_$SourceModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -2091,15 +2094,15 @@ class __$$_SourceModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SourceModel implements _SourceModel {
-  const _$_SourceModel(
+class _$SourceModelImpl implements _SourceModel {
+  const _$SourceModelImpl(
       {required this.id,
       required this.copyRight,
       required this.dataUrl,
       required this.name});
 
-  factory _$_SourceModel.fromJson(Map<String, dynamic> json) =>
-      _$$_SourceModelFromJson(json);
+  factory _$SourceModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SourceModelImplFromJson(json);
 
   @override
   final String id;
@@ -2119,7 +2122,7 @@ class _$_SourceModel implements _SourceModel {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SourceModel &&
+            other is _$SourceModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.copyRight, copyRight) ||
                 other.copyRight == copyRight) &&
@@ -2134,12 +2137,12 @@ class _$_SourceModel implements _SourceModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SourceModelCopyWith<_$_SourceModel> get copyWith =>
-      __$$_SourceModelCopyWithImpl<_$_SourceModel>(this, _$identity);
+  _$$SourceModelImplCopyWith<_$SourceModelImpl> get copyWith =>
+      __$$SourceModelImplCopyWithImpl<_$SourceModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SourceModelToJson(
+    return _$$SourceModelImplToJson(
       this,
     );
   }
@@ -2150,10 +2153,10 @@ abstract class _SourceModel implements SourceModel {
       {required final String id,
       required final String copyRight,
       required final String dataUrl,
-      required final String name}) = _$_SourceModel;
+      required final String name}) = _$SourceModelImpl;
 
   factory _SourceModel.fromJson(Map<String, dynamic> json) =
-      _$_SourceModel.fromJson;
+      _$SourceModelImpl.fromJson;
 
   @override
   String get id;
@@ -2165,6 +2168,6 @@ abstract class _SourceModel implements SourceModel {
   String get name;
   @override
   @JsonKey(ignore: true)
-  _$$_SourceModelCopyWith<_$_SourceModel> get copyWith =>
+  _$$SourceModelImplCopyWith<_$SourceModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

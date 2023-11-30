@@ -114,11 +114,11 @@ class _$PackagesStateCopyWithImpl<$Res, $Val extends PackagesState>
 }
 
 /// @nodoc
-abstract class _$$_PackagesStateCopyWith<$Res>
+abstract class _$$PackagesStateImplCopyWith<$Res>
     implements $PackagesStateCopyWith<$Res> {
-  factory _$$_PackagesStateCopyWith(
-          _$_PackagesState value, $Res Function(_$_PackagesState) then) =
-      __$$_PackagesStateCopyWithImpl<$Res>;
+  factory _$$PackagesStateImplCopyWith(
+          _$PackagesStateImpl value, $Res Function(_$PackagesStateImpl) then) =
+      __$$PackagesStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -134,11 +134,11 @@ abstract class _$$_PackagesStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PackagesStateCopyWithImpl<$Res>
-    extends _$PackagesStateCopyWithImpl<$Res, _$_PackagesState>
-    implements _$$_PackagesStateCopyWith<$Res> {
-  __$$_PackagesStateCopyWithImpl(
-      _$_PackagesState _value, $Res Function(_$_PackagesState) _then)
+class __$$PackagesStateImplCopyWithImpl<$Res>
+    extends _$PackagesStateCopyWithImpl<$Res, _$PackagesStateImpl>
+    implements _$$PackagesStateImplCopyWith<$Res> {
+  __$$PackagesStateImplCopyWithImpl(
+      _$PackagesStateImpl _value, $Res Function(_$PackagesStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -151,7 +151,7 @@ class __$$_PackagesStateCopyWithImpl<$Res>
     Object? loadingState = null,
     Object? loadingMoreState = null,
   }) {
-    return _then(_$_PackagesState(
+    return _then(_$PackagesStateImpl(
       packageLoadingState: null == packageLoadingState
           ? _value.packageLoadingState
           : packageLoadingState // ignore: cast_nullable_to_non_nullable
@@ -182,8 +182,8 @@ class __$$_PackagesStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PackagesState implements _PackagesState {
-  const _$_PackagesState(
+class _$PackagesStateImpl implements _PackagesState {
+  const _$PackagesStateImpl(
       {required this.packageLoadingState,
       required this.package,
       required final List<ArtRouteAbstractModel> packages,
@@ -193,8 +193,8 @@ class _$_PackagesState implements _PackagesState {
       : _packages = packages,
         _packagesSpotlight = packagesSpotlight;
 
-  factory _$_PackagesState.fromJson(Map<String, dynamic> json) =>
-      _$$_PackagesStateFromJson(json);
+  factory _$PackagesStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PackagesStateImplFromJson(json);
 
   @override
   final LoadingState packageLoadingState;
@@ -231,7 +231,7 @@ class _$_PackagesState implements _PackagesState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PackagesState &&
+            other is _$PackagesStateImpl &&
             (identical(other.packageLoadingState, packageLoadingState) ||
                 other.packageLoadingState == packageLoadingState) &&
             (identical(other.package, package) || other.package == package) &&
@@ -258,12 +258,12 @@ class _$_PackagesState implements _PackagesState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PackagesStateCopyWith<_$_PackagesState> get copyWith =>
-      __$$_PackagesStateCopyWithImpl<_$_PackagesState>(this, _$identity);
+  _$$PackagesStateImplCopyWith<_$PackagesStateImpl> get copyWith =>
+      __$$PackagesStateImplCopyWithImpl<_$PackagesStateImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PackagesStateToJson(
+    return _$$PackagesStateImplToJson(
       this,
     );
   }
@@ -276,10 +276,10 @@ abstract class _PackagesState implements PackagesState {
       required final List<ArtRouteAbstractModel> packages,
       required final List<ArtRouteAbstractModel> packagesSpotlight,
       required final LoadingState loadingState,
-      required final LoadingState loadingMoreState}) = _$_PackagesState;
+      required final LoadingState loadingMoreState}) = _$PackagesStateImpl;
 
   factory _PackagesState.fromJson(Map<String, dynamic> json) =
-      _$_PackagesState.fromJson;
+      _$PackagesStateImpl.fromJson;
 
   @override
   LoadingState get packageLoadingState;
@@ -295,6 +295,6 @@ abstract class _PackagesState implements PackagesState {
   LoadingState get loadingMoreState;
   @override
   @JsonKey(ignore: true)
-  _$$_PackagesStateCopyWith<_$_PackagesState> get copyWith =>
+  _$$PackagesStateImplCopyWith<_$PackagesStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,17 +6,17 @@ part of 'extra_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ExtraData<T> _$$_ExtraDataFromJson<T>(
+_$ExtraDataImpl<T> _$$ExtraDataImplFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    _$_ExtraData<T>(
+    _$ExtraDataImpl<T>(
       summary: _$nullableGenericFromJson(json['summary'], fromJsonT),
       heroTag: json['heroTag'] as String,
     );
 
-Map<String, dynamic> _$$_ExtraDataToJson<T>(
-  _$_ExtraData<T> instance,
+Map<String, dynamic> _$$ExtraDataImplToJson<T>(
+  _$ExtraDataImpl<T> instance,
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
@@ -36,61 +36,63 @@ Object? _$nullableGenericToJson<T>(
 ) =>
     input == null ? null : toJson(input);
 
-_$_ArtDetailSummaryData _$$_ArtDetailSummaryDataFromJson(
+_$ArtDetailSummaryDataImpl _$$ArtDetailSummaryDataImplFromJson(
         Map<String, dynamic> json) =>
-    _$_ArtDetailSummaryData(
+    _$ArtDetailSummaryDataImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       imageUrl: json['imageUrl'] as String,
     );
 
-Map<String, dynamic> _$$_ArtDetailSummaryDataToJson(
-        _$_ArtDetailSummaryData instance) =>
+Map<String, dynamic> _$$ArtDetailSummaryDataImplToJson(
+        _$ArtDetailSummaryDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'imageUrl': instance.imageUrl,
     };
 
-_$_CategorySummaryData _$$_CategorySummaryDataFromJson(
+_$CategorySummaryDataImpl _$$CategorySummaryDataImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CategorySummaryData(
+    _$CategorySummaryDataImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       imageUrl: json['imageUrl'] as String,
     );
 
-Map<String, dynamic> _$$_CategorySummaryDataToJson(
-        _$_CategorySummaryData instance) =>
+Map<String, dynamic> _$$CategorySummaryDataImplToJson(
+        _$CategorySummaryDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'imageUrl': instance.imageUrl,
     };
 
-_$_PackageSummaryData _$$_PackageSummaryDataFromJson(
+_$PackageSummaryDataImpl _$$PackageSummaryDataImplFromJson(
         Map<String, dynamic> json) =>
-    _$_PackageSummaryData(
+    _$PackageSummaryDataImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       imageUrl: json['imageUrl'] as String,
     );
 
-Map<String, dynamic> _$$_PackageSummaryDataToJson(
-        _$_PackageSummaryData instance) =>
+Map<String, dynamic> _$$PackageSummaryDataImplToJson(
+        _$PackageSummaryDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'imageUrl': instance.imageUrl,
     };
 
-_$_NewsSummaryData _$$_NewsSummaryDataFromJson(Map<String, dynamic> json) =>
-    _$_NewsSummaryData(
+_$NewsSummaryDataImpl _$$NewsSummaryDataImplFromJson(
+        Map<String, dynamic> json) =>
+    _$NewsSummaryDataImpl(
       id: json['id'] as String,
       title: json['title'] as String,
     );
 
-Map<String, dynamic> _$$_NewsSummaryDataToJson(_$_NewsSummaryData instance) =>
+Map<String, dynamic> _$$NewsSummaryDataImplToJson(
+        _$NewsSummaryDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

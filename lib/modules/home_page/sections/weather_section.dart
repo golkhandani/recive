@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_native_splash/cli_commands.dart';
 import 'package:lottie/lottie.dart';
 import 'package:open_weather_client/enums/languages.dart';
 import 'package:open_weather_client/models/details.dart';
@@ -17,6 +16,7 @@ import 'package:recive/core/components/sliver_gap.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/string_extensions.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/geo_location_service.dart';
@@ -209,7 +209,7 @@ extension AnimatedWeatherWidget on Details {
                   children: [
                     FittedBox(
                       child: Text(
-                        weatherLongDescription.capitalize(),
+                        weatherLongDescription.toCapitalized(),
                         style: style,
                       ),
                     ),

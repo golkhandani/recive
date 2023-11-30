@@ -12,6 +12,8 @@ import 'package:recive/modules/near_me_page/near_me_screen.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class NearbyCarouselContent extends HookWidget {
   const NearbyCarouselContent({
@@ -61,6 +63,19 @@ class NearbyCarouselContent extends HookWidget {
           sliver: SliverToBoxAdapter(
             child: RepaintBoundary(
               child: LayoutBuilder(builder: (context, box) {
+                if (state.nearbyArts.isEmpty) {
+                  return SizedBox(
+                    height: listSectionHeight,
+                    child: Center(
+                      child: Text(
+                        "No Art has been found!",
+                        style: context.textTheme.bodyLarge?.copyWith(
+                          color: context.colorScheme.onTertiaryContainer,
+                        ),
+                      ),
+                    ),
+                  );
+                }
                 // Warning: To stop rebuild issue
                 // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
                 final list = items

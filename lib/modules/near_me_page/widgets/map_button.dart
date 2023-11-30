@@ -10,13 +10,13 @@ enum MapButtonTextPosition {
 
 class MapButton extends StatelessWidget {
   const MapButton({
-    Key? key,
+    super.key,
     required this.icon,
     this.onClicked,
     this.textPosition = MapButtonTextPosition.right,
     this.text,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   final IconData icon;
   final String? text;

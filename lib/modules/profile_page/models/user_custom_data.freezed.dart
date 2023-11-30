@@ -96,11 +96,11 @@ class _$UserCustomDataCopyWithImpl<$Res, $Val extends UserCustomData>
 }
 
 /// @nodoc
-abstract class _$$_UserCustomDataCopyWith<$Res>
+abstract class _$$UserCustomDataImplCopyWith<$Res>
     implements $UserCustomDataCopyWith<$Res> {
-  factory _$$_UserCustomDataCopyWith(
-          _$_UserCustomData value, $Res Function(_$_UserCustomData) then) =
-      __$$_UserCustomDataCopyWithImpl<$Res>;
+  factory _$$UserCustomDataImplCopyWith(_$UserCustomDataImpl value,
+          $Res Function(_$UserCustomDataImpl) then) =
+      __$$UserCustomDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -112,11 +112,11 @@ abstract class _$$_UserCustomDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_UserCustomDataCopyWithImpl<$Res>
-    extends _$UserCustomDataCopyWithImpl<$Res, _$_UserCustomData>
-    implements _$$_UserCustomDataCopyWith<$Res> {
-  __$$_UserCustomDataCopyWithImpl(
-      _$_UserCustomData _value, $Res Function(_$_UserCustomData) _then)
+class __$$UserCustomDataImplCopyWithImpl<$Res>
+    extends _$UserCustomDataCopyWithImpl<$Res, _$UserCustomDataImpl>
+    implements _$$UserCustomDataImplCopyWith<$Res> {
+  __$$UserCustomDataImplCopyWithImpl(
+      _$UserCustomDataImpl _value, $Res Function(_$UserCustomDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -128,7 +128,7 @@ class __$$_UserCustomDataCopyWithImpl<$Res>
     Object? name = freezed,
     Object? bookmarkArts = freezed,
   }) {
-    return _then(_$_UserCustomData(
+    return _then(_$UserCustomDataImpl(
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -155,8 +155,8 @@ class __$$_UserCustomDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_UserCustomData implements _UserCustomData {
-  const _$_UserCustomData(
+class _$UserCustomDataImpl implements _UserCustomData {
+  const _$UserCustomDataImpl(
       {@JsonKey(name: 'userId') this.userId,
       @JsonKey(name: 'email') this.email,
       @JsonKey(name: 'image_url') this.imageUrl,
@@ -164,8 +164,8 @@ class _$_UserCustomData implements _UserCustomData {
       @JsonKey(name: 'bookmark_arts') final List<String>? bookmarkArts})
       : _bookmarkArts = bookmarkArts;
 
-  factory _$_UserCustomData.fromJson(Map<String, dynamic> json) =>
-      _$$_UserCustomDataFromJson(json);
+  factory _$UserCustomDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserCustomDataImplFromJson(json);
 
   @override
   @JsonKey(name: 'userId')
@@ -199,7 +199,7 @@ class _$_UserCustomData implements _UserCustomData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UserCustomData &&
+            other is _$UserCustomDataImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -217,12 +217,13 @@ class _$_UserCustomData implements _UserCustomData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UserCustomDataCopyWith<_$_UserCustomData> get copyWith =>
-      __$$_UserCustomDataCopyWithImpl<_$_UserCustomData>(this, _$identity);
+  _$$UserCustomDataImplCopyWith<_$UserCustomDataImpl> get copyWith =>
+      __$$UserCustomDataImplCopyWithImpl<_$UserCustomDataImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_UserCustomDataToJson(
+    return _$$UserCustomDataImplToJson(
       this,
     );
   }
@@ -235,10 +236,10 @@ abstract class _UserCustomData implements UserCustomData {
           @JsonKey(name: 'image_url') final String? imageUrl,
           @JsonKey(name: 'name') final String? name,
           @JsonKey(name: 'bookmark_arts') final List<String>? bookmarkArts}) =
-      _$_UserCustomData;
+      _$UserCustomDataImpl;
 
   factory _UserCustomData.fromJson(Map<String, dynamic> json) =
-      _$_UserCustomData.fromJson;
+      _$UserCustomDataImpl.fromJson;
 
   @override
   @JsonKey(name: 'userId')
@@ -257,6 +258,6 @@ abstract class _UserCustomData implements UserCustomData {
   List<String>? get bookmarkArts;
   @override
   @JsonKey(ignore: true)
-  _$$_UserCustomDataCopyWith<_$_UserCustomData> get copyWith =>
+  _$$UserCustomDataImplCopyWith<_$UserCustomDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

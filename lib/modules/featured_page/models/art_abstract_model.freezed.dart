@@ -216,7 +216,7 @@ class _$ArtAbstractModelImpl implements _ArtAbstractModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ArtAbstractModelImpl &&

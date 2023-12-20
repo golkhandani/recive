@@ -45,3 +45,5 @@ app.*.map.json
 
 **/__generated__/**
 server/node_modules/
+*.freezed.dart
+*.g.dart 

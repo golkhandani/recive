@@ -373,7 +373,7 @@ class _$ArtModelImpl implements _ArtModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ArtModelImpl &&
@@ -705,7 +705,7 @@ class _$ArtistModelImpl implements _ArtistModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ArtistModelImpl &&
@@ -941,7 +941,7 @@ class _$ImageModelImpl implements _ImageModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ImageModelImpl &&
@@ -1150,7 +1150,7 @@ class _$LocationModelImpl implements _LocationModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LocationModelImpl &&
@@ -1332,7 +1332,7 @@ class _$GeolocationModelImpl implements _GeolocationModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GeolocationModelImpl &&
@@ -1620,7 +1620,7 @@ class _$VenueModelImpl implements _VenueModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VenueModelImpl &&
@@ -1905,7 +1905,7 @@ class _$AddressModelImpl implements _AddressModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AddressModelImpl &&
@@ -2119,7 +2119,7 @@ class _$SourceModelImpl implements _SourceModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SourceModelImpl &&

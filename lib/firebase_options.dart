@@ -67,9 +67,11 @@ class DefaultFirebaseOptions {
     messagingSenderId: '337988051792',
     projectId: 'recive-mzg',
     storageBucket: 'recive-mzg.appspot.com',
-    androidClientId: '337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com',
-    iosClientId: '337988051792-kpjg0sn1h9b2f972a5q79u0lt24o6p3e.apps.googleusercontent.com',
-    iosBundleId: 'com.example.recive',
+    androidClientId:
+        '337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com',
+    iosClientId:
+        '337988051792-kpjg0sn1h9b2f972a5q79u0lt24o6p3e.apps.googleusercontent.com',
+    iosBundleId: 'com.mrzg.artWiseCityGuide',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -78,8 +80,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '337988051792',
     projectId: 'recive-mzg',
     storageBucket: 'recive-mzg.appspot.com',
-    androidClientId: '337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com',
-    iosClientId: '337988051792-3c8472umals3bqc32m0dqrhctjnteagt.apps.googleusercontent.com',
-    iosBundleId: 'com.example.recive.RunnerTests',
+    androidClientId:
+        '337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com',
+    iosClientId:
+        '337988051792-3c8472umals3bqc32m0dqrhctjnteagt.apps.googleusercontent.com',
+    iosBundleId: 'com.mrzg.artWiseCityGuide.RunnerTests',
   );
 }

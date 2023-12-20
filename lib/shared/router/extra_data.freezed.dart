@@ -127,7 +127,7 @@ class _$ExtraDataImpl<T> implements _ExtraData<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExtraDataImpl<T> &&
@@ -296,7 +296,7 @@ class _$ArtDetailSummaryDataImpl implements _ArtDetailSummaryData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ArtDetailSummaryDataImpl &&
@@ -471,7 +471,7 @@ class _$CategorySummaryDataImpl implements _CategorySummaryData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CategorySummaryDataImpl &&
@@ -645,7 +645,7 @@ class _$PackageSummaryDataImpl implements _PackageSummaryData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PackageSummaryDataImpl &&
@@ -805,7 +805,7 @@ class _$NewsSummaryDataImpl implements _NewsSummaryData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NewsSummaryDataImpl &&

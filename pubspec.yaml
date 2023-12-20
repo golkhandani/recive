@@ -46,7 +46,7 @@ dependencies:
   hooked_bloc: ^1.4.2
   hydrated_bloc: ^9.1.1
   sensors_plus: ^3.0.2
-  flutter_native_splash: ^2.3.1
+  flutter_native_splash: ^2.3.8
   hive: ^2.2.3
   expandable: ^5.0.1
   sliver_tools: ^0.2.12
@@ -157,14 +157,13 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/app_icon.jpeg"
   min_sdk_android: 21 # android min sdk min:16, default 21
-  web:
-    generate: true
-  windows:
-    generate: true
-  macos:
-    generate: true
+
+flutter_native_splash:
+  color: "#D8F0F0"
+  image: "assets/app_splash.png"

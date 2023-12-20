@@ -1,4 +1,4 @@
-package com.example.recive
+package com.mrzg.artWiseCityGuide
 
 import io.flutter.embedding.android.FlutterActivity
 

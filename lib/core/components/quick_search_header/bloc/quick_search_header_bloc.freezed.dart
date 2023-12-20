@@ -168,7 +168,7 @@ class _$QuickSearchHeaderStateImpl implements _QuickSearchHeaderState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuickSearchHeaderStateImpl &&

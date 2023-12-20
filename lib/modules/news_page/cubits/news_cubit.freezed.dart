@@ -208,7 +208,7 @@ class _$NewsStateImpl implements _NewsState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$NewsStateImpl &&

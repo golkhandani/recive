@@ -308,7 +308,7 @@ class _$ArtRouteModelImpl implements _ArtRouteModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ArtRouteModelImpl &&
@@ -606,7 +606,7 @@ class _$ArtRouteAbstractModelImpl implements _ArtRouteAbstractModel {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ArtRouteAbstractModelImpl &&

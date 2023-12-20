@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:337988051792:android:2bd4ec1612bce0fe6f0255",
         "android_client_info": {
-          "package_name": "com.example.recive"
+          "package_name": "com.mrzg.artWiseCityGuide"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "337988051792-8okrjd30qr9g107au45cemm0b2amhsir.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.recive",
+            "package_name": "com.mrzg.artWiseCityGuide",
             "certificate_hash": "a797481e5ecc0cba1e4405bd66f81e808ceea2b0"
           }
         }

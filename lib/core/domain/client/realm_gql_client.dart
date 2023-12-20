@@ -117,6 +117,7 @@ class RealmGqlClient {
   Future _handleErrors<TData, TVars>(
       OperationResponse<TData, TVars> res, int key) async {
     final errors = [
+      // ignore: unnecessary_to_list_in_spreads
       ...(res.graphqlErrors?.map((e) => e.message) ?? []).toList(),
       // (res.linkException as ServerException).parsedResponse?.response['error']
     ].whereNotNull().toList();

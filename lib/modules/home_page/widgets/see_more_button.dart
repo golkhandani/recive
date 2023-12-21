@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class SeeMoreButton extends StatelessWidget {
   const SeeMoreButton({
@@ -25,14 +26,12 @@ class SeeMoreButton extends StatelessWidget {
         constraints: constraints,
         decoration: BoxDecoration(
           borderRadius: kSmallBorderRadius,
-          color: color ?? context.theme.colorScheme.secondaryContainer,
+          color: color ?? context.colorScheme.secondaryContainer,
         ),
         child: Center(
           child: Text(
             text,
-            style: context.textTheme.titleMedium!.copyWith(
-              color: context.theme.colorScheme.onSecondaryContainer,
-            ),
+            style: context.textTheme.seeMoreBrn.onSecondaryContainer.style,
           ),
         ),
       ),

@@ -11,7 +11,6 @@ import 'package:recive/modules/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/modules/near_me_page/near_me_screen.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -35,7 +34,7 @@ class ArtCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.theme.colorScheme.secondary;
+    final color = context.colorScheme.secondary;
     final fontColor = context.colorScheme.onSecondary;
     final heroTag =
         hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
@@ -84,8 +83,9 @@ class ArtCardContainer extends HookWidget {
                     Text(
                       data.title,
                       maxLines: 1,
-                      style: context.titleMediumOnPrimaryContainer
-                          .withColor(fontColor),
+                      style: context.textTheme.titleSmall
+                          .withColor(fontColor)
+                          .style,
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -101,8 +101,9 @@ class ArtCardContainer extends HookWidget {
                             data.location,
                             maxLines: isSmallTall ? 3 : 1,
                             overflow: TextOverflow.ellipsis,
-                            style: context.titleSmallOnPrimaryContainer
-                                .withColor(fontColor),
+                            style: context.textTheme.subtitleSmall
+                                .withColor(fontColor)
+                                .style,
                           ),
                         ),
                       ],
@@ -148,8 +149,9 @@ class ArtCardContainer extends HookWidget {
                         maxLines: 2,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
-                        style: context.titleMediumOnPrimaryContainer
-                            .withColor(fontColor),
+                        style: context.textTheme.titleTiny
+                            .withColor(fontColor)
+                            .style,
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -165,8 +167,9 @@ class ArtCardContainer extends HookWidget {
                               data.location,
                               maxLines: isSmallTall ? 3 : 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.titleSmallOnPrimaryContainer
-                                  .withColor(fontColor),
+                              style: context.textTheme.subtitleTiny
+                                  .withColor(fontColor)
+                                  .style,
                             ),
                           ),
                         ],
@@ -207,8 +210,9 @@ class ArtCardContainer extends HookWidget {
                 child: Text(
                   data.title,
                   maxLines: 2,
-                  style: context.titleMediumOnPrimaryContainer
-                      .withColor(fontColor),
+                  style: context.textTheme.subtitleLarge
+                      .withColor(fontColor)
+                      .style,
                 ),
               ),
             ),

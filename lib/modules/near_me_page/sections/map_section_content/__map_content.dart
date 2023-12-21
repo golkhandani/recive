@@ -17,7 +17,7 @@ import 'package:recive/core/enums/loading_state.dart';
 import 'package:recive/modules/near_me_page/cubits/near_by_cubit.dart';
 import 'package:recive/modules/near_me_page/widgets/empty_result_snackbar.dart';
 import 'package:recive/modules/near_me_page/widgets/selected_marker.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
 
 class NearbyMapContent extends StatefulHookWidget {
   const NearbyMapContent({

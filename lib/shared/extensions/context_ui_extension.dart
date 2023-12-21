@@ -6,12 +6,13 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:recive/core/enums/loading_state.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 extension UiBreakPointDetection on BuildContext {
-  TextTheme get textTheme => Theme.of(this).textTheme;
-  ThemeData get theme => Theme.of(this);
-  ColorScheme get schema => Theme.of(this).colorScheme;
-  Size get size => MediaQuery.of(this).size;
+  // TextTheme get textTheme => Theme.of(this).textTheme;
+  // ThemeData get theme => Theme.of(this);
+  AppThemePalette get colorScheme => AppTheme.of(this).palette;
+  Size get size => MediaQuery.sizeOf(this);
   EdgeInsets get smallPadding => const EdgeInsets.all(8.0);
 
   double get vWidth => size.width;

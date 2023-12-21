@@ -10,7 +10,7 @@ import 'package:recive/modules/home_page/sections/featured_section.dart';
 import 'package:recive/modules/home_page/sections/map_section.dart';
 import 'package:recive/modules/home_page/sections/weather_section.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
 
 class HomeScreen extends HookWidget {
   static const name = 'home';
@@ -19,13 +19,13 @@ class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     const children = [
-      SliverGap(height: 32),
+      SliverGap(height: 12),
       HomePageCategoriesSection(),
       SliverGap(height: 12),
       HomePageFeaturedSection(),
-      SliverGap(height: 32),
+      SliverGap(height: 12),
       HomePageMapSection(),
-      SliverGap(height: 32),
+      SliverGap(height: 12),
       HomePageWeatherSection(),
       // SliverGap(height: 32),
       // HomePageTopNewsSections(), // Weather Updates

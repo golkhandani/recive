@@ -70,7 +70,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
     }, []);
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.colorScheme.background,
       child: CustomScrollView(
         controller: scrollController,
         slivers: [
@@ -83,45 +83,29 @@ class _PackagesScreenState extends State<PackagesScreen> {
                   ? 16
                   : context.footerHeight + 16,
             ),
-            sliver: Builder(builder: (context) {
-              return context.checkLoadingState(state.loadingState) ??
-                  MultiSliver(
-                    children: [
-                      SliverAnimatedList(
-                        key: _listKey,
-                        itemBuilder: (context, index, animation) {
-                          // Note: handle pre-view scroll items
-                          if (index > state.packages.length - 1) {
-                            return const SizedBox();
-                          }
-                          final data = ArtRouteContainerData.fromAbstract(
-                            state.packages[index],
-                          );
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: ArtRouteExpandedCardContainer(
-                              data: data,
-                            ),
-                          );
-                        },
-                      ),
-                      // SliverList.builder(
-                      //     itemCount: state.packages.length,
-                      //     itemBuilder: (context, index) {
-                      //       final data =
-                      //           PackageCardContainerData.fromPackageAbstract(
-                      //         state.packages[index],
-                      //       );
-                      //       return Padding(
-                      //         padding: const EdgeInsets.only(bottom: 12),
-                      //         child: PackageExpandedCardContainer(
-                      //           data: data,
-                      //         ),
-                      //       );
-                      //     }),
-                    ],
-                  );
-            }),
+            sliver: context.checkLoadingState(state.loadingState) ??
+                MultiSliver(
+                  children: [
+                    SliverAnimatedList(
+                      key: _listKey,
+                      itemBuilder: (context, index, animation) {
+                        // Note: handle pre-view scroll items
+                        if (index > state.packages.length - 1) {
+                          return const SizedBox();
+                        }
+                        final data = ArtRouteContainerData.fromAbstract(
+                          state.packages[index],
+                        );
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: ArtRouteExpandedCardContainer(
+                            data: data,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
           ),
           if (state.loadingMoreState == LoadingState.loading)
             SliverPadding(

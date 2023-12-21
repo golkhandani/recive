@@ -9,7 +9,7 @@ extension ReciveThemeColorScheme on ReciveTheme {
       case ReciveTheme.dark:
         return colorScheme;
       default:
-        return colorSchemeLight;
+        return peeyadeScheme;
     }
   }
 }

@@ -17,7 +17,6 @@ import 'package:recive/modules/near_me_page/widgets/map_button.dart';
 import 'package:recive/modules/package_page/widgets/art_card_marker.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/services/geo_location_service.dart';
 
 // Note: this thing need a major refactoring

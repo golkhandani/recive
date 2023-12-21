@@ -103,22 +103,19 @@ class _NearMeScreenState extends State<NearMeScreen>
             24 -
             24 -
             (NearMeScreen.enableQuery ? 72 : 0);
-        final mapSectionHeight = (contentHeight * 0.75) - 24;
-        final listSectionHeight = (contentHeight * 0.25) - 24;
+        final mapSectionHeight = (contentHeight * 0.75) - 36;
+        final listSectionHeight = (contentHeight * 0.25) - 12;
         return CustomScrollView(
-          // physics: const NeverScrollableScrollPhysics(),
           slivers: [
-            ScreenSafeAreaHeader(
+            const ScreenSafeAreaHeader(
               title: 'Near me!',
-              backgroundColor: context.theme.colorScheme.tertiaryContainer,
-              // elevation: !NearMeScreen.enableQuery,
             ),
-            // // COMING SOON !!!
+            // COMING SOON !!!
             if (NearMeScreen.enableQuery) ...[
               SliverPinnedHeader(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: context.schema.tertiaryContainer,
+                    color: context.colorScheme.navBackground,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                         offset: const Offset(0.1, 0.1),
@@ -133,7 +130,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                     children: [
                       Expanded(
                         child: PinnedSearchHeader(
-                          backgroundColor: context.schema.tertiaryContainer,
+                          backgroundColor: context.colorScheme.navBackground,
                           padding: const EdgeInsets.all(12)
                               .copyWith(top: 0, right: 0),
                           height: 54,
@@ -154,7 +151,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Icon(
                             FluentIcons.filter_12_filled,
-                            color: context.schema.onTertiaryContainer,
+                            color: context.colorScheme.onTertiaryContainer,
                             size: 36,
                           ),
                         ),
@@ -184,15 +181,11 @@ class _NearMeScreenState extends State<NearMeScreen>
                           minHeight: 42.0,
                           fontSize: 16.0,
                           initialLabelIndex: switchIndex.value,
-                          activeBgColor: [
-                            context.theme.colorScheme.tertiaryContainer
-                          ],
-                          activeFgColor:
-                              context.theme.colorScheme.onTertiaryContainer,
-                          inactiveBgColor:
-                              context.theme.colorScheme.onTertiaryContainer,
+                          activeBgColor: [context.colorScheme.tabBarSelected],
+                          activeFgColor: context.colorScheme.onTabBarSelected,
+                          inactiveBgColor: context.colorScheme.tabBarUnselected,
                           inactiveFgColor:
-                              context.theme.colorScheme.tertiaryContainer,
+                              context.colorScheme.onTabBarUnselected,
                           totalSwitches: 2,
                           labels: switchItems,
                           animate: true,
@@ -244,10 +237,8 @@ class _NearMeScreenState extends State<NearMeScreen>
                               child: Center(
                                 child: Text(
                                   "No Art has been found!",
-                                  style: context.textTheme.bodyLarge?.copyWith(
-                                    color:
-                                        context.colorScheme.onTertiaryContainer,
-                                  ),
+                                  style: context
+                                      .textTheme.body1.onBackground.style,
                                 ),
                               ),
                             ),
@@ -330,7 +321,7 @@ class _NearMeScreenState extends State<NearMeScreen>
                 ? Container(
                     padding: kTinyPadding,
                     decoration: BoxDecoration(
-                      color: context.theme.colorScheme.tertiaryContainer,
+                      color: context.colorScheme.navBackground,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                           offset: const Offset(0.2, 0),
@@ -347,67 +338,59 @@ class _NearMeScreenState extends State<NearMeScreen>
                           padding: kTinyPadding,
                           child: Text(
                             'Popular Categories:',
-                            style: context.textTheme.bodyMedium,
+                            style: context.textTheme.body1.style,
                             textAlign: TextAlign.left,
                           ),
                         ),
-                        Builder(
-                          builder: (context) {
-                            return artTypeFilters.isEmpty
-                                ? ConstrainedBox(
-                                    constraints: const BoxConstraints.expand(
-                                        height: 300),
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  )
-                                : RepaintBoundary(
-                                    child: Wrap(
-                                      alignment: WrapAlignment.spaceBetween,
-                                      direction: Axis.horizontal,
-                                      clipBehavior: Clip.hardEdge,
-                                      spacing: 4,
-                                      runSpacing: 8,
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.center,
-                                      children: List.generate(
-                                        artTypeFilters.length,
-                                        (index) => SizedBox(
-                                          width: (box.maxWidth - 42) / 3,
-                                          height: 64,
-                                          child: FilterTagChipContainer(
-                                            backgroundColor:
-                                                artTypeFilters[index]
-                                                            .category
-                                                            ?.title ==
-                                                        state.queryFilter
-                                                    ? context
-                                                        .colorScheme.primary
-                                                    : null,
-                                            color: artTypeFilters[index]
-                                                        .category
-                                                        ?.title ==
-                                                    state.queryFilter
-                                                ? context.colorScheme.onPrimary
-                                                : null,
-                                            tag: artTypeFilters[index].title,
-                                            onTap: () {
-                                              bloc.updateQueryFilter(
-                                                artTypeFilters[index]
-                                                    .category
-                                                    ?.title,
-                                              );
-                                              textEditingController.text =
-                                                  artTypeFilters[index].title;
-                                              showFilters.value = false;
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                          },
-                        ),
+                        if (artTypeFilters.isEmpty)
+                          ConstrainedBox(
+                            constraints:
+                                const BoxConstraints.expand(height: 300),
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        else
+                          RepaintBoundary(
+                            child: Wrap(
+                              alignment: WrapAlignment.spaceBetween,
+                              direction: Axis.horizontal,
+                              clipBehavior: Clip.hardEdge,
+                              spacing: 4,
+                              runSpacing: 8,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: List.generate(
+                                artTypeFilters.length,
+                                (index) => SizedBox(
+                                  width: (box.maxWidth - 42) / 3,
+                                  height: 64,
+                                  child: FilterTagChipContainer(
+                                    backgroundColor: artTypeFilters[index]
+                                                .category
+                                                ?.title ==
+                                            state.queryFilter
+                                        ? context.colorScheme.primary
+                                        : context.colorScheme.tertiaryContainer,
+                                    color:
+                                        artTypeFilters[index].category?.title ==
+                                                state.queryFilter
+                                            ? context.colorScheme.onPrimary
+                                            : context.colorScheme
+                                                .onTertiaryContainer,
+                                    tag: artTypeFilters[index].title,
+                                    onTap: () {
+                                      bloc.updateQueryFilter(
+                                        artTypeFilters[index].category?.title,
+                                      );
+                                      textEditingController.text =
+                                          artTypeFilters[index].title;
+                                      showFilters.value = false;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         const SizedBox(height: 12),
                       ],
                     ),

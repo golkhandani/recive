@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
 
 class CardContainer extends StatelessWidget {
   const CardContainer({

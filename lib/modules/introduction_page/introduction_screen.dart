@@ -8,7 +8,6 @@ import 'package:lottie/lottie.dart';
 import 'package:recive/modules/introduction_page/cubits/setting_loader_cubit.dart';
 import 'package:recive/modules/introduction_page/splash_screen.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -32,8 +31,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     final fontColor = context.colorScheme.onSurface;
     final decoration = intro.PageDecoration(
       pageColor: bg,
-      titleTextStyle: context.titleLargePrimaryContainer.withColor(fontColor)!,
-      bodyTextStyle: context.textTheme.bodyLarge!.withColor(fontColor)!,
+      titleTextStyle: context.textTheme.title1.withColor(fontColor).style,
+      bodyTextStyle: context.textTheme.body1.withColor(fontColor).style,
       imagePadding: EdgeInsets.only(top: context.vHeight / 10),
     );
     final pages = [
@@ -141,9 +140,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   child: Text(
                     'Location Permission',
                     textAlign: TextAlign.center,
-                    style: context.titleMediumOnPrimaryContainer.withColor(
-                      context.colorScheme.onTertiaryContainer,
-                    ),
+                    style: context.textTheme.title2
+                        .withColor(
+                          context.colorScheme.onTertiaryContainer,
+                        )
+                        .style,
                   ),
                 ),
               ),
@@ -210,24 +211,30 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           title: Text(
             'Location Access',
             textAlign: TextAlign.center,
-            style: context.textTheme.titleMedium!.withColor(
-              context.colorScheme.onSurface,
-            ),
+            style: context.textTheme.title1
+                .withColor(
+                  context.colorScheme.onSurface,
+                )
+                .style,
           ),
           content: Text(
             text,
             textAlign: TextAlign.center,
-            style: context.textTheme.bodyMedium!.withColor(
-              context.colorScheme.onSurface,
-            ),
+            style: context.textTheme.body1
+                .withColor(
+                  context.colorScheme.onSurface,
+                )
+                .style,
           ),
           actionsAlignment: MainAxisAlignment.center,
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                textStyle: context.textTheme.labelLarge!.withColor(
-                  context.colorScheme.onSecondary,
-                ),
+                textStyle: context.textTheme.label
+                    .withColor(
+                      context.colorScheme.onSecondary,
+                    )
+                    .style,
                 backgroundColor: context.colorScheme.secondaryContainer,
                 foregroundColor: context.colorScheme.onSecondaryContainer,
                 shape: RoundedRectangleBorder(
@@ -276,9 +283,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       ),
       child: Text(
         text,
-        style: context.titleMediumOnPrimaryContainer.withColor(
-          context.colorScheme.onTertiary,
-        ),
+        style: context.textTheme.title2
+            .withColor(
+              context.colorScheme.onTertiary,
+            )
+            .style,
       ),
     );
   }

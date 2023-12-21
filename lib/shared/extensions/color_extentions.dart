@@ -20,7 +20,3 @@ extension ColorEffect on Color {
     return hslLight.toColor();
   }
 }
-
-extension CopyWithColor on TextStyle {
-  TextStyle? withColor(Color color) => copyWith(color: color);
-}

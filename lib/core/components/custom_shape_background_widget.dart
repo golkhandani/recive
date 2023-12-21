@@ -32,13 +32,13 @@ class CustomShapeBackgroundWidget extends HookWidget {
         children: [
           Positioned.fill(
             child: Container(
-              color: context.theme.scaffoldBackgroundColor,
+              color: context.colorScheme.primary,
             ),
           ),
           buildCustomShape(
             offset: Offset(sensorX.value, sensorY.value),
-            shadow: context.theme.shadowColor,
-            color: context.theme.primaryColor,
+            shadow: context.colorScheme.shadow,
+            color: context.colorScheme.primary,
             size: Size(
               MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height / 2.4,

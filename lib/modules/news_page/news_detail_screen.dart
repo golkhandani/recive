@@ -16,6 +16,7 @@ import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/string_extensions.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/router/extra_data.dart';
 
 class NewsDetailScreen extends HookWidget {
@@ -42,18 +43,16 @@ class NewsDetailScreen extends HookWidget {
 
     final data = state.selected;
     final summary = extra?.summary;
-    final infoStyle = context.textTheme.bodyLarge!.copyWith(
-      color: context.theme.colorScheme.onPrimaryContainer,
-    );
+    final infoStyle = context.textTheme.body1.onPrimaryContainer.style;
     final color =
         TopNewsCardContainerData.sourceToColorMap[data?.source]?.darken(.3) ??
             context.randomColor;
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(
-            title: (summary?.title ?? data?.title ?? '').dynamicSub(24),
+            title: (summary?.title ?? data?.title ?? '').dynamicSub(20),
           ),
           SliverPadding(
             padding: kMediumPadding.copyWith(
@@ -75,10 +74,12 @@ class NewsDetailScreen extends HookWidget {
                           return kSliverFillAnimatedLoading;
                         }
 
-                        final style = context.textTheme.headlineSmall!.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        );
+                        final style = context.textTheme.headerLarge
+                            .copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            )
+                            .style;
                         final rotateTitles = [
                           RotateAnimatedText(
                             data.source,

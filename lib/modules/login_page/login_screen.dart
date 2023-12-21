@@ -12,7 +12,6 @@ import 'package:recive/modules/introduction_page/splash_screen.dart';
 import 'package:recive/modules/login_page/cubits/login_cubit.dart';
 import 'package:recive/modules/login_page/widgets/lottie_safe_loading.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -34,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final state = useBlocBuilder(bloc);
     return Scaffold(
       body: Container(
-        color: context.theme.colorScheme.surface,
+        color: context.colorScheme.surface,
         child: Column(
           children: [
             Flexible(
@@ -44,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   horizontalPosition: HorizontalPosition.right,
                 ),
                 child: Container(
-                  color: context.theme.colorScheme.primary,
+                  color: context.colorScheme.primary,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -53,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           "Welcome to City Explorer",
                           textAlign: TextAlign.center,
-                          style: context.titleLargePrimaryContainer,
+                          style: context.textTheme.title1.style,
                         ),
                       ),
                       const LottieSafeLoading(),
@@ -98,8 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Text(
                                       "Login with Google",
                                       textAlign: TextAlign.center,
-                                      style: context.textTheme.titleMedium!
-                                          .withColor(Colors.white),
+                                      style: context.textTheme.title2
+                                          .withColor(Colors.white)
+                                          .style,
                                     ),
                                   ],
                                 ),
@@ -125,27 +125,28 @@ class _LoginScreenState extends State<LoginScreen> {
                           side: BorderSide(width: 0, color: Colors.transparent),
                         ),
                       ),
-                      child: state.appleLoginLoadingState ==
-                              LoadingState.loading
-                          ? const CircularProgressIndicator()
-                          : Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const FaIcon(
-                                  FontAwesomeIcons.apple,
-                                  color: Colors.white,
+                      child:
+                          state.appleLoginLoadingState == LoadingState.loading
+                              ? const CircularProgressIndicator()
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const FaIcon(
+                                      FontAwesomeIcons.apple,
+                                      color: Colors.white,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      "Login with Apple",
+                                      textAlign: TextAlign.center,
+                                      style: context.textTheme.title2
+                                          .withColor(
+                                            Colors.white,
+                                          )
+                                          .style,
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  "Login with Apple",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      context.textTheme.titleMedium!.withColor(
-                                    Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -169,27 +170,28 @@ class _LoginScreenState extends State<LoginScreen> {
                           side: BorderSide(width: 0, color: Colors.transparent),
                         ),
                       ),
-                      child: state.appleLoginLoadingState ==
-                              LoadingState.loading
-                          ? const CircularProgressIndicator()
-                          : Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const FaIcon(
-                                  FontAwesomeIcons.keycdn,
-                                  color: Colors.black,
+                      child:
+                          state.appleLoginLoadingState == LoadingState.loading
+                              ? const CircularProgressIndicator()
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const FaIcon(
+                                      FontAwesomeIcons.keycdn,
+                                      color: Colors.black,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      "Login with ApiKey",
+                                      textAlign: TextAlign.center,
+                                      style: context.textTheme.title1
+                                          .withColor(
+                                            Colors.black,
+                                          )
+                                          .style,
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  "Login with ApiKey",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      context.textTheme.titleMedium!.withColor(
-                                    Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
                     ),
                   ),
                   const Spacer(),
@@ -197,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () => launchUrl(Uri.parse('https://google.com')),
                     child: Text(
                       'Terms and Conditions',
-                      style: context.titleLargePrimaryContainer,
+                      style: context.textTheme.title1.style,
                     ),
                   ),
                   const SizedBox(height: 88),

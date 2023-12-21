@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class TagChipContainer extends StatelessWidget {
   const TagChipContainer({
@@ -18,10 +19,10 @@ class TagChipContainer extends StatelessWidget {
     return RepaintBoundary(
       child: Material(
         borderRadius: kSmallBorderRadius,
-        color: context.theme.colorScheme.tertiary,
+        color: context.colorScheme.tertiary,
         child: InkWell(
           borderRadius: kSmallBorderRadius,
-          splashColor: context.theme.colorScheme.tertiaryContainer,
+          splashColor: context.colorScheme.tertiaryContainer,
           onTap: onTap,
           child: Container(
             padding: kMediumPadding,
@@ -30,7 +31,7 @@ class TagChipContainer extends StatelessWidget {
             ),
             child: Text(
               tag,
-              style: context.textTheme.bodyLarge,
+              style: context.textTheme.body1.style,
             ),
           ),
         ),
@@ -58,10 +59,10 @@ class FilterTagChipContainer extends StatelessWidget {
     return RepaintBoundary(
       child: Material(
         borderRadius: kSmallBorderRadius,
-        color: backgroundColor ?? context.theme.colorScheme.tertiary,
+        color: backgroundColor ?? context.colorScheme.tertiary,
         child: InkWell(
           borderRadius: kSmallBorderRadius,
-          splashColor: context.theme.colorScheme.tertiaryContainer,
+          splashColor: context.colorScheme.tertiaryContainer,
           onTap: onTap,
           child: Container(
             padding: kMediumPadding,
@@ -71,9 +72,11 @@ class FilterTagChipContainer extends StatelessWidget {
             child: Center(
               child: Text(
                 tag,
-                style: context.textTheme.bodySmall!.copyWith(
-                  color: context.theme.colorScheme.onTertiary,
-                ),
+                style: context.textTheme.body2
+                    .withColor(
+                      color ?? context.colorScheme.onTertiary,
+                    )
+                    .style,
                 textAlign: TextAlign.center,
               ),
             ),

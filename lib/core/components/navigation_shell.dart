@@ -116,7 +116,7 @@ class _NavigationShellState extends State<NavigationShell> {
                       "https://unsplash.com/photos/dBp9dbQCh4Q/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjkxOTYyNzc4fA&force=true&w=2400"),
                   fit: BoxFit.cover,
                 ),
-                color: context.theme.colorScheme.primary,
+                color: context.colorScheme.primary,
               ),
             ),
           ),
@@ -130,7 +130,7 @@ class _NavigationShellState extends State<NavigationShell> {
                 height: box.maxHeight,
                 width: box.maxWidth,
                 child: CardContainer(
-                  color: context.theme.colorScheme.surface.withOpacity(0.7),
+                  color: context.colorScheme.surface.withOpacity(0.7),
                   borderRadius: kMediumBorderRadius,
                   padding: EdgeInsets.zero,
                   child: Container(
@@ -144,7 +144,7 @@ class _NavigationShellState extends State<NavigationShell> {
                             children: [
                               Text(
                                 'Vancity Explore',
-                                style: context.textTheme.headlineLarge,
+                                style: context.textTheme.header2.style,
                               ),
                               const SizedBox(height: 48),
                               const Text(introText),
@@ -337,7 +337,7 @@ class _NavigationShellState extends State<NavigationShell> {
             BoxShadow(
               offset: const Offset(.2, .2),
               blurRadius: 1,
-              color: context.colorScheme.background,
+              color: context.colorScheme.shadow,
             )
           ],
         ),
@@ -371,8 +371,9 @@ class _NavigationShellState extends State<NavigationShell> {
                           const SizedBox(height: 2),
                           Text(
                             e.label ?? '',
-                            style: context.textTheme.bodyMedium!
-                                .copyWith(color: color),
+                            style: context.textTheme.body2
+                                .copyWith(color: color)
+                                .style,
                           ),
                         ],
                       ),

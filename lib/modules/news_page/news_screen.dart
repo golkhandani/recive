@@ -26,7 +26,7 @@ class NewsScreen extends HookWidget {
     }, []);
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.colorScheme.background,
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(

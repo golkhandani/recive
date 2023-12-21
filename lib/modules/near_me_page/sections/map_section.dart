@@ -48,7 +48,7 @@ class NearMeScreenMapViewContent extends HookWidget {
             bloc: bloc,
             state: state,
           ),
-          const SliverGap(height: 32),
+          const SliverGap(height: 24),
         ],
       ),
     );

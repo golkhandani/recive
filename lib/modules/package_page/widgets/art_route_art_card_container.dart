@@ -8,7 +8,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recive/modules/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/modules/package_page/widgets/art_route_art_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -32,7 +31,7 @@ class ArtRouteCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.theme.colorScheme.secondaryContainer.withOpacity(0.6);
+    final color = context.colorScheme.secondaryContainer.withOpacity(0.6);
     final fontColor = context.colorScheme.onTertiaryContainer;
     final heroTag = parentRoute + data.id;
     final extraJson = ExtraData(
@@ -61,8 +60,8 @@ class ArtRouteCardContainer extends HookWidget {
                   Text(
                     data.title,
                     maxLines: 1,
-                    style: context.titleLargeOnPrimaryContainer
-                        .withColor(fontColor),
+                    style:
+                        context.textTheme.titleSmall.withColor(fontColor).style,
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -78,8 +77,9 @@ class ArtRouteCardContainer extends HookWidget {
                           data.location,
                           maxLines: isSmallTall ? 3 : 1,
                           overflow: TextOverflow.ellipsis,
-                          style: context.titleSmallOnPrimaryContainer
-                              .withColor(fontColor),
+                          style: context.textTheme.subtitleTiny
+                              .withColor(fontColor)
+                              .style,
                         ),
                       ),
                     ],
@@ -133,7 +133,7 @@ class ArtRouteCardContainer extends HookWidget {
     Widget child,
   ) {
     return Builder(builder: (context) {
-      final fontColor = context.colorScheme.onTertiaryContainer;
+      final fontColor = context.colorScheme.onSecondary;
       return Container(
         constraints: constraints,
         child: Column(
@@ -147,19 +147,21 @@ class ArtRouteCardContainer extends HookWidget {
                       final isDestination = t.contains('destination');
                       return TextSpan(
                         text: '${i == 0 ? '' : '\n↵'} $t',
-                        style: context.textTheme.bodyLarge?.copyWith(
-                          color: isDestination
-                              ? context.colorScheme.secondary
-                              : fontColor,
-                          fontWeight: isDestination ? FontWeight.bold : null,
-                          fontSize: isDestination ? 20 : null,
-                        ),
+                        style: context.textTheme.titleTiny
+                            .copyWith(
+                              color: isDestination
+                                  ? context.colorScheme.secondary
+                                  : fontColor,
+                              fontWeight:
+                                  isDestination ? FontWeight.bold : null,
+                              fontSize: isDestination ? 20 : null,
+                            )
+                            .style,
                       );
                     }).toList(),
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
             ],
             Expanded(
               child: Hero(

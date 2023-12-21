@@ -9,7 +9,7 @@ import 'package:recive/modules/home_page/home_screen.dart';
 import 'package:recive/modules/near_me_page/near_me_screen.dart';
 import 'package:recive/modules/profile_page/profile_screen.dart';
 import 'package:recive/modules/search_page/search_screen.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
 
@@ -84,9 +84,9 @@ class DashboardWrapper extends StatelessWidget {
       items: items,
       currentIndex: currentIndex,
       onTap: onItemTapped,
-      activeColor: context.colorScheme.primary,
-      inactiveColor: context.colorScheme.onTertiaryContainer,
-      backgroundColor: context.colorScheme.tertiaryContainer,
+      activeColor: context.colorScheme.onNavSelected,
+      inactiveColor: context.colorScheme.onNavUnselected,
+      backgroundColor: context.colorScheme.navBackground,
       useFloatingNavBar: true,
       handleTopSafePadding: false,
       child: child,

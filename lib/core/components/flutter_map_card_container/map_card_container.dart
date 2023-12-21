@@ -16,6 +16,7 @@ import 'package:recive/core/components/flutter_map_card_container/flutter_map_se
 import 'package:recive/core/components/sliver_card_container.dart';
 import 'package:recive/modules/near_me_page/widgets/selected_marker.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/services/geo_location_service.dart';
 
 class MapCardContainer extends StatefulHookWidget {
@@ -97,6 +98,7 @@ class _MapCardContainerState extends State<MapCardContainer>
     }
 
     return SliverCardContainer(
+      color: context.colorScheme.secondary,
       borderRadius: kMediumBorderRadius,
       padding: kTinyPadding,
       sliver: SliverToBoxAdapter(

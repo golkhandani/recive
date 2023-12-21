@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 
 class FlutterMapTileLayer extends StatelessWidget {
@@ -14,7 +14,7 @@ class FlutterMapTileLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
-        context.colorScheme.tertiary,
+        context.colorScheme.onNavBackground,
         BlendMode.hue,
       ),
       child: TileLayer(

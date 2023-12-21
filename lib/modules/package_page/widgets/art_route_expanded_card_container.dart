@@ -9,7 +9,6 @@ import 'package:recive/modules/package_page/package_detail_screen.dart';
 import 'package:recive/modules/package_page/packages_screen.dart';
 import 'package:recive/modules/package_page/widgets/art_route_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -26,8 +25,8 @@ class ArtRouteExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorScheme.surface;
-    final fontColor = context.colorScheme.onSurface;
+    final color = context.colorScheme.secondary;
+    final fontColor = context.colorScheme.onSecondary;
 
     final heroTag = PackageDetailScreen.name + data.id;
     final extra = ExtraData<PackageSummaryData>(
@@ -62,11 +61,11 @@ class ArtRouteExpandedCardContainer extends HookWidget {
                   child: CachedNetworkImage(
                     imageUrl: data.imageUrl,
                     placeholder: (context, _) => SizedBox(
-                      height: 180,
+                      height: 280,
                       child: kSkeletonLoadingBox,
                     ),
                     imageBuilder: (context, imageProvider) => Container(
-                      height: 180,
+                      height: 280,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: imageProvider,
@@ -85,19 +84,19 @@ class ArtRouteExpandedCardContainer extends HookWidget {
                 child: ExpandablePanel(
                   header: Text(
                     data.title,
-                    style: context.textTheme.titleMedium?.withColor(fontColor),
+                    style: context.textTheme.title3.withColor(fontColor).style,
                   ),
                   collapsed: Text(
                     data.subtitle,
                     softWrap: true,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.bodyMedium?.withColor(fontColor),
+                    style: context.textTheme.body2.withColor(fontColor).style,
                   ),
                   expanded: Text(
                     data.description,
                     softWrap: true,
-                    style: context.textTheme.bodyMedium?.withColor(fontColor),
+                    style: context.textTheme.body2.withColor(fontColor).style,
                   ),
                   theme: ExpandableThemeData(
                     iconSize: 20,

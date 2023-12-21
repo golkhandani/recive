@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
 import 'package:recive/shared/utils/theme.dart';
@@ -22,11 +23,11 @@ class TitleHeader extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final hightlightColor = context.schema.tertiary;
+    final hightlightColor = context.colorScheme.tertiary;
     final backgroundColorV =
-        backgroundColor ?? context.theme.colorScheme.tertiaryContainer;
-    final titleColorV = titleColor ?? context.theme.colorScheme.onPrimary;
-    final color = colorSchemeLight.onTertiary;
+        backgroundColor ?? context.colorScheme.tertiaryContainer;
+    final titleColorV = titleColor ?? context.colorScheme.onPrimary;
+    final color = colorSchemeLight.onSecondary;
     final backbtn = SizedBox(
       width: 32,
       height: 32,
@@ -62,17 +63,15 @@ class TitleHeader extends HookWidget {
                       onTap: () {
                         navigationService.backTo(context);
                       },
-                      child: Builder(builder: (context) {
-                        return Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: context.schema.tertiary.withOpacity(1),
-                          ),
-                          child: Builder(builder: (context) {
-                            return backbtn;
-                          }),
-                        );
-                      }),
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: context.colorScheme.secondary,
+                        ),
+                        child: Builder(builder: (context) {
+                          return backbtn;
+                        }),
+                      ),
                     ),
                   ),
                 ),
@@ -87,9 +86,9 @@ class TitleHeader extends HookWidget {
                     fit: BoxFit.none,
                     child: Text(
                       title,
-                      style: context.textTheme.titleMedium?.copyWith(
-                        color: titleColorV,
-                      ),
+                      style: context.textTheme.titleSmall
+                          .withColor(titleColorV)
+                          .style,
                     ),
                   ),
                 ),

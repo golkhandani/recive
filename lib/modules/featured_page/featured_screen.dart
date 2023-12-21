@@ -10,7 +10,6 @@ import 'package:recive/modules/near_me_page/widgets/art_card_container_data.dart
 import 'package:recive/modules/near_me_page/widgets/art_expanded_card_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class FeaturedScreen extends HookWidget {
   static const name = 'featured';

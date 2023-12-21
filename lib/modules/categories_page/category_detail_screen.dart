@@ -18,8 +18,8 @@ import 'package:recive/modules/near_me_page/widgets/art_card_container.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/modules/search_page/search_screen.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/string_extensions.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
@@ -54,10 +54,10 @@ class CategoryDetailScreen extends HookWidget {
     final title = summary?.title ?? data?.title ?? '';
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.colorScheme.background,
       child: CustomScrollView(
         slivers: [
-          ScreenSafeAreaHeader(title: title),
+          ScreenSafeAreaHeader(title: title.dynamicSub(20)),
           SliverPadding(
             padding: kMediumPadding.copyWith(
               bottom: context.footerHeight + 32,
@@ -90,9 +90,8 @@ class CategoryDetailScreen extends HookWidget {
                       return kSliverFillAnimatedLoading;
                     }
 
-                    final infoStyle = context.textTheme.bodyMedium!.copyWith(
-                      color: context.theme.colorScheme.onPrimaryContainer,
-                    );
+                    final infoStyle =
+                        context.textTheme.body1.onSecondaryContainer.style;
                     return MultiSliver(
                       children: [
                         SliverCardContainer(
@@ -110,8 +109,8 @@ class CategoryDetailScreen extends HookWidget {
                                 child: Text(
                                   data.title,
                                   style: infoStyle.copyWith(
-                                    fontSize:
-                                        context.textTheme.titleLarge!.fontSize,
+                                    fontSize: context
+                                        .textTheme.titleTiny.style.fontSize,
                                     color: context.colorScheme.onBackground,
                                   ),
                                 ),
@@ -123,13 +122,12 @@ class CategoryDetailScreen extends HookWidget {
                         SliverCardContainer(
                           borderRadius: kMediumBorderRadius,
                           padding: kTinyPadding,
-                          color: context.colorScheme.surface,
+                          color: context.colorScheme.secondary,
                           sliver: SliverToBoxAdapter(
                             child: Container(
                               padding: kTinyPadding,
                               decoration: BoxDecoration(
                                 borderRadius: kSmallBorderRadius,
-                                color: context.colorScheme.surface,
                               ),
                               child: Center(
                                 child: Column(
@@ -137,14 +135,14 @@ class CategoryDetailScreen extends HookWidget {
                                     Text(
                                       data.subtitle,
                                       style: infoStyle.withColor(
-                                        context.colorScheme.onSurface,
+                                        context.colorScheme.onSecondary,
                                       ),
                                     ),
                                     const SizedBox(height: 24),
                                     Text(
                                       data.description,
                                       style: infoStyle.withColor(
-                                        context.colorScheme.onSurface,
+                                        context.colorScheme.onSecondary,
                                       ),
                                     ),
                                   ],
@@ -158,7 +156,7 @@ class CategoryDetailScreen extends HookWidget {
                           SliverCardContainer(
                             borderRadius: kMediumBorderRadius,
                             padding: kTinyPadding.copyWith(right: 0, bottom: 0),
-                            color: context.colorScheme.surface,
+                            color: context.colorScheme.secondary,
                             sliver: SliverGrid(
                               delegate: SliverChildBuilderDelegate(
                                 childCount: state.items.length,

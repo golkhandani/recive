@@ -12,7 +12,6 @@ import 'package:recive/modules/news_page/cubits/news_cubit.dart';
 import 'package:recive/modules/news_page/news_screen.dart';
 import 'package:recive/modules/news_page/widgets/news_card_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -40,9 +39,7 @@ class HomePageTopNewsSections extends HookWidget {
             SliverToBoxAdapter(
               child: Text(
                 "Top News Stories",
-                style: context.textTheme.headlineSmall?.withColor(
-                  context.colorScheme.onBackground,
-                ),
+                style: context.textTheme.onBackground.subtitleLarge.style,
               ),
             ),
             const SliverGap(height: 12),

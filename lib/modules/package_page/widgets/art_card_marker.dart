@@ -7,7 +7,6 @@ import 'package:flutter_map_supercluster/flutter_map_supercluster.dart';
 import 'package:recive/core/components/card_container.dart';
 import 'package:recive/modules/featured_page/models/art_abstract_model.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class EventCardMarker {
@@ -72,15 +71,17 @@ class EventCardMarker {
                         Text(
                           data.title,
                           maxLines: 3,
-                          style: context.labelLargeOnPrimaryContainer
-                              .withColor(fontColor),
+                          style: context.textTheme.body1
+                              .withColor(fontColor)
+                              .style,
                         ),
                         const SizedBox(height: 8),
                         Text(
                           data.location,
                           maxLines: 2,
-                          style: context.labelSmallOnPrimaryContainer
-                              .withColor(fontColor),
+                          style: context.textTheme.body1
+                              .withColor(fontColor)
+                              .style,
                         ),
                       ],
                     ),

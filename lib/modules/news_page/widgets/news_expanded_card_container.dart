@@ -29,10 +29,12 @@ class TopNewsExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final style = context.textTheme.headlineSmall!.copyWith(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-    );
+    final style = context.textTheme.headerLarge
+        .copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        )
+        .style;
     final color = context.colorScheme.surface;
     final fontColor = context.colorScheme.onSurface;
 
@@ -111,7 +113,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                     header: Text(
                       data.title,
                       style:
-                          context.titleLargeOnBackground.withColor(fontColor),
+                          context.textTheme.title1.withColor(fontColor).style,
                     ),
                     collapsed: Column(
                       children: [
@@ -129,9 +131,11 @@ class TopNewsExpandedCardContainer extends HookWidget {
                               DateFormat.MMMd().format(data.publishDate),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: context.textTheme.labelSmall!.copyWith(
-                                color: fontColor,
-                              ),
+                              style: context.textTheme.label
+                                  .copyWith(
+                                    color: fontColor,
+                                  )
+                                  .style,
                             ),
                             const SizedBox(width: 12),
                             Icon(
@@ -145,9 +149,11 @@ class TopNewsExpandedCardContainer extends HookWidget {
                                 data.source,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: context.textTheme.labelSmall!.copyWith(
-                                  color: fontColor,
-                                ),
+                                style: context.textTheme.label
+                                    .copyWith(
+                                      color: fontColor,
+                                    )
+                                    .style,
                               ),
                             ),
                             const Spacer(),
@@ -173,9 +179,11 @@ class TopNewsExpandedCardContainer extends HookWidget {
                                 DateFormat.MMMd().format(data.publishDate),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: context.textTheme.labelSmall!.copyWith(
-                                  color: fontColor,
-                                ),
+                                style: context.textTheme.label
+                                    .copyWith(
+                                      color: fontColor,
+                                    )
+                                    .style,
                               ),
                               const SizedBox(width: 12),
                               Icon(
@@ -189,9 +197,11 @@ class TopNewsExpandedCardContainer extends HookWidget {
                                   data.source,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: context.textTheme.labelSmall!.copyWith(
-                                    color: fontColor,
-                                  ),
+                                  style: context.textTheme.label
+                                      .copyWith(
+                                        color: fontColor,
+                                      )
+                                      .style,
                                 ),
                               ),
                               const Spacer(),
@@ -202,9 +212,11 @@ class TopNewsExpandedCardContainer extends HookWidget {
                             data.description,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: context.textTheme.bodyMedium!.copyWith(
-                              color: fontColor,
-                            ),
+                            style: context.textTheme.body2
+                                .copyWith(
+                                  color: fontColor,
+                                )
+                                .style,
                           ),
                         ],
                       ),

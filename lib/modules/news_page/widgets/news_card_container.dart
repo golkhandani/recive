@@ -10,6 +10,7 @@ import 'package:recive/modules/news_page/news_detail_screen.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
 import 'package:recive/shared/services/navigation_service.dart';
@@ -77,9 +78,11 @@ class TopNewsCardContainer extends HookWidget {
                 data.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: context.textTheme.titleSmall!.copyWith(
-                  color: fontColor,
-                ),
+                style: context.textTheme.title3
+                    .copyWith(
+                      color: fontColor,
+                    )
+                    .style,
               ),
             ),
           ],
@@ -98,9 +101,11 @@ class TopNewsCardContainer extends HookWidget {
               DateFormat.MMMd().format(data.publishDate),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: context.textTheme.labelSmall!.copyWith(
-                color: fontColor,
-              ),
+              style: context.textTheme.label
+                  .copyWith(
+                    color: fontColor,
+                  )
+                  .style,
             ),
             const SizedBox(width: 12),
             Icon(
@@ -114,9 +119,11 @@ class TopNewsCardContainer extends HookWidget {
                 data.source,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: context.textTheme.labelSmall!.copyWith(
-                  color: fontColor,
-                ),
+                style: context.textTheme.label
+                    .copyWith(
+                      color: fontColor,
+                    )
+                    .style,
               ),
             ),
             const Spacer(),
@@ -127,9 +134,11 @@ class TopNewsCardContainer extends HookWidget {
           data.description,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: context.textTheme.bodyMedium!.copyWith(
-            color: fontColor,
-          ),
+          style: context.textTheme.body1
+              .copyWith(
+                color: fontColor,
+              )
+              .style,
         ),
       ],
     );

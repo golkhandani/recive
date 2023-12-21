@@ -23,7 +23,6 @@ import 'package:recive/modules/featured_page/models/art_model.dart';
 import 'package:recive/modules/near_me_page/cubits/art_detail_cubit.dart';
 import 'package:recive/modules/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/string_extensions.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
@@ -65,7 +64,7 @@ class ArtDetailScreen extends HookWidget {
         slivers: [
           if (summary != null || data != null) ...[
             ScreenSafeAreaHeader(
-              title: (summary?.title ?? data?.title ?? '').dynamicSub(16),
+              title: (summary?.title ?? data?.title ?? '').dynamicSub(20),
             ),
             SliverPadding(
               padding: kTinyPadding.copyWith(
@@ -81,9 +80,8 @@ class ArtDetailScreen extends HookWidget {
                     return kSliverFillAnimatedLoading;
                   }
 
-                  final infoStyle = context.textTheme.bodyLarge!.copyWith(
-                    color: context.theme.colorScheme.onPrimaryContainer,
-                  );
+                  final infoStyle =
+                      context.textTheme.body1.onPrimaryContainer.style;
 
                   return MultiSliver(
                     children: [
@@ -139,7 +137,7 @@ class ArtDetailScreen extends HookWidget {
                                                 : Icons.bookmark_border_rounded,
                                             size: 42,
                                             color:
-                                                context.colorScheme.onSurface,
+                                                context.colorScheme.secondary,
                                           ),
                                         ),
                                         LikeButton(
@@ -157,7 +155,7 @@ class ArtDetailScreen extends HookWidget {
                                             isLiked
                                                 ? Icons.favorite_rounded
                                                 : Icons.favorite_border_rounded,
-                                            size: 50,
+                                            size: 42,
                                             color: Colors.redAccent,
                                           ),
                                         ),
@@ -168,7 +166,7 @@ class ArtDetailScreen extends HookWidget {
                                             Icons.ios_share,
                                             size: 42,
                                             color:
-                                                context.colorScheme.onSurface,
+                                                context.colorScheme.secondary,
                                           ),
                                           onPressed: () {
                                             locator
@@ -359,7 +357,7 @@ class ArtDetailScreen extends HookWidget {
     return Builder(
       key: GlobalKey(debugLabel: 'TAG INFO'),
       builder: (context) {
-        final color = context.theme.colorScheme.surface;
+        final color = context.colorScheme.secondary;
         final tags = data?.tags ?? [];
         return SliverToBoxAdapter(
           child: CardContainer(
@@ -394,8 +392,8 @@ class ArtDetailScreen extends HookWidget {
     return Builder(
       key: GlobalKey(debugLabel: 'ORGANIZER INFO'),
       builder: (context) {
-        final color = context.theme.colorScheme.surface;
-        final fontColor = context.theme.colorScheme.onSurface;
+        final color = context.colorScheme.secondary;
+        final fontColor = context.colorScheme.onSecondary;
         return SliverCardContainer(
           borderRadius: kMediumBorderRadius,
           color: color,
@@ -423,8 +421,9 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Organizer : ',
-                                style: context.textTheme.titleMedium
-                                    ?.withColor(fontColor),
+                                style: context.textTheme.title2
+                                    .withColor(fontColor)
+                                    .style,
                               ),
                               if (data?.artists.firstOrNull?.name != null)
                                 TextSpan(text: data?.artists.firstOrNull?.name),
@@ -452,8 +451,9 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Bio : ',
-                                style: context.textTheme.titleMedium
-                                    ?.withColor(fontColor),
+                                style: context.textTheme.title2
+                                    .withColor(fontColor)
+                                    .style,
                               ),
                               if (data?.artists.firstOrNull?.biography != null)
                                 TextSpan(
@@ -483,8 +483,9 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Website : ',
-                                style: context.textTheme.titleMedium
-                                    ?.withColor(fontColor),
+                                style: context.textTheme.title2
+                                    .withColor(fontColor)
+                                    .style,
                               ),
                               if (data?.artists.firstOrNull?.website != null)
                                 TextSpan(
@@ -521,8 +522,8 @@ class ArtDetailScreen extends HookWidget {
     return Builder(
         key: GlobalKey(debugLabel: 'BASIC INFO'),
         builder: (context) {
-          final color = context.theme.colorScheme.surface;
-          final fontColor = context.theme.colorScheme.onSurface;
+          final color = context.colorScheme.secondary;
+          final fontColor = context.colorScheme.onSecondary;
           if (data == null) {
             return kSliverFillAnimatedLoading;
           }
@@ -544,8 +545,9 @@ class ArtDetailScreen extends HookWidget {
                     Center(
                       child: Text(
                         data.description,
-                        style: context.textTheme.bodyLarge!
-                            .copyWith(color: fontColor),
+                        style: context.textTheme.body1
+                            .copyWith(color: fontColor)
+                            .style,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -562,8 +564,9 @@ class ArtDetailScreen extends HookWidget {
                           child: Text(
                             data.location.venue.address.localizedAddressDisplay,
                             overflow: TextOverflow.fade,
-                            style: context.textTheme.bodyLarge!
-                                .copyWith(color: fontColor),
+                            style: context.textTheme.body1
+                                .copyWith(color: fontColor)
+                                .style,
                           ),
                         ),
                       ],
@@ -606,9 +609,11 @@ class ArtDetailScreen extends HookWidget {
                       child: Text(
                         title,
                         textAlign: TextAlign.center,
-                        style: context.titleLargeOnPrimaryContainer.withColor(
-                          context.colorScheme.onBackground,
-                        ),
+                        style: context.textTheme.title1
+                            .withColor(
+                              context.colorScheme.onBackground,
+                            )
+                            .style,
                       ),
                     ),
                   ],

@@ -12,7 +12,7 @@ enum ReciveTheme {
 
 class ReciveThemeCubit extends MaybeEmitCubit<ReciveTheme> {
   static const themeStoreKey = StoreBoxConstant.themeStoreKey;
-  static const defatulTheme = ReciveTheme.dark;
+  static const defatulTheme = ReciveTheme.light;
   final Box<ReciveTheme> box;
 
   ReciveThemeCubit({

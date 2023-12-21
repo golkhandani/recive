@@ -58,6 +58,7 @@ class NearbyCarouselContent extends HookWidget {
     return MultiSliver(
       children: [
         SliverCardContainer(
+          color: context.colorScheme.secondary,
           borderRadius: kMediumBorderRadius,
           padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
@@ -69,9 +70,8 @@ class NearbyCarouselContent extends HookWidget {
                     child: Center(
                       child: Text(
                         "No Art has been found!",
-                        style: context.textTheme.bodyLarge?.copyWith(
-                          color: context.colorScheme.onTertiaryContainer,
-                        ),
+                        style:
+                            context.textTheme.body1.onTertiaryContainer.style,
                       ),
                     ),
                   );

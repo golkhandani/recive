@@ -6,7 +6,6 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:recive/core/components/flutter_map_card_container/map_card_container.dart';
 import 'package:recive/core/components/sliver_gap.dart';
 import 'package:recive/modules/near_me_page/near_me_screen.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -26,9 +25,7 @@ class HomePageMapSection extends HookWidget {
         SliverToBoxAdapter(
           child: Text(
             "Find Arts on map",
-            style: context.textTheme.headlineSmall?.withColor(
-              context.colorScheme.onBackground,
-            ),
+            style: context.textTheme.onBackground.subtitleLarge.style,
           ),
         ),
         const SliverGap(height: 12),

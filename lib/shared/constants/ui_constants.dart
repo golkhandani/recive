@@ -7,7 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:recive/modules/login_page/widgets/lottie_safe_loading.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
 
 const kSliverFillSimpleLoading = SliverFillRemaining(
   child: Center(
@@ -83,7 +83,7 @@ final kSkeletonSectionLoadingBox = LayoutBuilder(builder: (context, box) {
             .shimmer(
               delay: Random().nextDouble().seconds,
               duration: 1.seconds,
-              color: context.colorScheme.primary,
+              color: context.colorScheme.secondary,
             ),
       ),
       const SizedBox(height: 12),
@@ -105,7 +105,7 @@ final kSkeletonSectionLoadingBox = LayoutBuilder(builder: (context, box) {
           .shimmer(
             delay: Random().nextDouble().seconds,
             duration: 1.seconds,
-            color: context.colorScheme.primary,
+            color: context.colorScheme.secondary,
           ),
     ],
   );

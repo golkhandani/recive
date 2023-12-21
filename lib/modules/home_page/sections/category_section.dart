@@ -14,7 +14,6 @@ import 'package:recive/modules/categories_page/widgets/category_card_container.d
 import 'package:recive/modules/categories_page/widgets/category_card_container_data.dart';
 import 'package:recive/modules/home_page/widgets/see_more_button.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -48,13 +47,12 @@ class _HomePageCategoriesSectionState extends State<HomePageCategoriesSection> {
             SliverToBoxAdapter(
               child: Text(
                 "Art Categories",
-                style: context.textTheme.headlineSmall?.withColor(
-                  context.colorScheme.onBackground,
-                ),
+                style: context.textTheme.onBackground.subtitleLarge.style,
               ),
             ),
             const SliverGap(height: 12),
             SliverCardContainer(
+              color: context.colorScheme.secondary,
               borderRadius: kMediumBorderRadius,
               padding: kTinyPadding,
               sliver: SliverToBoxAdapter(

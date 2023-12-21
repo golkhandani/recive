@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:recive/shared/extensions/color_extentions.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 enum MapButtonTextPosition {
   left,
@@ -75,9 +74,9 @@ class MapButton extends StatelessWidget {
                       fit: BoxFit.contain,
                       child: Text(
                         text!,
-                        style: context.textTheme.bodyMedium?.withColor(
-                          Colors.black,
-                        ),
+                        style: context.textTheme.label
+                            .withColor(Colors.black)
+                            .style,
                       ),
                     ),
                   ),

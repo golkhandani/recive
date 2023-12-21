@@ -118,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
     final showFilters = useState(false);
 
     return ColoredBox(
-      color: context.theme.colorScheme.background,
+      color: context.colorScheme.background,
       child: LayoutBuilder(builder: (context, box) {
         return CustomScrollView(
           controller: scrollController,
@@ -130,7 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
             SliverPinnedHeader(
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: context.schema.tertiaryContainer,
+                  color: context.colorScheme.navBackground,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                       offset: const Offset(0.1, 0.1),
@@ -145,7 +145,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   children: [
                     Expanded(
                       child: PinnedSearchHeader(
-                        backgroundColor: context.schema.tertiaryContainer,
+                        backgroundColor: context.colorScheme.navBackground,
                         padding: const EdgeInsets.only(bottom: 12, left: 12),
                         height: 54,
                         bloc: quickSearchBloc,
@@ -163,7 +163,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Icon(
                           FluentIcons.filter_12_filled,
-                          color: context.schema.onTertiaryContainer,
+                          color: context.colorScheme.onTertiaryContainer,
                           size: 36,
                         ),
                       ),
@@ -250,12 +250,12 @@ class SearchFilterSection extends HookWidget {
                 ? Container(
                     padding: kTinyPadding,
                     decoration: BoxDecoration(
-                      color: context.theme.colorScheme.surface,
+                      color: context.colorScheme.navBackground,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                           offset: const Offset(0.2, 0),
                           blurRadius: 4,
-                          color: context.colorScheme.primary.darken(0.2),
+                          color: context.colorScheme.navBackground.darken(0.2),
                         )
                       ],
                       borderRadius: BorderRadius.zero,
@@ -268,7 +268,7 @@ class SearchFilterSection extends HookWidget {
                           padding: kTinyPadding,
                           child: Text(
                             'Begin to end distance: ',
-                            style: context.textTheme.bodyMedium,
+                            style: context.textTheme.body2.style,
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -279,12 +279,12 @@ class SearchFilterSection extends HookWidget {
                             (element) =>
                                 element.distance == selectedDistanceFilter,
                           ),
-                          activeBgColor: [
-                            context.theme.colorScheme.primaryContainer
-                          ],
-                          activeFgColor: context.theme.colorScheme.primary,
-                          inactiveBgColor: context.theme.colorScheme.tertiary,
-                          inactiveFgColor: context.theme.colorScheme.onTertiary,
+                          activeBgColor: [context.colorScheme.primary],
+                          activeFgColor: context.colorScheme.onPrimary,
+                          inactiveBgColor:
+                              context.colorScheme.tertiaryContainer,
+                          inactiveFgColor:
+                              context.colorScheme.onTertiaryContainer,
                           totalSwitches: distancesFilters.length,
                           labels: distancesFilters.map((e) => e.title).toList(),
                           animate: true,
@@ -302,7 +302,7 @@ class SearchFilterSection extends HookWidget {
                           padding: kTinyPadding,
                           child: Text(
                             'Popular tags:',
-                            style: context.textTheme.bodyMedium,
+                            style: context.textTheme.body2.style,
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -329,6 +329,10 @@ class SearchFilterSection extends HookWidget {
                                       width: (box.maxWidth - 42) / 3,
                                       height: 64,
                                       child: FilterTagChipContainer(
+                                        backgroundColor: context
+                                            .colorScheme.tertiaryContainer,
+                                        color: context
+                                            .colorScheme.onTertiaryContainer,
                                         tag: searchedkeywords[index],
                                         onTap: () => onKeywordTap(
                                           searchedkeywords[index],

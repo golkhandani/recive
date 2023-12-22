@@ -78,7 +78,7 @@ class TopNewsCardContainer extends HookWidget {
                 data.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: context.textTheme.title3
+                style: context.textTheme.titleTiny
                     .copyWith(
                       color: fontColor,
                     )
@@ -134,7 +134,7 @@ class TopNewsCardContainer extends HookWidget {
           data.description,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: context.textTheme.body1
+          style: context.textTheme.bodyMedium
               .copyWith(
                 color: fontColor,
               )

@@ -6,7 +6,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 
 import 'package:recive/core/components/async_search_bar.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 
 import 'bloc/quick_search_header_bloc.dart';
@@ -54,22 +53,21 @@ class QuickSearchHeader extends HookWidget {
     }
 
     return Container(
-      color: context.colorScheme.primary,
+      color: context.colorTheme.primary,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Search what you looking for!",
-            style: context.textTheme.title3.style,
+            style: context.textTheme.titleTiny.style,
           ),
           const SizedBox(height: 8),
           AsyncSearchBar(
             controller: textEditingController,
-            backgroundColor: context.colorScheme.primaryContainer,
+            backgroundColor: context.colorTheme.primaryContainer,
             hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color:
-                      context.colorScheme.onPrimaryContainer.withOpacity(0.7),
+                  color: context.colorTheme.onPrimaryContainer.withOpacity(0.7),
                 ),
             textStyle: textStyle,
             itemBuilder: (_, item, index) => Container(
@@ -89,17 +87,17 @@ class QuickSearchHeader extends HookWidget {
             isSelected: state.isSelected,
             suffix: Material(
               borderRadius: BorderRadius.zero,
-              color: context.colorScheme.primaryContainer,
+              color: context.colorTheme.primaryContainer,
               child: InkWell(
                 onTap: () {},
-                splashColor: context.colorScheme.secondary,
+                splashColor: context.colorTheme.secondary,
                 child: SizedBox(
                   height: 48,
                   width: 48,
                   child: Icon(
                     Icons.search,
                     size: 32,
-                    color: context.colorScheme.onPrimaryContainer,
+                    color: context.colorTheme.onPrimaryContainer,
                   ),
                 ),
               ),
@@ -139,7 +137,7 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
   @override
   Widget build(BuildContext context) {
     final textStyle =
-        context.textTheme.body1.copyWith(color: Colors.white).style;
+        context.textTheme.bodyMedium.copyWith(color: Colors.white).style;
     Timer? debounce;
     final bloc = widget.bloc;
     final state = useBlocBuilder(bloc);
@@ -168,7 +166,7 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
       }
     }
 
-    final bg = widget.backgroundColor ?? context.colorScheme.tertiaryContainer;
+    final bg = widget.backgroundColor ?? context.colorTheme.tertiaryContainer;
 
     return Container(
       color: bg,
@@ -180,15 +178,15 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
             return AsyncSearchBar(
               constraints: BoxConstraints(minHeight: widget.height),
               controller: textEditingController,
-              backgroundColor: context.colorScheme.textFieldBackground,
+              backgroundColor: context.colorTheme.textFieldBackground,
               boxBorder:
-                  Border.all(color: context.colorScheme.textFieldBackground),
+                  Border.all(color: context.colorTheme.textFieldBackground),
               hintText: "Search what you're looking for!",
               hintStyle: textStyle.withColor(
-                context.colorScheme.onTextFieldBackground.withOpacity(0.7),
+                context.colorTheme.onTextFieldBackground.withOpacity(0.7),
               ),
-              textStyle: textStyle
-                  .withColor(context.colorScheme.onTextFieldBackground),
+              textStyle:
+                  textStyle.withColor(context.colorTheme.onTextFieldBackground),
               itemBuilder: (_, item, index) => Container(
                 height: 48,
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -206,7 +204,7 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
               suffix: Material(
                 borderRadius: BorderRadius.zero,
                 borderOnForeground: true,
-                color: context.colorScheme.textFieldBackground,
+                color: context.colorTheme.textFieldBackground,
                 child: Row(
                   children: [
                     if (textEditingController.text.isNotEmpty) ...[
@@ -216,14 +214,14 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
                           textEditingController.clear();
                           widget.onTextChanged?.call('');
                         },
-                        splashColor: context.colorScheme.textFieldBackground,
+                        splashColor: context.colorTheme.textFieldBackground,
                         child: SizedBox(
                           height: 48,
                           width: 48,
                           child: Icon(
                             Icons.close,
                             size: 24,
-                            color: context.colorScheme.onTextFieldBackground
+                            color: context.colorTheme.onTextFieldBackground
                                 .withOpacity(0.9),
                           ),
                         ),

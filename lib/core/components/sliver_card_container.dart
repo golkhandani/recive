@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sliver_tools/sliver_tools.dart';
 
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class SliverCardContainer extends StatelessWidget {
   const SliverCardContainer({
@@ -28,13 +28,13 @@ class SliverCardContainer extends StatelessWidget {
         SliverPositioned.fill(
           child: Container(
             decoration: BoxDecoration(
-              color: color ?? context.colorScheme.tertiaryContainer,
+              color: color ?? context.colorTheme.tertiaryContainer,
               boxShadow: hasShadow
                   ? <BoxShadow>[
                       BoxShadow(
                         offset: const Offset(.2, .2),
                         blurRadius: 2,
-                        color: context.colorScheme.tertiaryContainer,
+                        color: context.colorTheme.tertiaryContainer,
                       )
                     ]
                   : null,

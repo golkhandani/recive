@@ -4,7 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/services/geo_location_service.dart';
 
 class FlutterMapUserMarker extends StatelessWidget {
@@ -18,7 +18,7 @@ class FlutterMapUserMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final spinkit = SpinKitRipple(
-      color: context.colorScheme.secondaryContainer,
+      color: context.colorTheme.secondaryContainer,
       size: 50.0,
     );
     return MarkerLayer(

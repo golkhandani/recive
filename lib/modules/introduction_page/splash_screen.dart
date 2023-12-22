@@ -9,7 +9,7 @@ import 'package:recive/modules/introduction_page/introduction_screen.dart';
 import 'package:recive/modules/login_page/login_screen.dart';
 import 'package:recive/modules/login_page/widgets/lottie_safe_loading.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
 
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }, []);
     return Scaffold(
       body: Container(
-        color: context.colorScheme.background,
+        color: context.colorTheme.background,
         child: const LottieSafeLoading(),
       ),
     );

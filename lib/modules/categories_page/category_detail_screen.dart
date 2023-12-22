@@ -54,7 +54,7 @@ class CategoryDetailScreen extends HookWidget {
     final title = summary?.title ?? data?.title ?? '';
 
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(title: title.dynamicSub(20)),
@@ -91,19 +91,19 @@ class CategoryDetailScreen extends HookWidget {
                     }
 
                     final infoStyle =
-                        context.textTheme.body1.onSecondaryContainer.style;
+                        context.textTheme.bodyMedium.onSecondaryContainer.style;
                     return MultiSliver(
                       children: [
                         SliverCardContainer(
                           borderRadius: kMediumBorderRadius,
                           padding: kTinyPadding,
-                          color: context.colorScheme.background,
+                          color: context.colorTheme.background,
                           sliver: SliverToBoxAdapter(
                             child: Container(
                               padding: kTinyPadding,
                               decoration: BoxDecoration(
                                 borderRadius: kSmallBorderRadius,
-                                color: context.colorScheme.background,
+                                color: context.colorTheme.background,
                               ),
                               child: Center(
                                 child: Text(
@@ -111,7 +111,7 @@ class CategoryDetailScreen extends HookWidget {
                                   style: infoStyle.copyWith(
                                     fontSize: context
                                         .textTheme.titleTiny.style.fontSize,
-                                    color: context.colorScheme.onBackground,
+                                    color: context.colorTheme.onBackground,
                                   ),
                                 ),
                               ),
@@ -122,7 +122,7 @@ class CategoryDetailScreen extends HookWidget {
                         SliverCardContainer(
                           borderRadius: kMediumBorderRadius,
                           padding: kTinyPadding,
-                          color: context.colorScheme.secondary,
+                          color: context.colorTheme.secondary,
                           sliver: SliverToBoxAdapter(
                             child: Container(
                               padding: kTinyPadding,
@@ -135,14 +135,14 @@ class CategoryDetailScreen extends HookWidget {
                                     Text(
                                       data.subtitle,
                                       style: infoStyle.withColor(
-                                        context.colorScheme.onSecondary,
+                                        context.colorTheme.onSecondary,
                                       ),
                                     ),
                                     const SizedBox(height: 24),
                                     Text(
                                       data.description,
                                       style: infoStyle.withColor(
-                                        context.colorScheme.onSecondary,
+                                        context.colorTheme.onSecondary,
                                       ),
                                     ),
                                   ],
@@ -156,7 +156,7 @@ class CategoryDetailScreen extends HookWidget {
                           SliverCardContainer(
                             borderRadius: kMediumBorderRadius,
                             padding: kTinyPadding.copyWith(right: 0, bottom: 0),
-                            color: context.colorScheme.secondary,
+                            color: context.colorTheme.secondary,
                             sliver: SliverGrid(
                               delegate: SliverChildBuilderDelegate(
                                 childCount: state.items.length,
@@ -203,7 +203,7 @@ class CategoryDetailScreen extends HookWidget {
                             height: 54,
                             width: double.infinity,
                             child: SeeMoreButton(
-                              color: context.colorScheme.secondary,
+                              color: context.colorTheme.secondary,
                               text: "Routes contains these items",
                               constraints: const BoxConstraints.expand(),
                               onTap: () => navigationService.moveTo(

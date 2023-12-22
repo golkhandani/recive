@@ -43,12 +43,12 @@ class NewsDetailScreen extends HookWidget {
 
     final data = state.selected;
     final summary = extra?.summary;
-    final infoStyle = context.textTheme.body1.onPrimaryContainer.style;
+    final infoStyle = context.textTheme.bodyMedium.onPrimaryContainer.style;
     final color =
         TopNewsCardContainerData.sourceToColorMap[data?.source]?.darken(.3) ??
             context.randomColor;
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(

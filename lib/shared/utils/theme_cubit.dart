@@ -3,27 +3,23 @@ import 'dart:async';
 import 'package:hive/hive.dart';
 
 import 'package:recive/shared/constants/key_constants.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/utils/maybe_emit_cubit.dart';
 
-enum ReciveTheme {
-  dark,
-  light,
-}
-
-class ReciveThemeCubit extends MaybeEmitCubit<ReciveTheme> {
+class ReciveThemeCubit extends MaybeEmitCubit<AppPaletteType> {
   static const themeStoreKey = StoreBoxConstant.themeStoreKey;
-  static const defatulTheme = ReciveTheme.light;
-  final Box<ReciveTheme> box;
+  static final defatulTheme = AppPaletteType.values.first;
+  final Box<AppPaletteType> box;
 
   ReciveThemeCubit({
     required this.box,
-    ReciveTheme? initalValue,
+    AppPaletteType? initalValue,
   }) : super(initalValue ?? defatulTheme) {
     unawaited(box.put(themeStoreKey, initalValue ?? defatulTheme));
   }
 
   void switchTheme(int index) async {
-    final updatedTheme = ReciveTheme.values.firstWhere(
+    final updatedTheme = AppPaletteType.values.firstWhere(
       (element) => element.index == index,
     );
     maybeEmit(updatedTheme);

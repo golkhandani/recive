@@ -55,7 +55,7 @@ class PackageDetailScreen extends HookWidget {
     final heroTag = extra?.heroTag ?? "RWE@";
 
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: CustomScrollView(
         slivers: [
           ScreenSafeAreaHeader(
@@ -80,16 +80,16 @@ class PackageDetailScreen extends HookWidget {
                       return kSkeletonSectionLoadingBox;
                     }
 
-                    final infoStyle = context.textTheme.body1
+                    final infoStyle = context.textTheme.bodyMedium
                         .withColor(
-                          context.colorScheme.onPrimaryContainer,
+                          context.colorTheme.onPrimaryContainer,
                         )
                         .style;
                     return MultiSliver(
                       children: [
                         Builder(builder: (context) {
-                          final color = context.colorScheme.background;
-                          final fontColor = context.colorScheme.onBackground;
+                          final color = context.colorTheme.background;
+                          final fontColor = context.colorTheme.onBackground;
                           return SliverCardContainer(
                             borderRadius: kMediumBorderRadius,
                             padding: kTinyPadding,
@@ -114,8 +114,8 @@ class PackageDetailScreen extends HookWidget {
                         }),
                         const SliverGap(height: 12),
                         Builder(builder: (context) {
-                          final color = context.colorScheme.secondary;
-                          final fontColor = context.colorScheme.onSecondary;
+                          final color = context.colorTheme.secondary;
+                          final fontColor = context.colorTheme.onSecondary;
                           return SliverCardContainer(
                             borderRadius: kMediumBorderRadius,
                             padding: kTinyPadding,
@@ -145,8 +145,8 @@ class PackageDetailScreen extends HookWidget {
                         _buildTagInfo(data.tags.take(10).toList()),
                         const SliverGap(height: 12),
                         Builder(builder: (context) {
-                          final color = context.colorScheme.secondary;
-                          final fontColor = context.colorScheme.onSecondary;
+                          final color = context.colorTheme.secondary;
+                          final fontColor = context.colorTheme.onSecondary;
                           return SliverCardContainer(
                             borderRadius: kMediumBorderRadius,
                             padding: kTinyPadding,
@@ -183,18 +183,18 @@ class PackageDetailScreen extends HookWidget {
                         ),
                         const SliverGap(height: 12),
                         CardContainer(
-                          color: context.colorScheme.secondary,
+                          color: context.colorTheme.secondary,
                           borderRadius: kMediumBorderRadius,
                           padding: kTinyPadding.copyWith(left: 12, top: 24),
                           child: LayoutBuilder(builder: (context, box) {
                             return FixedTimeline.tileBuilder(
                               theme: TimelineThemeData(
                                 connectorTheme: ConnectorThemeData(
-                                  color: context.colorScheme.primary,
+                                  color: context.colorTheme.primary,
                                   thickness: 5,
                                 ),
                                 indicatorTheme: IndicatorThemeData(
-                                  color: context.colorScheme.primary,
+                                  color: context.colorTheme.primary,
                                   size: 25,
                                 ),
                                 nodeItemOverlap: true,
@@ -341,9 +341,9 @@ class PackageDetailScreen extends HookWidget {
   ) {
     return Container(
       height: 5,
-      color: context.colorScheme.primary,
+      color: context.colorTheme.primary,
       width: box.maxWidth - 48,
-      margin: EdgeInsets.only(top: 40),
+      margin: const EdgeInsets.only(top: 40),
     );
   }
 
@@ -367,7 +367,7 @@ class PackageDetailScreen extends HookWidget {
       key: GlobalKey(debugLabel: 'TAG INFO'),
       builder: (context) {
         final tags = data ?? [];
-        final color = context.colorScheme.secondary;
+        final color = context.colorTheme.secondary;
 
         return SliverToBoxAdapter(
           child: CardContainer(

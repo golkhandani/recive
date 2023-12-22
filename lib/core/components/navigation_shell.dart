@@ -78,7 +78,7 @@ class _NavigationShellState extends State<NavigationShell> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldShell(
-      backgroundColor: context.colorScheme.surface,
+      backgroundColor: context.colorTheme.surface,
       handleTopSafePadding: widget.handleTopSafePadding,
       bottomNavigationBar: context.isNarrowWith && !widget.useFloatingNavBar
           ? _buildBottomNavigationBar()
@@ -116,7 +116,7 @@ class _NavigationShellState extends State<NavigationShell> {
                       "https://unsplash.com/photos/dBp9dbQCh4Q/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjkxOTYyNzc4fA&force=true&w=2400"),
                   fit: BoxFit.cover,
                 ),
-                color: context.colorScheme.primary,
+                color: context.colorTheme.primary,
               ),
             ),
           ),
@@ -130,7 +130,7 @@ class _NavigationShellState extends State<NavigationShell> {
                 height: box.maxHeight,
                 width: box.maxWidth,
                 child: CardContainer(
-                  color: context.colorScheme.surface.withOpacity(0.7),
+                  color: context.colorTheme.surface.withOpacity(0.7),
                   borderRadius: kMediumBorderRadius,
                   padding: EdgeInsets.zero,
                   child: Container(
@@ -144,7 +144,7 @@ class _NavigationShellState extends State<NavigationShell> {
                             children: [
                               Text(
                                 'Vancity Explore',
-                                style: context.textTheme.header2.style,
+                                style: context.textTheme.headerMedium.style,
                               ),
                               const SizedBox(height: 48),
                               const Text(introText),
@@ -337,7 +337,7 @@ class _NavigationShellState extends State<NavigationShell> {
             BoxShadow(
               offset: const Offset(.2, .2),
               blurRadius: 1,
-              color: context.colorScheme.shadow,
+              color: context.colorTheme.shadow,
             )
           ],
         ),
@@ -361,17 +361,24 @@ class _NavigationShellState extends State<NavigationShell> {
                       : widget.inactiveColor;
                   return Container(
                     color: Colors.transparent,
-                    padding: context.smallPadding,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: kSmallPadding.left),
                     child: GestureDetector(
                       onTap: () => widget.onTap?.call(i),
+                      behavior: HitTestBehavior.opaque,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Icon(e.iconData, color: color),
+                          Icon(
+                            e.iconData,
+                            color: color,
+                            size: 20,
+                          ),
                           const SizedBox(height: 2),
                           Text(
                             e.label ?? '',
-                            style: context.textTheme.body2
+                            style: context.textTheme.bodyMedium
                                 .copyWith(color: color)
                                 .style,
                           ),

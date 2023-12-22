@@ -6,7 +6,6 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:recive/core/components/flutter_map_card_container/map_card_container.dart';
 import 'package:recive/core/components/sliver_gap.dart';
 import 'package:recive/modules/near_me_page/near_me_screen.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
@@ -44,7 +43,7 @@ class HomePageMapSection extends HookWidget {
               child: Center(
                 child: Icon(
                   Icons.touch_app,
-                  color: context.colorScheme.secondaryContainer,
+                  color: context.colorTheme.secondaryContainer,
                   size: 50,
                 ),
               ),

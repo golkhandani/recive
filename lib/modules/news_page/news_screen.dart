@@ -10,6 +10,7 @@ import 'package:recive/modules/news_page/widgets/news_card_container.dart';
 import 'package:recive/modules/news_page/widgets/news_expanded_card_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class NewsScreen extends HookWidget {
   static const name = 'news';
@@ -26,7 +27,7 @@ class NewsScreen extends HookWidget {
     }, []);
 
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(

@@ -8,7 +8,6 @@ import 'package:recive/modules/categories_page/category_detail_screen.dart';
 import 'package:recive/modules/categories_page/widgets/category_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/color_extentions.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
@@ -27,7 +26,7 @@ class CategoryCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorScheme.secondaryContainer;
+    final color = context.colorTheme.secondaryContainer;
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -13,8 +13,9 @@ _$UserCustomDataImpl _$$UserCustomDataImplFromJson(Map<String, dynamic> json) =>
       imageUrl: json['image_url'] as String?,
       name: json['name'] as String?,
       bookmarkArts: (json['bookmark_arts'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$$UserCustomDataImplToJson(

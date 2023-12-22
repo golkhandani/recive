@@ -11,7 +11,6 @@ import 'package:recive/modules/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/modules/near_me_page/near_me_screen.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
@@ -34,8 +33,8 @@ class ArtCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorScheme.secondary;
-    final fontColor = context.colorScheme.onSecondary;
+    final color = context.colorTheme.secondary;
+    final fontColor = context.colorTheme.onSecondary;
     final heroTag =
         hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
 

@@ -8,10 +8,10 @@ import 'package:hive/hive.dart';
 import 'package:recive/core/enums/loading_state.dart';
 import 'package:recive/modules/bookmarks_page/models/bookmark_hive_object.dart';
 import 'package:recive/modules/profile_page/models/user_custom_data.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/realm_service.dart';
 import 'package:recive/shared/utils/maybe_emit_cubit.dart';
-import 'package:recive/shared/utils/theme_cubit.dart';
 
 part 'login_cubit.freezed.dart';
 part 'login_cubit.g.dart';
@@ -40,7 +40,7 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
   final FlutterSecureStorage storage;
   final GoogleSignIn googleSignIn;
   final RealmApplicationService applicationService;
-  final Box<ReciveTheme> themeBox;
+  final Box<AppPaletteType> themeBox;
   final Box<bool> introBox;
   final Box<BookmarkHiveObject> bookmarkBox;
 
@@ -72,11 +72,13 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
           name: googleSignIn.currentUser?.displayName,
           email: googleSignIn.currentUser?.email,
           imageUrl: googleSignIn.currentUser?.photoUrl,
+          bookmarkArts: [],
         );
         await applicationService.loginWithGoogleId(
           googleKey!.idToken!,
           data: customUserData,
         );
+        await _loadUserData();
         onSuccess();
       } else {
         onFailure();
@@ -103,12 +105,25 @@ class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {
       ));
 
       await applicationService.loginWithApiKey();
-
+      await _loadUserData();
       onSuccess();
     } catch (e) {
       locator.logger.e('loginWithApiKey error:', error: e);
       onFailure();
     }
+  }
+
+  Future<void> _loadUserData() async {
+    final favIds = await applicationService.getFavouriteArtIds();
+    final data = {
+      for (var e in favIds)
+        e: BookmarkHiveObject(
+          id: e,
+          dateTime: DateTime.now(),
+        )
+    };
+    await bookmarkBox.putAll(data);
+    return;
   }
 
   Future<void> loginWithApple({

@@ -8,7 +8,6 @@ import 'package:recive/modules/package_page/package_detail_screen.dart';
 import 'package:recive/modules/package_page/widgets/art_route_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/color_extentions.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
@@ -27,8 +26,8 @@ class ArtRouteContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorScheme.secondaryContainer;
-    final fontColor = context.colorScheme.onSecondaryContainer;
+    final color = context.colorTheme.secondaryContainer;
+    final fontColor = context.colorTheme.onSecondaryContainer;
 
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +37,7 @@ class ArtRouteContainer extends HookWidget {
             data.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: context.textTheme.title1.withColor(fontColor).style,
+            style: context.textTheme.titleSmall.withColor(fontColor).style,
           ),
         ),
         const SizedBox(height: 12),

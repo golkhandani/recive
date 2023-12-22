@@ -10,7 +10,7 @@ import 'package:recive/modules/home_page/sections/featured_section.dart';
 import 'package:recive/modules/home_page/sections/map_section.dart';
 import 'package:recive/modules/home_page/sections/weather_section.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class HomeScreen extends HookWidget {
   static const name = 'home';
@@ -32,7 +32,7 @@ class HomeScreen extends HookWidget {
     ];
 
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(

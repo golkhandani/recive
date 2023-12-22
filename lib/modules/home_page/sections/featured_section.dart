@@ -15,7 +15,6 @@ import 'package:recive/modules/home_page/widgets/see_more_button.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
@@ -48,7 +47,7 @@ class HomePageFeaturedSection extends HookWidget {
               ),
               const SliverGap(height: 12),
               SliverCardContainer(
-                color: context.colorScheme.secondary,
+                color: context.colorTheme.secondary,
                 borderRadius: kMediumBorderRadius,
                 padding: kTinyPadding.copyWith(right: 0, bottom: 0),
                 sliver: MultiSliver(

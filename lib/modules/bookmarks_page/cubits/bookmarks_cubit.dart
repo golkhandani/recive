@@ -99,13 +99,13 @@ class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
             dateTime: DateTime.now(),
           ),
         );
+        await applicationService.addFavouriteArtIds([id]);
       } else {
         ids.remove(id);
         await bookmarkBox.delete(id);
+        await applicationService.removeFavouriteArtIds([id]);
       }
       ids = ids.toSet().toList();
-
-      await applicationService.updateFavouriteArtIds(ids);
 
       maybeEmit(state.copyWith(
         loadingState: LoadingState.done,

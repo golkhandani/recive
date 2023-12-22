@@ -8,7 +8,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recive/modules/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/modules/package_page/widgets/art_route_art_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
@@ -31,8 +30,8 @@ class ArtRouteCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorScheme.secondaryContainer.withOpacity(0.6);
-    final fontColor = context.colorScheme.onTertiaryContainer;
+    final color = context.colorTheme.secondaryContainer.withOpacity(0.6);
+    final fontColor = context.colorTheme.onTertiaryContainer;
     final heroTag = parentRoute + data.id;
     final extraJson = ExtraData(
       summary: ArtDetailSummaryData(
@@ -133,7 +132,7 @@ class ArtRouteCardContainer extends HookWidget {
     Widget child,
   ) {
     return Builder(builder: (context) {
-      final fontColor = context.colorScheme.onSecondary;
+      final fontColor = context.colorTheme.onSecondary;
       return Container(
         constraints: constraints,
         child: Column(
@@ -150,7 +149,7 @@ class ArtRouteCardContainer extends HookWidget {
                         style: context.textTheme.titleTiny
                             .copyWith(
                               color: isDestination
-                                  ? context.colorScheme.secondary
+                                  ? context.colorTheme.secondary
                                   : fontColor,
                               fontWeight:
                                   isDestination ? FontWeight.bold : null,

@@ -7,7 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:recive/modules/login_page/widgets/lottie_safe_loading.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 const kSliverFillSimpleLoading = SliverFillRemaining(
   child: Center(
@@ -43,17 +43,17 @@ final kSkeletonLoadingBox = LayoutBuilder(builder: (context, box) {
   return ClipRRect(
       borderRadius: kSmallBorderRadius,
       child: Shimmer.fromColors(
-        baseColor: context.colorScheme.brightness == Brightness.light
+        baseColor: context.colorTheme.brightness == Brightness.light
             ? Colors.grey[200]!
             : Colors.grey[800]!,
-        highlightColor: context.colorScheme.brightness == Brightness.light
+        highlightColor: context.colorTheme.brightness == Brightness.light
             ? Colors.grey[400]!
             : Colors.grey[600]!,
         child: Column(
           children: [
             Container(
               constraints: box,
-              color: context.colorScheme.brightness == Brightness.light
+              color: context.colorTheme.brightness == Brightness.light
                   ? Colors.grey[200]!
                   : Colors.grey[800]!,
             ),
@@ -83,7 +83,7 @@ final kSkeletonSectionLoadingBox = LayoutBuilder(builder: (context, box) {
             .shimmer(
               delay: Random().nextDouble().seconds,
               duration: 1.seconds,
-              color: context.colorScheme.secondary,
+              color: context.colorTheme.secondary,
             ),
       ),
       const SizedBox(height: 12),
@@ -105,7 +105,7 @@ final kSkeletonSectionLoadingBox = LayoutBuilder(builder: (context, box) {
           .shimmer(
             delay: Random().nextDouble().seconds,
             duration: 1.seconds,
-            color: context.colorScheme.secondary,
+            color: context.colorTheme.secondary,
           ),
     ],
   );

@@ -77,7 +77,7 @@ class CategoriesCubit extends MaybeEmitHydratedCubit<CategoriesState> {
     ));
 
     final data = await categoryRepo.getCategories();
-    data.shuffle();
+    // data.shuffle();
 
     maybeEmit(state.copyWith(
       categories: data,

@@ -10,7 +10,6 @@ import 'package:recive/modules/featured_page/featured_screen.dart';
 import 'package:recive/modules/near_me_page/near_me_detail_screen.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
@@ -27,8 +26,8 @@ class ArtExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorScheme.secondary;
-    final fontColor = context.colorScheme.onSecondary;
+    final color = context.colorTheme.secondary;
+    final fontColor = context.colorTheme.onSecondary;
     final extra = ExtraData(
       summary: ArtDetailSummaryData(
         id: data.id,
@@ -80,8 +79,9 @@ class ArtExpandedCardContainer extends HookWidget {
                   child: ExpandablePanel(
                     header: Text(
                       data.title,
-                      style:
-                          context.textTheme.title1.withColor(fontColor).style,
+                      style: context.textTheme.titleSmall
+                          .withColor(fontColor)
+                          .style,
                     ),
                     collapsed: Padding(
                       padding: EdgeInsets.symmetric(
@@ -100,7 +100,7 @@ class ArtExpandedCardContainer extends HookWidget {
                               data.location,
                               maxLines: 3,
                               overflow: TextOverflow.fade,
-                              style: context.textTheme.body2
+                              style: context.textTheme.bodySmall
                                   .withColor(fontColor)
                                   .style,
                             ),
@@ -120,7 +120,7 @@ class ArtExpandedCardContainer extends HookWidget {
                             data.description,
                             maxLines: 3,
                             overflow: TextOverflow.fade,
-                            style: context.textTheme.body2
+                            style: context.textTheme.bodySmall
                                 .withColor(fontColor)
                                 .style,
                           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class TagChipContainer extends StatelessWidget {
@@ -19,10 +18,10 @@ class TagChipContainer extends StatelessWidget {
     return RepaintBoundary(
       child: Material(
         borderRadius: kSmallBorderRadius,
-        color: context.colorScheme.tertiary,
+        color: context.colorTheme.chipBackground,
         child: InkWell(
           borderRadius: kSmallBorderRadius,
-          splashColor: context.colorScheme.tertiaryContainer,
+          splashColor: context.colorTheme.chipBackground,
           onTap: onTap,
           child: Container(
             padding: kMediumPadding,
@@ -31,7 +30,7 @@ class TagChipContainer extends StatelessWidget {
             ),
             child: Text(
               tag,
-              style: context.textTheme.body1.style,
+              style: context.textTheme.bodyMedium.onChipBackground.style,
             ),
           ),
         ),
@@ -59,10 +58,10 @@ class FilterTagChipContainer extends StatelessWidget {
     return RepaintBoundary(
       child: Material(
         borderRadius: kSmallBorderRadius,
-        color: backgroundColor ?? context.colorScheme.tertiary,
+        color: backgroundColor ?? context.colorTheme.tertiary,
         child: InkWell(
           borderRadius: kSmallBorderRadius,
-          splashColor: context.colorScheme.tertiaryContainer,
+          splashColor: context.colorTheme.tertiaryContainer,
           onTap: onTap,
           child: Container(
             padding: kMediumPadding,
@@ -72,9 +71,9 @@ class FilterTagChipContainer extends StatelessWidget {
             child: Center(
               child: Text(
                 tag,
-                style: context.textTheme.body2
+                style: context.textTheme.bodySmall
                     .withColor(
-                      color ?? context.colorScheme.onTertiary,
+                      color ?? context.colorTheme.onTertiary,
                     )
                     .style,
                 textAlign: TextAlign.center,

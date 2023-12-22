@@ -59,12 +59,13 @@ class ArtDetailScreen extends HookWidget {
     final loading = state.loadingState;
 
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: CustomScrollView(
         slivers: [
           if (summary != null || data != null) ...[
             ScreenSafeAreaHeader(
               title: (summary?.title ?? data?.title ?? '').dynamicSub(20),
+              elevation: false,
             ),
             SliverPadding(
               padding: kTinyPadding.copyWith(
@@ -81,11 +82,11 @@ class ArtDetailScreen extends HookWidget {
                   }
 
                   final infoStyle =
-                      context.textTheme.body1.onPrimaryContainer.style;
+                      context.textTheme.bodyMedium.onPrimaryContainer.style;
 
                   return MultiSliver(
                     children: [
-                      _buildImageCarousel(summary, data, heroTag),
+                      _buildImageCarousel(context, summary, data, heroTag),
                       const SliverGap(height: 12),
                       Builder(
                         builder: (context) {
@@ -96,7 +97,7 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               SliverCardContainer(
                                 borderRadius: kMediumBorderRadius,
-                                color: context.colorScheme.background,
+                                color: context.colorTheme.background,
                                 padding: EdgeInsets.zero,
                                 sliver: SliverToBoxAdapter(
                                   child: Container(
@@ -124,9 +125,9 @@ class ArtDetailScreen extends HookWidget {
                                           },
                                           bubblesColor: BubblesColor(
                                             dotPrimaryColor:
-                                                context.colorScheme.primary,
+                                                context.colorTheme.primary,
                                             dotSecondaryColor:
-                                                context.colorScheme.secondary,
+                                                context.colorTheme.secondary,
                                           ),
                                           isLiked: state.isBookmarked,
                                           mainAxisAlignment:
@@ -136,8 +137,7 @@ class ArtDetailScreen extends HookWidget {
                                                 ? Icons.bookmark_rounded
                                                 : Icons.bookmark_border_rounded,
                                             size: 42,
-                                            color:
-                                                context.colorScheme.secondary,
+                                            color: context.colorTheme.secondary,
                                           ),
                                         ),
                                         LikeButton(
@@ -148,7 +148,7 @@ class ArtDetailScreen extends HookWidget {
                                           },
                                           bubblesColor: BubblesColor(
                                             dotPrimaryColor:
-                                                context.colorScheme.primary,
+                                                context.colorTheme.primary,
                                             dotSecondaryColor: Colors.redAccent,
                                           ),
                                           likeBuilder: (isLiked) => Icon(
@@ -165,8 +165,7 @@ class ArtDetailScreen extends HookWidget {
                                           icon: Icon(
                                             Icons.ios_share,
                                             size: 42,
-                                            color:
-                                                context.colorScheme.secondary,
+                                            color: context.colorTheme.secondary,
                                           ),
                                           onPressed: () {
                                             locator
@@ -208,10 +207,16 @@ class ArtDetailScreen extends HookWidget {
   }
 
   Widget _buildImageCarousel(
-      ArtDetailSummaryData? summary, ArtModel? data, String heroTag) {
+    BuildContext context,
+    ArtDetailSummaryData? summary,
+    ArtModel? data,
+    String heroTag,
+  ) {
+    final color = context.colorTheme.cardBackground;
     return CardContainer(
       borderRadius: kMediumBorderRadius,
       padding: kTinyPadding,
+      color: color,
       child: LayoutBuilder(builder: (context, box) {
         if ((summary?.imageUrl ?? data!.images.firstOrNull?.imageUrl) == null) {
           return const SizedBox();
@@ -265,8 +270,8 @@ class ArtDetailScreen extends HookWidget {
     return Builder(
       key: GlobalKey(debugLabel: 'SOURCE INFO'),
       builder: (context) {
-        final color = context.colorScheme.secondary;
-        final fontColor = context.colorScheme.onSecondary;
+        final color = context.colorTheme.cardBackground;
+        final fontColor = context.colorTheme.onCardBackground;
         return SliverCardContainer(
           borderRadius: kMediumBorderRadius,
           color: color,
@@ -357,7 +362,7 @@ class ArtDetailScreen extends HookWidget {
     return Builder(
       key: GlobalKey(debugLabel: 'TAG INFO'),
       builder: (context) {
-        final color = context.colorScheme.secondary;
+        final color = context.colorTheme.cardBackground;
         final tags = data?.tags ?? [];
         return SliverToBoxAdapter(
           child: CardContainer(
@@ -392,8 +397,8 @@ class ArtDetailScreen extends HookWidget {
     return Builder(
       key: GlobalKey(debugLabel: 'ORGANIZER INFO'),
       builder: (context) {
-        final color = context.colorScheme.secondary;
-        final fontColor = context.colorScheme.onSecondary;
+        final color = context.colorTheme.cardBackground;
+        final fontColor = context.colorTheme.onCardBackground;
         return SliverCardContainer(
           borderRadius: kMediumBorderRadius,
           color: color,
@@ -421,12 +426,13 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Organizer : ',
-                                style: context.textTheme.title2
+                                style: context.textTheme.titleTiny
                                     .withColor(fontColor)
                                     .style,
                               ),
-                              if (data?.artists.firstOrNull?.name != null)
-                                TextSpan(text: data?.artists.firstOrNull?.name),
+                              TextSpan(
+                                text: data?.artists.firstOrNull?.name ?? 'N/A',
+                              ),
                             ],
                           ),
                           maxLines: 1,
@@ -451,13 +457,14 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Bio : ',
-                                style: context.textTheme.title2
+                                style: context.textTheme.titleTiny
                                     .withColor(fontColor)
                                     .style,
                               ),
-                              if (data?.artists.firstOrNull?.biography != null)
-                                TextSpan(
-                                    text: data?.artists.firstOrNull?.biography),
+                              TextSpan(
+                                text: data?.artists.firstOrNull?.biography ??
+                                    'N/A',
+                              ),
                             ],
                           ),
                           maxLines: 1,
@@ -483,24 +490,24 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Website : ',
-                                style: context.textTheme.title2
+                                style: context.textTheme.titleTiny
                                     .withColor(fontColor)
                                     .style,
                               ),
-                              if (data?.artists.firstOrNull?.website != null)
-                                TextSpan(
-                                  text: data?.artists.firstOrNull?.website,
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      launchUrl(Uri.parse(
-                                        data!.artists.firstOrNull!.website,
-                                      ));
-                                    },
-                                  style: infoStyle.copyWith(
-                                    color: fontColor,
-                                    fontStyle: FontStyle.italic,
-                                  ),
+                              TextSpan(
+                                text:
+                                    data?.artists.firstOrNull?.website ?? 'N/A',
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    launchUrl(Uri.parse(
+                                      data!.artists.firstOrNull!.website,
+                                    ));
+                                  },
+                                style: infoStyle.copyWith(
+                                  color: fontColor,
+                                  fontStyle: FontStyle.italic,
                                 ),
+                              ),
                             ],
                           ),
                           style: infoStyle,
@@ -522,8 +529,8 @@ class ArtDetailScreen extends HookWidget {
     return Builder(
         key: GlobalKey(debugLabel: 'BASIC INFO'),
         builder: (context) {
-          final color = context.colorScheme.secondary;
-          final fontColor = context.colorScheme.onSecondary;
+          final color = context.colorTheme.cardBackground;
+          final fontColor = context.colorTheme.onCardBackground;
           if (data == null) {
             return kSliverFillAnimatedLoading;
           }
@@ -545,7 +552,7 @@ class ArtDetailScreen extends HookWidget {
                     Center(
                       child: Text(
                         data.description,
-                        style: context.textTheme.body1
+                        style: context.textTheme.bodyMedium
                             .copyWith(color: fontColor)
                             .style,
                       ),
@@ -564,7 +571,7 @@ class ArtDetailScreen extends HookWidget {
                           child: Text(
                             data.location.venue.address.localizedAddressDisplay,
                             overflow: TextOverflow.fade,
-                            style: context.textTheme.body1
+                            style: context.textTheme.bodyMedium
                                 .copyWith(color: fontColor)
                                 .style,
                           ),
@@ -594,13 +601,12 @@ class ArtDetailScreen extends HookWidget {
           }
           return SliverCardContainer(
             borderRadius: kMediumBorderRadius,
-            color: context.colorScheme.background,
+            color: Colors.transparent,
             padding: EdgeInsets.zero,
             sliver: SliverToBoxAdapter(
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: kSmallBorderRadius,
-                  // color: context.theme.colorScheme.secondary,
                 ),
                 padding: kTinyPadding,
                 child: Column(
@@ -609,9 +615,9 @@ class ArtDetailScreen extends HookWidget {
                       child: Text(
                         title,
                         textAlign: TextAlign.center,
-                        style: context.textTheme.title1
+                        style: context.textTheme.titleSmall
                             .withColor(
-                              context.colorScheme.onBackground,
+                              context.colorTheme.onBackground,
                             )
                             .style,
                       ),

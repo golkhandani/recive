@@ -11,6 +11,7 @@ import 'package:recive/modules/categories_page/widgets/category_card_container_d
 import 'package:recive/modules/categories_page/widgets/category_expanded_card_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class CategoriesScreen extends HookWidget {
   static const name = 'categories';
@@ -27,7 +28,7 @@ class CategoriesScreen extends HookWidget {
     }, []);
 
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: CustomScrollView(
         slivers: [
           const ScreenSafeAreaHeader(

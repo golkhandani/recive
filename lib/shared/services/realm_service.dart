@@ -165,6 +165,10 @@ class RealmApplicationService {
     UserCustomData? data,
   }) async {
     await login(Credentials.googleIdToken(id));
+    if (currentUser?.customData != null) {
+      return;
+    }
+
     final userData = data?.copyWith(userId: currentUser?.id);
     if (userData != null) {
       await currentUser?.functions.call(
@@ -223,9 +227,36 @@ class RealmApplicationService {
   }
 
   ////
-  Future<void> updateFavouriteArtIds(List<String> ids) async {
+  Future<List<String>> getFavouriteArtIds() async {
+    await currentUser?.refreshCustomData();
+    return currentUserCustomData?.bookmarkArts ?? [];
+  }
+
+  Future<void> addFavouriteArtIds(List<String> ids) async {
     final updatedCustomData = currentUserCustomData?.copyWith(
-      bookmarkArts: ids,
+      bookmarkArts: [
+        ...currentUserCustomData?.bookmarkArts ?? [],
+        ...ids,
+      ],
+    );
+    if (updatedCustomData != null) {
+      await currentUser?.functions.call(
+        "writeCustomUserData",
+        [updatedCustomData.toJson()],
+      );
+    }
+
+    return;
+  }
+
+  Future<void> removeFavouriteArtIds(List<String> ids) async {
+    final updateIds =
+        List<String>.from(currentUserCustomData?.bookmarkArts ?? [])
+          ..removeWhere(
+            (id) => ids.contains(id),
+          );
+    final updatedCustomData = currentUserCustomData?.copyWith(
+      bookmarkArts: updateIds,
     );
     if (updatedCustomData != null) {
       await currentUser?.functions.call(

@@ -12,7 +12,6 @@ import 'package:recive/modules/near_me_page/near_me_screen.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container.dart';
 import 'package:recive/modules/near_me_page/widgets/art_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class NearbyCarouselContent extends HookWidget {
@@ -58,7 +57,7 @@ class NearbyCarouselContent extends HookWidget {
     return MultiSliver(
       children: [
         SliverCardContainer(
-          color: context.colorScheme.secondary,
+          color: context.colorTheme.secondary,
           borderRadius: kMediumBorderRadius,
           padding: kTinyPadding,
           sliver: SliverToBoxAdapter(
@@ -70,8 +69,8 @@ class NearbyCarouselContent extends HookWidget {
                     child: Center(
                       child: Text(
                         "No Art has been found!",
-                        style:
-                            context.textTheme.body1.onTertiaryContainer.style,
+                        style: context
+                            .textTheme.bodyMedium.onTertiaryContainer.style,
                       ),
                     ),
                   );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class CardContainer extends StatelessWidget {
   const CardContainer({
@@ -23,13 +23,13 @@ class CardContainer extends StatelessWidget {
     return RepaintBoundary(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: color ?? context.colorScheme.tertiaryContainer,
+          color: color ?? context.colorTheme.tertiaryContainer,
           boxShadow: hasShadow
               ? <BoxShadow>[
                   BoxShadow(
                     offset: const Offset(.2, .2),
                     blurRadius: 2,
-                    color: context.colorScheme.tertiaryContainer,
+                    color: context.colorTheme.tertiaryContainer,
                   )
                 ]
               : null,
@@ -42,7 +42,7 @@ class CardContainer extends StatelessWidget {
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: color ?? context.colorScheme.tertiaryContainer,
+                    color: color ?? context.colorTheme.tertiaryContainer,
                     boxShadow: const <BoxShadow>[
                       BoxShadow(
                         offset: Offset(2.2, 2.2),

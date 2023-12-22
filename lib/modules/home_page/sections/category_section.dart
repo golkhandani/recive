@@ -52,7 +52,7 @@ class _HomePageCategoriesSectionState extends State<HomePageCategoriesSection> {
             ),
             const SliverGap(height: 12),
             SliverCardContainer(
-              color: context.colorScheme.secondary,
+              color: context.colorTheme.secondary,
               borderRadius: kMediumBorderRadius,
               padding: kTinyPadding,
               sliver: SliverToBoxAdapter(

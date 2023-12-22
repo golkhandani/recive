@@ -12,7 +12,6 @@ import 'package:recive/modules/introduction_page/splash_screen.dart';
 import 'package:recive/modules/login_page/cubits/login_cubit.dart';
 import 'package:recive/modules/login_page/widgets/lottie_safe_loading.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
@@ -33,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final state = useBlocBuilder(bloc);
     return Scaffold(
       body: Container(
-        color: context.colorScheme.surface,
+        color: context.colorTheme.background,
         child: Column(
           children: [
             Flexible(
@@ -43,16 +42,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   horizontalPosition: HorizontalPosition.right,
                 ),
                 child: Container(
-                  color: context.colorScheme.primary,
+                  color: context.colorTheme.primary,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(height: 40),
                       Center(
                         child: Text(
-                          "Welcome to City Explorer",
+                          "Welcome to Wise Art City Guide",
                           textAlign: TextAlign.center,
-                          style: context.textTheme.title1.style,
+                          style: context.textTheme.titleSmall.onPrimary.style,
                         ),
                       ),
                       const LottieSafeLoading(),
@@ -97,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Text(
                                       "Login with Google",
                                       textAlign: TextAlign.center,
-                                      style: context.textTheme.title2
+                                      style: context.textTheme.titleTiny
                                           .withColor(Colors.white)
                                           .style,
                                     ),
@@ -139,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Text(
                                       "Login with Apple",
                                       textAlign: TextAlign.center,
-                                      style: context.textTheme.title2
+                                      style: context.textTheme.titleTiny
                                           .withColor(
                                             Colors.white,
                                           )
@@ -164,9 +163,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       constraints:
                           const BoxConstraints.expand(height: 64, width: 350),
                       alignment: Alignment.center,
-                      decoration: const ShapeDecoration(
-                        color: Colors.amber,
-                        shape: StadiumBorder(
+                      decoration: ShapeDecoration(
+                        color: context.colorTheme.primary,
+                        shape: const StadiumBorder(
                           side: BorderSide(width: 0, color: Colors.transparent),
                         ),
                       ),
@@ -184,11 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Text(
                                       "Login with ApiKey",
                                       textAlign: TextAlign.center,
-                                      style: context.textTheme.title1
-                                          .withColor(
-                                            Colors.black,
-                                          )
-                                          .style,
+                                      style: context
+                                          .textTheme.titleTiny.onPrimary.style,
                                     ),
                                   ],
                                 ),
@@ -199,7 +195,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () => launchUrl(Uri.parse('https://google.com')),
                     child: Text(
                       'Terms and Conditions',
-                      style: context.textTheme.title1.style,
+                      style:
+                          context.textTheme.titleTiny.secondaryContainer.style,
                     ),
                   ),
                   const SizedBox(height: 88),

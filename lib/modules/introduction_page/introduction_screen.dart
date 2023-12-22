@@ -28,11 +28,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     final navigationService = locator.get<NavigationService>();
     final settingCubit = locator.get<SettingLoaderCubit>();
     const bg = Colors.transparent;
-    final fontColor = context.colorScheme.onSurface;
+    final fontColor = context.colorTheme.onBackground;
     final decoration = intro.PageDecoration(
       pageColor: bg,
-      titleTextStyle: context.textTheme.title1.withColor(fontColor).style,
-      bodyTextStyle: context.textTheme.body1.withColor(fontColor).style,
+      titleTextStyle: context.textTheme.titleMedium.withColor(fontColor).style,
+      bodyTextStyle: context.textTheme.bodyMedium.withColor(fontColor).style,
       imagePadding: EdgeInsets.only(top: context.vHeight / 10),
     );
     final pages = [
@@ -100,6 +100,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             const SizedBox(height: 48),
             Center(
               child: InkWell(
+                splashColor: Colors.transparent,
                 onTap: () {
                   locator.logger.d("Location Permission requested!");
                   locator.get<LocationService>().requestService(
@@ -129,7 +130,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   constraints:
                       const BoxConstraints.expand(height: 48, width: 320),
                   decoration: ShapeDecoration(
-                    color: context.colorScheme.tertiaryContainer,
+                    color: context.colorTheme.tertiaryContainer,
                     shape: const StadiumBorder(
                       side: BorderSide(
                         width: 0,
@@ -140,11 +141,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   child: Text(
                     'Location Permission',
                     textAlign: TextAlign.center,
-                    style: context.textTheme.title2
-                        .withColor(
-                          context.colorScheme.onTertiaryContainer,
-                        )
-                        .style,
+                    style:
+                        context.textTheme.titleTiny.onTertiaryContainer.style,
                   ),
                 ),
               ),
@@ -166,7 +164,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       )
     ];
     return Container(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: Stack(
         children: [
@@ -175,7 +173,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             dotsDecorator: intro.DotsDecorator(
               size: const Size.square(10.0),
               activeSize: const Size(50.0, 10.0),
-              activeColor: context.colorScheme.secondaryContainer,
+              activeColor: context.colorTheme.secondaryContainer,
               color: fontColor,
               spacing: const EdgeInsets.symmetric(horizontal: 3.0),
               activeShape: RoundedRectangleBorder(
@@ -206,37 +204,25 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: kMediumBorderRadius,
           ),
-          backgroundColor: context.colorScheme.surface,
+          backgroundColor: context.colorTheme.primary,
           elevation: 1,
           title: Text(
             'Location Access',
             textAlign: TextAlign.center,
-            style: context.textTheme.title1
-                .withColor(
-                  context.colorScheme.onSurface,
-                )
-                .style,
+            style: context.textTheme.titleSmall.onPrimary.style,
           ),
           content: Text(
             text,
             textAlign: TextAlign.center,
-            style: context.textTheme.body1
-                .withColor(
-                  context.colorScheme.onSurface,
-                )
-                .style,
+            style: context.textTheme.bodyMedium.onPrimary.style,
           ),
           actionsAlignment: MainAxisAlignment.center,
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                textStyle: context.textTheme.label
-                    .withColor(
-                      context.colorScheme.onSecondary,
-                    )
-                    .style,
-                backgroundColor: context.colorScheme.secondaryContainer,
-                foregroundColor: context.colorScheme.onSecondaryContainer,
+                textStyle: context.textTheme.label.onPrimary.style,
+                backgroundColor: context.colorTheme.onPrimary,
+                foregroundColor: context.colorTheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
@@ -273,7 +259,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       alignment: Alignment.center,
       constraints: const BoxConstraints.expand(height: 48),
       decoration: ShapeDecoration(
-        color: context.colorScheme.tertiary,
+        color: context.colorTheme.tertiary,
         shape: const StadiumBorder(
           side: BorderSide(
             width: 0,
@@ -283,11 +269,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       ),
       child: Text(
         text,
-        style: context.textTheme.title2
-            .withColor(
-              context.colorScheme.onTertiary,
-            )
-            .style,
+        style: context.textTheme.titleTiny.onTertiary.style,
       ),
     );
   }

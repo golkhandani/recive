@@ -6,14 +6,9 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 import 'package:recive/core/enums/loading_state.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
 
 extension UiBreakPointDetection on BuildContext {
-  // TextTheme get textTheme => Theme.of(this).textTheme;
-  // ThemeData get theme => Theme.of(this);
-  AppThemePalette get colorScheme => AppTheme.of(this).palette;
   Size get size => MediaQuery.sizeOf(this);
-  EdgeInsets get smallPadding => const EdgeInsets.all(8.0);
 
   double get vWidth => size.width;
   double get vHeight => size.height;
@@ -33,6 +28,7 @@ extension UiBreakPointDetection on BuildContext {
       EdgeInsets.only(bottom: viewBottomPaddingHeight);
 
   double get footerHeight => 88;
+  double get headerHeight => 48;
   double get invisibleHeight =>
       footerHeight +
       viewBottomPaddingHeight +
@@ -76,8 +72,4 @@ extension UiBreakPointDetection on BuildContext {
     }
     return null;
   }
-}
-
-extension UiConstantsExtention on BuildContext {
-  double get headerHeight => 48;
 }

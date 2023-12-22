@@ -55,7 +55,7 @@ class ProfileScreen extends HookWidget {
       return;
     }, [bookmarksState.count]);
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: LayoutBuilder(builder: (context, box) {
         return CustomScrollView(
           slivers: [
@@ -70,13 +70,13 @@ class ProfileScreen extends HookWidget {
                   horizontalPosition: HorizontalPosition.right,
                 ),
                 shadow: Shadow(
-                  color: context.colorScheme.shadow,
+                  color: context.colorTheme.shadow,
                   offset: Offset.zero,
                   blurRadius: 4,
                 ),
                 child: Container(
                   height: 220,
-                  color: context.colorScheme.navBackground,
+                  color: context.colorTheme.navBackground,
                   child: Stack(
                     children: [
                       Positioned(
@@ -87,7 +87,7 @@ class ProfileScreen extends HookWidget {
                             borderRadius: BorderRadius.circular(100),
                             boxShadow: [
                               BoxShadow(
-                                color: context.colorScheme.navBackground
+                                color: context.colorTheme.navBackground
                                     .darken(0.1),
                                 blurRadius: 2.0,
                                 spreadRadius: 1.0,
@@ -99,7 +99,7 @@ class ProfileScreen extends HookWidget {
                             backgroundImage: customData.imageUrl != null
                                 ? NetworkImage(customData.imageUrl!)
                                 : null,
-                            backgroundColor: context.colorScheme.primary,
+                            backgroundColor: context.colorTheme.primary,
                             radius: 72,
                           ),
                         ),
@@ -129,7 +129,7 @@ class ProfileScreen extends HookWidget {
                             constraints:
                                 const BoxConstraints.expand(height: 48),
                             decoration: ShapeDecoration(
-                              color: context.colorScheme.secondary,
+                              color: context.colorTheme.secondary,
                               shape: const StadiumBorder(
                                 side: BorderSide(
                                   width: 0,
@@ -166,7 +166,7 @@ class ProfileScreen extends HookWidget {
                 children: [
                   SliverToBoxAdapter(
                     child: CardContainer(
-                      color: context.colorScheme.navBackground,
+                      color: context.colorTheme.cardBackground,
                       borderRadius: kMediumBorderRadius,
                       padding: kTinyPadding,
                       child: Container(
@@ -196,7 +196,7 @@ class ProfileScreen extends HookWidget {
                                     Text(
                                       "Intro has been viewed:",
                                       style: context.textTheme.titleTiny
-                                          .onNavBackground.style,
+                                          .onCardBackground.style,
                                     ),
                                     const Spacer(),
                                     Theme(
@@ -206,11 +206,11 @@ class ProfileScreen extends HookWidget {
                                         trackOutlineWidth:
                                             const MaterialStatePropertyAll(0),
                                         activeColor:
-                                            context.colorScheme.tabBarSelected,
-                                        inactiveTrackColor: context
-                                            .colorScheme.tabBarUnselected,
+                                            context.colorTheme.tabBarSelected,
+                                        inactiveTrackColor:
+                                            context.colorTheme.tabBarUnselected,
                                         inactiveThumbColor: context
-                                            .colorScheme.onTabBarUnselected,
+                                            .colorTheme.onTabBarUnselected,
                                         onChanged: (value) {
                                           settingbloc.switchIntroSetting(value);
                                         },
@@ -225,7 +225,7 @@ class ProfileScreen extends HookWidget {
                                       child: Text(
                                         "Total bookmarks:",
                                         style: context.textTheme.titleTiny
-                                            .onNavBackground.style,
+                                            .onCardBackground.style,
                                       ),
                                     ),
                                     const SizedBox(width: 12),
@@ -245,10 +245,10 @@ class ProfileScreen extends HookWidget {
                                           ),
                                           decoration: ShapeDecoration(
                                             color: bookmarksState.count == 0
-                                                ? context.colorScheme
-                                                    .tabBarUnselected
+                                                ? context
+                                                    .colorTheme.tabBarUnselected
                                                 : context
-                                                    .colorScheme.tabBarSelected,
+                                                    .colorTheme.tabBarSelected,
                                             shape: const StadiumBorder(
                                               side: BorderSide(
                                                 width: 0,
@@ -275,11 +275,9 @@ class ProfileScreen extends HookWidget {
                                                       .withColor(
                                                         bookmarksState.count !=
                                                                 0
-                                                            ? context
-                                                                .colorScheme
+                                                            ? context.colorTheme
                                                                 .onTabBarSelected
-                                                            : context
-                                                                .colorScheme
+                                                            : context.colorTheme
                                                                 .onTabBarUnselected,
                                                       )
                                                       .style,
@@ -295,8 +293,8 @@ class ProfileScreen extends HookWidget {
                             Center(
                               child: Text(
                                 "COMMING SOON!",
-                                style: context
-                                    .textTheme.titleSmall.onNavBackground.style,
+                                style: context.textTheme.titleSmall
+                                    .onCardBackground.style,
                               ),
                             ),
                             const Spacer(),
@@ -312,7 +310,7 @@ class ProfileScreen extends HookWidget {
                                   constraints:
                                       const BoxConstraints.expand(height: 48),
                                   decoration: ShapeDecoration(
-                                    color: context.colorScheme.errorContainer,
+                                    color: context.colorTheme.errorContainer,
                                     shape: const StadiumBorder(
                                       side: BorderSide(
                                         width: 0,
@@ -333,7 +331,7 @@ class ProfileScreen extends HookWidget {
                                           textAlign: TextAlign.center,
                                           style: context.textTheme.titleTiny
                                               .withColor(
-                                                context.colorScheme
+                                                context.colorTheme
                                                     .onErrorContainer,
                                               )
                                               .style,
@@ -355,13 +353,17 @@ class ProfileScreen extends HookWidget {
     );
   }
 
-  Row _buildThemeSettingSection(BoxConstraints box, ReciveTheme theme,
-      BuildContext context, ReciveThemeCubit themeBloc) {
+  Row _buildThemeSettingSection(
+    BoxConstraints box,
+    AppPaletteType theme,
+    BuildContext context,
+    ReciveThemeCubit themeBloc,
+  ) {
     return Row(
       children: [
         Text(
           "Theme:",
-          style: context.textTheme.titleTiny.onNavBackground.style,
+          style: context.textTheme.titleTiny.onCardBackground.style,
         ),
         const Spacer(),
         ToggleSwitch(
@@ -369,14 +371,14 @@ class ProfileScreen extends HookWidget {
           minHeight: 42.0,
           fontSize: 16.0,
           initialLabelIndex: theme.index,
-          activeBgColor: [context.colorScheme.tabBarSelected],
-          activeFgColor: context.colorScheme.onTabBarSelected,
-          inactiveBgColor: context.colorScheme.tabBarUnselected,
-          inactiveFgColor: context.colorScheme.onTabBarUnselected,
-          totalSwitches: ReciveTheme.values.length,
+          activeBgColor: [context.colorTheme.tabBarSelected],
+          activeFgColor: context.colorTheme.onTabBarSelected,
+          inactiveBgColor: context.colorTheme.tabBarUnselected,
+          inactiveFgColor: context.colorTheme.onTabBarUnselected,
+          totalSwitches: AppPaletteType.values.length,
           animationDuration: 100,
           labels:
-              ReciveTheme.values.map((e) => e.name.toCapitalized()).toList(),
+              AppPaletteType.values.map((e) => e.name.toCapitalized()).toList(),
           animate: true,
           onToggle: (index) {
             final val = index ?? 0;

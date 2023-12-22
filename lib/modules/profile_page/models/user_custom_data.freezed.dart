@@ -28,7 +28,7 @@ mixin _$UserCustomData {
   String? get imageUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'bookmark_arts')
+  @JsonKey(name: 'bookmark_arts', defaultValue: [])
   List<String>? get bookmarkArts => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,7 +48,8 @@ abstract class $UserCustomDataCopyWith<$Res> {
       @JsonKey(name: 'email') String? email,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'bookmark_arts') List<String>? bookmarkArts});
+      @JsonKey(name: 'bookmark_arts', defaultValue: [])
+      List<String>? bookmarkArts});
 }
 
 /// @nodoc
@@ -108,7 +109,8 @@ abstract class _$$UserCustomDataImplCopyWith<$Res>
       @JsonKey(name: 'email') String? email,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'name') String? name,
-      @JsonKey(name: 'bookmark_arts') List<String>? bookmarkArts});
+      @JsonKey(name: 'bookmark_arts', defaultValue: [])
+      List<String>? bookmarkArts});
 }
 
 /// @nodoc
@@ -161,7 +163,8 @@ class _$UserCustomDataImpl implements _UserCustomData {
       @JsonKey(name: 'email') this.email,
       @JsonKey(name: 'image_url') this.imageUrl,
       @JsonKey(name: 'name') this.name,
-      @JsonKey(name: 'bookmark_arts') final List<String>? bookmarkArts})
+      @JsonKey(name: 'bookmark_arts', defaultValue: [])
+      final List<String>? bookmarkArts})
       : _bookmarkArts = bookmarkArts;
 
   factory _$UserCustomDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -181,7 +184,7 @@ class _$UserCustomDataImpl implements _UserCustomData {
   final String? name;
   final List<String>? _bookmarkArts;
   @override
-  @JsonKey(name: 'bookmark_arts')
+  @JsonKey(name: 'bookmark_arts', defaultValue: [])
   List<String>? get bookmarkArts {
     final value = _bookmarkArts;
     if (value == null) return null;
@@ -231,12 +234,12 @@ class _$UserCustomDataImpl implements _UserCustomData {
 
 abstract class _UserCustomData implements UserCustomData {
   const factory _UserCustomData(
-          {@JsonKey(name: 'userId') final String? userId,
-          @JsonKey(name: 'email') final String? email,
-          @JsonKey(name: 'image_url') final String? imageUrl,
-          @JsonKey(name: 'name') final String? name,
-          @JsonKey(name: 'bookmark_arts') final List<String>? bookmarkArts}) =
-      _$UserCustomDataImpl;
+      {@JsonKey(name: 'userId') final String? userId,
+      @JsonKey(name: 'email') final String? email,
+      @JsonKey(name: 'image_url') final String? imageUrl,
+      @JsonKey(name: 'name') final String? name,
+      @JsonKey(name: 'bookmark_arts', defaultValue: [])
+      final List<String>? bookmarkArts}) = _$UserCustomDataImpl;
 
   factory _UserCustomData.fromJson(Map<String, dynamic> json) =
       _$UserCustomDataImpl.fromJson;
@@ -254,7 +257,7 @@ abstract class _UserCustomData implements UserCustomData {
   @JsonKey(name: 'name')
   String? get name;
   @override
-  @JsonKey(name: 'bookmark_arts')
+  @JsonKey(name: 'bookmark_arts', defaultValue: [])
   List<String>? get bookmarkArts;
   @override
   @JsonKey(ignore: true)

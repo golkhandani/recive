@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class CustomShapeBackgroundWidget extends HookWidget {
   const CustomShapeBackgroundWidget({
@@ -32,13 +32,13 @@ class CustomShapeBackgroundWidget extends HookWidget {
         children: [
           Positioned.fill(
             child: Container(
-              color: context.colorScheme.primary,
+              color: context.colorTheme.primary,
             ),
           ),
           buildCustomShape(
             offset: Offset(sensorX.value, sensorY.value),
-            shadow: context.colorScheme.shadow,
-            color: context.colorScheme.primary,
+            shadow: context.colorTheme.shadow,
+            color: context.colorTheme.primary,
             size: Size(
               MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height / 2.4,

@@ -35,8 +35,8 @@ class TopNewsExpandedCardContainer extends HookWidget {
           fontWeight: FontWeight.bold,
         )
         .style;
-    final color = context.colorScheme.surface;
-    final fontColor = context.colorScheme.onSurface;
+    final color = context.colorTheme.surface;
+    final fontColor = context.colorTheme.onSurface;
 
     final heroTag = NewsDetailScreen.name + data.id;
 
@@ -112,8 +112,9 @@ class TopNewsExpandedCardContainer extends HookWidget {
                   child: ExpandablePanel(
                     header: Text(
                       data.title,
-                      style:
-                          context.textTheme.title1.withColor(fontColor).style,
+                      style: context.textTheme.titleSmall
+                          .withColor(fontColor)
+                          .style,
                     ),
                     collapsed: Column(
                       children: [
@@ -212,7 +213,7 @@ class TopNewsExpandedCardContainer extends HookWidget {
                             data.description,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: context.textTheme.body2
+                            style: context.textTheme.bodySmall
                                 .copyWith(
                                   color: fontColor,
                                 )

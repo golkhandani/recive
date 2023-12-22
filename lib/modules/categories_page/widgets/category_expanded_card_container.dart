@@ -9,7 +9,6 @@ import 'package:recive/modules/categories_page/categories_screen.dart';
 import 'package:recive/modules/categories_page/category_detail_screen.dart';
 import 'package:recive/modules/categories_page/widgets/category_card_container_data.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
@@ -25,8 +24,8 @@ class CategoryExpandedCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorScheme.secondary;
-    final fontColor = context.colorScheme.onSecondary;
+    final color = context.colorTheme.secondary;
+    final fontColor = context.colorTheme.onSecondary;
     final heroTag = CategoryDetailScreen.name + data.id;
     final extra = ExtraData<CategorySummaryData>(
       summary: CategorySummaryData(
@@ -80,19 +79,22 @@ class CategoryExpandedCardContainer extends HookWidget {
                 child: ExpandablePanel(
                   header: Text(
                     data.title,
-                    style: context.textTheme.title2.withColor(fontColor).style,
+                    style:
+                        context.textTheme.titleSmall.withColor(fontColor).style,
                   ),
                   collapsed: Text(
                     data.subtitle,
                     softWrap: true,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.body1.withColor(fontColor).style,
+                    style:
+                        context.textTheme.bodyMedium.withColor(fontColor).style,
                   ),
                   expanded: Text(
                     data.description,
                     softWrap: true,
-                    style: context.textTheme.body1.withColor(fontColor).style,
+                    style:
+                        context.textTheme.bodyMedium.withColor(fontColor).style,
                   ),
                   theme: ExpandableThemeData(
                     iconSize: 20,

@@ -41,6 +41,7 @@ import 'package:recive/modules/search_page/cubits/search_cubit.dart';
 import 'package:recive/modules/search_page/repos/search_route_repo.interface.dart';
 import 'package:recive/modules/search_page/repos/search_route_repo.remote.dart';
 import 'package:recive/shared/constants/key_constants.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/services/geo_location_service.dart';
 import 'package:recive/shared/services/navigation_service.dart';
 import 'package:recive/shared/services/realm_service.dart';
@@ -75,18 +76,18 @@ Future setupNavigation() async {
 Future setupStorage() async {
   // START REGISTER Hive REQUEST CACHE STORE
   Hive.init(StoreBoxConstant.hiveStoreFolderName);
-  Hive.registerAdapter(ReciveThemeAdapter());
+  Hive.registerAdapter(AppPaletteTypeAdapter());
   Hive.registerAdapter(BookmarkHiveObjectAdapter());
 
   await Hive.initFlutter();
   final box = await Hive.openBox(StoreBoxConstant.hiveStoreGqlBoxName);
   locator.registerSingleton<Box>(box);
 
-  final themeBox = await Hive.openBox<ReciveTheme>(
+  final themeBox = await Hive.openBox<AppPaletteType>(
     StoreBoxConstant.hiveStoreThemeBoxName,
   );
   final theme = themeBox.get(ReciveThemeCubit.themeStoreKey);
-  locator.registerSingleton<Box<ReciveTheme>>(themeBox);
+  locator.registerSingleton<Box<AppPaletteType>>(themeBox);
   locator.registerFactory(
     () => ReciveThemeCubit(
       box: locator.get(),

@@ -5,7 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class SelectedMarker extends StatelessWidget {
   const SelectedMarker({
@@ -28,7 +28,7 @@ class SelectedMarker extends StatelessWidget {
           rotate: true,
           builder: (ctx) => Icon(
             FluentIcons.location_12_filled,
-            color: context.colorScheme.primary,
+            color: context.colorTheme.primary,
             size: 50,
           ),
         )
@@ -69,7 +69,7 @@ class SelectedMarker2 extends StatelessWidget {
               rotate: true,
               builder: (ctx) => Icon(
                 FluentIcons.location_12_filled,
-                color: context.colorScheme.primary,
+                color: context.colorTheme.primary,
                 size: 50,
               ),
             )
@@ -117,13 +117,13 @@ class FlutterMapMarkerClusterLayer extends StatelessWidget {
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: context.colorScheme.errorContainer,
+                color: context.colorTheme.errorContainer,
               ),
               child: Center(
                 child: Text(
                   markers.length.toString(),
                   style: TextStyle(
-                    color: context.colorScheme.onErrorContainer,
+                    color: context.colorTheme.onErrorContainer,
                   ),
                 ),
               ),

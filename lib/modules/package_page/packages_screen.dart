@@ -11,6 +11,7 @@ import 'package:recive/modules/package_page/widgets/art_route_card_container_dat
 import 'package:recive/modules/package_page/widgets/art_route_expanded_card_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class PackagesScreen extends StatefulHookWidget {
   static const name = 'packages';
@@ -70,7 +71,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
     }, []);
 
     return ColoredBox(
-      color: context.colorScheme.background,
+      color: context.colorTheme.background,
       child: CustomScrollView(
         controller: scrollController,
         slivers: [

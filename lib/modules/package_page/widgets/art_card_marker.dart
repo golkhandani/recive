@@ -71,7 +71,7 @@ class EventCardMarker {
                         Text(
                           data.title,
                           maxLines: 3,
-                          style: context.textTheme.body1
+                          style: context.textTheme.bodyMedium
                               .withColor(fontColor)
                               .style,
                         ),
@@ -79,7 +79,7 @@ class EventCardMarker {
                         Text(
                           data.location,
                           maxLines: 2,
-                          style: context.textTheme.body1
+                          style: context.textTheme.bodyMedium
                               .withColor(fontColor)
                               .style,
                         ),

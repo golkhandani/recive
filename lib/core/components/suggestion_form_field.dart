@@ -382,7 +382,6 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
 
   @override
   Widget build(BuildContext context) {
-    print("EQWEQWEQW 22222 -> ${_textStyle.color}");
     return FormField(
       key: _formKey,
       initialValue: _controller.text,

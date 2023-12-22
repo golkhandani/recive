@@ -173,7 +173,6 @@ class PinnedSearchHeader extends HookWidget {
         textStyle:
             textStyle.withColor(context.colorTheme.onTextFieldBackground),
         itemBuilder: (_, item, index) {
-          print("EWWWWWWWWW ->>>>> ${textStyle.color}");
           return Container(
             height: 48,
             padding: const EdgeInsets.symmetric(horizontal: 8.0),

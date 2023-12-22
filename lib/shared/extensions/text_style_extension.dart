@@ -274,8 +274,8 @@ extension ThemeColorScheme on AppPaletteType {
 final blueTheme = AppThemePalette(
   brightness: Brightness.light,
 
-  primary: const Color.fromARGB(255, 228, 162, 8),
-  onPrimary: const Color.fromARGB(255, 0, 0, 0),
+  primary: const Color.fromARGB(255, 113, 134, 255),
+  onPrimary: const Color.fromARGB(255, 255, 255, 255),
   primaryContainer: const Color.fromARGB(255, 152, 169, 202),
   onPrimaryContainer: const Color.fromARGB(255, 0, 0, 0),
 

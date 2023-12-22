@@ -53,6 +53,7 @@ class AsyncSearchBar extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("EQWEQWEQW -> ${backgroundColor} - ${textStyle?.color}");
     final textEditingController = controller ?? useTextEditingController();
     Timer? debounce;
     Future<void> onChanged(String value, {bool selected = false}) async {

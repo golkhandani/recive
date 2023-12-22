@@ -109,7 +109,7 @@ class QuickSearchHeader extends HookWidget {
   }
 }
 
-class PinnedSearchHeader extends StatefulHookWidget {
+class PinnedSearchHeader extends HookWidget {
   final void Function(String)? onSelect;
   final void Function(String)? onTextChanged;
   final TextEditingController? textController;
@@ -130,19 +130,11 @@ class PinnedSearchHeader extends StatefulHookWidget {
   });
 
   @override
-  State<PinnedSearchHeader> createState() => _PinnedSearchHeaderState();
-}
-
-class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
-  @override
   Widget build(BuildContext context) {
-    final textStyle =
-        context.textTheme.bodyMedium.copyWith(color: Colors.white).style;
+    final textStyle = context.textTheme.bodyMedium.onTextFieldBackground.style;
     Timer? debounce;
-    final bloc = widget.bloc;
     final state = useBlocBuilder(bloc);
-    final textEditingController =
-        widget.textController ?? useTextEditingController();
+    final textEditingController = textController ?? useTextEditingController();
 
     useEffect(() {
       textEditingController.text = state.query;
@@ -155,84 +147,77 @@ class _PinnedSearchHeaderState extends State<PinnedSearchHeader> {
       if (debounce?.isActive ?? false) debounce?.cancel();
 
       if (selected) {
-        widget.onSelect?.call(value);
+        onSelect?.call(value);
         textEditingController.text = value;
         bloc.select(selected: value);
       } else {
         debounce = Timer(const Duration(milliseconds: 500), () async {
-          widget.onTextChanged?.call(value);
+          onTextChanged?.call(value);
           bloc.search(query: value);
         });
       }
     }
 
-    final bg = widget.backgroundColor ?? context.colorTheme.tertiaryContainer;
+    final bg = backgroundColor ?? context.colorTheme.tertiaryContainer;
 
     return Container(
       color: bg,
-      padding: widget.padding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Builder(builder: (context) {
-            return AsyncSearchBar(
-              constraints: BoxConstraints(minHeight: widget.height),
-              controller: textEditingController,
-              backgroundColor: context.colorTheme.textFieldBackground,
-              boxBorder:
-                  Border.all(color: context.colorTheme.textFieldBackground),
-              hintText: "Search what you're looking for!",
-              hintStyle: textStyle.withColor(
-                context.colorTheme.onTextFieldBackground.withOpacity(0.7),
-              ),
-              textStyle:
-                  textStyle.withColor(context.colorTheme.onTextFieldBackground),
-              itemBuilder: (_, item, index) => Container(
-                height: 48,
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      item,
-                      style: textStyle,
-                    )),
-              ),
-              onTextChanged: onChangeList,
-              suggestions: state.suggestions,
-              isLoading: state.isLoading,
-              isSelected: state.isSelected,
-              suffix: Material(
-                borderRadius: BorderRadius.zero,
-                borderOnForeground: true,
-                color: context.colorTheme.textFieldBackground,
-                child: Row(
-                  children: [
-                    if (textEditingController.text.isNotEmpty) ...[
-                      InkWell(
-                        splashFactory: NoSplash.splashFactory,
-                        onTap: () {
-                          textEditingController.clear();
-                          widget.onTextChanged?.call('');
-                        },
-                        splashColor: context.colorTheme.textFieldBackground,
-                        child: SizedBox(
-                          height: 48,
-                          width: 48,
-                          child: Icon(
-                            Icons.close,
-                            size: 24,
-                            color: context.colorTheme.onTextFieldBackground
-                                .withOpacity(0.9),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ],
+      padding: padding,
+      child: AsyncSearchBar(
+        constraints: BoxConstraints(minHeight: height),
+        controller: textEditingController,
+        backgroundColor: context.colorTheme.textFieldBackground,
+        boxBorder: Border.all(color: context.colorTheme.textFieldBackground),
+        hintText: "Search what you're looking for!",
+        hintStyle: textStyle.withColor(textStyle.color!.withOpacity(0.7)),
+        textStyle:
+            textStyle.withColor(context.colorTheme.onTextFieldBackground),
+        itemBuilder: (_, item, index) {
+          print("EWWWWWWWWW ->>>>> ${textStyle.color}");
+          return Container(
+            height: 48,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  item,
+                  style: textStyle,
+                )),
+          );
+        },
+        onTextChanged: onChangeList,
+        suggestions: state.suggestions,
+        isLoading: state.isLoading,
+        isSelected: state.isSelected,
+        suffix: Material(
+          borderRadius: BorderRadius.zero,
+          borderOnForeground: true,
+          color: context.colorTheme.textFieldBackground,
+          child: Row(
+            children: [
+              if (textEditingController.text.isNotEmpty) ...[
+                InkWell(
+                  splashFactory: NoSplash.splashFactory,
+                  onTap: () {
+                    textEditingController.clear();
+                    onTextChanged?.call('');
+                  },
+                  splashColor: context.colorTheme.textFieldBackground,
+                  child: SizedBox(
+                    height: 48,
+                    width: 48,
+                    child: Icon(
+                      Icons.close,
+                      size: 24,
+                      color: context.colorTheme.onTextFieldBackground
+                          .withOpacity(0.9),
+                    ),
+                  ),
                 ),
-              ),
-            );
-          }),
-        ],
+              ],
+            ],
+          ),
+        ),
       ),
     );
   }

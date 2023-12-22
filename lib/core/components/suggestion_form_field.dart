@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:recive/shared/constants/ui_constants.dart';
+import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 
 mixin ToggleVisibityMixin {
@@ -121,32 +122,31 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
   // general
   final _textFieldKey = GlobalKey();
   final _layerLink = LayerLink();
-  late final colorTheme = Theme.of(context);
-  late final textTheme = Theme.of(context).textTheme;
 
   // label
-  late final _labelStyle = widget.labelStyle ?? textTheme.labelMedium;
+  late final _labelStyle = widget.labelStyle ?? context.textTheme.label.style;
 
   // text field
   late final _controller = widget.controller ?? TextEditingController();
   late final _focusNode = widget.focusNode ?? FocusNode();
-  late final _textStyle = widget.disabled
-      ? (widget.disabledStyle ?? textTheme.bodyMedium!)
-      : (widget.textStyle ?? textTheme.bodyMedium!);
-  late final _hintStyle = widget.hintStyle ??
-      textTheme.bodyMedium!.copyWith(
-        color: colorTheme.hintColor,
+  TextStyle get _textStyle => widget.disabled
+      ? (widget.disabledStyle ?? context.textTheme.bodyMedium.style)
+      : (widget.textStyle ?? context.textTheme.bodyMedium.style);
+  TextStyle get _hintStyle =>
+      widget.hintStyle ??
+      context.textTheme.bodyMedium.style.withColor(
+        context.colorTheme.onTextFieldBackground,
       );
 
-  late final _cursorColor = widget.cursorColor ?? colorTheme.primaryColor;
-  late final _backgroundCursorColor =
-      widget.backgroundCursorColor ?? colorTheme.primaryColor;
-  late final _height = widget.height;
-  late final _width = widget.width;
+  Color get _cursorColor => widget.cursorColor ?? context.colorTheme.primary;
+  Color get _backgroundCursorColor =>
+      widget.backgroundCursorColor ?? context.colorTheme.primary;
+  double get _height => widget.height;
+  double? get _width => widget.width;
 
-// calculations
+  // calculations
   double get _possibleFontSize =>
-      (_textStyle.fontSize ?? textTheme.bodyMedium!.fontSize!);
+      (_textStyle.fontSize ?? context.textTheme.bodyMedium.style.fontSize!);
   late final _maxPossibleFontSize =
       (_height ~/ (_textStyle.height ?? _possibleFontSize / _height))
           .floorToDouble();
@@ -382,6 +382,7 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
 
   @override
   Widget build(BuildContext context) {
+    print("EQWEQWEQW 22222 -> ${_textStyle.color}");
     return FormField(
       key: _formKey,
       initialValue: _controller.text,
@@ -499,8 +500,7 @@ class _SuggestionFormFieldState<T> extends State<SuggestionFormField<T>>
                 SizedBox(height: widget.labelGap / 2),
                 Text(
                   formState.errorText!,
-                  style: _labelStyle?.copyWith(
-                      color: colorTheme.colorScheme.error),
+                  style: _labelStyle.withColor(context.colorTheme.error),
                 ),
               ]
             ],

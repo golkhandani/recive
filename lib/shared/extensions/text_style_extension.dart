@@ -209,6 +209,10 @@ extension AppTextColor on AppTextTheme {
   AppTextTheme get chipBackground => copyWith(color: _palette.chipBackground);
   AppTextTheme get onChipBackground =>
       copyWith(color: _palette.onChipBackground);
+  AppTextTheme get onTextFieldBackground =>
+      copyWith(color: _palette.onTextFieldBackground);
+  AppTextTheme get textFieldBackground =>
+      copyWith(color: _palette.textFieldBackground);
   AppTextTheme get chipDisabledBackground =>
       copyWith(color: _palette.chipDisabledBackground);
   AppTextTheme get onChipDisabledBackground =>

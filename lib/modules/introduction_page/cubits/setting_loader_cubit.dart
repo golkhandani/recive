@@ -79,9 +79,14 @@ class SettingLoaderCubit extends MaybeEmitHydratedCubit<SettingLoaderState> {
     required VoidCallback onLoggedin,
     required VoidCallback onNeedLogin,
   }) async {
+    if (state.loadingState == LoadingState.loading) {
+      return;
+    }
+    maybeEmit(state.copyWith(loadingState: LoadingState.loading));
     final isLoggedIn = await applicationService.checkLogin();
 
     if (!isLoggedIn) {
+      maybeEmit(state.copyWith(loadingState: LoadingState.done));
       return onNeedLogin();
     }
 
@@ -91,9 +96,10 @@ class SettingLoaderCubit extends MaybeEmitHydratedCubit<SettingLoaderState> {
     )!;
 
     if (!introIsViewed) {
+      maybeEmit(state.copyWith(loadingState: LoadingState.done));
       return onIntro();
     }
-
+    maybeEmit(state.copyWith(loadingState: LoadingState.done));
     return onLoggedin();
   }
 

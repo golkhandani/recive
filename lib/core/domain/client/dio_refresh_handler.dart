@@ -38,11 +38,15 @@ class AuthInterceptor extends Interceptor {
     final RequestInterceptorHandler handler,
   ) async {
     final accessToken = realmApplicationService.currentUser?.accessToken;
-    if (accessToken != null) {
+    final refreshToken = realmApplicationService.currentUser?.refreshToken;
+    if (accessToken == null && refreshToken == null) {
+      return;
+    } else if (accessToken != null) {
       final updatedOptions = _seAuthHeaders(options, token: accessToken);
       return handler.next(updatedOptions);
     } else {
-      await _onErrorRefreshingToken();
+      await realmApplicationService.logout();
+      await navigationService.logoutTo(LoginScreen.name);
       return handler.reject(DioException(requestOptions: options));
     }
   }
@@ -75,7 +79,8 @@ class AuthInterceptor extends Interceptor {
         final res = await dio.fetch(updatedOptions);
         return handler.resolve(res);
       } else {
-        await _onErrorRefreshingToken();
+        await realmApplicationService.logout();
+        await navigationService.logoutTo(LoginScreen.name);
         return handler.reject(DioException(requestOptions: options));
       }
     } on DioException catch (e) {
@@ -83,10 +88,5 @@ class AuthInterceptor extends Interceptor {
     } catch (e) {
       return handler.reject(DioException(requestOptions: err.requestOptions));
     }
-  }
-
-  Future<void> _onErrorRefreshingToken() async {
-    await realmApplicationService.logout();
-    await navigationService.logoutTo(LoginScreen.name);
   }
 }

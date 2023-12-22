@@ -335,28 +335,28 @@ final blueTheme = AppThemePalette(
 final goldTheme = AppThemePalette(
   brightness: Brightness.light,
 
-  primary: Color.fromARGB(255, 20, 129, 180),
+  primary: const Color.fromARGB(255, 20, 129, 180),
   onPrimary: const Color.fromARGB(255, 0, 0, 0),
   primaryContainer: const Color.fromARGB(255, 152, 169, 202),
   onPrimaryContainer: const Color.fromARGB(255, 0, 0, 0),
 
-  secondary: Color.fromARGB(255, 252, 229, 175),
+  secondary: const Color.fromARGB(255, 252, 229, 175),
   onSecondary: const Color.fromARGB(255, 0, 0, 0),
-  secondaryContainer: Color.fromARGB(255, 239, 170, 42),
-  onSecondaryContainer: Color.fromARGB(255, 0, 0, 0),
+  secondaryContainer: const Color.fromARGB(255, 239, 170, 42),
+  onSecondaryContainer: const Color.fromARGB(255, 0, 0, 0),
 
-  cardBackground: Color.fromARGB(255, 245, 230, 215),
+  cardBackground: const Color.fromARGB(255, 245, 230, 215),
   onCardBackground: const Color.fromARGB(255, 0, 0, 0),
 
-  tertiary: Color.fromARGB(255, 184, 112, 164),
+  tertiary: const Color.fromARGB(255, 184, 112, 164),
   onTertiary: const Color.fromARGB(255, 0, 0, 0),
-  tertiaryContainer: Color.fromARGB(255, 255, 235, 183),
+  tertiaryContainer: const Color.fromARGB(255, 255, 235, 183),
   onTertiaryContainer: const Color.fromRGBO(255, 255, 255, 1),
 
-  chipBackground: Color.fromARGB(255, 250, 215, 133),
-  onChipBackground: Color.fromARGB(255, 0, 0, 0),
-  chipDisabledBackground: Color.fromARGB(255, 251, 237, 200),
-  onChipDisabledBackground: Color.fromARGB(255, 122, 121, 121),
+  chipBackground: const Color.fromARGB(255, 250, 215, 133),
+  onChipBackground: const Color.fromARGB(255, 0, 0, 0),
+  chipDisabledBackground: const Color.fromARGB(255, 251, 237, 200),
+  onChipDisabledBackground: const Color.fromARGB(255, 122, 121, 121),
 
   error: Colors.red,
   onError: Colors.white,
@@ -368,7 +368,7 @@ final goldTheme = AppThemePalette(
   successContainer: const Color.fromRGBO(8, 141, 10, 1),
   onSuccessContainer: Colors.white,
 
-  background: Color.fromARGB(255, 249, 246, 241), // Set to white
+  background: const Color.fromARGB(255, 249, 246, 241), // Set to white
   onBackground: const Color.fromRGBO(0, 0, 0, 1),
   highlight: const Color.fromRGBO(0, 0, 0, 1),
   onHighlight: const Color.fromRGBO(255, 255, 255, 1),
@@ -377,18 +377,18 @@ final goldTheme = AppThemePalette(
   surface: const Color.fromRGBO(0, 0, 0, 1),
   onSurface: const Color.fromRGBO(255, 255, 255, 1),
 
-  backBtnBackground: Color.fromARGB(255, 209, 126, 2),
+  backBtnBackground: const Color.fromARGB(255, 209, 126, 2),
   onBackBtnBackground: const Color.fromARGB(255, 255, 255, 255),
-  navBackground: Color.fromARGB(255, 255, 155, 6),
+  navBackground: const Color.fromARGB(255, 255, 155, 6),
   onNavBackground: const Color.fromARGB(255, 255, 255, 255),
   onNavUnselected: const Color.fromARGB(255, 0, 0, 0),
   onNavSelected: const Color.fromARGB(255, 255, 255, 255),
 
-  tabBarSelected: Color.fromARGB(255, 255, 176, 29),
+  tabBarSelected: const Color.fromARGB(255, 255, 176, 29),
   onTabBarSelected: const Color.fromARGB(255, 255, 255, 255),
-  tabBarUnselected: Color.fromARGB(255, 255, 227, 178),
-  onTabBarUnselected: Color.fromARGB(255, 105, 105, 105),
+  tabBarUnselected: const Color.fromARGB(255, 255, 227, 178),
+  onTabBarUnselected: const Color.fromARGB(255, 105, 105, 105),
 
-  textFieldBackground: Color.fromARGB(255, 254, 171, 18),
+  textFieldBackground: const Color.fromARGB(255, 254, 171, 18),
   onTextFieldBackground: const Color.fromARGB(255, 0, 0, 0),
 );

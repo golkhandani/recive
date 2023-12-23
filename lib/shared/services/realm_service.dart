@@ -5,7 +5,7 @@ import 'package:realm/realm.dart';
 
 import 'package:recive/core/domain/client/realm_gql_client.dart';
 import 'package:recive/modules/login_page/login_screen.dart';
-import 'package:recive/modules/profile_page/models/user_custom_data.dart';
+import 'package:recive/modules/profile/models/user_custom_data.dart';
 import 'package:recive/shared/constants/key_constants.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
@@ -116,8 +116,7 @@ class RealmApplicationService {
   Future<void> updateToken() async {
     try {
       await currentUser?.refreshCustomData();
-      await storage.write(
-          key: refreshTokenKey, value: currentUser?.refreshToken);
+      await storage.write(key: refreshTokenKey, value: currentUser?.refreshToken);
       await storage.write(
         key: accessTokenKey,
         value: currentUser?.accessToken,
@@ -250,11 +249,10 @@ class RealmApplicationService {
   }
 
   Future<void> removeFavouriteArtIds(List<String> ids) async {
-    final updateIds =
-        List<String>.from(currentUserCustomData?.bookmarkArts ?? [])
-          ..removeWhere(
-            (id) => ids.contains(id),
-          );
+    final updateIds = List<String>.from(currentUserCustomData?.bookmarkArts ?? [])
+      ..removeWhere(
+        (id) => ids.contains(id),
+      );
     final updatedCustomData = currentUserCustomData?.copyWith(
       bookmarkArts: updateIds,
     );

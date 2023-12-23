@@ -19,7 +19,7 @@ import 'package:recive/modules/news_page/news_detail_screen.dart';
 import 'package:recive/modules/news_page/news_screen.dart';
 import 'package:recive/modules/package_page/package_detail_screen.dart';
 import 'package:recive/modules/package_page/packages_screen.dart';
-import 'package:recive/modules/profile_page/profile_screen.dart';
+import 'package:recive/modules/profile/profile_screen.dart';
 import 'package:recive/modules/search_page/search_screen.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/extra_data.dart';
@@ -121,8 +121,7 @@ GoRoute nearbyArtDetailRoute(String parentName) => GoRoute(
         final extraJson = state.extra as Map<String, dynamic>;
         final extra = ExtraData.fromJson(
           extraJson,
-          (inner) =>
-              ArtDetailSummaryData.fromJson(inner as Map<String, dynamic>),
+          (inner) => ArtDetailSummaryData.fromJson(inner as Map<String, dynamic>),
         );
         return dashboardPageBuilder(
           state,
@@ -135,8 +134,7 @@ GoRoute categoryDetailRoute(String parentName) => GoRoute(
       name: parentName + CategoryDetailScreen.name,
       path: '${CategoryDetailScreen.name}/:${CategoryDetailScreen.pathParamId}',
       pageBuilder: (context, state) {
-        final pathParamId =
-            state.pathParameters[CategoryDetailScreen.pathParamId]!;
+        final pathParamId = state.pathParameters[CategoryDetailScreen.pathParamId]!;
 
         final extraJson = state.extra as Map<String, dynamic>;
         final extra = ExtraData.fromJson(
@@ -156,8 +154,7 @@ GoRoute packageDetailRoute(String parentName) => GoRoute(
       name: parentName + PackageDetailScreen.name,
       path: '${PackageDetailScreen.name}/:${PackageDetailScreen.pathParamId}',
       pageBuilder: (context, state) {
-        final pathParamId =
-            state.pathParameters[PackageDetailScreen.pathParamId]!;
+        final pathParamId = state.pathParameters[PackageDetailScreen.pathParamId]!;
 
         final extraJson = state.extra as Map<String, dynamic>;
         final extra = ExtraData.fromJson(
@@ -230,8 +227,7 @@ final dashboardRoutes = [
             )),
       );
     },
-    builder: (BuildContext context, GoRouterState state,
-        StatefulNavigationShell child) {
+    builder: (BuildContext context, GoRouterState state, StatefulNavigationShell child) {
       return DashboardWrapper(child: child);
     },
     branches: [
@@ -333,8 +329,7 @@ final dashboardRoutes = [
               return dashboardPageBuilder(
                 state,
                 SearchScreen(
-                  keyword:
-                      state.uri.queryParameters[SearchScreen.keywordQueryKey],
+                  keyword: state.uri.queryParameters[SearchScreen.keywordQueryKey],
                 ),
               );
             },

@@ -7,7 +7,7 @@ import 'package:recive/core/components/navigation_item.dart';
 import 'package:recive/core/components/navigation_shell.dart';
 import 'package:recive/modules/home_page/home_screen.dart';
 import 'package:recive/modules/near_me_page/near_me_screen.dart';
-import 'package:recive/modules/profile_page/profile_screen.dart';
+import 'package:recive/modules/profile/profile_screen.dart';
 import 'package:recive/modules/search_page/search_screen.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -50,8 +50,7 @@ class DashboardWrapper extends StatelessWidget {
 
     int calculateDashboardSelectedIndex() {
       final String location = GoRouterState.of(context).uri.path;
-      final name = dashboardRouteNameToSelectedIndexMap.keys
-          .firstWhereOrNull((element) => location.contains(element));
+      final name = dashboardRouteNameToSelectedIndexMap.keys.firstWhereOrNull((element) => location.contains(element));
 
       return dashboardRouteNameToSelectedIndexMap[name] ?? 0;
     }

@@ -7,7 +7,7 @@ import 'package:hive/hive.dart';
 
 import 'package:recive/core/enums/loading_state.dart';
 import 'package:recive/modules/bookmarks_page/models/bookmark_hive_object.dart';
-import 'package:recive/modules/profile_page/models/user_custom_data.dart';
+import 'package:recive/modules/profile/models/user_custom_data.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/realm_service.dart';
@@ -32,8 +32,7 @@ class LoginState with _$LoginState {
         logoutLoadingState: LoadingState.none,
       );
 
-  factory LoginState.fromJson(Map<String, Object?> json) =>
-      _$LoginStateFromJson(json);
+  factory LoginState.fromJson(Map<String, Object?> json) => _$LoginStateFromJson(json);
 }
 
 class LoginCubit extends MaybeEmitHydratedCubit<LoginState> {

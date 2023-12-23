@@ -10,6 +10,7 @@ class CardContainer extends StatelessWidget {
     this.color,
     this.borderRadius = BorderRadius.zero,
     this.hasShadow = false,
+    this.constraints = const BoxConstraints(),
   });
 
   final Widget child;
@@ -17,11 +18,13 @@ class CardContainer extends StatelessWidget {
   final Color? color;
   final BorderRadius borderRadius;
   final bool hasShadow;
+  final BoxConstraints constraints;
 
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: DecoratedBox(
+      child: Container(
+        constraints: constraints,
         decoration: BoxDecoration(
           color: color ?? context.colorTheme.tertiaryContainer,
           boxShadow: hasShadow

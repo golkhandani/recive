@@ -12,10 +12,8 @@ class UserCustomData with _$UserCustomData {
     @JsonKey(name: 'email') String? email,
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'name') String? name,
-    @JsonKey(name: 'bookmark_arts', defaultValue: [])
-    List<String>? bookmarkArts,
+    @JsonKey(name: 'bookmark_arts', defaultValue: []) List<String>? bookmarkArts,
   }) = _UserCustomData;
 
-  factory UserCustomData.fromJson(Map<String, dynamic> json) =>
-      _$UserCustomDataFromJson(json);
+  factory UserCustomData.fromJson(Map<String, dynamic> json) => _$UserCustomDataFromJson(json);
 }

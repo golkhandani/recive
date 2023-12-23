@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/core/components/card_container.dart';
@@ -26,18 +24,24 @@ import 'package:recive/shared/extensions/text_style_extension.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/services/navigation_service.dart';
 import 'package:recive/shared/services/realm_service.dart';
+import 'package:recive/shared/utils/hooks.dart';
 import 'package:recive/shared/utils/theme_cubit.dart';
 
-class ProfileScreen extends HookWidget {
+class ProfileScreen extends StatefulHook {
   static const name = 'profile';
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final navigationService = locator.get<NavigationService>();
-    final currentUser = locator.get<RealmApplicationService>().currentUser;
-    final customData = UserCustomData.fromJson(currentUser?.customData ?? {});
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
 
+class _ProfileScreenState extends State<ProfileScreen> {
+  final navigationService = locator.get<NavigationService>();
+  final currentUser = locator.get<RealmApplicationService>().currentUser;
+  late final customData = UserCustomData.fromJson(currentUser?.customData ?? {});
+
+  @override
+  Widget build(BuildContext context) {
     final bloc = useBloc<LoginCubit>();
     final state = useBlocBuilder(bloc);
 

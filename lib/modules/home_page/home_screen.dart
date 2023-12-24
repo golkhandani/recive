@@ -10,6 +10,7 @@ import 'package:recive/modules/home_page/sections/featured_section.dart';
 import 'package:recive/modules/home_page/sections/map_section.dart';
 import 'package:recive/modules/home_page/sections/weather_section.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
+import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class HomeScreen extends HookWidget {
@@ -27,19 +28,15 @@ class HomeScreen extends HookWidget {
       HomePageMapSection(),
       SliverGap(height: 12),
       HomePageWeatherSection(),
-      // SliverGap(height: 32),
-      // HomePageTopNewsSections(), // Weather Updates
     ];
 
     return ColoredBox(
       color: context.colorTheme.background,
       child: CustomScrollView(
         slivers: [
-          const ScreenSafeAreaHeader(
-            title: 'All you need!',
-          ),
+          const ScreenSafeAreaHeader(title: 'All you need!'),
           SliverPadding(
-            padding: kTinyPadding.copyWith(bottom: 112),
+            padding: kTinyPadding.copyWith(bottom: context.nBottomSafeHeight),
             sliver: MultiSliver(children: children),
           ),
         ],

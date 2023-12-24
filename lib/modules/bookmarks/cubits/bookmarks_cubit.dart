@@ -7,7 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 
 import 'package:recive/core/enums/loading_state.dart';
-import 'package:recive/modules/bookmarks_page/models/bookmark_hive_object.dart';
+import 'package:recive/modules/bookmarks/models/bookmark_hive_object.dart';
 import 'package:recive/modules/featured_page/models/art_abstract_model.dart';
 import 'package:recive/modules/featured_page/repos/arts_repo.interface.dart';
 import 'package:recive/shared/ioc/locator.dart';
@@ -34,8 +34,7 @@ class BookmarksState with _$BookmarksState {
         bookmarkArts: [],
       );
 
-  factory BookmarksState.fromJson(Map<String, Object?> json) =>
-      _$BookmarksStateFromJson(json);
+  factory BookmarksState.fromJson(Map<String, Object?> json) => _$BookmarksStateFromJson(json);
 }
 
 class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
@@ -57,10 +56,7 @@ class BookmarksCubit extends MaybeEmitHydratedCubit<BookmarksState> {
 
     final objects = bookmarkBox.values.toList();
 
-    final cIds = objects
-        .sorted((a, b) => a.dateTime.isBefore(b.dateTime) ? 1 : 0)
-        .map((e) => e.id)
-        .toList();
+    final cIds = objects.sorted((a, b) => a.dateTime.isBefore(b.dateTime) ? 1 : 0).map((e) => e.id).toList();
     maybeEmit(
       state.copyWith(
         loadingState: LoadingState.done,

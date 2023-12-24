@@ -12,7 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 
 import 'package:recive/firebase_options.dart';
-import 'package:recive/modules/bookmarks_page/cubits/bookmarks_cubit.dart';
+import 'package:recive/modules/bookmarks/cubits/bookmarks_cubit.dart';
 import 'package:recive/modules/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/modules/introduction_page/splash_screen.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
@@ -99,14 +99,11 @@ class Application extends StatelessWidget {
           bloc: themeBloc,
           builder: (context, reciveTheme) {
             final statusBarItemBrightness =
-                reciveTheme.colorPalette.brightness == Brightness.light
-                    ? Brightness.dark
-                    : Brightness.light;
+                reciveTheme.colorPalette.brightness == Brightness.light ? Brightness.dark : Brightness.light;
 
-            final systemOverlayBrightness =
-                reciveTheme.colorPalette.brightness == Brightness.light
-                    ? SystemUiOverlayStyle.dark
-                    : SystemUiOverlayStyle.light;
+            final systemOverlayBrightness = reciveTheme.colorPalette.brightness == Brightness.light
+                ? SystemUiOverlayStyle.dark
+                : SystemUiOverlayStyle.light;
             SystemChrome.setSystemUIOverlayStyle(
               SystemUiOverlayStyle(
                 statusBarColor: reciveTheme.colorPalette.secondaryContainer,
@@ -130,8 +127,7 @@ class Application extends StatelessWidget {
                     ),
                     routerConfig: goRouter,
                     builder: (context, child) => Container(
-                      constraints:
-                          const BoxConstraints(maxHeight: 900, maxWidth: 600),
+                      constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
                       child: child!,
                     ),
                   ),

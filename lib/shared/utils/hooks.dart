@@ -4,3 +4,7 @@ export 'package:hooked_bloc/hooked_bloc.dart' show useBloc, useBlocBuilder, useB
 
 typedef StatefulHook = StatefulHookWidget;
 typedef StatelessHook = HookWidget;
+
+const effectRunOnce = [];
+const effectRunEvery = null;
+effectRunKeys(List<dynamic> keys) => keys;

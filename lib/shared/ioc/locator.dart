@@ -19,8 +19,8 @@ import 'package:recive/core/components/flutter_map_card_container/cubit/map_cont
 import 'package:recive/core/components/flutter_map_card_container/flutter_map_cached_tile_provider.dart';
 import 'package:recive/core/components/quick_search_header/bloc/quick_search_header_bloc.dart';
 import 'package:recive/core/domain/client/realm_gql_client.dart';
-import 'package:recive/modules/bookmarks_page/cubits/bookmarks_cubit.dart';
-import 'package:recive/modules/bookmarks_page/models/bookmark_hive_object.dart';
+import 'package:recive/modules/bookmarks/cubits/bookmarks_cubit.dart';
+import 'package:recive/modules/bookmarks/models/bookmark_hive_object.dart';
 import 'package:recive/modules/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/modules/categories_page/repos/categories_repo.interface.dart';
 import 'package:recive/modules/categories_page/repos/categories_repo.remote.dart';
@@ -95,8 +95,7 @@ Future setupStorage() async {
     ),
   );
 
-  final favouriteBox = await Hive.openBox<BookmarkHiveObject>(
-      StoreBoxConstant.hiveStoreBookmarksBoxName);
+  final favouriteBox = await Hive.openBox<BookmarkHiveObject>(StoreBoxConstant.hiveStoreBookmarksBoxName);
   locator.registerSingleton<Box<BookmarkHiveObject>>(favouriteBox);
 
   final introductionBox = await Hive.openBox<bool>(
@@ -107,9 +106,7 @@ Future setupStorage() async {
 
   // START REGISTER HydratedBloc CACHE STORE
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await path_provider.getTemporaryDirectory(),
+    storageDirectory: kIsWeb ? HydratedStorage.webStorageDirectory : await path_provider.getTemporaryDirectory(),
   );
   await HydratedBloc.storage.clear();
   locator.registerSingleton(HydratedBloc);
@@ -217,6 +214,7 @@ Future setupBlocs() async {
         applicationService: locator.get(),
         storage: locator.get(),
         introductionBox: locator.get(),
+        locationService: locator.get(),
       ),
     )
     ..registerFactory(

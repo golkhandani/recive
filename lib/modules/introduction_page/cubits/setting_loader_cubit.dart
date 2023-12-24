@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 
 import 'package:recive/core/enums/loading_state.dart';
+import 'package:recive/shared/services/geo_location_service.dart';
 import 'package:recive/shared/services/realm_service.dart';
 import 'package:recive/shared/utils/maybe_emit_cubit.dart';
 
@@ -27,19 +28,20 @@ class SettingLoaderState with _$SettingLoaderState {
         loadingState: LoadingState.none,
       );
 
-  factory SettingLoaderState.fromJson(Map<String, Object?> json) =>
-      _$SettingLoaderStateFromJson(json);
+  factory SettingLoaderState.fromJson(Map<String, Object?> json) => _$SettingLoaderStateFromJson(json);
 }
 
 class SettingLoaderCubit extends MaybeEmitHydratedCubit<SettingLoaderState> {
   final FlutterSecureStorage storage;
   final RealmApplicationService applicationService;
   final Box<bool> introductionBox;
+  final LocationService locationService;
 
   SettingLoaderCubit({
     required this.storage,
     required this.applicationService,
     required this.introductionBox,
+    required this.locationService,
   }) : super(SettingLoaderState.initialize());
 
   Future<void> loadSetting() async {
@@ -75,7 +77,7 @@ class SettingLoaderCubit extends MaybeEmitHydratedCubit<SettingLoaderState> {
   }
 
   Future<void> checkInitialization({
-    required VoidCallback onIntro,
+    required void Function(int) onIntro,
     required VoidCallback onLoggedin,
     required VoidCallback onNeedLogin,
   }) async {
@@ -97,8 +99,16 @@ class SettingLoaderCubit extends MaybeEmitHydratedCubit<SettingLoaderState> {
 
     if (!introIsViewed) {
       maybeEmit(state.copyWith(loadingState: LoadingState.done));
-      return onIntro();
+      return onIntro(0);
     }
+
+    final locationPermission = await locationService.getPermissionSetting();
+    if (!locationPermission.isPermitted) {
+      maybeEmit(state.copyWith(loadingState: LoadingState.done));
+      switchIntroSetting(false);
+      return onIntro(3);
+    }
+
     maybeEmit(state.copyWith(loadingState: LoadingState.done));
     return onLoggedin();
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:recive/core/components/scaffold_shell.dart';
-import 'package:recive/modules/bookmarks_page/bookmarks_screen.dart';
+import 'package:recive/modules/bookmarks/bookmarks_screen.dart';
 import 'package:recive/modules/categories_page/categories_screen.dart';
 import 'package:recive/modules/categories_page/category_detail_screen.dart';
 import 'package:recive/modules/dashboard/dashboard_screen.dart';
@@ -85,9 +85,12 @@ final dashboardExtraRoutes = [
 
 final initRoutes = [
   GoRoute(
-    name: IntroductionScreen.name,
-    path: '/${IntroductionScreen.name}',
-    builder: (context, state) => const IntroductionScreen(),
+    name: OnboardingScreen.name,
+    path: '/${OnboardingScreen.name}',
+    builder: (context, state) {
+      final page = state.uri.queryParameters['page'] ?? '0';
+      return OnboardingScreen(initalPage: int.tryParse(page) ?? 0);
+    },
   ),
 ];
 

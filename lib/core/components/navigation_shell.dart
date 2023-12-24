@@ -15,6 +15,14 @@ import 'package:recive/shared/extensions/text_style_extension.dart';
 
 final kBlurConfig = ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0);
 
+extension NavigationShellExtension on BuildContext {
+  static bool _isUsingFloatingNavBar = false;
+  bool get isUsingFloatingNavBar => _isUsingFloatingNavBar;
+  set isUsingFloatingNavBar(val) {
+    _isUsingFloatingNavBar = val;
+  }
+}
+
 class NavigationShell extends StatefulWidget {
   const NavigationShell({
     super.key,
@@ -62,6 +70,7 @@ class _NavigationShellState extends State<NavigationShell> {
 
   @override
   void initState() {
+    context.isUsingFloatingNavBar = widget.useFloatingNavBar;
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
@@ -80,18 +89,13 @@ class _NavigationShellState extends State<NavigationShell> {
     return ScaffoldShell(
       backgroundColor: context.colorTheme.surface,
       handleTopSafePadding: widget.handleTopSafePadding,
-      bottomNavigationBar: context.isNarrowWith && !widget.useFloatingNavBar
-          ? _buildBottomNavigationBar()
-          : null,
-      child: context.isNarrowWith
-          ? _buildNarrowContainer()
-          : _buildWideContainer(),
+      bottomNavigationBar: context.isNarrowWith && !widget.useFloatingNavBar ? _buildBottomNavigationBar() : null,
+      child: context.isNarrowWith ? _buildNarrowContainer() : _buildWideContainer(),
     );
   }
 
   Widget _buildNarrowContainer() {
-    final safePadding =
-        widget.handleTopSafePadding ? context.viewTopPaddingHeight : 0.0;
+    final safePadding = widget.handleTopSafePadding ? context.viewTopPaddingHeight : 0.0;
 
     return Stack(
       children: [
@@ -227,8 +231,7 @@ class _NavigationShellState extends State<NavigationShell> {
                         opacity: 100,
                         color: widget.inactiveColor,
                       ),
-                      unselectedLabelTextStyle:
-                          TextStyle(color: widget.inactiveColor),
+                      unselectedLabelTextStyle: TextStyle(color: widget.inactiveColor),
                       selectedIconTheme: IconThemeData(
                         opacity: 100,
                         color: widget.activeColor,
@@ -249,16 +252,12 @@ class _NavigationShellState extends State<NavigationShell> {
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           width: _railWidth,
-                          alignment: _isRailExtended
-                              ? Alignment.bottomRight
-                              : Alignment.bottomCenter,
+                          alignment: _isRailExtended ? Alignment.bottomRight : Alignment.bottomCenter,
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: IconButton(
                               icon: Icon(
-                                _isRailExtended
-                                    ? Icons.arrow_back_ios
-                                    : Icons.arrow_forward_ios,
+                                _isRailExtended ? Icons.arrow_back_ios : Icons.arrow_forward_ios,
                                 color: widget.inactiveColor,
                               ),
                               onPressed: () {
@@ -303,9 +302,7 @@ class _NavigationShellState extends State<NavigationShell> {
                 (i, e) => BottomNavigationBarItem(
                   icon: Icon(
                     e.iconData,
-                    color: i == widget.currentIndex
-                        ? widget.activeColor
-                        : widget.inactiveColor,
+                    color: i == widget.currentIndex ? widget.activeColor : widget.inactiveColor,
                   ),
                   label: e.label,
                 ),
@@ -356,13 +353,10 @@ class _NavigationShellState extends State<NavigationShell> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: widget.items.mapIndexed((i, e) {
-                  final color = i == widget.currentIndex
-                      ? widget.activeColor
-                      : widget.inactiveColor;
+                  final color = i == widget.currentIndex ? widget.activeColor : widget.inactiveColor;
                   return Container(
                     color: Colors.transparent,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: kSmallPadding.left),
+                    padding: EdgeInsets.symmetric(horizontal: kSmallPadding.left),
                     child: GestureDetector(
                       onTap: () => widget.onTap?.call(i),
                       behavior: HitTestBehavior.opaque,
@@ -378,9 +372,7 @@ class _NavigationShellState extends State<NavigationShell> {
                           const SizedBox(height: 2),
                           Text(
                             e.label ?? '',
-                            style: context.textTheme.bodyMedium
-                                .copyWith(color: color)
-                                .style,
+                            style: context.textTheme.bodyMedium.copyWith(color: color).style,
                           ),
                         ],
                       ),

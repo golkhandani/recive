@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:recive/core/enums/loading_state.dart';
-import 'package:recive/modules/bookmarks_page/models/bookmark_hive_object.dart';
+import 'package:recive/modules/bookmarks/models/bookmark_hive_object.dart';
 import 'package:recive/modules/featured_page/models/art_model.dart';
 import 'package:recive/modules/featured_page/repos/arts_repo.interface.dart';
 import 'package:recive/shared/utils/maybe_emit_cubit.dart';
@@ -26,8 +26,7 @@ class ArtDetailState with _$ArtDetailState {
         loadingState: LoadingState.none,
       );
 
-  factory ArtDetailState.fromJson(Map<String, Object?> json) =>
-      _$ArtDetailStateFromJson(json);
+  factory ArtDetailState.fromJson(Map<String, Object?> json) => _$ArtDetailStateFromJson(json);
 }
 
 class ArtDetailCubit extends MaybeEmitHydratedCubit<ArtDetailState> {

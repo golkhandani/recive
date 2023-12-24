@@ -18,7 +18,7 @@ import 'package:recive/core/components/screen_safe_area_header.dart';
 import 'package:recive/core/components/sliver_card_container.dart';
 import 'package:recive/core/components/sliver_gap.dart';
 import 'package:recive/core/enums/loading_state.dart';
-import 'package:recive/modules/bookmarks_page/cubits/bookmarks_cubit.dart';
+import 'package:recive/modules/bookmarks/cubits/bookmarks_cubit.dart';
 import 'package:recive/modules/featured_page/models/art_model.dart';
 import 'package:recive/modules/near_me_page/cubits/art_detail_cubit.dart';
 import 'package:recive/modules/search_page/widgets/tag_chip_container.dart';
@@ -73,16 +73,13 @@ class ArtDetailScreen extends HookWidget {
               ),
               sliver: Builder(
                 builder: (context) {
-                  final isLoading = summary == null &&
-                      data == null &&
-                      loading != LoadingState.done;
+                  final isLoading = summary == null && data == null && loading != LoadingState.done;
 
                   if (isLoading) {
                     return kSliverFillAnimatedLoading;
                   }
 
-                  final infoStyle =
-                      context.textTheme.bodyMedium.onPrimaryContainer.style;
+                  final infoStyle = context.textTheme.bodyMedium.onPrimaryContainer.style;
 
                   return MultiSliver(
                     children: [
@@ -104,12 +101,10 @@ class ArtDetailScreen extends HookWidget {
                                     decoration: BoxDecoration(
                                       borderRadius: kSmallBorderRadius,
                                     ),
-                                    constraints:
-                                        const BoxConstraints.expand(height: 56),
+                                    constraints: const BoxConstraints.expand(height: 56),
                                     padding: kTinyPadding,
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         LikeButton(
                                           padding: EdgeInsets.zero,
@@ -118,26 +113,20 @@ class ArtDetailScreen extends HookWidget {
                                             bloc.toggleFavorite(id);
                                             bookmarksBloc.toggleFavorite(
                                               id,
-                                              onFailure: () =>
-                                                  bloc.toggleFavorite(id),
+                                              onFailure: () => bloc.toggleFavorite(id),
                                             );
                                             return !isLiked;
                                           },
                                           bubblesColor: BubblesColor(
-                                            dotPrimaryColor:
-                                                context.colorTheme.primary,
-                                            dotSecondaryColor:
-                                                context.colorTheme.secondary,
+                                            dotPrimaryColor: context.colorTheme.primary,
+                                            dotSecondaryColor: context.colorTheme.secondary,
                                           ),
                                           isLiked: state.isBookmarked,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           likeBuilder: (isLiked) => Icon(
-                                            isLiked
-                                                ? Icons.bookmark_rounded
-                                                : Icons.bookmark_border_rounded,
+                                            isLiked ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
                                             size: 42,
-                                            color: context.colorTheme.secondary,
+                                            color: context.colorTheme.primary,
                                           ),
                                         ),
                                         LikeButton(
@@ -147,14 +136,11 @@ class ArtDetailScreen extends HookWidget {
                                             return !isLiked;
                                           },
                                           bubblesColor: BubblesColor(
-                                            dotPrimaryColor:
-                                                context.colorTheme.primary,
+                                            dotPrimaryColor: context.colorTheme.primary,
                                             dotSecondaryColor: Colors.redAccent,
                                           ),
                                           likeBuilder: (isLiked) => Icon(
-                                            isLiked
-                                                ? Icons.favorite_rounded
-                                                : Icons.favorite_border_rounded,
+                                            isLiked ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                                             size: 42,
                                             color: Colors.redAccent,
                                           ),
@@ -165,12 +151,10 @@ class ArtDetailScreen extends HookWidget {
                                           icon: Icon(
                                             Icons.ios_share,
                                             size: 42,
-                                            color: context.colorTheme.secondary,
+                                            color: context.colorTheme.primary,
                                           ),
                                           onPressed: () {
-                                            locator
-                                                .get<ShareService>()
-                                                .shareArt(
+                                            locator.get<ShareService>().shareArt(
                                                   context,
                                                   title: data.title,
                                                 );
@@ -426,9 +410,7 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Organizer : ',
-                                style: context.textTheme.titleTiny
-                                    .withColor(fontColor)
-                                    .style,
+                                style: context.textTheme.titleTiny.withColor(fontColor).style,
                               ),
                               TextSpan(
                                 text: data?.artists.firstOrNull?.name ?? 'N/A',
@@ -457,13 +439,10 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Bio : ',
-                                style: context.textTheme.titleTiny
-                                    .withColor(fontColor)
-                                    .style,
+                                style: context.textTheme.titleTiny.withColor(fontColor).style,
                               ),
                               TextSpan(
-                                text: data?.artists.firstOrNull?.biography ??
-                                    'N/A',
+                                text: data?.artists.firstOrNull?.biography ?? 'N/A',
                               ),
                             ],
                           ),
@@ -490,13 +469,10 @@ class ArtDetailScreen extends HookWidget {
                             children: [
                               TextSpan(
                                 text: 'Website : ',
-                                style: context.textTheme.titleTiny
-                                    .withColor(fontColor)
-                                    .style,
+                                style: context.textTheme.titleTiny.withColor(fontColor).style,
                               ),
                               TextSpan(
-                                text:
-                                    data?.artists.firstOrNull?.website ?? 'N/A',
+                                text: data?.artists.firstOrNull?.website ?? 'N/A',
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     launchUrl(Uri.parse(
@@ -552,9 +528,7 @@ class ArtDetailScreen extends HookWidget {
                     Center(
                       child: Text(
                         data.description,
-                        style: context.textTheme.bodyMedium
-                            .copyWith(color: fontColor)
-                            .style,
+                        style: context.textTheme.bodyMedium.copyWith(color: fontColor).style,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -571,9 +545,7 @@ class ArtDetailScreen extends HookWidget {
                           child: Text(
                             data.location.venue.address.localizedAddressDisplay,
                             overflow: TextOverflow.fade,
-                            style: context.textTheme.bodyMedium
-                                .copyWith(color: fontColor)
-                                .style,
+                            style: context.textTheme.bodyMedium.copyWith(color: fontColor).style,
                           ),
                         ),
                       ],

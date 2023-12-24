@@ -38,13 +38,12 @@ extension PositionToLocationData on Position {
 }
 
 extension UserLocationToLatLon on UserLocation {
-  LatLng? get latLng =>
-      position?.latitude != null && position?.longitude != null
-          ? LatLng(
-              position!.latitude,
-              position!.longitude,
-            )
-          : null;
+  LatLng? get latLng => position?.latitude != null && position?.longitude != null
+      ? LatLng(
+          position!.latitude,
+          position!.longitude,
+        )
+      : null;
 }
 
 extension PositionToLatLon on Position? {
@@ -64,49 +63,58 @@ class LocationService {
 
   final geolocator = GeolocatorPlatform.instance;
   late bool serviceEnabled;
-  late LocationPermission permission;
+  late LocationPermission _permission;
   UserLocation? lastUserLocation;
+
+  void openSetting() {
+    Geolocator.openLocationSettings();
+  }
+
+  Future<LocationPermission> getPermissionSetting() async {
+    _permission = await Geolocator.requestPermission();
+    return _permission;
+  }
 
   Future<void> requestService({
     required Function(LocationPermission) onDone,
   }) async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    permission = await Geolocator.requestPermission();
+    _permission = await Geolocator.requestPermission();
 
-    if (!serviceEnabled && permission == LocationPermission.deniedForever) {
+    if (!serviceEnabled && _permission == LocationPermission.deniedForever) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
       locator.logger.d("__| LocationService 2 $serviceEnabled");
-      return onDone(permission);
+      return onDone(_permission);
       // return Future.error('Location services are disabled.');
     }
     locator.logger.d("__| LocationService 1 $serviceEnabled");
 
-    permission = await Geolocator.checkPermission();
+    _permission = await Geolocator.checkPermission();
     if (serviceEnabled) {
-      return onDone(permission);
+      return onDone(_permission);
     }
     locator.logger.d("__| LocationService 3 $serviceEnabled");
-    if (permission == LocationPermission.denied) {
+    if (_permission == LocationPermission.denied) {
       locator.logger.d("__| LocationService 4 $serviceEnabled");
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
+      _permission = await Geolocator.requestPermission();
+      if (_permission == LocationPermission.denied) {
         locator.logger.d("__| LocationService 5 $serviceEnabled");
         // Permissions are denied, next time you could try
         // requesting permissions again (this is also where
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        return onDone(permission);
+        return onDone(_permission);
         // return Future.error('Location permissions are denied');
       }
     }
 
-    if (permission == LocationPermission.deniedForever) {
+    if (_permission == LocationPermission.deniedForever) {
       locator.logger.d("__| LocationService 7 $serviceEnabled");
       // Permissions are denied forever, handle appropriately.
-      return onDone(permission);
+      return onDone(_permission);
       // return Future.error(
       //     'Location permissions are permanently denied, we cannot request permissions.');
     }
@@ -117,7 +125,7 @@ class LocationService {
       position: position,
       timestamp: position.timestamp,
     );
-    return onDone(permission);
+    return onDone(_permission);
   }
 
   updateUastUserLocation(Position? position) {
@@ -133,22 +141,24 @@ class LocationService {
 
 final locationService = LocationService.instance;
 
+extension LocationPermissionHelper on LocationPermission {
+  bool get isPermitted => this == LocationPermission.always || this == LocationPermission.whileInUse;
+}
+
 Position? useLocationData({
   required String debugLabel,
 }) {
   locator.logger.d("$debugLabel - useLocationData");
 
-  final locationData =
-      useState<Position?>(locationService.lastUserLocation?.position);
+  final locationData = useState<Position?>(locationService.lastUserLocation?.position);
 
   useEffect(() {
     const locationOptions = LocationSettings(
       distanceFilter: 10,
     );
 
-    final locationStream = locationService.geolocator
-        .getPositionStream(locationSettings: locationOptions)
-        .listen((position) {
+    final locationStream =
+        locationService.geolocator.getPositionStream(locationSettings: locationOptions).listen((position) {
       final exp = position.timestamp.add(const Duration(seconds: 120));
       if ((position.timestamp.isAfter(exp)) || locationData.value == null) {
         locationData.value = position;
@@ -179,12 +189,8 @@ UserLocation useUserLocation({
     locationService.lastUserLocation ?? const UserLocation(),
   );
 
-  final isUpdated = (locationService.lastUserLocation?.timestamp
-                  ?.difference(DateTime.now())
-                  .inSeconds ??
-              double.infinity)
-          .abs() >
-      20;
+  final isUpdated =
+      (locationService.lastUserLocation?.timestamp?.difference(DateTime.now()).inSeconds ?? double.infinity).abs() > 20;
 
   if (!isUpdated && !mount()) {
     return state.value;
@@ -205,9 +211,7 @@ UserLocation useUserLocation({
 
   if ((positionChanged.hasData && isUpdated) || !state.value.fetched) {
     state.value = UserLocation(
-      fetched: locationData?.latitude != null &&
-          locationData?.longitude != null &&
-          positionChanged.hasData,
+      fetched: locationData?.latitude != null && locationData?.longitude != null && positionChanged.hasData,
       position: locationData,
       timestamp: locationData?.timestamp,
     );

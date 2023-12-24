@@ -33,29 +33,24 @@ class DashboardWrapper extends StatelessWidget {
   static Map<String, int> dashboardRouteNameToSelectedIndexMap = {
     HomeScreen.name: 0,
     NearMeScreen.name: 1,
-    // PackagesScreen.name: 2,
     SearchScreen.name: 2,
     ProfileScreen.name: 3,
   };
   final navigationService = locator.get<NavigationService>();
 
+  int calculateDashboardSelectedIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.path;
+    final name = dashboardRouteNameToSelectedIndexMap.keys.firstWhereOrNull((element) => location.contains(element));
+
+    return dashboardRouteNameToSelectedIndexMap[name] ?? 0;
+  }
+
+  void onItemTapped(int index) {
+    child.goBranch(index, initialLocation: index == child.currentIndex);
+  }
+
   @override
   Widget build(BuildContext context) {
-    void onItemTapped(int index) {
-      child.goBranch(
-        index,
-        initialLocation: index == child.currentIndex,
-      );
-    }
-
-    int calculateDashboardSelectedIndex() {
-      final String location = GoRouterState.of(context).uri.path;
-      final name = dashboardRouteNameToSelectedIndexMap.keys.firstWhereOrNull((element) => location.contains(element));
-
-      return dashboardRouteNameToSelectedIndexMap[name] ?? 0;
-    }
-
-    final currentIndex = calculateDashboardSelectedIndex();
     final items = [
       NavigationItem(
         iconData: Icons.home_outlined,
@@ -65,10 +60,6 @@ class DashboardWrapper extends StatelessWidget {
         iconData: Icons.near_me_outlined,
         label: 'Arts',
       ),
-      // NavigationItem(
-      //   iconData: Icons.group_work_outlined,
-      //   label: 'Packages',
-      // ),
       NavigationItem(
         iconData: Icons.route_outlined,
         label: 'Routes',
@@ -81,7 +72,7 @@ class DashboardWrapper extends StatelessWidget {
 
     return NavigationShell(
       items: items,
-      currentIndex: currentIndex,
+      currentIndex: calculateDashboardSelectedIndex(context),
       onTap: onItemTapped,
       activeColor: context.colorTheme.onNavSelected,
       inactiveColor: context.colorTheme.onNavUnselected,

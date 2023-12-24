@@ -162,33 +162,24 @@ extension AppTextColor on AppTextTheme {
   /// COLORS
   AppTextTheme get primary => copyWith(color: _palette.primary);
   AppTextTheme get onPrimary => copyWith(color: _palette.onPrimary);
-  AppTextTheme get primaryContainer =>
-      copyWith(color: _palette.primaryContainer);
-  AppTextTheme get onPrimaryContainer =>
-      copyWith(color: _palette.onPrimaryContainer);
+  AppTextTheme get primaryContainer => copyWith(color: _palette.primaryContainer);
+  AppTextTheme get onPrimaryContainer => copyWith(color: _palette.onPrimaryContainer);
   AppTextTheme get secondary => copyWith(color: _palette.secondary);
   AppTextTheme get onSecondary => copyWith(color: _palette.onSecondary);
-  AppTextTheme get secondaryContainer =>
-      copyWith(color: _palette.secondaryContainer);
-  AppTextTheme get onSecondaryContainer =>
-      copyWith(color: _palette.onSecondaryContainer);
+  AppTextTheme get secondaryContainer => copyWith(color: _palette.secondaryContainer);
+  AppTextTheme get onSecondaryContainer => copyWith(color: _palette.onSecondaryContainer);
   AppTextTheme get tertiary => copyWith(color: _palette.tertiary);
   AppTextTheme get onTertiary => copyWith(color: _palette.onTertiary);
-  AppTextTheme get tertiaryContainer =>
-      copyWith(color: _palette.tertiaryContainer);
-  AppTextTheme get onTertiaryContainer =>
-      copyWith(color: _palette.onTertiaryContainer);
+  AppTextTheme get tertiaryContainer => copyWith(color: _palette.tertiaryContainer);
+  AppTextTheme get onTertiaryContainer => copyWith(color: _palette.onTertiaryContainer);
   AppTextTheme get error => copyWith(color: _palette.error);
   AppTextTheme get onError => copyWith(color: _palette.onError);
   AppTextTheme get errorContainer => copyWith(color: _palette.errorContainer);
-  AppTextTheme get onErrorContainer =>
-      copyWith(color: _palette.onErrorContainer);
+  AppTextTheme get onErrorContainer => copyWith(color: _palette.onErrorContainer);
   AppTextTheme get success => copyWith(color: _palette.success);
   AppTextTheme get onSuccess => copyWith(color: _palette.onSuccess);
-  AppTextTheme get successContainer =>
-      copyWith(color: _palette.successContainer);
-  AppTextTheme get onSuccessContainer =>
-      copyWith(color: _palette.onSuccessContainer);
+  AppTextTheme get successContainer => copyWith(color: _palette.successContainer);
+  AppTextTheme get onSuccessContainer => copyWith(color: _palette.onSuccessContainer);
   AppTextTheme get background => copyWith(color: _palette.background);
   AppTextTheme get onBackground => copyWith(color: _palette.onBackground);
   AppTextTheme get surface => copyWith(color: _palette.surface);
@@ -203,20 +194,14 @@ extension AppTextColor on AppTextTheme {
   AppTextTheme get onNavUnselected => copyWith(color: _palette.onNavUnselected);
 
   AppTextTheme get cardBackground => copyWith(color: _palette.cardBackground);
-  AppTextTheme get onCardBackground =>
-      copyWith(color: _palette.onCardBackground);
+  AppTextTheme get onCardBackground => copyWith(color: _palette.onCardBackground);
 
   AppTextTheme get chipBackground => copyWith(color: _palette.chipBackground);
-  AppTextTheme get onChipBackground =>
-      copyWith(color: _palette.onChipBackground);
-  AppTextTheme get onTextFieldBackground =>
-      copyWith(color: _palette.onTextFieldBackground);
-  AppTextTheme get textFieldBackground =>
-      copyWith(color: _palette.textFieldBackground);
-  AppTextTheme get chipDisabledBackground =>
-      copyWith(color: _palette.chipDisabledBackground);
-  AppTextTheme get onChipDisabledBackground =>
-      copyWith(color: _palette.onChipDisabledBackground);
+  AppTextTheme get onChipBackground => copyWith(color: _palette.onChipBackground);
+  AppTextTheme get onTextFieldBackground => copyWith(color: _palette.onTextFieldBackground);
+  AppTextTheme get textFieldBackground => copyWith(color: _palette.textFieldBackground);
+  AppTextTheme get chipDisabledBackground => copyWith(color: _palette.chipDisabledBackground);
+  AppTextTheme get onChipDisabledBackground => copyWith(color: _palette.onChipDisabledBackground);
 }
 
 extension AppTextSizer on AppTextTheme {
@@ -224,31 +209,20 @@ extension AppTextSizer on AppTextTheme {
   AppTextTheme get headerMedium => copyWith(fontSize: 28);
   AppTextTheme get headerSmall => copyWith(fontSize: 26);
 
-  AppTextTheme get titleLarge =>
-      copyWith(fontSize: 22, fontWeight: FontWeight.w900);
-  AppTextTheme get titleMedium =>
-      copyWith(fontSize: 20, fontWeight: FontWeight.w800);
-  AppTextTheme get titleSmall =>
-      copyWith(fontSize: 18, fontWeight: FontWeight.w700);
-  AppTextTheme get titleTiny =>
-      copyWith(fontSize: 16, fontWeight: FontWeight.w600);
+  AppTextTheme get titleLarge => copyWith(fontSize: 22, fontWeight: FontWeight.w900);
+  AppTextTheme get titleMedium => copyWith(fontSize: 20, fontWeight: FontWeight.w800);
+  AppTextTheme get titleSmall => copyWith(fontSize: 18, fontWeight: FontWeight.w700);
+  AppTextTheme get titleTiny => copyWith(fontSize: 16, fontWeight: FontWeight.w600);
 
-  AppTextTheme get subtitleLarge =>
-      copyWith(fontSize: 16, fontWeight: FontWeight.w700);
-  AppTextTheme get subtitleMedium =>
-      copyWith(fontSize: 14, fontWeight: FontWeight.w600);
-  AppTextTheme get subtitleSmall =>
-      copyWith(fontSize: 12, fontWeight: FontWeight.w500);
-  AppTextTheme get subtitleTiny =>
-      copyWith(fontSize: 10, fontWeight: FontWeight.w400);
+  AppTextTheme get subtitleLarge => copyWith(fontSize: 16, fontWeight: FontWeight.w700);
+  AppTextTheme get subtitleMedium => copyWith(fontSize: 14, fontWeight: FontWeight.w600);
+  AppTextTheme get subtitleSmall => copyWith(fontSize: 12, fontWeight: FontWeight.w500);
+  AppTextTheme get subtitleTiny => copyWith(fontSize: 10, fontWeight: FontWeight.w400);
 
-  AppTextTheme get bodyMedium =>
-      copyWith(fontSize: 14, fontWeight: FontWeight.w400);
-  AppTextTheme get bodySmall =>
-      copyWith(fontSize: 12, fontWeight: FontWeight.w300);
+  AppTextTheme get bodyMedium => copyWith(fontSize: 14, fontWeight: FontWeight.w400);
+  AppTextTheme get bodySmall => copyWith(fontSize: 12, fontWeight: FontWeight.w300);
 
-  AppTextTheme get seeMore =>
-      copyWith(fontSize: 16, fontWeight: FontWeight.w800);
+  AppTextTheme get seeMore => copyWith(fontSize: 16, fontWeight: FontWeight.w800);
 
   AppTextTheme get hint => copyWith(fontSize: 12);
   AppTextTheme get label => copyWith(fontSize: 12);
@@ -358,7 +332,7 @@ final goldTheme = AppThemePalette(
   tertiary: const Color.fromARGB(255, 184, 112, 164),
   onTertiary: const Color.fromARGB(255, 0, 0, 0),
   tertiaryContainer: const Color.fromARGB(255, 255, 235, 183),
-  onTertiaryContainer: const Color.fromRGBO(255, 255, 255, 1),
+  onTertiaryContainer: const Color.fromARGB(255, 0, 0, 0),
 
   chipBackground: const Color.fromARGB(255, 250, 215, 133),
   onChipBackground: const Color.fromARGB(255, 0, 0, 0),
@@ -403,27 +377,27 @@ final goldTheme = AppThemePalette(
 final pyd = AppThemePalette(
   brightness: Brightness.light,
 
-  primary: const Color.fromARGB(255, 20, 180, 172),
+  primary: const Color.fromARGB(255, 15, 163, 155),
   onPrimary: const Color.fromARGB(255, 0, 0, 0),
-  primaryContainer: const Color.fromARGB(255, 152, 169, 202),
+  primaryContainer: const Color.fromARGB(255, 152, 202, 194),
   onPrimaryContainer: const Color.fromARGB(255, 0, 0, 0),
 
-  secondary: const Color.fromARGB(255, 252, 229, 175),
+  secondary: const Color.fromARGB(255, 175, 252, 229),
   onSecondary: const Color.fromARGB(255, 0, 0, 0),
-  secondaryContainer: const Color.fromARGB(255, 239, 170, 42),
+  secondaryContainer: const Color.fromARGB(255, 33, 190, 162),
   onSecondaryContainer: const Color.fromARGB(255, 0, 0, 0),
 
-  cardBackground: const Color.fromARGB(255, 245, 230, 215),
+  cardBackground: const Color.fromARGB(255, 215, 239, 245),
   onCardBackground: const Color.fromARGB(255, 0, 0, 0),
 
-  tertiary: const Color.fromARGB(255, 184, 112, 164),
+  tertiary: const Color.fromARGB(255, 112, 184, 171),
   onTertiary: const Color.fromARGB(255, 0, 0, 0),
-  tertiaryContainer: const Color.fromARGB(255, 255, 235, 183),
-  onTertiaryContainer: const Color.fromRGBO(255, 255, 255, 1),
+  tertiaryContainer: const Color.fromARGB(255, 183, 255, 238),
+  onTertiaryContainer: const Color.fromARGB(255, 0, 0, 0),
 
-  chipBackground: const Color.fromARGB(255, 250, 215, 133),
+  chipBackground: const Color.fromARGB(255, 133, 250, 234),
   onChipBackground: const Color.fromARGB(255, 0, 0, 0),
-  chipDisabledBackground: const Color.fromARGB(255, 251, 237, 200),
+  chipDisabledBackground: const Color.fromARGB(255, 200, 251, 248),
   onChipDisabledBackground: const Color.fromARGB(255, 122, 121, 121),
 
   error: Colors.red,
@@ -436,7 +410,7 @@ final pyd = AppThemePalette(
   successContainer: const Color.fromRGBO(8, 141, 10, 1),
   onSuccessContainer: Colors.white,
 
-  background: const Color.fromARGB(255, 249, 246, 241), // Set to white
+  background: const Color.fromARGB(255, 241, 249, 249), // Set to white
   onBackground: const Color.fromRGBO(0, 0, 0, 1),
   highlight: const Color.fromRGBO(0, 0, 0, 1),
   onHighlight: const Color.fromRGBO(255, 255, 255, 1),
@@ -445,18 +419,18 @@ final pyd = AppThemePalette(
   surface: const Color.fromRGBO(0, 0, 0, 1),
   onSurface: const Color.fromRGBO(255, 255, 255, 1),
 
-  backBtnBackground: const Color.fromARGB(255, 209, 126, 2),
+  backBtnBackground: const Color.fromARGB(255, 2, 209, 178),
   onBackBtnBackground: const Color.fromARGB(255, 255, 255, 255),
-  navBackground: const Color.fromARGB(255, 255, 155, 6),
-  onNavBackground: const Color.fromARGB(255, 255, 255, 255),
+  navBackground: const Color.fromARGB(255, 86, 176, 158),
+  onNavBackground: const Color.fromARGB(255, 0, 0, 0),
   onNavUnselected: const Color.fromARGB(255, 0, 0, 0),
   onNavSelected: const Color.fromARGB(255, 255, 255, 255),
 
-  tabBarSelected: const Color.fromARGB(255, 255, 176, 29),
+  tabBarSelected: const Color.fromARGB(255, 20, 167, 138),
   onTabBarSelected: const Color.fromARGB(255, 255, 255, 255),
-  tabBarUnselected: const Color.fromARGB(255, 255, 227, 178),
+  tabBarUnselected: const Color.fromARGB(255, 171, 221, 216),
   onTabBarUnselected: const Color.fromARGB(255, 105, 105, 105),
 
-  textFieldBackground: const Color.fromARGB(255, 254, 171, 18),
+  textFieldBackground: const Color.fromARGB(255, 67, 106, 96),
   onTextFieldBackground: const Color.fromARGB(255, 0, 0, 0),
 );

@@ -27,8 +27,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
     super.initState();
   }
 
-  final GlobalKey<SliverAnimatedListState> _listKey =
-      GlobalKey<SliverAnimatedListState>();
+  final GlobalKey<SliverAnimatedListState> _listKey = GlobalKey<SliverAnimatedListState>();
 
   int lastIndex = 0;
 
@@ -61,8 +60,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
           if (state.loadingMoreState == LoadingState.loading) {
             return;
           }
-          if (scrollController.offset + 10 >
-              scrollController.position.maxScrollExtent) {
+          if (scrollController.offset + 10 > scrollController.position.maxScrollExtent) {
             bloc.loadMorePackages();
           }
         });
@@ -75,43 +73,42 @@ class _PackagesScreenState extends State<PackagesScreen> {
       child: CustomScrollView(
         controller: scrollController,
         slivers: [
-          const ScreenSafeAreaHeader(
-            title: 'Packages',
-          ),
+          const ScreenSafeAreaHeader(title: 'Packages'),
           SliverPadding(
-            padding: kMediumPadding.copyWith(
-              bottom: state.loadingMoreState == LoadingState.loading
-                  ? 16
-                  : context.footerHeight + 16,
+            padding: kMediumPadding.copyWith(bottom: context.vBottomSafeHeight + 16),
+            sliver: SliverLoadingCheck(
+              loadingState: state.loadingState,
+              child: MultiSliver(
+                children: [
+                  SliverAnimatedList(
+                    key: _listKey,
+                    itemBuilder: (context, index, animation) {
+                      // Note: handle pre-view scroll items
+                      if (index > state.packages.length - 1) {
+                        return const SizedBox();
+                      }
+                      final data = ArtRouteContainerData.fromAbstract(
+                        state.packages[index],
+                      );
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: ArtRouteExpandedCardContainer(
+                          data: data,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-            sliver: context.checkLoadingState(state.loadingState) ??
-                MultiSliver(
-                  children: [
-                    SliverAnimatedList(
-                      key: _listKey,
-                      itemBuilder: (context, index, animation) {
-                        // Note: handle pre-view scroll items
-                        if (index > state.packages.length - 1) {
-                          return const SizedBox();
-                        }
-                        final data = ArtRouteContainerData.fromAbstract(
-                          state.packages[index],
-                        );
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: ArtRouteExpandedCardContainer(
-                            data: data,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
           ),
           if (state.loadingMoreState == LoadingState.loading)
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: context.footerHeight + 16),
-              sliver: kSliverBoxAnimatedLoading,
+            SliverLoadingCheck(
+              loadingState: state.loadingState,
+              child: SliverPadding(
+                padding: EdgeInsets.only(bottom: context.vBottomSafeHeight + 16),
+                sliver: kSliverBoxAnimatedLoading,
+              ),
             ),
         ],
       ),

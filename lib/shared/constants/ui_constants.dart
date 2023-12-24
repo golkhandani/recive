@@ -43,19 +43,13 @@ final kSkeletonLoadingBox = LayoutBuilder(builder: (context, box) {
   return ClipRRect(
       borderRadius: kSmallBorderRadius,
       child: Shimmer.fromColors(
-        baseColor: context.colorTheme.brightness == Brightness.light
-            ? Colors.grey[200]!
-            : Colors.grey[800]!,
-        highlightColor: context.colorTheme.brightness == Brightness.light
-            ? Colors.grey[400]!
-            : Colors.grey[600]!,
+        baseColor: context.colorTheme.brightness == Brightness.light ? Colors.grey[200]! : Colors.grey[800]!,
+        highlightColor: context.colorTheme.brightness == Brightness.light ? Colors.grey[400]! : Colors.grey[600]!,
         child: Column(
           children: [
             Container(
               constraints: box,
-              color: context.colorTheme.brightness == Brightness.light
-                  ? Colors.grey[200]!
-                  : Colors.grey[800]!,
+              color: context.colorTheme.brightness == Brightness.light ? Colors.grey[200]! : Colors.grey[800]!,
             ),
           ],
         ),
@@ -130,7 +124,7 @@ final kSmallBorderRadius = BorderRadius.circular(16);
 
 const double kRadius = 10;
 
-const Duration kLoadingDuration = Duration(seconds: 2);
+const Duration kLoadingDuration = Duration(milliseconds: 2000);
 
 const kMediumPadding = EdgeInsets.all(16);
 const kSmallPadding = EdgeInsets.all(12);

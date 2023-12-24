@@ -21,6 +21,8 @@ import 'package:recive/modules/near_me_page/cubits/near_by_cubit.dart';
 import 'package:recive/modules/near_me_page/sections/list_section.dart';
 import 'package:recive/modules/near_me_page/sections/map_section.dart';
 import 'package:recive/modules/near_me_page/widgets/empty_result_snackbar.dart';
+import 'package:recive/modules/near_me_page/widgets/near_me_filter_bar.dart';
+import 'package:recive/modules/search_page/widgets/search_filter_bar.dart';
 import 'package:recive/modules/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/color_extentions.dart';
@@ -44,8 +46,7 @@ class NearMeScreen extends StatefulHookWidget {
   State<NearMeScreen> createState() => _NearMeScreenState();
 }
 
-class _NearMeScreenState extends State<NearMeScreen>
-    with TickerProviderStateMixin {
+class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMixin {
   void showEmptySnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(emptySearchResultSnackbar);
   }
@@ -76,8 +77,7 @@ class _NearMeScreenState extends State<NearMeScreen>
     }, [geolocation]);
 
     final switchIndex = useState(0);
-    final pageController =
-        PreloadPageController(initialPage: switchIndex.value);
+    final pageController = PreloadPageController(initialPage: switchIndex.value);
     final switchItems = ['Map', 'List'];
     const switchDuration = Duration(milliseconds: 300);
     final mapController = AnimatedMapController(
@@ -98,307 +98,132 @@ class _NearMeScreenState extends State<NearMeScreen>
     return ColoredBox(
       color: context.colorTheme.background,
       child: LayoutBuilder(builder: (context, box) {
-        final contentHeight = box.maxHeight -
-            context.invisibleHeight -
-            24 -
-            24 -
-            (NearMeScreen.enableQuery ? 72 : 0);
+        final contentHeight = box.maxHeight - context.invisibleHeight - 24 - 24 - (NearMeScreen.enableQuery ? 72 : 0);
         final mapSectionHeight = (contentHeight * 0.75) - 36;
         final listSectionHeight = (contentHeight * 0.25) - 12;
         return CustomScrollView(
           slivers: [
-            const ScreenSafeAreaHeader(
-              title: 'Near me!',
-              elevation: false,
-            ),
+            const ScreenSafeAreaHeader(title: 'Near me!', elevation: false),
             // COMING SOON !!!
             if (NearMeScreen.enableQuery) ...[
               SliverPinnedHeader(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: context.colorTheme.navBackground,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        offset: const Offset(0.1, 0.1),
-                        blurRadius: 0.5,
-                        color: context.colorTheme.shadow,
-                      )
-                    ],
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: PinnedSearchHeader(
-                          backgroundColor: context.colorTheme.navBackground,
-                          padding: const EdgeInsets.all(12)
-                              .copyWith(top: 0, right: 0),
-                          height: 54,
-                          bloc: quickSearchBloc,
-                          onSelect: (text) => bloc.updateQueryFilter(text),
-                          onTextChanged: (text) => text.isEmpty
-                              ? bloc.updateQueryFilter(null)
-                              : null,
-                          textController: textEditingController,
-                        ),
+                child: SearchFilterBar(
+                  quickSearchBloc: quickSearchBloc,
+                  textEditingController: textEditingController,
+                  onFilterClicked: () => showFilters.value = !showFilters.value,
+                  onSearchItemSelected: (text) => bloc.updateQueryFilter(text),
+                  onSearchTextChanged: (text) => text.isEmpty ? bloc.updateQueryFilter(null) : null,
+                ),
+              ),
+              SliverPinnedHeader(
+                child: NearMeFilterBar(
+                  showFilters: showFilters.value,
+                  artTypeFilters: artTypeFilters,
+                  queryFilter: state.queryFilter,
+                  bloc: bloc,
+                  textEditingController: textEditingController,
+                  onFilterSelected: (ArtTypeFilter filter) {
+                    bloc.updateQueryFilter(filter.category?.title);
+                    textEditingController.text = filter.title;
+                    showFilters.value = !showFilters.value;
+                  },
+                ),
+              ),
+            ],
+            const SliverGap(height: 12),
+            SliverToBoxAdapter(
+              child: Center(
+                child: ToggleSwitch(
+                  minWidth: 200,
+                  minHeight: 42.0,
+                  fontSize: 16.0,
+                  initialLabelIndex: switchIndex.value,
+                  activeBgColor: [context.colorTheme.tabBarSelected],
+                  activeFgColor: context.colorTheme.onTabBarSelected,
+                  inactiveBgColor: context.colorTheme.tabBarUnselected,
+                  inactiveFgColor: context.colorTheme.onTabBarUnselected,
+                  totalSwitches: 2,
+                  labels: switchItems,
+                  animate: true,
+                  animationDuration: switchDuration.inMilliseconds,
+                  onToggle: (index) {
+                    final val = index ?? 0;
+                    switchIndex.value = val;
+                    if (state.nearbyArts.isNotEmpty) {
+                      pageController.animateToPage(
+                        val,
+                        duration: switchDuration,
+                        curve: Curves.easeIn,
+                      );
+                    }
+                  },
+                ),
+              ),
+            ),
+            const SliverGap(height: 12),
+            if (state.loadingState == LoadingState.loading)
+              SliverPadding(
+                padding: kTinyPadding,
+                sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: contentHeight - 24,
+                    child: CardContainer(
+                      borderRadius: kMediumBorderRadius,
+                      padding: kTinyPadding,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
                       ),
-                      const SizedBox(width: 12),
-                      InkWell(
-                        onTap: () => showFilters.value = !showFilters.value,
-                        child: Container(
-                          height: 56,
-                          margin: const EdgeInsets.only(bottom: 12, right: 12),
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Icon(
-                            FluentIcons.filter_12_filled,
-                            color: context.colorTheme.onNavBackground,
-                            size: 36,
+                    ),
+                  ),
+                ),
+              )
+            else
+              SliverToBoxAdapter(
+                child: RepaintBoundary(
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        child: SizedBox(
+                          height: contentHeight + 120,
+                          width: box.maxWidth,
+                          child: PreloadPageView(
+                            controller: pageController,
+                            onPageChanged: (value) => switchIndex.value = value,
+                            children: [
+                              CustomScrollView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                slivers: [
+                                  NearMeScreenMapViewContent(
+                                    switchIndex: switchIndex,
+                                    switchItems: switchItems,
+                                    mapSectionHeight: mapSectionHeight,
+                                    listSectionHeight: listSectionHeight,
+                                    mapController: mapController,
+                                    bloc: bloc,
+                                    state: state,
+                                  ),
+                                ],
+                              ),
+                              NearMeScreenListViewContent(
+                                switchIndex: switchIndex,
+                                bloc: bloc,
+                                state: state,
+                              ),
+                            ],
                           ),
                         ),
-                      )
+                      ),
+                      if (state.loadingState == LoadingState.updating)
+                        Container(
+                          color: context.colorTheme.tertiaryContainer.withOpacity(0.4),
+                          height: contentHeight,
+                          child: kAnimatedLoadingBox,
+                        ),
                     ],
                   ),
                 ),
               ),
-              _buildFilterSection(
-                bloc,
-                state,
-                textEditingController,
-                showFilters,
-                artTypeFilters,
-              ),
-            ],
-
-            const SliverGap(height: 12),
-            Builder(builder: (context) {
-              return MultiSliver(
-                children: [
-                  SliverToBoxAdapter(
-                    child: LayoutBuilder(builder: (context, box) {
-                      return Center(
-                        child: ToggleSwitch(
-                          minWidth: box.maxWidth / 4,
-                          minHeight: 42.0,
-                          fontSize: 16.0,
-                          initialLabelIndex: switchIndex.value,
-                          activeBgColor: [context.colorTheme.tabBarSelected],
-                          activeFgColor: context.colorTheme.onTabBarSelected,
-                          inactiveBgColor: context.colorTheme.tabBarUnselected,
-                          inactiveFgColor:
-                              context.colorTheme.onTabBarUnselected,
-                          totalSwitches: 2,
-                          labels: switchItems,
-                          animate: true,
-                          animationDuration: switchDuration.inMilliseconds,
-                          onToggle: (index) {
-                            final val = index ?? 0;
-                            switchIndex.value = val;
-                            if (state.nearbyArts.isNotEmpty) {
-                              pageController.animateToPage(
-                                val,
-                                duration: switchDuration,
-                                curve: Curves.easeIn,
-                              );
-                            }
-                          },
-                        ),
-                      );
-                    }),
-                  ),
-                  const SliverGap(height: 12),
-                  Builder(builder: (context) {
-                    if (state.loadingState == LoadingState.loading) {
-                      return SliverPadding(
-                        padding: kTinyPadding,
-                        sliver: SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: contentHeight - 24,
-                            child: CardContainer(
-                              borderRadius: kMediumBorderRadius,
-                              padding: kTinyPadding,
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    // if (state.nearbyArts.isEmpty &&
-                    //     state.loadingState != LoadingState.done) {
-                    //   return SliverPadding(
-                    //     padding: kTinyPadding,
-                    //     sliver: SliverToBoxAdapter(
-                    //       child: SizedBox(
-                    //         height: contentHeight - 24,
-                    //         child: CardContainer(
-                    //           borderRadius: kMediumBorderRadius,
-                    //           padding: kTinyPadding,
-                    //           child: Center(
-                    //             child: Text(
-                    //               "No Art has been found!",
-                    //               style: context
-                    //                   .textTheme.body1.onBackground.style,
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   );
-                    // }
-                    return SliverToBoxAdapter(
-                      child: RepaintBoundary(
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              child: Container(
-                                color: Colors.transparent,
-                                height: contentHeight + 120,
-                                width: box.maxWidth,
-                                child: PreloadPageView(
-                                  controller: pageController,
-                                  onPageChanged: (value) =>
-                                      switchIndex.value = value,
-                                  children: [
-                                    CustomScrollView(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      slivers: [
-                                        NearMeScreenMapViewContent(
-                                          switchIndex: switchIndex,
-                                          switchItems: switchItems,
-                                          mapSectionHeight: mapSectionHeight,
-                                          listSectionHeight: listSectionHeight,
-                                          mapController: mapController,
-                                          bloc: bloc,
-                                          state: state,
-                                        ),
-                                      ],
-                                    ),
-                                    NearMeScreenListViewContent(
-                                      switchIndex: switchIndex,
-                                      bloc: bloc,
-                                      state: state,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            if (state.loadingState == LoadingState.updating)
-                              Container(
-                                color: context.colorTheme.tertiaryContainer
-                                    .withOpacity(0.4),
-                                height: contentHeight,
-                                child: kAnimatedLoadingBox,
-                              )
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-                ],
-              );
-            }),
           ],
-        );
-      }),
-    );
-  }
-
-  Widget _buildFilterSection(
-    NearbyCubit bloc,
-    NearbyState state,
-    TextEditingController textEditingController,
-    ValueNotifier<bool> showFilters,
-    List<ArtTypeFilter> artTypeFilters,
-  ) {
-    return SliverPinnedHeader(
-      child: LayoutBuilder(builder: (context, box) {
-        return RepaintBoundary(
-          child: AnimatedSize(
-            duration: const Duration(milliseconds: 400),
-            child: showFilters.value
-                ? Container(
-                    padding: kTinyPadding,
-                    decoration: BoxDecoration(
-                      color: context.colorTheme.navBackground,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          offset: const Offset(0.2, 0),
-                          blurRadius: 4,
-                          color: context.colorTheme.primary.darken(0.2),
-                        )
-                      ],
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: kTinyPadding,
-                          child: Text(
-                            'Popular Categories:',
-                            style: context.textTheme.bodyMedium.style,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        if (artTypeFilters.isEmpty)
-                          ConstrainedBox(
-                            constraints:
-                                const BoxConstraints.expand(height: 300),
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          )
-                        else
-                          RepaintBoundary(
-                            child: Wrap(
-                              alignment: WrapAlignment.spaceBetween,
-                              direction: Axis.horizontal,
-                              clipBehavior: Clip.hardEdge,
-                              spacing: 4,
-                              runSpacing: 8,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: List.generate(
-                                artTypeFilters.length,
-                                (index) => SizedBox(
-                                  width: (box.maxWidth - 42) / 3,
-                                  height: 64,
-                                  child: FilterTagChipContainer(
-                                    backgroundColor:
-                                        artTypeFilters[index].category?.title ==
-                                                state.queryFilter
-                                            ? context.colorTheme.chipBackground
-                                            : context.colorTheme
-                                                .chipDisabledBackground,
-                                    color: artTypeFilters[index]
-                                                .category
-                                                ?.title ==
-                                            state.queryFilter
-                                        ? context.colorTheme.onChipBackground
-                                        : context.colorTheme
-                                            .onChipDisabledBackground,
-                                    tag: artTypeFilters[index].title,
-                                    onTap: () {
-                                      bloc.updateQueryFilter(
-                                        artTypeFilters[index].category?.title,
-                                      );
-                                      textEditingController.text =
-                                          artTypeFilters[index].title;
-                                      showFilters.value = false;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        const SizedBox(height: 12),
-                      ],
-                    ),
-                  )
-                : const SizedBox.shrink(),
-          ),
         );
       }),
     );

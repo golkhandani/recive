@@ -29,8 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
     useEffect(() {
       Future.delayed(kLoadingDuration).then(
         (value) => bloc.checkInitialization(
-          onIntro: () {
-            navigationService.moveTo(IntroductionScreen.name);
+          onIntro: (pageIndex) {
+            navigationService.moveTo(OnboardingScreen.name, queryParameters: {'page': '$pageIndex'});
           },
           onLoggedin: () {
             navigationService.moveTo(DashboardScreen.name);

@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 import 'package:recive/core/components/quick_search_header/bloc/quick_search_header_bloc.dart';
-import 'package:recive/core/components/quick_search_header/quick_search_header_component.dart';
 import 'package:recive/core/components/screen_safe_area_header.dart';
 import 'package:recive/core/components/sliver_gap.dart';
 import 'package:recive/core/enums/loading_state.dart';
-import 'package:recive/modules/package_page/models/art_route_model.dart';
-import 'package:recive/modules/package_page/widgets/art_route_card_container_data.dart';
-import 'package:recive/modules/package_page/widgets/art_route_expanded_card_container.dart';
 import 'package:recive/modules/search_page/cubits/search_cubit.dart';
 import 'package:recive/modules/search_page/widgets/search_filter_bar.dart';
 import 'package:recive/modules/search_page/widgets/search_filter_section.dart';
 import 'package:recive/modules/search_page/widgets/search_result_animated_list.dart';
-import 'package:recive/modules/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
-import 'package:recive/shared/extensions/color_extentions.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:lottie/lottie.dart';
-
-import 'package:recive/shared/extensions/context_ui_extension.dart';
-
 class LottieSafeLoading extends StatelessWidget {
   const LottieSafeLoading({
     super.key,

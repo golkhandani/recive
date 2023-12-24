@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +12,6 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:recive/core/components/card_container.dart';
-import 'package:recive/core/components/colored_network_image.dart';
 import 'package:recive/core/components/screen_safe_area_header.dart';
 import 'package:recive/core/components/sliver_card_container.dart';
 import 'package:recive/core/components/sliver_gap.dart';
@@ -21,6 +19,7 @@ import 'package:recive/core/enums/loading_state.dart';
 import 'package:recive/modules/bookmarks/cubits/bookmarks_cubit.dart';
 import 'package:recive/modules/featured_page/models/art_model.dart';
 import 'package:recive/modules/near_me_page/cubits/art_detail_cubit.dart';
+import 'package:recive/modules/near_me_page/widgets/hero_image_gallery.dart';
 import 'package:recive/modules/search_page/widgets/tag_chip_container.dart';
 import 'package:recive/shared/constants/ui_constants.dart';
 import 'package:recive/shared/extensions/context_ui_extension.dart';
@@ -83,101 +82,101 @@ class ArtDetailScreen extends HookWidget {
 
                   return MultiSliver(
                     children: [
-                      _buildImageCarousel(context, summary, data, heroTag),
+                      HeroImageGallery(
+                        heroImage: summary?.imageUrl,
+                        images: data?.images ?? [],
+                        heroTag: heroTag,
+                      ),
                       const SliverGap(height: 12),
-                      Builder(
-                        builder: (context) {
-                          if (data == null || loading == LoadingState.loading) {
-                            return kSkeletonSectionLoadingBox;
-                          }
-                          return MultiSliver(
-                            children: [
-                              SliverCardContainer(
-                                borderRadius: kMediumBorderRadius,
-                                color: context.colorTheme.background,
-                                padding: EdgeInsets.zero,
-                                sliver: SliverToBoxAdapter(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: kSmallBorderRadius,
-                                    ),
-                                    constraints: const BoxConstraints.expand(height: 56),
-                                    padding: kTinyPadding,
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        LikeButton(
-                                          padding: EdgeInsets.zero,
+                      if (data == null || loading == LoadingState.loading)
+                        kSkeletonSectionLoadingBox
+                      else
+                        MultiSliver(
+                          children: [
+                            SliverCardContainer(
+                              borderRadius: kMediumBorderRadius,
+                              color: context.colorTheme.background,
+                              padding: EdgeInsets.zero,
+                              sliver: SliverToBoxAdapter(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: kSmallBorderRadius,
+                                  ),
+                                  constraints: const BoxConstraints.expand(height: 56),
+                                  padding: kTinyPadding,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      LikeButton(
+                                        padding: EdgeInsets.zero,
+                                        size: 42,
+                                        onTap: (isLiked) async {
+                                          bloc.toggleFavorite(id);
+                                          bookmarksBloc.toggleFavorite(
+                                            id,
+                                            onFailure: () => bloc.toggleFavorite(id),
+                                          );
+                                          return !isLiked;
+                                        },
+                                        bubblesColor: BubblesColor(
+                                          dotPrimaryColor: context.colorTheme.primary,
+                                          dotSecondaryColor: context.colorTheme.secondary,
+                                        ),
+                                        isLiked: state.isBookmarked,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        likeBuilder: (isLiked) => Icon(
+                                          isLiked ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
                                           size: 42,
-                                          onTap: (isLiked) async {
-                                            bloc.toggleFavorite(id);
-                                            bookmarksBloc.toggleFavorite(
-                                              id,
-                                              onFailure: () => bloc.toggleFavorite(id),
-                                            );
-                                            return !isLiked;
-                                          },
-                                          bubblesColor: BubblesColor(
-                                            dotPrimaryColor: context.colorTheme.primary,
-                                            dotSecondaryColor: context.colorTheme.secondary,
-                                          ),
-                                          isLiked: state.isBookmarked,
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          likeBuilder: (isLiked) => Icon(
-                                            isLiked ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
-                                            size: 42,
-                                            color: context.colorTheme.primary,
-                                          ),
+                                          color: context.colorTheme.primary,
                                         ),
-                                        LikeButton(
-                                          padding: EdgeInsets.zero,
+                                      ),
+                                      LikeButton(
+                                        padding: EdgeInsets.zero,
+                                        size: 42,
+                                        onTap: (isLiked) async {
+                                          return !isLiked;
+                                        },
+                                        bubblesColor: BubblesColor(
+                                          dotPrimaryColor: context.colorTheme.primary,
+                                          dotSecondaryColor: Colors.redAccent,
+                                        ),
+                                        likeBuilder: (isLiked) => Icon(
+                                          isLiked ? Icons.favorite_rounded : Icons.favorite_border_rounded,
                                           size: 42,
-                                          onTap: (isLiked) async {
-                                            return !isLiked;
-                                          },
-                                          bubblesColor: BubblesColor(
-                                            dotPrimaryColor: context.colorTheme.primary,
-                                            dotSecondaryColor: Colors.redAccent,
-                                          ),
-                                          likeBuilder: (isLiked) => Icon(
-                                            isLiked ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                                            size: 42,
-                                            color: Colors.redAccent,
-                                          ),
+                                          color: Colors.redAccent,
                                         ),
-                                        const Spacer(),
-                                        IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: Icon(
-                                            Icons.ios_share,
-                                            size: 42,
-                                            color: context.colorTheme.primary,
-                                          ),
-                                          onPressed: () {
-                                            locator.get<ShareService>().shareArt(
-                                                  context,
-                                                  title: data.title,
-                                                );
-                                          },
+                                      ),
+                                      const Spacer(),
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        icon: Icon(
+                                          Icons.ios_share,
+                                          size: 42,
+                                          color: context.colorTheme.primary,
                                         ),
-                                      ],
-                                    ),
+                                        onPressed: () {
+                                          locator.get<ShareService>().shareArt(
+                                                context,
+                                                title: data.title,
+                                              );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                              _buildTitleInfo(summary, data),
-                              const SliverGap(height: 12),
-                              _buildBasicInfo(data, infoStyle),
-                              const SliverGap(height: 12),
-                              _buildOrganizerInfo(data, infoStyle),
-                              const SliverGap(height: 12),
-                              _buildTagInfo(data),
-                              const SliverGap(height: 12),
-                              _buildSourceInfo(data, infoStyle),
-                            ],
-                          );
-                        },
-                      ),
+                            ),
+                            _buildTitleInfo(summary, data),
+                            const SliverGap(height: 12),
+                            _buildBasicInfo(data, infoStyle),
+                            const SliverGap(height: 12),
+                            _buildOrganizerInfo(data, infoStyle),
+                            const SliverGap(height: 12),
+                            _buildTagInfo(data),
+                            const SliverGap(height: 12),
+                            _buildSourceInfo(data, infoStyle),
+                          ],
+                        ),
                       const SliverGap(height: 12),
                     ],
                   );
@@ -187,66 +186,6 @@ class ArtDetailScreen extends HookWidget {
           ]
         ],
       ),
-    );
-  }
-
-  Widget _buildImageCarousel(
-    BuildContext context,
-    ArtDetailSummaryData? summary,
-    ArtModel? data,
-    String heroTag,
-  ) {
-    final color = context.colorTheme.cardBackground;
-    return CardContainer(
-      borderRadius: kMediumBorderRadius,
-      padding: kTinyPadding,
-      color: color,
-      child: LayoutBuilder(builder: (context, box) {
-        if ((summary?.imageUrl ?? data!.images.firstOrNull?.imageUrl) == null) {
-          return const SizedBox();
-        }
-
-        // Warning: To stop rebuild issue
-        // https://github.com/serenader2014/flutter_carousel_slider/issues/187#issuecomment-741112872
-        final list = [
-          summary?.imageUrl ?? data!.images.first.imageUrl,
-          ...(data?.images.map((e) => e.imageUrl).toList() ??
-              // TO FIX THE ISSUE WITH SAME HERO TAG
-              [
-                summary?.imageUrl ?? data!.images.first.imageUrl,
-                summary?.imageUrl ?? data!.images.first.imageUrl,
-              ])
-        ].mapIndexed((index, data) {
-          final item = ColoredNetworkImage(
-            imageUrl: data,
-            constraints: const BoxConstraints.expand(height: 240),
-            color: Colors.blueGrey,
-          );
-          if (index == 0) {
-            return Hero(
-              tag: heroTag,
-              child: item,
-            );
-          }
-          return item;
-        }).toList();
-
-        return CarouselSlider(
-          items: list,
-          options: CarouselOptions(
-            height: 360,
-            viewportFraction: 0.8,
-            initialPage: 0,
-            enableInfiniteScroll: true,
-            reverse: false,
-            autoPlay: false,
-            autoPlayCurve: Curves.fastOutSlowIn,
-            enlargeCenterPage: true,
-            enlargeFactor: 0.24,
-            scrollDirection: Axis.horizontal,
-          ),
-        );
-      }),
     );
   }
 

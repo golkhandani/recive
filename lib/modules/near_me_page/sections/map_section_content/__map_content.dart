@@ -43,8 +43,8 @@ class NearbyMapContentState extends State<NearbyMapContent> {
   }
 
   Marker _createMarker(
+    BuildContext context,
     LatLng point,
-    Color color,
     int? index,
   ) =>
       Marker(
@@ -61,7 +61,7 @@ class NearbyMapContentState extends State<NearbyMapContent> {
           },
           child: Icon(
             FluentIcons.location_12_filled,
-            color: color,
+            color: context.colorTheme.tertiaryContainer,
             size: 50,
           ),
         ),
@@ -102,8 +102,8 @@ class NearbyMapContentState extends State<NearbyMapContent> {
           widget.state.nearbyArts
               .mapIndexed(
                 (index, point) => _createMarker(
+                  context,
                   point.geoLocation,
-                  context.colorTheme.tertiaryContainer,
                   index,
                 ),
               )

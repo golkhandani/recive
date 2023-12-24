@@ -432,5 +432,5 @@ final pyd = AppThemePalette(
   onTabBarUnselected: const Color.fromARGB(255, 105, 105, 105),
 
   textFieldBackground: const Color.fromARGB(255, 67, 106, 96),
-  onTextFieldBackground: const Color.fromARGB(255, 0, 0, 0),
+  onTextFieldBackground: const Color.fromARGB(255, 255, 255, 255),
 );

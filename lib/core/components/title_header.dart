@@ -22,8 +22,7 @@ class TitleHeader extends HookWidget {
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
     final hightlightColor = context.colorTheme.tertiary;
-    final backgroundColorV =
-        backgroundColor ?? context.colorTheme.tertiaryContainer;
+    final backgroundColorV = backgroundColor ?? context.colorTheme.tertiaryContainer;
     final titleColorV = titleColor ?? context.colorTheme.onPrimary;
     final backbtn = SizedBox(
       width: 32,
@@ -35,9 +34,7 @@ class TitleHeader extends HookWidget {
       ),
     );
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-      ).copyWith(bottom: 12, top: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 12, top: 4),
       color: backgroundColorV,
       child: Center(
         child: Row(
@@ -77,15 +74,12 @@ class TitleHeader extends HookWidget {
             if (title.isNotEmpty) ...[
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12)
-                      .copyWith(bottom: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(bottom: 4),
                   child: FittedBox(
                     fit: BoxFit.none,
                     child: Text(
                       title,
-                      style: context.textTheme.titleSmall
-                          .withColor(titleColorV)
-                          .style,
+                      style: context.textTheme.titleSmall.withColor(titleColorV).style,
                     ),
                   ),
                 ),

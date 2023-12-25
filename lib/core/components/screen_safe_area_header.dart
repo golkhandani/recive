@@ -1,10 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:sliver_tools/sliver_tools.dart';
 
 import 'package:recive/core/components/title_header.dart';
-import 'package:recive/shared/extensions/context_ui_extension.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 
 class ScreenSafeAreaHeader extends StatelessWidget {
@@ -13,6 +13,7 @@ class ScreenSafeAreaHeader extends StatelessWidget {
     this.color,
     this.backgroundColor,
     required this.title,
+    this.children,
     this.elevation = true,
   });
 
@@ -20,33 +21,37 @@ class ScreenSafeAreaHeader extends StatelessWidget {
   final Color? backgroundColor;
   final String title;
   final bool elevation;
+  final List<Widget>? children;
 
   @override
   Widget build(BuildContext context) {
     final bg = context.colorTheme.navBackground;
     final tc = color ?? context.colorTheme.onNavBackground;
     return SliverPinnedHeader(
-      child: Container(
-        decoration: BoxDecoration(
-          color: bg,
-          boxShadow: elevation
-              ? <BoxShadow>[
-                  BoxShadow(
-                    offset: const Offset(0.1, 0.1),
-                    blurRadius: 0.5,
-                    color: context.colorTheme.shadow,
-                  )
-                ]
-              : null,
-          borderRadius: BorderRadius.zero,
-        ),
-        height: context.viewTopPaddingHeight + context.headerHeight,
-        child: Padding(
-          padding: context.viewTopPadding,
-          child: TitleHeader(
-            title: title,
-            backgroundColor: bg,
-            titleColor: tc,
+      child: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0, tileMode: TileMode.repeated),
+          child: Container(
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: BorderRadius.zero,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.of(context).viewPadding.top),
+                SizedBox(
+                  height: kToolbarHeight,
+                  child: TitleHeader(
+                    title: title,
+                    backgroundColor: Colors.transparent,
+                    titleColor: tc,
+                  ),
+                ),
+                ...?children
+              ],
+            ),
           ),
         ),
       ),

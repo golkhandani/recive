@@ -20,7 +20,7 @@ class CustomShapeBackgroundWidget extends HookWidget {
     final sensorX = useState(0.0);
     final sensorY = useState(0.0);
     useEffect(() {
-      accelerometerEvents.listen((e) {
+      accelerometerEventStream().listen((e) {
         sensorX.value = e.x;
         sensorY.value = -e.y * 3;
       });
@@ -127,8 +127,7 @@ class CustomShapeClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path();
     path.lineTo(0.0, size.height - 36);
-    path.quadraticBezierTo(
-        size.width / 2, size.height, size.width, size.height - 150);
+    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 150);
     path.lineTo(size.width, 0.0);
     return path;
   }

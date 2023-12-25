@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: CardContainer(
                 color: context.colorTheme.cardBackground,
                 borderRadius: kMediumBorderRadius,
-                padding: kTinyPadding,
+                padding: kSmallPadding,
                 constraints: BoxConstraints(
                   maxHeight: context.vHeight - 460,
                   maxWidth: double.infinity,

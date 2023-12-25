@@ -99,18 +99,21 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
         final listSectionHeight = (contentHeight * 0.25) - 12;
         return CustomScrollView(
           slivers: [
-            const ScreenSafeAreaHeader(title: 'Near me!', elevation: false),
-            // COMING SOON !!!
-            if (NearMeScreen.enableQuery) ...[
-              SliverPinnedHeader(
-                child: SearchFilterBar(
+            ScreenSafeAreaHeader(
+              title: 'Near me!',
+              elevation: false,
+              children: [
+                SearchFilterBar(
                   quickSearchBloc: quickSearchBloc,
                   textEditingController: textEditingController,
                   onFilterClicked: () => showFilters.value = !showFilters.value,
                   onSearchItemSelected: (text) => bloc.updateQueryFilter(text),
                   onSearchTextChanged: (text) => text.isEmpty ? bloc.updateQueryFilter(null) : null,
-                ),
-              ),
+                )
+              ],
+            ),
+            // COMING SOON !!!
+            if (NearMeScreen.enableQuery) ...[
               SliverPinnedHeader(
                 child: NearMeFilterBar(
                   showFilters: showFilters.value,

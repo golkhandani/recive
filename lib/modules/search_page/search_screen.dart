@@ -110,40 +110,53 @@ class _SearchScreenState extends State<SearchScreen> {
         return CustomScrollView(
           controller: scrollController,
           slivers: [
-            const ScreenSafeAreaHeader(title: 'Search Routes', elevation: false),
-            SliverPinnedHeader(
-              child: SearchFilterBar(
-                quickSearchBloc: quickSearchBloc,
-                textEditingController: textEditingController,
-                onFilterClicked: () => showFilters.value = !showFilters.value,
-                onSearchItemSelected: (text) => bloc.loadSearchedItems(text),
-                onSearchTextChanged: (text) => bloc.loadSearchedItems(text),
+            ScreenSafeAreaHeader(
+              title: 'Search Routes',
+              elevation: false,
+              children: [
+                SearchFilterBar(
+                  quickSearchBloc: quickSearchBloc,
+                  textEditingController: textEditingController,
+                  onFilterClicked: () => showFilters.value = !showFilters.value,
+                  onSearchItemSelected: (text) => bloc.loadSearchedItems(text),
+                  onSearchTextChanged: (text) =>
+                      text.isEmpty ? bloc.loadSearchedItems(null) : bloc.loadSearchedItems(text),
+                )
+              ],
+            ),
+            ...[
+              SearchFilterSection(
+                bloc: bloc,
+                showFilters: showFilters,
+                selectedDistanceFilter: state.distanceFilter,
+                searchedkeywords: state.searchedkeywords,
+                onKeywordTap: (keyword) {
+                  textEditingController.text = keyword;
+                  showFilters.value = false;
+                },
               ),
-            ),
-            SearchFilterSection(
-              bloc: bloc,
-              showFilters: showFilters,
-              selectedDistanceFilter: state.distanceFilter,
-              searchedkeywords: state.searchedkeywords,
-              onKeywordTap: (keyword) {
-                textEditingController.text = keyword;
-                showFilters.value = false;
-              },
-            ),
+            ],
             const SliverGap(height: 12),
-            if (state.loadingKeywordsState == LoadingState.loading || state.loadingState == LoadingState.loading)
-              kSkeletonSectionLoadingBox,
-            if (state.loadingState == LoadingState.done || state.loadingState == LoadingState.updating)
-              SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: kTinyPadding.horizontal / 2).copyWith(bottom: 112),
-                sliver: SearchResultAnimatedList(
-                  listKey: _listKey,
-                  initialItem: state.searchedItems,
-                ),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: kTinyPadding.horizontal / 2).copyWith(bottom: 112),
+              sliver: MultiSliver(
+                children: [
+                  if (state.loadingKeywordsState == LoadingState.loading ||
+                      state.loadingState == LoadingState.loading) ...[
+                    kSkeletonSectionLoadingBox,
+                  ],
+                  if (state.loadingState == LoadingState.done || state.loadingState == LoadingState.updating) ...[
+                    SearchResultAnimatedList(
+                      listKey: _listKey,
+                      initialItem: state.searchedItems,
+                    )
+                  ]
+                ],
               ),
+            ),
             if (state.loadingState == LoadingState.updating)
               SliverPadding(
-                padding: EdgeInsets.only(bottom: context.vBottomSafeHeight + 16),
+                padding: EdgeInsets.only(bottom: context.footerHeight + 16),
                 sliver: kSliverBoxAnimatedLoading,
               ),
           ],

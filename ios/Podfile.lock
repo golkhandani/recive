@@ -143,7 +143,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   realm: 3b5bc11dbdef4efbb4201a941c837f32901b18c3
-  sensors_plus: 4ee32bc7d61a055f27f88d3215ad6b6fb96a2b8e
+  sensors_plus: 42b9de1b8237675fa8d8121e4bb93be0f79fa61d
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   url_launcher_ios: bf5ce03e0e2088bad9cc378ea97fa0ed5b49673b

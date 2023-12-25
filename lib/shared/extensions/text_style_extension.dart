@@ -297,7 +297,7 @@ final blueTheme = AppThemePalette(
   surface: const Color.fromRGBO(0, 0, 0, 1),
   onSurface: const Color.fromRGBO(255, 255, 255, 1),
 
-  navBackground: const Color.fromARGB(255, 122, 146, 225),
+  navBackground: const Color.fromARGB(255, 122, 146, 225).withOpacity(0.8),
   onNavBackground: const Color.fromARGB(255, 255, 255, 255),
   onNavUnselected: const Color.fromARGB(255, 0, 0, 0),
   onNavSelected: const Color.fromARGB(255, 255, 255, 255),
@@ -360,7 +360,7 @@ final goldTheme = AppThemePalette(
 
   backBtnBackground: const Color.fromARGB(255, 209, 126, 2),
   onBackBtnBackground: const Color.fromARGB(255, 255, 255, 255),
-  navBackground: const Color.fromARGB(255, 255, 155, 6),
+  navBackground: const Color.fromARGB(255, 255, 155, 6).withOpacity(0.8),
   onNavBackground: const Color.fromARGB(255, 255, 255, 255),
   onNavUnselected: const Color.fromARGB(255, 0, 0, 0),
   onNavSelected: const Color.fromARGB(255, 255, 255, 255),
@@ -370,7 +370,7 @@ final goldTheme = AppThemePalette(
   tabBarUnselected: const Color.fromARGB(255, 255, 227, 178),
   onTabBarUnselected: const Color.fromARGB(255, 105, 105, 105),
 
-  textFieldBackground: const Color.fromARGB(255, 254, 171, 18),
+  textFieldBackground: const Color.fromARGB(255, 240, 158, 6),
   onTextFieldBackground: const Color.fromARGB(255, 0, 0, 0),
 );
 
@@ -421,7 +421,7 @@ final pyd = AppThemePalette(
 
   backBtnBackground: const Color.fromARGB(255, 2, 209, 178),
   onBackBtnBackground: const Color.fromARGB(255, 255, 255, 255),
-  navBackground: const Color.fromARGB(255, 86, 176, 158),
+  navBackground: const Color.fromARGB(255, 86, 176, 158).withOpacity(0.8),
   onNavBackground: const Color.fromARGB(255, 0, 0, 0),
   onNavUnselected: const Color.fromARGB(255, 0, 0, 0),
   onNavSelected: const Color.fromARGB(255, 255, 255, 255),

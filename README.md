@@ -1,16 +1,21 @@
-# recive
+# Art Wise City Guide
 
-A new Flutter project.
+This is an under-development project - don't judge the book by its cover :D
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is a project for technical learning use only - it uses open source data/map/modules to be a showcase and tour guide based on where you live
 
-A few resources to get you started if this is your first Flutter project:
+<img src="assets/screenshots/1.jpg" height="300em" />
+<img src="assets/screenshots/2.jpg" height="300em" />
+<img src="assets/screenshots/3.jpg" height="300em" />
+<img src="assets/screenshots/4.jpg" height="300em" />
+<img src="assets/screenshots/5.jpg" height="300em" />
+<img src="assets/screenshots/6.jpg" height="300em" />
+<img src="assets/screenshots/7.jpg" height="300em" />
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## License
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Do not copy/fork/download the code for commercial use
+if you want to learn flutter feel free to do so
+contact me if you are interested in buying the project for commercial use

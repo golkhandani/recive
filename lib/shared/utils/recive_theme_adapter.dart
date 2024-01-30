@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/color_themes_extentions.dart';
 
 class AppPaletteTypeAdapter implements TypeAdapter<AppPaletteType> {
   @override

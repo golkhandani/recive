@@ -56,12 +56,10 @@ class MapCardContainer extends StatefulHookWidget {
   State<MapCardContainer> createState() => _MapCardContainerState();
 }
 
-class _MapCardContainerState extends State<MapCardContainer>
-    with TickerProviderStateMixin {
+class _MapCardContainerState extends State<MapCardContainer> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final controller =
-        widget.mapController ?? AnimatedMapController(vsync: this);
+    final controller = widget.mapController ?? AnimatedMapController(vsync: this);
     final geolocation = useLocationData(debugLabel: 'MapCardContainer');
 
     final mapBloc = useBloc<MapControlCubit>();

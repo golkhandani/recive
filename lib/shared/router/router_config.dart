@@ -95,8 +95,6 @@ final initRoutes = [
 ];
 
 /////////////// DASHBOARD ///////////////////////
-///
-///
 Page<void> dashboardPageBuilder(GoRouterState state, Widget screen) {
   return CustomTransitionPage<void>(
     key: state.pageKey,
@@ -302,22 +300,6 @@ final dashboardRoutes = [
               ]),
         ],
       ),
-      // StatefulShellBranch(
-      //   navigatorKey: packagesNavigatorKey,
-      //   routes: <RouteBase>[
-      //     GoRoute(
-      //       name: PackagesScreen.name,
-      //       path: '/${DashboardScreen.name}/${PackagesScreen.name}',
-      //       pageBuilder: (context, state) => dashboardPageBuilder(
-      //         state,
-      //         const PackagesScreen(),
-      //       ),
-      //       routes: [
-      //         packageDetailRoute(PackagesScreen.name),
-      //       ],
-      //     ),
-      //   ],
-      // ),
 
       /// SEARCH SCREEN
       StatefulShellBranch(

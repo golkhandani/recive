@@ -120,10 +120,9 @@ final kBoxBorder = Border.all(
 );
 
 final kMediumBorderRadius = BorderRadius.circular(16);
-final kSmallBorderRadius = BorderRadius.circular(16);
+final kSmallBorderRadius = BorderRadius.circular(8);
 
 const double kRadius = 10;
-
 const Duration kLoadingDuration = Duration(milliseconds: 2000);
 
 const kMediumPadding = EdgeInsets.all(16);

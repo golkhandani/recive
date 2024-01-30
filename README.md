@@ -8,6 +8,10 @@ This is a project for technical learning use only - it uses open source data/map
 
 <img src="assets/screenshots/1.jpg" height="300em" /> <img src="assets/screenshots/2.jpg" height="300em" /> <img src="assets/screenshots/3.jpg" height="300em" /> <img src="assets/screenshots/4.jpg" height="300em" /> <img src="assets/screenshots/5.jpg" height="300em" /> <img src="assets/screenshots/6.jpg" height="300em" /> <img src="assets/screenshots/7.jpg" height="300em" />
 
+<img src="assets/screenshots/preview.gif" width="140"/>
+
+<!-- ![Video](assets/screenshots/preview.gif) -->
+
 ## License
 
 Do not copy/fork/download the code for commercial use

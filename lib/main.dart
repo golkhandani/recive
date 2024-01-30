@@ -15,10 +15,11 @@ import 'package:recive/firebase_options.dart';
 import 'package:recive/modules/bookmarks/cubits/bookmarks_cubit.dart';
 import 'package:recive/modules/categories_page/cubits/category_section_cubit.dart';
 import 'package:recive/modules/introduction_page/splash_screen.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/color_themes_extentions.dart';
 import 'package:recive/shared/ioc/locator.dart';
 import 'package:recive/shared/router/router_config.dart';
 import 'package:recive/shared/services/navigation_service.dart';
+import 'package:recive/shared/utils/theme.dart';
 import 'package:recive/shared/utils/theme_cubit.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -47,8 +48,6 @@ void main() {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-
-    // await locationService.requestService(onGrantedPermission: () => {});
 
     await setupNavigation();
     await setupStorage();
@@ -138,8 +137,8 @@ class Application extends StatelessWidget {
     );
     final hookedBloc = HookedBlocConfigProvider(
       injector: () => locator.get,
-      builderCondition: (state) => state != null, // Global build condition
-      listenerCondition: (state) => state != null, // Global listen condition
+      builderCondition: (state) => state != null,
+      listenerCondition: (state) => state != null,
       child: child,
     );
 

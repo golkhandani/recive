@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:toggle_switch/toggle_switch.dart';
 
+import 'package:recive/shared/extensions/color_themes_extentions.dart';
 import 'package:recive/shared/extensions/string_extensions.dart';
 import 'package:recive/shared/extensions/text_style_extension.dart';
 

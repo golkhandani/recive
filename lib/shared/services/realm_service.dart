@@ -225,7 +225,6 @@ class RealmApplicationService {
     }
   }
 
-  ////
   Future<List<String>> getFavouriteArtIds() async {
     await currentUser?.refreshCustomData();
     return currentUserCustomData?.bookmarkArts ?? [];

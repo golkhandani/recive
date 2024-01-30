@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:hive/hive.dart';
 
 import 'package:recive/shared/constants/key_constants.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/color_themes_extentions.dart';
 import 'package:recive/shared/utils/maybe_emit_cubit.dart';
 
 class ReciveThemeCubit extends MaybeEmitCubit<AppPaletteType> {

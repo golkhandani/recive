@@ -76,7 +76,6 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
                         return Container(
                           decoration: BoxDecoration(
                             borderRadius: kSmallBorderRadius,
-                            color: Colors.orange,
                           ),
                           width: box.maxWidth,
                           height: min(box.maxWidth / 2.8, 120),
@@ -86,8 +85,7 @@ class _HomePageWeatherSectionState extends State<HomePageWeatherSection> {
                                 child: ClipRRect(
                                   borderRadius: kSmallBorderRadius,
                                   child: RepaintBoundary(
-                                    child: weatherData.value!.details.first
-                                        .animatedWidget(
+                                    child: weatherData.value!.details.first.animatedWidget(
                                       context,
                                       weatherData.value,
                                     ),
@@ -116,64 +114,52 @@ extension AnimatedWeatherWidget on Details {
 
     switch (id.toString().characters.first) {
       case '2': // Thunderstorm
-        lottieFile =
-            'https://lottie.host/fa7764af-9877-4dda-8808-515136de20db/kAFTButpZc.json';
+        lottieFile = 'https://lottie.host/fa7764af-9877-4dda-8808-515136de20db/kAFTButpZc.json';
         color = const Color.fromARGB(255, 6, 41, 70);
         fontColor = Colors.white;
         break;
       case '3': // Drizzle
-        lottieFile =
-            'https://lottie.host/f18a5487-ddee-4fde-8bca-110758c60f6f/NrKgKH5phV.json';
+        lottieFile = 'https://lottie.host/f18a5487-ddee-4fde-8bca-110758c60f6f/NrKgKH5phV.json';
         color = const Color.fromARGB(255, 150, 201, 242);
         fontColor = Colors.black;
         break;
       case '5': // Rain
-        lottieFile =
-            'https://lottie.host/fc3e0593-d17c-41c0-9585-8d887126a7a5/78zP9WDXsH.json';
+        lottieFile = 'https://lottie.host/fc3e0593-d17c-41c0-9585-8d887126a7a5/78zP9WDXsH.json';
         color = const Color.fromARGB(255, 72, 104, 131);
         fontColor = Colors.white;
         break;
       case '6': // Snow
-        lottieFile =
-            'https://lottie.host/747099a7-a4fd-44fb-908b-3e616a155839/ZGlAuUz9JK.json';
+        lottieFile = 'https://lottie.host/747099a7-a4fd-44fb-908b-3e616a155839/ZGlAuUz9JK.json';
         color = const Color.fromARGB(255, 237, 239, 241);
         fontColor = const Color.fromARGB(255, 7, 2, 25);
         break;
       case '7': // Atmosphere
-        lottieFile =
-            'https://lottie.host/1bf7865f-13e8-4329-910c-6d3a3e22e8b5/arlsyb4STN.json';
+        lottieFile = 'https://lottie.host/1bf7865f-13e8-4329-910c-6d3a3e22e8b5/arlsyb4STN.json';
         color = const Color.fromARGB(255, 34, 33, 47);
         fontColor = const Color.fromARGB(255, 200, 199, 202);
         break;
       case '8': // Clear OR Clouds
         if (id == 800) {
-          lottieFile =
-              'https://lottie.host/4d3ff186-4bbb-4e9a-8eb6-586525750e7c/NlAQhgT2Jk.json';
+          lottieFile = 'https://lottie.host/4d3ff186-4bbb-4e9a-8eb6-586525750e7c/NlAQhgT2Jk.json';
           color = const Color.fromARGB(255, 191, 239, 255);
           fontColor = const Color.fromARGB(255, 8, 9, 33);
           break;
         } else {
-          lottieFile =
-              'https://lottie.host/b71cd029-a355-4be9-a579-59671c380e39/cphDoA5WVB.json';
+          lottieFile = 'https://lottie.host/b71cd029-a355-4be9-a579-59671c380e39/cphDoA5WVB.json';
           color = const Color.fromARGB(255, 141, 178, 190);
           fontColor = const Color.fromARGB(255, 8, 9, 33);
           break;
         }
 
       default:
-        lottieFile =
-            'https://lottie.host/98412ca0-fe07-4d97-a3ee-006c8c28c1d2/roVKsQZ5P6.json';
+        lottieFile = 'https://lottie.host/98412ca0-fe07-4d97-a3ee-006c8c28c1d2/roVKsQZ5P6.json';
         color = const Color.fromARGB(255, 29, 7, 55);
         fontColor = const Color.fromARGB(255, 210, 205, 218);
         break;
     }
 
     final lottie = Lottie.network(lottieFile);
-    final style = context.textTheme.headerMedium
-        .withColor(
-          fontColor,
-        )
-        .style;
+    final style = context.textTheme.headerMedium.withColor(fontColor).style;
     return Container(
       color: color,
       child: Stack(
@@ -183,15 +169,15 @@ extension AnimatedWeatherWidget on Details {
               children: [
                 if (lottieFile.isNotEmpty) ...[
                   if (id != 800)
+                    // Positioned.fill(
+                    //   left: size.width / 12,
+                    //   child: lottie,
+                    // ),
                     Positioned.fill(
-                      left: size.width / 12,
+                      top: 24,
+                      left: size.width / 6,
                       child: lottie,
                     ),
-                  Positioned.fill(
-                    top: 24,
-                    left: size.width / 6,
-                    child: lottie,
-                  ),
                 ],
                 if (id != 800) const Positioned.fill(child: StarsView(fps: 1)),
               ],

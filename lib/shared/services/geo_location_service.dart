@@ -107,7 +107,6 @@ class LocationService {
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
         return onDone(_permission);
-        // return Future.error('Location permissions are denied');
       }
     }
 
@@ -115,8 +114,6 @@ class LocationService {
       locator.logger.d("__| LocationService 7 $serviceEnabled");
       // Permissions are denied forever, handle appropriately.
       return onDone(_permission);
-      // return Future.error(
-      //     'Location permissions are permanently denied, we cannot request permissions.');
     }
 
     final position = await Geolocator.getCurrentPosition();

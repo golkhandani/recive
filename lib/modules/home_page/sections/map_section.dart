@@ -23,7 +23,7 @@ class HomePageMapSection extends HookWidget {
       children: [
         SliverToBoxAdapter(
           child: Text(
-            "Find Arts on map",
+            "Arts on map",
             style: context.textTheme.onBackground.subtitleLarge.style,
           ),
         ),
@@ -32,7 +32,7 @@ class HomePageMapSection extends HookWidget {
           children: [
             MapCardContainer(
               markers: const [],
-              height: 120,
+              height: 220,
               showControls: false,
               onMapContainerCliked: () {
                 navigationService.moveTo(NearMeScreen.name);

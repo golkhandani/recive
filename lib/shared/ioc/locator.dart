@@ -41,7 +41,7 @@ import 'package:recive/modules/search_page/cubits/search_cubit.dart';
 import 'package:recive/modules/search_page/repos/search_route_repo.interface.dart';
 import 'package:recive/modules/search_page/repos/search_route_repo.remote.dart';
 import 'package:recive/shared/constants/key_constants.dart';
-import 'package:recive/shared/extensions/text_style_extension.dart';
+import 'package:recive/shared/extensions/color_themes_extentions.dart';
 import 'package:recive/shared/services/geo_location_service.dart';
 import 'package:recive/shared/services/navigation_service.dart';
 import 'package:recive/shared/services/realm_service.dart';

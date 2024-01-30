@@ -21,9 +21,9 @@ class HomeScreen extends HookWidget {
   Widget build(BuildContext context) {
     const children = [
       SliverGap(height: 12),
-      HomePageCategoriesSection(),
-      SliverGap(height: 12),
       HomePageFeaturedSection(),
+      SliverGap(height: 12),
+      HomePageCategoriesSection(),
       SliverGap(height: 12),
       HomePageMapSection(),
       SliverGap(height: 12),

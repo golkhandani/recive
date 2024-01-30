@@ -80,9 +80,7 @@ class AsyncSearchBar extends HookWidget {
       dropDownItems: suggestions,
       dropDownBackgroundColor: backgroundColor,
       isVisible: isVisible,
-      dropDownHeight: suggestions.isNotEmpty
-          ? min(200, suggestions.length * 48 + 24)
-          : 48 + 24,
+      dropDownHeight: suggestions.isNotEmpty ? min(200, suggestions.length * 48 + 24) : 48 + 24,
       dropDownItemsBuilder: (context, dropdown, items) {
         if (items == null) {
           return const SizedBox();
@@ -101,8 +99,7 @@ class AsyncSearchBar extends HookWidget {
                 enableFeedback: true,
                 onTap: () {
                   textEditingController.text = item;
-                  textEditingController.selection =
-                      TextSelection.collapsed(offset: item.length);
+                  textEditingController.selection = TextSelection.collapsed(offset: item.length);
                   onChanged(item, selected: true);
                 },
                 child: itemBuilder?.call(context, item, index),
@@ -118,11 +115,11 @@ class AsyncSearchBar extends HookWidget {
           child: child,
         );
       },
-      isLoading: isLoading, // isLoading.value,
+      isLoading: isLoading,
       dropDownLoadingBuilder: (context) {
         return kSimpleLoading;
       },
-      isDropDownLoading: isLoading, // isLoading.value,
+      isDropDownLoading: isLoading,
       onChanged: onChanged,
       suffix: suffix,
     );

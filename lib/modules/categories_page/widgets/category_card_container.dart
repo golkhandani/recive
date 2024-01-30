@@ -26,7 +26,7 @@ class CategoryCardContainer extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final navigationService = locator.get<NavigationService>();
-    final color = context.colorTheme.secondaryContainer;
+    final color = context.colorTheme.secondaryContainer.withOpacity(0.1);
     final child = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -70,11 +70,9 @@ class CategoryCardContainer extends HookWidget {
           tag: heroTag,
           child: CachedNetworkImage(
             imageUrl: data.imageUrl,
-            imageBuilder: (context, imageProvider) =>
-                _buildCategoryCard(imageProvider, color, child),
+            imageBuilder: (context, imageProvider) => _buildCategoryCard(imageProvider, color, child),
             placeholder: (context, url) => _buildCategoryLoading(color),
-            errorWidget: (context, url, error) =>
-                _buildCategoryCard(null, color, child),
+            errorWidget: (context, url, error) => _buildCategoryCard(null, color, child),
           ),
         ),
       ),

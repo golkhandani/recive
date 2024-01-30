@@ -54,7 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: context.textTheme.titleSmall.onPrimary.style,
                         ),
                       ),
+                      const SizedBox(height: 40),
                       const LottieSafeLoading(),
+                      const SizedBox(height: 40),
                     ],
                   ),
                 ),
@@ -66,57 +68,50 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   InkWell(
                     onTap: () => bloc.loginWithGoogle(
-                        onSuccess: () =>
-                            navigationService.moveTo(SplashScreen.name),
+                        onSuccess: () => navigationService.moveTo(SplashScreen.name),
                         onFailure: () {
                           locator.logger.d("Failed");
                         }),
                     child: Container(
                       padding: kTinyPadding,
                       alignment: Alignment.center,
-                      constraints:
-                          const BoxConstraints.expand(height: 64, width: 350),
+                      constraints: const BoxConstraints.expand(height: 64, width: 350),
                       decoration: const ShapeDecoration(
                         color: Colors.red,
                         shape: StadiumBorder(
                           side: BorderSide(width: 0, color: Colors.transparent),
                         ),
                       ),
-                      child:
-                          state.googleLoginLoadingState == LoadingState.loading
-                              ? const CircularProgressIndicator()
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const FaIcon(
-                                      FontAwesomeIcons.google,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Text(
-                                      "Login with Google",
-                                      textAlign: TextAlign.center,
-                                      style: context.textTheme.titleTiny
-                                          .withColor(Colors.white)
-                                          .style,
-                                    ),
-                                  ],
+                      child: state.googleLoginLoadingState == LoadingState.loading
+                          ? const CircularProgressIndicator()
+                          : Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const FaIcon(
+                                  FontAwesomeIcons.google,
+                                  color: Colors.white,
                                 ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  "Login with Google",
+                                  textAlign: TextAlign.center,
+                                  style: context.textTheme.titleTiny.withColor(Colors.white).style,
+                                ),
+                              ],
+                            ),
                     ),
                   ),
                   const SizedBox(height: 24),
                   InkWell(
                     onTap: () => bloc.loginWithApple(
-                      onSuccess: () =>
-                          navigationService.moveTo(DashboardScreen.name),
+                      onSuccess: () => navigationService.moveTo(DashboardScreen.name),
                       onFailure: () {
                         locator.logger.d("Failed");
                       },
                     ),
                     child: Container(
                       padding: kTinyPadding,
-                      constraints:
-                          const BoxConstraints.expand(height: 64, width: 350),
+                      constraints: const BoxConstraints.expand(height: 64, width: 350),
                       alignment: Alignment.center,
                       decoration: const ShapeDecoration(
                         color: Colors.black,
@@ -124,28 +119,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           side: BorderSide(width: 0, color: Colors.transparent),
                         ),
                       ),
-                      child:
-                          state.appleLoginLoadingState == LoadingState.loading
-                              ? const CircularProgressIndicator()
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const FaIcon(
-                                      FontAwesomeIcons.apple,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Text(
-                                      "Login with Apple",
-                                      textAlign: TextAlign.center,
-                                      style: context.textTheme.titleTiny
-                                          .withColor(
-                                            Colors.white,
-                                          )
-                                          .style,
-                                    ),
-                                  ],
+                      child: state.appleLoginLoadingState == LoadingState.loading
+                          ? const CircularProgressIndicator()
+                          : Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const FaIcon(
+                                  FontAwesomeIcons.apple,
+                                  color: Colors.white,
                                 ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  "Login with Apple",
+                                  textAlign: TextAlign.center,
+                                  style: context.textTheme.titleTiny
+                                      .withColor(
+                                        Colors.white,
+                                      )
+                                      .style,
+                                ),
+                              ],
+                            ),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -160,8 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Container(
                       padding: kTinyPadding,
-                      constraints:
-                          const BoxConstraints.expand(height: 64, width: 350),
+                      constraints: const BoxConstraints.expand(height: 64, width: 350),
                       alignment: Alignment.center,
                       decoration: ShapeDecoration(
                         color: context.colorTheme.primary,
@@ -169,25 +162,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           side: BorderSide(width: 0, color: Colors.transparent),
                         ),
                       ),
-                      child:
-                          state.appleLoginLoadingState == LoadingState.loading
-                              ? const CircularProgressIndicator()
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const FaIcon(
-                                      FontAwesomeIcons.keycdn,
-                                      color: Colors.black,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Text(
-                                      "Login with ApiKey",
-                                      textAlign: TextAlign.center,
-                                      style: context
-                                          .textTheme.titleTiny.onPrimary.style,
-                                    ),
-                                  ],
+                      child: state.appleLoginLoadingState == LoadingState.loading
+                          ? const CircularProgressIndicator()
+                          : Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const FaIcon(
+                                  FontAwesomeIcons.keycdn,
+                                  color: Colors.black,
                                 ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  "Login with ApiKey",
+                                  textAlign: TextAlign.center,
+                                  style: context.textTheme.titleTiny.onPrimary.style,
+                                ),
+                              ],
+                            ),
                     ),
                   ),
                   const Spacer(),
@@ -195,8 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () => launchUrl(Uri.parse('https://google.com')),
                     child: Text(
                       'Terms and Conditions',
-                      style:
-                          context.textTheme.titleTiny.secondaryContainer.style,
+                      style: context.textTheme.titleTiny.secondaryContainer.style,
                     ),
                   ),
                   const SizedBox(height: 88),

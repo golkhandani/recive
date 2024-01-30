@@ -23,7 +23,7 @@ class SliverCardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverStack(
-      insetOnOverlap: false, // defaults to false
+      insetOnOverlap: false,
       children: <Widget>[
         SliverPositioned.fill(
           child: Container(

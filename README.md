@@ -10,8 +10,6 @@ This is a project for technical learning use only - it uses open source data/map
 
 <img src="assets/screenshots/preview.gif" width="140"/>
 
-<!-- ![Video](assets/screenshots/preview.gif) -->
-
 ## License
 
 Do not copy/fork/download the code for commercial use

@@ -235,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                      height: context.vHeight / 5,
+                      height: context.vHeight / 4,
                       child: ListView.separated(
                         padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                         scrollDirection: Axis.horizontal,
@@ -246,7 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                           return NewsCardContainer(
                             data: data,
-                            constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
+                            constraints: BoxConstraints.expand(width: context.vWidth / 1.6),
                           );
                         },
                         separatorBuilder: (context, index) =>
@@ -337,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: context.vWidth / 3,
+                    height: context.vWidth / 2.4,
                     child: ListView.separated(
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                       scrollDirection: Axis.horizontal,
@@ -348,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                         return ArtistCardContainer.small(
                           data: data,
-                          constraints: BoxConstraints.expand(width: context.vWidth / 3),
+                          constraints: BoxConstraints.expand(width: context.vWidth / 2.4),
                           onTap: () {},
                         );
                       },

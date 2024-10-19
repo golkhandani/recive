@@ -1,7 +1,12 @@
+import 'package:art_for_all/core/models/artist_abstract_model.dart';
+import 'package:art_for_all/core/models/category_abstract_model.dart';
+import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'extra_data.freezed.dart';
 part 'extra_data.g.dart';
+
+typedef JsonData = Map<String, dynamic>;
 
 @Freezed(genericArgumentFactories: true)
 class ExtraData<T> with _$ExtraData<T> {
@@ -13,10 +18,110 @@ class ExtraData<T> with _$ExtraData<T> {
     required String heroTag,
   }) = _ExtraData;
 
-  factory ExtraData.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
+  factory ExtraData.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
       _$ExtraDataFromJson(json, fromJsonT);
 }
+
+@freezed
+class CategoryCardContainerData with _$CategoryCardContainerData {
+  const CategoryCardContainerData._();
+
+  const factory CategoryCardContainerData({
+    required String id,
+    required String title,
+    required String description,
+    required String imageUrl,
+  }) = _CategoryCardContainerData;
+
+  factory CategoryCardContainerData.fromJson(Map<String, dynamic> json) =>
+      _$CategoryCardContainerDataFromJson(json);
+
+  static CategoryCardContainerData fromAbstractCategory(CategoryAbstractModel e) {
+    return CategoryCardContainerData(
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      imageUrl: e.imageUrl,
+    );
+  }
+
+  JsonData toExtraDataJson() {
+    final extraData = ExtraData<CategoryCardContainerData>(
+      summary: this,
+      heroTag: '${runtimeType}_$id',
+    ).toJson((inner) => inner.toJson());
+
+    return extraData;
+  }
+}
+
+@freezed
+class EventCardContainerData with _$EventCardContainerData {
+  const EventCardContainerData._();
+
+  const factory EventCardContainerData({
+    required String id,
+    required String title,
+    required String description,
+    required String imageUrl,
+  }) = _EventCardContainerData;
+
+  factory EventCardContainerData.fromJson(Map<String, dynamic> json) =>
+      _$EventCardContainerDataFromJson(json);
+
+  static EventCardContainerData fromAbstractEvent(EventAbstractModel e) {
+    return EventCardContainerData(
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      imageUrl: e.imageUrl,
+    );
+  }
+
+  JsonData toExtraDataJson() {
+    final extraData = ExtraData<EventCardContainerData>(
+      summary: this,
+      heroTag: '${runtimeType}_$id',
+    ).toJson((inner) => inner.toJson());
+
+    return extraData;
+  }
+}
+
+@freezed
+class ArtistCardContainerData with _$ArtistCardContainerData {
+  const ArtistCardContainerData._();
+
+  const factory ArtistCardContainerData({
+    required String id,
+    required String name,
+    required String description,
+    required String imageUrl,
+  }) = _ArtistCardContainerData;
+
+  factory ArtistCardContainerData.fromJson(Map<String, dynamic> json) =>
+      _$ArtistCardContainerDataFromJson(json);
+
+  static ArtistCardContainerData fromAbstractArtist(ArtistAbstractModel e) {
+    return ArtistCardContainerData(
+      id: e.id,
+      name: e.name,
+      description: e.description,
+      imageUrl: e.imageUrl,
+    );
+  }
+
+  JsonData toExtraDataJson() {
+    final extraData = ExtraData<ArtistCardContainerData>(
+      summary: this,
+      heroTag: '${runtimeType}_$id',
+    ).toJson((inner) => inner.toJson());
+
+    return extraData;
+  }
+}
+
+// ----------------------- need refactor -----------------------
 
 @freezed
 class ArtDetailSummaryData with _$ArtDetailSummaryData {
@@ -28,18 +133,6 @@ class ArtDetailSummaryData with _$ArtDetailSummaryData {
 
   factory ArtDetailSummaryData.fromJson(Map<String, dynamic> json) =>
       _$ArtDetailSummaryDataFromJson(json);
-}
-
-@freezed
-class CategorySummaryData with _$CategorySummaryData {
-  const factory CategorySummaryData({
-    required String id,
-    required String title,
-    required String imageUrl,
-  }) = _CategorySummaryData;
-
-  factory CategorySummaryData.fromJson(Map<String, dynamic> json) =>
-      _$CategorySummaryDataFromJson(json);
 }
 
 @freezed

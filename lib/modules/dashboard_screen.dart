@@ -51,8 +51,8 @@ class DashboardWrapper extends StatelessWidget {
       label: 'Home',
     ),
     const BottomNavigationBarItem(
-      icon: Icon(Icons.near_me_outlined),
-      label: 'Arts',
+      icon: Icon(Icons.search),
+      label: 'Finder',
     ),
     // const BottomNavigationBarItem(
     //   icon: Icon(Icons.route_outlined),

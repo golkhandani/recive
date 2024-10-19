@@ -6,11 +6,13 @@ import 'package:latlong2/latlong.dart';
 
 abstract class IArtRepository {
   Future<List<ArtAbstractModel>> getFeaturedArts(LatLng? center);
+  Future<List<ArtAbstractModel>> getNearbyArts(LatLng? center);
+  Future<ArtAbstractModel> getDayArt(LatLng? center);
 
   Future<ArtModel> getDetailArt(String id);
 }
 
-class RemoteArtRepository extends IArtRepository {
+class MockArtRepository extends IArtRepository {
   @override
   Future<List<ArtAbstractModel>> getFeaturedArts(LatLng? center) async {
     await Future.delayed(kLoadingDuration);
@@ -20,6 +22,34 @@ class RemoteArtRepository extends IArtRepository {
     final double baseLongitude = center?.longitude ?? -0.09;
 
     return List.generate(6, (index) {
+      final double latVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
+      final double lngVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
+
+      return ArtAbstractModel(
+        id: faker.guid.guid(),
+        title: faker.lorem.words(3).join(' '),
+        description: faker.lorem.sentence(),
+        location: faker.address.streetAddress(),
+        geoLocation: LatLng(
+          baseLatitude + latVariation, // Latitude close to base
+          baseLongitude + lngVariation, // Longitude close to base
+        ),
+        imageUrl:
+            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+        tags: faker.lorem.words(3),
+      );
+    });
+  }
+
+  @override
+  Future<List<ArtAbstractModel>> getNearbyArts(LatLng? center) async {
+    await Future.delayed(kLoadingDuration);
+
+    final faker = Faker();
+    final double baseLatitude = center?.latitude ?? 51.52;
+    final double baseLongitude = center?.longitude ?? -0.09;
+
+    return List.generate(20, (index) {
       final double latVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
       final double lngVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
 
@@ -125,6 +155,31 @@ class RemoteArtRepository extends IArtRepository {
       statement: faker.lorem.sentences(2).join(' '),
       tags: List.generate(30, (i) => faker.lorem.word()),
       title: faker.lorem.sentence(),
+    );
+  }
+
+  @override
+  Future<ArtAbstractModel> getDayArt(LatLng? center) async {
+    await Future.delayed(kLoadingDuration);
+
+    final faker = Faker();
+    final double baseLatitude = center?.latitude ?? 51.52;
+    final double baseLongitude = center?.longitude ?? -0.09;
+
+    final double latVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
+    final double lngVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
+
+    return ArtAbstractModel(
+      id: faker.guid.guid(),
+      title: faker.lorem.words(3).join(' '),
+      description: faker.lorem.sentence(),
+      location: faker.address.streetAddress(),
+      geoLocation: LatLng(
+        baseLatitude + latVariation, // Latitude close to base
+        baseLongitude + lngVariation, // Longitude close to base
+      ),
+      imageUrl: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+      tags: faker.lorem.words(3),
     );
   }
 }

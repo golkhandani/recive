@@ -135,7 +135,7 @@ class CategoryDetailScreen extends StatefulWidget {
   static String pathParamId = 'id';
 
   final String id;
-  final ExtraData<CategorySummaryData>? extra;
+  final ExtraData<CategoryCardContainerData>? extra;
 
   const CategoryDetailScreen({super.key, required this.id, this.extra});
 

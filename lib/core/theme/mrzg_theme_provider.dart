@@ -68,7 +68,22 @@ class MrzgThemeProvider extends InheritedWidget {
             color: palette.onNavUnselected,
           ),
         ),
-        appBarTheme: _flex.appBarTheme.copyWith(foregroundColor: palette.onPrimary),
+        tabBarTheme: _flex.tabBarTheme.copyWith(
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorColor: palette.primary,
+          labelColor: palette.primary,
+          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+          unselectedLabelColor: palette.onNavUnselected,
+          dividerColor: Colors.transparent,
+        ),
+        appBarTheme: _flex.appBarTheme.copyWith(
+          foregroundColor: palette.onPrimary,
+        ),
+        iconButtonTheme: IconButtonThemeData(
+          style: _flex.iconButtonTheme.style!.copyWith(
+            iconColor: WidgetStatePropertyAll(palette.primary),
+          ),
+        ),
         switchTheme: _flex.switchTheme.copyWith(
           thumbColor: WidgetStatePropertyAll(
             palette.primary,

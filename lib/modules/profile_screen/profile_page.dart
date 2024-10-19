@@ -5,6 +5,7 @@ import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/theme/theme.dart';
+import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/profile_screen/profile_bloc.dart';
 import 'package:art_for_all/utils/afa_button.dart';
@@ -24,6 +25,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final authBloc = locator.get<AuthBloc>();
   final profileBloc = locator.get<ProfileBloc>();
+  late final themeBloc = BlocProvider.of<ThemeCubit>(context);
   final emailController = TextEditingController();
   final nameController = TextEditingController();
 
@@ -114,6 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Gap(kLargePadding.bottom),
                     TextField(
                       controller: emailController,
+                      style: context.typographyTheme.bodyMedium.onBackground.textStyle,
                       enabled: false,
                     ),
                     Gap(kMediumPadding.bottom),
@@ -123,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Text(
                           "CHARACTER",
-                          style: context.typographyTheme.hint.textStyle,
+                          style: context.typographyTheme.hint.onBackground.textStyle,
                         ),
                       ),
                       const Expanded(child: Divider()),
@@ -135,6 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const Gap(4),
                     TextField(
+                      style: context.typographyTheme.bodyMedium.onBackground.textStyle,
                       onTapOutside: (v) {
                         FocusScope.of(context).unfocus();
                       },
@@ -142,6 +146,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       enabled: true,
                       onChanged: (name) {
                         profileBloc.updateName(name);
+                      },
+                    ),
+                    Gap(kMediumPadding.bottom),
+                    BlocBuilder<ThemeCubit, ThemeCubitState>(
+                      builder: (context, state) {
+                        return Row(
+                          children: [
+                            Gap(kSmallPadding.left),
+                            Text(
+                              "You want it darker?",
+                              style: context
+                                  .typographyTheme.subtitleLarge.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                            Switch(
+                                value: state == ThemeCubitState.dark,
+                                inactiveThumbColor: Colors.black,
+                                inactiveTrackColor: Colors.white,
+                                activeColor: Colors.white,
+                                activeTrackColor: Colors.black,
+                                trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
+                                onChanged: (v) {
+                                  themeBloc.switchTheme(
+                                    state == ThemeCubitState.dark
+                                        ? ThemeCubitState.light
+                                        : ThemeCubitState.dark,
+                                  );
+                                })
+                          ],
+                        );
                       },
                     ),
                     Gap(kMediumPadding.bottom),

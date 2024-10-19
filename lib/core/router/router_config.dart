@@ -1,6 +1,6 @@
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/router/basic.dart';
-import 'package:art_for_all/core/router/dashboard_screen.dart';
+import 'package:art_for_all/modules/dashboard_screen.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/router/scaffold_screen.dart';
 import 'package:art_for_all/core/services/auth_service.dart';
@@ -135,7 +135,7 @@ GoRoute categoryDetailRoute(String parentName) => GoRoute(
         final extraJson = state.extra as Map<String, dynamic>;
         final extra = ExtraData.fromJson(
           extraJson,
-          (inner) => CategorySummaryData.fromJson(
+          (inner) => CategoryCardContainerData.fromJson(
             inner as Map<String, dynamic>,
           ),
         );

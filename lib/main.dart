@@ -72,6 +72,7 @@ void main() {
     });
   }, (error, stack) {
     if (kDebugMode) {
+      print("_______________ERROR_______________");
       print(stack.toString());
       print(error);
     }

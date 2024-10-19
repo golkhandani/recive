@@ -4,6 +4,10 @@ import 'dart:developer';
 import 'package:art_for_all/core/ioc/device_secure_storage.dart';
 import 'package:art_for_all/core/ioc/device_shared_storage.dart';
 import 'package:art_for_all/core/ioc/i_art_repository.dart';
+import 'package:art_for_all/core/ioc/i_artist_repository.dart';
+import 'package:art_for_all/core/ioc/i_categories_repository.dart';
+import 'package:art_for_all/core/ioc/i_event_repository.dart';
+import 'package:art_for_all/core/ioc/i_news_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/services/auth_service.dart';
@@ -93,7 +97,11 @@ Future setupStorage() async {
 }
 
 Future setupRepositories() async {
-  locator.registerSingleton<IArtRepository>(RemoteArtRepository());
+  locator.registerSingleton<IArtRepository>(MockArtRepository());
+  locator.registerSingleton<INewsRepository>(MockNewsRepository());
+  locator.registerSingleton<ICategoryRepository>(MockCategoryRepository());
+  locator.registerSingleton<IArtistRepository>(MockArtistRepository());
+  locator.registerSingleton<IEventRepository>(MockEventRepository());
 }
 
 Future setupServices() async {
@@ -114,7 +122,7 @@ Future setupServices() async {
 }
 
 Future setupBloc() async {
-  final themeName = await locator.get<ISecureStorage>().read(key: ThemeCubit.themeStoreKey);
+  final themeName = await locator.get<ISharedStorage>().read(key: ThemeCubit.themeStoreKey);
   final theme = ThemeCubitState.values.firstWhereOrNull((val) => val.name == themeName);
   locator.registerFactory(
     () => ThemeCubit(
@@ -140,9 +148,14 @@ Future setupBloc() async {
 
   locator.registerFactory<FeaturedArtBloc>(
     () => FeaturedArtBloc(
-        secureStorage: locator.get(),
-        sharedPreferences: locator.get(),
-        artRepository: locator.get()),
+      secureStorage: locator.get(),
+      sharedPreferences: locator.get(),
+      artRepository: locator.get(),
+      newsRepository: locator.get(),
+      categoryRepository: locator.get(),
+      artistRepository: locator.get(),
+      eventRepository: locator.get(),
+    ),
   );
 
   locator.registerFactory<MapArtBloc>(

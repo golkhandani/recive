@@ -1,5 +1,5 @@
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/router/dashboard_screen.dart';
+import 'package:art_for_all/modules/dashboard_screen.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
 import 'package:art_for_all/core/theme/theme_decorations.dart';

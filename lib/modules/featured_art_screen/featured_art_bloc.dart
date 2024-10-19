@@ -1,8 +1,16 @@
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/ioc/i_art_repository.dart';
+import 'package:art_for_all/core/ioc/i_artist_repository.dart';
+import 'package:art_for_all/core/ioc/i_categories_repository.dart';
+import 'package:art_for_all/core/ioc/i_event_repository.dart';
+import 'package:art_for_all/core/ioc/i_news_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/core/models/artist_abstract_model.dart';
+import 'package:art_for_all/core/models/category_abstract_model.dart';
+import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/core/models/news_abstract_model.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,13 +22,22 @@ part 'featured_art_bloc.g.dart';
 @freezed
 class FeaturedArtBlocState with _$FeaturedArtBlocState {
   const factory FeaturedArtBlocState({
-    required LoadingState isLoadingFeaturedArts,
+    required LoadingState isLoading,
     required List<ArtAbstractModel> featuredArts,
+    required List<NewsAbstractModel> news,
+    required List<CategoryAbstractModel> categories,
+    required List<ArtistAbstractModel> artists,
+    required List<EventAbstractModel> events,
+    ArtAbstractModel? dayArt,
   }) = _FeaturedArtBlocState;
 
   factory FeaturedArtBlocState.initialize() => const FeaturedArtBlocState(
-        isLoadingFeaturedArts: LoadingState.none,
+        isLoading: LoadingState.none,
         featuredArts: [],
+        news: [],
+        categories: [],
+        artists: [],
+        events: [],
       );
 
   factory FeaturedArtBlocState.fromJson(Map<String, Object?> json) =>
@@ -31,19 +48,38 @@ class FeaturedArtBloc extends HydratedCubit<FeaturedArtBlocState> {
   final ISecureStorage secureStorage;
   final ISharedStorage sharedPreferences;
   final IArtRepository artRepository;
+  final INewsRepository newsRepository;
+  final ICategoryRepository categoryRepository;
+  final IArtistRepository artistRepository;
+  final IEventRepository eventRepository;
 
   FeaturedArtBloc({
     required this.secureStorage,
     required this.sharedPreferences,
     required this.artRepository,
+    required this.newsRepository,
+    required this.categoryRepository,
+    required this.artistRepository,
+    required this.eventRepository,
   }) : super(FeaturedArtBlocState.initialize());
 
   Future<void> init() async {
-    emit(state.copyWith(isLoadingFeaturedArts: LoadingState.loading));
+    clear();
+    emit(state.copyWith(isLoading: LoadingState.loading));
+    final dayArt = await artRepository.getDayArt(null);
     final featuredArts = await artRepository.getFeaturedArts(null);
+    final featuredNews = await newsRepository.getFeaturedNews(null);
+    final categories = await categoryRepository.getCategories();
+    final artists = await artistRepository.getArtists();
+    final events = await eventRepository.getEvents();
     emit(state.copyWith(
+      dayArt: dayArt,
       featuredArts: featuredArts,
-      isLoadingFeaturedArts: LoadingState.done,
+      news: featuredNews,
+      categories: categories,
+      artists: artists,
+      events: events,
+      isLoading: LoadingState.done,
     ));
   }
 

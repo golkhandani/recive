@@ -9,6 +9,8 @@ import 'package:art_for_all/core/widgets/dropdown/async_dropdown_menu.dart';
 import 'package:art_for_all/modules/detail_art_screen/detail_art_page.dart';
 import 'package:art_for_all/modules/map_art_screen/widgets/art_on_map_card.dart';
 import 'package:art_for_all/modules/map_art_screen/map_art_bloc.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -16,7 +18,6 @@ import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 Widget get openStreetMapTileLayer => TileLayer(
       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -39,8 +40,9 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
   final navigationService = locator.get<NavigationService>();
   final filterController = TextEditingController();
   late final _animatedMapController = AnimatedMapController(vsync: this);
-  final carouselController = CarouselController(initialItem: 0);
-  LatLng _center = const LatLng(51.5, -0.09);
+  final carouselController = CarouselSliderController();
+  final listController = CarouselSliderController();
+  final LatLng _center = const LatLng(51.5, -0.09);
 
   @override
   void initState() {
@@ -51,11 +53,10 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
   bool showFilters = false;
   double _currentSliderValue = 20;
   bool mapLocked = true;
+  late final TabController tabController = TabController(length: 2, vsync: this);
 
   @override
   Widget build(BuildContext context) {
-    final cardMaxWidth = context.vWidth / 1.2;
-    final cardMaxHeight = context.vHeight / 5;
     final Widget header = Container(
       color: context.colorTheme.primaryContainer,
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
@@ -75,31 +76,17 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
     );
 
     return BlocConsumer<MapArtBloc, MapArtBlocState>(
+      // listenWhen: (previous, current) =>
+      //     previous.focusedArt == null && current.focusedArt != null,
       listener: (context, state) {
-        if (state.focusedArt == null) {
-          return;
+        if (state.focusedArt != null &&
+            _animatedMapController.mapController.camera.center !=
+                state.focusedArt!.geoLocation) {
+          _animatedMapController.animateTo(
+            dest: state.focusedArt!.geoLocation,
+            offset: const Offset(0, -100),
+          );
         }
-
-        if (state.focusedArt!.geoLocation == _center) {
-          return;
-        }
-
-        _center = state.focusedArt!.geoLocation;
-        final i = state.arts.indexOf(state.focusedArt!);
-        _animatedMapController
-            .animateTo(dest: state.focusedArt!.geoLocation)
-            .whenComplete(() => setState(() {
-                  mapLocked = false;
-                }));
-
-        if (!mapLocked) {
-          return;
-        }
-        carouselController.animateTo(
-          i * cardMaxWidth,
-          duration: kLoadingDuration,
-          curve: Curves.bounceIn,
-        );
       },
       bloc: bloc,
       builder: (context, state) {
@@ -108,238 +95,296 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
           slivers: [
             PinnedHeaderSliver(child: header),
             PinnedHeaderSliver(
-                child: Container(
-              color: context.colorTheme.primaryContainer,
-              padding: EdgeInsets.only(
-                left: kMediumPadding.left,
-                right: kMediumPadding.right,
-                bottom: kSmallPadding.bottom,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AsyncDropdownMenu<ArtAbstractModel>(
-                          hintText: 'Search for tags!!!',
-                          items: state.arts
-                              .map(
-                                (e) => DropdownMenuEntry<ArtAbstractModel>(
-                                  value: e,
-                                  label: e.title,
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (query) {
-                            bloc.filter(
-                              _animatedMapController.mapController.camera.center,
-                              _currentSliderValue,
-                              query,
-                            );
-                          },
-                          controller: filterController,
-                          isLoading: false,
-                          onSelected: (item) {
-                            bloc.setFocusedArt(item);
-                          },
-                          isEnabled: true,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            showFilters = !showFilters;
-                          });
-                        },
-                        child: SizedBox(
-                          height: 56,
-                          child: Icon(
-                            Icons.filter_alt,
-                            color: context.colorTheme.onPrimary,
-                            size: 36,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  AnimatedContainer(
-                    duration: kLoadingDuration,
-                    height: showFilters ? 56 : 0,
-                    child: SizedBox(
-                      height: 56,
-                      child: !showFilters
-                          ? null
-                          : Slider(
-                              value: _currentSliderValue,
-                              min: 5,
-                              max: 50,
-                              divisions: 5,
-                              label: "${_currentSliderValue.round()} km",
-                              onChanged: (double value) {
-                                bloc.filter(
-                                  _animatedMapController.mapController.camera.center,
-                                  value,
-                                  filterController.text,
-                                );
-                                setState(() {
-                                  _currentSliderValue = value;
-                                });
-                              },
-                            ),
-                    ),
-                  )
-                ],
-              ),
-            )),
-            SliverFillRemaining(
-              child: SizedBox(
-                height: 300,
-                width: 400,
-                child: FlutterMap(
-                  mapController: _animatedMapController.mapController,
-                  options: MapOptions(
-                    initialCenter: _center,
-                    onPositionChanged: (camera, hasGesture) {
-                      if (_center == camera.center) {
-                        return;
-                      }
-
-                      // bloc.filter(_currentSliderValue, filterController.text);
-                    },
-                    onMapEvent: (e) {
-                      if (e is! MapEventMoveEnd) {
-                        return;
-                      }
-                      bloc.filter(
-                        e.camera.center,
-                        _currentSliderValue,
-                        filterController.text,
-                      );
-                    },
-                    keepAlive: true,
-                  ),
+              child: Container(
+                color: context.colorTheme.primaryContainer,
+                padding: EdgeInsets.only(
+                  left: kMediumPadding.left,
+                  right: kMediumPadding.right,
+                  bottom: kSmallPadding.bottom,
+                ),
+                child: Column(
                   children: [
-                    ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                        context.colorTheme.secondary,
-                        BlendMode.hue,
-                      ),
-                      child: openStreetMapTileLayer,
-                    ),
-                    MarkerLayer(markers: [
-                      ...state.arts.map((ArtAbstractModel item) {
-                        return Marker(
-                          point: item.geoLocation,
-                          width: 100,
-                          height: 100,
-                          child: InkWell(
-                            onTap: () {
-                              final i = state.arts.indexOf(item);
-                              carouselController.animateTo(
-                                i * cardMaxWidth,
-                                duration: kLoadingDuration,
-                                curve: Curves.bounceIn,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AsyncDropdownMenu<ArtAbstractModel>(
+                            hintText: 'Search for tags!!!',
+                            items: state.arts
+                                .map(
+                                  (e) => DropdownMenuEntry<ArtAbstractModel>(
+                                    value: e,
+                                    label: e.title,
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (query) {
+                              bloc.filter(
+                                _animatedMapController.mapController.camera.center,
+                                _currentSliderValue,
+                                query,
                               );
-                              _animatedMapController.animateTo(dest: item.geoLocation);
                             },
-                            child: Icon(
-                              Icons.pin_drop_outlined,
-                              color: context.colorTheme.primary,
-                              size: 70,
-                            ),
+                            controller: filterController,
+                            isLoading: false,
+                            onSelected: (item) {
+                              bloc.setFocusedArt(item);
+                            },
+                            isEnabled: true,
                           ),
-                        );
-                      }),
-                      if (state.focusedArt != null)
-                        Marker(
-                          point: state.focusedArt!.geoLocation,
-                          width: 100,
-                          height: 100,
-                          child: InkWell(
-                            onTap: () {
-                              final i = state.arts.indexOf(state.focusedArt!);
-                              carouselController.animateTo(
-                                i * cardMaxWidth,
-                                duration: kLoadingDuration,
-                                curve: Curves.bounceIn,
-                              );
-                              _animatedMapController.animateTo(
-                                dest: state.focusedArt!.geoLocation,
-                              );
-                            },
+                        ),
+                        const SizedBox(width: 12),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              showFilters = !showFilters;
+                            });
+                          },
+                          child: SizedBox(
+                            height: 56,
                             child: Icon(
-                              Icons.pin_drop_outlined,
-                              color: context.colorTheme.success,
-                              size: 70,
+                              Icons.filter_alt,
+                              color: context.colorTheme.onPrimary,
+                              size: 36,
                             ),
                           ),
                         )
-                    ]),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        constraints: BoxConstraints(
-                          maxHeight: cardMaxHeight + 16,
-                          maxWidth: context.vWidth,
-                        ),
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: CarouselView(
-                          controller: carouselController,
-                          itemSnapping: true,
-                          padding: kMediumPadding,
-                          elevation: 1,
-                          itemExtent: cardMaxWidth,
-                          shrinkExtent: cardMaxWidth,
-                          shape: RoundedRectangleBorder(borderRadius: kSmallBorderRadius),
-                          onTap: (index) {
-                            final data = state.arts[index];
-                            final extraJson = ExtraData(
-                              summary: ArtDetailSummaryData(
-                                id: data.id,
-                                title: data.title,
-                                imageUrl: data.imageUrl,
+                      ],
+                    ),
+                    AnimatedContainer(
+                      duration: kLoadingDuration,
+                      height: showFilters ? 56 : 0,
+                      child: SizedBox(
+                        height: 56,
+                        child: !showFilters
+                            ? null
+                            : Slider(
+                                value: _currentSliderValue,
+                                min: 5,
+                                max: 50,
+                                divisions: 5,
+                                label: "${_currentSliderValue.round()} km",
+                                onChanged: (double value) {
+                                  bloc.filter(
+                                    _animatedMapController.mapController.camera.center,
+                                    value,
+                                    filterController.text,
+                                  );
+                                  setState(() {
+                                    _currentSliderValue = value;
+                                  });
+                                },
                               ),
-                              heroTag: index.toString(),
-                            ).toJson((inner) => inner.toJson());
-                            navigationService.pushTo(
-                              NearMeScreen.name + ArtDetailScreen.name,
-                              pathParameters: {
-                                ArtDetailScreen.pathParamId: data.id,
-                              },
-                              extra: extraJson,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            PinnedHeaderSliver(
+              child: ColoredBox(
+                color: context.colorTheme.primaryContainer,
+                child: TabBar(
+                  controller: tabController,
+                  tabs: const [
+                    Tab(icon: Icon(Icons.map)),
+                    Tab(icon: Icon(Icons.list)),
+                  ],
+                ),
+              ),
+            ),
+            SliverFillRemaining(
+              child: TabBarView(
+                viewportFraction: 0.9999,
+                controller: tabController,
+                children: [
+                  SizedBox(
+                    child: FlutterMap(
+                      mapController: _animatedMapController.mapController,
+                      options: MapOptions(
+                        initialCenter: _center,
+                        onPositionChanged: (camera, hasGesture) {
+                          if (_center == camera.center) {
+                            return;
+                          }
+
+                          // bloc.filter(_currentSliderValue, filterController.text);
+                        },
+                        onMapEvent: (e) {
+                          if (e is! MapEventMoveEnd) {
+                            return;
+                          }
+                          // bloc.filter(
+                          //   e.camera.center,
+                          //   _currentSliderValue,
+                          //   filterController.text,
+                          // );
+                        },
+                        keepAlive: true,
+                      ),
+                      children: [
+                        ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            context.colorTheme.secondary,
+                            BlendMode.hue,
+                          ),
+                          child: openStreetMapTileLayer,
+                        ),
+                        MarkerLayer(markers: [
+                          ...state.arts.mapIndexed((i, item) {
+                            return Marker(
+                              width: 70,
+                              height: 70,
+                              point: item.geoLocation,
+                              alignment: Alignment.bottomCenter,
+                              child: InkWell(
+                                onTap: () {
+                                  carouselController.animateToPage(
+                                    i,
+                                    duration: kLoadingDuration,
+                                    curve: Curves.bounceIn,
+                                  );
+                                  _animatedMapController.animateTo(
+                                    dest: item.geoLocation,
+                                    offset: const Offset(0, -100),
+                                  );
+                                },
+                                child: const Icon(
+                                  Icons.pin_drop_outlined,
+                                  size: 70,
+                                ),
+                              ),
                             );
-                          },
-                          children: state.arts.map((ArtAbstractModel item) {
-                            return VisibilityDetector(
-                              key: Key(item.id),
-                              onVisibilityChanged: (visibilityInfo) {
-                                if (visibilityInfo.visibleFraction != 1) {
-                                  return;
-                                }
-                                bloc.setFocusedArt(item);
-                                _animatedMapController.animateTo(
-                                  dest: item.geoLocation,
+                          }),
+                          if (state.focusedArt != null)
+                            Marker(
+                              width: 70,
+                              height: 70,
+                              alignment: Alignment.bottomCenter,
+                              point: state.focusedArt!.geoLocation,
+                              child: InkWell(
+                                onTap: () {
+                                  final i = state.arts.indexOf(state.focusedArt!);
+                                  carouselController.animateToPage(
+                                    i,
+                                    duration: kLoadingDuration,
+                                    curve: Curves.bounceIn,
+                                  );
+                                  _animatedMapController.animateTo(
+                                    dest: state.focusedArt!.geoLocation,
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.pin_drop_outlined,
+                                  color: context.colorTheme.success,
+                                  size: 70,
+                                ),
+                              ),
+                            )
+                        ]),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: kMediumPadding.bottom),
+                            child: CarouselSlider.builder(
+                              carouselController: carouselController,
+                              itemCount: state.arts.length,
+                              itemBuilder: (context, index, pageViewIndex) {
+                                final data = state.arts[index];
+                                final extraJson = ExtraData(
+                                  summary: ArtDetailSummaryData(
+                                    id: data.id,
+                                    title: data.title,
+                                    imageUrl: data.imageUrl,
+                                  ),
+                                  heroTag: index.toString(),
+                                ).toJson((inner) => inner.toJson());
+                                return GestureDetector(
+                                  onTap: () {
+                                    navigationService.pushTo(
+                                      NearMeScreen.name + ArtDetailScreen.name,
+                                      pathParameters: {
+                                        ArtDetailScreen.pathParamId: data.id,
+                                      },
+                                      extra: extraJson,
+                                    );
+                                  },
+                                  child: ArtOnMapCard(key: Key(data.id), data: data),
                                 );
                               },
-                              child: ArtOnMapCard(data: item),
-                            );
-                          }).toList(),
+                              options: CarouselOptions(
+                                onPageChanged: (index, reason) {
+                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                    final data = state.arts[index];
+                                    bloc.setFocusedArt(data);
+                                    _animatedMapController.animateTo(
+                                      dest: data.geoLocation,
+                                      offset: const Offset(0, -100),
+                                    );
+                                    if (tabController.index == 0) {
+                                      listController.jumpToPage(index);
+                                    }
+                                  });
+                                },
+                                viewportFraction: 0.7,
+                                height: 142,
+                                enlargeCenterPage: true,
+                                clipBehavior: Clip.none,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    RichAttributionWidget(
-                      animationConfig: const ScaleRAWA(), // Or `FadeRAWA` as is default
-                      attributions: [
-                        TextSourceAttribution(
-                          'OpenStreetMap contributors',
-                          onTap: () =>
-                              launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                        RichAttributionWidget(
+                          animationConfig: const ScaleRAWA(), // Or `FadeRAWA` as is default
+                          attributions: [
+                            TextSourceAttribution(
+                              'OpenStreetMap contributors',
+                              onTap: () =>
+                                  launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                      right: kMediumPadding.right,
+                      left: kMediumPadding.left,
+                      bottom: kMediumPadding.bottom,
+                    ),
+                    child: CarouselSlider.builder(
+                      carouselController: listController,
+                      itemCount: state.arts.length,
+                      itemBuilder: (context, index, pageViewIndex) {
+                        final data = state.arts[index];
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: kMediumPadding.top),
+                          child: ArtOnMapCard(key: Key(data.id), data: data),
+                        );
+                      },
+                      options: CarouselOptions(
+                        padEnds: false,
+                        pageSnapping: false,
+                        scrollDirection: Axis.vertical,
+                        onPageChanged: (index, reason) {
+                          final data = state.arts[index];
+                          bloc.setFocusedArt(data);
+                          _animatedMapController.animateTo(
+                            dest: data.geoLocation,
+                            offset: const Offset(0, -100),
+                          );
+                          if (tabController.index == 1) {
+                            carouselController.jumpToPage(index);
+                          }
+                        },
+                        viewportFraction: 0.4,
+                        enlargeCenterPage: false,
+                        enableInfiniteScroll: false,
+                        clipBehavior: Clip.none,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             )
           ],

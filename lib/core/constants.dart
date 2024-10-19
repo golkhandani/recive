@@ -7,6 +7,7 @@ const kLargePadding = EdgeInsets.all(24);
 const kMediumPadding = EdgeInsets.all(16);
 const kSmallPadding = EdgeInsets.all(12);
 const kTinyPadding = EdgeInsets.all(8);
+const kExtraTinyPadding = EdgeInsets.all(4);
 
 const kErrorIcon = Icon(Icons.error);
 

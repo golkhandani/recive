@@ -276,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SliverPadding(
               padding: EdgeInsets.symmetric(
-                horizontal: kMediumPadding.right - 4,
+                horizontal: kMediumPadding.right - kExtraTinyPadding.right,
               ),
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate(
@@ -286,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       state.featuredArts[index],
                     );
                     return Padding(
-                      padding: const EdgeInsets.all(4),
+                      padding: kExtraTinyPadding,
                       child: ArtCardContainer(
                         hero: HomeScreen.name + data.id,
                         constraints: const BoxConstraints.expand(),
@@ -297,8 +297,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 gridDelegate: SliverStairedGridDelegate(
                   startCrossAxisDirectionReversed: false,
-                  // crossAxisSpacing: 10,
-                  // mainAxisSpacing: 10,
                   pattern: const [
                     StairedGridTile(1, 2),
                     StairedGridTile(0.5, 1),

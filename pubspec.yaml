@@ -68,6 +68,9 @@ dependencies:
   image_picker: ^1.1.2
   path: ^1.9.0
   carousel_slider: ^5.0.0
+  flutter_animate: ^4.5.0
+  google_fonts: ^6.2.1
+  flutter_custom_carousel: ^0.1.0+1
 
 dev_dependencies:
   flutter_test:

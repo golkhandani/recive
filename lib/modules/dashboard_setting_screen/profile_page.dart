@@ -7,7 +7,7 @@ import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
-import 'package:art_for_all/modules/profile_screen/profile_bloc.dart';
+import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,16 +24,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final authBloc = locator.get<AuthBloc>();
-  final profileBloc = locator.get<ProfileBloc>();
+  late final profileBloc = BlocProvider.of<ProfileBloc>(context);
   late final themeBloc = BlocProvider.of<ThemeCubit>(context);
-  final emailController = TextEditingController();
-  final nameController = TextEditingController();
-
-  @override
-  void initState() {
-    profileBloc.getUser();
-    super.initState();
-  }
+  late final emailController = TextEditingController(text: profileBloc.state.user?.email);
+  late final nameController = TextEditingController(text: profileBloc.state.user?.name);
 
   @override
   Widget build(BuildContext context) {

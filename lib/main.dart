@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() {
@@ -38,6 +39,12 @@ void main() {
 
         return true;
       };
+
+      LicenseRegistry.addLicense(() async* {
+        final license = await rootBundle.loadString('google_fonts/OFL.txt');
+        yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+      });
+
       WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
@@ -61,9 +68,8 @@ void main() {
         navigatorKey: rootNavigatorKey,
         routes: [
           ...initRoutes,
-          ...dashboardRoutes,
           ...authRoutes,
-          ...extraRoutes,
+          ...dashboardRoutes,
         ],
       );
 
@@ -88,23 +94,19 @@ class Application extends StatefulWidget {
 }
 
 class _ApplicationState extends State<Application> {
+  final themeBloc = locator.get<ThemeCubit>();
+  final key = locator.get<NavigationService>();
   @override
   void initState() {
-    final key = locator.get<NavigationService>();
     locator.registerLazySingleton(() => NotificationBannerService(key.rootNavigatorKey));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeBloc = locator.get<ThemeCubit>();
-    // final bookmarksBloc = locator.get<BookmarksCubit>();
-    // final categoriesBloc = locator.get<CategoriesCubit>();
     final child = MultiBlocProvider(
       providers: [
         BlocProvider.value(value: themeBloc),
-        // BlocProvider.value(value: bookmarksBloc),
-        // BlocProvider.value(value: categoriesBloc),
       ],
       child: BlocBuilder<ThemeCubit, ThemeCubitState>(
           bloc: themeBloc,
@@ -129,32 +131,33 @@ class _ApplicationState extends State<Application> {
               child: ScrollConfiguration(
                 behavior: AFAScrollBehavior(),
                 child: MrzgThemeProvider(
-                    palette: appTheme.colorPalette,
-                    typography: MrzgThemeTypography(
-                      textStyle: const TextStyle(
-                        fontSize: 16,
-                        // fontFamily: GoogleFonts.nunito().fontFamily,
-                      ),
-                      palette: appTheme.colorPalette,
+                  palette: appTheme.colorPalette,
+                  typography: MrzgThemeTypography(
+                    textStyle: TextStyle(
+                      fontSize: 16,
+                      fontFamily: GoogleFonts.josefinSans().fontFamily,
                     ),
-                    child: Builder(builder: (context) {
-                      return MaterialApp.router(
-                        theme: context.themeData,
-                        scrollBehavior: const MaterialScrollBehavior().copyWith(
-                          dragDevices: {
-                            PointerDeviceKind.mouse,
-                            PointerDeviceKind.touch,
-                            PointerDeviceKind.stylus,
-                            PointerDeviceKind.unknown
-                          },
-                        ),
-                        routerConfig: widget.goRouter,
-                        builder: (context, child) => Container(
-                          constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
-                          child: child!,
-                        ),
-                      );
-                    })),
+                    palette: appTheme.colorPalette,
+                  ),
+                  child: Builder(builder: (context) {
+                    return MaterialApp.router(
+                      theme: context.themeData,
+                      scrollBehavior: const MaterialScrollBehavior().copyWith(
+                        dragDevices: {
+                          PointerDeviceKind.mouse,
+                          PointerDeviceKind.touch,
+                          PointerDeviceKind.stylus,
+                          PointerDeviceKind.unknown
+                        },
+                      ),
+                      routerConfig: widget.goRouter,
+                      builder: (context, child) => Container(
+                        constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
+                        child: child!,
+                      ),
+                    );
+                  }),
+                ),
               ),
             );
           }),

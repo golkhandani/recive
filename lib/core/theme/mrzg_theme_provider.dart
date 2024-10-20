@@ -68,6 +68,8 @@ class MrzgThemeProvider extends InheritedWidget {
             color: palette.onNavUnselected,
           ),
         ),
+        splashFactory: NoSplash.splashFactory,
+        highlightColor: Colors.transparent,
         tabBarTheme: _flex.tabBarTheme.copyWith(
           indicatorSize: TabBarIndicatorSize.tab,
           indicatorColor: palette.primary,
@@ -78,6 +80,13 @@ class MrzgThemeProvider extends InheritedWidget {
         ),
         appBarTheme: _flex.appBarTheme.copyWith(
           foregroundColor: palette.onPrimary,
+          backgroundColor: palette.primaryContainer,
+          systemOverlayStyle: _flex.appBarTheme.systemOverlayStyle?.copyWith(
+            statusBarBrightness: palette.brightness,
+          ),
+          iconTheme: _flex.appBarTheme.iconTheme!.copyWith(color: Colors.blue),
+          actionsIconTheme:
+              _flex.appBarTheme.actionsIconTheme?.copyWith(color: palette.onPrimaryContainer),
         ),
         iconButtonTheme: IconButtonThemeData(
           style: _flex.iconButtonTheme.style!.copyWith(

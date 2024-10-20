@@ -3,21 +3,27 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/modules/category_detail_screen/category_detail_screen.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
+import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
-import 'package:art_for_all/modules/featured_art_screen/featured_art_bloc.dart';
-import 'package:art_for_all/modules/featured_art_screen/widgets/art_card_container.dart';
-import 'package:art_for_all/modules/featured_art_screen/widgets/artist_card_container.dart';
-import 'package:art_for_all/modules/featured_art_screen/widgets/category_card_container.dart';
-import 'package:art_for_all/modules/featured_art_screen/widgets/event_card_container.dart';
-import 'package:art_for_all/modules/featured_art_screen/widgets/news_card_container.dart';
+import 'package:art_for_all/modules/dashboard_screen.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/featured_art_bloc.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/artist_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/category_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/event_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/news_card_container.dart';
+import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
-  static String name = 'HomeScreen';
+  static const String name = 'home';
   const HomeScreen({super.key});
 
   @override
@@ -26,6 +32,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final bloc = locator.get<FeaturedArtBloc>();
+  final navigator = locator.get<NavigationService>();
 
   @override
   void initState() {
@@ -94,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: context.vHeight / 10,
                     child: ListView.separated(
+                      clipBehavior: Clip.none,
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.categories.length,
@@ -104,11 +112,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         return CategoryCardContainer.small(
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 2.5),
-                          onTap: () {},
+                          onTap: () {
+                            navigator.homeContext.go(
+                              '/${DashboardScreen.name}/${HomeScreen.name}/${CategoryDetailScreen.name}/${data.id}',
+                            );
+                          },
                         );
                       },
                       separatorBuilder: (context, index) => SizedBox(
-                        width: kSmallPadding.left,
+                        width: kTinyPadding.left,
                       ),
                     ),
                   ),
@@ -146,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                       height: context.vHeight / 5,
                       child: ListView.separated(
+                        clipBehavior: Clip.none,
                         padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                         scrollDirection: Axis.horizontal,
                         itemCount: state.events.length,
@@ -156,11 +169,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           return EventCardContainer.medium(
                             data: data,
                             constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
-                            onTap: () {},
+                            onTap: () {
+                              navigator.homeContext.go(
+                                '/${DashboardScreen.name}/${HomeScreen.name}/${EventDetailScreen.name}/${data.id}',
+                              );
+                            },
                           );
                         },
-                        separatorBuilder: (context, index) =>
-                            SizedBox(width: kSmallPadding.left),
+                        separatorBuilder: (context, index) => SizedBox(
+                          width: kTinyPadding.left,
+                        ),
                       )),
                 ],
               ),
@@ -237,6 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                       height: context.vHeight / 4,
                       child: ListView.separated(
+                        clipBehavior: Clip.none,
                         padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                         scrollDirection: Axis.horizontal,
                         itemCount: state.news.length,
@@ -249,8 +268,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             constraints: BoxConstraints.expand(width: context.vWidth / 1.6),
                           );
                         },
-                        separatorBuilder: (context, index) =>
-                            SizedBox(width: kSmallPadding.left),
+                        separatorBuilder: (context, index) => SizedBox(
+                          width: kTinyPadding.left,
+                        ),
                       )),
                 ],
               ),
@@ -303,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     StairedGridTile(0.5, 1),
                     StairedGridTile(1, 1),
                     StairedGridTile(0.6, 1),
-                    StairedGridTile(0.4, 0.66),
+                    StairedGridTile(0.4, 0.665),
                   ],
                 ),
               ),
@@ -339,6 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: context.vWidth / 2.4,
                     child: ListView.separated(
+                      clipBehavior: Clip.none,
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.artists.length,
@@ -353,7 +374,60 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       separatorBuilder: (context, index) => SizedBox(
-                        width: kSmallPadding.left,
+                        width: kTinyPadding.left,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SliverGap(kLargePadding.bottom),
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kMediumPadding.left,
+                      vertical: kMediumPadding.top,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Join Our Community!",
+                          maxLines: 1,
+                          style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          child: Text(
+                            "View All",
+                            maxLines: 1,
+                            style: context.typographyTheme.subtitleMedium.primary.textStyle,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: context.vWidth / 1.2,
+                    child: ListView.separated(
+                      clipBehavior: Clip.none,
+                      padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.communities.length,
+                      itemBuilder: (context, index) {
+                        final data = CommunityCardContainerData.fromAbstractCommunity(
+                          state.communities[index],
+                        );
+                        return CommunityCardContainer.small(
+                          data: data,
+                          constraints: BoxConstraints.expand(width: context.vWidth / 1.2),
+                          onTap: () {},
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: kTinyPadding.left,
                       ),
                     ),
                   ),

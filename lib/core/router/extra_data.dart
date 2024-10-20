@@ -1,5 +1,6 @@
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/core/models/category_abstract_model.dart';
+import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -47,6 +48,39 @@ class CategoryCardContainerData with _$CategoryCardContainerData {
 
   JsonData toExtraDataJson() {
     final extraData = ExtraData<CategoryCardContainerData>(
+      summary: this,
+      heroTag: '${runtimeType}_$id',
+    ).toJson((inner) => inner.toJson());
+
+    return extraData;
+  }
+}
+
+@freezed
+class CommunityCardContainerData with _$CommunityCardContainerData {
+  const CommunityCardContainerData._();
+
+  const factory CommunityCardContainerData({
+    required String id,
+    required String title,
+    required String description,
+    required String imageUrl,
+  }) = _CommunityCardContainerData;
+
+  factory CommunityCardContainerData.fromJson(Map<String, dynamic> json) =>
+      _$CommunityCardContainerDataFromJson(json);
+
+  static CommunityCardContainerData fromAbstractCommunity(CommunityAbstractModel e) {
+    return CommunityCardContainerData(
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      imageUrl: e.imageUrl,
+    );
+  }
+
+  JsonData toExtraDataJson() {
+    final extraData = ExtraData<CommunityCardContainerData>(
       summary: this,
       heroTag: '${runtimeType}_$id',
     ).toJson((inner) => inner.toJson());

@@ -1,11 +1,11 @@
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/modules/dashboard_screen.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
 import 'package:art_for_all/core/theme/theme_decorations.dart';
 import 'package:art_for_all/core/theme/typography_extensions.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/register_page.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _goToDashboard() {
-    context.neglectNamed(DashboardScreen.name);
+    context.neglectNamed(HomeScreen.name);
   }
 
   void _goToRegister() {

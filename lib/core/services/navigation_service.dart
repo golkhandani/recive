@@ -10,6 +10,8 @@ extension BuildContextGoRouter on BuildContext {
 }
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> dashboardNavigatorKey = GlobalKey();
+
 final GlobalKey<NavigatorState> homeNavigatorKey = GlobalKey();
 final GlobalKey<NavigatorState> nearMeNavigatorKey = GlobalKey();
 final GlobalKey<NavigatorState> searchNavigatorKey = GlobalKey();
@@ -33,6 +35,8 @@ class NavigationService {
   BuildContext get rootContext => rootNavigatorKey.currentState!.context;
   GoRouterState get state => GoRouterState.of(rootContext);
   GoRouter get router => GoRouter.of(rootContext);
+
+  BuildContext get homeContext => homeNavigatorKey.currentState!.context;
 
   void moveTo(
     String name, {

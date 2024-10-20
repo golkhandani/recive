@@ -3,18 +3,19 @@ import 'dart:ui';
 
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/models/news_abstract_model.dart';
+import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/modules/detail_art_screen/detail_art_page.dart';
-import 'package:art_for_all/modules/map_art_screen/map_art_page.dart';
+import 'package:art_for_all/modules/dashboard_explore_screen/map_art_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-class NewsCardContainer extends StatelessWidget {
-  const NewsCardContainer({
+class ArtCardContainer extends StatelessWidget {
+  const ArtCardContainer({
     super.key,
     required this.data,
     required this.constraints,
@@ -23,7 +24,7 @@ class NewsCardContainer extends StatelessWidget {
   });
 
   final BoxConstraints constraints;
-  final NewsCardContainerData data;
+  final ArtCardContainerData data;
   final String? hero;
   final Map<String, String> parentPathParams;
 
@@ -236,8 +237,21 @@ class NewsCardContainer extends StatelessWidget {
   }
 
   Widget _buildLoading(Color color) {
-    return const Center(
-        child: SizedBox(height: 48, width: 48, child: CircularProgressIndicator()));
+    return Container(
+      constraints: constraints,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: kSmallBorderRadius,
+      ),
+    ).animate(
+      effects: [
+        const ShimmerEffect(
+          duration: kShimmerDuration,
+          padding: 0,
+        ),
+      ],
+      onPlay: (controller) => controller.repeat(),
+    );
   }
 
   Widget _buildCard(
@@ -267,14 +281,14 @@ class NewsCardContainer extends StatelessWidget {
   }
 }
 
-class NewsCardContainerData {
+class ArtCardContainerData {
   final String id;
   final String title;
   final String description;
   final String location;
   final String imageUrl;
 
-  NewsCardContainerData({
+  ArtCardContainerData({
     required this.id,
     required this.title,
     required this.description,
@@ -282,8 +296,8 @@ class NewsCardContainerData {
     required this.imageUrl,
   });
 
-  static NewsCardContainerData fromAbstractArt(NewsAbstractModel e) {
-    return NewsCardContainerData(
+  static ArtCardContainerData fromAbstractArt(ArtAbstractModel e) {
+    return ArtCardContainerData(
       id: e.id,
       title: e.title,
       description: e.description,

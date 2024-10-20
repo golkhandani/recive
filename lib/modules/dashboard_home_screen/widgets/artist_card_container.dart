@@ -8,14 +8,15 @@ import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-class CategoryCardContainer extends StatelessWidget {
+class ArtistCardContainer extends StatelessWidget {
   final BoxConstraints constraints;
-  final CategoryCardContainerData data;
+  final ArtistCardContainerData data;
   final String? hero;
   final VoidCallback onTap;
   final CardSize size;
-  const CategoryCardContainer._({
+  const ArtistCardContainer._({
     required this.data,
     required this.constraints,
     this.hero,
@@ -23,13 +24,13 @@ class CategoryCardContainer extends StatelessWidget {
     required this.size,
   });
 
-  factory CategoryCardContainer.big({
-    required CategoryCardContainerData data,
+  factory ArtistCardContainer.big({
+    required ArtistCardContainerData data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return CategoryCardContainer._(
+    return ArtistCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -39,13 +40,13 @@ class CategoryCardContainer extends StatelessWidget {
   }
 
   // Factory constructor for small tall cards
-  factory CategoryCardContainer.medium({
-    required CategoryCardContainerData data,
+  factory ArtistCardContainer.medium({
+    required ArtistCardContainerData data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return CategoryCardContainer._(
+    return ArtistCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -55,13 +56,13 @@ class CategoryCardContainer extends StatelessWidget {
   }
 
   // Factory constructor for small cards
-  factory CategoryCardContainer.small({
-    required CategoryCardContainerData data,
+  factory ArtistCardContainer.small({
+    required ArtistCardContainerData data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return CategoryCardContainer._(
+    return ArtistCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -71,12 +72,20 @@ class CategoryCardContainer extends StatelessWidget {
   }
 
   Widget _buildLoading(Color color) {
-    return const Center(
-      child: SizedBox(
-        height: 48,
-        width: 48,
-        child: CircularProgressIndicator(),
+    return Container(
+      constraints: constraints,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: kSmallBorderRadius,
       ),
+    ).animate(
+      effects: [
+        const ShimmerEffect(
+          duration: kShimmerDuration,
+          padding: 0,
+        ),
+      ],
+      onPlay: (controller) => controller.repeat(),
     );
   }
 
@@ -133,7 +142,7 @@ class CategoryCardContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  data.title,
+                  data.name,
                   maxLines: 1,
                   style: context.typographyTheme.titleSmall.textStyle.withColor(fontColor),
                 ),
@@ -171,7 +180,7 @@ class CategoryCardContainer extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(8).copyWith(bottom: 32),
               child: Text(
-                data.title,
+                data.name,
                 maxLines: 2,
                 style: context.typographyTheme.subtitleLarge.textStyle.withColor(fontColor),
               ),
@@ -208,7 +217,7 @@ class CategoryCardContainer extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(8).copyWith(bottom: 32),
               child: Text(
-                data.title,
+                data.name,
                 maxLines: 2,
                 style: context.typographyTheme.subtitleLarge.textStyle.withColor(fontColor),
               ),

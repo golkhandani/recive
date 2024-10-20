@@ -1,78 +1,69 @@
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
-import 'package:art_for_all/modules/featured_art_screen/featured_art_page.dart';
-import 'package:art_for_all/modules/map_art_screen/map_art_page.dart';
-import 'package:art_for_all/modules/profile_screen/profile_page.dart';
-import 'package:collection/collection.dart';
+import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:go_router/go_router.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   static String name = 'dashboard';
-  const DashboardScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class DashboardWrapper extends StatelessWidget {
-  DashboardWrapper({
+  const DashboardScreen({
     super.key,
     required this.child,
   });
   final StatefulNavigationShell child;
 
-  static Map<String, int> dashboardRouteNameToSelectedIndexMap = {
-    HomeScreen.name: 0,
-    NearMeScreen.name: 1,
-    // SearchScreen.name: 2,
-    ProfileScreen.name: 2,
-  };
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
   final navigationService = locator.get<NavigationService>();
+  final profileBloc = locator.get<ProfileBloc>();
 
-  int calculateDashboardSelectedIndex(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.path;
-    final name = dashboardRouteNameToSelectedIndexMap.keys
-        .firstWhereOrNull((element) => location.contains(element));
-
-    return dashboardRouteNameToSelectedIndexMap[name] ?? 0;
+  @override
+  void initState() {
+    profileBloc.getUser();
+    super.initState();
   }
 
   void onItemTapped(int index) {
-    child.goBranch(index, initialLocation: index == child.currentIndex);
+    widget.child.goBranch(
+      index,
+      initialLocation: index == widget.child.currentIndex,
+    );
   }
 
   final items = [
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.home_outlined),
-      label: 'Home',
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.home_outlined),
+      label: 'Home'.toUpperCase(),
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.search),
-      label: 'Finder',
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.search),
+      label: 'Explore'.toUpperCase(),
     ),
-    // const BottomNavigationBarItem(
-    //   icon: Icon(Icons.route_outlined),
-    //   label: 'Routes',
-    // ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.person_outline),
-      label: 'Profile',
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.settings),
+      label: 'Setting'.toUpperCase(),
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        items: items,
-        currentIndex: calculateDashboardSelectedIndex(context),
-        onTap: onItemTapped,
-        type: BottomNavigationBarType.fixed,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: profileBloc),
+      ],
+      child: Scaffold(
+        body: widget.child,
+        bottomNavigationBar: BottomNavigationBar(
+          items: items,
+          currentIndex: widget.child.currentIndex,
+          onTap: onItemTapped,
+          type: BottomNavigationBarType.fixed,
+        ),
       ),
     );
   }

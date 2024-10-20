@@ -5,7 +5,8 @@ import 'package:art_for_all/core/ioc/device_secure_storage.dart';
 import 'package:art_for_all/core/ioc/device_shared_storage.dart';
 import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
-import 'package:art_for_all/core/ioc/i_categories_repository.dart';
+import 'package:art_for_all/core/ioc/i_category_repository.dart';
+import 'package:art_for_all/core/ioc/i_community_repository.dart';
 import 'package:art_for_all/core/ioc/i_event_repository.dart';
 import 'package:art_for_all/core/ioc/i_news_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
@@ -14,11 +15,13 @@ import 'package:art_for_all/core/services/auth_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/environment.dart';
+import 'package:art_for_all/modules/category_detail_screen/category_detail_bloc.dart';
 import 'package:art_for_all/modules/detail_art_screen/detail_art_bloc.dart';
-import 'package:art_for_all/modules/featured_art_screen/featured_art_bloc.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/featured_art_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
-import 'package:art_for_all/modules/map_art_screen/map_art_bloc.dart';
-import 'package:art_for_all/modules/profile_screen/profile_bloc.dart';
+import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
+import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
+import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
 import 'package:art_for_all/modules/splash_screen/splash_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
@@ -102,6 +105,7 @@ Future setupRepositories() async {
   locator.registerSingleton<ICategoryRepository>(MockCategoryRepository());
   locator.registerSingleton<IArtistRepository>(MockArtistRepository());
   locator.registerSingleton<IEventRepository>(MockEventRepository());
+  locator.registerSingleton<ICommunityRepository>(MockCommunityRepository());
 }
 
 Future setupServices() async {
@@ -154,6 +158,23 @@ Future setupBloc() async {
       newsRepository: locator.get(),
       categoryRepository: locator.get(),
       artistRepository: locator.get(),
+      eventRepository: locator.get(),
+      communityRepository: locator.get(),
+    ),
+  );
+
+  locator.registerFactory<CategoryDetailBloc>(
+    () => CategoryDetailBloc(
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
+      categoryRepository: locator.get(),
+      artRepository: locator.get(),
+    ),
+  );
+  locator.registerFactory<EventDetailBloc>(
+    () => EventDetailBloc(
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
       eventRepository: locator.get(),
     ),
   );

@@ -1,7 +1,8 @@
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
-import 'package:art_for_all/core/ioc/i_categories_repository.dart';
+import 'package:art_for_all/core/ioc/i_category_repository.dart';
+import 'package:art_for_all/core/ioc/i_community_repository.dart';
 import 'package:art_for_all/core/ioc/i_event_repository.dart';
 import 'package:art_for_all/core/ioc/i_news_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
@@ -9,6 +10,7 @@ import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/core/models/category_abstract_model.dart';
+import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/models/news_abstract_model.dart';
 import 'package:flutter/foundation.dart';
@@ -28,6 +30,7 @@ class FeaturedArtBlocState with _$FeaturedArtBlocState {
     required List<CategoryAbstractModel> categories,
     required List<ArtistAbstractModel> artists,
     required List<EventAbstractModel> events,
+    required List<CommunityAbstractModel> communities,
     ArtAbstractModel? dayArt,
   }) = _FeaturedArtBlocState;
 
@@ -38,6 +41,7 @@ class FeaturedArtBlocState with _$FeaturedArtBlocState {
         categories: [],
         artists: [],
         events: [],
+        communities: [],
       );
 
   factory FeaturedArtBlocState.fromJson(Map<String, Object?> json) =>
@@ -52,6 +56,7 @@ class FeaturedArtBloc extends HydratedCubit<FeaturedArtBlocState> {
   final ICategoryRepository categoryRepository;
   final IArtistRepository artistRepository;
   final IEventRepository eventRepository;
+  final ICommunityRepository communityRepository;
 
   FeaturedArtBloc({
     required this.secureStorage,
@@ -61,6 +66,7 @@ class FeaturedArtBloc extends HydratedCubit<FeaturedArtBlocState> {
     required this.categoryRepository,
     required this.artistRepository,
     required this.eventRepository,
+    required this.communityRepository,
   }) : super(FeaturedArtBlocState.initialize());
 
   Future<void> init() async {
@@ -72,6 +78,7 @@ class FeaturedArtBloc extends HydratedCubit<FeaturedArtBlocState> {
     final categories = await categoryRepository.getCategories();
     final artists = await artistRepository.getArtists();
     final events = await eventRepository.getEvents();
+    final communities = await communityRepository.getCommunities();
     emit(state.copyWith(
       dayArt: dayArt,
       featuredArts: featuredArts,
@@ -79,6 +86,7 @@ class FeaturedArtBloc extends HydratedCubit<FeaturedArtBlocState> {
       categories: categories,
       artists: artists,
       events: events,
+      communities: communities,
       isLoading: LoadingState.done,
     ));
   }

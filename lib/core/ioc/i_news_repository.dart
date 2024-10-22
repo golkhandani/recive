@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 
 abstract class INewsRepository {
   Future<List<NewsAbstractModel>> getFeaturedNews(LatLng? center);
+  Future<List<NewsAbstractModel>> getNewsByArt(String artId);
 
   Future<NewsAbstractModel> getDetailNews(String id);
 }
@@ -12,6 +13,26 @@ abstract class INewsRepository {
 class MockNewsRepository extends INewsRepository {
   @override
   Future<List<NewsAbstractModel>> getFeaturedNews(LatLng? center) async {
+    await Future.delayed(kLoadingDuration);
+
+    final faker = Faker();
+
+    return List.generate(16, (index) {
+      return NewsAbstractModel(
+        id: faker.guid.guid(),
+        title: faker.lorem.words(3).join(' '),
+        description: faker.lorem.sentence(),
+        location: faker.address.streetAddress(),
+        link: faker.internet.httpsUrl(),
+        imageUrl:
+            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+        tags: faker.lorem.words(3),
+      );
+    });
+  }
+
+  @override
+  Future<List<NewsAbstractModel>> getNewsByArt(String artId) async {
     await Future.delayed(kLoadingDuration);
 
     final faker = Faker();

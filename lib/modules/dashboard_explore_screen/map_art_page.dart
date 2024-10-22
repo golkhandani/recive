@@ -6,7 +6,7 @@ import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_dropdown_menu.dart';
-import 'package:art_for_all/modules/detail_art_screen/detail_art_page.dart';
+import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/widgets/art_on_map_card.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -181,8 +181,13 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
               ),
             ),
             PinnedHeaderSliver(
-              child: ColoredBox(
-                color: context.colorTheme.primaryContainer,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.colorTheme.primaryContainer,
+                  border: Border(
+                    bottom: BorderSide(color: context.colorTheme.onPrimaryContainer),
+                  ),
+                ),
                 child: TabBar(
                   controller: tabController,
                   tabs: const [
@@ -249,7 +254,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                   );
                                 },
                                 child: const Icon(
-                                  Icons.pin_drop_outlined,
+                                  Icons.pin_drop,
                                   size: 70,
                                 ),
                               ),
@@ -274,8 +279,8 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                   );
                                 },
                                 child: Icon(
-                                  Icons.pin_drop_outlined,
-                                  color: context.colorTheme.success,
+                                  Icons.pin_drop,
+                                  color: context.colorTheme.primary,
                                   size: 70,
                                 ),
                               ),

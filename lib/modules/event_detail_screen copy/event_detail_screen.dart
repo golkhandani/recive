@@ -4,22 +4,17 @@ import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
-import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
-import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
-import 'package:art_for_all/modules/dashboard_screen.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -38,7 +33,6 @@ class EventDetailScreen extends StatefulWidget {
 
 class _EventDetailScreenState extends State<EventDetailScreen> {
   final _bloc = locator.get<EventDetailBloc>();
-  final navigator = locator.get<NavigationService>();
 
   @override
   void initState() {
@@ -94,24 +88,14 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         style: context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      Builder(builder: (context) {
-                        final data = ArtCardContainerData.fromAbstractArt(event.art);
-                        return ArtCardContainer.medium(
-                          data: data,
-                          constraints: BoxConstraints(
-                            maxHeight: context.vWidth,
-                            maxWidth: context.vWidth,
-                          ),
-                          onTap: () {
-                            final current =
-                                navigator.router.routeInformationProvider.value.uri;
-                            print(navigator.router.routeInformationProvider.value.uri);
-                            navigator.homeContext.go(
-                              '$current/${ArtDetailScreen.name}/${data.id}',
-                            );
-                          },
-                        );
-                      }),
+                      ArtCardContainer.medium(
+                        data: ArtCardContainerData.fromAbstractArt(event.art),
+                        constraints: BoxConstraints(
+                          maxHeight: context.vWidth,
+                          maxWidth: context.vWidth,
+                        ),
+                        onTap: () {},
+                      ),
                       SizedBox(height: kMediumPadding.bottom),
                       ...event.highlights.map((h) {
                         return Text(
@@ -307,23 +291,6 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                     ),
                   ),
                 )
-                // Positioned.fill(
-                //   top: context.vTopSafeHeight * 2,
-                //   left: kLargePadding.left,
-                //   right: kLargePadding.right,
-                //   bottom: kMediumPadding.bottom,
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                //       Text(
-                //         widget.event.title,
-                //         textAlign: TextAlign.center,
-                //         style:
-                //             context.typographyTheme.titleMedium.onPrimaryContainer.textStyle,
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           );

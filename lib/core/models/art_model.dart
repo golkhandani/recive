@@ -1,3 +1,6 @@
+import 'package:art_for_all/core/models/artist_abstract_model.dart';
+import 'package:art_for_all/core/models/community_abstract_model.dart';
+import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -8,19 +11,15 @@ part 'art_model.g.dart';
 class ArtModel with _$ArtModel {
   const factory ArtModel({
     required String id,
-    required String artType,
-    required List<ArtistModel> artists,
-    required String description,
-    required List<ImageModel> images,
-    required LocationModel location,
-    required List<String> material,
-    required int originalId,
-    required String originalUrl,
-    required String ownership,
-    required SourceModel source,
-    required String statement,
-    required List<String> tags,
     required String title,
+    required String description,
+    required String artType,
+    required List<LinkModel> link,
+    required List<MediaModel> media,
+    required List<String> tags,
+    required LocationModel location,
+    required List<ArtistAbstractModel> artists,
+    required CommunityAbstractModel community,
   }) = _ArtModel;
 
   factory ArtModel.fromJson(Map<String, dynamic> json) => _$ArtModelFromJson(json);

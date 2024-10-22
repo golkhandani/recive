@@ -16,7 +16,7 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_bloc.dart';
-import 'package:art_for_all/modules/detail_art_screen/detail_art_bloc.dart';
+import 'package:art_for_all/modules/art_detail_screen/detail_art_bloc.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
@@ -197,6 +197,8 @@ Future setupBloc() async {
       secureStorage: locator.get(),
       sharedStorage: locator.get(),
       artRepository: locator.get(),
+      eventRepository: locator.get(),
+      newsRepository: locator.get(),
     ),
   );
 }

@@ -32,7 +32,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final Widget header = Container(
-      color: context.colorTheme.primaryContainer,
+      decoration: BoxDecoration(
+        color: context.colorTheme.primaryContainer,
+        border: Border(
+          bottom: BorderSide(color: context.colorTheme.onPrimaryContainer),
+        ),
+      ),
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
       child: Material(
         color: context.colorTheme.primaryContainer,

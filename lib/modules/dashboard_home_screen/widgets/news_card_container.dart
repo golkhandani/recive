@@ -7,7 +7,7 @@ import 'package:art_for_all/core/models/news_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
-import 'package:art_for_all/modules/detail_art_screen/detail_art_page.dart';
+import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_page.dart';
 import 'package:flutter/material.dart';
 

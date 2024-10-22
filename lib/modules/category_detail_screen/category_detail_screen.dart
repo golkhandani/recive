@@ -61,9 +61,10 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                 padding: kMediumPadding,
                 sliver: SliverList.separated(
                   itemCount: arts.length,
-                  itemBuilder: (context, i) => ArtCardContainer(
+                  itemBuilder: (context, i) => ArtCardContainer.small(
                     data: ArtCardContainerData.fromAbstractArt(arts[i]),
                     constraints: const BoxConstraints.expand(height: 120),
+                    onTap: () {},
                   ),
                   separatorBuilder: (context, index) =>
                       SizedBox(height: kMediumPadding.bottom),

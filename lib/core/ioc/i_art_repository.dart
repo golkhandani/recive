@@ -1,6 +1,9 @@
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/art_model.dart';
+import 'package:art_for_all/core/models/artist_abstract_model.dart';
+import 'package:art_for_all/core/models/community_abstract_model.dart';
+import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:faker/faker.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -108,37 +111,26 @@ class MockArtRepository extends IArtRepository {
     return ArtModel(
       id: faker.guid.guid(),
       artType: faker.lorem.word(),
-      artists: [
-        ArtistModel(
-          typename: 'Artist',
+      artists: List.generate(12, (i) {
+        return ArtistAbstractModel(
           id: faker.guid.guid(),
-          biography: faker.lorem.sentence(),
-          country: faker.address.country(),
-          images: [
-            ImageModel(
-              typename: 'Image',
-              id: faker.guid.guid(),
-              imageCredit: faker.person.name(),
-              imageData: faker.lorem.sentence(),
-              imageUrl:
-                  'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(100)}',
-            ),
-          ],
-          name: faker.person.name(),
-          originalId: faker.randomGenerator.integer(10000),
-          website: faker.internet.httpsUrl(),
-        ),
-      ],
-      description: faker.lorem.sentences(23).join(' '),
-      images: List.generate(
-        10,
-        (i) => ImageModel(
-          typename: 'Image',
-          id: faker.guid.guid(),
-          imageCredit: faker.person.name(),
-          imageData: faker.lorem.sentence(),
           imageUrl:
-              'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(100) + i}',
+              'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(100 + i)}',
+          name: faker.person.name(),
+          description: '',
+          tags: [],
+        );
+      }),
+      description: faker.lorem.sentences(23).join(' '),
+      media: List.generate(
+        10,
+        (i) => MediaModel(
+          id: faker.randomGenerator.integer(200).toString(),
+          title: 'image',
+          type: MediaType.image,
+          url: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+          copyright: 'copyright',
+          tags: [],
         ),
       ),
       location: LocationModel(
@@ -172,19 +164,24 @@ class MockArtRepository extends IArtRepository {
         ),
         latLng: LatLng(faker.randomGenerator.decimal(), faker.randomGenerator.decimal()),
       ),
-      material: [faker.lorem.word(), faker.lorem.word()],
-      originalId: faker.randomGenerator.integer(100000),
-      originalUrl: faker.internet.httpsUrl(),
-      ownership: faker.company.name(),
-      source: SourceModel(
-        id: faker.guid.guid(),
-        copyRight: faker.lorem.sentence(),
-        dataUrl: faker.internet.httpsUrl(),
-        name: faker.company.name(),
-      ),
-      statement: faker.lorem.sentences(2).join(' '),
       tags: List.generate(30, (i) => faker.lorem.word()),
       title: faker.lorem.sentence(),
+      link: List.generate(4, (li) {
+        return LinkModel(
+          id: li.toString(),
+          title: faker.company.name(),
+          url: faker.internet.httpsUrl(),
+        );
+      }),
+      community: CommunityAbstractModel(
+        id: faker.randomGenerator.integer(200).toString(),
+        title: faker.conference.name(),
+        description:
+            'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
+        imageUrl:
+            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+        tags: ['performance', 'fashion', 'theater'],
+      ),
     );
   }
 

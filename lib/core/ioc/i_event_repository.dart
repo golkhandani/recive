@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 
 abstract class IEventRepository {
   Future<List<EventAbstractModel>> getEvents();
+  Future<List<EventAbstractModel>> getEventsByArt(String artId);
   Future<EventModel> getEventById(String id);
 }
 
@@ -33,6 +34,13 @@ class MockEventRepository extends IEventRepository {
   }
 
   @override
+  Future<List<EventAbstractModel>> getEventsByArt(String artId) async {
+    await Future.delayed(kLoadingDuration);
+
+    return events;
+  }
+
+  @override
   Future<EventModel> getEventById(String id) async {
     await Future.delayed(kLoadingDuration);
     final abstract = events.firstWhere((e) => e.id == id);
@@ -40,7 +48,7 @@ class MockEventRepository extends IEventRepository {
     final event = EventModel(
       id: abstract.id,
       title: abstract.title,
-      description: abstract.description,
+      description: abstract.description + faker.lorem.sentences(20).join(' '),
       media: [
         MediaModel(
           id: faker.randomGenerator.integer(200).toString(),
@@ -75,11 +83,17 @@ class MockEventRepository extends IEventRepository {
           tags: [],
         )
       ],
-      tags: ['performance', 'fashion', 'theater'],
+      tags: faker.lorem.words(14),
       eventType: 'Screening',
       dateTime: DateTime.now(),
-      link: [],
-      highlights: [],
+      link: List.generate(4, (li) {
+        return LinkModel(
+          id: li.toString(),
+          title: faker.company.name(),
+          url: faker.internet.httpsUrl(),
+        );
+      }),
+      highlights: faker.lorem.sentences(4),
       art: ArtAbstractModel(
         id: faker.guid.guid(),
         title: faker.lorem.words(3).join(' '),

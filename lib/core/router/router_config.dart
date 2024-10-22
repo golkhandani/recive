@@ -1,4 +1,5 @@
 import 'package:art_for_all/core/router/basic.dart';
+import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_screen.dart';
 import 'package:art_for_all/core/router/scaffold_screen.dart';
@@ -100,6 +101,28 @@ final dashboardRoutes = [
                   state,
                   EventDetailScreen(
                     id: state.pathParameters[EventDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+                routes: [
+                  GoRoute(
+                    name: EventDetailScreen.name + ArtDetailScreen.name,
+                    path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
+                    pageBuilder: (context, state) => _dashboardPageBuilder(
+                      state,
+                      ArtDetailScreen(
+                        id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              GoRoute(
+                name: ArtDetailScreen.name,
+                path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  ArtDetailScreen(
+                    id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
                   ),
                 ),
               )

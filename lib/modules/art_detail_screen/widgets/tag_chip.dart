@@ -23,7 +23,7 @@ class TagChipContainer extends StatelessWidget {
           splashColor: context.colorTheme.chipBackground,
           onTap: onTap,
           child: Container(
-            padding: kMediumPadding,
+            padding: kTinyPadding,
             decoration: BoxDecoration(
               borderRadius: kSmallBorderRadius,
             ),

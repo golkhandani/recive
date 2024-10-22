@@ -1,3 +1,4 @@
+import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/core/models/category_abstract_model.dart';
 import 'package:art_for_all/core/models/community_abstract_model.dart';
@@ -114,6 +115,41 @@ class EventCardContainerData with _$EventCardContainerData {
 
   JsonData toExtraDataJson() {
     final extraData = ExtraData<EventCardContainerData>(
+      summary: this,
+      heroTag: '${runtimeType}_$id',
+    ).toJson((inner) => inner.toJson());
+
+    return extraData;
+  }
+}
+
+@freezed
+class ArtCardContainerData with _$ArtCardContainerData {
+  const ArtCardContainerData._();
+
+  const factory ArtCardContainerData({
+    required String id,
+    required String title,
+    required String description,
+    required String location,
+    required String imageUrl,
+  }) = _ArtCardContainerData;
+
+  factory ArtCardContainerData.fromJson(Map<String, dynamic> json) =>
+      _$ArtCardContainerDataFromJson(json);
+
+  static ArtCardContainerData fromAbstractArt(ArtAbstractModel e) {
+    return ArtCardContainerData(
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      imageUrl: e.imageUrl,
+      location: e.location,
+    );
+  }
+
+  JsonData toExtraDataJson() {
+    final extraData = ExtraData<ArtCardContainerData>(
       summary: this,
       heroTag: '${runtimeType}_$id',
     ).toJson((inner) => inner.toJson());

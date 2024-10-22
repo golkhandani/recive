@@ -1,5 +1,6 @@
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
+import 'package:art_for_all/core/theme/context_extensions.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,11 +59,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
       child: Scaffold(
         body: widget.child,
-        bottomNavigationBar: BottomNavigationBar(
-          items: items,
-          currentIndex: widget.child.currentIndex,
-          onTap: onItemTapped,
-          type: BottomNavigationBarType.fixed,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(color: context.colorTheme.onPrimaryContainer),
+            ),
+          ),
+          child: BottomNavigationBar(
+            items: items,
+            currentIndex: widget.child.currentIndex,
+            onTap: onItemTapped,
+            type: BottomNavigationBarType.fixed,
+          ),
         ),
       ),
     );

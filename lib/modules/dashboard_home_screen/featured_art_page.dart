@@ -3,6 +3,7 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_screen.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
@@ -43,7 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final Widget header = Container(
-      color: context.colorTheme.primaryContainer,
+      decoration: BoxDecoration(
+        color: context.colorTheme.primaryContainer,
+        border: Border(
+          bottom: BorderSide(color: context.colorTheme.onPrimaryContainer),
+        ),
+      ),
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
       child: Material(
         color: context.colorTheme.primaryContainer,
@@ -156,30 +162,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                      height: context.vHeight / 5,
-                      child: ListView.separated(
-                        clipBehavior: Clip.none,
-                        padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.events.length,
-                        itemBuilder: (context, index) {
-                          final data = EventCardContainerData.fromAbstractEvent(
-                            state.events[index],
-                          );
-                          return EventCardContainer.medium(
-                            data: data,
-                            constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
-                            onTap: () {
-                              navigator.homeContext.go(
-                                '/${DashboardScreen.name}/${HomeScreen.name}/${EventDetailScreen.name}/${data.id}',
-                              );
-                            },
-                          );
-                        },
-                        separatorBuilder: (context, index) => SizedBox(
-                          width: kTinyPadding.left,
-                        ),
-                      )),
+                    height: context.vHeight / 5,
+                    child: ListView.separated(
+                      clipBehavior: Clip.none,
+                      padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.events.length,
+                      itemBuilder: (context, index) {
+                        final data = EventCardContainerData.fromAbstractEvent(
+                          state.events[index],
+                        );
+                        return EventCardContainer.medium(
+                          data: data,
+                          constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
+                          onTap: () {
+                            navigator.homeContext.go(
+                              '/${DashboardScreen.name}/${HomeScreen.name}/${EventDetailScreen.name}/${data.id}',
+                            );
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: kTinyPadding.left,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -209,13 +216,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           final data = ArtCardContainerData.fromAbstractArt(
                             state.dayArt!,
                           );
-                          return ArtCardContainer(
+                          return ArtCardContainer.big(
                             hero: HomeScreen.name + data.id,
                             constraints: BoxConstraints.expand(
                               width: context.vWidth,
                               height: context.vWidth,
                             ),
                             data: data,
+                            onTap: () {
+                              navigator.homeContext.go(
+                                '/${DashboardScreen.name}/${HomeScreen.name}/${ArtDetailScreen.name}/${data.id}',
+                              );
+                            },
                           );
                         },
                       ),
@@ -253,25 +265,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                      height: context.vHeight / 4,
-                      child: ListView.separated(
-                        clipBehavior: Clip.none,
-                        padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.news.length,
-                        itemBuilder: (context, index) {
-                          final data = NewsCardContainerData.fromAbstractArt(
-                            state.news[index],
-                          );
-                          return NewsCardContainer(
-                            data: data,
-                            constraints: BoxConstraints.expand(width: context.vWidth / 1.6),
-                          );
-                        },
-                        separatorBuilder: (context, index) => SizedBox(
-                          width: kTinyPadding.left,
-                        ),
-                      )),
+                    height: context.vHeight / 4,
+                    child: ListView.separated(
+                      clipBehavior: Clip.none,
+                      padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.news.length,
+                      itemBuilder: (context, index) {
+                        final data = NewsCardContainerData.fromAbstractArt(
+                          state.news[index],
+                        );
+                        return NewsCardContainer(
+                          data: data,
+                          constraints: BoxConstraints.expand(width: context.vWidth / 1.6),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: kTinyPadding.left,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -307,10 +320,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                     return Padding(
                       padding: kExtraTinyPadding,
-                      child: ArtCardContainer(
+                      child: ArtCardContainer.medium(
                         hero: HomeScreen.name + data.id,
                         constraints: const BoxConstraints.expand(),
                         data: data,
+                        onTap: () {
+                          navigator.homeContext.go(
+                            '/${DashboardScreen.name}/${HomeScreen.name}/${ArtDetailScreen.name}/${data.id}',
+                          );
+                        },
                       ),
                     );
                   },

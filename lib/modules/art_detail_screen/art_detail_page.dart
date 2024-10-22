@@ -2,79 +2,84 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/core/models/art_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
-import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
-import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
+import 'package:art_for_all/modules/art_detail_screen/detail_art_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
-import 'package:art_for_all/modules/dashboard_screen.dart';
-import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/artist_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/event_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/news_card_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class EventDetailScreen extends StatefulWidget {
-  static String name = 'event-detail-screen';
-  static String pathParamId = 'id';
+class ArtDetailScreen extends StatefulWidget {
+  static String name = 'art-detail-screen';
+  static String pathParamId = 'artId';
 
   final String id;
-  final ExtraData<CategoryCardContainerData>? extra;
+  final ExtraData<ArtDetailSummaryData>? extra;
 
-  const EventDetailScreen({super.key, required this.id, this.extra});
+  const ArtDetailScreen({super.key, required this.id, this.extra});
 
   @override
-  State<EventDetailScreen> createState() => _EventDetailScreenState();
+  State<ArtDetailScreen> createState() => _ArtDetailScreenState();
 }
 
-class _EventDetailScreenState extends State<EventDetailScreen> {
-  final _bloc = locator.get<EventDetailBloc>();
-  final navigator = locator.get<NavigationService>();
+class _ArtDetailScreenState extends State<ArtDetailScreen> {
+  final carouselController = CarouselController(initialItem: 0);
+  final bloc = locator.get<DetailArtBloc>();
 
   @override
   void initState() {
-    _bloc.init(widget.id);
+    bloc.init(widget.id, null);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    bloc.clear();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
       color: context.colorTheme.background,
-      child: BlocBuilder<EventDetailBloc, EventDetailBlocState>(
-        bloc: _bloc,
+      child: BlocBuilder<DetailArtBloc, DetailArtBlocState>(
+        bloc: bloc,
         builder: (context, state) {
-          if (state.isLoading == LoadingState.loading) {
+          if (state.isLoadingArt == LoadingState.loading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state.event == null) {
+          if (state.art == null) {
             return const SizedBox();
           }
 
-          final event = state.event!;
-
-          return CustomScrollView(
-            slivers: [
-              EventDetailHeader(event: event),
-              SliverPadding(
-                padding: kMediumPadding,
-                sliver: SliverToBoxAdapter(
+          final data = state.art!;
+          final fontColor = context.colorTheme.onSurface;
+          return ColoredBox(
+            color: context.colorTheme.surface,
+            child: CustomScrollView(slivers: [
+              ArtDetailHeader(art: data),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: kMediumPadding,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        event.title,
+                        data.title,
                         style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
@@ -85,42 +90,44 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
-                        event.eventType,
+                        data.artType.toUpperCase(),
                         style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
                       ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Text(
-                        event.description,
-                        style: context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
+                      Gap(kMediumPadding.bottom),
+                      Center(
+                        child: Text(
+                          data.description,
+                          style: context.typographyTheme.bodyMedium.textStyle
+                              .copyWith(color: fontColor, height: 1.8),
+                        ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      Builder(builder: (context) {
-                        final data = ArtCardContainerData.fromAbstractArt(event.art);
-                        return ArtCardContainer.medium(
-                          data: data,
-                          constraints: BoxConstraints(
-                            maxHeight: context.vWidth,
-                            maxWidth: context.vWidth,
+                      SizedBox(
+                        height: context.vWidth / 4,
+                        child: OverflowBox(
+                          maxWidth: context.vWidth,
+                          child: ListView.separated(
+                            clipBehavior: Clip.none,
+                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: data.artists.length,
+                            itemBuilder: (context, index) {
+                              final artist = ArtistCardContainerData.fromAbstractArtist(
+                                data.artists[index],
+                              );
+                              return ArtistCardContainer.small(
+                                data: artist,
+                                constraints: BoxConstraints.expand(width: context.vWidth / 4),
+                                onTap: () {},
+                              );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: kTinyPadding.left,
+                            ),
                           ),
-                          onTap: () {
-                            final current =
-                                navigator.router.routeInformationProvider.value.uri;
-                            print(navigator.router.routeInformationProvider.value.uri);
-                            navigator.homeContext.go(
-                              '$current/${ArtDetailScreen.name}/${data.id}',
-                            );
-                          },
-                        );
-                      }),
-                      SizedBox(height: kMediumPadding.bottom),
-                      ...event.highlights.map((h) {
-                        return Text(
-                          "* $h",
-                          style:
-                              context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
-                        );
-                      }),
-                      SizedBox(height: kMediumPadding.bottom),
+                        ),
+                      ),
+                      Gap(kMediumPadding.bottom),
                       Center(
                         child: Wrap(
                           alignment: WrapAlignment.spaceAround,
@@ -129,16 +136,28 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                           spacing: 4,
                           runSpacing: 12,
                           crossAxisAlignment: WrapCrossAlignment.center,
-                          children: event.tags.map((t) {
-                            return TagChipContainer(
+                          children: List.generate(
+                            data.tags.length,
+                            (index) => TagChipContainer(
                               onTap: () {},
-                              tag: t,
-                            );
-                          }).toList(),
+                              tag: data.tags[index],
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      ...event.link.map(
+                      CommunityCardContainer.big(
+                        data: CommunityCardContainerData.fromAbstractCommunity(
+                          data.community,
+                        ),
+                        constraints: BoxConstraints(
+                          maxHeight: context.vHeight / 5,
+                          maxWidth: context.vWidth,
+                        ),
+                        onTap: () {},
+                      ),
+                      Gap(kMediumPadding.bottom),
+                      ...data.link.map(
                         (l) {
                           return Text.rich(
                             TextSpan(
@@ -160,22 +179,63 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         },
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      CommunityCardContainer.big(
-                        data: CommunityCardContainerData.fromAbstractCommunity(
-                          event.community,
-                        ),
-                        constraints: BoxConstraints(
-                          maxHeight: context.vHeight / 5,
+                      SizedBox(
+                        height: context.vHeight / 4,
+                        child: OverflowBox(
                           maxWidth: context.vWidth,
+                          child: ListView.separated(
+                            clipBehavior: Clip.none,
+                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.news.length,
+                            itemBuilder: (context, index) {
+                              final data = NewsCardContainerData.fromAbstractArt(
+                                state.news[index],
+                              );
+                              return NewsCardContainer(
+                                data: data,
+                                constraints:
+                                    BoxConstraints.expand(width: context.vWidth / 1.6),
+                              );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: kTinyPadding.left,
+                            ),
+                          ),
                         ),
-                        onTap: () {},
+                      ),
+                      SizedBox(height: kMediumPadding.bottom),
+                      SizedBox(
+                        height: context.vHeight / 6,
+                        child: OverflowBox(
+                          maxWidth: context.vWidth,
+                          child: ListView.separated(
+                            clipBehavior: Clip.none,
+                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.events.length,
+                            itemBuilder: (context, index) {
+                              final data = EventCardContainerData.fromAbstractEvent(
+                                state.events[index],
+                              );
+                              return EventCardContainer.medium(
+                                data: data,
+                                constraints: BoxConstraints.expand(width: context.vWidth / 3),
+                                onTap: () {},
+                              );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: kTinyPadding.left,
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(height: kLargePadding.bottom),
                     ],
                   ),
                 ),
-              ),
-            ],
+              )
+            ]),
           );
         },
       ),
@@ -183,16 +243,19 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   }
 }
 
-class EventDetailHeader extends StatefulWidget {
-  const EventDetailHeader({super.key, required this.event});
+class ArtDetailHeader extends StatefulWidget {
+  const ArtDetailHeader({
+    super.key,
+    required this.art,
+  });
 
-  final EventModel event;
+  final ArtModel art;
 
   @override
-  State<EventDetailHeader> createState() => _EventDetailHeaderState();
+  State<ArtDetailHeader> createState() => _ArtDetailHeaderState();
 }
 
-class _EventDetailHeaderState extends State<EventDetailHeader> {
+class _ArtDetailHeaderState extends State<ArtDetailHeader> {
   Widget _buildLoading() {
     return const Center(
       child: SizedBox(
@@ -224,7 +287,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
-          final media = widget.event.media
+          final media = widget.art.media
               .map(
                 (m) => CachedNetworkImage(
                   imageUrl: m.url,
@@ -258,7 +321,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                   top: kToolbarHeight,
                 ),
                 child: Text(
-                  widget.event.title,
+                  widget.art.title,
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
@@ -270,7 +333,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
               children: [
                 Positioned.fill(
                   child: CachedNetworkImage(
-                    imageUrl: widget.event.media.first.url,
+                    imageUrl: widget.art.media.first.url,
                     imageBuilder: (context, imageProvider) => Container(
                       height: constraints.maxHeight,
                       decoration: BoxDecoration(
@@ -282,15 +345,12 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                         color: context.colorTheme.primaryContainer,
                       ),
                     ),
-                    placeholder: (context, url) => _buildLoading(),
-                    // errorWidget: (context, url, error) => _buildCard(null, color, child),
                   ),
                 ),
                 Positioned.fill(
                   top: kToolbarHeight + context.vTopSafeHeight,
                   bottom: kMediumPadding.bottom,
                   child: CarouselSlider.builder(
-                    // carouselController: carouselController,
                     itemCount: media.length,
                     itemBuilder: (context, index, pageViewIndex) {
                       final child = media[index];
@@ -307,23 +367,6 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                     ),
                   ),
                 )
-                // Positioned.fill(
-                //   top: context.vTopSafeHeight * 2,
-                //   left: kLargePadding.left,
-                //   right: kLargePadding.right,
-                //   bottom: kMediumPadding.bottom,
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                //       Text(
-                //         widget.event.title,
-                //         textAlign: TextAlign.center,
-                //         style:
-                //             context.typographyTheme.titleMedium.onPrimaryContainer.textStyle,
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           );

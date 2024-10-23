@@ -2,13 +2,12 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_screen.dart';
-import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
-import 'package:art_for_all/modules/dashboard_screen.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_bloc.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/artist_card_container.dart';
@@ -17,6 +16,7 @@ import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/event_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/news_card_container.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
+import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -47,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: context.colorTheme.primaryContainer,
         border: Border(
-          bottom: BorderSide(color: context.colorTheme.onPrimaryContainer),
+          bottom: kExtraTinyBorder.copyWith(
+            color: context.colorTheme.onPrimaryContainer,
+          ),
         ),
       ),
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
@@ -76,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return CustomScrollView(
           slivers: [
             PinnedHeaderSliver(child: header),
-            SliverGap(kLargePadding.bottom),
+            SliverGap(kTinyPadding.bottom),
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: kMediumPadding.left,
-                      vertical: kMediumPadding.top,
+                      vertical: kTinyPadding.top,
                     ),
                     child: Row(
                       children: [
@@ -112,15 +114,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: state.categories.length,
                       itemBuilder: (context, index) {
-                        final data = CategoryCardContainerData.fromAbstractCategory(
-                          state.categories[index],
-                        );
+                        final data = state.categories[index];
                         return CategoryCardContainer.small(
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 2.5),
                           onTap: () {
+                            final current = navigator.currentUri;
                             navigator.homeContext.go(
-                              '/${DashboardScreen.name}/${HomeScreen.name}/${CategoryDetailScreen.name}/${data.id}',
+                              '$current/${CategoryDetailScreen.name}/${data.id}',
+                              extra: data.toJson(),
                             );
                           },
                         );
@@ -133,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SliverGap(kLargePadding.bottom),
+            SliverGap(kTinyPadding.bottom),
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: kMediumPadding.left,
-                      vertical: kMediumPadding.top,
+                      vertical: kTinyPadding.top,
                     ),
                     child: Row(
                       children: [
@@ -162,22 +164,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: context.vHeight / 5,
+                    height: context.vHeight / 4,
                     child: ListView.separated(
                       clipBehavior: Clip.none,
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.events.length,
                       itemBuilder: (context, index) {
-                        final data = EventCardContainerData.fromAbstractEvent(
-                          state.events[index],
-                        );
+                        final data = state.events[index];
                         return EventCardContainer.medium(
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
                           onTap: () {
+                            final current = navigator.currentUri;
                             navigator.homeContext.go(
-                              '/${DashboardScreen.name}/${HomeScreen.name}/${EventDetailScreen.name}/${data.id}',
+                              '$current/${EventDetailScreen.name}/${data.id}',
                             );
                           },
                         );
@@ -191,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             if (state.dayArt != null) ...[
-              SliverGap(kLargePadding.bottom),
+              SliverGap(kTinyPadding.bottom),
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: kMediumPadding.left,
-                        vertical: kMediumPadding.top,
+                        vertical: kTinyPadding.top,
                       ),
                       child: Text(
                         "Artwork of the Day!",
@@ -213,9 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: Builder(
                         builder: (context) {
-                          final data = ArtCardContainerData.fromAbstractArt(
-                            state.dayArt!,
-                          );
+                          final data = state.dayArt!;
                           return ArtCardContainer.big(
                             hero: HomeScreen.name + data.id,
                             constraints: BoxConstraints.expand(
@@ -224,8 +223,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             data: data,
                             onTap: () {
+                              final current = navigator.currentUri;
                               navigator.homeContext.go(
-                                '/${DashboardScreen.name}/${HomeScreen.name}/${ArtDetailScreen.name}/${data.id}',
+                                '$current/${ArtDetailScreen.name}/${data.id}',
                               );
                             },
                           );
@@ -265,19 +265,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: context.vHeight / 4,
+                    height: context.vHeight / 8,
                     child: ListView.separated(
                       clipBehavior: Clip.none,
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.news.length,
                       itemBuilder: (context, index) {
-                        final data = NewsCardContainerData.fromAbstractArt(
-                          state.news[index],
-                        );
-                        return NewsCardContainer(
+                        final data = state.news[index];
+                        return NewsCardContainer.medium(
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 1.6),
+                          onTap: () {
+                            final current = navigator.currentUri;
+                            navigator.homeContext.go(
+                              '$current/${NewsDetailScreen.name}/${data.id}',
+                            );
+                          },
                         );
                       },
                       separatorBuilder: (context, index) => SizedBox(
@@ -315,18 +319,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 delegate: SliverChildBuilderDelegate(
                   childCount: state.featuredArts.take(6).length,
                   (context, index) {
-                    final data = ArtCardContainerData.fromAbstractArt(
-                      state.featuredArts[index],
-                    );
+                    final data = state.featuredArts[index];
+                    final card =
+                        index == 3 ? ArtCardContainer.medium : ArtCardContainer.small;
                     return Padding(
                       padding: kExtraTinyPadding,
-                      child: ArtCardContainer.medium(
+                      child: card(
                         hero: HomeScreen.name + data.id,
                         constraints: const BoxConstraints.expand(),
                         data: data,
                         onTap: () {
+                          final current = navigator.currentUri;
                           navigator.homeContext.go(
-                            '/${DashboardScreen.name}/${HomeScreen.name}/${ArtDetailScreen.name}/${data.id}',
+                            '$current/${ArtDetailScreen.name}/${data.id}',
                           );
                         },
                       ),
@@ -382,13 +387,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: state.artists.length,
                       itemBuilder: (context, index) {
-                        final data = ArtistCardContainerData.fromAbstractArtist(
-                          state.artists[index],
-                        );
+                        final data = state.artists[index];
                         return ArtistCardContainer.small(
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 2.4),
-                          onTap: () {},
+                          onTap: () {
+                            final current = navigator.currentUri;
+                            navigator.homeContext.go(
+                              '$current/${ArtistDetailScreen.name}/${data.id}',
+                            );
+                          },
                         );
                       },
                       separatorBuilder: (context, index) => SizedBox(
@@ -435,13 +443,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: state.communities.length,
                       itemBuilder: (context, index) {
-                        final data = CommunityCardContainerData.fromAbstractCommunity(
-                          state.communities[index],
-                        );
+                        final data = state.communities[index];
                         return CommunityCardContainer.small(
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 1.2),
-                          onTap: () {},
+                          onTap: () {
+                            final current = navigator.currentUri;
+                            navigator.homeContext.go(
+                              '$current/${CommunityDetailScreen.name}/${data.id}',
+                            );
+                          },
                         );
                       },
                       separatorBuilder: (context, index) => SizedBox(
@@ -456,35 +467,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         );
       },
-    );
-  }
-}
-
-class ItemList extends StatelessWidget {
-  const ItemList({
-    super.key,
-    this.items = const [],
-  });
-
-  final List<ArtAbstractModel> items;
-
-  @override
-  Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          final item = items[index];
-          return Card(
-            color: colorScheme.onSecondary,
-            child: ListTile(
-              textColor: colorScheme.secondary,
-              title: Text(item.title),
-            ),
-          );
-        },
-        childCount: items.length,
-      ),
     );
   }
 }

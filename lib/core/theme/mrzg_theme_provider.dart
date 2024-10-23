@@ -63,6 +63,8 @@ class MrzgThemeProvider extends InheritedWidget {
           selectedIconTheme: _flex.bottomNavigationBarTheme.selectedIconTheme!.copyWith(
             color: palette.onNavSelected,
           ),
+          selectedLabelStyle: typography.label.textStyle,
+          unselectedLabelStyle: typography.label.textStyle,
           unselectedItemColor: palette.onNavUnselected,
           unselectedIconTheme: _flex.bottomNavigationBarTheme.selectedIconTheme!.copyWith(
             color: palette.onNavUnselected,

@@ -112,9 +112,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                             scrollDirection: Axis.horizontal,
                             itemCount: data.artists.length,
                             itemBuilder: (context, index) {
-                              final artist = ArtistCardContainerData.fromAbstractArtist(
-                                data.artists[index],
-                              );
+                              final artist = data.artists[index];
                               return ArtistCardContainer.small(
                                 data: artist,
                                 constraints: BoxConstraints.expand(width: context.vWidth / 4),
@@ -147,9 +145,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       CommunityCardContainer.big(
-                        data: CommunityCardContainerData.fromAbstractCommunity(
-                          data.community,
-                        ),
+                        data: data.community,
                         constraints: BoxConstraints(
                           maxHeight: context.vHeight / 5,
                           maxWidth: context.vWidth,
@@ -157,7 +153,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                         onTap: () {},
                       ),
                       Gap(kMediumPadding.bottom),
-                      ...data.link.map(
+                      ...data.links.map(
                         (l) {
                           return Text.rich(
                             TextSpan(
@@ -189,13 +185,12 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                             scrollDirection: Axis.horizontal,
                             itemCount: state.news.length,
                             itemBuilder: (context, index) {
-                              final data = NewsCardContainerData.fromAbstractArt(
-                                state.news[index],
-                              );
-                              return NewsCardContainer(
+                              final data = state.news[index];
+                              return NewsCardContainer.medium(
                                 data: data,
                                 constraints:
                                     BoxConstraints.expand(width: context.vWidth / 1.6),
+                                onTap: () {},
                               );
                             },
                             separatorBuilder: (context, index) => SizedBox(
@@ -215,9 +210,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                             scrollDirection: Axis.horizontal,
                             itemCount: state.events.length,
                             itemBuilder: (context, index) {
-                              final data = EventCardContainerData.fromAbstractEvent(
-                                state.events[index],
-                              );
+                              final data = state.events[index];
                               return EventCardContainer.medium(
                                 data: data,
                                 constraints: BoxConstraints.expand(width: context.vWidth / 3),
@@ -308,66 +301,76 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
                 ),
               )
               .toList();
-          return FlexibleSpaceBar(
-            expandedTitleScale: 1,
-            collapseMode: CollapseMode.parallax,
-            title: AnimatedOpacity(
-              duration: const Duration(milliseconds: 200),
-              opacity: 1 - scale == 1 ? 1 : 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: kToolbarHeight,
-                ).copyWith(
-                  top: kToolbarHeight,
-                ),
-                child: Text(
-                  widget.art.title,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
-                  overflow: TextOverflow.ellipsis,
+          return Container(
+            decoration: BoxDecoration(
+              color: context.colorTheme.primaryContainer,
+              border: Border(
+                bottom: kExtraTinyBorder.copyWith(
+                  color: context.colorTheme.onPrimaryContainer,
                 ),
               ),
             ),
-            background: Stack(
-              children: [
-                Positioned.fill(
-                  child: CachedNetworkImage(
-                    imageUrl: widget.art.media.first.url,
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: constraints.maxHeight,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                          opacity: 0.3,
+            child: FlexibleSpaceBar(
+              expandedTitleScale: 1,
+              collapseMode: CollapseMode.parallax,
+              title: AnimatedOpacity(
+                duration: const Duration(milliseconds: 200),
+                opacity: 1 - scale == 1 ? 1 : 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kToolbarHeight,
+                  ).copyWith(
+                    top: kToolbarHeight,
+                  ),
+                  child: Text(
+                    widget.art.title,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              background: Stack(
+                children: [
+                  Positioned.fill(
+                    child: CachedNetworkImage(
+                      imageUrl: widget.art.media.first.url,
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: constraints.maxHeight,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                            opacity: 0.3,
+                          ),
+                          color: context.colorTheme.primaryContainer,
                         ),
-                        color: context.colorTheme.primaryContainer,
                       ),
                     ),
                   ),
-                ),
-                Positioned.fill(
-                  top: kToolbarHeight + context.vTopSafeHeight,
-                  bottom: kMediumPadding.bottom,
-                  child: CarouselSlider.builder(
-                    itemCount: media.length,
-                    itemBuilder: (context, index, pageViewIndex) {
-                      final child = media[index];
-                      return child;
-                    },
-                    options: CarouselOptions(
-                      padEnds: true,
-                      onPageChanged: (index, reason) {},
-                      viewportFraction: 0.8,
-                      enlargeFactor: 0.2,
-                      height: maxHeight - kToolbarHeight,
-                      enlargeCenterPage: true,
-                      clipBehavior: Clip.none,
+                  Positioned.fill(
+                    top: kToolbarHeight + context.vTopSafeHeight,
+                    bottom: kMediumPadding.bottom,
+                    child: CarouselSlider.builder(
+                      itemCount: media.length,
+                      itemBuilder: (context, index, pageViewIndex) {
+                        final child = media[index];
+                        return child;
+                      },
+                      options: CarouselOptions(
+                        padEnds: true,
+                        onPageChanged: (index, reason) {},
+                        viewportFraction: 0.8,
+                        enlargeFactor: 0.2,
+                        height: maxHeight - kToolbarHeight,
+                        enlargeCenterPage: true,
+                        clipBehavior: Clip.none,
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           );
         },

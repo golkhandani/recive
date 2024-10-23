@@ -15,13 +15,16 @@ import 'package:art_for_all/core/services/auth_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/environment.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_bloc.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/detail_art_bloc.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_bloc.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
+import 'package:art_for_all/modules/news_detail_screen/news_detail_bloc.dart';
 import 'package:art_for_all/modules/splash_screen/splash_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
@@ -102,7 +105,9 @@ Future setupStorage() async {
 Future setupRepositories() async {
   locator.registerSingleton<IArtRepository>(MockArtRepository());
   locator.registerSingleton<INewsRepository>(MockNewsRepository());
-  locator.registerSingleton<ICategoryRepository>(MockCategoryRepository());
+  locator.registerSingleton<ICategoryRepository>(MockCategoryRepository(
+    supabase: locator.get(),
+  ));
   locator.registerSingleton<IArtistRepository>(MockArtistRepository());
   locator.registerSingleton<IEventRepository>(MockEventRepository());
   locator.registerSingleton<ICommunityRepository>(MockCommunityRepository());
@@ -176,6 +181,30 @@ Future setupBloc() async {
       secureStorage: locator.get(),
       sharedStorage: locator.get(),
       eventRepository: locator.get(),
+    ),
+  );
+
+  locator.registerFactory<NewsDetailBloc>(
+    () => NewsDetailBloc(
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
+      newsRepository: locator.get(),
+    ),
+  );
+
+  locator.registerFactory<ArtistDetailBloc>(
+    () => ArtistDetailBloc(
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
+      artistRepository: locator.get(),
+    ),
+  );
+
+  locator.registerFactory<CommunityDetailBloc>(
+    () => CommunityDetailBloc(
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
+      communityRepository: locator.get(),
     ),
   );
 

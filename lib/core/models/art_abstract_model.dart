@@ -10,6 +10,7 @@ class ArtAbstractModel with _$ArtAbstractModel {
     required String id,
     required String title,
     required String description,
+    required String artType,
     required String location,
     required LatLng geoLocation,
     required String imageUrl,

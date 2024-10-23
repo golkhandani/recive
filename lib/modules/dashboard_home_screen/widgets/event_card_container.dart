@@ -1,9 +1,9 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/card_size.dart';
-import 'package:art_for_all/core/router/extra_data.dart';
+import 'package:art_for_all/core/extensions/string_color_extension.dart';
+import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 class EventCardContainer extends StatelessWidget {
   final BoxConstraints constraints;
-  final EventCardContainerData data;
+  final EventAbstractModel data;
   final String? hero;
   final VoidCallback onTap;
   final CardSize size;
@@ -25,7 +25,7 @@ class EventCardContainer extends StatelessWidget {
   });
 
   factory EventCardContainer.big({
-    required EventCardContainerData data,
+    required EventAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
@@ -41,7 +41,7 @@ class EventCardContainer extends StatelessWidget {
 
   // Factory constructor for small tall cards
   factory EventCardContainer.medium({
-    required EventCardContainerData data,
+    required EventAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
@@ -57,7 +57,7 @@ class EventCardContainer extends StatelessWidget {
 
   // Factory constructor for small cards
   factory EventCardContainer.small({
-    required EventCardContainerData data,
+    required EventAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
@@ -115,154 +115,74 @@ class EventCardContainer extends StatelessWidget {
     );
   }
 
-  Widget _buildBigCard(BuildContext context, Color color, Color fontColor) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        ClipRRect(
-          borderRadius: kSmallBorderRadius,
-          child: Container(
-            padding: const EdgeInsets.all(8).copyWith(top: 32),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  color,
-                  color.withOpacity(0.9),
-                  color.withOpacity(0.7),
-                  color.withOpacity(0.3),
-                  Colors.transparent,
-                ],
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  data.title,
-                  maxLines: 1,
-                  style: context.typographyTheme.titleSmall.textStyle.withColor(fontColor),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMediumCard(BuildContext context, Color color, Color fontColor) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: kSmallBorderRadius,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-            child: Container(
-              width: constraints.maxWidth,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    color,
-                    color.withOpacity(0.9),
-                    color.withOpacity(0.7),
-                    color.withOpacity(0.3),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-              padding: const EdgeInsets.all(8).copyWith(bottom: 32),
-              child: Text(
-                data.title,
-                maxLines: 2,
-                style: context.typographyTheme.subtitleLarge.textStyle.withColor(fontColor),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSmallCard(BuildContext context, Color color, Color fontColor) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: kSmallBorderRadius,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-            child: Container(
-              width: constraints.maxWidth,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    color,
-                    color.withOpacity(0.9),
-                    color.withOpacity(0.7),
-                    color.withOpacity(0.3),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-              padding: const EdgeInsets.all(8).copyWith(bottom: 32),
-              child: Text(
-                data.title,
-                maxLines: 2,
-                style: context.typographyTheme.subtitleLarge.textStyle.withColor(fontColor),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildChild(BuildContext context, Color color, Color fontColor) {
-    Widget child = const SizedBox();
-
-    switch (size) {
-      case CardSize.big:
-        child = _buildBigCard(context, color, fontColor);
-        break;
-      case CardSize.medium:
-        child = _buildMediumCard(context, color, fontColor);
-        break;
-      case CardSize.small:
-        child = _buildSmallCard(context, color, fontColor);
-        break;
-      default:
-    }
-    return child;
-  }
-
   @override
   Widget build(BuildContext context) {
     final heroTag = hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
     final color = context.colorTheme.secondary;
-    final fontColor = context.colorTheme.onSecondary;
-    final child = _buildChild(context, color, fontColor);
+    final bannerColor = data.eventType.toColor();
+    final child = Stack(
+      children: [
+        Positioned(
+          right: -30,
+          top: 30,
+          child: Transform.rotate(
+            angle: 45 * pi / 180,
+            child: Container(
+              height: 20,
+              width: 150,
+              color: bannerColor,
+              child: Center(
+                child: Text(
+                  data.eventType,
+                  style: context.typographyTheme.subtitleMedium
+                      .copyWithColor(color: bannerColor.fontColor())
+                      .textStyle,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            margin: kExtraTinyPadding,
+            padding: kTinyPadding,
+            decoration: BoxDecoration(
+              color: context.colorTheme.primaryContainer.withOpacity(kTinyOpacity),
+              borderRadius: kSmallBorderRadius,
+            ),
+            child: Text(
+              data.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: context.typographyTheme.subtitleMedium.textStyle,
+            ),
+          ),
+        ),
+      ],
+    );
 
     return RepaintBoundary(
       child: InkWell(
+        borderRadius: kSmallBorderRadius,
         onTap: onTap,
-        child: Hero(
-          tag: heroTag,
-          child: CachedNetworkImage(
-            imageUrl: data.imageUrl,
-            imageBuilder: (context, imageProvider) => _buildCard(imageProvider, color, child),
-            placeholder: (context, url) => _buildLoading(color),
-            errorWidget: (context, url, error) => _buildCard(null, color, child),
+        child: Material(
+          borderRadius: kSmallBorderRadius,
+          elevation: kMediumElevation,
+          child: ClipRRect(
+            borderRadius: kSmallBorderRadius,
+            child: Hero(
+              tag: heroTag,
+              child: CachedNetworkImage(
+                imageUrl: data.imageUrl,
+                imageBuilder: (context, imageProvider) =>
+                    _buildCard(imageProvider, color, child),
+                placeholder: (context, url) => _buildLoading(color),
+                errorWidget: (context, url, error) => _buildCard(null, color, child),
+              ),
+            ),
           ),
         ),
       ),

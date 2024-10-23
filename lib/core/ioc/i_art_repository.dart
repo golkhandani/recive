@@ -42,6 +42,7 @@ class MockArtRepository extends IArtRepository {
         imageUrl:
             'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
+        artType: faker.address.city(),
       );
     });
   }
@@ -70,6 +71,7 @@ class MockArtRepository extends IArtRepository {
         imageUrl:
             'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
+        artType: faker.address.city(),
       );
     });
   }
@@ -98,6 +100,7 @@ class MockArtRepository extends IArtRepository {
         imageUrl:
             'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
+        artType: faker.address.city(),
       );
     });
   }
@@ -166,7 +169,7 @@ class MockArtRepository extends IArtRepository {
       ),
       tags: List.generate(30, (i) => faker.lorem.word()),
       title: faker.lorem.sentence(),
-      link: List.generate(4, (li) {
+      links: List.generate(4, (li) {
         return LinkModel(
           id: li.toString(),
           title: faker.company.name(),
@@ -207,6 +210,7 @@ class MockArtRepository extends IArtRepository {
       ),
       imageUrl: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
       tags: faker.lorem.words(3),
+      artType: faker.address.city(),
     );
   }
 }

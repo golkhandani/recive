@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 const Duration kLoadingDuration = Duration(milliseconds: 200);
-const Duration kShimmerDuration = Duration(milliseconds: 2200);
+const Duration kShimmerDuration = Duration(milliseconds: 800);
 const kLargePadding = EdgeInsets.all(24);
 const kMediumPadding = EdgeInsets.all(16);
 const kSmallPadding = EdgeInsets.all(12);
@@ -11,6 +11,16 @@ const kTinyPadding = EdgeInsets.all(8);
 const kExtraTinyPadding = EdgeInsets.all(4);
 
 const kErrorIcon = Icon(Icons.error);
+
+const kTinyBorder = BorderSide(width: 0.2);
+const kExtraTinyBorder = BorderSide(width: 0.1);
+
+const kTinyElevation = 2.0;
+const kMediumElevation = 4.0;
+
+const kTinyOpacity = 0.96;
+const kMediumOpacity = 0.4;
+const kExtraOpacity = 0.2;
 
 final kStandardBlur = ImageFilter.blur(
   tileMode: TileMode.clamp,

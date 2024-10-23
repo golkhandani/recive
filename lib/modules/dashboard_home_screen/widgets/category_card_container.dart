@@ -1,9 +1,7 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/card_size.dart';
-import 'package:art_for_all/core/router/extra_data.dart';
+import 'package:art_for_all/core/models/category_abstract_model.dart';
+
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +10,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 class CategoryCardContainer extends StatelessWidget {
   final BoxConstraints constraints;
-  final CategoryCardContainerData data;
+  final CategoryAbstractModel data;
   final String? hero;
   final VoidCallback onTap;
   final CardSize size;
@@ -25,7 +23,7 @@ class CategoryCardContainer extends StatelessWidget {
   });
 
   factory CategoryCardContainer.big({
-    required CategoryCardContainerData data,
+    required CategoryAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
@@ -41,7 +39,7 @@ class CategoryCardContainer extends StatelessWidget {
 
   // Factory constructor for small tall cards
   factory CategoryCardContainer.medium({
-    required CategoryCardContainerData data,
+    required CategoryAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
@@ -57,7 +55,7 @@ class CategoryCardContainer extends StatelessWidget {
 
   // Factory constructor for small cards
   factory CategoryCardContainer.small({
-    required CategoryCardContainerData data,
+    required CategoryAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
@@ -98,115 +96,20 @@ class CategoryCardContainer extends StatelessWidget {
   }
 
   Widget _buildBigCard(BuildContext context, Color color, Color fontColor) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        ClipRRect(
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Container(
+        margin: kExtraTinyPadding,
+        padding: kTinyPadding,
+        decoration: BoxDecoration(
+          color: context.colorTheme.primaryContainer.withOpacity(kTinyOpacity),
           borderRadius: kSmallBorderRadius,
-          child: Container(
-            padding: const EdgeInsets.all(8).copyWith(top: 32),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  color,
-                  color.withOpacity(0.9),
-                  color.withOpacity(0.7),
-                  color.withOpacity(0.3),
-                  Colors.transparent,
-                ],
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  data.title,
-                  maxLines: 1,
-                  style: context.typographyTheme.titleSmall.textStyle.withColor(fontColor),
-                ),
-              ],
-            ),
-          ),
         ),
-      ],
-    );
-  }
-
-  Widget _buildMediumCard(BuildContext context, Color color, Color fontColor) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: kSmallBorderRadius,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-            child: Container(
-              width: constraints.maxWidth,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    color,
-                    color.withOpacity(0.9),
-                    color.withOpacity(0.7),
-                    color.withOpacity(0.3),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-              padding: const EdgeInsets.all(8).copyWith(bottom: 32),
-              child: Text(
-                data.title,
-                maxLines: 2,
-                style: context.typographyTheme.subtitleLarge.textStyle.withColor(fontColor),
-              ),
-            ),
-          ),
+        child: Text(
+          data.title,
+          style: context.typographyTheme.subtitleMedium.textStyle,
         ),
-      ],
-    );
-  }
-
-  Widget _buildSmallCard(BuildContext context, Color color, Color fontColor) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: kSmallBorderRadius,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-            child: Container(
-              width: constraints.maxWidth,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    color,
-                    color.withOpacity(0.9),
-                    color.withOpacity(0.7),
-                    color.withOpacity(0.3),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-              padding: const EdgeInsets.all(8).copyWith(bottom: 32),
-              child: Text(
-                data.title,
-                maxLines: 2,
-                style: context.typographyTheme.subtitleLarge.textStyle.withColor(fontColor),
-              ),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -215,13 +118,9 @@ class CategoryCardContainer extends StatelessWidget {
 
     switch (size) {
       case CardSize.big:
-        child = _buildBigCard(context, color, fontColor);
-        break;
       case CardSize.medium:
-        child = _buildMediumCard(context, color, fontColor);
-        break;
       case CardSize.small:
-        child = _buildSmallCard(context, color, fontColor);
+        child = _buildBigCard(context, color, fontColor);
         break;
       default:
     }
@@ -248,7 +147,6 @@ class CategoryCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final heroTag = hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
     final color = context.colorTheme.secondary;
     final fontColor = context.colorTheme.onSecondary;
     final child = _buildChild(context, color, fontColor);
@@ -256,15 +154,21 @@ class CategoryCardContainer extends StatelessWidget {
     return RepaintBoundary(
       child: InkWell(
         onTap: onTap,
-        child: Hero(
-          tag: heroTag,
-          child: CachedNetworkImage(
-            imageUrl: data.imageUrl,
-            fadeOutDuration: const Duration(milliseconds: 3000),
-            imageBuilder: (context, imageProvider) => _buildCard(imageProvider, color, child),
-            placeholder: (context, url) => _buildLoading(color),
-            filterQuality: FilterQuality.high,
-            errorWidget: (context, url, error) => _buildCard(null, color, child),
+        borderRadius: kSmallBorderRadius,
+        child: Material(
+          elevation: kMediumElevation,
+          borderRadius: kSmallBorderRadius,
+          child: Hero(
+            tag: data.heroTag,
+            child: CachedNetworkImage(
+              imageUrl: data.imageUrl,
+              fadeOutDuration: const Duration(milliseconds: 3000),
+              imageBuilder: (context, imageProvider) =>
+                  _buildCard(imageProvider, color, child),
+              placeholder: (context, url) => _buildLoading(color),
+              filterQuality: FilterQuality.high,
+              errorWidget: (context, url, error) => _buildCard(null, color, child),
+            ),
           ),
         ),
       ),

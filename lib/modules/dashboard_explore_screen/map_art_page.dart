@@ -185,7 +185,9 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                 decoration: BoxDecoration(
                   color: context.colorTheme.primaryContainer,
                   border: Border(
-                    bottom: BorderSide(color: context.colorTheme.onPrimaryContainer),
+                    bottom: kExtraTinyBorder.copyWith(
+                      color: context.colorTheme.onPrimaryContainer,
+                    ),
                   ),
                 ),
                 child: TabBar(
@@ -218,11 +220,6 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                           if (e is! MapEventMoveEnd) {
                             return;
                           }
-                          // bloc.filter(
-                          //   e.camera.center,
-                          //   _currentSliderValue,
-                          //   filterController.text,
-                          // );
                         },
                         keepAlive: true,
                       ),
@@ -253,8 +250,9 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                     offset: const Offset(0, -100),
                                   );
                                 },
-                                child: const Icon(
+                                child: Icon(
                                   Icons.pin_drop,
+                                  color: context.colorTheme.onPrimary,
                                   size: 70,
                                 ),
                               ),

@@ -23,6 +23,7 @@ class MockEventRepository extends IEventRepository {
       imageUrl:
           'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200) + i}',
       tags: ['performance', 'fashion', 'theater'],
+      eventType: faker.food.cuisine(),
     );
   });
 
@@ -86,7 +87,7 @@ class MockEventRepository extends IEventRepository {
       tags: faker.lorem.words(14),
       eventType: 'Screening',
       dateTime: DateTime.now(),
-      link: List.generate(4, (li) {
+      links: List.generate(4, (li) {
         return LinkModel(
           id: li.toString(),
           title: faker.company.name(),
@@ -103,6 +104,7 @@ class MockEventRepository extends IEventRepository {
         imageUrl:
             'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
+        artType: faker.address.city(),
       ),
       community: CommunityAbstractModel(
         id: faker.randomGenerator.integer(200).toString(),

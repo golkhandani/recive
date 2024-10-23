@@ -1,3 +1,4 @@
+import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
@@ -62,7 +63,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(
-              top: BorderSide(color: context.colorTheme.onPrimaryContainer),
+              top: kExtraTinyBorder.copyWith(
+                color: context.colorTheme.onPrimaryContainer,
+              ),
             ),
           ),
           child: BottomNavigationBar(

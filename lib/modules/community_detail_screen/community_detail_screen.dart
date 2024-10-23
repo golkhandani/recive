@@ -2,37 +2,36 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
+import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
-import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class EventDetailScreen extends StatefulWidget {
-  static String name = 'event-detail-screen';
+class CommunityDetailScreen extends StatefulWidget {
+  static String name = 'community-detail-screen';
   static String pathParamId = 'id';
 
   final String id;
-  final ExtraData<CategoryCardContainerData>? extra;
+  final ExtraData<CommunityCardContainerData>? extra;
 
-  const EventDetailScreen({super.key, required this.id, this.extra});
+  const CommunityDetailScreen({super.key, required this.id, this.extra});
 
   @override
-  State<EventDetailScreen> createState() => _EventDetailScreenState();
+  State<CommunityDetailScreen> createState() => _CommunityDetailScreenState();
 }
 
-class _EventDetailScreenState extends State<EventDetailScreen> {
-  final _bloc = locator.get<EventDetailBloc>();
+class _CommunityDetailScreenState extends State<CommunityDetailScreen> {
+  final _bloc = locator.get<CommunityDetailBloc>();
+  final navigator = locator.get<NavigationService>();
 
   @override
   void initState() {
@@ -44,22 +43,22 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   Widget build(BuildContext context) {
     return ColoredBox(
       color: context.colorTheme.background,
-      child: BlocBuilder<EventDetailBloc, EventDetailBlocState>(
+      child: BlocBuilder<CommunityDetailBloc, CommunityDetailBlocState>(
         bloc: _bloc,
         builder: (context, state) {
           if (state.isLoading == LoadingState.loading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state.event == null) {
+          if (state.community == null) {
             return const SizedBox();
           }
 
-          final event = state.event!;
+          final community = state.community!;
 
           return CustomScrollView(
             slivers: [
-              EventDetailHeader(event: event),
+              CommunityDetailHeader(community: community),
               SliverPadding(
                 padding: kMediumPadding,
                 sliver: SliverToBoxAdapter(
@@ -68,42 +67,14 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        event.title,
+                        community.title,
                         style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
-                        DateFormat.yMMMd().format(DateTime.now()),
-                        style: context
-                            .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Text(
-                        event.eventType,
-                        style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Text(
-                        event.description,
+                        community.description,
                         style: context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                       ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      ArtCardContainer.medium(
-                        data: ArtCardContainerData.fromAbstractArt(event.art),
-                        constraints: BoxConstraints(
-                          maxHeight: context.vWidth,
-                          maxWidth: context.vWidth,
-                        ),
-                        onTap: () {},
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      ...event.highlights.map((h) {
-                        return Text(
-                          "* $h",
-                          style:
-                              context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
-                        );
-                      }),
                       SizedBox(height: kMediumPadding.bottom),
                       Center(
                         child: Wrap(
@@ -113,7 +84,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                           spacing: 4,
                           runSpacing: 12,
                           crossAxisAlignment: WrapCrossAlignment.center,
-                          children: event.tags.map((t) {
+                          children: community.tags.map((t) {
                             return TagChipContainer(
                               onTap: () {},
                               tag: t,
@@ -122,7 +93,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      ...event.link.map(
+                      ...community.links.map(
                         (l) {
                           return Text.rich(
                             TextSpan(
@@ -144,17 +115,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         },
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      CommunityCardContainer.big(
-                        data: CommunityCardContainerData.fromAbstractCommunity(
-                          event.community,
-                        ),
-                        constraints: BoxConstraints(
-                          maxHeight: context.vHeight / 5,
-                          maxWidth: context.vWidth,
-                        ),
-                        onTap: () {},
-                      ),
-                      SizedBox(height: kLargePadding.bottom),
                     ],
                   ),
                 ),
@@ -167,16 +127,16 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   }
 }
 
-class EventDetailHeader extends StatefulWidget {
-  const EventDetailHeader({super.key, required this.event});
+class CommunityDetailHeader extends StatefulWidget {
+  const CommunityDetailHeader({super.key, required this.community});
 
-  final EventModel event;
+  final CommunityModel community;
 
   @override
-  State<EventDetailHeader> createState() => _EventDetailHeaderState();
+  State<CommunityDetailHeader> createState() => _CommunityDetailHeaderState();
 }
 
-class _EventDetailHeaderState extends State<EventDetailHeader> {
+class _CommunityDetailHeaderState extends State<CommunityDetailHeader> {
   Widget _buildLoading() {
     return const Center(
       child: SizedBox(
@@ -208,7 +168,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
-          final media = widget.event.media
+          final media = widget.community.media
               .map(
                 (m) => CachedNetworkImage(
                   imageUrl: m.url,
@@ -229,69 +189,80 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                 ),
               )
               .toList();
-          return FlexibleSpaceBar(
-            expandedTitleScale: 1,
-            collapseMode: CollapseMode.parallax,
-            title: AnimatedOpacity(
-              duration: const Duration(milliseconds: 200),
-              opacity: 1 - scale == 1 ? 1 : 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: kToolbarHeight,
-                ).copyWith(
-                  top: kToolbarHeight,
-                ),
-                child: Text(
-                  widget.event.title,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
-                  overflow: TextOverflow.ellipsis,
+          return Container(
+            decoration: BoxDecoration(
+              color: context.colorTheme.primaryContainer,
+              border: Border(
+                bottom: kExtraTinyBorder.copyWith(
+                  color: context.colorTheme.onPrimaryContainer,
                 ),
               ),
             ),
-            background: Stack(
-              children: [
-                Positioned.fill(
-                  child: CachedNetworkImage(
-                    imageUrl: widget.event.media.first.url,
-                    imageBuilder: (context, imageProvider) => Container(
-                      height: constraints.maxHeight,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                          opacity: 0.3,
-                        ),
-                        color: context.colorTheme.primaryContainer,
-                      ),
-                    ),
-                    placeholder: (context, url) => _buildLoading(),
-                    // errorWidget: (context, url, error) => _buildCard(null, color, child),
+            child: FlexibleSpaceBar(
+              expandedTitleScale: 1,
+              collapseMode: CollapseMode.parallax,
+              title: AnimatedOpacity(
+                duration: const Duration(milliseconds: 200),
+                opacity: 1 - scale == 1 ? 1 : 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: kToolbarHeight,
+                  ).copyWith(
+                    top: kToolbarHeight,
+                  ),
+                  child: Text(
+                    widget.community.title,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Positioned.fill(
-                  top: kToolbarHeight + context.vTopSafeHeight,
-                  bottom: kMediumPadding.bottom,
-                  child: CarouselSlider.builder(
-                    // carouselController: carouselController,
-                    itemCount: media.length,
-                    itemBuilder: (context, index, pageViewIndex) {
-                      final child = media[index];
-                      return child;
-                    },
-                    options: CarouselOptions(
-                      padEnds: true,
-                      onPageChanged: (index, reason) {},
-                      viewportFraction: 0.8,
-                      enlargeFactor: 0.2,
-                      height: maxHeight - kToolbarHeight,
-                      enlargeCenterPage: true,
-                      clipBehavior: Clip.none,
+              ),
+              background: Stack(
+                children: [
+                  Positioned.fill(
+                    child: CachedNetworkImage(
+                      imageUrl: widget.community.media.first.url,
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: constraints.maxHeight,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                            opacity: 0.3,
+                          ),
+                          color: context.colorTheme.primaryContainer,
+                        ),
+                      ),
+                      placeholder: (context, url) => _buildLoading(),
+                      // errorWidget: (context, url, error) => _buildCard(null, color, child),
                     ),
                   ),
-                )
-              ],
+                  Positioned.fill(
+                    top: kToolbarHeight + context.vTopSafeHeight,
+                    bottom: kMediumPadding.bottom,
+                    child: CarouselSlider.builder(
+                      // carouselController: carouselController,
+                      itemCount: media.length,
+                      itemBuilder: (context, index, pageViewIndex) {
+                        final child = media[index];
+                        return child;
+                      },
+                      options: CarouselOptions(
+                        padEnds: true,
+                        enableInfiniteScroll: media.length > 1,
+                        onPageChanged: (index, reason) {},
+                        viewportFraction: 0.8,
+                        enlargeFactor: 0.2,
+                        height: maxHeight - kToolbarHeight,
+                        enlargeCenterPage: true,
+                        clipBehavior: Clip.none,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },

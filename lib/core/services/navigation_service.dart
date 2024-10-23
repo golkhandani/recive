@@ -38,6 +38,8 @@ class NavigationService {
 
   BuildContext get homeContext => homeNavigatorKey.currentState!.context;
 
+  Uri get currentUri => router.routeInformationProvider.value.uri;
+
   void moveTo(
     String name, {
     Map<String, String> pathParameters = const <String, String>{},

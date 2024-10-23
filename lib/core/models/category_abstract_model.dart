@@ -5,6 +5,7 @@ part 'category_abstract_model.g.dart';
 
 @freezed
 class CategoryAbstractModel with _$CategoryAbstractModel {
+  const CategoryAbstractModel._();
   const factory CategoryAbstractModel({
     required String id,
     required String title,
@@ -15,4 +16,6 @@ class CategoryAbstractModel with _$CategoryAbstractModel {
 
   factory CategoryAbstractModel.fromJson(Map<String, Object?> json) =>
       _$CategoryAbstractModelFromJson(json);
+
+  String get heroTag => '${runtimeType}_$id';
 }

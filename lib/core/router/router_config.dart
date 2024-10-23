@@ -1,6 +1,10 @@
+import 'package:art_for_all/core/models/category_abstract_model.dart';
 import 'package:art_for_all/core/router/basic.dart';
+
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_screen.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_screen.dart';
 import 'package:art_for_all/core/router/scaffold_screen.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
@@ -10,6 +14,7 @@ import 'package:art_for_all/modules/auth_screen/login_page.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_page.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_page.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
+import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:flutter/material.dart';
 
@@ -91,6 +96,11 @@ final dashboardRoutes = [
                   state,
                   CategoryDetailScreen(
                     id: state.pathParameters[CategoryDetailScreen.pathParamId] ?? '',
+                    extra: state.extra != null
+                        ? CategoryAbstractModel.fromJson(
+                            state.extra as Map<String, dynamic>,
+                          )
+                        : null,
                   ),
                 ),
               ),
@@ -125,7 +135,49 @@ final dashboardRoutes = [
                     id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
                   ),
                 ),
-              )
+              ),
+              GoRoute(
+                name: NewsDetailScreen.name,
+                path: '${NewsDetailScreen.name}/:${NewsDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  NewsDetailScreen(
+                    id: state.pathParameters[NewsDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+                routes: [
+                  GoRoute(
+                    name: NewsDetailScreen.name + ArtDetailScreen.name,
+                    path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
+                    pageBuilder: (context, state) => _dashboardPageBuilder(
+                      state,
+                      ArtDetailScreen(
+                        id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              GoRoute(
+                name: ArtistDetailScreen.name,
+                path: '${ArtistDetailScreen.name}/:${ArtistDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  ArtistDetailScreen(
+                    id: state.pathParameters[ArtistDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+              ),
+              GoRoute(
+                name: CommunityDetailScreen.name,
+                path: '${CommunityDetailScreen.name}/:${CommunityDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  CommunityDetailScreen(
+                    id: state.pathParameters[CommunityDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+              ),
             ],
           ),
         ],

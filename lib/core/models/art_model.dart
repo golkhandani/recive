@@ -14,7 +14,7 @@ class ArtModel with _$ArtModel {
     required String title,
     required String description,
     required String artType,
-    required List<LinkModel> link,
+    required List<LinkModel> links,
     required List<MediaModel> media,
     required List<String> tags,
     required LocationModel location,
@@ -23,22 +23,6 @@ class ArtModel with _$ArtModel {
   }) = _ArtModel;
 
   factory ArtModel.fromJson(Map<String, dynamic> json) => _$ArtModelFromJson(json);
-}
-
-@freezed
-class ArtistModel with _$ArtistModel {
-  const factory ArtistModel({
-    required String typename,
-    required String id,
-    required String biography,
-    required String country,
-    required List<ImageModel> images,
-    required String name,
-    required int originalId,
-    required String website,
-  }) = _ArtistModel;
-
-  factory ArtistModel.fromJson(Map<String, dynamic> json) => _$ArtistModelFromJson(json);
 }
 
 @freezed

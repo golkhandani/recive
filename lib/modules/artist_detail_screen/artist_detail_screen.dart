@@ -2,40 +2,35 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
-import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
-import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class EventDetailScreen extends StatefulWidget {
-  static String name = 'event-detail-screen';
+class ArtistDetailScreen extends StatefulWidget {
+  static String name = 'artist-detail-screen';
   static String pathParamId = 'id';
 
   final String id;
-  final ExtraData<EventAbstractModel>? extra;
+  final ExtraData<ArtistAbstractModel>? extra;
 
-  const EventDetailScreen({super.key, required this.id, this.extra});
+  const ArtistDetailScreen({super.key, required this.id, this.extra});
 
   @override
-  State<EventDetailScreen> createState() => _EventDetailScreenState();
+  State<ArtistDetailScreen> createState() => _ArtistDetailScreenState();
 }
 
-class _EventDetailScreenState extends State<EventDetailScreen> {
-  final _bloc = locator.get<EventDetailBloc>();
+class _ArtistDetailScreenState extends State<ArtistDetailScreen> {
+  final _bloc = locator.get<ArtistDetailBloc>();
   final navigator = locator.get<NavigationService>();
 
   @override
@@ -48,22 +43,22 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   Widget build(BuildContext context) {
     return ColoredBox(
       color: context.colorTheme.background,
-      child: BlocBuilder<EventDetailBloc, EventDetailBlocState>(
+      child: BlocBuilder<ArtistDetailBloc, ArtistDetailBlocState>(
         bloc: _bloc,
         builder: (context, state) {
           if (state.isLoading == LoadingState.loading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state.event == null) {
+          if (state.artist == null) {
             return const SizedBox();
           }
 
-          final event = state.event!;
+          final artist = state.artist!;
 
           return CustomScrollView(
             slivers: [
-              EventDetailHeader(event: event),
+              ArtistDetailHeader(artist: artist),
               SliverPadding(
                 padding: kMediumPadding,
                 sliver: SliverToBoxAdapter(
@@ -72,50 +67,14 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        event.title,
+                        artist.name,
                         style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
-                        DateFormat.yMMMd().format(DateTime.now()),
-                        style: context
-                            .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Text(
-                        event.eventType,
-                        style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Text(
-                        event.description,
+                        artist.description,
                         style: context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                       ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Builder(builder: (context) {
-                        final data = event.art;
-                        return ArtCardContainer.medium(
-                          data: data,
-                          constraints: BoxConstraints(
-                            maxHeight: context.vWidth,
-                            maxWidth: context.vWidth,
-                          ),
-                          onTap: () {
-                            final current = navigator.currentUri;
-                            navigator.homeContext.go(
-                              '$current/${ArtDetailScreen.name}/${data.id}',
-                            );
-                          },
-                        );
-                      }),
-                      SizedBox(height: kMediumPadding.bottom),
-                      ...event.highlights.map((h) {
-                        return Text(
-                          "* $h",
-                          style:
-                              context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
-                        );
-                      }),
                       SizedBox(height: kMediumPadding.bottom),
                       Center(
                         child: Wrap(
@@ -125,7 +84,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                           spacing: 4,
                           runSpacing: 12,
                           crossAxisAlignment: WrapCrossAlignment.center,
-                          children: event.tags.map((t) {
+                          children: artist.tags.map((t) {
                             return TagChipContainer(
                               onTap: () {},
                               tag: t,
@@ -134,7 +93,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      ...event.links.map(
+                      ...artist.links.map(
                         (l) {
                           return Text.rich(
                             TextSpan(
@@ -156,15 +115,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         },
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      CommunityCardContainer.big(
-                        data: event.community,
-                        constraints: BoxConstraints(
-                          maxHeight: context.vHeight / 5,
-                          maxWidth: context.vWidth,
-                        ),
-                        onTap: () {},
-                      ),
-                      SizedBox(height: kLargePadding.bottom),
                     ],
                   ),
                 ),
@@ -177,16 +127,16 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   }
 }
 
-class EventDetailHeader extends StatefulWidget {
-  const EventDetailHeader({super.key, required this.event});
+class ArtistDetailHeader extends StatefulWidget {
+  const ArtistDetailHeader({super.key, required this.artist});
 
-  final EventModel event;
+  final ArtistModel artist;
 
   @override
-  State<EventDetailHeader> createState() => _EventDetailHeaderState();
+  State<ArtistDetailHeader> createState() => _ArtistDetailHeaderState();
 }
 
-class _EventDetailHeaderState extends State<EventDetailHeader> {
+class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
   Widget _buildLoading() {
     return const Center(
       child: SizedBox(
@@ -218,7 +168,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
-          final media = widget.event.media
+          final media = widget.artist.media
               .map(
                 (m) => CachedNetworkImage(
                   imageUrl: m.url,
@@ -261,7 +211,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                     top: kToolbarHeight,
                   ),
                   child: Text(
-                    widget.event.title,
+                    widget.artist.name,
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
@@ -273,7 +223,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                 children: [
                   Positioned.fill(
                     child: CachedNetworkImage(
-                      imageUrl: widget.event.media.first.url,
+                      imageUrl: widget.artist.media.first.url,
                       imageBuilder: (context, imageProvider) => Container(
                         height: constraints.maxHeight,
                         decoration: BoxDecoration(
@@ -301,6 +251,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                       },
                       options: CarouselOptions(
                         padEnds: true,
+                        enableInfiniteScroll: media.length > 1,
                         onPageChanged: (index, reason) {},
                         viewportFraction: 0.8,
                         enlargeFactor: 0.2,
@@ -310,23 +261,6 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                       ),
                     ),
                   )
-                  // Positioned.fill(
-                  //   top: context.vTopSafeHeight * 2,
-                  //   left: kLargePadding.left,
-                  //   right: kLargePadding.right,
-                  //   bottom: kMediumPadding.bottom,
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       Text(
-                  //         widget.event.title,
-                  //         textAlign: TextAlign.center,
-                  //         style:
-                  //             context.typographyTheme.titleMedium.onPrimaryContainer.textStyle,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

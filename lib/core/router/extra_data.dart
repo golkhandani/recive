@@ -1,8 +1,8 @@
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
-import 'package:art_for_all/core/models/category_abstract_model.dart';
 import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/core/models/news_abstract_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'extra_data.freezed.dart';
@@ -22,39 +22,6 @@ class ExtraData<T> with _$ExtraData<T> {
 
   factory ExtraData.fromJson(Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
       _$ExtraDataFromJson(json, fromJsonT);
-}
-
-@freezed
-class CategoryCardContainerData with _$CategoryCardContainerData {
-  const CategoryCardContainerData._();
-
-  const factory CategoryCardContainerData({
-    required String id,
-    required String title,
-    required String description,
-    required String imageUrl,
-  }) = _CategoryCardContainerData;
-
-  factory CategoryCardContainerData.fromJson(Map<String, dynamic> json) =>
-      _$CategoryCardContainerDataFromJson(json);
-
-  static CategoryCardContainerData fromAbstractCategory(CategoryAbstractModel e) {
-    return CategoryCardContainerData(
-      id: e.id,
-      title: e.title,
-      description: e.description,
-      imageUrl: e.imageUrl,
-    );
-  }
-
-  JsonData toExtraDataJson() {
-    final extraData = ExtraData<CategoryCardContainerData>(
-      summary: this,
-      heroTag: '${runtimeType}_$id',
-    ).toJson((inner) => inner.toJson());
-
-    return extraData;
-  }
 }
 
 @freezed
@@ -115,6 +82,41 @@ class EventCardContainerData with _$EventCardContainerData {
 
   JsonData toExtraDataJson() {
     final extraData = ExtraData<EventCardContainerData>(
+      summary: this,
+      heroTag: '${runtimeType}_$id',
+    ).toJson((inner) => inner.toJson());
+
+    return extraData;
+  }
+}
+
+@freezed
+class NewsCardContainerData with _$NewsCardContainerData {
+  const NewsCardContainerData._();
+
+  const factory NewsCardContainerData({
+    required String id,
+    required String title,
+    required String description,
+    required String location,
+    required String imageUrl,
+  }) = _NewsCardContainerData;
+
+  factory NewsCardContainerData.fromJson(Map<String, dynamic> json) =>
+      _$NewsCardContainerDataFromJson(json);
+
+  static NewsCardContainerData fromAbstractNews(NewsAbstractModel e) {
+    return NewsCardContainerData(
+      id: e.id,
+      title: e.title,
+      description: e.description,
+      location: e.location,
+      imageUrl: e.imageUrl,
+    );
+  }
+
+  JsonData toExtraDataJson() {
+    final extraData = ExtraData<NewsCardContainerData>(
       summary: this,
       heroTag: '${runtimeType}_$id',
     ).toJson((inner) => inner.toJson());

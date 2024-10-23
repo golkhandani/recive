@@ -11,6 +11,7 @@ class EventAbstractModel with _$EventAbstractModel {
     required String id,
     required String title,
     required String description,
+    required String eventType,
     required String imageUrl,
     required List<String> tags,
   }) = _EventAbstractModel;
@@ -54,7 +55,7 @@ class EventModel with _$EventModel {
     required String description,
     required String eventType,
     required DateTime dateTime,
-    required List<LinkModel> link,
+    required List<LinkModel> links,
     required List<String> highlights,
     required List<MediaModel> media,
     required List<String> tags,

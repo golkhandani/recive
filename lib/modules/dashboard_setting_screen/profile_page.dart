@@ -35,7 +35,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: BoxDecoration(
         color: context.colorTheme.primaryContainer,
         border: Border(
-          bottom: BorderSide(color: context.colorTheme.onPrimaryContainer),
+          bottom: kExtraTinyBorder.copyWith(
+            color: context.colorTheme.onPrimaryContainer,
+          ),
         ),
       ),
       padding: EdgeInsets.only(top: context.vTopSafeHeight),

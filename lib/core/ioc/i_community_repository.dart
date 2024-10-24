@@ -25,14 +25,14 @@ class MockCommunityRepository extends ICommunityRepository {
 
   @override
   Future<List<CommunityAbstractModel>> getCommunities() async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     return communities;
   }
 
   @override
   Future<CommunityModel> getCommunityById(String id) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     final abstract = communities.firstWhere(
       (e) => e.id == id,

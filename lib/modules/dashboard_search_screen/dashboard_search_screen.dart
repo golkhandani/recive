@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
@@ -174,83 +172,22 @@ class _SearchScreenState extends State<SearchScreen> {
                       SearchType.event => EventDetailScreen.name,
                       SearchType.community => CommunityDetailScreen.name,
                     };
-                    return GestureDetector(
-                      onTap: () {
-                        final current = navigator.currentUri;
-                        navigator.homeContext.go(
-                          '$current/$page/${data.id}',
-                          extra: data.toJson(),
-                        );
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          right: kMediumPadding.right,
-                          left: kMediumPadding.left,
-                          bottom: kMediumPadding.bottom,
-                          top: index == 0 ? kMediumPadding.top : 0,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: kExtraTinyBorder.copyWith(
-                              color: context.colorTheme.onPrimaryContainer,
-                            ),
-                          ),
-                        ),
-                        padding: EdgeInsets.only(bottom: kMediumPadding.bottom),
-                        height: max(context.vHeight / 10, 92),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: context.vHeight / 10,
-                              width: context.vWidth / 4,
-                              child: CachedNetworkImage(
-                                imageUrl: data.imageUrl,
-                                imageBuilder: (context, imageProvider) => Material(
-                                  elevation: 1,
-                                  borderRadius: kSmallBorderRadius,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover,
-                                        opacity: 0.9,
-                                      ),
-                                      borderRadius: kSmallBorderRadius,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: kMediumPadding.right),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: kExtraTinyPadding.bottom),
-                                  Text(
-                                    data.searchType.name.toUpperCase(),
-                                    style: context
-                                        .typographyTheme.subtitleSmall.onBackground.textStyle,
-                                  ),
-                                  SizedBox(height: kExtraTinyPadding.bottom),
-                                  Text(
-                                    data.title,
-                                    style: context
-                                        .typographyTheme.titleSmall.onBackground.textStyle,
-                                  ),
-                                  SizedBox(height: kExtraTinyPadding.bottom),
-                                  Text(
-                                    data.tags.take(3).join(', '),
-                                    style: context.typographyTheme.subtitleMedium.onBackground
-                                        .textStyle,
-                                    overflow: TextOverflow.ellipsis,
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                    return Container(
+                      margin: EdgeInsets.only(
+                        right: kMediumPadding.right,
+                        left: kMediumPadding.left,
+                        bottom: kMediumPadding.bottom,
+                        top: index == 0 ? kMediumPadding.top : 0,
+                      ),
+                      child: SearchResultCardContainer(
+                        onTap: () {
+                          final current = navigator.homeUrl;
+                          navigator.homeContext.push(
+                            '$current/$page/${data.id}',
+                            extra: data.toJson(),
+                          );
+                        },
+                        data: data,
                       ),
                     );
                   },
@@ -260,6 +197,74 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         );
       },
+    );
+  }
+}
+
+class SearchResultCardContainer extends StatelessWidget {
+  const SearchResultCardContainer({
+    super.key,
+    required this.data,
+    required this.onTap,
+  });
+
+  final VoidCallback onTap;
+  final SearchAbstractModel data;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          SizedBox(
+            height: context.vHeight / 10,
+            width: context.vWidth / 4,
+            child: CachedNetworkImage(
+              imageUrl: data.imageUrl,
+              imageBuilder: (context, imageProvider) => Material(
+                elevation: 1,
+                borderRadius: kSmallBorderRadius,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                      opacity: 0.9,
+                    ),
+                    borderRadius: kSmallBorderRadius,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: kMediumPadding.right),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: kExtraTinyPadding.bottom),
+                Text(
+                  data.searchType.name.toUpperCase(),
+                  style: context.typographyTheme.subtitleSmall.onBackground.textStyle,
+                ),
+                SizedBox(height: kExtraTinyPadding.bottom),
+                Text(
+                  data.title,
+                  style: context.typographyTheme.titleSmall.onBackground.textStyle,
+                ),
+                SizedBox(height: kExtraTinyPadding.bottom),
+                Text(
+                  data.tags.take(3).join(', '),
+                  style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

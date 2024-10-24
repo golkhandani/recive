@@ -1,4 +1,3 @@
-import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/category_abstract_model.dart';
 import 'package:faker/faker.dart';
@@ -32,7 +31,6 @@ class MockCategoryRepository extends ICategoryRepository {
 
   @override
   Future<List<CategoryAbstractModel>> getCategories() async {
-    await Future.delayed(kLoadingDuration);
     return Future.wait(
       artCategories.map((c) async {
         return c.copyWith(imageUrl: await _signUrl(c.imageUrl));
@@ -42,7 +40,6 @@ class MockCategoryRepository extends ICategoryRepository {
 
   @override
   Future<CategoryAbstractModel> getCategoryById(String id) async {
-    await Future.delayed(kLoadingDuration);
     final c = artCategories.firstWhere((ac) => ac.id == id);
     return c.copyWith(imageUrl: await _signUrl(c.imageUrl));
   }

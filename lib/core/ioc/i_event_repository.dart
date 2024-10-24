@@ -29,21 +29,21 @@ class MockEventRepository extends IEventRepository {
 
   @override
   Future<List<EventAbstractModel>> getEvents() async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     return events;
   }
 
   @override
   Future<List<EventAbstractModel>> getEventsByArt(String artId) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     return events;
   }
 
   @override
   Future<EventModel> getEventById(String id) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
     final abstract = events.firstWhere(
       (e) => e.id == id,
       orElse: () => events.first,

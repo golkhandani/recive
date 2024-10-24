@@ -49,7 +49,7 @@ class MockSearchRepository extends ISearchRepository {
     required SortType sortType,
     required SortOrderType sortOrderType,
   }) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
     return search;
   }
 }

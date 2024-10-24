@@ -5,13 +5,21 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/category_abstract_model.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
+import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
+import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_bloc.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
+import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_screen.dart';
+import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
+import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryDetailScreen extends StatefulWidget {
   static String name = 'category-detail-screen';
@@ -28,6 +36,7 @@ class CategoryDetailScreen extends StatefulWidget {
 
 class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   final _bloc = locator.get<CategoryDetailBloc>();
+  final navigator = locator.get<NavigationService>();
 
   @override
   void initState() {
@@ -73,7 +82,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
               header!,
               SliverLayoutBuilder(
                 builder: (context, constraints) {
-                  final arts = state.arts ?? [];
+                  final result = state.result;
                   if (state.isLoading == LoadingState.loading) {
                     return const SliverFillRemaining(
                       child: Center(child: CircularProgressIndicator()),
@@ -83,17 +92,36 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                   if (category == null) {
                     return const SliverFillRemaining(child: SizedBox());
                   }
+
                   return SliverPadding(
                     padding: kMediumPadding,
-                    sliver: SliverList.separated(
-                      itemCount: arts.length,
-                      itemBuilder: (context, i) => ArtCardContainer.small(
-                        data: arts[i],
-                        constraints: const BoxConstraints.expand(height: 120),
-                        onTap: () {},
-                      ),
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: kMediumPadding.bottom),
+                    sliver: SliverList.builder(
+                      itemCount: result.length,
+                      itemBuilder: (context, index) {
+                        final data = result[index];
+                        final page = switch (data.searchType) {
+                          SearchType.art => ArtDetailScreen.name,
+                          SearchType.artist => ArtistDetailScreen.name,
+                          SearchType.news => NewsDetailScreen.name,
+                          SearchType.event => EventDetailScreen.name,
+                          SearchType.community => CommunityDetailScreen.name,
+                        };
+                        return Container(
+                          margin: EdgeInsets.only(
+                            bottom: kMediumPadding.bottom,
+                          ),
+                          child: SearchResultCardContainer(
+                            onTap: () {
+                              final current = navigator.homeUrl;
+                              navigator.homeContext.push(
+                                '$current/$page/${data.id}',
+                                extra: data.toJson(),
+                              );
+                            },
+                            data: data,
+                          ),
+                        );
+                      },
                     ),
                   );
                 },
@@ -200,7 +228,6 @@ class _CategoryDetailHeaderState extends State<CategoryDetailHeader> {
                           ),
                         ),
                         placeholder: (context, url) => _buildLoading(),
-                        // errorWidget: (context, url, error) => _buildCard(null, color, child),
                       ),
                     ),
                   ),

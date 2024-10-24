@@ -8,6 +8,7 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
@@ -101,9 +102,9 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                             maxWidth: context.vWidth,
                           ),
                           onTap: () {
-                            final current = navigator.currentUri;
-                            navigator.homeContext.go(
-                              '$current/${ArtDetailScreen.name}/${data.id}',
+                            final homeUrl = navigator.homeUrl;
+                            navigator.homeContext.push(
+                              '$homeUrl/${ArtDetailScreen.name}/${data.id}',
                             );
                           },
                         );
@@ -162,7 +163,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                           maxHeight: context.vHeight / 5,
                           maxWidth: context.vWidth,
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          final homeUrl = navigator.homeUrl;
+                          navigator.homeContext.push(
+                            '$homeUrl/${CommunityDetailScreen.name}/${event.community.id}',
+                          );
+                        },
                       ),
                       SizedBox(height: kLargePadding.bottom),
                     ],

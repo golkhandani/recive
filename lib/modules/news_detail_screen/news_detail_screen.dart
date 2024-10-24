@@ -8,6 +8,8 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/artist_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
@@ -103,8 +105,9 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                               maxWidth: context.vWidth,
                             ),
                             onTap: () {
-                              navigator.homeContext.go(
-                                '${navigator.currentUri}/${ArtDetailScreen.name}/${data.id}',
+                              final homeUrl = navigator.homeUrl;
+                              navigator.homeContext.push(
+                                '$homeUrl/${ArtDetailScreen.name}/${data.id}',
                               );
                             },
                           );
@@ -164,7 +167,12 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             maxHeight: context.vHeight / 5,
                             maxWidth: context.vWidth,
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            final homeUrl = navigator.homeUrl;
+                            navigator.homeContext.push(
+                              '$homeUrl/${CommunityDetailScreen.name}/${news.community!.id}',
+                            );
+                          },
                         ),
                       SizedBox(height: kLargePadding.bottom),
                       if (news.artist != null)
@@ -174,7 +182,12 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             maxHeight: context.vHeight / 5,
                             maxWidth: context.vWidth,
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            final homeUrl = navigator.homeUrl;
+                            navigator.homeContext.push(
+                              '$homeUrl/${ArtistDetailScreen.name}/${news.artist!.id}',
+                            );
+                          },
                         ),
                       SizedBox(height: kLargePadding.bottom),
                     ],

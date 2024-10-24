@@ -4,20 +4,26 @@ import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
+import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
 import 'package:art_for_all/modules/art_detail_screen/detail_art_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/artist_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/event_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/news_card_container.dart';
+import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
+import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,6 +43,7 @@ class ArtDetailScreen extends StatefulWidget {
 class _ArtDetailScreenState extends State<ArtDetailScreen> {
   final carouselController = CarouselController(initialItem: 0);
   final bloc = locator.get<DetailArtBloc>();
+  final navigator = locator.get<NavigationService>();
 
   @override
   void initState() {
@@ -102,6 +109,17 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Artists",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kExtraTinyPadding.bottom),
                       SizedBox(
                         height: context.vWidth / 4,
                         child: OverflowBox(
@@ -116,7 +134,12 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                               return ArtistCardContainer.small(
                                 data: artist,
                                 constraints: BoxConstraints.expand(width: context.vWidth / 4),
-                                onTap: () {},
+                                onTap: () {
+                                  final homeUrl = navigator.homeUrl;
+                                  navigator.homeContext.push(
+                                    '$homeUrl/${ArtistDetailScreen.name}/${data.id}',
+                                  );
+                                },
                               );
                             },
                             separatorBuilder: (context, index) => SizedBox(
@@ -147,12 +170,28 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                       CommunityCardContainer.big(
                         data: data.community,
                         constraints: BoxConstraints(
-                          maxHeight: context.vHeight / 5,
+                          maxHeight: context.vHeight / 3,
                           maxWidth: context.vWidth,
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          final homeUrl = navigator.homeUrl;
+                          navigator.homeContext.push(
+                            '$homeUrl/${CommunityDetailScreen.name}/${data.id}',
+                          );
+                        },
                       ),
-                      Gap(kMediumPadding.bottom),
+                      SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Links",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kExtraTinyPadding.bottom),
                       ...data.links.map(
                         (l) {
                           return Text.rich(
@@ -175,6 +214,58 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                         },
                       ),
                       SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Related Events!",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kExtraTinyPadding.bottom),
+                      SizedBox(
+                        height: context.vHeight / 6,
+                        child: OverflowBox(
+                          maxWidth: context.vWidth,
+                          child: ListView.separated(
+                            clipBehavior: Clip.none,
+                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.events.length,
+                            itemBuilder: (context, index) {
+                              final data = state.events[index];
+                              return EventCardContainer.medium(
+                                data: data,
+                                constraints:
+                                    BoxConstraints.expand(width: context.vWidth / 1.6),
+                                onTap: () {
+                                  final homeUrl = navigator.homeUrl;
+                                  navigator.homeContext.push(
+                                    '$homeUrl/${EventDetailScreen.name}/${data.id}',
+                                  );
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: kTinyPadding.left,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Related News!",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kExtraTinyPadding.bottom),
                       SizedBox(
                         height: context.vHeight / 4,
                         child: OverflowBox(
@@ -190,31 +281,12 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                                 data: data,
                                 constraints:
                                     BoxConstraints.expand(width: context.vWidth / 1.6),
-                                onTap: () {},
-                              );
-                            },
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: kTinyPadding.left,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      SizedBox(
-                        height: context.vHeight / 6,
-                        child: OverflowBox(
-                          maxWidth: context.vWidth,
-                          child: ListView.separated(
-                            clipBehavior: Clip.none,
-                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.events.length,
-                            itemBuilder: (context, index) {
-                              final data = state.events[index];
-                              return EventCardContainer.medium(
-                                data: data,
-                                constraints: BoxConstraints.expand(width: context.vWidth / 3),
-                                onTap: () {},
+                                onTap: () {
+                                  final homeUrl = navigator.homeUrl;
+                                  navigator.homeContext.push(
+                                    '$homeUrl/${NewsDetailScreen.name}/${data.id}',
+                                  );
+                                },
                               );
                             },
                             separatorBuilder: (context, index) => SizedBox(

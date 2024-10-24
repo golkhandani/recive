@@ -1,10 +1,10 @@
 import 'package:art_for_all/core/enums/loading_state.dart';
-import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/i_category_repository.dart';
+import 'package:art_for_all/core/ioc/i_search_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
-import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/category_abstract_model.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -17,11 +17,12 @@ class CategoryDetailBlocState with _$CategoryDetailBlocState {
   const factory CategoryDetailBlocState({
     required LoadingState isLoading,
     CategoryAbstractModel? category,
-    List<ArtAbstractModel>? arts,
+    required List<SearchAbstractModel> result,
   }) = _CategoryDetailBlocState;
 
   factory CategoryDetailBlocState.initialize() => const CategoryDetailBlocState(
         isLoading: LoadingState.none,
+        result: [],
       );
 
   factory CategoryDetailBlocState.fromJson(Map<String, Object?> json) =>
@@ -32,13 +33,13 @@ class CategoryDetailBloc extends HydratedCubit<CategoryDetailBlocState> {
   final ISecureStorage secureStorage;
   final ISharedStorage sharedStorage;
   final ICategoryRepository categoryRepository;
-  final IArtRepository artRepository;
+  final ISearchRepository searchRepository;
 
   CategoryDetailBloc({
     required this.secureStorage,
     required this.sharedStorage,
     required this.categoryRepository,
-    required this.artRepository,
+    required this.searchRepository,
   }) : super(CategoryDetailBlocState.initialize());
 
   Future<void> init(String id) async {
@@ -47,12 +48,16 @@ class CategoryDetailBloc extends HydratedCubit<CategoryDetailBlocState> {
     ));
 
     final category = await categoryRepository.getCategoryById(id);
-    final arts = await artRepository.getArtsByCategoryId(id);
+    final result = await searchRepository.searchByQuery(
+      query: category.title,
+      sortType: SortType.relevant,
+      sortOrderType: SortOrderType.desc,
+    );
 
     emit(state.copyWith(
       isLoading: LoadingState.done,
       category: category,
-      arts: arts,
+      result: result,
     ));
   }
 

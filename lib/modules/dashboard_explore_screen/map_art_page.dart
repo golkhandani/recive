@@ -6,16 +6,19 @@ import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_dropdown_menu.dart';
+import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,7 +40,7 @@ class NearMeScreen extends StatefulWidget {
 
 class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMixin {
   final bloc = locator.get<MapArtBloc>();
-  final navigationService = locator.get<NavigationService>();
+  final navigator = locator.get<NavigationService>();
   final filterController = TextEditingController();
   late final _animatedMapController = AnimatedMapController(vsync: this);
   final carouselController = CarouselSliderController();
@@ -55,6 +58,8 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
     super.initState();
   }
 
+  bool lock = false;
+
   @override
   Widget build(BuildContext context) {
     const Widget header = MapScreenHeader();
@@ -70,7 +75,8 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
           dest: data.geoLocation,
           offset: Offset(0, -cardHeight),
         );
-        if (carouselController.ready) carouselController.jumpToPage(index);
+
+        if (carouselController.ready && !lock) carouselController.jumpToPage(index);
         // if (tabController.index == 1) {
         //   carouselController.jumpToPage(index);
         // }
@@ -78,6 +84,9 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
         // if (tabController.index == 0) {
         //   listController.jumpToPage(index);
         // }
+        setState(() {
+          lock = false;
+        });
       },
       bloc: bloc,
       builder: (context, state) {
@@ -114,7 +123,9 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                         ColorFiltered(
                           colorFilter: ColorFilter.mode(
                             context.colorTheme.onBackground,
-                            BlendMode.exclusion,
+                            context.colorTheme.onBackground.isLight
+                                ? BlendMode.exclusion
+                                : BlendMode.hue,
                           ),
                           child: openStreetMapTileLayer,
                         ),
@@ -138,11 +149,19 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                   return ArtCardContainer.small(
                                     data: data,
                                     constraints: const BoxConstraints(),
-                                    onTap: () {},
+                                    onTap: () {
+                                      final homeUrl = navigator.homeUrl;
+                                      navigator.homeContext.push(
+                                        '$homeUrl/${ArtDetailScreen.name}/${data.id}',
+                                      );
+                                    },
                                   );
                                 },
                                 options: CarouselOptions(
                                   onPageChanged: (index, reason) {
+                                    setState(() {
+                                      lock = true;
+                                    });
                                     if (reason == CarouselPageChangedReason.manual) {
                                       bloc.setFocusedArt(state.arts[index]);
                                     }
@@ -266,15 +285,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
       alignment: Alignment.bottomCenter,
       child: InkWell(
         onTap: () {
-          carouselController.animateToPage(
-            i,
-            duration: kLoadingDuration,
-            curve: Curves.bounceIn,
-          );
-          _animatedMapController.animateTo(
-            dest: item.geoLocation,
-            offset: const Offset(0, -100),
-          );
+          bloc.setFocusedArt(item);
         },
         child: Icon(
           Icons.pin_drop_outlined,

@@ -103,7 +103,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             ),
                             onTap: () {
                               navigator.homeContext.go(
-                                '${navigator.currentUri}/${ArtDetailScreen.name}/${data.id}',
+                                '${navigator.homeUrl}/${ArtDetailScreen.name}/${data.id}',
                               );
                             },
                           );

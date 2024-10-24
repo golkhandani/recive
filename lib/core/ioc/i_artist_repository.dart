@@ -26,14 +26,14 @@ class MockArtistRepository extends IArtistRepository {
 
   @override
   Future<List<ArtistAbstractModel>> getArtists() async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     return artists;
   }
 
   @override
   Future<ArtistModel> getArtistById(String id) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
     final abstractArtists = artists.firstWhere(
       (a) => a.id == id,
       orElse: () => artists.first,

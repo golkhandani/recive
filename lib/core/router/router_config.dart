@@ -136,6 +136,18 @@ final dashboardRoutes = [
                     id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
                   ),
                 ),
+                routes: [
+                  GoRoute(
+                    name: ArtDetailScreen.name + ArtistDetailScreen.name,
+                    path: '${ArtistDetailScreen.name}/:${ArtistDetailScreen.pathParamId}',
+                    pageBuilder: (context, state) => _dashboardPageBuilder(
+                      state,
+                      ArtistDetailScreen(
+                        id: state.pathParameters[ArtistDetailScreen.pathParamId] ?? '',
+                      ),
+                    ),
+                  ),
+                ],
               ),
               GoRoute(
                 name: NewsDetailScreen.name,
@@ -300,7 +312,30 @@ final dashboardRoutes = [
               state,
               const NearMeScreen(),
             ),
-            routes: const [],
+            routes: [
+              GoRoute(
+                name: NearMeScreen.name + ArtDetailScreen.name,
+                path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  ArtDetailScreen(
+                    id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+                routes: [
+                  GoRoute(
+                    name: NearMeScreen.name + ArtDetailScreen.name + ArtistDetailScreen.name,
+                    path: '${ArtistDetailScreen.name}/:${ArtistDetailScreen.pathParamId}',
+                    pageBuilder: (context, state) => _dashboardPageBuilder(
+                      state,
+                      ArtistDetailScreen(
+                        id: state.pathParameters[ArtistDetailScreen.pathParamId] ?? '',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

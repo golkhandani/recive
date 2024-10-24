@@ -27,20 +27,20 @@ class MockNewsRepository extends INewsRepository {
   });
   @override
   Future<List<NewsAbstractModel>> getFeaturedNews(LatLng? center) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
     return news;
   }
 
   @override
   Future<List<NewsAbstractModel>> getNewsByArt(String artId) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     return news;
   }
 
   @override
   Future<NewsModel> getDetailNews(String id) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     final newsAbstract = news.firstWhere(
       (n) => n.id == id,

@@ -176,7 +176,7 @@ Future setupBloc() async {
       secureStorage: locator.get(),
       sharedStorage: locator.get(),
       categoryRepository: locator.get(),
-      artRepository: locator.get(),
+      searchRepository: locator.get(),
     ),
   );
   locator.registerFactory<EventDetailBloc>(

@@ -121,8 +121,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 2.5),
                           onTap: () {
-                            final current = navigator.currentUri;
-                            navigator.homeContext.go(
+                            final current = navigator.homeUrl;
+                            navigator.homeContext.push(
                               '$current/${CategoryDetailScreen.name}/${data.id}',
                               extra: data.toJson(),
                             );
@@ -178,8 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
                           onTap: () {
-                            final current = navigator.currentUri;
-                            navigator.homeContext.go(
+                            final current = navigator.homeUrl;
+                            navigator.homeContext.push(
                               '$current/${EventDetailScreen.name}/${data.id}',
                             );
                           },
@@ -225,8 +225,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             data: data,
                             onTap: () {
-                              final current = navigator.currentUri;
-                              navigator.homeContext.go(
+                              final current = navigator.homeUrl;
+                              navigator.homeContext.push(
                                 '$current/${ArtDetailScreen.name}/${data.id}',
                               );
                             },
@@ -282,8 +282,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: context.vHeight / 8,
                           ),
                           onTap: () {
-                            final current = navigator.currentUri;
-                            navigator.homeContext.go(
+                            final current = navigator.homeUrl;
+                            navigator.homeContext.push(
                               '$current/${NewsDetailScreen.name}/${data.id}',
                             );
                           },
@@ -334,8 +334,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         constraints: const BoxConstraints.expand(),
                         data: data,
                         onTap: () {
-                          final current = navigator.currentUri;
-                          navigator.homeContext.go(
+                          final current = navigator.homeUrl;
+                          navigator.homeContext.push(
                             '$current/${ArtDetailScreen.name}/${data.id}',
                           );
                         },
@@ -397,8 +397,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 2.4),
                           onTap: () {
-                            final current = navigator.currentUri;
-                            navigator.homeContext.go(
+                            final current = navigator.homeUrl;
+                            navigator.homeContext.push(
                               '$current/${ArtistDetailScreen.name}/${data.id}',
                             );
                           },
@@ -453,8 +453,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           data: data,
                           constraints: BoxConstraints.expand(width: context.vWidth / 1.2),
                           onTap: () {
-                            final current = navigator.currentUri;
-                            navigator.homeContext.go(
+                            final current = navigator.homeUrl;
+                            navigator.homeContext.push(
                               '$current/${CommunityDetailScreen.name}/${data.id}',
                             );
                           },

@@ -44,19 +44,6 @@ class _SearchScreenState extends State<SearchScreen> {
         color: context.colorTheme.primaryContainer,
       ),
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
-      child: Material(
-        color: context.colorTheme.primaryContainer,
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Text(
-            'What you are looking for?',
-            style: context.typographyTheme.titleSmall.textStyle.copyWith(
-              color: context.colorTheme.onPrimaryContainer,
-            ),
-          ),
-        ),
-      ),
     );
     return BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
       listener: (context, state) {},
@@ -73,7 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   children: [
                     Expanded(
                       child: AsyncSearchField<String>(
-                        hintText: 'Search for tags!!!',
+                        hintText: 'Search...',
                         items: const [],
                         onChanged: bloc.search,
                         controller: filterController,

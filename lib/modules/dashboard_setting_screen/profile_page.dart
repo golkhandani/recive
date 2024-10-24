@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
-            'Build your artistic character!',
+            'Settings',
             style: context.typographyTheme.titleSmall.textStyle.copyWith(
               color: context.colorTheme.onPrimaryContainer,
             ),
@@ -74,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               hasScrollBody: false,
               fillOverscroll: true,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: kMediumPadding,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           profileBloc.uploadAvatar(image.path);
                         },
                         child: Material(
-                          elevation: 10,
+                          elevation: 2,
                           borderRadius: BorderRadius.circular(100),
                           child: CircleAvatar(
                             backgroundColor: context.colorTheme.primaryContainer,
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Name',
                       style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
                     ),
-                    const Gap(4),
+                    Gap(kExtraTinyPadding.bottom),
                     TextField(
                       style: context.typographyTheme.bodyMedium.onBackground.textStyle,
                       onTapOutside: (v) {
@@ -187,8 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return Column(
                           children: [
                             AFAElevatedButton(
-                              background: context.colorTheme.error,
-                              foreground: context.colorTheme.onError,
+                              background: context.colorTheme.warning,
+                              foreground: context.colorTheme.onWarning,
                               constraints: const BoxConstraints.expand(height: 48),
                               onPressed: () {
                                 authBloc.logout();

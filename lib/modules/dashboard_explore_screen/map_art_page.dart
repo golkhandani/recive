@@ -6,6 +6,7 @@ import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_dropdown_menu.dart';
+import 'package:art_for_all/core/widgets/dropdown/async_search_field.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
@@ -62,7 +63,12 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    const Widget header = MapScreenHeader();
+    final Widget header = Container(
+      decoration: BoxDecoration(
+        color: context.colorTheme.primaryContainer,
+      ),
+      padding: EdgeInsets.only(top: context.vTopSafeHeight),
+    );
     final cardHeight = context.vHeight / 7;
     return BlocConsumer<MapArtBloc, MapArtBlocState>(
       listenWhen: (previous, current) => previous.focusedArt != current.focusedArt,
@@ -93,8 +99,96 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
         return CustomScrollView(
           physics: const NeverScrollableScrollPhysics(),
           slivers: [
-            const PinnedHeaderSliver(child: header),
-            PinnedHeaderSliver(child: _buildSearchField(context, state)),
+            PinnedHeaderSliver(child: header),
+            PinnedHeaderSliver(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.colorTheme.primaryContainer,
+                  border: Border(
+                    bottom: kExtraTinyBorder.copyWith(
+                      color: context.colorTheme.onPrimaryContainer,
+                    ),
+                  ),
+                ),
+                padding: kMediumPadding,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AsyncDropdownMenu<ArtAbstractModel>(
+                            hintText: 'Search...',
+                            items: state.arts
+                                .map(
+                                  (e) => DropdownMenuEntry<ArtAbstractModel>(
+                                    value: e,
+                                    label: e.title,
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (query) {
+                              bloc.filter(
+                                _animatedMapController.mapController.camera.center,
+                                _currentSliderValue,
+                                query,
+                              );
+                            },
+                            controller: filterController,
+                            isLoading: false,
+                            onSelected: (item) {
+                              bloc.setFocusedArt(item);
+                            },
+                            isEnabled: true,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              showFilters = !showFilters;
+                            });
+                          },
+                          child: SizedBox(
+                            height: 42,
+                            child: Icon(
+                              Icons.filter_alt,
+                              color: context.colorTheme.onPrimaryContainer,
+                              size: 36,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    AnimatedContainer(
+                      duration: kLoadingDuration,
+                      height: showFilters ? 56 : 0,
+                      child: SizedBox(
+                        height: 56,
+                        child: !showFilters
+                            ? null
+                            : Slider(
+                                value: _currentSliderValue,
+                                min: 5,
+                                max: 50,
+                                divisions: 5,
+                                label: "${_currentSliderValue.round()} km",
+                                onChanged: (double value) {
+                                  bloc.filter(
+                                    _animatedMapController.mapController.camera.center,
+                                    value,
+                                    filterController.text,
+                                  );
+                                  setState(() {
+                                    _currentSliderValue = value;
+                                  });
+                                },
+                              ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
             if (showTabBar) PinnedHeaderSliver(child: _buildTabBar(context)),
             SliverFillRemaining(
               child: TabBarView(
@@ -315,100 +409,6 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
       ),
     );
   }
-
-  Container _buildSearchField(BuildContext context, MapArtBlocState state) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.colorTheme.primaryContainer,
-        border: Border(
-          bottom: kExtraTinyBorder.copyWith(
-            color: context.colorTheme.onPrimaryContainer,
-          ),
-        ),
-      ),
-      padding: EdgeInsets.only(
-        left: kMediumPadding.left,
-        right: kMediumPadding.right,
-        bottom: kSmallPadding.bottom,
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: AsyncDropdownMenu<ArtAbstractModel>(
-                  hintText: 'Search for tags!!!',
-                  items: state.arts
-                      .map(
-                        (e) => DropdownMenuEntry<ArtAbstractModel>(
-                          value: e,
-                          label: e.title,
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (query) {
-                    bloc.filter(
-                      _animatedMapController.mapController.camera.center,
-                      _currentSliderValue,
-                      query,
-                    );
-                  },
-                  controller: filterController,
-                  isLoading: false,
-                  onSelected: (item) {
-                    bloc.setFocusedArt(item);
-                  },
-                  isEnabled: true,
-                ),
-              ),
-              const SizedBox(width: 12),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    showFilters = !showFilters;
-                  });
-                },
-                child: SizedBox(
-                  height: 56,
-                  child: Icon(
-                    Icons.filter_alt,
-                    color: context.colorTheme.onPrimaryContainer,
-                    size: 36,
-                  ),
-                ),
-              )
-            ],
-          ),
-          AnimatedContainer(
-            duration: kLoadingDuration,
-            height: showFilters ? 56 : 0,
-            child: SizedBox(
-              height: 56,
-              child: !showFilters
-                  ? null
-                  : Slider(
-                      value: _currentSliderValue,
-                      min: 5,
-                      max: 50,
-                      divisions: 5,
-                      label: "${_currentSliderValue.round()} km",
-                      onChanged: (double value) {
-                        bloc.filter(
-                          _animatedMapController.mapController.camera.center,
-                          value,
-                          filterController.text,
-                        );
-                        setState(() {
-                          _currentSliderValue = value;
-                        });
-                      },
-                    ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
 }
 
 class MapCopyrightInfo extends StatelessWidget {
@@ -440,19 +440,6 @@ class MapScreenHeader extends StatelessWidget {
     return Container(
       color: context.colorTheme.primaryContainer,
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
-      child: Material(
-        color: context.colorTheme.primaryContainer,
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Text(
-            'Find the arts!',
-            style: context.typographyTheme.titleSmall.textStyle.copyWith(
-              color: context.colorTheme.onPrimaryContainer,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -6,7 +6,6 @@ import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_dropdown_menu.dart';
-import 'package:art_for_all/core/widgets/dropdown/async_search_field.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';

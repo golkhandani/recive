@@ -31,30 +31,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget header = Container(
-      decoration: BoxDecoration(
-        color: context.colorTheme.primaryContainer,
-        border: Border(
-          bottom: kExtraTinyBorder.copyWith(
-            color: context.colorTheme.onPrimaryContainer,
-          ),
-        ),
-      ),
-      padding: EdgeInsets.only(top: context.vTopSafeHeight),
-      child: Material(
-        color: context.colorTheme.primaryContainer,
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Text(
-            'Settings',
-            style: context.typographyTheme.titleSmall.textStyle.copyWith(
-              color: context.colorTheme.onPrimaryContainer,
-            ),
-          ),
-        ),
-      ),
-    );
     return BlocConsumer<ProfileBloc, ProfileBlocState>(
       listener: (context, state) {
         if (state.user == null) {
@@ -69,7 +45,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, state) {
         return CustomScrollView(
           slivers: [
-            PinnedHeaderSliver(child: header),
+            PinnedHeaderSliver(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.colorTheme.primaryContainer,
+                  border: Border(
+                    bottom: kExtraTinyBorder.copyWith(
+                      color: context.colorTheme.onPrimaryContainer,
+                    ),
+                  ),
+                ),
+                padding: EdgeInsets.only(top: context.vTopSafeHeight),
+                child: Material(
+                  color: context.colorTheme.primaryContainer,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Settings',
+                          style: context.typographyTheme.titleSmall.textStyle.copyWith(
+                            color: context.colorTheme.onPrimaryContainer,
+                          ),
+                        ),
+                        Gap(kMediumPadding.bottom),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(100),
+                            onTap: () async {
+                              final ImagePicker picker = ImagePicker();
+                              final XFile? image = await picker.pickImage(
+                                source: ImageSource.gallery,
+                                maxHeight: 480,
+                                maxWidth: 640,
+                                imageQuality: 50,
+                              );
+                              if (image == null) {
+                                return;
+                              }
+                              profileBloc.uploadAvatar(image.path);
+                            },
+                            child: Material(
+                              elevation: 2,
+                              borderRadius: BorderRadius.circular(100),
+                              child: CircleAvatar(
+                                backgroundColor: context.colorTheme.primaryContainer,
+                                radius: min(context.vWidth / 5, 64),
+                                foregroundImage: (state.user?.imageUrl.isEmpty ?? true)
+                                    ? null
+                                    : NetworkImage(state.user!.imageUrl),
+                                child: (state.user?.imageUrl.isEmpty ?? state.isLoading)
+                                    ? const Icon(Icons.upload)
+                                    : state.isLoadingImage
+                                        ? const CircularProgressIndicator()
+                                        : null,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
             SliverFillRemaining(
               hasScrollBody: false,
               fillOverscroll: true,
@@ -78,43 +119,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Gap(kMediumPadding.bottom),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(100),
-                        onTap: () async {
-                          final ImagePicker picker = ImagePicker();
-                          final XFile? image = await picker.pickImage(
-                            source: ImageSource.gallery,
-                            maxHeight: 480,
-                            maxWidth: 640,
-                            imageQuality: 50,
-                          );
-                          if (image == null) {
-                            return;
-                          }
-                          profileBloc.uploadAvatar(image.path);
-                        },
-                        child: Material(
-                          elevation: 2,
-                          borderRadius: BorderRadius.circular(100),
-                          child: CircleAvatar(
-                            backgroundColor: context.colorTheme.primaryContainer,
-                            radius: min(context.vWidth / 5, 64),
-                            foregroundImage: (state.user?.imageUrl.isEmpty ?? true)
-                                ? null
-                                : NetworkImage(state.user!.imageUrl),
-                            child: (state.user?.imageUrl.isEmpty ?? state.isLoading)
-                                ? const Icon(Icons.upload)
-                                : state.isLoadingImage
-                                    ? const CircularProgressIndicator()
-                                    : null,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Gap(kLargePadding.bottom),
                     TextField(
                       controller: emailController,
                       style: context.typographyTheme.bodyMedium.onBackground.textStyle,

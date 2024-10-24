@@ -6,6 +6,7 @@ import 'package:art_for_all/core/ioc/i_search_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/models/search_abstract_model.dart';
+import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -18,6 +19,7 @@ part 'dashboard_search_bloc.g.dart';
 class DashboardSearchBlocState with _$DashboardSearchBlocState {
   const factory DashboardSearchBlocState({
     required LoadingState isLoading,
+    required SearchScreenFiltersData filtersData,
     required List<String> keywords,
     required List<SearchAbstractModel> result,
     required String query,
@@ -32,6 +34,7 @@ class DashboardSearchBlocState with _$DashboardSearchBlocState {
         sortType: SortType.date,
         sortOrderType: SortOrderType.asc,
         query: '',
+        filtersData: SearchScreenFiltersData(),
       );
 
   factory DashboardSearchBlocState.fromJson(Map<String, Object?> json) =>
@@ -49,10 +52,17 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
     required this.searchRepository,
   }) : super(DashboardSearchBlocState.initialize());
 
-  Future<void> init() async {
+  Future<void> init(SearchScreenFiltersData filtersData, bool isViewAll) async {
+    emit(state.copyWith(filtersData: filtersData));
     final result = await searchRepository.getCommonKeyboards();
 
-    emit(state.copyWith(keywords: result));
+    emit(state.copyWith(
+      keywords: result,
+    ));
+
+    if (filtersData.autoSearch && isViewAll) {
+      search('');
+    }
   }
 
   Timer? _debounce;
@@ -60,12 +70,13 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(kDebounceDuration, () async {
       emit(state.copyWith(isLoading: LoadingState.loading));
-      final result = query.isEmpty
+      final result = query.isEmpty && !state.filtersData.autoSearch
           ? <SearchAbstractModel>[]
           : await searchRepository.searchByQuery(
               query: query,
               sortType: state.sortType,
               sortOrderType: state.sortOrderType,
+              filtersData: state.filtersData,
             );
 
       emit(state.copyWith(

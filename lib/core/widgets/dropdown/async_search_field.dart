@@ -51,7 +51,7 @@ class _AsyncSearchFieldState<T> extends State<AsyncSearchField<T>> {
   @override
   Widget build(BuildContext context) {
     return LimitedBox(
-      maxHeight: 48,
+      // maxHeight: 48,
       child: TextField(
         onTapOutside: (event) => FocusScope.of(context).unfocus(),
         controller: widget.controller,

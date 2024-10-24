@@ -151,7 +151,7 @@ class NewsCardContainer extends StatelessWidget {
                   maxLines: 2,
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
-                  style: context.typographyTheme.onBackground.subtitleLarge.textStyle,
+                  style: context.typographyTheme.onBackground.subtitleMedium.textStyle,
                 ),
               ),
             ],

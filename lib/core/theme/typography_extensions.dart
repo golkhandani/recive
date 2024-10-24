@@ -104,7 +104,7 @@ extension ThemedText on MrzgThemeTypography {
       copyWithStyle(fontSize: textStyle.fontSize!, fontWeight: FontWeight.w600);
 
   MrzgThemeTypography get subtitleLarge =>
-      copyWithStyle(fontSize: textStyle.fontSize!, fontWeight: FontWeight.w700);
+      copyWithStyle(fontSize: 1 * textStyle.fontSize!, fontWeight: FontWeight.w700);
   MrzgThemeTypography get subtitleMedium =>
       copyWithStyle(fontSize: 0.8 * textStyle.fontSize!, fontWeight: FontWeight.w600);
   MrzgThemeTypography get subtitleSmall =>
@@ -113,13 +113,14 @@ extension ThemedText on MrzgThemeTypography {
       copyWithStyle(fontSize: 0.4 * textStyle.fontSize!, fontWeight: FontWeight.w400);
 
   MrzgThemeTypography get bodyLarge =>
-      copyWithStyle(fontSize: textStyle.fontSize!, fontWeight: FontWeight.w400);
+      copyWithStyle(fontSize: 1.1 * textStyle.fontSize!, fontWeight: FontWeight.w400);
   MrzgThemeTypography get bodyMedium =>
-      copyWithStyle(fontSize: 0.8 * textStyle.fontSize!, fontWeight: FontWeight.w400);
+      copyWithStyle(fontSize: 0.9 * textStyle.fontSize!, fontWeight: FontWeight.w400);
   MrzgThemeTypography get bodySmall =>
-      copyWithStyle(fontSize: 0.6 * textStyle.fontSize!, fontWeight: FontWeight.w300);
+      copyWithStyle(fontSize: 0.7 * textStyle.fontSize!, fontWeight: FontWeight.w300);
 
-  MrzgThemeTypography get hint => copyWithStyle(fontSize: 0.6 * textStyle.fontSize!);
-  MrzgThemeTypography get label => copyWithStyle(fontSize: 0.6 * textStyle.fontSize!);
-  MrzgThemeTypography get caption => copyWithStyle(fontSize: 0.58 * textStyle.fontSize!);
+  MrzgThemeTypography get hint => copyWithStyle(fontSize: 0.9 * textStyle.fontSize!);
+  MrzgThemeTypography get label =>
+      copyWithStyle(fontSize: 0.8 * textStyle.fontSize!, fontWeight: FontWeight.w600);
+  MrzgThemeTypography get caption => copyWithStyle(fontSize: 0.5 * textStyle.fontSize!);
 }

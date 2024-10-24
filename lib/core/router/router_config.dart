@@ -1,5 +1,6 @@
 import 'package:art_for_all/core/models/category_abstract_model.dart';
 import 'package:art_for_all/core/router/basic.dart';
+import 'package:art_for_all/core/router/extra_data.dart';
 
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
@@ -90,6 +91,18 @@ final dashboardRoutes = [
               const HomeScreen(),
             ),
             routes: [
+              // VIEW ALL SCREEN
+              GoRoute(
+                name: HomeScreen.name + SearchScreen.name,
+                path: SearchScreen.name,
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  SearchScreen(
+                    filtersData: state.extra as SearchScreenFiltersData,
+                    isViewAll: true,
+                  ),
+                ),
+              ),
               GoRoute(
                 name: CategoryDetailScreen.name,
                 path: '${CategoryDetailScreen.name}/:${CategoryDetailScreen.pathParamId}',

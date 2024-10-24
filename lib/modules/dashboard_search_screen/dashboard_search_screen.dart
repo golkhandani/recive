@@ -3,9 +3,11 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/search_abstract_model.dart';
+import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_search_field.dart';
+import 'package:art_for_all/core/widgets/leading_back_button.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
@@ -19,7 +21,14 @@ import 'package:go_router/go_router.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String name = 'search';
-  const SearchScreen({super.key});
+  const SearchScreen({
+    super.key,
+    this.filtersData = const SearchScreenFiltersData(),
+    this.isViewAll = false,
+  });
+
+  final SearchScreenFiltersData filtersData;
+  final bool isViewAll;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -33,157 +42,181 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    bloc.init();
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    bloc.init(widget.filtersData, widget.isViewAll);
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final font = context.typographyTheme.subtitleMedium.onPrimary.textStyle;
     final Widget header = Container(
       decoration: BoxDecoration(
         color: context.colorTheme.primaryContainer,
       ),
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
     );
-    return BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
-      listener: (context, state) {},
-      bloc: bloc,
-      builder: (context, state) {
-        return CustomScrollView(
-          slivers: [
-            PinnedHeaderSliver(child: header),
-            PinnedHeaderSliver(
-              child: Container(
-                padding: kMediumPadding,
-                color: context.colorTheme.primaryContainer,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: AsyncSearchField<String>(
-                        hintText: 'Search...',
-                        items: const [],
-                        onChanged: bloc.search,
-                        controller: filterController,
-                        isLoading: false,
-                        isEnabled: true,
+    return ColoredBox(
+      color: context.colorTheme.background,
+      child: BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
+        listener: (context, state) {},
+        bloc: bloc,
+        builder: (context, state) {
+          return CustomScrollView(
+            slivers: [
+              PinnedHeaderSliver(child: header),
+              PinnedHeaderSliver(
+                child: Container(
+                  padding: kMediumPadding.copyWith(
+                    left: widget.isViewAll ? 0 : kMediumPadding.left,
+                  ),
+                  color: context.colorTheme.primaryContainer,
+                  child: Row(
+                    children: [
+                      if (widget.isViewAll)
+                        LeadingBackButton(
+                            backgroundColor: context.colorTheme.primaryContainer),
+                      Expanded(
+                        child: AsyncSearchField<String>(
+                          hintText: 'Search...',
+                          items: const [],
+                          onChanged: bloc.search,
+                          controller: filterController,
+                          isLoading: false,
+                          isEnabled: true,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            PinnedHeaderSliver(
-              child: Container(
-                color: context.colorTheme.primaryContainer,
-                height: 48,
-                child: OverflowBox(
-                  maxWidth: context.vWidth,
-                  child: ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: kMediumPadding.right),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final text = state.keywords[index];
-                      return InkWell(
-                        onTap: () {
-                          filterController.text = text;
-                        },
-                        borderRadius: kSmallBorderRadius,
-                        child: Container(
-                          padding: kMediumPadding,
-                          decoration: BoxDecoration(
-                            color: context.colorTheme.primary,
-                            borderRadius: kSmallBorderRadius,
-                          ),
-                          child: Center(
-                            child: Text(
-                              text,
-                              style:
-                                  context.typographyTheme.subtitleMedium.onPrimary.textStyle,
+              PinnedHeaderSliver(
+                child: Container(
+                  color: context.colorTheme.primaryContainer,
+                  constraints: BoxConstraints(
+                    maxHeight: font.fontSize! * (font.height ?? 1.2) + kMediumPadding.top * 2,
+                  ),
+                  child: OverflowBox(
+                    maxWidth: context.vWidth,
+                    child: ListView.separated(
+                      padding: EdgeInsets.symmetric(horizontal: kMediumPadding.right),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final text = state.keywords[index];
+                        return InkWell(
+                          onTap: () {
+                            filterController.text = text;
+                          },
+                          borderRadius: kSmallBorderRadius,
+                          child: Container(
+                            padding: kSmallPadding,
+                            decoration: BoxDecoration(
+                              color: context.colorTheme.primary,
+                              borderRadius: kSmallBorderRadius,
+                            ),
+                            child: Center(
+                              child: Text(
+                                text,
+                                style: context
+                                    .typographyTheme.subtitleMedium.onPrimary.textStyle,
+                              ),
                             ),
                           ),
+                        );
+                      },
+                      separatorBuilder: (context, index) =>
+                          SizedBox(width: kTinyPadding.right),
+                      itemCount: state.keywords.length,
+                    ),
+                  ),
+                ),
+              ),
+              PinnedHeaderSliver(
+                child: Container(
+                  padding: EdgeInsets.only(top: kTinyPadding.top),
+                  decoration: BoxDecoration(
+                    color: context.colorTheme.primaryContainer,
+                    border: Border(
+                      bottom: kExtraTinyBorder.copyWith(
+                        color: context.colorTheme.onPrimaryContainer,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SliverLayoutBuilder(
+                builder: (context, constraints) {
+                  if (state.isLoading == LoadingState.loading) {
+                    return const SliverFillRemaining(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+
+                  if (state.result.isEmpty) {
+                    return SliverFillRemaining(
+                      fillOverscroll: true,
+                      hasScrollBody: false,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.search,
+                              color: context.colorTheme.onBackground,
+                              size: context.vWidth / 10,
+                            ),
+                            Text(
+                              "There is no result!",
+                              style: context.typographyTheme.onBackground.titleTiny.textStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return SliverList.builder(
+                    itemCount: state.result.length,
+                    itemBuilder: (context, index) {
+                      final data = state.result[index];
+                      final page = switch (data.searchType) {
+                        SearchType.art => ArtDetailScreen.name,
+                        SearchType.artist => ArtistDetailScreen.name,
+                        SearchType.news => NewsDetailScreen.name,
+                        SearchType.event => EventDetailScreen.name,
+                        SearchType.community => CommunityDetailScreen.name,
+                      };
+                      return Container(
+                        margin: EdgeInsets.only(
+                          right: kMediumPadding.right,
+                          left: kMediumPadding.left,
+                          bottom: kMediumPadding.bottom,
+                          top: index == 0 ? kMediumPadding.top : 0,
+                        ),
+                        child: SearchResultCardContainer(
+                          onTap: () {
+                            final current = navigator.homeUrl;
+                            navigator.homeContext.push(
+                              '$current/$page/${data.id}',
+                              extra: data.toJson(),
+                            );
+                          },
+                          data: data,
                         ),
                       );
                     },
-                    separatorBuilder: (context, index) => SizedBox(width: kTinyPadding.right),
-                    itemCount: state.keywords.length,
-                  ),
-                ),
-              ),
-            ),
-            PinnedHeaderSliver(
-              child: Container(
-                padding: EdgeInsets.only(top: kTinyPadding.top),
-                decoration: BoxDecoration(
-                  color: context.colorTheme.primaryContainer,
-                  border: Border(
-                    bottom: kExtraTinyBorder.copyWith(
-                      color: context.colorTheme.onPrimaryContainer,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SliverLayoutBuilder(
-              builder: (context, constraints) {
-                if (state.isLoading == LoadingState.loading) {
-                  return const SliverFillRemaining(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
                   );
-                }
-
-                if (state.result.isEmpty) {
-                  return const SliverFillRemaining(
-                    fillOverscroll: true,
-                    hasScrollBody: false,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.search),
-                          Text("There is no result!"),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-                return SliverList.builder(
-                  itemCount: state.result.length,
-                  itemBuilder: (context, index) {
-                    final data = state.result[index];
-                    final page = switch (data.searchType) {
-                      SearchType.art => ArtDetailScreen.name,
-                      SearchType.artist => ArtistDetailScreen.name,
-                      SearchType.news => NewsDetailScreen.name,
-                      SearchType.event => EventDetailScreen.name,
-                      SearchType.community => CommunityDetailScreen.name,
-                    };
-                    return Container(
-                      margin: EdgeInsets.only(
-                        right: kMediumPadding.right,
-                        left: kMediumPadding.left,
-                        bottom: kMediumPadding.bottom,
-                        top: index == 0 ? kMediumPadding.top : 0,
-                      ),
-                      child: SearchResultCardContainer(
-                        onTap: () {
-                          final current = navigator.homeUrl;
-                          navigator.homeContext.push(
-                            '$current/$page/${data.id}',
-                            extra: data.toJson(),
-                          );
-                        },
-                        data: data,
-                      ),
-                    );
-                  },
-                );
-              },
-            )
-          ],
-        );
-      },
+                },
+              )
+            ],
+          );
+        },
+      ),
     );
   }
 }

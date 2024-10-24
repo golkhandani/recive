@@ -638,7 +638,7 @@ class _RawDropdownMenuState<T> extends State<RawDropdownMenu<T>> {
       builder: (BuildContext context, MenuController controller, Widget? child) {
         assert(_initialMenu != null);
         final Widget trailingButton = Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: EdgeInsets.zero,
           child: IconButton(
             isSelected: controller.isOpen,
             icon: widget.trailingIcon ?? const Icon(Icons.arrow_drop_down),

@@ -1,5 +1,6 @@
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/modules/dashboard_screen.dart';
+import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -43,6 +44,7 @@ class NavigationService {
   // Uri get currentUri => router.routeInformationProvider.value.uri;
 
   String get homeUrl => '/${DashboardScreen.name}/${HomeScreen.name}';
+  String get searchUrl => '/${DashboardScreen.name}/${SearchScreen.name}';
 
   void moveTo(
     String name, {

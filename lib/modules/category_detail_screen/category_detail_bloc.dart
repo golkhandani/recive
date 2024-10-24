@@ -5,6 +5,7 @@ import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/models/category_abstract_model.dart';
 import 'package:art_for_all/core/models/search_abstract_model.dart';
+import 'package:art_for_all/core/router/extra_data.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -52,6 +53,10 @@ class CategoryDetailBloc extends HydratedCubit<CategoryDetailBlocState> {
       query: category.title,
       sortType: SortType.relevant,
       sortOrderType: SortOrderType.desc,
+      filtersData: SearchScreenFiltersData.none().copyWith(
+        art: true,
+        artists: true,
+      ),
     );
 
     emit(state.copyWith(

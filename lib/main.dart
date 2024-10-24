@@ -135,7 +135,7 @@ class _ApplicationState extends State<Application> {
                   typography: MrzgThemeTypography(
                     textStyle: TextStyle(
                       fontSize: 16,
-                      fontFamily: GoogleFonts.josefinSans().fontFamily,
+                      fontFamily: GoogleFonts.poppins().fontFamily,
                     ),
                     palette: appTheme.colorPalette,
                   ),

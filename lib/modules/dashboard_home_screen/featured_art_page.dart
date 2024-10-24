@@ -4,6 +4,7 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
+import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_screen.dart';
@@ -17,6 +18,7 @@ import 'package:art_for_all/modules/dashboard_home_screen/widgets/category_card_
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/event_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/news_card_container.dart';
+import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_screen.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
 import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -98,13 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: context.typographyTheme.titleTiny.onBackground.textStyle,
                         ),
                         const Spacer(),
-                        GestureDetector(
-                          child: Text(
-                            "View All",
-                            maxLines: 1,
-                            style: context.typographyTheme.subtitleMedium.primary.textStyle,
-                          ),
-                        )
                       ],
                     ),
                   ),
@@ -156,6 +151,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const Spacer(),
                         GestureDetector(
+                          onTap: () {
+                            final homeUrl = navigator.homeUrl;
+                            final extra = SearchScreenFiltersData.none().copyWith(
+                              events: true,
+                              autoSearch: true,
+                            );
+                            navigator.homeContext.push(
+                              '$homeUrl/${SearchScreen.name}',
+                              extra: extra,
+                            );
+                          },
                           child: Text(
                             "View All",
                             maxLines: 1,
@@ -257,6 +263,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const Spacer(),
                         GestureDetector(
+                          onTap: () {
+                            final homeUrl = navigator.homeUrl;
+                            final extra = SearchScreenFiltersData.none().copyWith(
+                              news: true,
+                              autoSearch: true,
+                            );
+                            navigator.homeContext.push(
+                              '$homeUrl/${SearchScreen.name}',
+                              extra: extra,
+                            );
+                          },
                           child: Text(
                             "View All",
                             maxLines: 1,
@@ -375,6 +392,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const Spacer(),
                         GestureDetector(
+                          onTap: () {
+                            final homeUrl = navigator.homeUrl;
+                            final extra = SearchScreenFiltersData.none().copyWith(
+                              artists: true,
+                              autoSearch: true,
+                            );
+                            navigator.homeContext.push(
+                              '$homeUrl/${SearchScreen.name}',
+                              extra: extra,
+                            );
+                          },
                           child: Text(
                             "View All",
                             maxLines: 1,
@@ -431,6 +459,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const Spacer(),
                         GestureDetector(
+                          onTap: () {
+                            final homeUrl = navigator.homeUrl;
+                            final extra = SearchScreenFiltersData.none().copyWith(
+                              communities: true,
+                              autoSearch: true,
+                            );
+                            navigator.homeContext.push(
+                              '$homeUrl/${SearchScreen.name}',
+                              extra: extra,
+                            );
+                          },
                           child: Text(
                             "View All",
                             maxLines: 1,

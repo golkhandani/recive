@@ -20,7 +20,7 @@ abstract class IArtRepository {
 class MockArtRepository extends IArtRepository {
   @override
   Future<List<ArtAbstractModel>> getArtsByCategoryId(String categoryId) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     final faker = Faker();
     const double baseLatitude = 51.52;
@@ -40,7 +40,7 @@ class MockArtRepository extends IArtRepository {
           baseLongitude + lngVariation, // Longitude close to base
         ),
         imageUrl:
-            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
         artType: faker.address.city(),
       );
@@ -49,15 +49,15 @@ class MockArtRepository extends IArtRepository {
 
   @override
   Future<List<ArtAbstractModel>> getFeaturedArts(LatLng? center) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     final faker = Faker();
     final double baseLatitude = center?.latitude ?? 51.52;
     final double baseLongitude = center?.longitude ?? -0.09;
 
-    return List.generate(6, (index) {
-      final double latVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
-      final double lngVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
+    return List.generate(26, (index) {
+      final double latVariation = faker.randomGenerator.decimal(min: -0.02, scale: 0.04);
+      final double lngVariation = faker.randomGenerator.decimal(min: -0.02, scale: 0.04);
 
       return ArtAbstractModel(
         id: faker.guid.guid(),
@@ -69,7 +69,7 @@ class MockArtRepository extends IArtRepository {
           baseLongitude + lngVariation, // Longitude close to base
         ),
         imageUrl:
-            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
         artType: faker.address.city(),
       );
@@ -78,7 +78,7 @@ class MockArtRepository extends IArtRepository {
 
   @override
   Future<List<ArtAbstractModel>> getNearbyArts(LatLng? center) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     final faker = Faker();
     final double baseLatitude = center?.latitude ?? 51.52;
@@ -98,7 +98,7 @@ class MockArtRepository extends IArtRepository {
           baseLongitude + lngVariation, // Longitude close to base
         ),
         imageUrl:
-            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
         artType: faker.address.city(),
       );
@@ -107,7 +107,7 @@ class MockArtRepository extends IArtRepository {
 
   @override
   Future<ArtModel> getDetailArt(String id) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     final faker = Faker();
 
@@ -118,7 +118,7 @@ class MockArtRepository extends IArtRepository {
         return ArtistAbstractModel(
           id: faker.guid.guid(),
           imageUrl:
-              'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(100 + i)}',
+              'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(100 + i)}',
           name: faker.person.name(),
           description: '',
           tags: [],
@@ -131,7 +131,7 @@ class MockArtRepository extends IArtRepository {
           id: faker.randomGenerator.integer(200).toString(),
           title: 'image',
           type: MediaType.image,
-          url: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
           copyright: 'copyright',
           tags: [],
         ),
@@ -182,7 +182,7 @@ class MockArtRepository extends IArtRepository {
         description:
             'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
         imageUrl:
-            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
         tags: ['performance', 'fashion', 'theater'],
       ),
     );
@@ -190,7 +190,7 @@ class MockArtRepository extends IArtRepository {
 
   @override
   Future<ArtAbstractModel> getDayArt(LatLng? center) async {
-    await Future.delayed(kLoadingDuration);
+    await Future.delayed(kDebounceDuration);
 
     final faker = Faker();
     final double baseLatitude = center?.latitude ?? 51.52;
@@ -208,7 +208,7 @@ class MockArtRepository extends IArtRepository {
         baseLatitude + latVariation, // Latitude close to base
         baseLongitude + lngVariation, // Longitude close to base
       ),
-      imageUrl: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+      imageUrl: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
       tags: faker.lorem.words(3),
       artType: faker.address.city(),
     );

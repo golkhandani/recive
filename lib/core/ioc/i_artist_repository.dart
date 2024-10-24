@@ -19,7 +19,7 @@ class MockArtistRepository extends IArtistRepository {
       description:
           'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
       imageUrl:
-          'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200) + i}',
+          'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200) + i}',
       tags: ['performance', 'fashion', 'theater'],
     );
   });
@@ -34,7 +34,10 @@ class MockArtistRepository extends IArtistRepository {
   @override
   Future<ArtistModel> getArtistById(String id) async {
     await Future.delayed(kLoadingDuration);
-    final abstractArtists = artists.firstWhere((a) => a.id == id);
+    final abstractArtists = artists.firstWhere(
+      (a) => a.id == id,
+      orElse: () => artists.first,
+    );
     return ArtistModel(
       id: abstractArtists.id,
       description: abstractArtists.description,
@@ -52,7 +55,7 @@ class MockArtistRepository extends IArtistRepository {
           id: faker.randomGenerator.integer(200).toString(),
           title: 'image',
           type: MediaType.image,
-          url: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
           copyright: 'copyright',
           tags: [],
         ),
@@ -60,7 +63,7 @@ class MockArtistRepository extends IArtistRepository {
           id: faker.randomGenerator.integer(200).toString(),
           title: 'image',
           type: MediaType.image,
-          url: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
           copyright: 'copyright',
           tags: [],
         ),
@@ -68,7 +71,7 @@ class MockArtistRepository extends IArtistRepository {
           id: faker.randomGenerator.integer(200).toString(),
           title: 'image',
           type: MediaType.image,
-          url: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
           copyright: 'copyright',
           tags: [],
         )

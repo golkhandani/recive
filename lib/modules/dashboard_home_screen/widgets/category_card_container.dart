@@ -97,17 +97,17 @@ class CategoryCardContainer extends StatelessWidget {
 
   Widget _buildBigCard(BuildContext context, Color color, Color fontColor) {
     return Align(
-      alignment: Alignment.bottomLeft,
+      alignment: Alignment.center,
       child: Container(
         margin: kExtraTinyPadding,
         padding: kTinyPadding,
         decoration: BoxDecoration(
-          color: context.colorTheme.primaryContainer.withOpacity(kTinyOpacity),
+          color: context.colorTheme.primary.withOpacity(kTinyOpacity),
           borderRadius: kSmallBorderRadius,
         ),
         child: Text(
           data.title,
-          style: context.typographyTheme.subtitleMedium.textStyle,
+          style: context.typographyTheme.subtitleMedium.onPrimary.textStyle,
         ),
       ),
     );

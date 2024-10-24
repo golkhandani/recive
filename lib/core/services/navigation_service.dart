@@ -16,7 +16,7 @@ final GlobalKey<NavigatorState> homeNavigatorKey = GlobalKey();
 final GlobalKey<NavigatorState> nearMeNavigatorKey = GlobalKey();
 final GlobalKey<NavigatorState> searchNavigatorKey = GlobalKey();
 final GlobalKey<NavigatorState> profileNavigatorKey = GlobalKey();
-final GlobalKey<NavigatorState> packagesNavigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> compassNavigatorKey = GlobalKey();
 
 class NavigationService {
   final GlobalKey<NavigatorState> rootNavigatorKey;

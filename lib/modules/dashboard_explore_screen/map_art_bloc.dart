@@ -17,6 +17,9 @@ class MapArtBlocState with _$MapArtBlocState {
   const factory MapArtBlocState({
     required LoadingState isLoadingArts,
     required List<ArtAbstractModel> arts,
+    required LatLng center,
+    required String query,
+    required bool hasPositionChanged,
     required ArtAbstractModel? focusedArt,
   }) = _MapArtBlocState;
 
@@ -24,13 +27,16 @@ class MapArtBlocState with _$MapArtBlocState {
         isLoadingArts: LoadingState.none,
         arts: [],
         focusedArt: null,
+        center: LatLng(51.5, -0.09),
+        query: '',
+        hasPositionChanged: false,
       );
 
   factory MapArtBlocState.fromJson(Map<String, Object?> json) =>
       _$MapArtBlocStateFromJson(json);
 }
 
-class MapArtBloc extends HydratedTransformableCubit<MapArtBlocState> {
+class MapArtBloc extends TransformableCubit<MapArtBlocState> {
   final ISecureStorage secureStorage;
   final ISharedStorage sharedPreferences;
   final IArtRepository artRepository;
@@ -42,13 +48,19 @@ class MapArtBloc extends HydratedTransformableCubit<MapArtBlocState> {
   }) : super(MapArtBlocState.initialize());
 
   Future<void> init(LatLng? center) async {
-    emit(state.copyWith(isLoadingArts: LoadingState.loading));
-    final featuredArts = await artRepository.getFeaturedArts(center);
     emit(state.copyWith(
-      arts: featuredArts,
-      focusedArt: featuredArts.first,
-      isLoadingArts: LoadingState.done,
+      isLoadingArts: LoadingState.loading,
+      hasPositionChanged: false,
     ));
+    final featuredArts = await artRepository.getFeaturedArts(center);
+    emit(
+      state.copyWith(
+        arts: featuredArts,
+        focusedArt: featuredArts.first,
+        isLoadingArts: LoadingState.done,
+        center: center ?? state.center,
+      ),
+    );
   }
 
   Future<void> setFocusedArt(ArtAbstractModel? art) async {
@@ -57,6 +69,27 @@ class MapArtBloc extends HydratedTransformableCubit<MapArtBlocState> {
     }
     emit(state.copyWith(
       focusedArt: art,
+      hasPositionChanged: false,
+    ));
+  }
+
+  Future<void> searchByCenter() async {
+    emit(state.copyWith(
+      isLoadingArts: LoadingState.loading,
+      hasPositionChanged: false,
+    ));
+    final featuredArts = await artRepository.getFeaturedArts(state.center);
+    emit(state.copyWith(
+      arts: featuredArts,
+      focusedArt: featuredArts.first,
+      isLoadingArts: LoadingState.done,
+    ));
+  }
+
+  Future<void> onCenterChanged(LatLng center) async {
+    emit(state.copyWith(
+      center: center,
+      hasPositionChanged: true,
     ));
   }
 
@@ -65,7 +98,10 @@ class MapArtBloc extends HydratedTransformableCubit<MapArtBlocState> {
       if (query == null) {
         return;
       }
-      emit(state.copyWith(isLoadingArts: LoadingState.loading));
+      emit(state.copyWith(
+        isLoadingArts: LoadingState.loading,
+        hasPositionChanged: false,
+      ));
       final featuredArts = await artRepository.getFeaturedArts(center);
       emit(state.copyWith(
         arts: featuredArts,
@@ -73,15 +109,5 @@ class MapArtBloc extends HydratedTransformableCubit<MapArtBlocState> {
         isLoadingArts: LoadingState.done,
       ));
     });
-  }
-
-  @override
-  MapArtBlocState? fromJson(Map<String, dynamic> json) {
-    return MapArtBlocState.fromJson(json);
-  }
-
-  @override
-  Map<String, dynamic>? toJson(MapArtBlocState state) {
-    return state.toJson();
   }
 }

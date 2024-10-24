@@ -21,7 +21,7 @@ class MockEventRepository extends IEventRepository {
       description:
           'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
       imageUrl:
-          'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200) + i}',
+          'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200) + i}',
       tags: ['performance', 'fashion', 'theater'],
       eventType: faker.food.cuisine(),
     );
@@ -44,7 +44,10 @@ class MockEventRepository extends IEventRepository {
   @override
   Future<EventModel> getEventById(String id) async {
     await Future.delayed(kLoadingDuration);
-    final abstract = events.firstWhere((e) => e.id == id);
+    final abstract = events.firstWhere(
+      (e) => e.id == id,
+      orElse: () => events.first,
+    );
 
     final event = EventModel(
       id: abstract.id,
@@ -63,7 +66,7 @@ class MockEventRepository extends IEventRepository {
           id: faker.randomGenerator.integer(200).toString(),
           title: 'image',
           type: MediaType.image,
-          url: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
           copyright: 'copyright',
           tags: [],
         ),
@@ -71,7 +74,7 @@ class MockEventRepository extends IEventRepository {
           id: faker.randomGenerator.integer(200).toString(),
           title: 'image',
           type: MediaType.image,
-          url: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
           copyright: 'copyright',
           tags: [],
         ),
@@ -79,7 +82,7 @@ class MockEventRepository extends IEventRepository {
           id: faker.randomGenerator.integer(200).toString(),
           title: 'image',
           type: MediaType.image,
-          url: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
           copyright: 'copyright',
           tags: [],
         )
@@ -102,7 +105,7 @@ class MockEventRepository extends IEventRepository {
         location: faker.address.streetAddress(),
         geoLocation: const LatLng(0, 0),
         imageUrl:
-            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
         artType: faker.address.city(),
       ),
@@ -112,7 +115,7 @@ class MockEventRepository extends IEventRepository {
         description:
             'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
         imageUrl:
-            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
         tags: ['performance', 'fashion', 'theater'],
       ),
     );

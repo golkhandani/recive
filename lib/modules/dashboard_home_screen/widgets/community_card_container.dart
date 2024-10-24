@@ -132,7 +132,7 @@ class CommunityCardContainer extends StatelessWidget {
               data.title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: context.typographyTheme.subtitleMedium.textStyle,
+              style: context.typographyTheme.onPrimaryContainer.subtitleMedium.textStyle,
             ),
           ),
         ),

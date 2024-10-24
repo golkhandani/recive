@@ -123,7 +123,6 @@ class ArtistCardContainer extends StatelessWidget {
         Positioned(
           left: 0,
           top: 0,
-          right: 0,
           child: Container(
             margin: kExtraTinyPadding,
             padding: kTinyPadding,
@@ -133,9 +132,9 @@ class ArtistCardContainer extends StatelessWidget {
             ),
             child: Text(
               data.name,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: context.typographyTheme.onPrimaryContainer.subtitleMedium.textStyle,
+              style: context.typographyTheme.subtitleMedium.textStyle,
             ),
           ),
         ),

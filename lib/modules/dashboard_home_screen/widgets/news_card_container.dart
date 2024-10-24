@@ -90,26 +90,18 @@ class NewsCardContainer extends StatelessWidget {
 
   Widget _buildCard(
     ImageProvider<Object>? imageProvider,
-    Color color,
-    Widget child,
   ) {
-    return Material(
-      elevation: 1,
-      borderRadius: kSmallBorderRadius,
-      child: Container(
-        constraints: constraints,
-        decoration: BoxDecoration(
-          image: imageProvider == null
-              ? null
-              : DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                  opacity: 0.9,
-                ),
-          borderRadius: kSmallBorderRadius,
-          color: Colors.black,
-        ),
-        child: child,
+    return Container(
+      constraints: constraints,
+      decoration: BoxDecoration(
+        image: imageProvider == null
+            ? null
+            : DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+                opacity: 0.9,
+              ),
+        borderRadius: kSmallBorderRadius,
       ),
     );
   }
@@ -118,45 +110,51 @@ class NewsCardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final heroTag = hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
     final color = context.colorTheme.secondary;
-    final child = Stack(
-      children: [
-        Positioned(
-          left: 0,
-          top: 0,
-          child: Container(
-            margin: kExtraTinyPadding,
-            padding: kTinyPadding,
-            decoration: BoxDecoration(
-              color: context.colorTheme.primaryContainer.withOpacity(kTinyOpacity),
-              borderRadius: kSmallBorderRadius,
-            ),
-            child: Text(
-              data.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: context.typographyTheme.subtitleMedium.textStyle,
-            ),
-          ),
-        ),
-      ],
-    );
+    // final child = Stack(
+    //   children: [
+    //     Positioned(
+    //       left: 0,
+    //       right: 0,
+    //       top: kExtraTinyPadding.top,
+    //     ),
+    //   ],
+    // );
 
     return RepaintBoundary(
       child: InkWell(
         onTap: onTap,
         borderRadius: kSmallBorderRadius,
-        child: Material(
-          borderRadius: kSmallBorderRadius,
-          elevation: kMediumElevation,
-          child: Hero(
-            tag: heroTag,
-            child: CachedNetworkImage(
-              imageUrl: data.imageUrl,
-              imageBuilder: (context, imageProvider) =>
-                  _buildCard(imageProvider, color, child),
-              placeholder: (context, url) => _buildLoading(color),
-              errorWidget: (context, url, error) => _buildCard(null, color, child),
-            ),
+        child: Container(
+          constraints: constraints,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Material(
+                  borderRadius: kSmallBorderRadius,
+                  elevation: kMediumElevation,
+                  child: Hero(
+                    tag: heroTag,
+                    child: CachedNetworkImage(
+                      imageUrl: data.imageUrl,
+                      imageBuilder: (context, imageProvider) => _buildCard(imageProvider),
+                      placeholder: (context, url) => _buildLoading(color),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: kExtraTinyPadding.bottom),
+              ConstrainedBox(
+                constraints: BoxConstraints.tightFor(width: constraints.maxWidth, height: 32),
+                child: Text(
+                  data.title,
+                  maxLines: 2,
+                  textAlign: TextAlign.start,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.typographyTheme.onBackground.subtitleLarge.textStyle,
+                ),
+              ),
+            ],
           ),
         ),
       ),

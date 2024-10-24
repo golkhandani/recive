@@ -44,10 +44,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ),
     BottomNavigationBarItem(
       icon: const Icon(Icons.search),
-      label: 'Explore'.toUpperCase(),
+      label: 'Search'.toUpperCase(),
     ),
     BottomNavigationBarItem(
-      icon: const Icon(Icons.settings),
+      icon: const Icon(Icons.explore_outlined),
+      label: 'Compass'.toUpperCase(),
+    ),
+    BottomNavigationBarItem(
+      icon: const Icon(Icons.settings_outlined),
       label: 'Setting'.toUpperCase(),
     ),
   ];

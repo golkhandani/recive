@@ -2,20 +2,21 @@ import 'dart:math';
 
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/card_size.dart';
-import 'package:art_for_all/core/models/artist_abstract_model.dart';
+import 'package:art_for_all/core/extensions/string_color_extension.dart';
+import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-class ArtistCardContainer extends StatelessWidget {
+class EventCardContainer extends StatelessWidget {
   final BoxConstraints constraints;
-  final ArtistAbstractModel data;
+  final EventAbstractModel data;
   final String? hero;
   final VoidCallback onTap;
   final CardSize size;
-  const ArtistCardContainer._({
+  const EventCardContainer._({
     required this.data,
     required this.constraints,
     this.hero,
@@ -23,13 +24,13 @@ class ArtistCardContainer extends StatelessWidget {
     required this.size,
   });
 
-  factory ArtistCardContainer.big({
-    required ArtistAbstractModel data,
+  factory EventCardContainer.big({
+    required EventAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return ArtistCardContainer._(
+    return EventCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -39,13 +40,13 @@ class ArtistCardContainer extends StatelessWidget {
   }
 
   // Factory constructor for small tall cards
-  factory ArtistCardContainer.medium({
-    required ArtistAbstractModel data,
+  factory EventCardContainer.medium({
+    required EventAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return ArtistCardContainer._(
+    return EventCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -55,13 +56,13 @@ class ArtistCardContainer extends StatelessWidget {
   }
 
   // Factory constructor for small cards
-  factory ArtistCardContainer.small({
-    required ArtistAbstractModel data,
+  factory EventCardContainer.small({
+    required EventAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return ArtistCardContainer._(
+    return EventCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -118,12 +119,33 @@ class ArtistCardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final heroTag = hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
     final color = context.colorTheme.secondary;
+    final bannerColor = data.eventType.toColor();
     final child = Stack(
       children: [
         Positioned(
+          right: -30,
+          top: 30,
+          child: Transform.rotate(
+            angle: 45 * pi / 180,
+            child: Container(
+              height: 20,
+              width: 150,
+              color: bannerColor,
+              child: Center(
+                child: Text(
+                  data.eventType,
+                  style: context.typographyTheme.subtitleMedium
+                      .copyWithColor(color: bannerColor.fontColor())
+                      .textStyle,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
           left: 0,
-          top: 0,
           right: 0,
+          bottom: 0,
           child: Container(
             margin: kExtraTinyPadding,
             padding: kTinyPadding,
@@ -132,10 +154,10 @@ class ArtistCardContainer extends StatelessWidget {
               borderRadius: kSmallBorderRadius,
             ),
             child: Text(
-              data.name,
-              maxLines: 1,
+              data.title,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: context.typographyTheme.onPrimaryContainer.subtitleMedium.textStyle,
+              style: context.typographyTheme.subtitleMedium.textStyle,
             ),
           ),
         ),
@@ -144,19 +166,22 @@ class ArtistCardContainer extends StatelessWidget {
 
     return RepaintBoundary(
       child: InkWell(
-        onTap: onTap,
         borderRadius: kSmallBorderRadius,
+        onTap: onTap,
         child: Material(
           borderRadius: kSmallBorderRadius,
           elevation: kMediumElevation,
-          child: Hero(
-            tag: heroTag,
-            child: CachedNetworkImage(
-              imageUrl: data.imageUrl,
-              imageBuilder: (context, imageProvider) =>
-                  _buildCard(imageProvider, color, child),
-              placeholder: (context, url) => _buildLoading(color),
-              errorWidget: (context, url, error) => _buildCard(null, color, child),
+          child: ClipRRect(
+            borderRadius: kSmallBorderRadius,
+            child: Hero(
+              tag: heroTag,
+              child: CachedNetworkImage(
+                imageUrl: data.imageUrl,
+                imageBuilder: (context, imageProvider) =>
+                    _buildCard(imageProvider, color, child),
+                placeholder: (context, url) => _buildLoading(color),
+                errorWidget: (context, url, error) => _buildCard(null, color, child),
+              ),
             ),
           ),
         ),

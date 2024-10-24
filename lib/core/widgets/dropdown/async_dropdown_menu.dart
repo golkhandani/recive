@@ -25,40 +25,42 @@ class AsyncDropdownMenu<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RawDropdownMenu<T>(
-      requestFocusOnTap: true,
-      enabled: isEnabled,
-      hintText: hintText,
-      isLoadingEntries: isLoading,
-      minCharCount: 0,
-      onChanged: onChanged,
-      onSelected: (value) => {
-        if (value != null) {onSelected.call(value)}
-      },
-      expandedInsets: EdgeInsets.zero,
-      controller: controller,
-      label: labelText != null ? Text(labelText!) : null,
-      textStyle: isEnabled
-          ? context.typographyTheme.bodyMedium.onSurface.textStyle
-          : context.typographyTheme.bodyMedium.onSurface.textStyle,
-      trailingIcon: null,
-      inputDecorationTheme: context.themeData.inputDecorationTheme.copyWith(
-        hintStyle: context.typographyTheme.bodyMedium.onSurface.textStyle,
+    return LimitedBox(
+      maxHeight: 48,
+      child: RawDropdownMenu<T>(
+        requestFocusOnTap: true,
+        enabled: isEnabled,
+        hintText: hintText,
+        isLoadingEntries: isLoading,
+        minCharCount: 0,
+        onChanged: onChanged,
+        onSelected: (value) => {
+          if (value != null) {onSelected.call(value)}
+        },
+        expandedInsets: EdgeInsets.zero,
+        controller: controller,
+        label: labelText != null ? Text(labelText!) : null,
+        textStyle: isEnabled
+            ? context.typographyTheme.bodyMedium.onSurface.textStyle
+            : context.typographyTheme.bodyMedium.onSurface.textStyle,
+        inputDecorationTheme: context.themeData.inputDecorationTheme.copyWith(
+          hintStyle: context.typographyTheme.bodyMedium.onSurface.textStyle,
+        ),
+        menuStyle: MenuStyle(
+          maximumSize: const WidgetStatePropertyAll(
+            Size(double.infinity, 240),
+          ),
+          surfaceTintColor: const WidgetStatePropertyAll(
+            Colors.transparent,
+          ),
+          backgroundColor: WidgetStatePropertyAll(
+            context.colorTheme.primaryContainer,
+          ),
+          shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+        ),
+        dropdownMenuEntries: items,
       ),
-      menuStyle: MenuStyle(
-        maximumSize: const WidgetStatePropertyAll(
-          Size(double.infinity, 240),
-        ),
-        surfaceTintColor: const WidgetStatePropertyAll(
-          Colors.transparent,
-        ),
-        backgroundColor: WidgetStatePropertyAll(
-          context.colorTheme.primaryContainer,
-        ),
-        shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-      ),
-      dropdownMenuEntries: items,
     );
   }
 }

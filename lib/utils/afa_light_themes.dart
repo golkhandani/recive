@@ -20,7 +20,7 @@ class SecondaryColors {
 const trendyTheme = MrzgThemePalette(
   brightness: Brightness.light,
   primary: AppColors.middle,
-  onPrimary: AppColors.dark,
+  onPrimary: AppColors.light,
   primaryContainer: AppColors.semiLight,
   onPrimaryContainer: AppColors.semiDark,
   secondary: SecondaryColors.light,

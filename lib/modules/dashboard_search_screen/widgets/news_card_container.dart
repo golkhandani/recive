@@ -2,20 +2,20 @@ import 'dart:math';
 
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/card_size.dart';
-import 'package:art_for_all/core/models/artist_abstract_model.dart';
+import 'package:art_for_all/core/models/news_abstract_model.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-class ArtistCardContainer extends StatelessWidget {
+class NewsCardContainer extends StatelessWidget {
   final BoxConstraints constraints;
-  final ArtistAbstractModel data;
+  final NewsAbstractModel data;
   final String? hero;
   final VoidCallback onTap;
   final CardSize size;
-  const ArtistCardContainer._({
+  const NewsCardContainer._({
     required this.data,
     required this.constraints,
     this.hero,
@@ -23,13 +23,13 @@ class ArtistCardContainer extends StatelessWidget {
     required this.size,
   });
 
-  factory ArtistCardContainer.big({
-    required ArtistAbstractModel data,
+  factory NewsCardContainer.big({
+    required NewsAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return ArtistCardContainer._(
+    return NewsCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -39,13 +39,13 @@ class ArtistCardContainer extends StatelessWidget {
   }
 
   // Factory constructor for small tall cards
-  factory ArtistCardContainer.medium({
-    required ArtistAbstractModel data,
+  factory NewsCardContainer.medium({
+    required NewsAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return ArtistCardContainer._(
+    return NewsCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -55,13 +55,13 @@ class ArtistCardContainer extends StatelessWidget {
   }
 
   // Factory constructor for small cards
-  factory ArtistCardContainer.small({
-    required ArtistAbstractModel data,
+  factory NewsCardContainer.small({
+    required NewsAbstractModel data,
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
   }) {
-    return ArtistCardContainer._(
+    return NewsCardContainer._(
       data: data,
       constraints: constraints,
       hero: hero,
@@ -123,7 +123,6 @@ class ArtistCardContainer extends StatelessWidget {
         Positioned(
           left: 0,
           top: 0,
-          right: 0,
           child: Container(
             margin: kExtraTinyPadding,
             padding: kTinyPadding,
@@ -132,10 +131,10 @@ class ArtistCardContainer extends StatelessWidget {
               borderRadius: kSmallBorderRadius,
             ),
             child: Text(
-              data.name,
-              maxLines: 1,
+              data.title,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: context.typographyTheme.onPrimaryContainer.subtitleMedium.textStyle,
+              style: context.typographyTheme.subtitleMedium.textStyle,
             ),
           ),
         ),

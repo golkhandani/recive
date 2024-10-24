@@ -22,7 +22,7 @@ class MockNewsRepository extends INewsRepository {
       title: faker.lorem.words(3).join(' '),
       description: faker.lorem.sentence(),
       location: faker.address.streetAddress(),
-      imageUrl: 'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+      imageUrl: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
     );
   });
   @override
@@ -42,7 +42,10 @@ class MockNewsRepository extends INewsRepository {
   Future<NewsModel> getDetailNews(String id) async {
     await Future.delayed(kLoadingDuration);
 
-    final newsAbstract = news.firstWhere((n) => n.id == id);
+    final newsAbstract = news.firstWhere(
+      (n) => n.id == id,
+      orElse: () => news.first,
+    );
 
     return NewsModel(
       id: newsAbstract.id,
@@ -77,7 +80,7 @@ class MockNewsRepository extends INewsRepository {
         location: faker.address.streetAddress(),
         geoLocation: const LatLng(0, 0),
         imageUrl:
-            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
         tags: faker.lorem.words(3),
         artType: faker.address.city(),
       ),
@@ -87,7 +90,7 @@ class MockNewsRepository extends INewsRepository {
         description:
             'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
         imageUrl:
-            'https://picsum.photos/200/300?random=${faker.randomGenerator.integer(200)}',
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
         tags: ['performance', 'fashion', 'theater'],
       ),
     );

@@ -16,12 +16,14 @@ class ArtCardContainer extends StatelessWidget {
   final String? hero;
   final VoidCallback onTap;
   final CardSize size;
+  final bool showBanner;
   const ArtCardContainer._({
     required this.data,
     required this.constraints,
     this.hero,
     required this.onTap,
     required this.size,
+    this.showBanner = false,
   });
 
   factory ArtCardContainer.big({
@@ -36,6 +38,7 @@ class ArtCardContainer extends StatelessWidget {
       hero: hero,
       onTap: onTap,
       size: CardSize.big,
+      showBanner: true,
     );
   }
 
@@ -122,28 +125,29 @@ class ArtCardContainer extends StatelessWidget {
     final bannerColor = data.artType.toColor();
     final child = Stack(
       children: [
-        Positioned(
-          right: -36,
-          top: 36,
-          child: Transform.rotate(
-            angle: 45 * pi / 180,
-            child: Container(
-              height: 20,
-              width: 150,
-              padding: EdgeInsets.symmetric(horizontal: kLargePadding.left),
-              color: bannerColor,
-              child: Center(
-                child: Text(
-                  data.artType,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.typographyTheme.subtitleMedium
-                      .copyWithColor(color: bannerColor.fontColor())
-                      .textStyle,
+        if (showBanner)
+          Positioned(
+            right: -36,
+            top: 36,
+            child: Transform.rotate(
+              angle: 45 * pi / 180,
+              child: Container(
+                height: 20,
+                width: 150,
+                padding: EdgeInsets.symmetric(horizontal: kLargePadding.left),
+                color: bannerColor,
+                child: Center(
+                  child: Text(
+                    data.artType,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.typographyTheme.subtitleMedium
+                        .copyWithColor(color: bannerColor.fontColor())
+                        .textStyle,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
         Positioned(
           left: 0,
           right: 0,
@@ -166,7 +170,7 @@ class ArtCardContainer extends StatelessWidget {
                   data.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: context.typographyTheme.subtitleMedium.textStyle,
+                  style: context.typographyTheme.onPrimaryContainer.subtitleMedium.textStyle,
                 ),
               ),
               if (size != CardSize.small)

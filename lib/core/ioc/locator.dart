@@ -9,6 +9,7 @@ import 'package:art_for_all/core/ioc/i_category_repository.dart';
 import 'package:art_for_all/core/ioc/i_community_repository.dart';
 import 'package:art_for_all/core/ioc/i_event_repository.dart';
 import 'package:art_for_all/core/ioc/i_news_repository.dart';
+import 'package:art_for_all/core/ioc/i_search_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/services/auth_service.dart';
@@ -22,6 +23,7 @@ import 'package:art_for_all/modules/community_detail_screen/community_detail_blo
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
+import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_bloc.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
 import 'package:art_for_all/modules/news_detail_screen/news_detail_bloc.dart';
@@ -111,6 +113,7 @@ Future setupRepositories() async {
   locator.registerSingleton<IArtistRepository>(MockArtistRepository());
   locator.registerSingleton<IEventRepository>(MockEventRepository());
   locator.registerSingleton<ICommunityRepository>(MockCommunityRepository());
+  locator.registerSingleton<ISearchRepository>(MockSearchRepository());
 }
 
 Future setupServices() async {
@@ -205,6 +208,14 @@ Future setupBloc() async {
       secureStorage: locator.get(),
       sharedStorage: locator.get(),
       communityRepository: locator.get(),
+    ),
+  );
+
+  locator.registerFactory<DashboardSearchBloc>(
+    () => DashboardSearchBloc(
+      secureStorage: locator.get(),
+      sharedPreferences: locator.get(),
+      searchRepository: locator.get(),
     ),
   );
 

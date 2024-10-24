@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
@@ -236,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
-            SliverGap(kLargePadding.bottom),
+            SliverGap(kTinyPadding.bottom),
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: context.vHeight / 8,
+                    height: max(context.vHeight / 6, 88),
                     child: ListView.separated(
                       clipBehavior: Clip.none,
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
@@ -275,7 +277,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         final data = state.news[index];
                         return NewsCardContainer.medium(
                           data: data,
-                          constraints: BoxConstraints.expand(width: context.vWidth / 1.6),
+                          constraints: BoxConstraints.expand(
+                            width: context.vWidth / 1.6,
+                            height: context.vHeight / 8,
+                          ),
                           onTap: () {
                             final current = navigator.currentUri;
                             navigator.homeContext.go(
@@ -292,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SliverGap(kLargePadding.bottom),
+            SliverGap(kTinyPadding.bottom),
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -351,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            SliverGap(kLargePadding.bottom),
+            SliverGap(kTinyPadding.bottom),
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -407,7 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SliverGap(kLargePadding.bottom),
+            SliverGap(kTinyPadding.bottom),
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

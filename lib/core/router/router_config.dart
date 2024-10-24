@@ -12,6 +12,7 @@ import 'package:art_for_all/modules/auth_screen/register_page.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/modules/auth_screen/login_page.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_page.dart';
+import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_screen.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_page.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
 import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
@@ -183,7 +184,112 @@ final dashboardRoutes = [
         ],
       ),
 
-      /// NEAR BY SCREEN
+      /// SEARCH SCREEN
+      StatefulShellBranch(
+        navigatorKey: searchNavigatorKey,
+        routes: <RouteBase>[
+          GoRoute(
+            name: SearchScreen.name,
+            path: '/${DashboardScreen.name}/${SearchScreen.name}',
+            pageBuilder: (context, state) => _dashboardPageBuilder(
+              state,
+              const SearchScreen(),
+            ),
+            routes: [
+              GoRoute(
+                name: SearchScreen.name + CategoryDetailScreen.name,
+                path: '${CategoryDetailScreen.name}/:${CategoryDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  CategoryDetailScreen(
+                    id: state.pathParameters[CategoryDetailScreen.pathParamId] ?? '',
+                    extra: state.extra != null
+                        ? CategoryAbstractModel.fromJson(
+                            state.extra as Map<String, dynamic>,
+                          )
+                        : null,
+                  ),
+                ),
+              ),
+              GoRoute(
+                name: SearchScreen.name + EventDetailScreen.name,
+                path: '${EventDetailScreen.name}/:${EventDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  EventDetailScreen(
+                    id: state.pathParameters[EventDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+                routes: [
+                  GoRoute(
+                    name: SearchScreen.name + EventDetailScreen.name + ArtDetailScreen.name,
+                    path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
+                    pageBuilder: (context, state) => _dashboardPageBuilder(
+                      state,
+                      ArtDetailScreen(
+                        id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              GoRoute(
+                name: SearchScreen.name + ArtDetailScreen.name,
+                path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  ArtDetailScreen(
+                    id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+              ),
+              GoRoute(
+                name: SearchScreen.name + NewsDetailScreen.name,
+                path: '${NewsDetailScreen.name}/:${NewsDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  NewsDetailScreen(
+                    id: state.pathParameters[NewsDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+                routes: [
+                  GoRoute(
+                    name: SearchScreen.name + NewsDetailScreen.name + ArtDetailScreen.name,
+                    path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
+                    pageBuilder: (context, state) => _dashboardPageBuilder(
+                      state,
+                      ArtDetailScreen(
+                        id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              GoRoute(
+                name: SearchScreen.name + ArtistDetailScreen.name,
+                path: '${ArtistDetailScreen.name}/:${ArtistDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  ArtistDetailScreen(
+                    id: state.pathParameters[ArtistDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+              ),
+              GoRoute(
+                name: SearchScreen.name + CommunityDetailScreen.name,
+                path: '${CommunityDetailScreen.name}/:${CommunityDetailScreen.pathParamId}',
+                pageBuilder: (context, state) => _dashboardPageBuilder(
+                  state,
+                  CommunityDetailScreen(
+                    id: state.pathParameters[CommunityDetailScreen.pathParamId] ?? '',
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+
       StatefulShellBranch(
         navigatorKey: nearMeNavigatorKey,
         routes: <RouteBase>[

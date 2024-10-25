@@ -90,6 +90,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
                         event.description,
+                        textAlign: TextAlign.start,
                         style: context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
@@ -110,11 +111,25 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         );
                       }),
                       SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Highlights",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kTinyPadding.bottom),
                       ...event.highlights.map((h) {
-                        return Text(
-                          "* $h",
-                          style:
-                              context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
+                          child: Text(
+                            "* $h",
+                            style: context
+                                .typographyTheme.bodyMedium.onPrimaryContainer.textStyle,
+                          ),
                         );
                       }),
                       SizedBox(height: kMediumPadding.bottom),
@@ -135,28 +150,54 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Links",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kTinyPadding.bottom),
                       ...event.links.map(
                         (l) {
-                          return Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(text: "${l.title}: "),
-                                TextSpan(
-                                  text: l.url,
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      launchUrl(Uri.parse(l.url));
-                                    },
-                                  style: context.typographyTheme.bodyLarge.primary.textStyle,
-                                ),
-                              ],
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(text: "${l.title}: "),
+                                  TextSpan(
+                                    text: l.url,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrl(Uri.parse(l.url));
+                                      },
+                                    style:
+                                        context.typographyTheme.bodyMedium.primary.textStyle,
+                                  ),
+                                ],
+                              ),
+                              style: context
+                                  .typographyTheme.bodySmall.onPrimaryContainer.textStyle,
                             ),
-                            style: context
-                                .typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                           );
                         },
                       ),
                       SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Community",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kTinyPadding.bottom),
                       CommunityCardContainer.big(
                         data: event.community,
                         constraints: BoxConstraints(

@@ -113,11 +113,25 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           );
                         }),
                       SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Highlights",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kTinyPadding.bottom),
                       ...news.highlights.map((h) {
-                        return Text(
-                          "* $h",
-                          style:
-                              context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
+                          child: Text(
+                            "* $h",
+                            style: context
+                                .typographyTheme.bodyMedium.onPrimaryContainer.textStyle,
+                          ),
                         );
                       }),
                       SizedBox(height: kMediumPadding.bottom),
@@ -138,29 +152,55 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Links",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kTinyPadding.bottom),
                       ...news.links.map(
                         (l) {
-                          return Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(text: "${l.title}: "),
-                                TextSpan(
-                                  text: l.url,
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      launchUrl(Uri.parse(l.url));
-                                    },
-                                  style: context.typographyTheme.bodyLarge.primary.textStyle,
-                                ),
-                              ],
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(text: "${l.title}: "),
+                                  TextSpan(
+                                    text: l.url,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrl(Uri.parse(l.url));
+                                      },
+                                    style:
+                                        context.typographyTheme.bodyMedium.primary.textStyle,
+                                  ),
+                                ],
+                              ),
+                              style: context
+                                  .typographyTheme.bodySmall.onPrimaryContainer.textStyle,
                             ),
-                            style: context
-                                .typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                           );
                         },
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      if (news.community != null)
+                      if (news.community != null) ...[
+                        Row(
+                          children: [
+                            Text(
+                              "Community",
+                              maxLines: 1,
+                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        SizedBox(height: kTinyPadding.bottom),
                         CommunityCardContainer.big(
                           data: news.community!,
                           constraints: BoxConstraints(
@@ -174,8 +214,20 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             );
                           },
                         ),
+                      ],
                       SizedBox(height: kLargePadding.bottom),
-                      if (news.artist != null)
+                      if (news.artist != null) ...[
+                        Row(
+                          children: [
+                            Text(
+                              "Artist",
+                              maxLines: 1,
+                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        SizedBox(height: kTinyPadding.bottom),
                         ArtistCardContainer.big(
                           data: news.artist!,
                           constraints: BoxConstraints(
@@ -189,6 +241,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             );
                           },
                         ),
+                      ],
                       SizedBox(height: kLargePadding.bottom),
                     ],
                   ),

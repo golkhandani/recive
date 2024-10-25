@@ -127,18 +127,6 @@ final dashboardRoutes = [
                     id: state.pathParameters[EventDetailScreen.pathParamId] ?? '',
                   ),
                 ),
-                routes: [
-                  GoRoute(
-                    name: EventDetailScreen.name + ArtDetailScreen.name,
-                    path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
-                    pageBuilder: (context, state) => _dashboardPageBuilder(
-                      state,
-                      ArtDetailScreen(
-                        id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
-                      ),
-                    ),
-                  )
-                ],
               ),
               GoRoute(
                 name: ArtDetailScreen.name,

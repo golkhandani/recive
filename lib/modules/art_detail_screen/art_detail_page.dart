@@ -104,8 +104,9 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                       Center(
                         child: Text(
                           data.description,
-                          style: context.typographyTheme.bodyMedium.textStyle
-                              .copyWith(color: fontColor, height: 1.8),
+                          textAlign: TextAlign.start,
+                          style: context.typographyTheme.bodyLarge.textStyle
+                              .copyWith(color: fontColor),
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
@@ -191,25 +192,29 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                           const Spacer(),
                         ],
                       ),
-                      SizedBox(height: kExtraTinyPadding.bottom),
+                      SizedBox(height: kTinyPadding.bottom),
                       ...data.links.map(
                         (l) {
-                          return Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(text: "${l.title}: "),
-                                TextSpan(
-                                  text: l.url,
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      launchUrl(Uri.parse(l.url));
-                                    },
-                                  style: context.typographyTheme.bodyLarge.primary.textStyle,
-                                ),
-                              ],
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(text: "${l.title}: "),
+                                  TextSpan(
+                                    text: l.url,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrl(Uri.parse(l.url));
+                                      },
+                                    style:
+                                        context.typographyTheme.bodyMedium.primary.textStyle,
+                                  ),
+                                ],
+                              ),
+                              style: context
+                                  .typographyTheme.bodySmall.onPrimaryContainer.textStyle,
                             ),
-                            style: context
-                                .typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                           );
                         },
                       ),

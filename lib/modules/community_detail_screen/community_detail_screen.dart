@@ -93,24 +93,39 @@ class _CommunityDetailScreenState extends State<CommunityDetailScreen> {
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
+                      Row(
+                        children: [
+                          Text(
+                            "Links",
+                            maxLines: 1,
+                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      SizedBox(height: kTinyPadding.bottom),
                       ...community.links.map(
                         (l) {
-                          return Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(text: "${l.title}: "),
-                                TextSpan(
-                                  text: l.url,
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      launchUrl(Uri.parse(l.url));
-                                    },
-                                  style: context.typographyTheme.bodyLarge.primary.textStyle,
-                                ),
-                              ],
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(text: "${l.title}: "),
+                                  TextSpan(
+                                    text: l.url,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrl(Uri.parse(l.url));
+                                      },
+                                    style:
+                                        context.typographyTheme.bodyMedium.primary.textStyle,
+                                  ),
+                                ],
+                              ),
+                              style: context
+                                  .typographyTheme.bodySmall.onPrimaryContainer.textStyle,
                             ),
-                            style: context
-                                .typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                           );
                         },
                       ),

@@ -13,6 +13,7 @@ import 'package:art_for_all/core/ioc/i_search_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/services/auth_service.dart';
+import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/environment.dart';
@@ -30,6 +31,7 @@ import 'package:art_for_all/modules/news_detail_screen/news_detail_bloc.dart';
 import 'package:art_for_all/modules/splash_screen/splash_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -127,6 +129,14 @@ Future setupServices() async {
   locator.registerLazySingleton<IUserService>(
     () => SupabaseUserService(
       supabase: locator.get(),
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
+    ),
+  );
+  locator.registerLazySingleton<GeolocatorPlatform>(() => GeolocatorPlatform.instance);
+  locator.registerLazySingleton<ILocationService>(
+    () => LocalLocationService(
+      geolocator: locator.get(),
       secureStorage: locator.get(),
       sharedStorage: locator.get(),
     ),

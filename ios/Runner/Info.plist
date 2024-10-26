@@ -49,5 +49,7 @@
 		<false/>
 		<key>NSPhotoLibraryUsageDescription</key> 
 		<string>Photo Library Access For Avatar</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs access to location when open.</string>
 	</dict>
 </plist>

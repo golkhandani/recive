@@ -3,6 +3,7 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_dropdown_menu.dart';
@@ -41,21 +42,34 @@ class NearMeScreen extends StatefulWidget {
 class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMixin {
   final bloc = locator.get<MapArtBloc>();
   final navigator = locator.get<NavigationService>();
+  final geolocator = locator.get<ILocationService>();
+
   final filterController = TextEditingController();
   late final _animatedMapController = AnimatedMapController(vsync: this);
   final carouselController = CarouselSliderController();
   final listController = CarouselSliderController();
-  final LatLng _center = const LatLng(51.5, -0.09);
   bool showFilters = false;
   double _currentSliderValue = 20;
 
   bool showTabBar = false;
   late final TabController tabController = TabController(length: 2, vsync: this);
+  LatLng get _center => geolocator.userLatLng;
+
+  void _onLocationUpdate(latLng) {
+    bloc.init(latLng);
+  }
 
   @override
   void initState() {
     bloc.init(_center);
+    geolocator.addListener(_onLocationUpdate);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    geolocator.removeListener(_onLocationUpdate);
+    super.dispose();
   }
 
   bool lock = false;
@@ -81,14 +95,10 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
           offset: Offset(0, -cardHeight),
         );
 
-        if (carouselController.ready && !lock) carouselController.jumpToPage(index);
-        // if (tabController.index == 1) {
-        //   carouselController.jumpToPage(index);
-        // }
+        if (carouselController.ready && !lock) {
+          carouselController.jumpToPage(index);
+        }
 
-        // if (tabController.index == 0) {
-        //   listController.jumpToPage(index);
-        // }
         setState(() {
           lock = false;
         });
@@ -227,7 +237,8 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                             return _buildMapMarker(item, i, context);
                           }),
                           if (state.focusedArt != null)
-                            _buildSelectedMapMarker(state, context)
+                            _buildSelectedMapMarker(state, context),
+                          _buildUserMarker(context),
                         ]),
                         if (state.arts.isNotEmpty)
                           Align(
@@ -271,6 +282,50 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                         Align(
                           alignment: Alignment.topCenter,
                           child: _buildRefreshButton(context, state),
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: IntrinsicHeight(
+                            child: Container(
+                              margin: kExtraTinyPadding,
+                              decoration: BoxDecoration(
+                                color: context.colorTheme.primaryContainer,
+                                borderRadius: kSmallBorderRadius,
+                              ),
+                              child: Column(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      _animatedMapController.animatedZoomIn();
+                                    },
+                                    icon: Icon(
+                                      Icons.zoom_in,
+                                      color: context.colorTheme.onPrimaryContainer,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      _animatedMapController.animatedZoomOut();
+                                    },
+                                    icon: Icon(
+                                      Icons.zoom_out,
+                                      color: context.colorTheme.onPrimaryContainer,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      _animatedMapController.animateTo(dest: _center);
+                                      _onLocationUpdate(_center);
+                                    },
+                                    icon: Icon(
+                                      Icons.my_location,
+                                      color: context.colorTheme.onPrimaryContainer,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -320,51 +375,93 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
   }
 
   Widget _buildRefreshButton(BuildContext context, MapArtBlocState state) {
+    Widget? child;
+
     if (state.hasPositionChanged) {
-      return Padding(
+      final style = context.typographyTheme.label.onPrimaryContainer.textStyle;
+      child = Padding(
         padding: kMediumPadding,
         child: AFAElevatedButton(
+          padding: kSmallPadding,
+          background: context.colorTheme.primaryContainer,
           onPressed: () {
             bloc.searchByCenter();
           },
-          child: Icon(
-            Icons.refresh,
-            color: context.colorTheme.onPrimary,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Search in this area",
+                style: style,
+              ),
+              SizedBox(width: kTinyPadding.right),
+              Icon(
+                Icons.refresh,
+                color: context.colorTheme.onPrimaryContainer,
+              ),
+            ],
           ),
         ),
       );
     }
     if (state.isLoadingArts == LoadingState.loading) {
-      return Padding(
+      child = Padding(
         padding: kMediumPadding,
         child: AFAElevatedButton(
+          background: context.colorTheme.primaryContainer,
           onPressed: () {},
           child: SizedBox(
             width: 24,
             height: 24,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: context.colorTheme.onPrimary,
+              color: context.colorTheme.onPrimaryContainer,
             ),
           ),
         ),
       );
     }
 
-    return const SizedBox();
+    return child == null
+        ? const SizedBox()
+        : AnimatedSwitcher(
+            duration: kLoadingDuration,
+            child: child,
+          );
+  }
+
+  Marker _buildUserMarker(BuildContext context) {
+    return Marker(
+      width: 40,
+      height: 40,
+      alignment: Alignment.bottomCenter,
+      point: _center,
+      child: InkWell(
+        child: CircleAvatar(
+          backgroundColor: context.colorTheme.success,
+          child: Icon(
+            Icons.location_history,
+            color: context.colorTheme.onSuccess,
+            size: 30,
+          ),
+        ),
+      ),
+    );
   }
 
   Marker _buildSelectedMapMarker(MapArtBlocState state, BuildContext context) {
     return Marker(
-      width: 70,
-      height: 70,
-      alignment: Alignment.bottomCenter,
+      width: 75,
+      height: 75,
+      alignment: Alignment.center,
       point: state.focusedArt!.geoLocation,
       child: InkWell(
         child: Icon(
-          Icons.pin_drop_rounded,
+          Icons.location_pin,
           color: context.colorTheme.primary,
-          size: 70,
+          size: 75,
         ),
       ),
     );
@@ -372,8 +469,8 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
 
   Marker _buildMapMarker(ArtAbstractModel item, int i, BuildContext context) {
     return Marker(
-      width: 70,
-      height: 70,
+      width: 25,
+      height: 25,
       point: item.geoLocation,
       alignment: Alignment.bottomCenter,
       child: InkWell(
@@ -381,9 +478,9 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
           bloc.setFocusedArt(item);
         },
         child: Icon(
-          Icons.pin_drop_outlined,
-          color: context.colorTheme.onPrimaryContainer,
-          size: 70,
+          Icons.location_pin,
+          color: context.colorTheme.onPrimaryContainer.withOpacity(kTinyOpacity),
+          size: 25,
         ),
       ),
     );

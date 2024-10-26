@@ -69,19 +69,32 @@ final initRoutes = [
 final dashboardRoutes = [
   StatefulShellRoute.indexedStack(
     parentNavigatorKey: rootNavigatorKey,
+    restorationScopeId: 'dashboard_page',
     redirect: (context, state) {
       if (state.name == '/${DashboardScreen.name}') {
         state.namedLocation(HomeScreen.name);
       }
       return;
     },
-    builder: (context, state, child) {
-      return DashboardScreen(child: child);
+    pageBuilder: (context, state, child) {
+      return CustomTransitionPage(
+        key: state.pageKey,
+        child: DashboardScreen(child: child),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          // Change the opacity of the screen using a Curve based on the the animation's
+          // value
+          return FadeTransition(
+            opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+            child: child,
+          );
+        },
+      );
     },
     branches: [
       /// HOME PAGE
       StatefulShellBranch(
         navigatorKey: homeNavigatorKey,
+        restorationScopeId: 'home_page',
         routes: <RouteBase>[
           GoRoute(
             path: '/${DashboardScreen.name}/${HomeScreen.name}',
@@ -200,6 +213,7 @@ final dashboardRoutes = [
       /// SEARCH SCREEN
       StatefulShellBranch(
         navigatorKey: searchNavigatorKey,
+        restorationScopeId: 'search_page',
         routes: <RouteBase>[
           GoRoute(
             name: SearchScreen.name,
@@ -305,6 +319,7 @@ final dashboardRoutes = [
 
       StatefulShellBranch(
         navigatorKey: nearMeNavigatorKey,
+        restorationScopeId: 'explore_page',
         routes: <RouteBase>[
           GoRoute(
             name: NearMeScreen.name,
@@ -343,6 +358,7 @@ final dashboardRoutes = [
 
       StatefulShellBranch(
         navigatorKey: profileNavigatorKey,
+        restorationScopeId: 'settings_page',
         routes: <RouteBase>[
           GoRoute(
             name: ProfileScreen.name,

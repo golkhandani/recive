@@ -8,6 +8,7 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/services/notification_banner_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
+import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:art_for_all/utils/afa_scroll_behavior.dart';
 import 'package:flutter/foundation.dart';
@@ -23,7 +24,7 @@ void main() {
   runZonedGuarded(() async {
     await SentryFlutter.init((options) {
       options.dsn =
-          'https://66589a0fc77fcde8e26d6f0362c04fad@o4508033221787648.ingest.us.sentry.io/4508033222639616';
+          'https://${Environment.sentryHost}.ingest.us.sentry.io/${Environment.sentryKey}';
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
       // We recommend adjusting this value in production.
       options.tracesSampleRate = 1.0;
@@ -82,6 +83,7 @@ void main() {
       print(stack.toString());
       print(error);
     }
+    Logger.error("Application Error", error, stack);
   });
 }
 

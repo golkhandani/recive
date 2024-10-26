@@ -42,38 +42,6 @@ class SplashBloc extends HydratedCubit<SplashBlocState> {
     required this.userService,
   }) : super(SplashBlocState.initialize());
 
-  Future<void> loadSetting() async {
-    // final isLoggedIn = await applicationService.checkLogin();
-    // final isIntroViewed = introductionBox.get(
-    //   SettingLoaderState.isIntroViewedKey,
-    //   defaultValue: false,
-    // )!;
-    // emit(state.copyWith(
-    //   isLoggedIn: isLoggedIn,
-    //   isIntroViewed: isIntroViewed,
-    // ));
-  }
-
-  Future<void> doneIntro() async {
-    // introductionBox.put(
-    //   SettingLoaderState.isIntroViewedKey,
-    //   true,
-    // );
-  }
-
-  Future<void> switchIntroSetting(bool value) async {
-    // final current = introductionBox.get(
-    //   SettingLoaderState.isIntroViewedKey,
-    // );
-
-    // final updatedValue = current == null ? value : !current;
-
-    // introductionBox.put(SettingLoaderState.isIntroViewedKey, updatedValue);
-    // emit(state.copyWith(
-    //   isIntroViewed: updatedValue,
-    // ));
-  }
-
   Future<void> checkInitialization({
     required void Function(int) onIntro,
     required VoidCallback onLoggedIn,

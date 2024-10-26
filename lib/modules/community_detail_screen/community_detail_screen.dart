@@ -21,7 +21,7 @@ class CommunityDetailScreen extends StatefulWidget {
   static String pathParamId = 'id';
 
   final String id;
-  final ExtraData<CommunityCardContainerData>? extra;
+  final ExtraData<CommunityAbstractModel>? extra;
 
   const CommunityDetailScreen({super.key, required this.id, this.extra});
 

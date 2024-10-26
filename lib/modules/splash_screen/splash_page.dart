@@ -1,6 +1,5 @@
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/router/basic.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/lottie_safe_loading.dart';

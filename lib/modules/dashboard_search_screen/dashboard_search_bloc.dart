@@ -65,6 +65,10 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
     }
   }
 
+  Future<void> restore(DashboardSearchBlocState state) async {
+    emit(state);
+  }
+
   Timer? _debounce;
   Future<void> search(String query) async {
     if (_debounce?.isActive ?? false) _debounce?.cancel();

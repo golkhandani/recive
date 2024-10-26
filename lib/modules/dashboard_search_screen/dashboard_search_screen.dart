@@ -34,21 +34,31 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
   final bloc = locator.get<DashboardSearchBloc>();
   final navigator = locator.get<NavigationService>();
 
   final filterController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
+  String get restorationId =>
+      (widget.filtersData.hashCode + widget.isViewAll.hashCode).toString();
+
+  static final Map<String, DashboardSearchBlocState> _states = {};
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) async {
+    if (_states[restorationId] != null) {
+      bloc.restore(_states[restorationId]!);
+      return;
+    }
+
+    bloc.init(widget.filtersData, widget.isViewAll);
   }
 
   @override
-  void didChangeDependencies() {
-    bloc.init(widget.filtersData, widget.isViewAll);
-    super.didChangeDependencies();
+  void dispose() {
+    _states[restorationId] = bloc.state;
+    super.dispose();
   }
 
   @override

@@ -79,41 +79,17 @@ class SplashBloc extends HydratedCubit<SplashBlocState> {
     required VoidCallback onLoggedIn,
     required VoidCallback onNeedLogin,
   }) async {
-    // if (state.loadingState == LoadingState.loading) {
-    //   return;
-    // }
-    // emit(state.copyWith(loadingState: LoadingState.loading));
-
     final introIsViewed = await sharedPreferences.read(key: Environment.isIntroCheckedKey);
-    print(introIsViewed);
     if (!(bool.tryParse(introIsViewed ?? 'false') ?? false)) {
       emit(state.copyWith(loadingState: LoadingState.done));
       return onIntro(0);
     }
 
     final isLoggedIn = userService.isLoggedIn;
-
     if (!isLoggedIn) {
       emit(state.copyWith(loadingState: LoadingState.done));
       return onNeedLogin();
     }
-
-    // final introIsViewed = introductionBox.get(
-    //   SettingLoaderState.isIntroViewedKey,
-    //   defaultValue: false,
-    // )!;
-
-    // if (!introIsViewed) {
-    //   maybeEmit(state.copyWith(loadingState: LoadingState.done));
-    //   return onIntro(0);
-    // }
-
-    // final locationPermission = await locationService.getPermissionSetting();
-    // if (!locationPermission.isPermitted) {
-    //   emit(state.copyWith(loadingState: LoadingState.done));
-    //   switchIntroSetting(false);
-    //   return onIntro(3);
-    // }
 
     emit(state.copyWith(loadingState: LoadingState.done));
     return onLoggedIn();

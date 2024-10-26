@@ -315,7 +315,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                   IconButton(
                                     onPressed: () {
                                       _animatedMapController.animateTo(dest: _center);
-                                      _onLocationUpdate(_center);
+                                      bloc.onCenterChanged(_center);
                                     },
                                     icon: Icon(
                                       Icons.my_location,

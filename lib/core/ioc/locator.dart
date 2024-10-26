@@ -28,6 +28,7 @@ import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_blo
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
 import 'package:art_for_all/modules/news_detail_screen/news_detail_bloc.dart';
+import 'package:art_for_all/modules/onboarding_screen.dart/onboarding_bloc.dart';
 import 'package:art_for_all/modules/splash_screen/splash_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
@@ -158,6 +159,13 @@ Future setupBloc() async {
       secureStorage: locator.get(),
       sharedPreferences: locator.get(),
       userService: locator.get(),
+    ),
+  );
+
+  locator.registerFactory<OnboardingBloc>(
+    () => OnboardingBloc(
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
     ),
   );
 

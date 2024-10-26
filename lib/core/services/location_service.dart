@@ -114,7 +114,6 @@ class LocalLocationService implements ILocationService {
     _geolocator.getPositionStream().listen((position) {
       final latLng = LatLng(position.latitude, position.longitude);
       if (_lastLatLng == latLng) return;
-      print(position);
       for (var listener in listeners.values) {
         listener(latLng);
       }

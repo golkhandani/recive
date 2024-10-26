@@ -1,5 +1,4 @@
 import 'package:art_for_all/core/models/category_abstract_model.dart';
-import 'package:art_for_all/core/router/basic.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
@@ -17,6 +16,7 @@ import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_scr
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_page.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
 import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
+import 'package:art_for_all/modules/onboarding_screen.dart/onboarding_screen.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:flutter/material.dart';
 

@@ -2,6 +2,7 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/services/auth_service.dart';
+import 'package:art_for_all/environment.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -82,6 +83,14 @@ class SplashBloc extends HydratedCubit<SplashBlocState> {
     //   return;
     // }
     // emit(state.copyWith(loadingState: LoadingState.loading));
+
+    final introIsViewed = await sharedPreferences.read(key: Environment.isIntroCheckedKey);
+    print(introIsViewed);
+    if (!(bool.tryParse(introIsViewed ?? 'false') ?? false)) {
+      emit(state.copyWith(loadingState: LoadingState.done));
+      return onIntro(0);
+    }
+
     final isLoggedIn = userService.isLoggedIn;
 
     if (!isLoggedIn) {

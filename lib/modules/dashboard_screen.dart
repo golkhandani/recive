@@ -5,7 +5,6 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
 import 'package:art_for_all/core/widgets/lottie_safe_loading.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
-import 'package:art_for_all/modules/dashboard_setting_screen/profile_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

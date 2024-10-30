@@ -1,4 +1,5 @@
 import 'package:art_for_all/core/constants.dart';
+import 'package:art_for_all/core/ioc/i_artist_repository.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/art_model.dart';
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
@@ -6,6 +7,7 @@ import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:faker/faker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class IArtRepository {
   Future<List<ArtAbstractModel>> getArtsByCategoryId(String categoryId);
@@ -18,6 +20,13 @@ abstract class IArtRepository {
 }
 
 class MockArtRepository extends IArtRepository {
+  final SupabaseClient supabase;
+  final faker = Faker();
+
+  MockArtRepository({
+    required this.supabase,
+  });
+
   @override
   Future<List<ArtAbstractModel>> getArtsByCategoryId(String categoryId) async {
     await Future.delayed(kDebounceDuration);
@@ -39,8 +48,14 @@ class MockArtRepository extends IArtRepository {
           baseLatitude + latVariation, // Latitude close to base
           baseLongitude + lngVariation, // Longitude close to base
         ),
-        imageUrl:
-            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
+        thumbnail: MediaModel(
+          id: faker.randomGenerator.integer(200).toString(),
+          title: 'image',
+          type: MediaType.image,
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
+          copyright: 'copyright',
+          tags: [],
+        ),
         tags: faker.lorem.words(3),
         artType: faker.address.city(),
       );
@@ -49,31 +64,22 @@ class MockArtRepository extends IArtRepository {
 
   @override
   Future<List<ArtAbstractModel>> getFeaturedArts(LatLng? center) async {
-    await Future.delayed(kDebounceDuration);
+    final count = await supabase.from('art').count();
+    final rand = faker.randomGenerator.integer(count - 10);
+    final res = await supabase.from('art').select('''
+            id,
+            title,
+            description,
+            type,
+            material,
+            ownership,
+            location(id, title, coordinates, lat, lng),
+            art_links(link_id, link(id, url, title)),
+            art_media!inner(media_id, media(id, url, copyright, type, title)),
+            art_tags(tag_id, tag(name))
+    ''').range(rand, rand + 10).limit(10) as ArrayRes;
 
-    final faker = Faker();
-    final double baseLatitude = center?.latitude ?? 51.52;
-    final double baseLongitude = center?.longitude ?? -0.09;
-
-    return List.generate(26, (index) {
-      final double latVariation = faker.randomGenerator.decimal(min: -0.02, scale: 0.04);
-      final double lngVariation = faker.randomGenerator.decimal(min: -0.02, scale: 0.04);
-
-      return ArtAbstractModel(
-        id: faker.guid.guid(),
-        title: faker.lorem.words(3).join(' '),
-        description: faker.lorem.sentence(),
-        location: faker.address.streetAddress(),
-        geoLocation: LatLng(
-          baseLatitude + latVariation, // Latitude close to base
-          baseLongitude + lngVariation, // Longitude close to base
-        ),
-        imageUrl:
-            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-        tags: faker.lorem.words(3),
-        artType: faker.address.city(),
-      );
-    });
+    return res?.map((r) => ArtAbstractModel.fromPostgres(r)).toList() ?? [];
   }
 
   @override
@@ -97,8 +103,14 @@ class MockArtRepository extends IArtRepository {
           baseLatitude + latVariation, // Latitude close to base
           baseLongitude + lngVariation, // Longitude close to base
         ),
-        imageUrl:
-            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
+        thumbnail: MediaModel(
+          id: faker.randomGenerator.integer(200).toString(),
+          title: 'image',
+          type: MediaType.image,
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
+          copyright: 'copyright',
+          tags: [],
+        ),
         tags: faker.lorem.words(3),
         artType: faker.address.city(),
       );
@@ -107,110 +119,100 @@ class MockArtRepository extends IArtRepository {
 
   @override
   Future<ArtModel> getDetailArt(String id) async {
-    await Future.delayed(kDebounceDuration);
+    final res = await supabase.from('art').select('''
+            id,
+            title,
+            description,
+            type,
+            material,
+            ownership,
+            location(id, title, coordinates, lat, lng),
+            art_artists!inner (artist_id, artist(
+                id, 
+                name,
+                description,
+                artist_media (
+                  media_id, 
+                  media (
+                    id, 
+                    url, 
+                    copyright, 
+                    type, 
+                    title
+                  )
+                )
+            )),
+            art_links(link_id, link(id, url, title)),
+            art_media(media_id, media(id, url, copyright, type, title)),
+            art_tags(tag_id, tag(name))
+    ''').eq('id', id).limit(1).single();
 
-    final faker = Faker();
+    final artArtists = (res['art_artists'] as ArrayRes) ?? [];
+    final artists = artArtists
+        .map(
+          (aa) => ArtistAbstractModel.fromPostgres(aa['artist']),
+        )
+        .toList();
+
+    final artMedia = res['art_media'] as ArrayRes ?? [];
+    List<MediaModel> media = [];
+    if (artMedia.isEmpty) {
+      media.add(MediaModel.artistPlaceholder);
+    } else {
+      media = artMedia.map((am) => MediaModel.fromPostgres(am['media'])).toList();
+    }
 
     return ArtModel(
-      id: faker.guid.guid(),
-      artType: faker.lorem.word(),
-      artists: List.generate(12, (i) {
-        return ArtistAbstractModel(
-          id: faker.guid.guid(),
-          imageUrl:
-              'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(100 + i)}',
-          name: faker.person.name(),
-          description: '',
-          tags: [],
-        );
-      }),
-      description: faker.lorem.sentences(23).join(' '),
-      media: List.generate(
-        10,
-        (i) => MediaModel(
-          id: faker.randomGenerator.integer(200).toString(),
-          title: 'image',
-          type: MediaType.image,
-          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-          copyright: 'copyright',
-          tags: [],
-        ),
-      ),
-      location: LocationModel(
-        geolocation: GeolocationModel(
-          typename: 'Geolocation',
-          coordinates: [faker.randomGenerator.decimal(), faker.randomGenerator.decimal()],
-          type: 'Point',
-        ),
-        venue: VenueModel(
-          typename: 'Venue',
-          id: faker.guid.guid(),
-          address: AddressModel(
-            area: faker.address.streetName(),
-            city: faker.address.city(),
-            country: faker.address.country(),
-            latitude: faker.randomGenerator.decimal(),
-            localizedAddressDisplay: faker.address.streetAddress(),
-            longitude: faker.randomGenerator.decimal(),
-            postalCode: faker.address.zipCode(),
-            region: faker.address.state(),
-          ),
-          geolocation: GeolocationModel(
-            typename: 'Geolocation',
-            coordinates: [faker.randomGenerator.decimal(), faker.randomGenerator.decimal()],
-            type: 'Point',
-          ),
-          osmId: faker.randomGenerator.integer(100000),
-          osmLicense: 'ODbL',
-          osmVenueId: faker.randomGenerator.integer(100000),
-          title: faker.company.name(),
-        ),
-        latLng: LatLng(faker.randomGenerator.decimal(), faker.randomGenerator.decimal()),
-      ),
-      tags: List.generate(30, (i) => faker.lorem.word()),
-      title: faker.lorem.sentence(),
-      links: List.generate(4, (li) {
+      id: res['id'],
+      title: res['title'],
+      description: res['description'],
+      artType: res['type'],
+      media: media,
+      location: res['location']['title'],
+      geoLocation: LatLng(res['location']['lat'] ?? 0, res['location']['lng'] ?? 0),
+      tags: (res['art_tags'] as List<dynamic>? ?? []).map((at) {
+        return at['tag']['name'] as String;
+      }).toList(),
+      links: (res['art_links'] as List<dynamic>? ?? []).map((al) {
+        final l = al['link'];
         return LinkModel(
-          id: li.toString(),
-          title: faker.company.name(),
-          url: faker.internet.httpsUrl(),
+          id: l['id'],
+          title: l['title'],
+          url: l['url'],
         );
-      }),
-      community: CommunityAbstractModel(
-        id: faker.randomGenerator.integer(200).toString(),
-        title: faker.conference.name(),
-        description:
-            'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
-        imageUrl:
-            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-        tags: ['performance', 'fashion', 'theater'],
-      ),
+      }).toList(),
+      artists: artists,
+      communities: [
+        CommunityAbstractModel(
+          id: faker.randomGenerator.integer(200).toString(),
+          title: faker.conference.name(),
+          description:
+              'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
+          imageUrl:
+              'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
+          tags: ['performance', 'fashion', 'theater'],
+        )
+      ],
     );
   }
 
   @override
   Future<ArtAbstractModel> getDayArt(LatLng? center) async {
-    await Future.delayed(kDebounceDuration);
+    final count = await supabase.from('art').count();
+    final rand = faker.randomGenerator.integer(count - 1);
+    final res = await supabase.from('art').select('''
+            id,
+            title,
+            description,
+            type,
+            material,
+            ownership,
+            location(id, title, coordinates, lat, lng),
+            art_links(link_id, link(id, url, title)),
+            art_media(media_id, media(id, url, copyright, type, title)),
+            art_tags(tag_id, tag(name))
+    ''').range(rand, rand + 1).limit(1).single();
 
-    final faker = Faker();
-    final double baseLatitude = center?.latitude ?? 51.52;
-    final double baseLongitude = center?.longitude ?? -0.09;
-
-    final double latVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
-    final double lngVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
-
-    return ArtAbstractModel(
-      id: faker.guid.guid(),
-      title: faker.lorem.words(3).join(' '),
-      description: faker.lorem.sentence(),
-      location: faker.address.streetAddress(),
-      geoLocation: LatLng(
-        baseLatitude + latVariation, // Latitude close to base
-        baseLongitude + lngVariation, // Longitude close to base
-      ),
-      imageUrl: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-      tags: faker.lorem.words(3),
-      artType: faker.address.city(),
-    );
+    return ArtAbstractModel.fromPostgres(res);
   }
 }

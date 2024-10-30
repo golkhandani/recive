@@ -151,7 +151,7 @@ class ArtistCardContainer extends StatelessWidget {
           child: Hero(
             tag: heroTag,
             child: CachedNetworkImage(
-              imageUrl: data.imageUrl,
+              imageUrl: data.thumbnail.url,
               imageBuilder: (context, imageProvider) =>
                   _buildCard(imageProvider, color, child),
               placeholder: (context, url) => _buildLoading(color),

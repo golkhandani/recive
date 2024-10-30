@@ -83,122 +83,57 @@ class _HomeScreenState extends State<HomeScreen> {
           slivers: [
             PinnedHeaderSliver(child: header),
             SliverGap(kTinyPadding.bottom),
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: kMediumPadding.left,
-                      vertical: kTinyPadding.top,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Explore Art Categories",
-                          maxLines: 1,
-                          style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: context.vHeight / 10,
-                    child: ListView.separated(
-                      clipBehavior: Clip.none,
-                      padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.categories.length,
-                      itemBuilder: (context, index) {
-                        final data = state.categories[index];
-                        return CategoryCardContainer.small(
-                          data: data,
-                          constraints: BoxConstraints.expand(width: context.vWidth / 2.5),
-                          onTap: () {
-                            final current = navigator.homeUrl;
-                            navigator.homeContext.push(
-                              '$current/${CategoryDetailScreen.name}/${data.id}',
-                              extra: data.toJson(),
-                            );
-                          },
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(
-                        width: kTinyPadding.left,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SliverGap(kTinyPadding.bottom),
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: kMediumPadding.left,
-                      vertical: kTinyPadding.top,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Upcoming Events!",
-                          maxLines: 1,
-                          style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                        ),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            final homeUrl = navigator.homeUrl;
-                            final extra = SearchScreenFiltersData.none().copyWith(
-                              events: true,
-                              autoSearch: true,
-                            );
-                            navigator.homeContext.push(
-                              '$homeUrl/${SearchScreen.name}',
-                              extra: extra,
-                            );
-                          },
-                          child: Text(
-                            "View All",
-                            maxLines: 1,
-                            style: context.typographyTheme.subtitleMedium.primary.textStyle,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: context.vHeight / 4,
-                    child: ListView.separated(
-                      clipBehavior: Clip.none,
-                      padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.events.length,
-                      itemBuilder: (context, index) {
-                        final data = state.events[index];
-                        return EventCardContainer.medium(
-                          data: data,
-                          constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
-                          onTap: () {
-                            final current = navigator.homeUrl;
-                            navigator.homeContext.push(
-                              '$current/${EventDetailScreen.name}/${data.id}',
-                            );
-                          },
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(
-                        width: kTinyPadding.left,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // SliverToBoxAdapter(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Padding(
+            //         padding: EdgeInsets.symmetric(
+            //           horizontal: kMediumPadding.left,
+            //           vertical: kTinyPadding.top,
+            //         ),
+            //         child: Row(
+            //           children: [
+            //             Text(
+            //               "Explore Art Categories",
+            //               maxLines: 1,
+            //               style: context.typographyTheme.titleTiny.onBackground.textStyle,
+            //             ),
+            //             const Spacer(),
+            //           ],
+            //         ),
+            //       ),
+            //       SizedBox(
+            //         height: context.vHeight / 10,
+            //         child: ListView.separated(
+            //           clipBehavior: Clip.none,
+            //           cacheExtent: state.categories.length * (context.vWidth / 2.5),
+            //           padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+            //           scrollDirection: Axis.horizontal,
+            //           itemCount: state.categories.length,
+            //           itemBuilder: (context, index) {
+            //             final data = state.categories[index];
+            //             return CategoryCardContainer.small(
+            //               data: data,
+            //               constraints: BoxConstraints.expand(width: context.vWidth / 2.5),
+            //               onTap: () {
+            //                 final current = navigator.homeUrl;
+            //                 navigator.homeContext.push(
+            //                   '$current/${CategoryDetailScreen.name}/${data.id}',
+            //                   extra: data.toJson(),
+            //                 );
+            //               },
+            //             );
+            //           },
+            //           separatorBuilder: (context, index) => SizedBox(
+            //             width: kTinyPadding.left,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // SliverGap(kTinyPadding.bottom),
             if (state.dayArt != null) ...[
               SliverGap(kTinyPadding.bottom),
               SliverToBoxAdapter(
@@ -252,6 +187,74 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: kMediumPadding.left,
+                      vertical: kTinyPadding.top,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Upcoming Events!",
+                          maxLines: 1,
+                          style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            final homeUrl = navigator.homeUrl;
+                            final extra = SearchScreenFiltersData.none().copyWith(
+                              events: true,
+                              autoSearch: true,
+                            );
+                            navigator.homeContext.push(
+                              '$homeUrl/${SearchScreen.name}',
+                              extra: extra,
+                            );
+                          },
+                          child: Text(
+                            "View All",
+                            maxLines: 1,
+                            style: context.typographyTheme.subtitleMedium.primary.textStyle,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: context.vHeight / 4,
+                    child: ListView.separated(
+                      clipBehavior: Clip.none,
+                      cacheExtent: state.events.length * (context.vWidth / 1.5),
+                      padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.events.length,
+                      itemBuilder: (context, index) {
+                        final data = state.events[index];
+                        return EventCardContainer.medium(
+                          data: data,
+                          constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
+                          onTap: () {
+                            final current = navigator.homeUrl;
+                            navigator.homeContext.push(
+                              '$current/${EventDetailScreen.name}/${data.id}',
+                            );
+                          },
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: kTinyPadding.left,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SliverGap(kTinyPadding.bottom),
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kMediumPadding.left,
                       vertical: kMediumPadding.top,
                     ),
                     child: Row(
@@ -287,6 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: max(context.vHeight / 6, 88),
                     child: ListView.separated(
                       clipBehavior: Clip.none,
+                      cacheExtent: state.news.length * (context.vWidth / 1.6),
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.news.length,
@@ -348,7 +352,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: kExtraTinyPadding,
                       child: card(
                         hero: HomeScreen.name + data.id,
-                        constraints: const BoxConstraints.expand(),
+                        constraints: BoxConstraints.expand(
+                          width: context.vWidth - (kMediumPadding.right) * 2,
+                        ),
                         data: data,
                         onTap: () {
                           final current = navigator.homeUrl;
@@ -416,6 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: context.vWidth / 2.4,
                     child: ListView.separated(
                       clipBehavior: Clip.none,
+                      cacheExtent: state.artists.length * (context.vWidth / 2.4),
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.artists.length,
@@ -483,6 +490,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: context.vWidth / 1.2,
                     child: ListView.separated(
                       clipBehavior: Clip.none,
+                      cacheExtent: state.communities.length * (context.vWidth / 1.2),
                       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.communities.length,

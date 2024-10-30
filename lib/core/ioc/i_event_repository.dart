@@ -104,8 +104,14 @@ class MockEventRepository extends IEventRepository {
         description: faker.lorem.sentence(),
         location: faker.address.streetAddress(),
         geoLocation: const LatLng(0, 0),
-        imageUrl:
-            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
+        thumbnail: MediaModel(
+          id: faker.randomGenerator.integer(200).toString(),
+          title: 'image',
+          type: MediaType.image,
+          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
+          copyright: 'copyright',
+          tags: [],
+        ),
         tags: faker.lorem.words(3),
         artType: faker.address.city(),
       ),

@@ -1,6 +1,8 @@
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/community_abstract_model.dart';
+import 'package:art_for_all/environment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'event_abstract_model.freezed.dart';
 part 'event_abstract_model.g.dart';
@@ -34,6 +36,33 @@ class MediaModel with _$MediaModel {
   }) = _MediaModel;
 
   factory MediaModel.fromJson(Map<String, Object?> json) => _$MediaModelFromJson(json);
+
+  static MediaModel fromPostgres(PostgrestMap m) => MediaModel(
+        id: m['id'],
+        title: m['title'],
+        type: MediaType.image,
+        url: m['url'],
+        copyright: m['copyright'],
+        tags: [],
+      );
+
+  static Future<MediaModel> fromSignedUrl(MediaModel media, StorageFileApi storage) async =>
+      media.copyWith(
+        url: await storage.createSignedUrl(media.url.split(storage.bucketId ?? '')[1], 3600),
+      );
+
+  static MediaModel get artistPlaceholder {
+    const ph =
+        '${Environment.supabaseUrl}/storage/v1/object/public/placeholders/artist_placeholder.jpeg?=';
+    return const MediaModel(
+      id: 'No Id',
+      title: 'No title',
+      type: MediaType.image,
+      url: ph,
+      copyright: 'No copyright',
+      tags: [],
+    );
+  }
 }
 
 @freezed

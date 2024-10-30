@@ -175,6 +175,7 @@ class ArtCardContainer extends StatelessWidget {
               ),
               if (size != CardSize.small)
                 Container(
+                  constraints: BoxConstraints(maxWidth: constraints.maxWidth),
                   margin: EdgeInsets.only(
                     left: kExtraTinyPadding.left,
                     right: kExtraTinyPadding.right,
@@ -195,12 +196,15 @@ class ArtCardContainer extends StatelessWidget {
                       SizedBox(
                         width: kExtraTinyPadding.right,
                       ),
-                      Text(
-                        data.location,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: context
-                            .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
+                      LimitedBox(
+                        maxWidth: constraints.maxWidth - 54,
+                        child: Text(
+                          data.location,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: context
+                              .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
+                        ),
                       ),
                     ],
                   ),
@@ -221,7 +225,7 @@ class ArtCardContainer extends StatelessWidget {
           child: Hero(
             tag: heroTag,
             child: CachedNetworkImage(
-              imageUrl: data.imageUrl,
+              imageUrl: data.thumbnail.url,
               imageBuilder: (context, imageProvider) =>
                   _buildCard(imageProvider, color, child),
               placeholder: (context, url) => _buildLoading(color),

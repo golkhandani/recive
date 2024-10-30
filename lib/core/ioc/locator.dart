@@ -108,12 +108,16 @@ Future setupStorage() async {
 }
 
 Future setupRepositories() async {
-  locator.registerSingleton<IArtRepository>(MockArtRepository());
+  locator.registerSingleton<IArtRepository>(MockArtRepository(
+    supabase: locator.get(),
+  ));
   locator.registerSingleton<INewsRepository>(MockNewsRepository());
   locator.registerSingleton<ICategoryRepository>(MockCategoryRepository(
     supabase: locator.get(),
   ));
-  locator.registerSingleton<IArtistRepository>(MockArtistRepository());
+  locator.registerSingleton<IArtistRepository>(MockArtistRepository(
+    supabase: locator.get(),
+  ));
   locator.registerSingleton<IEventRepository>(MockEventRepository());
   locator.registerSingleton<ICommunityRepository>(MockCommunityRepository());
   locator.registerSingleton<ISearchRepository>(MockSearchRepository());

@@ -2,6 +2,7 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
+import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/art_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
@@ -32,7 +33,7 @@ class ArtDetailScreen extends StatefulWidget {
   static String pathParamId = 'artId';
 
   final String id;
-  final ExtraData<ArtDetailSummaryData>? extra;
+  final ExtraData<ArtAbstractModel>? extra;
 
   const ArtDetailScreen({super.key, required this.id, this.extra});
 
@@ -138,7 +139,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                                 onTap: () {
                                   final homeUrl = navigator.homeUrl;
                                   navigator.homeContext.push(
-                                    '$homeUrl/${ArtistDetailScreen.name}/${data.id}',
+                                    '$homeUrl/${ArtistDetailScreen.name}/${artist.id}',
                                   );
                                 },
                               );
@@ -168,18 +169,36 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      CommunityCardContainer.big(
-                        data: data.community,
-                        constraints: BoxConstraints(
-                          maxHeight: context.vHeight / 3,
+                      SizedBox(
+                        height: context.vHeight / 3,
+                        child: OverflowBox(
                           maxWidth: context.vWidth,
+                          child: ListView.separated(
+                            clipBehavior: Clip.none,
+                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: data.communities.length,
+                            itemBuilder: (context, index) {
+                              final community = data.communities[index];
+                              return CommunityCardContainer.big(
+                                data: community,
+                                constraints: BoxConstraints(
+                                  maxHeight: context.vHeight / 3,
+                                  maxWidth: context.vWidth - kMediumPadding.left * 2,
+                                ),
+                                onTap: () {
+                                  final homeUrl = navigator.homeUrl;
+                                  navigator.homeContext.push(
+                                    '$homeUrl/${CommunityDetailScreen.name}/${community.id}',
+                                  );
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: kTinyPadding.left,
+                            ),
+                          ),
                         ),
-                        onTap: () {
-                          final homeUrl = navigator.homeUrl;
-                          navigator.homeContext.push(
-                            '$homeUrl/${CommunityDetailScreen.name}/${data.id}',
-                          );
-                        },
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Row(

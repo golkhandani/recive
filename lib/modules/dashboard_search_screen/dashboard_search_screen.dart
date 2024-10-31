@@ -239,7 +239,7 @@ class SearchResultCardContainer extends StatelessWidget {
   });
 
   final VoidCallback onTap;
-  final SearchAbstractModel data;
+  final SearchableAbstractModel data;
 
   @override
   Widget build(BuildContext context) {

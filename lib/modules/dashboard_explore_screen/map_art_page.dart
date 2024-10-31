@@ -2,7 +2,7 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
@@ -125,11 +125,11 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                     Row(
                       children: [
                         Expanded(
-                          child: AsyncDropdownMenu<ArtAbstractModel>(
+                          child: AsyncDropdownMenu<SearchableAbstractModel>(
                             hintText: 'Search...',
                             items: state.arts
                                 .map(
-                                  (e) => DropdownMenuEntry<ArtAbstractModel>(
+                                  (e) => DropdownMenuEntry<SearchableAbstractModel>(
                                     value: e,
                                     label: e.title,
                                   ),
@@ -250,7 +250,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                 itemCount: state.arts.length,
                                 itemBuilder: (context, index, pageViewIndex) {
                                   final data = state.arts[index];
-                                  return ArtCardContainer.small(
+                                  return SearchableOnMapCardContainer.small(
                                     data: data,
                                     constraints: const BoxConstraints(),
                                     onTap: () {
@@ -343,7 +343,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                         final data = state.arts[index];
                         return Padding(
                           padding: EdgeInsets.only(bottom: kMediumPadding.top),
-                          child: ArtCardContainer.small(
+                          child: SearchableOnMapCardContainer.small(
                             data: data,
                             constraints: const BoxConstraints(),
                             onTap: () {},
@@ -467,7 +467,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
     );
   }
 
-  Marker _buildMapMarker(ArtAbstractModel item, int i, BuildContext context) {
+  Marker _buildMapMarker(SearchableAbstractModel item, int i, BuildContext context) {
     return Marker(
       width: 25,
       height: 25,

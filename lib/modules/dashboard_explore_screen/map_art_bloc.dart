@@ -1,8 +1,8 @@
 import 'package:art_for_all/core/enums/loading_state.dart';
-import 'package:art_for_all/core/ioc/i_art_repository.dart';
+import 'package:art_for_all/core/ioc/i_search_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
-import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/utils/transformable_cubit.dart';
 import 'package:flutter/foundation.dart';
 
@@ -16,11 +16,11 @@ part 'map_art_bloc.g.dart';
 class MapArtBlocState with _$MapArtBlocState {
   const factory MapArtBlocState({
     required LoadingState isLoadingArts,
-    required List<ArtAbstractModel> arts,
+    required List<SearchableAbstractModel> arts,
     required LatLng center,
     required String query,
     required bool hasPositionChanged,
-    required ArtAbstractModel? focusedArt,
+    required SearchableAbstractModel? focusedArt,
   }) = _MapArtBlocState;
 
   factory MapArtBlocState.initialize() => const MapArtBlocState(
@@ -39,12 +39,12 @@ class MapArtBlocState with _$MapArtBlocState {
 class MapArtBloc extends TransformableCubit<MapArtBlocState> {
   final ISecureStorage secureStorage;
   final ISharedStorage sharedPreferences;
-  final IArtRepository artRepository;
+  final ISearchRepository searchRepository;
 
   MapArtBloc({
     required this.secureStorage,
     required this.sharedPreferences,
-    required this.artRepository,
+    required this.searchRepository,
   }) : super(MapArtBlocState.initialize());
 
   Future<void> init(LatLng? center) async {
@@ -52,18 +52,18 @@ class MapArtBloc extends TransformableCubit<MapArtBlocState> {
       isLoadingArts: LoadingState.loading,
       hasPositionChanged: false,
     ));
-    final featuredArts = await artRepository.getFeaturedArts(center);
+    final featuredArts = await searchRepository.searchByCoordinate(center);
     emit(
       state.copyWith(
         arts: featuredArts,
-        focusedArt: featuredArts.first,
+        focusedArt: featuredArts.isEmpty ? null : featuredArts.first,
         isLoadingArts: LoadingState.done,
         center: center ?? state.center,
       ),
     );
   }
 
-  Future<void> setFocusedArt(ArtAbstractModel? art) async {
+  Future<void> setFocusedArt(SearchableAbstractModel? art) async {
     if (art == null) {
       return;
     }
@@ -78,7 +78,7 @@ class MapArtBloc extends TransformableCubit<MapArtBlocState> {
       isLoadingArts: LoadingState.loading,
       hasPositionChanged: false,
     ));
-    final featuredArts = await artRepository.getFeaturedArts(state.center);
+    final featuredArts = await searchRepository.searchByCoordinate(state.center);
     emit(state.copyWith(
       arts: featuredArts,
       focusedArt: featuredArts.first,
@@ -102,7 +102,7 @@ class MapArtBloc extends TransformableCubit<MapArtBlocState> {
         isLoadingArts: LoadingState.loading,
         hasPositionChanged: false,
       ));
-      final featuredArts = await artRepository.getFeaturedArts(center);
+      final featuredArts = await searchRepository.searchByCoordinate(center);
       emit(state.copyWith(
         arts: featuredArts,
         focusedArt: featuredArts.first,

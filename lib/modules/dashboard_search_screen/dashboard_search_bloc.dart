@@ -21,7 +21,7 @@ class DashboardSearchBlocState with _$DashboardSearchBlocState {
     required LoadingState isLoading,
     required SearchScreenFiltersData filtersData,
     required List<String> keywords,
-    required List<SearchAbstractModel> result,
+    required List<SearchableAbstractModel> result,
     required String query,
     required SortType sortType,
     required SortOrderType sortOrderType,
@@ -75,7 +75,7 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
     _debounce = Timer(kDebounceDuration, () async {
       emit(state.copyWith(isLoading: LoadingState.loading));
       final result = query.isEmpty && !state.filtersData.autoSearch
-          ? <SearchAbstractModel>[]
+          ? <SearchableAbstractModel>[]
           : await searchRepository.searchByQuery(
               query: query,
               sortType: state.sortType,

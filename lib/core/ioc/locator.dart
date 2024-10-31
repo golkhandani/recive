@@ -120,7 +120,9 @@ Future setupRepositories() async {
   ));
   locator.registerSingleton<IEventRepository>(MockEventRepository());
   locator.registerSingleton<ICommunityRepository>(MockCommunityRepository());
-  locator.registerSingleton<ISearchRepository>(MockSearchRepository());
+  locator.registerSingleton<ISearchRepository>(MockSearchRepository(
+    supabase: locator.get(),
+  ));
 }
 
 Future setupServices() async {
@@ -245,7 +247,7 @@ Future setupBloc() async {
     () => MapArtBloc(
         secureStorage: locator.get(),
         sharedPreferences: locator.get(),
-        artRepository: locator.get()),
+        searchRepository: locator.get()),
   );
 
   locator.registerFactory<ProfileBloc>(

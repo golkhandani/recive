@@ -18,7 +18,7 @@ class CategoryDetailBlocState with _$CategoryDetailBlocState {
   const factory CategoryDetailBlocState({
     required LoadingState isLoading,
     CategoryAbstractModel? category,
-    required List<SearchAbstractModel> result,
+    required List<SearchableAbstractModel> result,
   }) = _CategoryDetailBlocState;
 
   factory CategoryDetailBlocState.initialize() => const CategoryDetailBlocState(

@@ -198,6 +198,7 @@ class MockArtRepository extends IArtRepository {
 
   @override
   Future<ArtAbstractModel> getDayArt(LatLng? center) async {
+    /// DONE TEST
     final count = await supabase.from('art').count();
     final rand = faker.randomGenerator.integer(count - 1);
     final res = await supabase.from('art').select('''

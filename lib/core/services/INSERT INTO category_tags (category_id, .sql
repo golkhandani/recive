@@ -321,19 +321,22 @@ CREATE TABLE artist_tags (
 );
 
 
-CREATE TABLE location (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    title VARCHAR(255),
-    area VARCHAR(255),
-    city VARCHAR(255),
-    country VARCHAR(255),
-    postal_code VARCHAR(20),
-    region VARCHAR(255),
-    details VARCHAR(255),
-    address VARCHAR(255),
-    coordinates GEOGRAPHY(POINT, 4326),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+create table location (
+    id uuid not null default extensions.uuid_generate_v4(),
+    title character varying(255) null,
+    area character varying(255) null,
+    city character varying(255) null,
+    country character varying(255) null,
+    postal_code character varying(20) null,
+    region character varying(255) null,
+    details text null,
+    address character varying(255) null,
+    lat double precision null,
+    lng double precision null,
+    coordinates geography null,
+    created_at timestamp without time zone null default current_timestamp,
+    updated_at timestamp without time zone null default current_timestamp,
+    constraint location_pkey primary key (id)
 );
 
 
@@ -376,3 +379,26 @@ CREATE TABLE art_artists (
     artist_id UUID REFERENCES artist(id) ON DELETE CASCADE,
     PRIMARY KEY (art_id, artist_id)
 );
+
+
+
+
+
+
+create table searchable (
+    id uuid not null default extensions.uuid_generate_v4(),
+    ref_id uuid not null,
+    title character varying(255) not null,
+    type character varying(255) not null,
+    tags TEXT[],
+    lat double precision null,
+    lng double precision null,
+    coordinates geography null,
+    created_at timestamp without time zone null default current_timestamp,
+    updated_at timestamp without time zone null default current_timestamp
+);
+
+ALTER TABLE searchable ADD COLUMN tsv tsvector;
+
+UPDATE searchable
+SET tsv = to_tsvector('english', title) || to_tsvector('english', array_to_string(tags, ' '));

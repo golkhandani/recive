@@ -67,7 +67,7 @@ class MockSearchRepository extends ISearchRepository {
     required SearchScreenFiltersData filtersData,
   }) async {
     final rpc = await supabase.rpc('get_tag_artworks', params: {
-          'input_query': query.split(' ').join('&'),
+          'input_query': query.trim().split(' ').join('&'),
           'input_limit': 20,
         }) as ArrayRes ??
         [];

@@ -51,6 +51,9 @@ class CategoryDetailBloc extends HydratedCubit<CategoryDetailBlocState> {
     final category = await categoryRepository.getCategoryById(id);
     final result = await searchRepository.searchByQuery(
       query: category.title,
+      cursorId: null,
+      cursorRank: null,
+      limit: 30,
       sortType: SortType.relevant,
       sortOrderType: SortOrderType.desc,
       filtersData: SearchScreenFiltersData.none().copyWith(

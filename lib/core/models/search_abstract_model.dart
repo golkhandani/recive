@@ -9,6 +9,7 @@ class SearchableAbstractModel with _$SearchableAbstractModel {
   const factory SearchableAbstractModel({
     required String id,
     required String title,
+    required double rank,
     required SearchType searchType,
     required String imageUrl,
     required List<String> tags,
@@ -17,6 +18,19 @@ class SearchableAbstractModel with _$SearchableAbstractModel {
 
   factory SearchableAbstractModel.fromJson(Map<String, Object?> json) =>
       _$SearchableAbstractModelFromJson(json);
+}
+
+@freezed
+class PaginationData with _$PaginationData {
+  const factory PaginationData({
+    String? cursorId,
+    double? cursorRank,
+    @Default(20) int limit,
+    @Default(false) bool isDone,
+  }) = _PaginationData;
+
+  factory PaginationData.fromJson(Map<String, Object?> json) =>
+      _$PaginationDataFromJson(json);
 }
 
 enum SearchType { art, artist, event, news, community }

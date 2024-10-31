@@ -21,6 +21,7 @@ class DashboardSearchBlocState with _$DashboardSearchBlocState {
     required LoadingState isLoading,
     required SearchScreenFiltersData filtersData,
     required List<String> keywords,
+    required PaginationData paginationData,
     required List<SearchableAbstractModel> result,
     required String query,
     required SortType sortType,
@@ -34,6 +35,7 @@ class DashboardSearchBlocState with _$DashboardSearchBlocState {
         sortType: SortType.date,
         sortOrderType: SortOrderType.asc,
         query: '',
+        paginationData: PaginationData(limit: 8),
         filtersData: SearchScreenFiltersData(),
       );
 
@@ -70,21 +72,56 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
   }
 
   Timer? _debounce;
-  Future<void> search(String query) async {
+  Future<void> search(String query, {bool nextPage = false}) async {
+    if (nextPage) {
+      emit(state.copyWith(
+        isLoading: LoadingState.updating,
+      ));
+    }
+
+    if (query == state.query && state.paginationData.isDone) {
+      emit(state.copyWith(
+        isLoading: LoadingState.done,
+      ));
+      return;
+    }
+
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(kDebounceDuration, () async {
-      emit(state.copyWith(isLoading: LoadingState.loading));
+    _debounce = Timer(nextPage ? Duration.zero : kDebounceDuration, () async {
+      if (query != state.query) {
+        emit(state.copyWith(
+          paginationData: state.paginationData.copyWith(
+            cursorId: null,
+            cursorRank: null,
+            isDone: false,
+          ),
+          result: [],
+        ));
+      }
+
+      emit(state.copyWith(
+        isLoading: !nextPage ? LoadingState.loading : LoadingState.updating,
+      ));
+
       final result = query.isEmpty && !state.filtersData.autoSearch
           ? <SearchableAbstractModel>[]
           : await searchRepository.searchByQuery(
               query: query,
+              cursorId: nextPage ? state.paginationData.cursorId : null,
+              cursorRank: nextPage ? state.paginationData.cursorRank : null,
+              limit: state.paginationData.limit,
               sortType: state.sortType,
               sortOrderType: state.sortOrderType,
               filtersData: state.filtersData,
             );
 
       emit(state.copyWith(
-        result: result,
+        result: List.from(state.result)..addAll(result),
+        paginationData: state.paginationData.copyWith(
+          cursorId: nextPage || result.isNotEmpty ? result.last.id : null,
+          cursorRank: nextPage || result.isNotEmpty ? result.last.rank : null,
+          isDone: result.length < state.paginationData.limit ? true : false,
+        ),
         isLoading: LoadingState.done,
         query: query,
       ));

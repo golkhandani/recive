@@ -13,12 +13,14 @@ import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_conta
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
+import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_store.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
-import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
+import 'package:flutter_map_cache/flutter_map_cache.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,9 +28,10 @@ import 'package:url_launcher/url_launcher.dart';
 Widget get openStreetMapTileLayer => TileLayer(
       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
       userAgentPackageName: 'com.example.art_for_all',
-      // Use the recommended flutter_map_cancellable_tile_provider package to
-      // support the cancellation of loading tiles.
-      tileProvider: CancellableNetworkTileProvider(),
+      tileProvider: CachedTileProvider(
+        maxStale: const Duration(days: 30),
+        store: locator.get<FileCacheStore>(),
+      ),
     );
 
 class NearMeScreen extends StatefulWidget {
@@ -92,7 +95,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
         final index = state.arts.indexOf(data);
         _animatedMapController.animateTo(
           dest: data.geoLocation,
-          offset: Offset(0, -cardHeight),
+          offset: const Offset(0, -0),
         );
 
         if (carouselController.ready && !lock) {
@@ -233,13 +236,49 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                           child: openStreetMapTileLayer,
                         ),
                         MarkerLayer(markers: [
-                          ...state.arts.mapIndexed((i, item) {
-                            return _buildMapMarker(item, i, context);
-                          }),
-                          if (state.focusedArt != null)
-                            _buildSelectedMapMarker(state, context),
                           _buildUserMarker(context),
                         ]),
+                        MarkerClusterLayerWidget(
+                          options: MarkerClusterLayerOptions(
+                            maxClusterRadius: 45,
+                            showPolygon: false,
+                            size: const Size(40, 40),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(50),
+                            disableClusteringAtZoom: 14,
+                            maxZoom: 16,
+                            markers: [
+                              ...state.arts.mapIndexed((i, item) {
+                                return _buildMapMarker(item, i, context);
+                              }),
+                            ],
+                            builder: (context, markers) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.blue),
+                                child: Center(
+                                  child: Text(
+                                    markers.length.toString(),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        MarkerLayer(markers: [
+                          if (state.focusedArt != null)
+                            _buildSelectedMapMarker(state, context),
+                        ]),
+                        // MarkerLayer(markers: [
+                        //   _buildUserMarker(context),
+                        //   ...state.arts.mapIndexed((i, item) {
+                        //     return _buildMapMarker(item, i, context);
+                        //   }),
+                        //   if (state.focusedArt != null)
+                        //     _buildSelectedMapMarker(state, context),
+                        // ]),
                         if (state.arts.isNotEmpty)
                           Align(
                             alignment: Alignment.bottomCenter,
@@ -440,10 +479,10 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
       point: _center,
       child: InkWell(
         child: CircleAvatar(
-          backgroundColor: context.colorTheme.success,
+          backgroundColor: context.colorTheme.tertiaryContainer,
           child: Icon(
             Icons.location_history,
-            color: context.colorTheme.onSuccess,
+            color: context.colorTheme.onTertiaryContainer,
             size: 30,
           ),
         ),
@@ -469,10 +508,10 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
 
   Marker _buildMapMarker(SearchableAbstractModel item, int i, BuildContext context) {
     return Marker(
-      width: 25,
-      height: 25,
+      width: 75,
+      height: 75,
       point: item.geoLocation,
-      alignment: Alignment.bottomCenter,
+      alignment: Alignment.center,
       child: InkWell(
         onTap: () {
           bloc.setFocusedArt(item);
@@ -480,7 +519,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
         child: Icon(
           Icons.location_pin,
           color: context.colorTheme.onPrimaryContainer.withOpacity(kTinyOpacity),
-          size: 25,
+          size: 75,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:art_for_all/core/ioc/device_secure_storage.dart';
 import 'package:art_for_all/core/ioc/device_shared_storage.dart';
@@ -31,6 +32,7 @@ import 'package:art_for_all/modules/news_detail_screen/news_detail_bloc.dart';
 import 'package:art_for_all/modules/onboarding_screen.dart/onboarding_bloc.dart';
 import 'package:art_for_all/modules/splash_screen/splash_bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_store.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
@@ -105,6 +107,13 @@ Future setupStorage() async {
   locator.registerSingleton<ISecureStorage>(secureStorage);
 
   locator.registerSingleton<ISharedStorage>(sharedStorage);
+
+  final mapStorageDir = await getTemporaryDirectory();
+
+  final FileCacheStore mapStorage =
+      FileCacheStore('${mapStorageDir.path}${Platform.pathSeparator}MapTiles');
+
+  locator.registerSingleton<FileCacheStore>(mapStorage);
 }
 
 Future setupRepositories() async {

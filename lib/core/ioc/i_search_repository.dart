@@ -9,6 +9,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract class ISearchRepository {
   Future<List<SearchableAbstractModel>> searchByQuery({
     required String query,
+    required String? cursorId,
+    required double? cursorRank,
+    required int limit,
     required SortType sortType,
     required SortOrderType sortOrderType,
     required SearchScreenFiltersData filtersData,
@@ -42,40 +45,37 @@ class MockSearchRepository extends ISearchRepository {
 
   @override
   Future<List<String>> getCommonKeyboards() async {
-    return Future.value(keywords);
+    final count = await supabase.from('tag').count();
+    final rand = faker.randomGenerator.integer(count - 20);
+    final res = await supabase.from('art').select('''
+            id,
+            art_tags!inner(tag_id, tag!inner(name))
+    ''').range(rand, rand + 20).limit(20) as ArrayRes ?? [];
+    return res.map((r) => r['art_tags'][0]['tag']['name'].toString()).toList();
   }
-
-  late final List<SearchableAbstractModel> search = List.generate(200, (index) {
-    return SearchableAbstractModel(
-      id: faker.guid.guid(),
-      title: faker.lorem.words(2).join(' '),
-      imageUrl: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-      searchType: SearchType.values[faker.randomGenerator.integer(SearchType.values.length)],
-      tags: List.generate(4, (i) => faker.food.cuisine()),
-      geoLocation: LatLng(
-        49.2827 + (faker.randomGenerator.integer(100) / 1000),
-        -123.1207 + (faker.randomGenerator.integer(100) / 1000),
-      ),
-    );
-  });
 
   @override
   Future<List<SearchableAbstractModel>> searchByQuery({
     required String query,
+    required String? cursorId,
+    required double? cursorRank,
+    required int limit,
     required SortType sortType,
     required SortOrderType sortOrderType,
     required SearchScreenFiltersData filtersData,
   }) async {
     final rpc = await supabase.rpc('get_tag_artworks', params: {
           'input_query': query.trim().split(' ').join('&'),
-          'input_limit': 20,
+          'input_limit': limit,
+          'input_cursor_rank': cursorRank,
+          'input_cursor_ref_id': cursorId,
         }) as ArrayRes ??
         [];
-
     return rpc.map((r) {
       return SearchableAbstractModel(
         id: r['id'],
         title: r['title'],
+        rank: r['rank'],
         imageUrl:
             r['media']['id'] == null ? MediaModel.artistPlaceholder.url : r['media']['url'],
         searchType: SearchTypeConverter.fromString(r['type']),
@@ -92,7 +92,7 @@ class MockSearchRepository extends ISearchRepository {
           'input_lat': coordinates?.latitude ?? 49.2827,
           'input_lng': coordinates?.longitude ?? -123.1207,
           'input_query': null,
-          'input_limit': 20,
+          'input_limit': 50,
         }) as ArrayRes ??
         [];
 
@@ -100,6 +100,7 @@ class MockSearchRepository extends ISearchRepository {
       return SearchableAbstractModel(
         id: r['id'],
         title: r['title'],
+        rank: r['rank'] ?? 1,
         imageUrl:
             r['media']['id'] == null ? MediaModel.artistPlaceholder.url : r['media']['url'],
         searchType: SearchTypeConverter.fromString(r['type']),

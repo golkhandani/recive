@@ -19,6 +19,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+class PositionRetainedScrollPhysics extends ScrollPhysics {
+  final bool shouldRetain;
+  const PositionRetainedScrollPhysics({super.parent, this.shouldRetain = true});
+
+  @override
+  PositionRetainedScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return PositionRetainedScrollPhysics(
+      parent: buildParent(ancestor),
+      shouldRetain: shouldRetain,
+    );
+  }
+
+  @override
+  double adjustPositionForNewDimensions({
+    required ScrollMetrics oldPosition,
+    required ScrollMetrics newPosition,
+    required bool isScrolling,
+    required double velocity,
+  }) {
+    final position = super.adjustPositionForNewDimensions(
+      oldPosition: oldPosition,
+      newPosition: newPosition,
+      isScrolling: isScrolling,
+      velocity: velocity,
+    );
+
+    final diff = newPosition.maxScrollExtent - oldPosition.maxScrollExtent;
+
+    if (oldPosition.pixels > oldPosition.minScrollExtent && diff > 0 && shouldRetain) {
+      return position + diff;
+    } else {
+      return position;
+    }
+  }
+}
+
 class SearchScreen extends StatefulWidget {
   static const String name = 'search';
   const SearchScreen({
@@ -58,8 +94,27 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
   @override
   void dispose() {
     _states[restorationId] = bloc.state;
+    _scrollController.removeListener(_onScrollEnd);
     super.dispose();
   }
+
+  @override
+  void initState() {
+    _scrollController.addListener(_onScrollEnd);
+    super.initState();
+  }
+
+  final _listKey = GlobalKey<SliverAnimatedListState>();
+  int _lastIndex = 0;
+  _onScrollEnd() {
+    final sn = _scrollController;
+    if (sn.position.pixels >= sn.position.maxScrollExtent - 100 &&
+        bloc.state.isLoading != LoadingState.updating) {
+      bloc.search(bloc.state.query, nextPage: true);
+    }
+  }
+
+  final _scrollController = ScrollController(keepScrollOffset: true);
 
   @override
   Widget build(BuildContext context) {
@@ -70,41 +125,42 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
       ),
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
     );
+
     return ColoredBox(
       color: context.colorTheme.background,
-      child: BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
-        listener: (context, state) {},
-        bloc: bloc,
-        builder: (context, state) {
-          return CustomScrollView(
-            slivers: [
-              PinnedHeaderSliver(child: header),
-              PinnedHeaderSliver(
-                child: Container(
-                  padding: kMediumPadding.copyWith(
-                    left: widget.isViewAll ? 0 : kMediumPadding.left,
-                  ),
-                  color: context.colorTheme.primaryContainer,
-                  child: Row(
-                    children: [
-                      if (widget.isViewAll)
-                        LeadingBackButton(
-                            backgroundColor: context.colorTheme.primaryContainer),
-                      Expanded(
-                        child: AsyncSearchField<String>(
-                          hintText: 'Search...',
-                          items: const [],
-                          onChanged: bloc.search,
-                          controller: filterController,
-                          isLoading: false,
-                          isEnabled: true,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          PinnedHeaderSliver(child: header),
+          PinnedHeaderSliver(
+            child: Container(
+              padding: kMediumPadding.copyWith(
+                left: widget.isViewAll ? 0 : kMediumPadding.left,
               ),
-              PinnedHeaderSliver(
+              color: context.colorTheme.primaryContainer,
+              child: Row(
+                children: [
+                  if (widget.isViewAll)
+                    LeadingBackButton(backgroundColor: context.colorTheme.primaryContainer),
+                  Expanded(
+                    child: AsyncSearchField<String>(
+                      hintText: 'Search...',
+                      items: const [],
+                      onChanged: bloc.search,
+                      controller: filterController,
+                      isLoading: false,
+                      isEnabled: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
+            listener: (context, state) {},
+            bloc: bloc,
+            builder: (context, state) {
+              return PinnedHeaderSliver(
                 child: Container(
                   color: context.colorTheme.primaryContainer,
                   constraints: BoxConstraints(
@@ -144,88 +200,122 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
                     ),
                   ),
                 ),
-              ),
-              PinnedHeaderSliver(
-                child: Container(
-                  padding: EdgeInsets.only(top: kTinyPadding.top),
-                  decoration: BoxDecoration(
-                    color: context.colorTheme.primaryContainer,
-                    border: Border(
-                      bottom: kExtraTinyBorder.copyWith(
-                        color: context.colorTheme.onPrimaryContainer,
-                      ),
-                    ),
+              );
+            },
+          ),
+          PinnedHeaderSliver(
+            child: Container(
+              padding: EdgeInsets.only(top: kTinyPadding.top),
+              decoration: BoxDecoration(
+                color: context.colorTheme.primaryContainer,
+                border: Border(
+                  bottom: kExtraTinyBorder.copyWith(
+                    color: context.colorTheme.onPrimaryContainer,
                   ),
                 ),
               ),
-              SliverLayoutBuilder(
-                builder: (context, constraints) {
-                  if (state.isLoading == LoadingState.loading) {
-                    return const SliverFillRemaining(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
+            ),
+          ),
+          BlocBuilder<DashboardSearchBloc, DashboardSearchBlocState>(
+            bloc: bloc,
+            builder: (context, state) {
+              if (state.isLoading == LoadingState.loading) {
+                return const SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
 
-                  if (state.result.isEmpty) {
-                    return SliverFillRemaining(
-                      fillOverscroll: true,
-                      hasScrollBody: false,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color: context.colorTheme.onBackground,
-                              size: context.vWidth / 10,
-                            ),
-                            Text(
-                              "There is no result!",
-                              style: context.typographyTheme.onBackground.titleTiny.textStyle,
-                            ),
-                          ],
+              if (state.result.isEmpty) {
+                return SliverFillRemaining(
+                  fillOverscroll: true,
+                  hasScrollBody: false,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.search,
+                          color: context.colorTheme.onBackground,
+                          size: context.vWidth / 10,
                         ),
-                      ),
-                    );
-                  }
-                  return SliverList.builder(
-                    itemCount: state.result.length,
-                    itemBuilder: (context, index) {
-                      final data = state.result[index];
-                      final page = switch (data.searchType) {
-                        SearchType.art => ArtDetailScreen.name,
-                        SearchType.artist => ArtistDetailScreen.name,
-                        SearchType.news => NewsDetailScreen.name,
-                        SearchType.event => EventDetailScreen.name,
-                        SearchType.community => CommunityDetailScreen.name,
-                      };
-                      return Container(
-                        margin: EdgeInsets.only(
-                          right: kMediumPadding.right,
-                          left: kMediumPadding.left,
-                          bottom: kMediumPadding.bottom,
-                          top: index == 0 ? kMediumPadding.top : 0,
+                        Text(
+                          "There is no result!",
+                          style: context.typographyTheme.onBackground.titleTiny.textStyle,
                         ),
-                        child: SearchResultCardContainer(
-                          onTap: () {
-                            final current = navigator.homeUrl;
-                            navigator.homeContext.push(
-                              '$current/$page/${data.id}',
-                              extra: data.toJson(),
-                            );
-                          },
-                          data: data,
-                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              return const SliverToBoxAdapter();
+            },
+          ),
+          BlocListener<DashboardSearchBloc, DashboardSearchBlocState>(
+            listenWhen: (o, n) => o.result.length != n.result.length,
+            listener: (context, state) {
+              if (state.result.isEmpty) {
+                _lastIndex = 0;
+                _listKey.currentState?.removeAllItems(
+                  (c, a) => const SizedBox(),
+                  duration: Duration.zero,
+                );
+                return;
+              }
+              for (var i = _lastIndex; i < state.result.length; i++) {
+                _listKey.currentState?.insertItem(
+                  i,
+                  duration: const Duration(milliseconds: 200),
+                );
+              }
+              _lastIndex = state.result.length;
+            },
+            bloc: bloc,
+            child: SliverAnimatedList(
+              key: _listKey,
+              initialItemCount: 0,
+              itemBuilder: (context, index, a) {
+                final data = bloc.state.result[index];
+                final page = switch (data.searchType) {
+                  SearchType.art => ArtDetailScreen.name,
+                  SearchType.artist => ArtistDetailScreen.name,
+                  SearchType.news => NewsDetailScreen.name,
+                  SearchType.event => EventDetailScreen.name,
+                  SearchType.community => CommunityDetailScreen.name,
+                };
+                return Container(
+                  margin: EdgeInsets.only(
+                    right: kMediumPadding.right,
+                    left: kMediumPadding.left,
+                    bottom: kMediumPadding.bottom,
+                    top: index == 0 ? kMediumPadding.top : 0,
+                  ),
+                  child: SearchResultCardContainer(
+                    onTap: () {
+                      final current = navigator.homeUrl;
+                      navigator.homeContext.push(
+                        '$current/$page/${data.id}',
+                        extra: data.toJson(),
                       );
                     },
-                  );
-                },
-              )
-            ],
-          );
-        },
+                    data: data,
+                  ),
+                );
+              },
+            ),
+          ),
+          BlocBuilder<DashboardSearchBloc, DashboardSearchBlocState>(
+            bloc: bloc,
+            builder: (context, state) {
+              return SliverToBoxAdapter(
+                child: state.isLoading == LoadingState.updating
+                    ? const Center(child: CircularProgressIndicator())
+                    : const SizedBox(),
+              );
+            },
+          )
+        ],
       ),
     );
   }

@@ -45,13 +45,19 @@ class MockSearchRepository extends ISearchRepository {
 
   @override
   Future<List<String>> getCommonKeyboards() async {
-    final count = await supabase.from('tag').count();
+    final count = await supabase.from('searchable').count();
     final rand = faker.randomGenerator.integer(count - 20);
-    final res = await supabase.from('art').select('''
+    final res = await supabase.from('searchable').select('''
             id,
-            art_tags!inner(tag_id, tag!inner(name))
-    ''').range(rand, rand + 20).limit(20) as ArrayRes ?? [];
-    return res.map((r) => r['art_tags'][0]['tag']['name'].toString()).toList();
+            tags
+    ''').range(rand, rand + 20) as ArrayRes ?? [];
+    final tags = <String>[];
+    for (var r in res) {
+      for (var t in r['tags']) {
+        tags.add(t);
+      }
+    }
+    return tags;
   }
 
   @override
@@ -71,6 +77,9 @@ class MockSearchRepository extends ISearchRepository {
           'input_cursor_ref_id': cursorId,
         }) as ArrayRes ??
         [];
+
+    print(cursorId);
+    print(cursorRank);
     return rpc.map((r) {
       return SearchableAbstractModel(
         id: r['id'],

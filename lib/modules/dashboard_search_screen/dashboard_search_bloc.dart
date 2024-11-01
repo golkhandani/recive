@@ -114,12 +114,13 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
               sortOrderType: state.sortOrderType,
               filtersData: state.filtersData,
             );
+      print(result);
 
       emit(state.copyWith(
         result: List.from(state.result)..addAll(result),
         paginationData: state.paginationData.copyWith(
-          cursorId: nextPage || result.isNotEmpty ? result.last.id : null,
-          cursorRank: nextPage || result.isNotEmpty ? result.last.rank : null,
+          cursorId: nextPage && result.isNotEmpty ? result.last.id : null,
+          cursorRank: nextPage && result.isNotEmpty ? result.last.rank : null,
           isDone: result.length < state.paginationData.limit ? true : false,
         ),
         isLoading: LoadingState.done,

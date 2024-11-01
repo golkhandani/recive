@@ -261,6 +261,7 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
                   (c, a) => const SizedBox(),
                   duration: Duration.zero,
                 );
+                _scrollController.jumpTo(0);
                 return;
               }
               for (var i = _lastIndex; i < state.result.length; i++) {
@@ -372,6 +373,8 @@ class SearchResultCardContainer extends StatelessWidget {
                 SizedBox(height: kExtraTinyPadding.bottom),
                 Text(
                   data.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: context.typographyTheme.titleSmall.onBackground.textStyle,
                 ),
                 SizedBox(height: kExtraTinyPadding.bottom),

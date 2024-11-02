@@ -114,7 +114,6 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
               sortOrderType: state.sortOrderType,
               filtersData: state.filtersData,
             );
-      print(result);
 
       emit(state.copyWith(
         result: List.from(state.result)..addAll(result),

@@ -54,7 +54,7 @@ class MockSearchRepository extends ISearchRepository {
     final tags = <String>[];
     for (var r in res) {
       for (var t in r['tags']) {
-        tags.add(t);
+        if (t != null) tags.add(t);
       }
     }
     return tags;
@@ -77,9 +77,6 @@ class MockSearchRepository extends ISearchRepository {
           'input_cursor_ref_id': cursorId,
         }) as ArrayRes ??
         [];
-
-    print(cursorId);
-    print(cursorRank);
     return rpc.map((r) {
       return SearchableAbstractModel(
         id: r['id'],

@@ -198,7 +198,7 @@ class ArtCardContainer extends StatelessWidget {
                         width: kExtraTinyPadding.right,
                       ),
                       LimitedBox(
-                        maxWidth: constraints.maxWidth - 54,
+                        maxWidth: constraints.maxWidth - 108,
                         child: Text(
                           data.location,
                           maxLines: 2,

@@ -127,7 +127,9 @@ Future setupRepositories() async {
   locator.registerSingleton<IArtistRepository>(MockArtistRepository(
     supabase: locator.get(),
   ));
-  locator.registerSingleton<IEventRepository>(MockEventRepository());
+  locator.registerSingleton<IEventRepository>(MockEventRepository(
+    supabase: locator.get(),
+  ));
   locator.registerSingleton<ICommunityRepository>(MockCommunityRepository());
   locator.registerSingleton<ISearchRepository>(MockSearchRepository(
     supabase: locator.get(),

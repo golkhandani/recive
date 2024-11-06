@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
         return CustomScrollView(
+          cacheExtent: 1000,
           slivers: [
             PinnedHeaderSliver(child: header),
             SliverGap(kTinyPadding.bottom),

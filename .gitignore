@@ -48,3 +48,4 @@ server/node_modules/
 *.freezed.dart
 *.g.dart 
 .flutter.env.local.json
+*.sql

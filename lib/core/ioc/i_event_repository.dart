@@ -1,9 +1,11 @@
 import 'package:art_for_all/core/constants.dart';
+import 'package:art_for_all/core/ioc/i_artist_repository.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:faker/faker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class IEventRepository {
   Future<List<EventAbstractModel>> getEvents();
@@ -14,14 +16,25 @@ abstract class IEventRepository {
 class MockEventRepository extends IEventRepository {
   final faker = Faker();
 
-  late final List<EventAbstractModel> events = List.generate(12, (i) {
+  final SupabaseClient supabase;
+
+  MockEventRepository({
+    required this.supabase,
+  });
+
+  late final List<EventAbstractModel> eventsFake = List.generate(12, (i) {
     return EventAbstractModel(
       id: i.toString(),
       title: faker.conference.name(),
-      description:
-          'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
-      imageUrl:
-          'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200) + i}',
+      thumbnail: MediaModel(
+        id: 'id',
+        title: 'title',
+        type: MediaType.image,
+        url:
+            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200) + i}',
+        copyright: 'copyright',
+        tags: [],
+      ),
       tags: ['performance', 'fashion', 'theater'],
       eventType: faker.food.cuisine(),
     );
@@ -29,8 +42,16 @@ class MockEventRepository extends IEventRepository {
 
   @override
   Future<List<EventAbstractModel>> getEvents() async {
-    await Future.delayed(kDebounceDuration);
+    final res = await supabase.from('event').select('''
+          id,
+          title,
+          type,
+          event_links(link_id, link(id, url, title)),
+          event_media(media_id, media(id, url, copyright, type, title)),
+          event_tags(tag_id, tag(name))
+        ''').limit(10) as ArrayRes ?? [];
 
+    final events = res.map((rs) => EventAbstractModel.fromPostgres(rs)).toList();
     return events;
   }
 
@@ -38,93 +59,32 @@ class MockEventRepository extends IEventRepository {
   Future<List<EventAbstractModel>> getEventsByArt(String artId) async {
     await Future.delayed(kDebounceDuration);
 
-    return events;
+    return eventsFake;
   }
 
   @override
   Future<EventModel> getEventById(String id) async {
-    await Future.delayed(kDebounceDuration);
-    final abstract = events.firstWhere(
-      (e) => e.id == id,
-      orElse: () => events.first,
-    );
-
-    final event = EventModel(
-      id: abstract.id,
-      title: abstract.title,
-      description: abstract.description + faker.lorem.sentences(20).join(' '),
-      media: [
-        MediaModel(
-          id: faker.randomGenerator.integer(200).toString(),
-          title: 'image',
-          type: MediaType.image,
-          url: abstract.imageUrl,
-          copyright: 'copyright',
-          tags: [],
-        ),
-        MediaModel(
-          id: faker.randomGenerator.integer(200).toString(),
-          title: 'image',
-          type: MediaType.image,
-          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-          copyright: 'copyright',
-          tags: [],
-        ),
-        MediaModel(
-          id: faker.randomGenerator.integer(200).toString(),
-          title: 'image',
-          type: MediaType.image,
-          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-          copyright: 'copyright',
-          tags: [],
-        ),
-        MediaModel(
-          id: faker.randomGenerator.integer(200).toString(),
-          title: 'image',
-          type: MediaType.image,
-          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-          copyright: 'copyright',
-          tags: [],
-        )
-      ],
-      tags: faker.lorem.words(14),
-      eventType: 'Screening',
-      dateTime: DateTime.now(),
-      links: List.generate(4, (li) {
-        return LinkModel(
-          id: li.toString(),
-          title: faker.company.name(),
-          url: faker.internet.httpsUrl(),
-        );
-      }),
-      highlights: faker.lorem.sentences(4),
-      art: ArtAbstractModel(
-        id: faker.guid.guid(),
-        title: faker.lorem.words(3).join(' '),
-        description: faker.lorem.sentence(),
-        location: faker.address.streetAddress(),
-        geoLocation: const LatLng(0, 0),
-        thumbnail: MediaModel(
-          id: faker.randomGenerator.integer(200).toString(),
-          title: 'image',
-          type: MediaType.image,
-          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-          copyright: 'copyright',
-          tags: [],
-        ),
-        tags: faker.lorem.words(3),
-        artType: faker.address.city(),
-      ),
-      community: CommunityAbstractModel(
-        id: faker.randomGenerator.integer(200).toString(),
-        title: faker.conference.name(),
-        description:
-            'A performance art that involves exaggerated gender expression, often combining fashion, dance, and theatrical elements.',
-        imageUrl:
-            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-        tags: ['performance', 'fashion', 'theater'],
-      ),
-    );
+    final res = await supabase.from('event').select('''
+          id,
+          title,
+          description,
+          type,
+          start_date,
+          end_date,
+          ticket_start_date,
+          min_ticket_price,
+          max_ticket_price,
+          accessibility_features,
+          registration_required,
+          organizer,
+          highlights,
+          location(id, title, coordinates, lat, lng),
+          event_links(link_id, link(id, url, title)),
+          event_media(media_id, media(id, url, copyright, type, title)),
+          event_tags(tag_id, tag(name))
+        ''').eq('id', id).single();
+    print(res);
+    final event = EventModel.fromPostgres(res);
     return event;
   }
 }

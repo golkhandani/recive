@@ -73,65 +73,128 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        event.title,
+                        "${event.title} (${event.eventType})",
                         style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
-                        DateFormat.yMMMd().format(DateTime.now()),
+                        "From ${DateFormat.yMMMd().format(event.startDate)} to ${DateFormat.yMMMd().format(event.endDate)}",
                         style: context
-                            .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
+                            .typographyTheme.subtitleLarge.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      Text(
-                        event.eventType,
-                        style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
+
+                      if (event.registrationRequired ?? false) ...[
+                        Text(
+                          '* Registration is required for this event!',
+                          textAlign: TextAlign.start,
+                          style: context.typographyTheme.subtitleMedium.error.textStyle,
+                        ),
+                        SizedBox(height: kMediumPadding.bottom),
+                      ],
+
+                      if (event.ticketStartDate != null) ...[
+                        Text(
+                          '* Ticket sell will start on ${DateFormat.yMMMd().format(event.ticketStartDate!)}',
+                          textAlign: TextAlign.start,
+                          style: context.typographyTheme.subtitleMedium.success.textStyle,
+                        ),
+                        SizedBox(height: kMediumPadding.bottom),
+                      ],
+
+                      if (event.minTicketPrice != null) ...[
+                        Text(
+                          '* Cheapest ticket price ${event.minTicketPrice}',
+                          textAlign: TextAlign.start,
+                          style:
+                              context.typographyTheme.subtitleMedium.onBackground.textStyle,
+                        ),
+                        SizedBox(height: kMediumPadding.bottom),
+                      ],
+                      if (event.maxTicketPrice != null) ...[
+                        Text(
+                          '* Highest ticket price ${event.maxTicketPrice}',
+                          textAlign: TextAlign.start,
+                          style:
+                              context.typographyTheme.subtitleMedium.onBackground.textStyle,
+                        ),
+                        SizedBox(height: kMediumPadding.bottom),
+                      ],
+
                       Text(
                         event.description,
                         textAlign: TextAlign.start,
                         style: context.typographyTheme.bodyLarge.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      Builder(builder: (context) {
-                        final data = event.art;
-                        return ArtCardContainer.medium(
-                          data: data,
-                          constraints: BoxConstraints(
-                            maxHeight: context.vWidth,
-                            maxWidth: context.vWidth,
-                          ),
-                          onTap: () {
-                            final homeUrl = navigator.homeUrl;
-                            navigator.homeContext.push(
-                              '$homeUrl/${ArtDetailScreen.name}/${data.id}',
-                            );
-                          },
-                        );
-                      }),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Row(
-                        children: [
-                          Text(
-                            "Highlights",
-                            maxLines: 1,
-                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                      SizedBox(height: kTinyPadding.bottom),
-                      ...event.highlights.map((h) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
-                          child: Text(
-                            "* $h",
-                            style: context
-                                .typographyTheme.bodyMedium.onPrimaryContainer.textStyle,
-                          ),
-                        );
-                      }),
+
+                      // Builder(builder: (context) {
+                      //   final data = event.art;
+                      //   return ArtCardContainer.medium(
+                      //     data: data,
+                      //     constraints: BoxConstraints(
+                      //       maxHeight: context.vWidth,
+                      //       maxWidth: context.vWidth,
+                      //     ),
+                      //     onTap: () {
+                      //       final homeUrl = navigator.homeUrl;
+                      //       navigator.homeContext.push(
+                      //         '$homeUrl/${ArtDetailScreen.name}/${data.id}',
+                      //       );
+                      //     },
+                      //   );
+                      // }),
+
+                      if ((event.highlights ?? []).isNotEmpty) ...[
+                        SizedBox(height: kMediumPadding.bottom),
+                        Row(
+                          children: [
+                            Text(
+                              "Highlights",
+                              maxLines: 1,
+                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        SizedBox(height: kTinyPadding.bottom),
+                        ...(event.highlights ?? []).map((h) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
+                            child: Text(
+                              "- $h",
+                              style: context
+                                  .typographyTheme.bodyMedium.onPrimaryContainer.textStyle,
+                            ),
+                          );
+                        }),
+                      ],
+
+                      if ((event.accessibilityFeatures ?? []).isNotEmpty) ...[
+                        SizedBox(height: kMediumPadding.bottom),
+                        Row(
+                          children: [
+                            Text(
+                              "Accessibility features",
+                              maxLines: 1,
+                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        SizedBox(height: kTinyPadding.bottom),
+                        ...(event.accessibilityFeatures ?? []).map((h) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: kSmallPadding.bottom),
+                            child: Text(
+                              "- $h",
+                              style: context
+                                  .typographyTheme.bodyMedium.onPrimaryContainer.textStyle,
+                            ),
+                          );
+                        }),
+                      ],
+
                       SizedBox(height: kMediumPadding.bottom),
                       Center(
                         child: Wrap(
@@ -198,19 +261,19 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         ],
                       ),
                       SizedBox(height: kTinyPadding.bottom),
-                      CommunityCardContainer.big(
-                        data: event.community,
-                        constraints: BoxConstraints(
-                          maxHeight: context.vHeight / 5,
-                          maxWidth: context.vWidth,
-                        ),
-                        onTap: () {
-                          final homeUrl = navigator.homeUrl;
-                          navigator.homeContext.push(
-                            '$homeUrl/${CommunityDetailScreen.name}/${event.community.id}',
-                          );
-                        },
-                      ),
+                      // CommunityCardContainer.big(
+                      //   data: event.community,
+                      //   constraints: BoxConstraints(
+                      //     maxHeight: context.vHeight / 5,
+                      //     maxWidth: context.vWidth,
+                      //   ),
+                      //   onTap: () {
+                      //     final homeUrl = navigator.homeUrl;
+                      //     navigator.homeContext.push(
+                      //       '$homeUrl/${CommunityDetailScreen.name}/${event.community.id}',
+                      //     );
+                      //   },
+                      // ),
                       SizedBox(height: kLargePadding.bottom),
                     ],
                   ),

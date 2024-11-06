@@ -136,11 +136,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.visiblePassword,
                       obscureText: _obscurePassword,
                       validator: ValidationBuilder().minLength(8).maxLength(16).build(),
                     ),
-                    const Gap(16),
+                    const Gap(42),
                     AFAElevatedButton(
                       width: MediaQuery.sizeOf(context).width,
                       padding: EdgeInsets.zero,

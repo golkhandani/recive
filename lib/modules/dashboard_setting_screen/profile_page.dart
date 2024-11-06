@@ -160,17 +160,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             Gap(kSmallPadding.left),
                             Text(
-                              "You want it darker?",
+                              "You want it ${state != ThemeCubitState.dark ? "darker" : "lighter"}?",
                               style: context
                                   .typographyTheme.subtitleLarge.onBackground.textStyle,
                             ),
                             const Spacer(),
                             Switch(
                                 value: state == ThemeCubitState.dark,
-                                inactiveThumbColor: Colors.black,
-                                inactiveTrackColor: Colors.white,
-                                activeColor: Colors.white,
-                                activeTrackColor: Colors.black,
+                                inactiveThumbColor: context.colorTheme.primary,
+                                inactiveTrackColor: context.colorTheme.onBackground,
+                                activeColor: context.colorTheme.primary,
+                                activeTrackColor: context.colorTheme.onBackground,
                                 trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
                                 onChanged: (v) {
                                   themeBloc.switchTheme(

@@ -123,12 +123,17 @@ class MrzgThemeProvider extends InheritedWidget {
           valueIndicatorTextStyle:
               typography.hint.textStyle.copyWith(color: palette.primaryContainer),
         ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: palette.onBackground,
+          selectionColor: palette.onPrimary,
+          selectionHandleColor: palette.primary,
+        ),
         inputDecorationTheme: _flex.inputDecorationTheme.copyWith(
           contentPadding: const EdgeInsets.all(15),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
             borderSide: BorderSide(
-              color: palette.onPrimaryContainer,
+              color: palette.tertiary,
               width: 2.0,
             ),
           ),
@@ -136,7 +141,7 @@ class MrzgThemeProvider extends InheritedWidget {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
             borderSide: BorderSide(
-              color: palette.tertiary,
+              color: palette.onBackground,
               width: 2.0,
             ),
           ),

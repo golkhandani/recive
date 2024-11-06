@@ -128,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    keyboardType: TextInputType.none,
+                    keyboardType: TextInputType.visiblePassword,
                     obscureText: _obscurePassword,
                     validator: ValidationBuilder().minLength(8).maxLength(16).build(),
                   ),
@@ -157,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    keyboardType: TextInputType.none,
+                    keyboardType: TextInputType.visiblePassword,
                     obscureText: _obscurePassword,
                     validator: (value) {
                       if (_formKey.currentState?.fields['password_field']?.value != value) {
@@ -166,7 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                   ),
-                  const Gap(16),
+                  const Gap(42),
                   AFAElevatedButton(
                     width: MediaQuery.sizeOf(context).width,
                     padding: EdgeInsets.zero,

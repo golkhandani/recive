@@ -153,22 +153,22 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                             isEnabled: true,
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              showFilters = !showFilters;
-                            });
-                          },
-                          child: SizedBox(
-                            height: 42,
-                            child: Icon(
-                              Icons.filter_alt,
-                              color: context.colorTheme.onPrimaryContainer,
-                              size: 36,
-                            ),
-                          ),
-                        )
+                        // const SizedBox(width: 12),
+                        // InkWell(
+                        //   onTap: () {
+                        //     setState(() {
+                        //       showFilters = !showFilters;
+                        //     });
+                        //   },
+                        //   child: SizedBox(
+                        //     height: 42,
+                        //     child: Icon(
+                        //       Icons.filter_alt,
+                        //       color: context.colorTheme.onPrimaryContainer,
+                        //       size: 36,
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                     AnimatedContainer(

@@ -167,7 +167,7 @@ Future setupBloc() async {
   locator.registerFactory(
     () => ThemeCubit(
       sharedStorage: locator.get(),
-      initialValue: theme ?? ThemeCubitState.blue,
+      initialValue: ThemeCubitState.dark ?? theme ?? ThemeCubitState.dark,
     ),
   );
 

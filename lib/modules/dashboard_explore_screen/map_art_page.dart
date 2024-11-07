@@ -229,12 +229,25 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                       ),
                       children: [
                         ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                            context.colorTheme.onBackground,
-                            context.colorTheme.onBackground.isLight
-                                ? BlendMode.exclusion
-                                : BlendMode.hue,
-                          ),
+                          colorFilter: context.colorTheme.onBackground.isLight
+                              ? const ColorFilter.matrix(<double>[
+                                  -0.2126, -0.7152, -0.0722, 0, 255, // Red channel
+                                  -0.2126, -0.7152, -0.0722, 0, 255, // Green channel
+                                  -0.2126, -0.7152, -0.0722, 0, 255, // Blue channel
+                                  0, 0, 0, 1, 0, // Alpha channel
+                                ])
+                              : ColorFilter.mode(
+                                  context.colorTheme.onBackground.isDark
+                                      ? Colors.black
+                                      : const Color.fromARGB(172, 204, 196, 196),
+                                  context.colorTheme.onBackground.isDark
+                                      ? BlendMode.hue
+                                      : BlendMode.difference,
+                                  // context.colorTheme.onBackground,
+                                  // context.colorTheme.onBackground.isLight
+                                  //     ? BlendMode.exclusion
+                                  //     : BlendMode.hue,
+                                ),
                           child: openStreetMapTileLayer,
                         ),
                         MarkerLayer(markers: [

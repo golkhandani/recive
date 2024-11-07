@@ -1,4 +1,4 @@
-package com.example.art_for_all
+package mrzg.vancouverartcompass.app
 
 import io.flutter.embedding.android.FlutterActivity
 

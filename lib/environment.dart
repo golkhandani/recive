@@ -6,4 +6,9 @@ class Environment {
   static const String persistSessionKey = 'PERSIST_SESSION_KEY';
   static const String isIntroCheckedKey = 'IS_INTRO_CHECKED_KEY';
   static const String selectedGroupKey = 'SELECTED_GROUP_KEY';
+
+  static const String iosGoogleClientId = String.fromEnvironment('IOS_GOOGLE_CLIENTID');
+  static const String webGoogleClientId = String.fromEnvironment('WEB_GOOGLE_CLIENTID');
+  static const String androidGoogleClientId =
+      String.fromEnvironment('ANDROID_GOOGLE_CLIENTID');
 }

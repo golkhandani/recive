@@ -124,7 +124,7 @@ class _ApplicationState extends State<Application> {
                     : SystemUiOverlayStyle.light;
             SystemChrome.setSystemUIOverlayStyle(
               SystemUiOverlayStyle(
-                statusBarColor: appTheme.colorPalette.secondaryContainer,
+                statusBarColor: appTheme.colorPalette.background,
                 statusBarIconBrightness: statusBarItemBrightness,
               ),
             );

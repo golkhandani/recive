@@ -59,7 +59,7 @@ dependencies:
   faker: ^2.2.0
   url_launcher: ^6.3.0
   supabase_auth_ui: ^0.5.1
-  supabase_flutter: ^2.6.0
+  supabase_flutter: ^2.8.0
   gap: ^3.0.1
   flutter_form_builder: ^9.4.1
   form_builder_validators: ^11.0.0
@@ -77,6 +77,7 @@ dependencies:
   flutter_map_cache: ^1.5.1
   dio_cache_interceptor_file_store: ^1.2.3
   flutter_map_marker_cluster: ^1.4.0
+  google_sign_in: ^6.2.2
 
 dev_dependencies:
   flutter_test:

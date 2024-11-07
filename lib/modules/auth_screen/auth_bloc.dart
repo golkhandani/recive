@@ -65,6 +65,29 @@ class AuthBloc extends Cubit<AuthBlocState> {
     }
   }
 
+  loginWithGoogle({
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      final res = await authService.loginWithGoogle();
+      emit(state.copyWith(
+        isLoading: false,
+        userId: res.user.id,
+      ));
+      onSuccess();
+    } on AuthException catch (e) {
+      bannerService.showErrorBanner(e.message);
+    } catch (e) {
+      onFailure();
+      bannerService.showErrorBanner('Something went wrong: ${e.toString()}');
+      onFailure();
+    } finally {
+      emit(state.copyWith(isLoading: false));
+    }
+  }
+
   registerWithEmail({
     required String email,
     required String password,

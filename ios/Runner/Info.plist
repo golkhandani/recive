@@ -51,5 +51,18 @@
 		<string>Photo Library Access For Avatar</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>This app needs access to location when open.</string>
+		<key>GIDClientID</key>
+		<string>240113539356-h0tv8qjf1s0rfv24hhajk5eks162gvhu.apps.googleusercontent.com</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.googleusercontent.apps.240113539356-h0tv8qjf1s0rfv24hhajk5eks162gvhu</string>
+				</array>
+			</dict>
+		</array>
+		<key>GIDServerClientID</key>
+		<string>240113539356-p6kna3gnphlkr7vh4vck1ai49h2r9s32.apps.googleusercontent.com</string>
 	</dict>
 </plist>

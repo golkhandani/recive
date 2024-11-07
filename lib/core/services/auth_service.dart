@@ -10,6 +10,7 @@ import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/auth_screen/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:path/path.dart' as p;
 
@@ -21,6 +22,8 @@ abstract class IUserService {
     required String email,
     required String password,
   });
+
+  Future<UserSession> loginWithGoogle();
 
   Future<User> signUpWithEmail({
     required String email,
@@ -46,10 +49,12 @@ class SupabaseUserService implements IUserService {
   final SupabaseClient _supabase;
   final ISecureStorage secureStorage;
   final ISharedStorage sharedStorage;
+  final GoogleSignIn googleSignIn;
   SupabaseUserService({
     required SupabaseClient supabase,
     required this.secureStorage,
     required this.sharedStorage,
+    required this.googleSignIn,
   }) : _supabase = supabase {
     _supabase.auth.onAuthStateChange.listen((event) async {
       switch (event.event) {
@@ -67,6 +72,38 @@ class SupabaseUserService implements IUserService {
 
   @override
   bool get isLoggedIn => _supabase.auth.currentSession != null;
+
+  @override
+  Future<User> signUpWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final AuthResponse res = await _supabase.auth.signUp(
+        email: email,
+        password: password,
+        emailRedirectTo: null,
+        data: {
+          "imageUrl": null,
+          "name": null,
+        },
+      );
+
+      final User? user = res.user;
+
+      if (user == null) {
+        throw Exception('Invalid login');
+      }
+
+      return user;
+    } on AuthException catch (e, s) {
+      Logger.warn("signUpWithEmail known error", e, s);
+      rethrow;
+    } on Exception catch (e, s) {
+      Logger.error("signUpWithEmail error", e, s);
+      rethrow;
+    }
+  }
 
   @override
   Future<UserSession> loginWithEmail({
@@ -96,28 +133,33 @@ class SupabaseUserService implements IUserService {
   }
 
   @override
-  Future<User> signUpWithEmail({
-    required String email,
-    required String password,
-  }) async {
+  Future<UserSession> loginWithGoogle() async {
     try {
-      final AuthResponse res = await _supabase.auth.signUp(
-        email: email,
-        password: password,
-        emailRedirectTo: null,
-        data: {
-          "imageUrl": null,
-          "name": null,
-        },
-      );
+      final googleUser = await googleSignIn.signIn();
+      final googleAuth = await googleUser!.authentication;
+      final accessToken = googleAuth.accessToken;
+      final idToken = googleAuth.idToken;
 
-      final User? user = res.user;
-
-      if (user == null) {
-        throw Exception('Invalid login');
+      if (accessToken == null) {
+        throw Exception('No Access Token found.');
+      }
+      if (idToken == null) {
+        throw Exception('No ID Token found.');
       }
 
-      return user;
+      final res = await _supabase.auth.signInWithIdToken(
+        provider: OAuthProvider.google,
+        idToken: idToken,
+        accessToken: accessToken,
+      );
+
+      final Session? session = res.session;
+      final User? user = res.user;
+
+      if (user == null || session == null) {
+        throw Exception('Invalid login');
+      }
+      return (user: user, session: session);
     } on AuthException catch (e, s) {
       Logger.warn("signUpWithEmail known error", e, s);
       rethrow;

@@ -36,6 +36,7 @@ import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_stor
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -143,12 +144,24 @@ Future setupServices() async {
   );
   final supabase = Supabase.instance.client;
 
+  const webClientId = Environment.webGoogleClientId;
+  const iosClientId = Environment.iosGoogleClientId;
+  const androidClientId = Environment.androidGoogleClientId;
+
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    clientId: iosClientId,
+    serverClientId: webClientId,
+  );
+
+  locator.registerSingleton<GoogleSignIn>(googleSignIn);
+
   locator.registerLazySingleton<SupabaseClient>(() => supabase);
   locator.registerLazySingleton<IUserService>(
     () => SupabaseUserService(
       supabase: locator.get(),
       secureStorage: locator.get(),
       sharedStorage: locator.get(),
+      googleSignIn: locator.get(),
     ),
   );
   locator.registerLazySingleton<GeolocatorPlatform>(() => GeolocatorPlatform.instance);

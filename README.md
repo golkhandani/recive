@@ -1,16 +1,46 @@
-# art_for_all
 
-A new Flutter project.
 
-## Getting Started
+## how to run
+flutter run --dart-define-from-file=.flutter.env.local.json
 
-This project is a starting point for a Flutter application.
+## android build
+flutter build apk --dart-define-from-file=.flutter.env.local.json
 
-A few resources to get you started if this is your first Flutter project:
+## app setup
+1. application id = mrzg.vancouverartcompass.app
+2. get sha1 for google console = 
+- apk => keytool -printcert -jarfile ./build/app/outputs/flutter-apk/app-release.apk
+- debug => keytool -list -v -keystore ~/.android/debug.keystore
+- default pass for keytool => android
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## config flutter fire
+1. flutterfire configure --project=[ID]
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## change package name
+- dart run change_app_package_name:main mrzg.vancouverartcompass.app
+
+## dump db
+```sh
+PGHOST=[HOST] \
+PGPORT=[PORT] \
+PGUSER=[USER]\
+PGPASSWORD="[PASS]" \
+pg_dumpall -v --clean --column-inserts --if-exists --on-conflict-do-nothing > all_databases_backup.sql
+```
+## env sample
+.flutter.env.local.json
+
+```json
+
+{
+  "SUPABASE_URL": ,
+  "SUPABASE_KEY": ,
+  "SENTRY_HOST": ,
+  "SENTRY_KEY": ,
+  "IOS_GOOGLE_CLIENTID": ,
+  "WEB_GOOGLE_CLIENTID": ,
+  "ANDROID_GOOGLE_CLIENTID": 
+}
+
+```
+

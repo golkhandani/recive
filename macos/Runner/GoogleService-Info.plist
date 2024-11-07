@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>240113539356-h0tv8qjf1s0rfv24hhajk5eks162gvhu.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.240113539356-h0tv8qjf1s0rfv24hhajk5eks162gvhu</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>240113539356-v41momddqk6tr1tksh8kd1ob611e9954.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCRQt36A9xcZSgcCDpPKqnaUZ8QBoipgnY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>240113539356</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>mrzg.vancouverartcompass.app</string>
+	<key>PROJECT_ID</key>
+	<string>vancouverartcompass-c73df</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vancouverartcompass-c73df.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:240113539356:ios:561cca642d7d680fa682d9</string>
+</dict>
+</plist>

@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "240113539356",
+    "project_id": "vancouverartcompass-c73df",
+    "storage_bucket": "vancouverartcompass-c73df.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240113539356:android:703ee33272872bb6a682d9",
+        "android_client_info": {
+          "package_name": "mrzg.vancouverartcompass.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJrJRclxIsDKKZlOhtVJ6oXB26Y4hzBFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240113539356-0ltasibbl4ncqktn402i8242eqvdcdcm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "240113539356-h0tv8qjf1s0rfv24hhajk5eks162gvhu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "mrzg.vancouverartcompass.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

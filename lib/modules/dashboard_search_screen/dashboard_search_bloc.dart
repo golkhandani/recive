@@ -63,8 +63,55 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
     ));
 
     if (filtersData.autoSearch && isViewAll) {
-      search('');
+      viewAllFilter(
+        '',
+        filtersData,
+      );
     }
+  }
+
+  Future<void> viewAllFilter(String query, SearchScreenFiltersData filtersData) async {
+    if (query == state.query && state.paginationData.isDone) {
+      emit(state.copyWith(
+        isLoading: LoadingState.done,
+      ));
+      return;
+    }
+    if (query != state.query && filtersData != state.filtersData) {
+      emit(state.copyWith(
+        paginationData: state.paginationData.copyWith(
+          cursorId: null,
+          cursorRank: null,
+          isDone: false,
+        ),
+        result: [],
+      ));
+    }
+
+    emit(state.copyWith(
+      isLoading: LoadingState.loading,
+    ));
+
+    final result = await searchRepository.searchByQuery(
+      query: query,
+      cursorId: null,
+      cursorRank: null,
+      limit: state.paginationData.limit,
+      sortType: state.sortType,
+      sortOrderType: state.sortOrderType,
+      filtersData: state.filtersData,
+    );
+
+    emit(state.copyWith(
+      result: List.from(state.result)..addAll(result),
+      paginationData: state.paginationData.copyWith(
+        cursorId: result.isNotEmpty ? result.last.id : null,
+        cursorRank: result.isNotEmpty ? result.last.rank : null,
+        isDone: result.length < state.paginationData.limit ? true : false,
+      ),
+      isLoading: LoadingState.done,
+      query: query,
+    ));
   }
 
   Future<void> restore(DashboardSearchBlocState state) async {
@@ -118,8 +165,8 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
       emit(state.copyWith(
         result: List.from(state.result)..addAll(result),
         paginationData: state.paginationData.copyWith(
-          cursorId: nextPage && result.isNotEmpty ? result.last.id : null,
-          cursorRank: nextPage && result.isNotEmpty ? result.last.rank : null,
+          cursorId: result.isNotEmpty ? result.last.id : null,
+          cursorRank: result.isNotEmpty ? result.last.rank : null,
           isDone: result.length < state.paginationData.limit ? true : false,
         ),
         isLoading: LoadingState.done,

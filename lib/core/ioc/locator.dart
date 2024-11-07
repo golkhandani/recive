@@ -146,7 +146,7 @@ Future setupServices() async {
 
   const webClientId = Environment.webGoogleClientId;
   const iosClientId = Environment.iosGoogleClientId;
-  const androidClientId = Environment.androidGoogleClientId;
+  // const androidClientId = Environment.androidGoogleClientId;
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
     clientId: iosClientId,
@@ -180,7 +180,7 @@ Future setupBloc() async {
   locator.registerFactory(
     () => ThemeCubit(
       sharedStorage: locator.get(),
-      initialValue: ThemeCubitState.dark ?? theme ?? ThemeCubitState.dark,
+      initialValue: theme ?? ThemeCubitState.dark,
     ),
   );
 

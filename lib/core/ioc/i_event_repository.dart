@@ -1,10 +1,7 @@
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
-import 'package:art_for_all/core/models/art_abstract_model.dart';
-import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:faker/faker.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class IEventRepository {
@@ -83,7 +80,6 @@ class MockEventRepository extends IEventRepository {
           event_media(media_id, media(id, url, copyright, type, title)),
           event_tags(tag_id, tag(name))
         ''').eq('id', id).single();
-    print(res);
     final event = EventModel.fromPostgres(res);
     return event;
   }

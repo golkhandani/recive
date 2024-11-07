@@ -1,6 +1,4 @@
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
-import 'package:art_for_all/core/models/art_abstract_model.dart';
-import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/environment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';

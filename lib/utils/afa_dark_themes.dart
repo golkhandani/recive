@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const light = Color.fromARGB(255, 10, 10, 10);
   static const semiLight = Color.fromARGB(255, 26, 26, 26);
-  static const middle = Color.fromARGB(255, 131, 89, 157);
+  static const middle = Color.fromARGB(255, 185, 27, 95);
   static const semiDark = Color.fromARGB(255, 248, 242, 248);
   static const dark = Color.fromARGB(255, 235, 232, 237);
 }
@@ -78,7 +78,7 @@ const darkTheme = MrzgThemePalette(
   navBackground: AppColors.semiLight, // Brown
   onNavBackground: AppColors.semiDark,
   onNavUnselected: AppColors.semiDark, // Dark gray
-  onNavSelected: Color.fromARGB(255, 157, 65, 214), // Deep orange
+  onNavSelected: AppColors.middle, // Deep orange
 
   tabBarSelected: Color(0xFFFFA000), // Amber
   onTabBarSelected: Colors.black,

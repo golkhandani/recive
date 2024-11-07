@@ -7,10 +7,6 @@ import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
-import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
-import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/widgets/community_card_container.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,7 +14,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 

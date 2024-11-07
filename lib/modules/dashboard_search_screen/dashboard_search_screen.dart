@@ -81,6 +81,7 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
       (widget.filtersData.hashCode + widget.isViewAll.hashCode).toString();
 
   static final Map<String, DashboardSearchBlocState> _states = {};
+
   @override
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) async {
     if (_states[restorationId] != null) {

@@ -70,8 +70,17 @@ class MockSearchRepository extends ISearchRepository {
     required SortOrderType sortOrderType,
     required SearchScreenFiltersData filtersData,
   }) async {
-    final rpc = await supabase.rpc('get_tag_artworks', params: {
+    final filters = [
+      if (filtersData.art) "art",
+      if (filtersData.artists) "artist",
+      // TODO update it when others added to searchable
+      if (filtersData.events) "art",
+      if (filtersData.news) "art",
+      if (filtersData.communities) "art",
+    ];
+    final rpc = await supabase.rpc('get_search', params: {
           'input_query': query.trim().split(' ').join('&'),
+          'input_types': filters,
           'input_limit': limit,
           'input_cursor_rank': cursorRank,
           'input_cursor_ref_id': cursorId,
@@ -81,7 +90,7 @@ class MockSearchRepository extends ISearchRepository {
       return SearchableAbstractModel(
         id: r['id'],
         title: r['title'],
-        rank: r['rank'],
+        rank: double.tryParse(r['rank'].toString()) ?? 0,
         imageUrl:
             r['media']['id'] == null ? MediaModel.artistPlaceholder.url : r['media']['url'],
         searchType: SearchTypeConverter.fromString(r['type']),

@@ -243,10 +243,6 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                   context.colorTheme.onBackground.isDark
                                       ? BlendMode.hue
                                       : BlendMode.difference,
-                                  // context.colorTheme.onBackground,
-                                  // context.colorTheme.onBackground.isLight
-                                  //     ? BlendMode.exclusion
-                                  //     : BlendMode.hue,
                                 ),
                           child: openStreetMapTileLayer,
                         ),

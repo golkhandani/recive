@@ -136,7 +136,9 @@ class EventModel with _$EventModel {
       status: res['status'] ?? '',
       startDate: DateTime.parse(res['start_date']),
       endDate: DateTime.parse(res['end_date']),
-      ticketStartDate: DateTime.tryParse(res['ticket_start_date']),
+      ticketStartDate: res['ticket_start_date'] != null
+          ? DateTime.tryParse(res['ticket_start_date'])
+          : null,
       highlights: (res['highlights'] as List).map((e) => e.toString()).toList(),
       accessibilityFeatures:
           (res['accessibility_features'] as List).map((e) => e.toString()).toList(),

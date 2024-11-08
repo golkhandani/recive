@@ -73,8 +73,8 @@ class MockSearchRepository extends ISearchRepository {
     final filters = [
       if (filtersData.art) "art",
       if (filtersData.artists) "artist",
+      if (filtersData.events) "event",
       // TODO update it when others added to searchable
-      if (filtersData.events) "art",
       if (filtersData.news) "art",
       if (filtersData.communities) "art",
     ];

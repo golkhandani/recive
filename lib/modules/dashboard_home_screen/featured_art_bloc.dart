@@ -69,9 +69,9 @@ class FeaturedArtBloc extends HydratedCubit<FeaturedArtBlocState> {
     required this.communityRepository,
   }) : super(FeaturedArtBlocState.initialize());
 
-  Future<void> init() async {
+  Future<void> init({bool refresh = false}) async {
     clear();
-    emit(state.copyWith(isLoading: LoadingState.loading));
+    emit(state.copyWith(isLoading: refresh ? LoadingState.updating : LoadingState.loading));
     final dayArt = await artRepository.getDayArt(null);
     final featuredArts = await artRepository.getFeaturedArts(null);
     final featuredNews = await newsRepository.getFeaturedNews(null);

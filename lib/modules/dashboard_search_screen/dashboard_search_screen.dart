@@ -85,7 +85,9 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
   @override
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) async {
     if (_states[restorationId] != null) {
-      bloc.restore(_states[restorationId]!);
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => bloc.restore(_states[restorationId]!),
+      );
       return;
     }
 
@@ -254,7 +256,9 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
             },
           ),
           BlocListener<DashboardSearchBloc, DashboardSearchBlocState>(
-            listenWhen: (o, n) => o.result.length != n.result.length,
+            listenWhen: (o, n) {
+              return o.result.length != n.result.length;
+            },
             listener: (context, state) {
               if (state.result.isEmpty) {
                 _lastIndex = 0;

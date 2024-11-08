@@ -39,14 +39,20 @@ class MockEventRepository extends IEventRepository {
 
   @override
   Future<List<EventAbstractModel>> getEvents() async {
-    final res = await supabase.from('event').select('''
-          id,
-          title,
-          type,
-          event_links(link_id, link(id, url, title)),
-          event_media(media_id, media(id, url, copyright, type, title)),
-          event_tags(tag_id, tag(name))
-        ''').limit(10) as ArrayRes ?? [];
+    final res = await supabase
+            .from('event')
+            .select('''
+              id,
+              title,
+              type,
+              event_links(link_id, link(id, url, title)),
+              event_media(media_id, media(id, url, copyright, type, title)),
+              event_tags(tag_id, tag(name))
+            ''')
+            .filter('start_date', 'gte', DateTime.now())
+            .order('start_date', ascending: true)
+            .limit(10) as ArrayRes ??
+        [];
 
     final events = res.map((rs) => EventAbstractModel.fromPostgres(rs)).toList();
     return events;

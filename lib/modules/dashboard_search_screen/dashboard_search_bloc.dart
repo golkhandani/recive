@@ -114,8 +114,14 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
     ));
   }
 
-  Future<void> restore(DashboardSearchBlocState state) async {
-    emit(state);
+  Future<void> restore(DashboardSearchBlocState restoredState) async {
+    // print(restoredState.result);
+    emit(state.copyWith(
+      result: restoredState.result,
+      paginationData: restoredState.paginationData,
+      filtersData: restoredState.filtersData,
+      keywords: restoredState.keywords,
+    ));
   }
 
   Timer? _debounce;

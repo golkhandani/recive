@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class IEventRepository {
   Future<List<EventAbstractModel>> getEvents();
-  Future<List<EventAbstractModel>> getEventsByArt(String artId);
+  Future<List<EventAbstractModel>> getEventsByArt(List<String> tags);
   Future<EventModel> getEventById(String id);
 }
 
@@ -59,10 +59,26 @@ class MockEventRepository extends IEventRepository {
   }
 
   @override
-  Future<List<EventAbstractModel>> getEventsByArt(String artId) async {
-    await Future.delayed(kDebounceDuration);
+  Future<List<EventAbstractModel>> getEventsByArt(List<String> tags) async {
+    final res = await supabase
+            .from('event')
+            .select('''
+              id,
+              title,
+              type,
+              event_links(link_id, link(id, url, title)),
+              event_media(media_id, media(id, url, copyright, type, title)),
+              event_tags!inner(tag_id, tag!inner(id, name))
+            ''')
+            .ilikeAnyOf('event_tags.tag.name', tags.map((t) => '%$t%').toList())
+            // .filter('start_date', 'gte', DateTime.now())
+            .order('start_date', ascending: true)
+            .limit(10) as ArrayRes ??
+        [];
 
-    return eventsFake;
+    print(res.map((e) => e['event_tags'][0]['tag']));
+    final events = res.map((rs) => EventAbstractModel.fromPostgres(rs)).toList();
+    return events;
   }
 
   @override

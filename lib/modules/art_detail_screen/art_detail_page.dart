@@ -168,38 +168,38 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      SizedBox(
-                        height: context.vHeight / 3,
-                        child: OverflowBox(
-                          maxWidth: context.vWidth,
-                          child: ListView.separated(
-                            clipBehavior: Clip.none,
-                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: data.communities.length,
-                            itemBuilder: (context, index) {
-                              final community = data.communities[index];
-                              return CommunityCardContainer.big(
-                                data: community,
-                                constraints: BoxConstraints(
-                                  maxHeight: context.vHeight / 3,
-                                  maxWidth: context.vWidth - kMediumPadding.left * 2,
-                                ),
-                                onTap: () {
-                                  final homeUrl = navigator.homeUrl;
-                                  navigator.homeContext.push(
-                                    '$homeUrl/${CommunityDetailScreen.name}/${community.id}',
-                                  );
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: kTinyPadding.left,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // SizedBox(height: kMediumPadding.bottom),
+                      // SizedBox(
+                      //   height: context.vHeight / 3,
+                      //   child: OverflowBox(
+                      //     maxWidth: context.vWidth,
+                      //     child: ListView.separated(
+                      //       clipBehavior: Clip.none,
+                      //       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                      //       scrollDirection: Axis.horizontal,
+                      //       itemCount: data.communities.length,
+                      //       itemBuilder: (context, index) {
+                      //         final community = data.communities[index];
+                      //         return CommunityCardContainer.big(
+                      //           data: community,
+                      //           constraints: BoxConstraints(
+                      //             maxHeight: context.vHeight / 3,
+                      //             maxWidth: context.vWidth - kMediumPadding.left * 2,
+                      //           ),
+                      //           onTap: () {
+                      //             final homeUrl = navigator.homeUrl;
+                      //             navigator.homeContext.push(
+                      //               '$homeUrl/${CommunityDetailScreen.name}/${community.id}',
+                      //             );
+                      //           },
+                      //         );
+                      //       },
+                      //       separatorBuilder: (context, index) => SizedBox(
+                      //         width: kTinyPadding.left,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(height: kMediumPadding.bottom),
                       Row(
                         children: [
@@ -238,87 +238,90 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                         },
                       ),
                       SizedBox(height: kMediumPadding.bottom),
-                      Row(
-                        children: [
-                          Text(
-                            "Related Events!",
-                            maxLines: 1,
-                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                      SizedBox(height: kExtraTinyPadding.bottom),
-                      SizedBox(
-                        height: context.vHeight / 6,
-                        child: OverflowBox(
-                          maxWidth: context.vWidth,
-                          child: ListView.separated(
-                            clipBehavior: Clip.none,
-                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.events.length,
-                            itemBuilder: (context, index) {
-                              final data = state.events[index];
-                              return EventCardContainer.medium(
-                                data: data,
-                                constraints:
-                                    BoxConstraints.expand(width: context.vWidth / 1.6),
-                                onTap: () {
-                                  final homeUrl = navigator.homeUrl;
-                                  navigator.homeContext.push(
-                                    '$homeUrl/${EventDetailScreen.name}/${data.id}',
-                                  );
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: kTinyPadding.left,
+                      if (state.events.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Text(
+                              "Related Events!",
+                              maxLines: 1,
+                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        SizedBox(height: kExtraTinyPadding.bottom),
+                        SizedBox(
+                          height: context.vHeight / 6,
+                          child: OverflowBox(
+                            maxWidth: context.vWidth,
+                            child: ListView.separated(
+                              clipBehavior: Clip.none,
+                              padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.events.length,
+                              itemBuilder: (context, index) {
+                                final data = state.events[index];
+                                return EventCardContainer.medium(
+                                  data: data,
+                                  constraints:
+                                      BoxConstraints.expand(width: context.vWidth / 1.6),
+                                  onTap: () {
+                                    final homeUrl = navigator.homeUrl;
+                                    navigator.homeContext.push(
+                                      '$homeUrl/${EventDetailScreen.name}/${data.id}',
+                                    );
+                                  },
+                                );
+                              },
+                              separatorBuilder: (context, index) => SizedBox(
+                                width: kTinyPadding.left,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Row(
-                        children: [
-                          Text(
-                            "Related News!",
-                            maxLines: 1,
-                            style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                          ),
-                          const Spacer(),
-                        ],
-                      ),
-                      SizedBox(height: kExtraTinyPadding.bottom),
-                      SizedBox(
-                        height: context.vHeight / 4,
-                        child: OverflowBox(
-                          maxWidth: context.vWidth,
-                          child: ListView.separated(
-                            clipBehavior: Clip.none,
-                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.news.length,
-                            itemBuilder: (context, index) {
-                              final data = state.news[index];
-                              return NewsCardContainer.medium(
-                                data: data,
-                                constraints:
-                                    BoxConstraints.expand(width: context.vWidth / 1.6),
-                                onTap: () {
-                                  final homeUrl = navigator.homeUrl;
-                                  navigator.homeContext.push(
-                                    '$homeUrl/${NewsDetailScreen.name}/${data.id}',
-                                  );
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) => SizedBox(
-                              width: kTinyPadding.left,
-                            ),
-                          ),
-                        ),
-                      ),
+                      ],
+
+                      //SizedBox(height: kMediumPadding.bottom),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       "Related News!",
+                      //       maxLines: 1,
+                      //       style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                      //     ),
+                      //     const Spacer(),
+                      //   ],
+                      // ),
+                      // SizedBox(height: kExtraTinyPadding.bottom),
+                      // SizedBox(
+                      //   height: context.vHeight / 4,
+                      //   child: OverflowBox(
+                      //     maxWidth: context.vWidth,
+                      //     child: ListView.separated(
+                      //       clipBehavior: Clip.none,
+                      //       padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                      //       scrollDirection: Axis.horizontal,
+                      //       itemCount: state.news.length,
+                      //       itemBuilder: (context, index) {
+                      //         final data = state.news[index];
+                      //         return NewsCardContainer.medium(
+                      //           data: data,
+                      //           constraints:
+                      //               BoxConstraints.expand(width: context.vWidth / 1.6),
+                      //           onTap: () {
+                      //             final homeUrl = navigator.homeUrl;
+                      //             navigator.homeContext.push(
+                      //               '$homeUrl/${NewsDetailScreen.name}/${data.id}',
+                      //             );
+                      //           },
+                      //         );
+                      //       },
+                      //       separatorBuilder: (context, index) => SizedBox(
+                      //         width: kTinyPadding.left,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(height: kLargePadding.bottom),
                     ],
                   ),

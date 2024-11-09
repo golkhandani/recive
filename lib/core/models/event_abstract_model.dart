@@ -131,7 +131,11 @@ class EventModel with _$EventModel {
       eventType: res['type'],
       title: res['title'] ?? '',
       location: res['location']['title'],
-      geoLocation: LatLng(res['location']['lat'] ?? 0, res['location']['lng'] ?? 0),
+      geoLocation: LatLng(
+        // just to make sure it is double
+        (res['location']['lat'] ?? 0) + .0,
+        (res['location']['lng'] ?? 0) + .0,
+      ),
       organizer: res['organizer'] ?? '',
       status: res['status'] ?? '',
       startDate: DateTime.parse(res['start_date']),

@@ -18,6 +18,7 @@ import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart
 import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
 import 'package:art_for_all/modules/onboarding_screen.dart/onboarding_screen.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -77,17 +78,17 @@ final dashboardRoutes = [
       return;
     },
     pageBuilder: (context, state, child) {
-      return CustomTransitionPage(
+      return CupertinoPage(
         key: state.pageKey,
         child: DashboardScreen(child: child),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          // Change the opacity of the screen using a Curve based on the the animation's
-          // value
-          return FadeTransition(
-            opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-            child: child,
-          );
-        },
+        // transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        //   // Change the opacity of the screen using a Curve based on the the animation's
+        //   // value
+        //   return FadeTransition(
+        //     opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+        //     child: child,
+        //   );
+        // },
       );
     },
     branches: [
@@ -376,27 +377,27 @@ final dashboardRoutes = [
 ];
 
 Page<void> _dashboardPageBuilder(GoRouterState state, Widget screen) {
-  return CustomTransitionPage<void>(
+  return CupertinoPage<void>(
     key: state.pageKey,
     restorationId: state.pageKey.value,
     child: screen,
-    transitionsBuilder: (
-      context,
-      animation,
-      secondaryAnimation,
-      child,
-    ) {
-      return SlideTransition(
-        position: animation.drive(
-          Tween<Offset>(
-            begin: const Offset(1, 0),
-            end: Offset.zero,
-          ).chain(
-            CurveTween(curve: Curves.easeInOutCubic),
-          ),
-        ),
-        child: child,
-      );
-    },
+    // transitionsBuilder: (
+    //   context,
+    //   animation,
+    //   secondaryAnimation,
+    //   child,
+    // ) {
+    //   return SlideTransition(
+    //     position: animation.drive(
+    //       Tween<Offset>(
+    //         begin: const Offset(1, 0),
+    //         end: Offset.zero,
+    //       ).chain(
+    //         CurveTween(curve: Curves.easeInOutCubic),
+    //       ),
+    //     ),
+    //     child: child,
+    //   );
+    // },
   );
 }

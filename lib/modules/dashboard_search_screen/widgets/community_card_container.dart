@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/card_size.dart';
 import 'package:art_for_all/core/models/community_abstract_model.dart';
@@ -113,7 +111,6 @@ class CommunityCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final heroTag = hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
     final color = context.colorTheme.secondary;
     final child = Stack(
       children: [

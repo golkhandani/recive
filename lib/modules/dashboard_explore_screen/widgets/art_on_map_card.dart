@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/theme/theme.dart';
@@ -43,7 +42,6 @@ class ArtOnMapCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = context.colorTheme.secondary;
     final fontColor = context.colorTheme.onSecondary;
-    final heroTag = DateTime.now().toString() + Random().nextInt(200).toString();
 
     final child = Column(
       mainAxisAlignment: MainAxisAlignment.end,

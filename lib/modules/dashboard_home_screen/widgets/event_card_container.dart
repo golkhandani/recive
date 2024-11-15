@@ -117,7 +117,6 @@ class EventCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final heroTag = hero ?? DateTime.now().toString() + Random().nextInt(200).toString();
     final color = context.colorTheme.secondary;
     final bannerColor = data.eventType.toColor();
     final child = Stack(

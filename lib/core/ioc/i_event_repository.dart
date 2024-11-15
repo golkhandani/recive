@@ -1,4 +1,3 @@
-import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:faker/faker.dart';

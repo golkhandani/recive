@@ -2,15 +2,12 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/i_event_repository.dart';
 import 'package:art_for_all/core/ioc/i_news_repository.dart';
-import 'package:art_for_all/core/ioc/i_search_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/art_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/models/news_abstract_model.dart';
-import 'package:art_for_all/core/models/search_abstract_model.dart';
-import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';

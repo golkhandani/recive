@@ -19,7 +19,6 @@ import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
 import 'package:art_for_all/modules/onboarding_screen.dart/onboarding_screen.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 

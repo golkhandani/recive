@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       padding: EdgeInsets.only(top: context.vTopSafeHeight),
+      height: context.vTopSafeHeight + kToolbarHeight,
       child: Material(
         color: context.colorTheme.primaryContainer,
         child: Container(
@@ -185,75 +186,79 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
                 SliverGap(kTinyPadding.bottom),
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: kMediumPadding.left,
-                          vertical: kTinyPadding.top,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Upcoming Events!",
-                              maxLines: 1,
-                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                            ),
-                            const Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                final homeUrl = navigator.homeUrl;
-                                final extra = SearchScreenFiltersData.none().copyWith(
-                                  events: true,
-                                  autoSearch: true,
-                                );
-                                navigator.homeContext.push(
-                                  '$homeUrl/${SearchScreen.name}',
-                                  extra: extra,
-                                );
-                              },
-                              child: Text(
-                                "View All",
+                if (state.events.isNotEmpty) ...[
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: kMediumPadding.left,
+                            vertical: kTinyPadding.top,
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Upcoming Events!",
                                 maxLines: 1,
                                 style:
-                                    context.typographyTheme.subtitleMedium.primary.textStyle,
+                                    context.typographyTheme.titleTiny.onBackground.textStyle,
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: context.vHeight / 4,
-                        child: ListView.separated(
-                          clipBehavior: Clip.none,
-                          cacheExtent: state.events.length * (context.vWidth / 1.5),
-                          padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: state.events.length,
-                          itemBuilder: (context, index) {
-                            final data = state.events[index];
-                            return EventCardContainer.medium(
-                              data: data,
-                              constraints: BoxConstraints.expand(width: context.vWidth / 1.5),
-                              onTap: () {
-                                final current = navigator.homeUrl;
-                                navigator.homeContext.push(
-                                  '$current/${EventDetailScreen.name}/${data.id}',
-                                );
-                              },
-                            );
-                          },
-                          separatorBuilder: (context, index) => SizedBox(
-                            width: kTinyPadding.left,
+                              const Spacer(),
+                              GestureDetector(
+                                onTap: () {
+                                  final homeUrl = navigator.homeUrl;
+                                  final extra = SearchScreenFiltersData.none().copyWith(
+                                    events: true,
+                                    autoSearch: true,
+                                  );
+                                  navigator.homeContext.push(
+                                    '$homeUrl/${SearchScreen.name}',
+                                    extra: extra,
+                                  );
+                                },
+                                child: Text(
+                                  "View All",
+                                  maxLines: 1,
+                                  style: context
+                                      .typographyTheme.subtitleMedium.primary.textStyle,
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: context.vHeight / 4,
+                          child: ListView.separated(
+                            clipBehavior: Clip.none,
+                            cacheExtent: state.events.length * (context.vWidth / 1.5),
+                            padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.events.length,
+                            itemBuilder: (context, index) {
+                              final data = state.events[index];
+                              return EventCardContainer.medium(
+                                data: data,
+                                constraints:
+                                    BoxConstraints.expand(width: context.vWidth / 1.5),
+                                onTap: () {
+                                  final current = navigator.homeUrl;
+                                  navigator.homeContext.push(
+                                    '$current/${EventDetailScreen.name}/${data.id}',
+                                  );
+                                },
+                              );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: kTinyPadding.left,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SliverGap(kTinyPadding.bottom),
+                  SliverGap(kTinyPadding.bottom),
+                ],
                 // SliverToBoxAdapter(
                 //   child: Column(
                 //     crossAxisAlignment: CrossAxisAlignment.start,
@@ -344,76 +349,79 @@ class _HomeScreenState extends State<HomeScreen> {
                 //     ],
                 //   ),
                 // ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: kMediumPadding.left,
-                          vertical: kTinyPadding.top,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Art Board!",
-                              maxLines: 1,
-                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: kMediumPadding.right - kExtraTinyPadding.right,
-                  ),
-                  sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      childCount: state.featuredArts.take(9).length,
-                      (context, index) {
-                        final data = state.featuredArts[index];
-                        final card =
-                            index == 3 ? ArtCardContainer.medium : ArtCardContainer.small;
-                        return Padding(
-                          padding: kExtraTinyPadding,
-                          child: card(
-                            hero: HomeScreen.name + data.id,
-                            constraints: BoxConstraints.expand(
-                              width: context.vWidth - (kMediumPadding.right) * 2,
-                            ),
-                            data: data,
-                            onTap: () {
-                              final current = navigator.homeUrl;
-                              navigator.homeContext.push(
-                                '$current/${ArtDetailScreen.name}/${data.id}',
-                              );
-                            },
+                if (state.featuredArts.isNotEmpty) ...[
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: kMediumPadding.left,
+                            vertical: kTinyPadding.top,
                           ),
-                        );
-                      },
-                    ),
-                    gridDelegate: SliverStairedGridDelegate(
-                      startCrossAxisDirectionReversed: false,
-                      pattern: const [
-                        StairedGridTile(1, 2),
-                        StairedGridTile(0.5, 1),
-                        StairedGridTile(0.5, 1),
-                        StairedGridTile(1, 1),
-                        StairedGridTile(0.6, 1),
-                        StairedGridTile(0.4, 0.665),
-                        StairedGridTile(1, 2),
-                        StairedGridTile(0.5, 1),
-                        StairedGridTile(0.5, 1),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Art Board!",
+                                maxLines: 1,
+                                style:
+                                    context.typographyTheme.titleTiny.onBackground.textStyle,
+                              ),
+                              const Spacer(),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-                SliverGap(kTinyPadding.bottom),
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kMediumPadding.right - kExtraTinyPadding.right,
+                    ),
+                    sliver: SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: state.featuredArts.take(9).length,
+                        (context, index) {
+                          final data = state.featuredArts[index];
+                          final card =
+                              index == 3 ? ArtCardContainer.medium : ArtCardContainer.small;
+                          return Padding(
+                            padding: kExtraTinyPadding,
+                            child: card(
+                              hero: HomeScreen.name + data.id,
+                              constraints: BoxConstraints.expand(
+                                width: context.vWidth - (kMediumPadding.right) * 2,
+                              ),
+                              data: data,
+                              onTap: () {
+                                final current = navigator.homeUrl;
+                                navigator.homeContext.push(
+                                  '$current/${ArtDetailScreen.name}/${data.id}',
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      gridDelegate: SliverStairedGridDelegate(
+                        startCrossAxisDirectionReversed: false,
+                        pattern: const [
+                          StairedGridTile(1, 2),
+                          StairedGridTile(0.5, 1),
+                          StairedGridTile(0.5, 1),
+                          StairedGridTile(1, 1),
+                          StairedGridTile(0.6, 1),
+                          StairedGridTile(0.4, 0.665),
+                          StairedGridTile(1, 2),
+                          StairedGridTile(0.5, 1),
+                          StairedGridTile(0.5, 1),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverGap(kTinyPadding.bottom),
+                ],
+
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -158,17 +158,13 @@ class CategoryCardContainer extends StatelessWidget {
         child: Material(
           elevation: kMediumElevation,
           borderRadius: kSmallBorderRadius,
-          child: Hero(
-            tag: data.heroTag,
-            child: CachedNetworkImage(
-              imageUrl: data.imageUrl,
-              fadeOutDuration: const Duration(milliseconds: 3000),
-              imageBuilder: (context, imageProvider) =>
-                  _buildCard(imageProvider, color, child),
-              placeholder: (context, url) => _buildLoading(color),
-              filterQuality: FilterQuality.high,
-              errorWidget: (context, url, error) => _buildCard(null, color, child),
-            ),
+          child: CachedNetworkImage(
+            imageUrl: data.imageUrl,
+            fadeOutDuration: const Duration(milliseconds: 3000),
+            imageBuilder: (context, imageProvider) => _buildCard(imageProvider, color, child),
+            placeholder: (context, url) => _buildLoading(color),
+            filterQuality: FilterQuality.high,
+            errorWidget: (context, url, error) => _buildCard(null, color, child),
           ),
         ),
       ),

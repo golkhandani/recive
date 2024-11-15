@@ -212,23 +212,20 @@ class _CategoryDetailHeaderState extends State<CategoryDetailHeader> {
               background: Stack(
                 children: [
                   Positioned.fill(
-                    child: Hero(
-                      tag: widget.heroTag,
-                      child: CachedNetworkImage(
-                        imageUrl: widget.category.imageUrl,
-                        imageBuilder: (context, imageProvider) => Container(
-                          height: constraints.maxHeight,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.cover,
-                              opacity: min(0.4, scale),
-                            ),
-                            color: context.colorTheme.primaryContainer,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.category.imageUrl,
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: constraints.maxHeight,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                            opacity: min(0.4, scale),
                           ),
+                          color: context.colorTheme.primaryContainer,
                         ),
-                        placeholder: (context, url) => _buildLoading(),
                       ),
+                      placeholder: (context, url) => _buildLoading(),
                     ),
                   ),
                   Positioned.fill(

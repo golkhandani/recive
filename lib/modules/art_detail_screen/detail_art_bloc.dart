@@ -27,12 +27,14 @@ class DetailArtBlocState with _$DetailArtBlocState {
     ArtModel? art,
     required List<NewsAbstractModel> news,
     required List<EventAbstractModel> events,
+    required List<ArtAbstractModel> similarArts,
   }) = _DetailArtBlocState;
 
   factory DetailArtBlocState.initialize() => const DetailArtBlocState(
         isLoadingArt: LoadingState.none,
         news: [],
         events: [],
+        similarArts: [],
       );
 
   factory DetailArtBlocState.fromJson(Map<String, Object?> json) =>
@@ -64,10 +66,13 @@ class DetailArtBloc extends HydratedCubit<DetailArtBlocState> {
     // remove Eastside
     final events = await eventRepository.getEventsByArt([...art.tags, 'Eastside']);
 
+    final similarArts = await artRepository.getSimilarArts(art.id, [...art.tags, 'Eastside']);
+
     emit(state.copyWith(
       isLoadingArt: LoadingState.done,
       art: art,
       events: events,
+      similarArts: similarArts,
     ));
   }
 

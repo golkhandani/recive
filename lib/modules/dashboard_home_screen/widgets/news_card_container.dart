@@ -133,13 +133,10 @@ class NewsCardContainer extends StatelessWidget {
                 child: Material(
                   borderRadius: kSmallBorderRadius,
                   elevation: kMediumElevation,
-                  child: Hero(
-                    tag: heroTag,
-                    child: CachedNetworkImage(
-                      imageUrl: data.imageUrl,
-                      imageBuilder: (context, imageProvider) => _buildCard(imageProvider),
-                      placeholder: (context, url) => _buildLoading(color),
-                    ),
+                  child: CachedNetworkImage(
+                    imageUrl: data.imageUrl,
+                    imageBuilder: (context, imageProvider) => _buildCard(imageProvider),
+                    placeholder: (context, url) => _buildLoading(color),
                   ),
                 ),
               ),

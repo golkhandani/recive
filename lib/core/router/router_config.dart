@@ -78,17 +78,17 @@ final dashboardRoutes = [
       return;
     },
     pageBuilder: (context, state, child) {
-      return CupertinoPage(
+      return CustomTransitionPage(
         key: state.pageKey,
         child: DashboardScreen(child: child),
-        // transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        //   // Change the opacity of the screen using a Curve based on the the animation's
-        //   // value
-        //   return FadeTransition(
-        //     opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-        //     child: child,
-        //   );
-        // },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          // Change the opacity of the screen using a Curve based on the the animation's
+          // value
+          return FadeTransition(
+            opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+            child: child,
+          );
+        },
       );
     },
     branches: [

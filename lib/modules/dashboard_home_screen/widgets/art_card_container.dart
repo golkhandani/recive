@@ -223,15 +223,11 @@ class ArtCardContainer extends StatelessWidget {
         child: Material(
           borderRadius: kSmallBorderRadius,
           elevation: kMediumElevation,
-          child: Hero(
-            tag: heroTag,
-            child: CachedNetworkImage(
-              imageUrl: data.thumbnail.url,
-              imageBuilder: (context, imageProvider) =>
-                  _buildCard(imageProvider, color, child),
-              placeholder: (context, url) => _buildLoading(color),
-              errorWidget: (context, url, error) => _buildCard(null, color, child),
-            ),
+          child: CachedNetworkImage(
+            imageUrl: data.thumbnail.url,
+            imageBuilder: (context, imageProvider) => _buildCard(imageProvider, color, child),
+            placeholder: (context, url) => _buildLoading(color),
+            errorWidget: (context, url, error) => _buildCard(null, color, child),
           ),
         ),
       ),
@@ -451,15 +447,11 @@ class SearchableOnMapCardContainer extends StatelessWidget {
         child: Material(
           borderRadius: kSmallBorderRadius,
           elevation: kMediumElevation,
-          child: Hero(
-            tag: heroTag,
-            child: CachedNetworkImage(
-              imageUrl: data.imageUrl,
-              imageBuilder: (context, imageProvider) =>
-                  _buildCard(imageProvider, color, child),
-              placeholder: (context, url) => _buildLoading(color),
-              errorWidget: (context, url, error) => _buildCard(null, color, child),
-            ),
+          child: CachedNetworkImage(
+            imageUrl: data.imageUrl,
+            imageBuilder: (context, imageProvider) => _buildCard(imageProvider, color, child),
+            placeholder: (context, url) => _buildLoading(color),
+            errorWidget: (context, url, error) => _buildCard(null, color, child),
           ),
         ),
       ),

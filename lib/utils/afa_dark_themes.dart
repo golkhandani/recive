@@ -55,8 +55,8 @@ const darkTheme = MrzgThemePalette(
   cardBackground: Color.fromARGB(255, 235, 235, 235), // Off-white
   onCardBackground: Colors.black,
 
-  chipBackground: Color(0xFF9E9E9E), // Gray
-  onChipBackground: Colors.white,
+  chipBackground: Color.fromARGB(255, 213, 213, 213), // Gray
+  onChipBackground: Color.fromARGB(255, 29, 29, 29),
   chipDisabledBackground: Color(0xFFBDBDBD), // Light gray
   onChipDisabledBackground: Colors.black87,
 

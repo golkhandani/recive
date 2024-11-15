@@ -103,14 +103,11 @@ class ArtOnMapCard extends StatelessWidget {
     );
     return RepaintBoundary(
       child: InkWell(
-        child: Hero(
-          tag: heroTag,
-          child: CachedNetworkImage(
-            imageUrl: data.thumbnail.url,
-            imageBuilder: (context, imageProvider) => _buildCard(imageProvider, child),
-            placeholder: (context, url) => _buildLoading(),
-            errorWidget: (context, url, error) => _buildLoading(),
-          ),
+        child: CachedNetworkImage(
+          imageUrl: data.thumbnail.url,
+          imageBuilder: (context, imageProvider) => _buildCard(imageProvider, child),
+          placeholder: (context, url) => _buildLoading(),
+          errorWidget: (context, url, error) => _buildLoading(),
         ),
       ),
     );

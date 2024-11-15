@@ -232,6 +232,8 @@ Future setupBloc() async {
       secureStorage: locator.get(),
       sharedStorage: locator.get(),
       eventRepository: locator.get(),
+      artistRepository: locator.get(),
+      artRepository: locator.get(),
     ),
   );
 

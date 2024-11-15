@@ -1,4 +1,4 @@
-import 'package:art_for_all/core/constants.dart';
+import 'dart:math';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/art_model.dart';
@@ -11,61 +11,61 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class IArtRepository {
   Future<List<ArtAbstractModel>> getArtsByCategoryId(String categoryId);
-
   Future<List<ArtAbstractModel>> getFeaturedArts(LatLng? center);
-  Future<List<ArtAbstractModel>> getNearbyArts(LatLng? center);
-  Future<ArtAbstractModel> getDayArt(LatLng? center);
-
+  Future<ArtAbstractModel?> getDayArt(LatLng? center);
   Future<ArtModel> getDetailArt(String id);
+  Future<List<ArtAbstractModel>> getSimilarArts(String currentId, List<String> tags);
+  Future<List<ArtAbstractModel>> getArtsByEventId(String eventId);
 }
 
 class MockArtRepository extends IArtRepository {
   final SupabaseClient supabase;
   final faker = Faker();
+  int? totalCount;
 
   MockArtRepository({
     required this.supabase,
-  });
+  }) {
+    _getCount();
+  }
+
+  Future<int> _getCount() async {
+    totalCount ??= await supabase.from('art').count().eq('publish_status', 'published');
+    return totalCount!;
+  }
 
   @override
   Future<List<ArtAbstractModel>> getArtsByCategoryId(String categoryId) async {
-    await Future.delayed(kDebounceDuration);
+    return [];
+  }
 
-    final faker = Faker();
-    const double baseLatitude = 51.52;
-    const double baseLongitude = -0.09;
+  @override
+  Future<ArtAbstractModel?> getDayArt(LatLng? center) async {
+    final count = await _getCount();
+    if (count == 0) return null;
+    final rand = faker.randomGenerator.integer(count - 1);
+    final res = await supabase.from('art').select('''
+            id,
+            title,
+            description,
+            type,
+            material,
+            ownership,
+            location(id, title, coordinates, lat, lng),
+            art_links(link_id, link(id, url, title)),
+            art_media(media_id, media(id, url, copyright, type, title)),
+            art_tags(tag_id, tag(name))
+    ''').eq('publish_status', 'published').range(rand, rand + 1).limit(1).single();
 
-    return List.generate(36, (index) {
-      final double latVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
-      final double lngVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
-
-      return ArtAbstractModel(
-        id: faker.guid.guid(),
-        title: faker.lorem.words(3).join(' '),
-        description: faker.lorem.sentence(),
-        location: faker.address.streetAddress(),
-        geoLocation: LatLng(
-          baseLatitude + latVariation, // Latitude close to base
-          baseLongitude + lngVariation, // Longitude close to base
-        ),
-        thumbnail: MediaModel(
-          id: faker.randomGenerator.integer(200).toString(),
-          title: 'image',
-          type: MediaType.image,
-          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-          copyright: 'copyright',
-          tags: [],
-        ),
-        tags: faker.lorem.words(3),
-        artType: faker.address.city(),
-      );
-    });
+    return ArtAbstractModel.fromPostgres(res);
   }
 
   @override
   Future<List<ArtAbstractModel>> getFeaturedArts(LatLng? center) async {
-    final count = await supabase.from('art').count();
-    final rand = faker.randomGenerator.integer(count - 10);
+    final count = await _getCount();
+    if (count == 0) return [];
+
+    final rand = faker.randomGenerator.integer(count - min(10, count));
     final res = await supabase.from('art').select('''
             id,
             title,
@@ -77,44 +77,9 @@ class MockArtRepository extends IArtRepository {
             art_links(link_id, link(id, url, title)),
             art_media!inner(media_id, media(id, url, copyright, type, title)),
             art_tags(tag_id, tag(name))
-    ''').range(rand, rand + 10).limit(10) as ArrayRes;
+    ''').eq('publish_status', 'published').range(rand, rand + 10).limit(10) as ArrayRes;
 
     return res?.map((r) => ArtAbstractModel.fromPostgres(r)).toList() ?? [];
-  }
-
-  @override
-  Future<List<ArtAbstractModel>> getNearbyArts(LatLng? center) async {
-    await Future.delayed(kDebounceDuration);
-
-    final faker = Faker();
-    final double baseLatitude = center?.latitude ?? 51.52;
-    final double baseLongitude = center?.longitude ?? -0.09;
-
-    return List.generate(20, (index) {
-      final double latVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
-      final double lngVariation = faker.randomGenerator.decimal(min: -0.01, scale: 0.01);
-
-      return ArtAbstractModel(
-        id: faker.guid.guid(),
-        title: faker.lorem.words(3).join(' '),
-        description: faker.lorem.sentence(),
-        location: faker.address.streetAddress(),
-        geoLocation: LatLng(
-          baseLatitude + latVariation, // Latitude close to base
-          baseLongitude + lngVariation, // Longitude close to base
-        ),
-        thumbnail: MediaModel(
-          id: faker.randomGenerator.integer(200).toString(),
-          title: 'image',
-          type: MediaType.image,
-          url: 'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200)}',
-          copyright: 'copyright',
-          tags: [],
-        ),
-        tags: faker.lorem.words(3),
-        artType: faker.address.city(),
-      );
-    });
   }
 
   @override
@@ -126,7 +91,7 @@ class MockArtRepository extends IArtRepository {
             type,
             material,
             ownership,
-            location(id, title, coordinates, lat, lng),
+            location(id, *),
             art_artists!inner (artist_id, artist(
                 id, 
                 name,
@@ -162,13 +127,16 @@ class MockArtRepository extends IArtRepository {
       media = artMedia.map((am) => MediaModel.fromPostgres(am['media'])).toList();
     }
 
+    final address =
+        "${res['location']['title']} \n${res['location']['area']} - ${res['location']['city']} - ${res['location']['region']} - ${res['location']['region']} \n\n${res['location']['details']}";
+
     return ArtModel(
       id: res['id'],
       title: res['title'],
       description: res['description'],
       artType: res['type'],
       media: media,
-      location: res['location']['title'],
+      location: address,
       geoLocation: LatLng(res['location']['lat'] ?? 0, res['location']['lng'] ?? 0),
       tags: (res['art_tags'] as List<dynamic>? ?? []).map((at) {
         return at['tag']['name'] as String;
@@ -197,11 +165,33 @@ class MockArtRepository extends IArtRepository {
   }
 
   @override
-  Future<ArtAbstractModel> getDayArt(LatLng? center) async {
-    /// DONE TEST
-    final count = await supabase.from('art').count();
-    final rand = faker.randomGenerator.integer(count - 1);
-    final res = await supabase.from('art').select('''
+  Future<List<ArtAbstractModel>> getArtsByEventId(String eventId) async {
+    final res = await supabase.from('event_arts').select('''
+            event_id,
+            art_id,
+            art (
+                id,
+                title,
+                description,
+                type,
+                material,
+                ownership,
+                location(id, title, coordinates, lat, lng),
+                art_links(link_id, link(id, url, title)),
+                art_media!inner(media_id, media(id, url, copyright, type, title)),
+                art_tags(tag_id, tag(name))
+            )
+    ''').eq('event_id', eventId).limit(100) as ArrayRes ?? [];
+
+    final arts = res.map((rs) => ArtAbstractModel.fromPostgres(rs['art'])).toList();
+    return arts;
+  }
+
+  @override
+  Future<List<ArtAbstractModel>> getSimilarArts(String currentId, List<String> tags) async {
+    final res = await supabase
+        .from('art')
+        .select('''
             id,
             title,
             description,
@@ -210,10 +200,14 @@ class MockArtRepository extends IArtRepository {
             ownership,
             location(id, title, coordinates, lat, lng),
             art_links(link_id, link(id, url, title)),
-            art_media(media_id, media(id, url, copyright, type, title)),
-            art_tags(tag_id, tag(name))
-    ''').range(rand, rand + 1).limit(1).single();
+            art_media!inner(media_id, media(id, url, copyright, type, title)),
+            art_tags!inner(tag_id, tag!inner(id, name))
+        ''')
+        .ilikeAnyOf('art_tags.tag.name', tags.map((t) => '%$t%').toList())
+        .eq('publish_status', 'published')
+        .neq('id', currentId)
+        .limit(10) as ArrayRes;
 
-    return ArtAbstractModel.fromPostgres(res);
+    return res?.map((r) => ArtAbstractModel.fromPostgres(r)).toList() ?? [];
   }
 }

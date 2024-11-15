@@ -7,7 +7,11 @@ import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
+import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/widgets/artist_card_container.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -270,8 +274,92 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                           );
                         }),
                       ],
-
+                      if (state.artists.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Text(
+                              "Artists",
+                              maxLines: 1,
+                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        SizedBox(height: kExtraTinyPadding.bottom),
+                        SizedBox(
+                          height: context.vWidth / 4,
+                          child: OverflowBox(
+                            maxWidth: context.vWidth,
+                            child: ListView.separated(
+                              clipBehavior: Clip.none,
+                              padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.artists.length,
+                              itemBuilder: (context, index) {
+                                final artist = state.artists[index];
+                                return ArtistCardContainer.small(
+                                  data: artist,
+                                  constraints:
+                                      BoxConstraints.expand(width: context.vWidth / 4),
+                                  onTap: () {
+                                    final homeUrl = navigator.homeUrl;
+                                    navigator.homeContext.push(
+                                      '$homeUrl/${ArtistDetailScreen.name}/${artist.id}',
+                                    );
+                                  },
+                                );
+                              },
+                              separatorBuilder: (context, index) => SizedBox(
+                                width: kTinyPadding.left,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                       SizedBox(height: kMediumPadding.bottom),
+                      if (state.arts.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Text(
+                              "Arts",
+                              maxLines: 1,
+                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        SizedBox(height: kExtraTinyPadding.bottom),
+                        SizedBox(
+                          height: context.vWidth / 2,
+                          child: OverflowBox(
+                            maxWidth: context.vWidth,
+                            child: ListView.separated(
+                              clipBehavior: Clip.none,
+                              padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.arts.length,
+                              itemBuilder: (context, index) {
+                                final art = state.arts[index];
+                                return ArtCardContainer.small(
+                                  data: art,
+                                  constraints:
+                                      BoxConstraints.expand(width: context.vWidth / 1.4),
+                                  onTap: () {
+                                    final homeUrl = navigator.homeUrl;
+                                    navigator.homeContext.push(
+                                      '$homeUrl/${ArtDetailScreen.name}/${art.id}',
+                                    );
+                                  },
+                                );
+                              },
+                              separatorBuilder: (context, index) => SizedBox(
+                                width: kTinyPadding.left,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: kMediumPadding.bottom),
+                      ],
                       Center(
                         child: Wrap(
                           alignment: WrapAlignment.spaceAround,

@@ -49,7 +49,8 @@ class MockEventRepository extends IEventRepository {
               event_media(media_id, media(id, url, copyright, type, title)),
               event_tags(tag_id, tag(name))
             ''')
-            .filter('start_date', 'gte', DateTime.now())
+            .eq('publish_status', 'published')
+            .filter('end_date', 'gte', DateTime.now())
             .order('start_date', ascending: true)
             .limit(10) as ArrayRes ??
         [];
@@ -71,12 +72,10 @@ class MockEventRepository extends IEventRepository {
               event_tags!inner(tag_id, tag!inner(id, name))
             ''')
             .ilikeAnyOf('event_tags.tag.name', tags.map((t) => '%$t%').toList())
-            // .filter('start_date', 'gte', DateTime.now())
             .order('start_date', ascending: true)
             .limit(10) as ArrayRes ??
         [];
 
-    print(res.map((e) => e['event_tags'][0]['tag']));
     final events = res.map((rs) => EventAbstractModel.fromPostgres(rs)).toList();
     return events;
   }

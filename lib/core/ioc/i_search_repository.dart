@@ -51,8 +51,10 @@ class MockSearchRepository extends ISearchRepository {
             id,
             tags
     ''').range(rand, rand + 20) as ArrayRes ?? [];
+    if (res.isEmpty) return keywords;
     final tags = <String>[];
     for (var r in res) {
+      if (r['tags'] == null) continue;
       for (var t in r['tags']) {
         if (t != null) tags.add(t);
       }

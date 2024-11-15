@@ -173,15 +173,12 @@ class EventCardContainer extends StatelessWidget {
           elevation: kMediumElevation,
           child: ClipRRect(
             borderRadius: kSmallBorderRadius,
-            child: Hero(
-              tag: heroTag,
-              child: CachedNetworkImage(
-                imageUrl: data.thumbnail.url,
-                imageBuilder: (context, imageProvider) =>
-                    _buildCard(imageProvider, color, child),
-                placeholder: (context, url) => _buildLoading(color),
-                errorWidget: (context, url, error) => _buildCard(null, color, child),
-              ),
+            child: CachedNetworkImage(
+              imageUrl: data.thumbnail.url,
+              imageBuilder: (context, imageProvider) =>
+                  _buildCard(imageProvider, color, child),
+              placeholder: (context, url) => _buildLoading(color),
+              errorWidget: (context, url, error) => _buildCard(null, color, child),
             ),
           ),
         ),

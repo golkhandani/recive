@@ -20,7 +20,7 @@ class MockCategoryRepository extends ICategoryRepository {
   @override
   Future<List<CategoryAbstractModel>> getCategories() async {
     final response = await supabase
-        .from('category')
+        .from('categories')
         .select('id, title, description, image_url, category_tags(tag_id (name))')
         .order('title', ascending: true);
 

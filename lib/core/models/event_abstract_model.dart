@@ -130,11 +130,11 @@ class EventModel with _$EventModel {
       description: res['description'] ?? '',
       eventType: res['type'],
       title: res['title'] ?? '',
-      location: res['location']['title'],
+      location: res['locations']['title'],
       geoLocation: LatLng(
         // just to make sure it is double
-        (res['location']['lat'] ?? 0) + .0,
-        (res['location']['lng'] ?? 0) + .0,
+        (res['locations']['lat'] ?? 0) + .0,
+        (res['locations']['lng'] ?? 0) + .0,
       ),
       organizer: res['organizer'] ?? '',
       status: res['status'] ?? '',
@@ -153,10 +153,10 @@ class EventModel with _$EventModel {
           ? [th!]
           : media.map((am) => MediaModel.fromPostgres(am['media'])).toList(),
       tags: (res['event_tags'] as List<dynamic>? ?? []).map((at) {
-        return at['tag']['name'] as String;
+        return at['tags']['name'] as String;
       }).toList(),
       links: (res['event_links'] as List<dynamic>? ?? []).map((al) {
-        final l = al['link'];
+        final l = al['links'];
         return LinkModel(
           id: l['id'],
           title: l['title'],

@@ -1,3 +1,4 @@
+import 'package:art_for_all/core/enums/data_tables.dart';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:faker/faker.dart';
@@ -39,14 +40,14 @@ class MockEventRepository extends IEventRepository {
   @override
   Future<List<EventAbstractModel>> getEvents() async {
     final res = await supabase
-            .from('event')
+            .from(DataTables.event.tableName)
             .select('''
               id,
               title,
               type,
-              event_links(link_id, link(id, url, title)),
+              event_links(link_id, links(id, url, title)),
               event_media(media_id, media(id, url, copyright, type, title)),
-              event_tags(tag_id, tag(name))
+              event_tags(tag_id, tags(name))
             ''')
             .eq('publish_status', 'published')
             .filter('end_date', 'gte', DateTime.now())
@@ -61,16 +62,16 @@ class MockEventRepository extends IEventRepository {
   @override
   Future<List<EventAbstractModel>> getEventsByArt(List<String> tags) async {
     final res = await supabase
-            .from('event')
+            .from(DataTables.event.tableName)
             .select('''
               id,
               title,
               type,
-              event_links(link_id, link(id, url, title)),
+              event_links(link_id, links(id, url, title)),
               event_media(media_id, media(id, url, copyright, type, title)),
-              event_tags!inner(tag_id, tag!inner(id, name))
+              event_tags!inner(tag_id, tags!inner(id, name))
             ''')
-            .ilikeAnyOf('event_tags.tag.name', tags.map((t) => '%$t%').toList())
+            .ilikeAnyOf('event_tags.tags.name', tags.map((t) => '%$t%').toList())
             .order('start_date', ascending: true)
             .limit(10) as ArrayRes ??
         [];
@@ -81,7 +82,7 @@ class MockEventRepository extends IEventRepository {
 
   @override
   Future<EventModel> getEventById(String id) async {
-    final res = await supabase.from('event').select('''
+    final res = await supabase.from(DataTables.event.tableName).select('''
           id,
           title,
           description,
@@ -95,10 +96,10 @@ class MockEventRepository extends IEventRepository {
           registration_required,
           organizer,
           highlights,
-          location(id, title, coordinates, lat, lng),
-          event_links(link_id, link(id, url, title)),
+          ${DataTables.location.tableName}(id, title, coordinates, lat, lng),
+          event_links(link_id, links(id, url, title)),
           event_media(media_id, media(id, url, copyright, type, title)),
-          event_tags(tag_id, tag(name))
+          event_tags(tag_id, tags(name))
         ''').eq('id', id).single();
     final event = EventModel.fromPostgres(res);
     return event;

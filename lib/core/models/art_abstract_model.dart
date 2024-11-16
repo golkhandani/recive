@@ -36,8 +36,8 @@ class ArtAbstractModel with _$ArtAbstractModel {
       title: res['title'],
       description: res['description'],
       artType: res['type'],
-      location: res['location']['title'],
-      geoLocation: LatLng(res['location']['lat'] ?? 0, res['location']['lng'] ?? 0),
+      location: res['locations']['title'],
+      geoLocation: LatLng(res['locations']['lat'] ?? 0, res['locations']['lng'] ?? 0),
       thumbnail: th,
       tags: [],
     );

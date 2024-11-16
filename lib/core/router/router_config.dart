@@ -106,7 +106,7 @@ final dashboardRoutes = [
             routes: [
               // VIEW ALL SCREEN
               GoRoute(
-                name: HomeScreen.name + SearchScreen.name,
+                name: "${HomeScreen.name}-${SearchScreen.name}",
                 path: SearchScreen.name,
                 pageBuilder: (context, state) => _dashboardPageBuilder(
                   state,
@@ -222,97 +222,6 @@ final dashboardRoutes = [
               state,
               const SearchScreen(),
             ),
-            routes: [
-              GoRoute(
-                name: SearchScreen.name + CategoryDetailScreen.name,
-                path: '${CategoryDetailScreen.name}/:${CategoryDetailScreen.pathParamId}',
-                pageBuilder: (context, state) => _dashboardPageBuilder(
-                  state,
-                  CategoryDetailScreen(
-                    id: state.pathParameters[CategoryDetailScreen.pathParamId] ?? '',
-                    extra: state.extra != null
-                        ? CategoryAbstractModel.fromJson(
-                            state.extra as Map<String, dynamic>,
-                          )
-                        : null,
-                  ),
-                ),
-              ),
-              GoRoute(
-                name: SearchScreen.name + EventDetailScreen.name,
-                path: '${EventDetailScreen.name}/:${EventDetailScreen.pathParamId}',
-                pageBuilder: (context, state) => _dashboardPageBuilder(
-                  state,
-                  EventDetailScreen(
-                    id: state.pathParameters[EventDetailScreen.pathParamId] ?? '',
-                  ),
-                ),
-                routes: [
-                  GoRoute(
-                    name: SearchScreen.name + EventDetailScreen.name + ArtDetailScreen.name,
-                    path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
-                    pageBuilder: (context, state) => _dashboardPageBuilder(
-                      state,
-                      ArtDetailScreen(
-                        id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              GoRoute(
-                name: SearchScreen.name + ArtDetailScreen.name,
-                path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
-                pageBuilder: (context, state) => _dashboardPageBuilder(
-                  state,
-                  ArtDetailScreen(
-                    id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
-                  ),
-                ),
-              ),
-              GoRoute(
-                name: SearchScreen.name + NewsDetailScreen.name,
-                path: '${NewsDetailScreen.name}/:${NewsDetailScreen.pathParamId}',
-                pageBuilder: (context, state) => _dashboardPageBuilder(
-                  state,
-                  NewsDetailScreen(
-                    id: state.pathParameters[NewsDetailScreen.pathParamId] ?? '',
-                  ),
-                ),
-                routes: [
-                  GoRoute(
-                    name: SearchScreen.name + NewsDetailScreen.name + ArtDetailScreen.name,
-                    path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
-                    pageBuilder: (context, state) => _dashboardPageBuilder(
-                      state,
-                      ArtDetailScreen(
-                        id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              GoRoute(
-                name: SearchScreen.name + ArtistDetailScreen.name,
-                path: '${ArtistDetailScreen.name}/:${ArtistDetailScreen.pathParamId}',
-                pageBuilder: (context, state) => _dashboardPageBuilder(
-                  state,
-                  ArtistDetailScreen(
-                    id: state.pathParameters[ArtistDetailScreen.pathParamId] ?? '',
-                  ),
-                ),
-              ),
-              GoRoute(
-                name: SearchScreen.name + CommunityDetailScreen.name,
-                path: '${CommunityDetailScreen.name}/:${CommunityDetailScreen.pathParamId}',
-                pageBuilder: (context, state) => _dashboardPageBuilder(
-                  state,
-                  CommunityDetailScreen(
-                    id: state.pathParameters[CommunityDetailScreen.pathParamId] ?? '',
-                  ),
-                ),
-              ),
-            ],
           ),
         ],
       ),
@@ -328,30 +237,6 @@ final dashboardRoutes = [
               state,
               const NearMeScreen(),
             ),
-            routes: [
-              GoRoute(
-                name: NearMeScreen.name + ArtDetailScreen.name,
-                path: '${ArtDetailScreen.name}/:${ArtDetailScreen.pathParamId}',
-                pageBuilder: (context, state) => _dashboardPageBuilder(
-                  state,
-                  ArtDetailScreen(
-                    id: state.pathParameters[ArtDetailScreen.pathParamId] ?? '',
-                  ),
-                ),
-                routes: [
-                  GoRoute(
-                    name: NearMeScreen.name + ArtDetailScreen.name + ArtistDetailScreen.name,
-                    path: '${ArtistDetailScreen.name}/:${ArtistDetailScreen.pathParamId}',
-                    pageBuilder: (context, state) => _dashboardPageBuilder(
-                      state,
-                      ArtistDetailScreen(
-                        id: state.pathParameters[ArtistDetailScreen.pathParamId] ?? '',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
           ),
         ],
       ),
@@ -367,7 +252,6 @@ final dashboardRoutes = [
               state,
               const ProfileScreen(),
             ),
-            routes: const [],
           ),
         ],
       ),

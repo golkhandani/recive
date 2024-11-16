@@ -1,3 +1,4 @@
+import 'package:art_for_all/core/enums/data_tables.dart';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/models/search_abstract_model.dart';
@@ -80,13 +81,16 @@ class MockSearchRepository extends ISearchRepository {
       if (filtersData.news) "art",
       if (filtersData.communities) "art",
     ];
-    final rpc = await supabase.rpc('get_search', params: {
-          'input_query': query.trim().split(' ').join('&'),
-          'input_types': filters,
-          'input_limit': limit,
-          'input_cursor_rank': cursorRank,
-          'input_cursor_ref_id': cursorId,
-        }) as ArrayRes ??
+    final rpc = await supabase.rpc(
+          DataFunctions.acTextSearch.fnName,
+          params: {
+            'input_query': query.trim().split(' ').join('&'),
+            'input_types': filters,
+            'input_limit': limit,
+            'input_cursor_rank': cursorRank,
+            'input_cursor_ref_id': cursorId,
+          },
+        ) as ArrayRes ??
         [];
     return rpc.map((r) {
       return SearchableAbstractModel(
@@ -105,12 +109,15 @@ class MockSearchRepository extends ISearchRepository {
   @override
   Future<List<SearchableAbstractModel>> searchByCoordinate(LatLng? coordinates) async {
     /// START TEST
-    final rpc = await supabase.rpc('get_nearby_artworks', params: {
-          'input_lat': coordinates?.latitude ?? 49.2827,
-          'input_lng': coordinates?.longitude ?? -123.1207,
-          'input_query': null,
-          'input_limit': 50,
-        }) as ArrayRes ??
+    final rpc = await supabase.rpc(
+          DataFunctions.acNearbySearch.fnName,
+          params: {
+            'input_lat': coordinates?.latitude ?? 49.2827,
+            'input_lng': coordinates?.longitude ?? -123.1207,
+            'input_query': null,
+            'input_limit': 50,
+          },
+        ) as ArrayRes ??
         [];
 
     return rpc.map((r) {

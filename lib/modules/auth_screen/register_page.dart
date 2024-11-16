@@ -13,7 +13,7 @@ import 'package:form_validator/form_validator.dart';
 import 'package:gap/gap.dart';
 
 class RegisterScreen extends StatefulWidget {
-  static String name = 'RegisterScreen';
+  static String name = 'register';
 
   const RegisterScreen({super.key});
 

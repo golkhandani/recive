@@ -14,11 +14,9 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:form_validator/form_validator.dart';
 
 import 'package:gap/gap.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
-  static String name = 'LoginScreen';
+  static String name = 'login';
   const LoginScreen({super.key});
 
   @override

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:art_for_all/core/enums/data_tables.dart';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/art_model.dart';
@@ -30,7 +31,10 @@ class MockArtRepository extends IArtRepository {
   }
 
   Future<int> _getCount() async {
-    totalCount ??= await supabase.from('art').count().eq('publish_status', 'published');
+    totalCount ??= await supabase
+        .from(DataTables.art.tableName)
+        .count()
+        .eq('publish_status', 'published');
     return totalCount!;
   }
 
@@ -44,17 +48,17 @@ class MockArtRepository extends IArtRepository {
     final count = await _getCount();
     if (count == 0) return null;
     final rand = faker.randomGenerator.integer(count - 1);
-    final res = await supabase.from('art').select('''
+    final res = await supabase.from(DataTables.art.tableName).select('''
             id,
             title,
             description,
             type,
             material,
             ownership,
-            location(id, title, coordinates, lat, lng),
-            art_links(link_id, link(id, url, title)),
+            ${DataTables.location.tableName}(id, title, coordinates, lat, lng),
+            art_links(link_id, links(id, url, title)),
             art_media(media_id, media(id, url, copyright, type, title)),
-            art_tags(tag_id, tag(name))
+            art_tags(tag_id, tags(name))
     ''').eq('publish_status', 'published').range(rand, rand + 1).limit(1).single();
 
     return ArtAbstractModel.fromPostgres(res);
@@ -66,17 +70,17 @@ class MockArtRepository extends IArtRepository {
     if (count == 0) return [];
 
     final rand = faker.randomGenerator.integer(count - min(10, count));
-    final res = await supabase.from('art').select('''
+    final res = await supabase.from(DataTables.art.tableName).select('''
             id,
             title,
             description,
             type,
             material,
             ownership,
-            location(id, title, coordinates, lat, lng),
-            art_links(link_id, link(id, url, title)),
+            ${DataTables.location.tableName}(id, title, coordinates, lat, lng),
+            art_links(link_id, links(id, url, title)),
             art_media!inner(media_id, media(id, url, copyright, type, title)),
-            art_tags(tag_id, tag(name))
+            art_tags(tag_id, tags(name))
     ''').eq('publish_status', 'published').range(rand, rand + 10).limit(10) as ArrayRes;
 
     return res?.map((r) => ArtAbstractModel.fromPostgres(r)).toList() ?? [];
@@ -84,15 +88,15 @@ class MockArtRepository extends IArtRepository {
 
   @override
   Future<ArtModel> getDetailArt(String id) async {
-    final res = await supabase.from('art').select('''
+    final res = await supabase.from(DataTables.art.tableName).select('''
             id,
             title,
             description,
             type,
             material,
             ownership,
-            location(id, *),
-            art_artists!inner (artist_id, artist(
+            ${DataTables.location.tableName}(id, *),
+            art_artists!inner (artist_id, ${DataTables.artist.tableName}(
                 id, 
                 name,
                 description,
@@ -107,15 +111,15 @@ class MockArtRepository extends IArtRepository {
                   )
                 )
             )),
-            art_links(link_id, link(id, url, title)),
+            art_links(link_id, links(id, url, title)),
             art_media(media_id, media(id, url, copyright, type, title)),
-            art_tags(tag_id, tag(name))
+            art_tags(tag_id, tags(name))
     ''').eq('id', id).limit(1).single();
 
     final artArtists = (res['art_artists'] as ArrayRes) ?? [];
     final artists = artArtists
         .map(
-          (aa) => ArtistAbstractModel.fromPostgres(aa['artist']),
+          (aa) => ArtistAbstractModel.fromPostgres(aa['artists']),
         )
         .toList();
 
@@ -128,7 +132,7 @@ class MockArtRepository extends IArtRepository {
     }
 
     final address =
-        "${res['location']['title']} \n${res['location']['area']} - ${res['location']['city']} - ${res['location']['region']} - ${res['location']['region']} \n\n${res['location']['details']}";
+        "${res['locations']['title']} \n${res['locations']['area']} - ${res['locations']['city']} - ${res['locations']['region']} - ${res['locations']['region']} \n\n${res['locations']['details']}";
 
     return ArtModel(
       id: res['id'],
@@ -137,12 +141,12 @@ class MockArtRepository extends IArtRepository {
       artType: res['type'],
       media: media,
       location: address,
-      geoLocation: LatLng(res['location']['lat'] ?? 0, res['location']['lng'] ?? 0),
+      geoLocation: LatLng(res['locations']['lat'] ?? 0, res['locations']['lng'] ?? 0),
       tags: (res['art_tags'] as List<dynamic>? ?? []).map((at) {
-        return at['tag']['name'] as String;
+        return at['tags']['name'] as String;
       }).toList(),
       links: (res['art_links'] as List<dynamic>? ?? []).map((al) {
-        final l = al['link'];
+        final l = al['links'];
         return LinkModel(
           id: l['id'],
           title: l['title'],
@@ -169,28 +173,32 @@ class MockArtRepository extends IArtRepository {
     final res = await supabase.from('event_arts').select('''
             event_id,
             art_id,
-            art (
+            ${DataTables.art.tableName} (
                 id,
                 title,
                 description,
                 type,
                 material,
                 ownership,
-                location(id, title, coordinates, lat, lng),
-                art_links(link_id, link(id, url, title)),
+                ${DataTables.location.tableName}(id, title, coordinates, lat, lng),
+                art_links(link_id, links(id, url, title)),
                 art_media!inner(media_id, media(id, url, copyright, type, title)),
-                art_tags(tag_id, tag(name))
+                art_tags(tag_id, tags(name))
             )
     ''').eq('event_id', eventId).limit(100) as ArrayRes ?? [];
 
-    final arts = res.map((rs) => ArtAbstractModel.fromPostgres(rs['art'])).toList();
+    final arts = res
+        .map((rs) => ArtAbstractModel.fromPostgres(
+              rs[DataTables.art.tableName],
+            ))
+        .toList();
     return arts;
   }
 
   @override
   Future<List<ArtAbstractModel>> getSimilarArts(String currentId, List<String> tags) async {
     final res = await supabase
-        .from('art')
+        .from(DataTables.art.tableName)
         .select('''
             id,
             title,
@@ -198,12 +206,12 @@ class MockArtRepository extends IArtRepository {
             type,
             material,
             ownership,
-            location(id, title, coordinates, lat, lng),
-            art_links(link_id, link(id, url, title)),
+            ${DataTables.location.tableName}(id, title, coordinates, lat, lng),
+            art_links(link_id, links(id, url, title)),
             art_media!inner(media_id, media(id, url, copyright, type, title)),
-            art_tags!inner(tag_id, tag!inner(id, name))
+            art_tags!inner(tag_id, tags!inner(id, name))
         ''')
-        .ilikeAnyOf('art_tags.tag.name', tags.map((t) => '%$t%').toList())
+        .ilikeAnyOf('art_tags.tags.name', tags.map((t) => '%$t%').toList())
         .eq('publish_status', 'published')
         .neq('id', currentId)
         .limit(10) as ArrayRes;

@@ -41,7 +41,7 @@ class ArtistAbstractModel with _$ArtistAbstractModel {
       name: res['name'] ?? '',
       thumbnail: th,
       tags: (res['artist_tags'] as List<dynamic>? ?? []).map((at) {
-        return at['tag']['name'] as String;
+        return at['tags']['name'] as String;
       }).toList(),
     );
   }
@@ -75,10 +75,10 @@ class ArtistModel with _$ArtistModel {
           ? [th!]
           : media.map((am) => MediaModel.fromPostgres(am['media'])).toList(),
       tags: (res['artist_tags'] as List<dynamic>? ?? []).map((at) {
-        return at['tag']['name'] as String;
+        return at['tags']['name'] as String;
       }).toList(),
       links: (res['artist_links'] as List<dynamic>? ?? []).map((al) {
-        final l = al['link'];
+        final l = al['links'];
         return LinkModel(
           id: l['id'],
           title: l['title'],

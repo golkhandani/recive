@@ -1,3 +1,4 @@
+import 'package:art_for_all/core/enums/data_tables.dart';
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:faker/faker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -23,19 +24,19 @@ class MockArtistRepository extends IArtistRepository {
   @override
   Future<List<ArtistAbstractModel>> getArtists() async {
     final count = (await supabase
-            .from('artist')
+            .from(DataTables.artist.tableName)
             .select('artist_media!inner(media_id)')
             .count(CountOption.exact))
         .count;
     const limit = 20;
     final from = faker.randomGenerator.integer(count - limit);
-    final res = await supabase.from('artist').select('''
+    final res = await supabase.from(DataTables.artist.tableName).select('''
           id,
           name,
           description,
-          artist_links(link_id, link(id, url, title)),
+          artist_links(link_id, links(id, url, title)),
           artist_media!inner(media_id, media(id, url, copyright, type, title)),
-          artist_tags(tag_id, tag(name))
+          artist_tags(tag_id, tags(name))
         ''').range(from, count).limit(limit) as ArrayRes ?? [];
     final artists = res.map((rs) => ArtistAbstractModel.fromPostgres(rs)).toList();
 
@@ -47,7 +48,7 @@ class MockArtistRepository extends IArtistRepository {
     final res = await supabase.from('event_artists').select('''
             event_id,
             artist_id,
-            artist (
+            artists (
                 id, 
                 name,
                 description,
@@ -64,19 +65,19 @@ class MockArtistRepository extends IArtistRepository {
             )
     ''').eq('event_id', eventId).limit(100) as ArrayRes ?? [];
 
-    final artists = res.map((rs) => ArtistAbstractModel.fromPostgres(rs['artist'])).toList();
+    final artists = res.map((rs) => ArtistAbstractModel.fromPostgres(rs['artists'])).toList();
     return artists;
   }
 
   @override
   Future<ArtistModel> getArtistById(String id) async {
-    final res = await supabase.from('artist').select('''
+    final res = await supabase.from(DataTables.artist.tableName).select('''
           id,
           name,
           description,
-          artist_links(link_id, link(id, url, title)),
+          artist_links(link_id, links(id, url, title)),
           artist_media(media_id, media(id, url, copyright, type, title)),
-          artist_tags(tag_id, tag(name))
+          artist_tags(tag_id, tags(name))
         ''').eq('id', id).single();
 
     final artist = ArtistModel.fromPostgres(res);

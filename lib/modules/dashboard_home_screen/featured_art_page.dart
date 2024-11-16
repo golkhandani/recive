@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             vertical: kTinyPadding.top,
                           ),
                           child: Text(
-                            "Artwork of the Day!",
+                            "Artwork of the Day:",
                             maxLines: 1,
                             style: context.typographyTheme.titleTiny.onBackground.textStyle,
                           ),
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             children: [
                               Text(
-                                "Upcoming Events!",
+                                "Upcoming Events:",
                                 maxLines: 1,
                                 style:
                                     context.typographyTheme.titleTiny.onBackground.textStyle,
@@ -273,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             children: [
                               Text(
-                                "Art Board!",
+                                "Art Board:",
                                 maxLines: 1,
                                 style:
                                     context.typographyTheme.titleTiny.onBackground.textStyle,
@@ -345,7 +345,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           children: [
                             Text(
-                              "Meet the Artists!",
+                              "Meet the Artists:",
                               maxLines: 1,
                               style: context.typographyTheme.titleTiny.onBackground.textStyle,
                             ),

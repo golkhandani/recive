@@ -149,21 +149,21 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
+                      Text(
+                        "Location: \n${data.location}",
+                        style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
+                      ),
+                      SizedBox(height: kMediumPadding.bottom),
                       AFAElevatedButton(
                         constraints: BoxConstraints(minWidth: context.vWidth),
                         child: Text(
-                          'Navigate',
+                          'Find on map',
                           style: context
                               .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
                         ),
                         onPressed: () async {
                           launchMap(data.geoLocation.latitude, data.geoLocation.longitude);
                         },
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Text(
-                        "Location: \n${data.location}",
-                        style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
                       ),
                       Gap(kMediumPadding.bottom),
                       Row(
@@ -215,7 +215,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                       ),
                       SizedBox(height: kExtraTinyPadding.bottom),
                       SizedBox(
-                        height: context.vWidth / 4,
+                        height: context.vWidth / 2,
                         child: OverflowBox(
                           maxWidth: context.vWidth,
                           child: ListView.separated(
@@ -227,7 +227,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                               final artist = data.artists[index];
                               return ArtistCardContainer.small(
                                 data: artist,
-                                constraints: BoxConstraints.expand(width: context.vWidth / 4),
+                                constraints: BoxConstraints.expand(width: context.vWidth / 2),
                                 onTap: () {
                                   final homeUrl = navigator.homeUrl;
                                   navigator.homeContext.push(
@@ -242,55 +242,12 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                           ),
                         ),
                       ),
-                      if (state.similarArts.isNotEmpty) ...[
-                        SizedBox(height: kMediumPadding.bottom),
-                        Row(
-                          children: [
-                            Text(
-                              "Similar Arts!",
-                              maxLines: 1,
-                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
-                        SizedBox(height: kExtraTinyPadding.bottom),
-                        SizedBox(
-                          height: context.vHeight / 6,
-                          child: OverflowBox(
-                            maxWidth: context.vWidth,
-                            child: ListView.separated(
-                              clipBehavior: Clip.none,
-                              padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: state.similarArts.length,
-                              itemBuilder: (context, index) {
-                                final data = state.similarArts[index];
-                                return ArtCardContainer.medium(
-                                  data: data,
-                                  constraints:
-                                      BoxConstraints.expand(width: context.vWidth / 1.6),
-                                  onTap: () {
-                                    final homeUrl = navigator.homeUrl;
-                                    navigator.homeContext.push(
-                                      '$homeUrl/${ArtDetailScreen.name}/${data.id}',
-                                    );
-                                  },
-                                );
-                              },
-                              separatorBuilder: (context, index) => SizedBox(
-                                width: kTinyPadding.left,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
                       if (state.events.isNotEmpty) ...[
                         SizedBox(height: kMediumPadding.bottom),
                         Row(
                           children: [
                             Text(
-                              "Related Events!",
+                              "Related Events:",
                               maxLines: 1,
                               style: context.typographyTheme.titleTiny.onBackground.textStyle,
                             ),
@@ -328,11 +285,54 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                           ),
                         ),
                       ],
+                      if (state.similarArts.isNotEmpty) ...[
+                        SizedBox(height: kMediumPadding.bottom),
+                        Row(
+                          children: [
+                            Text(
+                              "Similar Arts:",
+                              maxLines: 1,
+                              style: context.typographyTheme.titleTiny.onBackground.textStyle,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        SizedBox(height: kExtraTinyPadding.bottom),
+                        SizedBox(
+                          height: context.vHeight / 6,
+                          child: OverflowBox(
+                            maxWidth: context.vWidth,
+                            child: ListView.separated(
+                              clipBehavior: Clip.none,
+                              padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.similarArts.length,
+                              itemBuilder: (context, index) {
+                                final data = state.similarArts[index];
+                                return ArtCardContainer.medium(
+                                  data: data,
+                                  constraints:
+                                      BoxConstraints.expand(width: context.vWidth / 1.6),
+                                  onTap: () {
+                                    final homeUrl = navigator.homeUrl;
+                                    navigator.homeContext.push(
+                                      '$homeUrl/${ArtDetailScreen.name}/${data.id}',
+                                    );
+                                  },
+                                );
+                              },
+                              separatorBuilder: (context, index) => SizedBox(
+                                width: kTinyPadding.left,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                       Gap(kMediumPadding.bottom),
                       Row(
                         children: [
                           Text(
-                            "Tags!",
+                            "Tags:",
                             maxLines: 1,
                             style: context.typographyTheme.titleTiny.onBackground.textStyle,
                           ),

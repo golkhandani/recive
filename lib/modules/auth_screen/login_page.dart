@@ -3,7 +3,6 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
 import 'package:art_for_all/core/theme/theme_decorations.dart';
 import 'package:art_for_all/core/theme/typography_extensions.dart';
-import 'package:art_for_all/main.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/register_page.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';

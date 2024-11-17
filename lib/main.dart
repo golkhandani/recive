@@ -124,7 +124,7 @@ class _ApplicationState extends State<Application> {
               statusBarColor: appTheme.colorPalette.navBackground,
               statusBarIconBrightness: statusBarItemBrightness,
               systemNavigationBarColor: appTheme.colorPalette.navBackground,
-              statusBarBrightness: statusBarItemBrightness,
+              statusBarBrightness: appTheme.colorPalette.brightness,
               systemNavigationBarDividerColor: appTheme.colorPalette.navBackground,
               systemNavigationBarIconBrightness: statusBarItemBrightness,
             );

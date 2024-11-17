@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const light = Color.fromARGB(255, 235, 232, 237);
   static const semiLight = Color.fromARGB(255, 244, 242, 248);
-  static const middle = Color.fromARGB(255, 185, 27, 95);
+  static const middle = Color.fromARGB(255, 178, 49, 105);
   static const semiDark = Color.fromARGB(255, 53, 51, 53);
   static const dark = Color.fromARGB(255, 36, 35, 36);
 }
@@ -17,7 +17,7 @@ class SecondaryColors {
   static const dark = Color(0xFF474747);
 }
 
-const trendyTheme = MrzgThemePalette(
+final trendyTheme = MrzgThemePalette(
   brightness: Brightness.light,
   primary: AppColors.middle,
   onPrimary: AppColors.light,
@@ -25,66 +25,66 @@ const trendyTheme = MrzgThemePalette(
   onPrimaryContainer: AppColors.semiDark,
   secondary: SecondaryColors.light,
   onSecondary: SecondaryColors.dark,
-  secondaryContainer: Color.fromARGB(255, 245, 165, 115),
-  onSecondaryContainer: Color(0xff0f1d2a),
-  tertiary: Color(0xff6a5779),
-  onTertiary: Color(0xffffffff),
-  tertiaryContainer: Color.fromARGB(255, 255, 241, 218),
-  onTertiaryContainer: Color(0xff241432),
-  error: Color(0xffba1a1a),
-  onError: Color(0xffffffff),
-  errorContainer: Color(0xffffdad6),
-  onErrorContainer: Color(0xff410002),
-  background: Color(0xfffdfcff),
-  onBackground: Color(0xff1a1c1e),
-  surface: Color(0xfffdfcff),
-  onSurface: Color(0xff1a1c1e),
-  surfaceVariant: Color(0xffdfe3eb),
-  onSurfaceVariant: Color(0xff42474e),
-  outline: Color(0xff73777f),
-  outlineVariant: Color(0xffc2c7cf),
-  shadow: Color.fromARGB(25, 0, 0, 0),
-  scrim: Color(0xff000000),
-  inverseSurface: Color(0xff2f3033),
-  onInverseSurface: Color(0xfff1f0f4),
-  inversePrimary: Color(0xff9ccaff),
-  surfaceTint: Color.fromARGB(0, 0, 0, 0),
+  secondaryContainer: const Color.fromARGB(255, 245, 165, 115),
+  onSecondaryContainer: const Color(0xff0f1d2a),
+  tertiary: AppColors.middle.withOpacity(0.5),
+  onTertiary: const Color(0xffffffff),
+  tertiaryContainer: const Color.fromARGB(255, 255, 241, 218),
+  onTertiaryContainer: const Color(0xff241432),
+  error: const Color(0xffba1a1a),
+  onError: const Color(0xffffffff),
+  errorContainer: const Color(0xffffdad6),
+  onErrorContainer: const Color(0xff410002),
+  background: const Color(0xfffdfcff),
+  onBackground: const Color(0xff1a1c1e),
+  surface: const Color(0xfffdfcff),
+  onSurface: const Color(0xff1a1c1e),
+  surfaceVariant: const Color(0xffdfe3eb),
+  onSurfaceVariant: const Color(0xff42474e),
+  outline: const Color(0xff73777f),
+  outlineVariant: const Color(0xffc2c7cf),
+  shadow: const Color.fromARGB(25, 0, 0, 0),
+  scrim: const Color(0xff000000),
+  inverseSurface: const Color(0xff2f3033),
+  onInverseSurface: const Color(0xfff1f0f4),
+  inversePrimary: const Color(0xff9ccaff),
+  surfaceTint: const Color.fromARGB(0, 0, 0, 0),
 
   /// EXTRA
 
-  cardBackground: Color.fromARGB(255, 235, 235, 235), // Off-white
+  cardBackground: const Color.fromARGB(255, 235, 235, 235), // Off-white
   onCardBackground: Colors.black,
 
-  chipBackground: Color(0xFF9E9E9E), // Gray
+  chipBackground: const Color(0xFF9E9E9E), // Gray
   onChipBackground: Colors.white,
-  chipDisabledBackground: Color(0xFFBDBDBD), // Light gray
+  chipDisabledBackground: const Color(0xFFBDBDBD), // Light gray
   onChipDisabledBackground: Colors.black87,
 
-  success: Color(0xFF388E3C), // Dark green
+  success: const Color(0xFF388E3C), // Dark green
   onSuccess: Colors.white,
-  successContainer: Color(0xFFA5D6A7), // Light green
+  successContainer: const Color(0xFFA5D6A7), // Light green
   onSuccessContainer: Colors.black,
 
-  warning: Color(0xFFFF8F00), // Orange
+  warning: const Color(0xFFFF8F00), // Orange
   onWarning: Colors.black,
-  warningContainer: Color(0xFFFFF59D), // Light yellow
+  warningContainer: const Color(0xFFFFF59D), // Light yellow
   onWarningContainer: Colors.black,
 
-  highlight: Color.fromARGB(255, 240, 227, 102), // Deep purple
+  highlight: const Color.fromARGB(255, 240, 227, 102), // Deep purple
   onHighlight: Colors.white,
 
-  backBtnBackground: Color.fromARGB(255, 181, 196, 231), // Deep orange
-  onBackBtnBackground: Color.fromARGB(255, 0, 0, 0),
+  backBtnBackground: const Color.fromARGB(255, 181, 196, 231), // Deep orange
+  onBackBtnBackground: const Color.fromARGB(255, 0, 0, 0),
   navBackground: AppColors.semiLight, // Brown
   onNavBackground: AppColors.semiDark,
   onNavUnselected: AppColors.semiDark, // Dark gray
   onNavSelected: AppColors.middle, // Deep orange
 
-  tabBarSelected: Color(0xFFFFA000), // Amber
+  tabBarSelected: const Color(0xFFFFA000), // Amber
   onTabBarSelected: Colors.black,
-  tabBarUnselected: Color(0xFFE0E0E0), // Light gray
+  tabBarUnselected: const Color(0xFFE0E0E0), // Light gray
   onTabBarUnselected: Colors.black87,
 
-  textFieldBackground: Color(0xFF009688), // Teal
+  textFieldBackground: const Color(0xFF009688), // Teal
   onTextFieldBackground: Colors.white,
 );

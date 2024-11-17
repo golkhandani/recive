@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 const Duration kLoadingDuration = Duration(milliseconds: 200);
 const Duration kDebounceDuration = Duration(milliseconds: 400);
 const Duration kShimmerDuration = Duration(milliseconds: 800);
-const Duration kPageLoaderDuration = Duration(milliseconds: 400);
+const Duration kPageLoaderDuration = Duration(milliseconds: 800);
 const kLargePadding = EdgeInsets.all(24);
 const kMediumPadding = EdgeInsets.all(16);
 const kSmallPadding = EdgeInsets.all(12);

@@ -125,13 +125,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
-                        "Updated At: \n${DateFormat.yMMMMEEEEd().format(DateTime.now())}",
-                        style: context
-                            .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
-                      ),
-                      SizedBox(height: kMediumPadding.bottom),
-                      Text(
-                        "Type: \n${data.artType.capitalize}",
+                        "Type: \t${data.artType.capitalize}",
                         style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
@@ -151,19 +145,25 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
                         "Location: \n${data.location}",
-                        style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
+                        style: context.typographyTheme.titleTiny.onBackground.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       AFAElevatedButton(
                         constraints: BoxConstraints(minWidth: context.vWidth),
+                        background: context.colorTheme.primary,
                         child: Text(
                           'Find on map',
-                          style: context
-                              .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
+                          style: context.typographyTheme.subtitleMedium.onPrimary.textStyle,
                         ),
                         onPressed: () async {
                           launchMap(data.geoLocation.latitude, data.geoLocation.longitude);
                         },
+                      ),
+                      SizedBox(height: kMediumPadding.bottom),
+                      Text(
+                        "Updated At: \t${DateFormat.yMMMMEEEEd().format(DateTime.now())}",
+                        style: context
+                            .typographyTheme.subtitleMedium.onPrimaryContainer.textStyle,
                       ),
                       Gap(kMediumPadding.bottom),
                       Row(
@@ -395,9 +395,12 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
 
   double heroOpacity = 1;
 
+  bool _favorite = false;
+  bool _bookmark = false;
+
   @override
   Widget build(BuildContext context) {
-    final maxHeight = context.vHeight / 2.4;
+    final maxHeight = context.vHeight / 2.2;
     final backgroundColor = context.colorTheme.primaryContainer;
     return SliverAppBar(
       backgroundColor: backgroundColor,
@@ -410,6 +413,43 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
       automaticallyImplyLeading: false,
       leadingWidth: kToolbarHeight + kTinyPadding.right,
       leading: LeadingBackButton(backgroundColor: backgroundColor),
+      actions: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _favorite = !_favorite;
+            });
+          },
+          child: Icon(
+            _favorite ? Icons.favorite : Icons.favorite_outline,
+            color: context.colorTheme.error,
+            size: kToolbarHeight / 2,
+          ),
+        ),
+        SizedBox(width: kTinyPadding.right),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _bookmark = !_bookmark;
+            });
+          },
+          child: Icon(
+            _bookmark ? Icons.bookmark : Icons.bookmark_outline,
+            color: context.colorTheme.success,
+            size: kToolbarHeight / 2,
+          ),
+        ),
+        SizedBox(width: kTinyPadding.right),
+        GestureDetector(
+          onTap: () {},
+          child: Icon(
+            Icons.share_outlined,
+            color: context.colorTheme.onBackground,
+            size: kToolbarHeight / 2,
+          ),
+        ),
+        SizedBox(width: kTinyPadding.right),
+      ],
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
@@ -449,15 +489,14 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
               title: AnimatedOpacity(
                 duration: const Duration(milliseconds: 200),
                 opacity: 1 - scale == 1 ? 1 : 0,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kToolbarHeight,
-                  ).copyWith(
-                    top: kToolbarHeight,
+                child: Container(
+                  width: context.vWidth - kToolbarHeight * 3.3,
+                  padding: EdgeInsets.only(
+                    top: (context.vTopSafeHeight - kToolbarHeight).clamp(0, kToolbarHeight),
                   ),
                   child: Text(
                     widget.art.title,
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     maxLines: 1,
                     style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
                     overflow: TextOverflow.ellipsis,

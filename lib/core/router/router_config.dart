@@ -39,17 +39,17 @@ final authRoutes = [
   GoRoute(
     name: SplashScreen.name,
     path: '/${SplashScreen.name}',
-    builder: (context, state) => const SplashScreen(),
+    pageBuilder: (context, state) => const NoTransitionPage(child: SplashScreen()),
   ),
   GoRoute(
     name: LoginScreen.name,
     path: '/${LoginScreen.name}',
-    builder: (context, state) => const LoginScreen(),
+    pageBuilder: (context, state) => const NoTransitionPage(child: LoginScreen()),
   ),
   GoRoute(
     name: RegisterScreen.name,
     path: '/${RegisterScreen.name}',
-    builder: (context, state) => const RegisterScreen(),
+    pageBuilder: (context, state) => const NoTransitionPage(child: RegisterScreen()),
   ),
 ];
 
@@ -57,9 +57,9 @@ final initRoutes = [
   GoRoute(
     name: OnboardingScreen.name,
     path: '/${OnboardingScreen.name}',
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final page = state.uri.queryParameters['page'] ?? '0';
-      return OnboardingScreen(initialPage: int.tryParse(page) ?? 0);
+      return NoTransitionPage(child: OnboardingScreen(initialPage: int.tryParse(page) ?? 0));
     },
   ),
 ];

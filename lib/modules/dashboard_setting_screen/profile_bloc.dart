@@ -26,7 +26,7 @@ class ProfileBlocState with _$ProfileBlocState {
       _$ProfileBlocStateFromJson(json);
 }
 
-class ProfileBloc extends HydratedTransformableCubit<ProfileBlocState> {
+class ProfileBloc extends TransformableCubit<ProfileBlocState> {
   final IUserService userService;
   final NotificationBannerService bannerService;
   ProfileBloc({
@@ -71,15 +71,5 @@ class ProfileBloc extends HydratedTransformableCubit<ProfileBlocState> {
         ),
       ),
     );
-  }
-
-  @override
-  ProfileBlocState? fromJson(Map<String, dynamic> json) {
-    return ProfileBlocState.fromJson(json);
-  }
-
-  @override
-  Map<String, dynamic>? toJson(ProfileBlocState state) {
-    return state.toJson();
   }
 }

@@ -27,6 +27,7 @@ class MockCategoryRepository extends ICategoryRepository {
     final assets = supabase.storage.from('assets');
     var categories = await Future.wait(response.map((c) async {
       final cat = CategoryAbstractModel.fromPostgres(c);
+
       final image = await MediaModel.fromSignedUrl(
         // replace it in db with media record
         MediaModel(

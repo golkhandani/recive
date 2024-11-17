@@ -73,7 +73,6 @@ void main() {
         ],
       );
 
-      FlutterNativeSplash.remove();
       return runApp(Application(goRouter: goRouter));
     });
   }, (error, stack) {
@@ -103,32 +102,35 @@ class _ApplicationState extends State<Application> {
     super.initState();
   }
 
+  Future<void> loadAsset() async {
+    FlutterNativeSplash.remove();
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _) {
     final child = MultiBlocProvider(
       providers: [
         BlocProvider.value(value: themeBloc),
       ],
       child: BlocBuilder<ThemeCubit, ThemeCubitState>(
           bloc: themeBloc,
-          builder: (context, appTheme) {
+          builder: (_, appTheme) {
             final statusBarItemBrightness =
                 appTheme.colorPalette.brightness == Brightness.light
                     ? Brightness.dark
                     : Brightness.light;
 
-            final systemOverlayBrightness =
-                appTheme.colorPalette.brightness == Brightness.light
-                    ? SystemUiOverlayStyle.dark
-                    : SystemUiOverlayStyle.light;
-            SystemChrome.setSystemUIOverlayStyle(
-              SystemUiOverlayStyle(
-                statusBarColor: appTheme.colorPalette.background,
-                statusBarIconBrightness: statusBarItemBrightness,
-              ),
+            final overlayStyle = SystemUiOverlayStyle(
+              statusBarColor: appTheme.colorPalette.navBackground,
+              statusBarIconBrightness: statusBarItemBrightness,
+              systemNavigationBarColor: appTheme.colorPalette.navBackground,
+              statusBarBrightness: statusBarItemBrightness,
+              systemNavigationBarDividerColor: appTheme.colorPalette.navBackground,
+              systemNavigationBarIconBrightness: statusBarItemBrightness,
             );
+            SystemChrome.setSystemUIOverlayStyle(overlayStyle);
             return AnnotatedRegion<SystemUiOverlayStyle>(
-              value: systemOverlayBrightness,
+              value: overlayStyle,
               child: ScrollConfiguration(
                 behavior: AFAScrollBehavior(),
                 child: MrzgThemeProvider(
@@ -142,21 +144,34 @@ class _ApplicationState extends State<Application> {
                   ),
                   child: Builder(builder: (context) {
                     return MaterialApp.router(
-                      theme: context.themeData,
-                      scrollBehavior: const MaterialScrollBehavior().copyWith(
-                        dragDevices: {
-                          PointerDeviceKind.mouse,
-                          PointerDeviceKind.touch,
-                          PointerDeviceKind.stylus,
-                          PointerDeviceKind.unknown
-                        },
-                      ),
-                      routerConfig: widget.goRouter,
-                      builder: (context, child) => Container(
-                        constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
-                        child: child!,
-                      ),
-                    );
+                        debugShowCheckedModeBanner: false,
+                        theme: context.themeData,
+                        scrollBehavior: const MaterialScrollBehavior().copyWith(
+                          dragDevices: {
+                            PointerDeviceKind.mouse,
+                            PointerDeviceKind.touch,
+                            PointerDeviceKind.stylus,
+                            PointerDeviceKind.unknown
+                          },
+                        ),
+                        routerConfig: widget.goRouter,
+                        builder: (context, child) {
+                          final ch = Container(
+                            constraints: const BoxConstraints(maxHeight: 900, maxWidth: 600),
+                            child: child!,
+                          );
+                          return FutureBuilder(
+                              future: loadAsset(),
+                              builder: (context, snapshot) {
+                                return Overlay(
+                                  initialEntries: [
+                                    OverlayEntry(
+                                      builder: (context) => ch,
+                                    )
+                                  ],
+                                );
+                              });
+                        });
                   }),
                 ),
               ),

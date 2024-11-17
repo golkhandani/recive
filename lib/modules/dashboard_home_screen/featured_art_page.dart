@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
-            'Hand picked for you!',
+            'Vancouver Art Compass',
             style: context.typographyTheme.titleSmall.textStyle.copyWith(
               color: context.colorTheme.onPrimaryContainer,
             ),

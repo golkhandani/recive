@@ -3,8 +3,8 @@ import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
-import 'package:art_for_all/core/widgets/lottie_safe_loading.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
+import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,19 +48,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final items = [
     BottomNavigationBarItem(
       icon: const Icon(Icons.home_outlined),
+      activeIcon: const Icon(Icons.home),
       label: 'Home'.toUpperCase(),
     ),
     BottomNavigationBarItem(
-      icon: const Icon(Icons.search),
+      icon: const Icon(Icons.manage_search),
+      activeIcon: const Icon(Icons.search),
       label: 'Search'.toUpperCase(),
     ),
     BottomNavigationBarItem(
       icon: const Icon(Icons.explore_outlined),
+      activeIcon: const Icon(Icons.explore),
       label: 'Compass'.toUpperCase(),
     ),
     BottomNavigationBarItem(
-      icon: const Icon(Icons.settings_outlined),
-      label: 'Setting'.toUpperCase(),
+      icon: const Icon(Icons.person_outline),
+      activeIcon: const Icon(Icons.person),
+      label: 'Profile'.toUpperCase(),
     ),
   ];
 
@@ -122,12 +126,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   return FadeTransition(opacity: animation, child: child);
                 },
                 duration: kLoadingDuration,
-                child: loadAllIsDone
-                    ? null
-                    : Container(
-                        color: context.colorTheme.background,
-                        child: const LottieSafeLoading(),
-                      ),
+                child: loadAllIsDone ? null : const LottieSafeLoadingWithBackground(),
               ),
             )
           ],
@@ -136,3 +135,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
+
+// class ACBottomNavigationBarItem extends BottomNavigationBarItem {
+
+//   ACBottomNavigationBarItem({
+//     required super.icon,
+//     required super.label,
+//   });
+// }

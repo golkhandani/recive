@@ -18,6 +18,8 @@ typedef UserSession = ({User user, Session session});
 
 abstract class IUserService {
   bool get isLoggedIn => false;
+  Future<UserSession> loginGuest();
+
   Future<UserSession> loginWithEmail({
     required String email,
     required String password,
@@ -103,6 +105,19 @@ class SupabaseUserService implements IUserService {
       Logger.error("signUpWithEmail error", e, s);
       rethrow;
     }
+  }
+
+  @override
+  Future<UserSession> loginGuest() async {
+    final AuthResponse res = await _supabase.auth.signInAnonymously();
+
+    final Session? session = res.session;
+    final User? user = res.user;
+
+    if (user == null || session == null) {
+      throw Exception('Invalid login');
+    }
+    return (user: user, session: session);
   }
 
   @override

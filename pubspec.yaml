@@ -79,6 +79,7 @@ dependencies:
   flutter_map_marker_cluster: ^1.4.0
   google_sign_in: ^6.2.2
   firebase_core: ^3.7.0
+  top_snackbar_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -140,7 +141,9 @@ flutter:
 
   assets:
     - assets/icon/icon.png
+    - assets/app_icon.png
     - assets/app_splash_animated.gif
+    - assets/app_background.jpg
 
 # dart run flutter_launcher_icons
 flutter_launcher_icons:
@@ -154,5 +157,6 @@ flutter_launcher_icons:
 
 # dart run flutter_native_splash:create
 flutter_native_splash:
-  color: "#D8F0F0"
+  color: "#af2a64"
+  color_dark: "#121212"
   image: "assets/app_splash.png"

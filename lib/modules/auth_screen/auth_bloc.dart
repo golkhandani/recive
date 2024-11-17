@@ -40,6 +40,29 @@ class AuthBloc extends Cubit<AuthBlocState> {
     emit(state.copyWith(user: user));
   }
 
+  loginGuest({
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      final res = await authService.loginGuest();
+      emit(state.copyWith(
+        isLoading: false,
+        userId: res.user.id,
+      ));
+      onSuccess();
+    } on AuthException catch (e) {
+      bannerService.showErrorBanner(e.message);
+    } catch (e) {
+      onFailure();
+      bannerService.showErrorBanner('Something went wrong: ${e.toString()}');
+      onFailure();
+    } finally {
+      emit(state.copyWith(isLoading: false));
+    }
+  }
+
   loginWithEmail({
     required String email,
     required String password,

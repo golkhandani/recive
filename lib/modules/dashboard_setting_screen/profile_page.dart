@@ -4,11 +4,15 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
+import 'package:art_for_all/modules/auth_screen/login_page.dart';
+import 'package:art_for_all/modules/auth_screen/register_page.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:art_for_all/utils/afa_button.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -28,6 +32,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late final themeBloc = BlocProvider.of<ThemeCubit>(context);
   late final emailController = TextEditingController(text: profileBloc.state.user?.email);
   late final nameController = TextEditingController(text: profileBloc.state.user?.name);
+  final NavigationService navigationService = locator.get();
+  void _goToLogin() {
+    navigationService.moveTo(LoginScreen.name);
+  }
+
+  void _goToRegister() {
+    navigationService.moveTo(RegisterScreen.name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +55,102 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
       bloc: profileBloc,
       builder: (context, state) {
+        if (state.user == null) {
+          return SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Gap(kMediumPadding.bottom),
+                Text(
+                  "Please Login or Register\n to access your profile",
+                  style: context.typographyTheme.onBackground.textStyle,
+                ),
+                const Gap(64),
+                ClipRRect(
+                  borderRadius: kMediumBorderRadius,
+                  child: Image.asset(
+                    'assets/app_icon.png',
+                    width: context.vWidth / 2,
+                    height: context.vWidth / 2,
+                  ),
+                ),
+                Gap(kMediumPadding.bottom),
+                BlocBuilder<ThemeCubit, ThemeCubitState>(
+                  builder: (context, state) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Gap(kSmallPadding.left),
+                        Text(
+                          "Theme",
+                          style: context.typographyTheme.subtitleLarge.onBackground.textStyle,
+                        ),
+                        Gap(kSmallPadding.left),
+                        Switch(
+                            value: state == ThemeCubitState.dark,
+                            inactiveThumbColor: context.colorTheme.primary,
+                            inactiveTrackColor: context.colorTheme.onBackground,
+                            activeColor: context.colorTheme.primary,
+                            activeTrackColor: context.colorTheme.onBackground,
+                            trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
+                            onChanged: (v) {
+                              themeBloc.switchTheme(
+                                state == ThemeCubitState.dark
+                                    ? ThemeCubitState.light
+                                    : ThemeCubitState.dark,
+                              );
+                            })
+                      ],
+                    );
+                  },
+                ),
+                const Gap(64),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(text: 'Don\'t have an account?\n'),
+                        TextSpan(
+                          text: 'Register',
+                          style: context.typographyTheme.primary.textStyle,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              state.isLoading ? null : _goToRegister();
+                            },
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                    style: context.typographyTheme.onBackground.textStyle,
+                  ),
+                ),
+                const Gap(16),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(text: 'You have an account?\n'),
+                        TextSpan(
+                          text: 'Login',
+                          style: context.typographyTheme.primary.textStyle,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              state.isLoading ? null : _goToLogin();
+                            },
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                    style: context.typographyTheme.onBackground.textStyle,
+                  ),
+                ),
+                Gap(kMediumPadding.bottom),
+              ],
+            ),
+          );
+        }
         return CustomScrollView(
           slivers: [
             PinnedHeaderSliver(
@@ -64,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       children: [
                         Text(
-                          'Settings',
+                          'Profile',
                           style: context.typographyTheme.titleSmall.textStyle.copyWith(
                             color: context.colorTheme.onPrimaryContainer,
                           ),

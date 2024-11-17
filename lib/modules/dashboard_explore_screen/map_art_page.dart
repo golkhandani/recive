@@ -72,8 +72,8 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
   @override
   void dispose() {
     geolocator.removeListener(_onLocationUpdate);
-    _animatedMapController.mapController.dispose();
     tabController.dispose();
+    _animatedMapController.dispose();
     super.dispose();
   }
 

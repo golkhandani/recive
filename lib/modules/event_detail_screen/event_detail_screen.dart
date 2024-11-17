@@ -392,6 +392,8 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
   }
 
   double heroOpacity = 1;
+  bool _favorite = false;
+  bool _bookmark = false;
 
   @override
   Widget build(BuildContext context) {
@@ -408,6 +410,43 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
       automaticallyImplyLeading: false,
       leadingWidth: kToolbarHeight + kTinyPadding.right,
       leading: LeadingBackButton(backgroundColor: backgroundColor),
+      actions: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _favorite = !_favorite;
+            });
+          },
+          child: Icon(
+            _favorite ? Icons.favorite : Icons.favorite_outline,
+            color: context.colorTheme.error,
+            size: kToolbarHeight / 2,
+          ),
+        ),
+        SizedBox(width: kTinyPadding.right),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _bookmark = !_bookmark;
+            });
+          },
+          child: Icon(
+            _bookmark ? Icons.bookmark : Icons.bookmark_outline,
+            color: context.colorTheme.success,
+            size: kToolbarHeight / 2,
+          ),
+        ),
+        SizedBox(width: kTinyPadding.right),
+        GestureDetector(
+          onTap: () {},
+          child: Icon(
+            Icons.share_outlined,
+            color: context.colorTheme.onBackground,
+            size: kToolbarHeight / 2,
+          ),
+        ),
+        SizedBox(width: kTinyPadding.right),
+      ],
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
@@ -429,7 +468,6 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                     ),
                   ),
                   placeholder: (context, url) => _buildLoading(),
-                  // errorWidget: (context, url, error) => _buildCard(null, color, child),
                 ),
               )
               .toList();
@@ -448,15 +486,14 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
               title: AnimatedOpacity(
                 duration: const Duration(milliseconds: 200),
                 opacity: 1 - scale == 1 ? 1 : 0,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kToolbarHeight,
-                  ).copyWith(
-                    top: kToolbarHeight,
+                child: Container(
+                  width: context.vWidth - kToolbarHeight * 3.3,
+                  padding: EdgeInsets.only(
+                    top: (context.vTopSafeHeight - kToolbarHeight).clamp(0, kToolbarHeight),
                   ),
                   child: Text(
                     widget.event.title,
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     maxLines: 1,
                     style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
                     overflow: TextOverflow.ellipsis,
@@ -479,15 +516,12 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                           color: context.colorTheme.primaryContainer,
                         ),
                       ),
-                      placeholder: (context, url) => _buildLoading(),
-                      // errorWidget: (context, url, error) => _buildCard(null, color, child),
                     ),
                   ),
                   Positioned.fill(
                     top: kToolbarHeight + context.vTopSafeHeight,
                     bottom: kMediumPadding.bottom,
                     child: CarouselSlider.builder(
-                      // carouselController: carouselController,
                       itemCount: media.length,
                       itemBuilder: (context, index, pageViewIndex) {
                         final child = media[index];
@@ -504,23 +538,6 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                       ),
                     ),
                   )
-                  // Positioned.fill(
-                  //   top: context.vTopSafeHeight * 2,
-                  //   left: kLargePadding.left,
-                  //   right: kLargePadding.right,
-                  //   bottom: kMediumPadding.bottom,
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       Text(
-                  //         widget.event.title,
-                  //         textAlign: TextAlign.center,
-                  //         style:
-                  //             context.typographyTheme.titleMedium.onPrimaryContainer.textStyle,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

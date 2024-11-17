@@ -3,10 +3,13 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
 import 'package:art_for_all/core/theme/theme_decorations.dart';
 import 'package:art_for_all/core/theme/typography_extensions.dart';
+import 'package:art_for_all/main.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/register_page.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/utils/afa_button.dart';
+import 'package:art_for_all/utils/assets.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -76,163 +79,225 @@ class _LoginScreenState extends State<LoginScreen> {
     navigationService.moveTo(RegisterScreen.name);
   }
 
+  void _loginGuest() {
+    _goToDashboard();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocBuilder<AuthBloc, AuthBlocState>(
         bloc: bloc,
         builder: (context, state) {
           return AbsorbPointer(
             absorbing: state.isLoading,
-            child: SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              child: Padding(
-                padding: const EdgeInsets.all(16).copyWith(top: 64),
-                child: FormBuilder(
-                  key: _formKey,
-                  autovalidateMode: AutovalidateMode.disabled,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text(
-                          'Welcome',
-                          style: context.typographyTheme.titleMedium.onSurface.textStyle,
-                        ),
-                      ),
-                      const Gap(64),
-                      Text(
-                        'Email',
-                        style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
-                      ),
-                      const Gap(4),
-                      FormBuilderTextField(
-                        name: 'email_field',
-                        style: context.typographyTheme.bodyMedium.onBackground.textStyle,
-                        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                        controller: _emailController,
-                        decoration: context.themeData.inputDecoration,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.email(),
-                        ]),
-                      ),
-                      const Gap(8),
-                      Text(
-                        'Password',
-                        style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
-                      ),
-                      const Gap(4),
-                      FormBuilderTextField(
-                        name: 'password_field',
-                        style: context.typographyTheme.bodyMedium.onBackground.textStyle,
-                        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                        controller: _passwordController,
-                        maxLines: 1,
-                        decoration: context.themeData.inputDecoration.copyWith(
-                          suffix: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            },
-                            child: Icon(
-                              _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                              color: context.colorTheme.onSurface,
-                              size: 16,
-                            ),
-                          ),
-                        ),
-                        keyboardType: TextInputType.visiblePassword,
-                        obscureText: _obscurePassword,
-                        validator: ValidationBuilder().minLength(8).maxLength(16).build(),
-                      ),
-                      const Gap(42),
-                      AFAElevatedButton(
-                        width: MediaQuery.sizeOf(context).width,
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          state.isLoading ? null : _login();
-                        },
-                        child: Text(
-                          'Login',
-                          style:
-                              context.typographyTheme.subtitleMedium.onBackground.textStyle,
-                        ),
-                      ),
-                      const Gap(32),
-                      Row(children: <Widget>[
-                        const Expanded(child: Divider()),
-                        SizedBox(
-                          width: 42,
-                          child: FittedBox(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: state.isLoading
-                                  ? const CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    )
-                                  : Text(
-                                      "OR",
-                                      style: context
-                                          .typographyTheme.titleLarge.onBackground.textStyle,
-                                    ),
-                            ),
-                          ),
-                        ),
-                        const Expanded(child: Divider()),
-                      ]),
-                      const Gap(32),
-                      AFAElevatedButton(
-                        width: MediaQuery.sizeOf(context).width,
-                        padding: EdgeInsets.zero,
-                        background: Colors.red,
-                        onPressed: () {
-                          state.isLoading ? null : _googleSignIn();
-                        },
-                        child: Text(
-                          'Google',
-                          style: context.typographyTheme.subtitleMedium
-                              .copyWithColor(color: Colors.white)
-                              .textStyle,
-                        ),
-                      ),
-                      const Gap(32),
-                      AFAElevatedButton(
-                        width: MediaQuery.sizeOf(context).width,
-                        padding: EdgeInsets.zero,
-                        background: Colors.black,
-                        onPressed: () {
-                          state.isLoading ? null : _googleSignIn();
-                        },
-                        child: Text(
-                          'Apple',
-                          style: context.typographyTheme.subtitleMedium
-                              .copyWithColor(color: Colors.white)
-                              .textStyle,
-                        ),
-                      ),
-                      const Gap(32),
-                      AFAElevatedButton(
-                        width: MediaQuery.sizeOf(context).width,
-                        padding: EdgeInsets.zero,
-                        background: context.colorTheme.onPrimaryContainer,
-                        onPressed: () {
-                          state.isLoading ? null : _goToRegister();
-                        },
-                        child: Text(
-                          'Register',
-                          style: context
-                              .typographyTheme.subtitleMedium.primaryContainer.textStyle,
-                        ),
-                      ),
-                      const Gap(16),
-                    ],
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Opacity(
+                    opacity: 0.1,
+                    child: AssetsLoader.background,
                   ),
                 ),
-              ),
+                Positioned(
+                  bottom: 16,
+                  left: 16,
+                  right: 16,
+                  child: Text(
+                    'Photo by Masaru Suzuki on Unsplash',
+                    style: context.typographyTheme.onBackground.subtitleTiny.textStyle,
+                  ),
+                ),
+                Positioned.fill(
+                  child: SingleChildScrollView(
+                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16).copyWith(top: 64),
+                      child: FormBuilder(
+                        key: _formKey,
+                        autovalidateMode: AutovalidateMode.disabled,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Text(
+                                'Welcome',
+                                style:
+                                    context.typographyTheme.titleMedium.onSurface.textStyle,
+                              ),
+                            ),
+                            const Gap(16),
+                            Text(
+                              'Email',
+                              style: context
+                                  .typographyTheme.subtitleMedium.onBackground.textStyle,
+                            ),
+                            const Gap(4),
+                            FormBuilderTextField(
+                              name: 'email_field',
+                              style:
+                                  context.typographyTheme.bodyMedium.onBackground.textStyle,
+                              onTapOutside: (_) =>
+                                  FocusManager.instance.primaryFocus?.unfocus(),
+                              controller: _emailController,
+                              decoration: context.themeData.inputDecoration,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(),
+                                FormBuilderValidators.email(),
+                              ]),
+                            ),
+                            const Gap(8),
+                            Text(
+                              'Password',
+                              style: context
+                                  .typographyTheme.subtitleMedium.onBackground.textStyle,
+                            ),
+                            const Gap(4),
+                            FormBuilderTextField(
+                              name: 'password_field',
+                              style:
+                                  context.typographyTheme.bodyMedium.onBackground.textStyle,
+                              onTapOutside: (_) =>
+                                  FocusManager.instance.primaryFocus?.unfocus(),
+                              controller: _passwordController,
+                              maxLines: 1,
+                              decoration: context.themeData.inputDecoration.copyWith(
+                                suffix: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _obscurePassword = !_obscurePassword;
+                                    });
+                                  },
+                                  child: Icon(
+                                    _obscurePassword
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: context.colorTheme.onSurface,
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                              keyboardType: TextInputType.visiblePassword,
+                              obscureText: _obscurePassword,
+                              validator:
+                                  ValidationBuilder().minLength(8).maxLength(16).build(),
+                            ),
+                            const Gap(42),
+                            AFAElevatedButton(
+                              width: MediaQuery.sizeOf(context).width,
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                state.isLoading ? null : _login();
+                              },
+                              child: Text(
+                                'Login',
+                                style: context
+                                    .typographyTheme.subtitleMedium.onPrimary.textStyle,
+                              ),
+                            ),
+                            const Gap(16),
+                            Row(children: <Widget>[
+                              const Expanded(child: Divider()),
+                              SizedBox(
+                                width: 42,
+                                height: 42,
+                                child: FittedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                    child: state.isLoading
+                                        ? const CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                          )
+                                        : Text(
+                                            "OR",
+                                            style: context.typographyTheme.titleLarge
+                                                .onBackground.textStyle,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              const Expanded(child: Divider()),
+                            ]),
+                            const Gap(16),
+                            AFAElevatedButton(
+                              width: MediaQuery.sizeOf(context).width,
+                              padding: EdgeInsets.zero,
+                              background: Colors.red,
+                              onPressed: () {
+                                state.isLoading ? null : _googleSignIn();
+                              },
+                              child: Text(
+                                'Google',
+                                style: context.typographyTheme.subtitleMedium
+                                    .copyWithColor(color: Colors.white)
+                                    .textStyle,
+                              ),
+                            ),
+                            const Gap(16),
+                            AFAElevatedButton(
+                              width: MediaQuery.sizeOf(context).width,
+                              padding: EdgeInsets.zero,
+                              background: context.colorTheme.brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                              onPressed: () {
+                                state.isLoading ? null : _googleSignIn();
+                              },
+                              child: Text(
+                                'Apple',
+                                style: context.typographyTheme.subtitleMedium
+                                    .copyWithColor(
+                                        color:
+                                            context.colorTheme.brightness == Brightness.dark
+                                                ? Colors.black
+                                                : Colors.white)
+                                    .textStyle,
+                              ),
+                            ),
+                            const Gap(64),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    const TextSpan(text: 'Don\'t have an account?\n'),
+                                    TextSpan(
+                                      text: 'Register',
+                                      style: context.typographyTheme.primary.textStyle,
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          state.isLoading ? null : _goToRegister();
+                                        },
+                                    ),
+                                    TextSpan(
+                                      text: '  or  ',
+                                      style: context.typographyTheme.onBackground.textStyle,
+                                    ),
+                                    TextSpan(
+                                      text: 'Login as guest!',
+                                      style: context.typographyTheme.primary.textStyle,
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          state.isLoading ? null : _goToDashboard();
+                                        },
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.center,
+                                style: context.typographyTheme.onBackground.textStyle,
+                              ),
+                            ),
+                            const Gap(16),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         },

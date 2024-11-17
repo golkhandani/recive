@@ -63,9 +63,7 @@ class MediaModel with _$MediaModel {
       );
 
   static Future<MediaModel> fromSignedUrl(MediaModel media, StorageFileApi storage) async =>
-      media.copyWith(
-        url: await storage.createSignedUrl(media.url.split(storage.bucketId ?? '')[1], 3600),
-      );
+      media.copyWith(url: media.url);
 
   static MediaModel get artistPlaceholder {
     const ph =

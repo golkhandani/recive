@@ -399,6 +399,43 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
   Widget build(BuildContext context) {
     final maxHeight = context.vHeight / 2.4;
     final backgroundColor = context.colorTheme.primaryContainer;
+    final actions = [
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _favorite = !_favorite;
+          });
+        },
+        child: Icon(
+          _favorite ? Icons.favorite : Icons.favorite_outline,
+          color: context.colorTheme.error,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _bookmark = !_bookmark;
+          });
+        },
+        child: Icon(
+          _bookmark ? Icons.bookmark : Icons.bookmark_outline,
+          color: context.colorTheme.success,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+      GestureDetector(
+        onTap: () {},
+        child: Icon(
+          Icons.share_outlined,
+          color: context.colorTheme.onBackground,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+    ];
     return SliverAppBar(
       backgroundColor: backgroundColor,
       expandedHeight: maxHeight,
@@ -410,66 +447,13 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
       automaticallyImplyLeading: false,
       leadingWidth: kToolbarHeight + kTinyPadding.right,
       leading: LeadingBackButton(backgroundColor: backgroundColor),
-      actions: [
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _favorite = !_favorite;
-            });
-          },
-          child: Icon(
-            _favorite ? Icons.favorite : Icons.favorite_outline,
-            color: context.colorTheme.error,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _bookmark = !_bookmark;
-            });
-          },
-          child: Icon(
-            _bookmark ? Icons.bookmark : Icons.bookmark_outline,
-            color: context.colorTheme.success,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-        GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.share_outlined,
-            color: context.colorTheme.onBackground,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-      ],
+      actions: actions,
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
           final media = widget.event.media
-              .map(
-                (m) => CachedNetworkImage(
-                  imageUrl: m.url,
-                  imageBuilder: (context, imageProvider) => Container(
-                    height: constraints.maxHeight,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                        opacity: 1,
-                      ),
-                      color: context.colorTheme.primaryContainer,
-                      borderRadius: kMediumBorderRadius,
-                    ),
-                  ),
-                  placeholder: (context, url) => _buildLoading(),
-                ),
-              )
+              .map((m) => ZoomImage(media: m, constraints: constraints))
               .toList();
           return Container(
             decoration: BoxDecoration(
@@ -487,9 +471,10 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                 duration: const Duration(milliseconds: 200),
                 opacity: 1 - scale == 1 ? 1 : 0,
                 child: Container(
-                  width: context.vWidth - kToolbarHeight * 3.3,
                   padding: EdgeInsets.only(
                     top: (context.vTopSafeHeight - kToolbarHeight).clamp(0, kToolbarHeight),
+                    right: (kToolbarHeight / 2) * (actions.length - 2),
+                    left: kToolbarHeight + kMediumPadding.right,
                   ),
                   child: Text(
                     widget.event.title,
@@ -531,6 +516,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                         padEnds: true,
                         onPageChanged: (index, reason) {},
                         viewportFraction: 0.8,
+                        enableInfiniteScroll: media.length > 2,
                         enlargeFactor: 0.2,
                         height: maxHeight - kToolbarHeight,
                         enlargeCenterPage: true,

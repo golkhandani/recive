@@ -402,6 +402,43 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
   Widget build(BuildContext context) {
     final maxHeight = context.vHeight / 2.2;
     final backgroundColor = context.colorTheme.primaryContainer;
+    final actions = [
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _favorite = !_favorite;
+          });
+        },
+        child: Icon(
+          _favorite ? Icons.favorite : Icons.favorite_outline,
+          color: context.colorTheme.error,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _bookmark = !_bookmark;
+          });
+        },
+        child: Icon(
+          _bookmark ? Icons.bookmark : Icons.bookmark_outline,
+          color: context.colorTheme.success,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+      GestureDetector(
+        onTap: () {},
+        child: Icon(
+          Icons.share_outlined,
+          color: context.colorTheme.onBackground,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+    ];
     return SliverAppBar(
       backgroundColor: backgroundColor,
       expandedHeight: maxHeight,
@@ -413,66 +450,13 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
       automaticallyImplyLeading: false,
       leadingWidth: kToolbarHeight + kTinyPadding.right,
       leading: LeadingBackButton(backgroundColor: backgroundColor),
-      actions: [
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _favorite = !_favorite;
-            });
-          },
-          child: Icon(
-            _favorite ? Icons.favorite : Icons.favorite_outline,
-            color: context.colorTheme.error,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _bookmark = !_bookmark;
-            });
-          },
-          child: Icon(
-            _bookmark ? Icons.bookmark : Icons.bookmark_outline,
-            color: context.colorTheme.success,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-        GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.share_outlined,
-            color: context.colorTheme.onBackground,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-      ],
+      actions: actions,
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
           final media = widget.art.media
-              .map(
-                (m) => CachedNetworkImage(
-                  imageUrl: m.url,
-                  imageBuilder: (context, imageProvider) => Container(
-                    height: constraints.maxHeight,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                        opacity: 1,
-                      ),
-                      color: context.colorTheme.primaryContainer,
-                      borderRadius: kMediumBorderRadius,
-                    ),
-                  ),
-                  placeholder: (context, url) => _buildLoading(),
-                ),
-              )
+              .map((m) => ZoomImage(media: m, constraints: constraints))
               .toList();
           return Container(
             decoration: BoxDecoration(
@@ -490,12 +474,14 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
                 duration: const Duration(milliseconds: 200),
                 opacity: 1 - scale == 1 ? 1 : 0,
                 child: Container(
-                  width: context.vWidth - kToolbarHeight * 3.3,
+                  width: context.vWidth,
                   padding: EdgeInsets.only(
                     top: (context.vTopSafeHeight - kToolbarHeight).clamp(0, kToolbarHeight),
+                    right: (kToolbarHeight / 2) * (actions.length - 2),
+                    left: kToolbarHeight + kMediumPadding.right,
                   ),
                   child: Text(
-                    widget.art.title,
+                    widget.art.title + widget.art.title,
                     textAlign: TextAlign.left,
                     maxLines: 1,
                     style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
@@ -533,6 +519,7 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
                       options: CarouselOptions(
                         padEnds: true,
                         onPageChanged: (index, reason) {},
+                        enableInfiniteScroll: media.length > 2,
                         viewportFraction: 0.8,
                         enlargeFactor: 0.2,
                         height: maxHeight - kToolbarHeight,

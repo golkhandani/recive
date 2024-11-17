@@ -132,7 +132,7 @@ class MockArtRepository extends IArtRepository {
     }
 
     final address =
-        "${res['locations']['title']} \n${res['locations']['area']} - ${res['locations']['city']} - ${res['locations']['region']} - ${res['locations']['region']} \n\n${res['locations']['details']}";
+        "${res['locations']['title']} \n${res['locations']['area']} - ${res['locations']['city']} - ${res['locations']['region']} - ${res['locations']['country']} \n\n${res['locations']['details']}";
 
     return ArtModel(
       id: res['id'],

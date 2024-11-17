@@ -3,6 +3,7 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
+import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:widget_zoom/widget_zoom.dart';
 
 class ArtistDetailScreen extends StatefulWidget {
   static String name = 'artist-detail-screen';
@@ -68,7 +70,8 @@ class _ArtistDetailScreenState extends State<ArtistDetailScreen> {
                     children: [
                       Text(
                         artist.name,
-                        style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
+                        style:
+                            context.typographyTheme.titleMedium.onPrimaryContainer.textStyle,
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
@@ -170,6 +173,43 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
   Widget build(BuildContext context) {
     final maxHeight = context.vHeight / 2.4;
     final backgroundColor = context.colorTheme.primaryContainer;
+    final actions = [
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _favorite = !_favorite;
+          });
+        },
+        child: Icon(
+          _favorite ? Icons.favorite : Icons.favorite_outline,
+          color: context.colorTheme.error,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            _bookmark = !_bookmark;
+          });
+        },
+        child: Icon(
+          _bookmark ? Icons.bookmark : Icons.bookmark_outline,
+          color: context.colorTheme.success,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+      GestureDetector(
+        onTap: () {},
+        child: Icon(
+          Icons.share_outlined,
+          color: context.colorTheme.onBackground,
+          size: kToolbarHeight / 2,
+        ),
+      ),
+      SizedBox(width: kTinyPadding.right),
+    ];
     return SliverAppBar(
       backgroundColor: backgroundColor,
       expandedHeight: maxHeight,
@@ -181,57 +221,29 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
       automaticallyImplyLeading: false,
       leadingWidth: kToolbarHeight + kTinyPadding.right,
       leading: LeadingBackButton(backgroundColor: backgroundColor),
-      actions: [
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _favorite = !_favorite;
-            });
-          },
-          child: Icon(
-            _favorite ? Icons.favorite : Icons.favorite_outline,
-            color: context.colorTheme.error,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _bookmark = !_bookmark;
-            });
-          },
-          child: Icon(
-            _bookmark ? Icons.bookmark : Icons.bookmark_outline,
-            color: context.colorTheme.success,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-        GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.share_outlined,
-            color: context.colorTheme.onBackground,
-            size: kToolbarHeight / 2,
-          ),
-        ),
-        SizedBox(width: kTinyPadding.right),
-      ],
+      actions: actions,
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
-          final media = widget.artist.media
-              .map(
-                (m) => CachedNetworkImage(
+          final media = widget.artist.media.map((m) {
+            return ZoomImage(constraints: constraints, media: m);
+            return WidgetZoom(
+              heroAnimationTag: m.id,
+              fullScreenDoubleTapZoomScale: 2,
+              minScaleFullscreen: 0.1,
+              minScaleEmbeddedView: .1,
+              zoomWidget: LayoutBuilder(builder: (context, box) {
+                return CachedNetworkImage(
                   imageUrl: m.url,
                   imageBuilder: (context, imageProvider) => Container(
                     height: constraints.maxHeight,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: imageProvider,
-                        fit: BoxFit.cover,
+                        fit: box.maxHeight >= constraints.maxHeight
+                            ? BoxFit.contain
+                            : BoxFit.cover,
                         opacity: 1,
                       ),
                       color: context.colorTheme.primaryContainer,
@@ -240,9 +252,10 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
                   ),
                   placeholder: (context, url) => _buildLoading(),
                   // errorWidget: (context, url, error) => _buildCard(null, color, child),
-                ),
-              )
-              .toList();
+                );
+              }),
+            );
+          }).toList();
           return Container(
             decoration: BoxDecoration(
               color: context.colorTheme.primaryContainer,
@@ -259,9 +272,10 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
                 duration: const Duration(milliseconds: 200),
                 opacity: 1 - scale == 1 ? 1 : 0,
                 child: Container(
-                  width: context.vWidth - kToolbarHeight * 3.3,
                   padding: EdgeInsets.only(
                     top: (context.vTopSafeHeight - kToolbarHeight).clamp(0, kToolbarHeight),
+                    right: (kToolbarHeight / 2) * (actions.length - 2),
+                    left: kToolbarHeight + kMediumPadding.right,
                   ),
                   child: Text(
                     widget.artist.name,
@@ -301,6 +315,7 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
                       },
                       options: CarouselOptions(
                         padEnds: true,
+                        enableInfiniteScroll: media.length > 2,
                         onPageChanged: (index, reason) {},
                         viewportFraction: 0.8,
                         enlargeFactor: 0.2,
@@ -316,6 +331,55 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
           );
         },
       ),
+    );
+  }
+}
+
+class ZoomImage extends StatelessWidget {
+  final MediaModel media;
+  final BoxConstraints constraints;
+  const ZoomImage({
+    super.key,
+    required this.media,
+    required this.constraints,
+  });
+
+  Widget _buildLoading() {
+    return const Center(
+      child: SizedBox(
+        height: 48,
+        width: 48,
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WidgetZoom(
+      heroAnimationTag: media.id,
+      fullScreenDoubleTapZoomScale: 2,
+      minScaleFullscreen: 0.1,
+      minScaleEmbeddedView: .1,
+      zoomWidget: LayoutBuilder(builder: (context, box) {
+        return CachedNetworkImage(
+          imageUrl: media.url,
+          imageBuilder: (context, imageProvider) => Container(
+            height: constraints.maxHeight,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider,
+                fit: box.maxHeight >= (context.vHeight / 2) ? BoxFit.contain : BoxFit.cover,
+                opacity: 1,
+              ),
+              color: context.colorTheme.primaryContainer,
+              borderRadius: kMediumBorderRadius,
+            ),
+          ),
+          placeholder: (context, url) => _buildLoading(),
+          // errorWidget: (context, url, error) => _buildCard(null, color, child),
+        );
+      }),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:art_for_all/core/enums/data_tables.dart';
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:faker/faker.dart';
@@ -21,15 +23,23 @@ class MockArtistRepository extends IArtistRepository {
     required this.supabase,
   });
 
-  @override
-  Future<List<ArtistAbstractModel>> getArtists() async {
+  Future<int> _getCount() async {
     final count = (await supabase
             .from(DataTables.artist.tableName)
             .select('artist_media!inner(media_id)')
+            .eq('publish_status', 'published')
             .count(CountOption.exact))
         .count;
-    const limit = 20;
-    final from = faker.randomGenerator.integer(count - limit);
+
+    return count;
+  }
+
+  @override
+  Future<List<ArtistAbstractModel>> getArtists() async {
+    final count = await _getCount();
+    if (count == 0) return [];
+
+    final from = faker.randomGenerator.integer(count - min(20, count));
     final res = await supabase.from(DataTables.artist.tableName).select('''
           id,
           name,
@@ -37,7 +47,7 @@ class MockArtistRepository extends IArtistRepository {
           artist_links(link_id, links(id, url, title)),
           artist_media!inner(media_id, media(id, url, copyright, type, title)),
           artist_tags(tag_id, tags(name))
-        ''').range(from, count).limit(limit) as ArrayRes ?? [];
+        ''').eq('publish_status', 'published').range(from, count).limit(20) as ArrayRes ?? [];
     final artists = res.map((rs) => ArtistAbstractModel.fromPostgres(rs)).toList();
 
     return artists;

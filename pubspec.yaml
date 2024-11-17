@@ -152,7 +152,7 @@ flutter_launcher_icons:
   image_path: "assets/app_icon.png"
   min_sdk_android: 16 # android min sdk min:16, default 21
   adaptive_icon_foreground: "assets/app_icon.png" # Set the foreground image (same or different from image_path)
-  adaptive_icon_background: "#5F8F3C"
+  adaptive_icon_background: "#121212"
   remove_alpha_ios: true
 
 # dart run flutter_native_splash:create

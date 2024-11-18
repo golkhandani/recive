@@ -25,8 +25,8 @@ class AsyncDropdownMenu<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LimitedBox(
-      // maxHeight: 48,
+    return SizedBox(
+      height: kToolbarHeight,
       child: RawDropdownMenu<T>(
         requestFocusOnTap: true,
         enabled: isEnabled,

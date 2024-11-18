@@ -207,7 +207,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                         ),
                         SizedBox(height: kExtraTinyPadding.bottom),
                         SizedBox(
-                          height: context.vWidth / 4,
+                          height: context.vWidth / 2,
                           child: OverflowBox(
                             maxWidth: context.vWidth,
                             child: ListView.separated(
@@ -220,7 +220,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                                 return ArtistCardContainer.small(
                                   data: artist,
                                   constraints:
-                                      BoxConstraints.expand(width: context.vWidth / 4),
+                                      BoxConstraints.expand(width: context.vWidth / 1.5),
                                   onTap: () {
                                     final homeUrl = navigator.homeUrl;
                                     navigator.homeContext.push(

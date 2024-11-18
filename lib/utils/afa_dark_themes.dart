@@ -2,8 +2,8 @@ import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const light = Color.fromARGB(255, 10, 10, 10);
-  static const semiLight = Color.fromARGB(255, 26, 26, 26);
+  static const light = Color.fromARGB(255, 32, 32, 32);
+  static const semiLight = Color.fromARGB(255, 38, 38, 38);
   static const middle = Color.fromARGB(255, 175, 42, 100);
   static const semiDark = Color.fromARGB(255, 248, 242, 248);
   static const dark = Color.fromARGB(255, 235, 232, 237);

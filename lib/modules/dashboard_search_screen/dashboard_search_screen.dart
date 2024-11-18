@@ -137,8 +137,11 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
           PinnedHeaderSliver(child: header),
           PinnedHeaderSliver(
             child: Container(
-              padding: kMediumPadding.copyWith(
+              height: kToolbarHeight + kMediumPadding.bottom,
+              padding: EdgeInsets.zero.copyWith(
                 left: widget.isViewAll ? 0 : kMediumPadding.left,
+                right: kMediumPadding.left,
+                bottom: kMediumPadding.bottom,
               ),
               color: context.colorTheme.primaryContainer,
               child: Row(

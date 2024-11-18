@@ -124,7 +124,11 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                     ),
                   ),
                 ),
-                padding: kMediumPadding,
+                padding: EdgeInsets.zero.copyWith(
+                  left: kMediumPadding.left,
+                  right: kMediumPadding.left,
+                  bottom: kMediumPadding.bottom,
+                ),
                 child: Column(
                   children: [
                     Row(
@@ -205,8 +209,10 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
             ),
             if (showTabBar) PinnedHeaderSliver(child: _buildTabBar(context)),
             SliverFillRemaining(
+              hasScrollBody: true,
               child: TabBarView(
-                viewportFraction: 0.999,
+                clipBehavior: Clip.none,
+                viewportFraction: 1,
                 controller: tabController,
                 children: [
                   SizedBox(
@@ -282,14 +288,6 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                           if (state.focusedArt != null)
                             _buildSelectedMapMarker(state, context),
                         ]),
-                        // MarkerLayer(markers: [
-                        //   _buildUserMarker(context),
-                        //   ...state.arts.mapIndexed((i, item) {
-                        //     return _buildMapMarker(item, i, context);
-                        //   }),
-                        //   if (state.focusedArt != null)
-                        //     _buildSelectedMapMarker(state, context),
-                        // ]),
                         if (state.arts.isNotEmpty)
                           Align(
                             alignment: Alignment.bottomCenter,
@@ -328,7 +326,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                               ),
                             ),
                           ),
-                        const MapCopyrightInfo(),
+                        // const MapCopyrightInfo(),
                         Align(
                           alignment: Alignment.topCenter,
                           child: _buildRefreshButton(context, state),
@@ -377,6 +375,14 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                             ),
                           ),
                         ),
+                        // temp fix for bottom issue
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: 1,
+                            color: context.colorTheme.background,
+                          ),
+                        )
                       ],
                     ),
                   ),

@@ -89,7 +89,7 @@ class CommunityCardContainer extends StatelessWidget {
     Widget child,
   ) {
     return Material(
-      elevation: 2,
+      elevation: kTinyElevation,
       borderRadius: kSmallBorderRadius,
       child: Container(
         constraints: constraints,

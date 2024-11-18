@@ -243,7 +243,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             borderRadius: kMediumBorderRadius,
           ),
           backgroundColor: context.colorTheme.tertiaryContainer,
-          elevation: 1,
+          elevation: kTinyElevation,
           title: Text(
             'Location Access',
             textAlign: TextAlign.center,

@@ -196,7 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               profileBloc.uploadAvatar(image.path);
                             },
                             child: Material(
-                              elevation: 2,
+                              elevation: kTinyElevation,
                               borderRadius: BorderRadius.circular(100),
                               child: CircleAvatar(
                                 backgroundColor: context.colorTheme.primaryContainer,

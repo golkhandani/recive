@@ -92,7 +92,7 @@ class NewsCardContainer extends StatelessWidget {
     Widget child,
   ) {
     return Material(
-      elevation: 1,
+      elevation: kTinyElevation,
       borderRadius: kSmallBorderRadius,
       child: Container(
         constraints: constraints,

@@ -353,7 +353,7 @@ class SearchResultCardContainer extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: data.imageUrl,
               imageBuilder: (context, imageProvider) => Material(
-                elevation: 1,
+                elevation: kTinyElevation,
                 borderRadius: kSmallBorderRadius,
                 child: Container(
                   decoration: BoxDecoration(

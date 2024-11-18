@@ -17,8 +17,8 @@ const kErrorIcon = Icon(Icons.error);
 const kTinyBorder = BorderSide(width: 0.2);
 const kExtraTinyBorder = BorderSide(width: 0.02);
 
-const kTinyElevation = 2.0;
-const kMediumElevation = 4.0;
+const kTinyElevation = 0.0;
+const kMediumElevation = 0.0;
 
 const kTinyOpacity = 0.96;
 const kMediumOpacity = 0.4;

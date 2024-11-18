@@ -132,16 +132,16 @@ class MrzgThemeProvider extends InheritedWidget {
           contentPadding: const EdgeInsets.all(15),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
-            borderSide: BorderSide(
-              color: Colors.transparent ?? palette.tertiary,
+            borderSide: const BorderSide(
+              color: Colors.transparent,
               width: 0,
             ),
           ),
           fillColor: palette.background,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
-            borderSide: BorderSide(
-              color: Colors.transparent ?? palette.onBackground,
+            borderSide: const BorderSide(
+              color: Colors.transparent,
               width: 0.0,
             ),
           ),

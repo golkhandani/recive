@@ -155,16 +155,6 @@ class ArtistDetailHeader extends StatefulWidget {
 }
 
 class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
-  Widget _buildLoading() {
-    return const Center(
-      child: SizedBox(
-        height: 48,
-        width: 48,
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
   double heroOpacity = 1;
   bool _favorite = false;
   bool _bookmark = false;
@@ -228,33 +218,6 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
           final scale = flexHeight / maxHeight;
           final media = widget.artist.media.map((m) {
             return ZoomImage(constraints: constraints, media: m);
-            return WidgetZoom(
-              heroAnimationTag: m.id,
-              fullScreenDoubleTapZoomScale: 2,
-              minScaleFullscreen: 0.1,
-              minScaleEmbeddedView: .1,
-              zoomWidget: LayoutBuilder(builder: (context, box) {
-                return CachedNetworkImage(
-                  imageUrl: m.url,
-                  imageBuilder: (context, imageProvider) => Container(
-                    height: constraints.maxHeight,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: box.maxHeight >= constraints.maxHeight
-                            ? BoxFit.contain
-                            : BoxFit.cover,
-                        opacity: 1,
-                      ),
-                      color: context.colorTheme.primaryContainer,
-                      borderRadius: kMediumBorderRadius,
-                    ),
-                  ),
-                  placeholder: (context, url) => _buildLoading(),
-                  // errorWidget: (context, url, error) => _buildCard(null, color, child),
-                );
-              }),
-            );
           }).toList();
           return Container(
             decoration: BoxDecoration(

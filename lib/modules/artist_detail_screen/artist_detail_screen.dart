@@ -260,7 +260,7 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
                           image: DecorationImage(
                             image: imageProvider,
                             fit: BoxFit.cover,
-                            opacity: 0.3,
+                            opacity: kExtraOpacity,
                           ),
                           color: context.colorTheme.primaryContainer,
                         ),

@@ -22,7 +22,7 @@ const kMediumElevation = 4.0;
 
 const kTinyOpacity = 0.96;
 const kMediumOpacity = 0.4;
-const kExtraOpacity = 0.2;
+const kExtraOpacity = 0.1;
 
 final kStandardBlur = ImageFilter.blur(
   tileMode: TileMode.clamp,

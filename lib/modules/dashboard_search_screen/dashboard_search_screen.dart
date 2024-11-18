@@ -344,6 +344,7 @@ class SearchResultCardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: Row(
         children: [
           SizedBox(

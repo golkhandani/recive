@@ -292,7 +292,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Padding(
-                              padding: EdgeInsets.only(bottom: kMediumPadding.bottom),
+                              padding: EdgeInsets.only(bottom: kLargePadding.bottom * 2),
                               child: CarouselSlider.builder(
                                 carouselController: carouselController,
                                 itemCount: state.arts.length,
@@ -321,12 +321,13 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                   viewportFraction: 0.7,
                                   height: cardHeight,
                                   enlargeCenterPage: true,
+                                  enlargeFactor: 0.3,
                                   clipBehavior: Clip.none,
                                 ),
                               ),
                             ),
                           ),
-                        // const MapCopyrightInfo(),
+
                         Align(
                           alignment: Alignment.topCenter,
                           child: _buildRefreshButton(context, state),
@@ -382,7 +383,8 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                             height: 1,
                             color: context.colorTheme.background,
                           ),
-                        )
+                        ),
+                        const MapCopyrightInfo(),
                       ],
                     ),
                   ),

@@ -500,7 +500,7 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
                           image: DecorationImage(
                             image: imageProvider,
                             fit: BoxFit.cover,
-                            opacity: 0.3,
+                            opacity: kExtraOpacity,
                           ),
                           color: context.colorTheme.primaryContainer,
                         ),

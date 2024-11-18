@@ -128,23 +128,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       ),
                       SizedBox(height: kMediumPadding.bottom),
 
-                      // Builder(builder: (context) {
-                      //   final data = event.art;
-                      //   return ArtCardContainer.medium(
-                      //     data: data,
-                      //     constraints: BoxConstraints(
-                      //       maxHeight: context.vWidth,
-                      //       maxWidth: context.vWidth,
-                      //     ),
-                      //     onTap: () {
-                      //       final homeUrl = navigator.homeUrl;
-                      //       navigator.homeContext.push(
-                      //         '$homeUrl/${ArtDetailScreen.name}/${data.id}',
-                      //       );
-                      //     },
-                      //   );
-                      // }),
-
                       if ((event.highlights ?? []).isNotEmpty) ...[
                         SizedBox(height: kMediumPadding.bottom),
                         Row(
@@ -381,16 +364,6 @@ class EventDetailHeader extends StatefulWidget {
 }
 
 class _EventDetailHeaderState extends State<EventDetailHeader> {
-  Widget _buildLoading() {
-    return const Center(
-      child: SizedBox(
-        height: 48,
-        width: 48,
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
   double heroOpacity = 1;
   bool _favorite = false;
   bool _bookmark = false;
@@ -496,7 +469,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                           image: DecorationImage(
                             image: imageProvider,
                             fit: BoxFit.cover,
-                            opacity: 0.3,
+                            opacity: kExtraOpacity,
                           ),
                           color: context.colorTheme.primaryContainer,
                         ),

@@ -1,3 +1,4 @@
+import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,9 @@ class MrzgThemeProvider extends InheritedWidget {
             color: palette.onNavUnselected,
           ),
         ),
+        progressIndicatorTheme: _flex.progressIndicatorTheme.copyWith(
+          color: palette.onBackground.withOpacity(kMediumOpacity),
+        ),
         splashFactory: NoSplash.splashFactory,
         highlightColor: Colors.transparent,
         tabBarTheme: _flex.tabBarTheme.copyWith(
@@ -111,9 +115,6 @@ class MrzgThemeProvider extends InheritedWidget {
           ),
           overlayColor: const WidgetStatePropertyAll(Colors.transparent),
         ),
-        progressIndicatorTheme: _flex.progressIndicatorTheme.copyWith(
-          color: palette.primary,
-        ),
         sliderTheme: _flex.sliderTheme.copyWith(
           thumbColor: palette.primary,
           activeTrackColor: palette.onPrimaryContainer,
@@ -140,9 +141,9 @@ class MrzgThemeProvider extends InheritedWidget {
           fillColor: palette.background,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
-            borderSide: const BorderSide(
-              color: Colors.transparent,
-              width: 0.0,
+            borderSide: BorderSide(
+              color: palette.onBackground,
+              width: 0.5,
             ),
           ),
         ),

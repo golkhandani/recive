@@ -20,7 +20,8 @@ abstract class ISearchRepository {
 
   Future<List<String>> getCommonKeyboards();
 
-  Future<List<SearchableAbstractModel>> searchByCoordinate(LatLng? coordinates);
+  Future<List<SearchableAbstractModel>> searchByCoordinate(
+      LatLng? coordinates, String? query);
 }
 
 class MockSearchRepository extends ISearchRepository {
@@ -107,14 +108,18 @@ class MockSearchRepository extends ISearchRepository {
   }
 
   @override
-  Future<List<SearchableAbstractModel>> searchByCoordinate(LatLng? coordinates) async {
+  Future<List<SearchableAbstractModel>> searchByCoordinate(
+    LatLng? coordinates,
+    String? query,
+  ) async {
     /// START TEST
     final rpc = await supabase.rpc(
           DataFunctions.acNearbySearch.fnName,
           params: {
             'input_lat': coordinates?.latitude ?? 49.2827,
             'input_lng': coordinates?.longitude ?? -123.1207,
-            'input_query': null,
+            'input_query':
+                (query?.isEmpty ?? true) ? null : query?.trim().split(' ').join('&'),
             'input_limit': 50,
           },
         ) as ArrayRes ??

@@ -21,6 +21,7 @@ const kTinyElevation = 0.0;
 const kMediumElevation = 0.0;
 
 const kTinyOpacity = 0.96;
+const kSmallOpacity = 0.7;
 const kMediumOpacity = 0.4;
 const kExtraOpacity = 0.1;
 

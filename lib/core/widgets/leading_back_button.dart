@@ -6,14 +6,16 @@ class LeadingBackButton extends StatelessWidget {
   const LeadingBackButton({
     super.key,
     required this.backgroundColor,
+    this.padding = kTinyPadding,
   });
 
   final Color backgroundColor;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: kTinyPadding,
+      margin: padding,
       decoration: BoxDecoration(color: backgroundColor, borderRadius: kMediumBorderRadius),
       child: BackButton(
         style: ButtonStyle(

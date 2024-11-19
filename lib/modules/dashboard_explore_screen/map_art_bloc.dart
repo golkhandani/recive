@@ -52,7 +52,7 @@ class MapArtBloc extends TransformableCubit<MapArtBlocState> {
       isLoadingArts: LoadingState.loading,
       hasPositionChanged: false,
     ));
-    final featuredArts = await searchRepository.searchByCoordinate(center);
+    final featuredArts = await searchRepository.searchByCoordinate(center, null);
     emit(
       state.copyWith(
         arts: featuredArts,
@@ -78,10 +78,10 @@ class MapArtBloc extends TransformableCubit<MapArtBlocState> {
       isLoadingArts: LoadingState.loading,
       hasPositionChanged: false,
     ));
-    final featuredArts = await searchRepository.searchByCoordinate(state.center);
+    final featuredArts = await searchRepository.searchByCoordinate(state.center, state.query);
     emit(state.copyWith(
       arts: featuredArts,
-      focusedArt: featuredArts.first,
+      focusedArt: featuredArts.isNotEmpty ? featuredArts.first : null,
       isLoadingArts: LoadingState.done,
     ));
   }
@@ -94,18 +94,20 @@ class MapArtBloc extends TransformableCubit<MapArtBlocState> {
   }
 
   Future<void> filter(LatLng center, double? distance, String? query) async {
+    if (query == null) {
+      return;
+    }
+    emit(state.copyWith(
+      isLoadingArts: LoadingState.loading,
+      hasPositionChanged: false,
+      query: query,
+    ));
     withDebounce(() async {
-      if (query == null) {
-        return;
-      }
-      emit(state.copyWith(
-        isLoadingArts: LoadingState.loading,
-        hasPositionChanged: false,
-      ));
-      final featuredArts = await searchRepository.searchByCoordinate(center);
+      final featuredArts = await searchRepository.searchByCoordinate(center, query);
+
       emit(state.copyWith(
         arts: featuredArts,
-        focusedArt: featuredArts.first,
+        focusedArt: featuredArts.isNotEmpty ? featuredArts.first : null,
         isLoadingArts: LoadingState.done,
       ));
     });

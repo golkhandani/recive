@@ -424,7 +424,7 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
         },
         child: Icon(
           _bookmark ? Icons.bookmark : Icons.bookmark_outline,
-          color: context.colorTheme.success,
+          color: context.colorTheme.onBackground,
           size: kToolbarHeight / 2,
         ),
       ),

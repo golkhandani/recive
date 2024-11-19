@@ -50,26 +50,23 @@ class _AsyncSearchFieldState<T> extends State<AsyncSearchField<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: kToolbarHeight,
-      child: TextField(
-        onTapOutside: (event) => FocusScope.of(context).unfocus(),
-        controller: widget.controller,
-        enabled: widget.isEnabled,
-        style: widget.isEnabled
-            ? context.typographyTheme.bodyMedium.onSurface.textStyle
-            : context.typographyTheme.bodyMedium.onSurface.textStyle,
-        decoration: context.themeData.inputDecoration.copyWith(
-          hintStyle: context.typographyTheme.bodyMedium.onSurface.textStyle,
-          hintText: widget.hintText,
-          border: const OutlineInputBorder(),
-          suffixIcon: canCleanup
-              ? GestureDetector(
-                  onTap: () => widget.controller.clear(),
-                  child: const Icon(Icons.close),
-                )
-              : null,
-        ),
+    return TextField(
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      controller: widget.controller,
+      enabled: widget.isEnabled,
+      style: widget.isEnabled
+          ? context.typographyTheme.bodyMedium.onSurface.textStyle
+          : context.typographyTheme.bodyMedium.onSurface.textStyle,
+      decoration: context.themeData.inputDecoration.copyWith(
+        hintStyle: context.typographyTheme.bodyMedium.onSurface.textStyle,
+        hintText: widget.hintText,
+        border: const OutlineInputBorder(),
+        suffixIcon: canCleanup
+            ? GestureDetector(
+                onTap: () => widget.controller.clear(),
+                child: const Icon(Icons.close),
+              )
+            : null,
       ),
     );
   }

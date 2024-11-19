@@ -122,32 +122,31 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
   @override
   Widget build(BuildContext context) {
     final font = context.typographyTheme.subtitleMedium.onPrimary.textStyle;
-    final Widget header = Container(
-      decoration: BoxDecoration(
-        color: context.colorTheme.primaryContainer,
-      ),
-      padding: EdgeInsets.only(top: context.vTopSafeHeight),
-    );
-
     return ColoredBox(
       color: context.colorTheme.background,
       child: CustomScrollView(
         controller: _scrollController,
         slivers: [
-          PinnedHeaderSliver(child: header),
           PinnedHeaderSliver(
             child: Container(
-              height: kToolbarHeight + kMediumPadding.bottom,
+              height: kToolbarHeight + context.vTopSafeHeight,
               padding: EdgeInsets.zero.copyWith(
                 left: widget.isViewAll ? 0 : kMediumPadding.left,
                 right: kMediumPadding.left,
-                bottom: kMediumPadding.bottom,
+                top: context.vTopSafeHeight + kTinyPadding.bottom,
+                bottom: kTinyPadding.bottom,
               ),
               color: context.colorTheme.primaryContainer,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if (widget.isViewAll)
-                    LeadingBackButton(backgroundColor: context.colorTheme.primaryContainer),
+                    LeadingBackButton(
+                      backgroundColor: context.colorTheme.primaryContainer,
+                      padding: EdgeInsets.only(
+                        left: kTinyPadding.left,
+                      ),
+                    ),
                   Expanded(
                     child: AsyncSearchField<String>(
                       hintText: 'Search...',
@@ -162,66 +161,62 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
               ),
             ),
           ),
-          BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
-            listener: (context, state) {},
-            bloc: bloc,
-            builder: (context, state) {
-              return PinnedHeaderSliver(
-                child: Container(
-                  color: context.colorTheme.primaryContainer,
-                  constraints: BoxConstraints(
-                    maxHeight: font.fontSize! * (font.height ?? 1.2) + kMediumPadding.top * 2,
-                  ),
-                  child: OverflowBox(
-                    maxWidth: context.vWidth,
-                    child: ListView.separated(
-                      padding: EdgeInsets.symmetric(horizontal: kMediumPadding.right),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        final text = state.keywords[index];
-                        return InkWell(
-                          onTap: () {
-                            filterController.text = text;
-                          },
-                          borderRadius: kSmallBorderRadius,
-                          child: Container(
-                            padding: kSmallPadding,
-                            decoration: BoxDecoration(
-                              color: context.colorTheme.primary,
-                              borderRadius: kSmallBorderRadius,
-                            ),
-                            child: Center(
-                              child: Text(
-                                text,
-                                style: context
-                                    .typographyTheme.subtitleMedium.onPrimary.textStyle,
+          if (!widget.isViewAll)
+            BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
+              listener: (context, state) {},
+              bloc: bloc,
+              builder: (context, state) {
+                return PinnedHeaderSliver(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: context.colorTheme.primaryContainer,
+                      border: Border(
+                        bottom: kExtraTinyBorder.copyWith(
+                          color: context.colorTheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: kTinyPadding.bottom),
+                    constraints: BoxConstraints(
+                      maxHeight: font.fontSize! * (font.height ?? 1.5) + kTinyPadding.top * 4,
+                    ),
+                    child: OverflowBox(
+                      maxWidth: context.vWidth,
+                      child: ListView.separated(
+                        padding: EdgeInsets.symmetric(horizontal: kMediumPadding.right),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          final text = state.keywords[index];
+                          return InkWell(
+                            onTap: () {
+                              filterController.text = text;
+                            },
+                            borderRadius: kSmallBorderRadius,
+                            child: Container(
+                              padding: kTinyPadding,
+                              decoration: BoxDecoration(
+                                color: context.colorTheme.primary,
+                                borderRadius: kSmallBorderRadius,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  text,
+                                  style: context
+                                      .typographyTheme.subtitleMedium.onPrimary.textStyle,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) =>
-                          SizedBox(width: kTinyPadding.right),
-                      itemCount: state.keywords.length,
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                            SizedBox(width: kTinyPadding.right),
+                        itemCount: state.keywords.length,
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-          PinnedHeaderSliver(
-            child: Container(
-              padding: EdgeInsets.only(top: kTinyPadding.top),
-              decoration: BoxDecoration(
-                color: context.colorTheme.primaryContainer,
-                border: Border(
-                  bottom: kExtraTinyBorder.copyWith(
-                    color: context.colorTheme.onPrimaryContainer,
-                  ),
-                ),
-              ),
+                );
+              },
             ),
-          ),
           BlocBuilder<DashboardSearchBloc, DashboardSearchBlocState>(
             bloc: bloc,
             builder: (context, state) {
@@ -242,7 +237,7 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.search,
+                          Icons.search_rounded,
                           color: context.colorTheme.onBackground,
                           size: context.vWidth / 10,
                         ),

@@ -130,7 +130,10 @@ class MrzgThemeProvider extends InheritedWidget {
           selectionHandleColor: palette.primary,
         ),
         inputDecorationTheme: _flex.inputDecorationTheme.copyWith(
-          contentPadding: const EdgeInsets.all(15),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: kLargePadding.left,
+            // vertical: kExtraTinyPadding.bottom,
+          ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
             borderSide: const BorderSide(

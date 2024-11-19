@@ -185,7 +185,7 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
         },
         child: Icon(
           _bookmark ? Icons.bookmark : Icons.bookmark_outline,
-          color: context.colorTheme.success,
+          color: context.colorTheme.onBackground,
           size: kToolbarHeight / 2,
         ),
       ),
@@ -319,30 +319,52 @@ class ZoomImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WidgetZoom(
-      heroAnimationTag: media.id,
-      fullScreenDoubleTapZoomScale: 2,
-      minScaleFullscreen: 0.1,
-      minScaleEmbeddedView: .1,
-      zoomWidget: LayoutBuilder(builder: (context, box) {
-        return CachedNetworkImage(
-          imageUrl: media.url,
-          imageBuilder: (context, imageProvider) => Container(
-            height: constraints.maxHeight,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider,
-                fit: box.maxHeight >= (context.vHeight / 2) ? BoxFit.contain : BoxFit.cover,
-                opacity: 1,
+    return Stack(
+      children: [
+        WidgetZoom(
+          heroAnimationTag: media.id,
+          fullScreenDoubleTapZoomScale: 2,
+          minScaleFullscreen: 0.1,
+          minScaleEmbeddedView: .1,
+          zoomWidget: LayoutBuilder(builder: (context, box) {
+            return CachedNetworkImage(
+              imageUrl: media.url,
+              fadeInDuration: Duration.zero,
+              imageBuilder: (context, imageProvider) => Container(
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: box.maxHeight >= (context.vHeight / 2)
+                        ? BoxFit.contain
+                        : BoxFit.cover,
+                    opacity: 1,
+                  ),
+                  color: context.colorTheme.primaryContainer,
+                  borderRadius: kSmallBorderRadius,
+                ),
               ),
-              color: context.colorTheme.primaryContainer,
-              borderRadius: kMediumBorderRadius,
+              // placeholder: (context, url) => _buildLoading(),
+            );
+          }),
+        ),
+        Positioned.fill(
+          bottom: kTinyPadding.bottom,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: kTinyPadding.left),
+            padding: kExtraTinyPadding,
+            decoration: BoxDecoration(
+              borderRadius: kSmallBorderRadius,
+              color: context.colorTheme.background,
+            ),
+            child: Text(
+              '${media.title} - ${media.copyright}',
+              softWrap: true,
+              style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
             ),
           ),
-          placeholder: (context, url) => _buildLoading(),
-          // errorWidget: (context, url, error) => _buildCard(null, color, child),
-        );
-      }),
+        )
+      ],
     );
   }
 }

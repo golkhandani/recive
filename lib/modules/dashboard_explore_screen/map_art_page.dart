@@ -7,9 +7,14 @@ import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_dropdown_menu.dart';
+import 'package:art_for_all/core/widgets/dropdown/async_search_field.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
+import 'package:art_for_all/modules/artist_detail_screen/news_detail_screen.dart';
+import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_bloc.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
+import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
@@ -95,17 +100,19 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
         if (data == null) return;
 
         final index = state.arts.indexOf(data);
-        _animatedMapController.animateTo(
-          dest: data.geoLocation,
-          offset: const Offset(0, -0),
-        );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (state.arts.isNotEmpty && carouselController.ready && !lock) {
+            carouselController.jumpToPage(index);
+          }
 
-        if (carouselController.ready && !lock) {
-          carouselController.jumpToPage(index);
-        }
+          _animatedMapController.animateTo(
+            dest: data.geoLocation,
+            offset: const Offset(0, -0),
+          );
 
-        setState(() {
-          lock = false;
+          setState(() {
+            lock = false;
+          });
         });
       },
       bloc: bloc,
@@ -113,9 +120,9 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
         return CustomScrollView(
           physics: const NeverScrollableScrollPhysics(),
           slivers: [
-            PinnedHeaderSliver(child: header),
             PinnedHeaderSliver(
               child: Container(
+                height: kToolbarHeight + context.vTopSafeHeight,
                 decoration: BoxDecoration(
                   color: context.colorTheme.primaryContainer,
                   border: Border(
@@ -127,14 +134,27 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                 padding: EdgeInsets.zero.copyWith(
                   left: kMediumPadding.left,
                   right: kMediumPadding.left,
-                  bottom: kMediumPadding.bottom,
+                  top: context.vTopSafeHeight + kTinyPadding.bottom,
+                  bottom: kTinyPadding.bottom,
                 ),
-                child: Column(
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: AsyncDropdownMenu<SearchableAbstractModel>(
+                    Expanded(
+                      child: AsyncSearchField<String>(
+                            hintText: 'Search...',
+                            items: const [],
+                            onChanged: (query) {
+                              bloc.filter(
+                                _animatedMapController.mapController.camera.center,
+                                _currentSliderValue,
+                                query,
+                              );
+                            },
+                            controller: filterController,
+                            isLoading: false,
+                            isEnabled: true,
+                          ) ??
+                          AsyncDropdownMenu<SearchableAbstractModel>(
                             hintText: 'Search...',
                             items: state.arts
                                 .map(
@@ -158,51 +178,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                             },
                             isEnabled: true,
                           ),
-                        ),
-                        // const SizedBox(width: 12),
-                        // InkWell(
-                        //   onTap: () {
-                        //     setState(() {
-                        //       showFilters = !showFilters;
-                        //     });
-                        //   },
-                        //   child: SizedBox(
-                        //     height: 42,
-                        //     child: Icon(
-                        //       Icons.filter_alt,
-                        //       color: context.colorTheme.onPrimaryContainer,
-                        //       size: 36,
-                        //     ),
-                        //   ),
-                        // )
-                      ],
                     ),
-                    AnimatedContainer(
-                      duration: kLoadingDuration,
-                      height: showFilters ? 56 : 0,
-                      child: SizedBox(
-                        height: 56,
-                        child: !showFilters
-                            ? null
-                            : Slider(
-                                value: _currentSliderValue,
-                                min: 5,
-                                max: 50,
-                                divisions: 5,
-                                label: "${_currentSliderValue.round()} km",
-                                onChanged: (double value) {
-                                  bloc.filter(
-                                    _animatedMapController.mapController.camera.center,
-                                    value,
-                                    filterController.text,
-                                  );
-                                  setState(() {
-                                    _currentSliderValue = value;
-                                  });
-                                },
-                              ),
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -298,13 +274,21 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                 itemCount: state.arts.length,
                                 itemBuilder: (context, index, pageViewIndex) {
                                   final data = state.arts[index];
+                                  final page = switch (data.searchType) {
+                                    SearchType.art => ArtDetailScreen.name,
+                                    SearchType.artist => ArtistDetailScreen.name,
+                                    SearchType.news => NewsDetailScreen.name,
+                                    SearchType.event => EventDetailScreen.name,
+                                    SearchType.community => CommunityDetailScreen.name,
+                                  };
                                   return SearchableOnMapCardContainer.small(
                                     data: data,
                                     constraints: const BoxConstraints(),
                                     onTap: () {
                                       final homeUrl = navigator.homeUrl;
                                       navigator.homeContext.push(
-                                        '$homeUrl/${ArtDetailScreen.name}/${data.id}',
+                                        '$homeUrl/$page/${data.id}',
+                                        extra: data.toJson(),
                                       );
                                     },
                                   );
@@ -320,6 +304,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                                   },
                                   viewportFraction: 0.7,
                                   height: cardHeight,
+                                  enableInfiniteScroll: state.arts.length > 2,
                                   enlargeCenterPage: true,
                                   enlargeFactor: 0.3,
                                   clipBehavior: Clip.none,

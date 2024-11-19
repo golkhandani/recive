@@ -137,6 +137,9 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
       ));
       return;
     }
+    emit(state.copyWith(
+      isLoading: !nextPage ? LoadingState.loading : LoadingState.updating,
+    ));
 
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(nextPage ? Duration.zero : kDebounceDuration, () async {
@@ -150,10 +153,6 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
           result: [],
         ));
       }
-
-      emit(state.copyWith(
-        isLoading: !nextPage ? LoadingState.loading : LoadingState.updating,
-      ));
 
       final result = query.isEmpty && !state.filtersData.autoSearch
           ? <SearchableAbstractModel>[]

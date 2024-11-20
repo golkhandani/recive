@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LottieSafeLoading extends StatelessWidget {
   const LottieSafeLoading({
@@ -9,13 +10,12 @@ class LottieSafeLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
-        child: Image.asset(
-          "assets/app_splash_animated.gif",
-          height: 125.0,
-          width: 125.0,
-        ),
-      ),
+          borderRadius: BorderRadius.circular(25),
+          child: Lottie.asset(
+            'assets/app_loading.json',
+            height: 125.0,
+            width: 125.0,
+          )),
     );
   }
 }

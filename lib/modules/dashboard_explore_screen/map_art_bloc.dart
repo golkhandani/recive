@@ -93,7 +93,7 @@ class MapArtBloc extends TransformableCubit<MapArtBlocState> {
     ));
   }
 
-  Future<void> filter(LatLng center, double? distance, String? query) async {
+  Future<void> filter(LatLng center, String? query) async {
     if (query == null) {
       return;
     }

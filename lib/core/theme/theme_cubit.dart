@@ -1,16 +1,22 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/theme/mrzg_theme_palette.dart';
 import 'package:art_for_all/utils/afa_dark_themes.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import '../../utils/afa_light_themes.dart';
 
-enum ThemeCubitState { blue, dark, light }
+enum ThemeCubitState { blue, dark, light, system }
 
 extension ThemeColorScheme on ThemeCubitState {
   MrzgThemePalette get colorPalette {
+    if (this == ThemeCubitState.system) {
+      final brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
+      return brightness == Brightness.dark ? darkTheme : trendyTheme;
+    }
     switch (this) {
       case ThemeCubitState.blue:
       case ThemeCubitState.dark:

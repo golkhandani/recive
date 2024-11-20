@@ -383,16 +383,6 @@ class ArtDetailHeader extends StatefulWidget {
 }
 
 class _ArtDetailHeaderState extends State<ArtDetailHeader> {
-  Widget _buildLoading() {
-    return const Center(
-      child: SizedBox(
-        height: 48,
-        width: 48,
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
   double heroOpacity = 1;
 
   bool _favorite = false;

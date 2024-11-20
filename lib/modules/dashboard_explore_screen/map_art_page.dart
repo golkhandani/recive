@@ -6,7 +6,6 @@ import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
-import 'package:art_for_all/core/widgets/dropdown/async_dropdown_menu.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_search_field.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
@@ -57,7 +56,6 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
   final carouselController = CarouselSliderController();
   final listController = CarouselSliderController();
   bool showFilters = false;
-  double _currentSliderValue = 20;
 
   bool showTabBar = false;
   late final TabController tabController = TabController(length: 2, vsync: this);
@@ -86,12 +84,6 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final Widget header = Container(
-      decoration: BoxDecoration(
-        color: context.colorTheme.primaryContainer,
-      ),
-      padding: EdgeInsets.only(top: context.vTopSafeHeight),
-    );
     final cardHeight = context.vHeight / 7;
     return BlocConsumer<MapArtBloc, MapArtBlocState>(
       listenWhen: (previous, current) => previous.focusedArt != current.focusedArt,
@@ -140,45 +132,19 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                 child: Row(
                   children: [
                     Expanded(
-                      child: AsyncSearchField<String>(
-                            hintText: 'Search...',
-                            items: const [],
-                            onChanged: (query) {
-                              bloc.filter(
-                                _animatedMapController.mapController.camera.center,
-                                _currentSliderValue,
-                                query,
-                              );
-                            },
-                            controller: filterController,
-                            isLoading: false,
-                            isEnabled: true,
-                          ) ??
-                          AsyncDropdownMenu<SearchableAbstractModel>(
-                            hintText: 'Search...',
-                            items: state.arts
-                                .map(
-                                  (e) => DropdownMenuEntry<SearchableAbstractModel>(
-                                    value: e,
-                                    label: e.title,
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (query) {
-                              bloc.filter(
-                                _animatedMapController.mapController.camera.center,
-                                _currentSliderValue,
-                                query,
-                              );
-                            },
-                            controller: filterController,
-                            isLoading: false,
-                            onSelected: (item) {
-                              bloc.setFocusedArt(item);
-                            },
-                            isEnabled: true,
-                          ),
-                    ),
+                        child: AsyncSearchField<String>(
+                      hintText: 'Search...',
+                      items: const [],
+                      onChanged: (query) {
+                        bloc.filter(
+                          _animatedMapController.mapController.camera.center,
+                          query,
+                        );
+                      },
+                      controller: filterController,
+                      isLoading: false,
+                      isEnabled: true,
+                    )),
                   ],
                 ),
               ),

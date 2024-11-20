@@ -47,12 +47,12 @@ class MockSearchRepository extends ISearchRepository {
 
   @override
   Future<List<String>> getCommonKeyboards() async {
-    final count = await supabase.from('searchable').count();
-    final rand = faker.randomGenerator.integer(count - 20);
+    final count = await supabase.from('searchable').count().eq('publish_status', 'published');
+    final rand = faker.randomGenerator.integer(count);
     final res = await supabase.from('searchable').select('''
             id,
             tags
-    ''').range(rand, rand + 20) as ArrayRes ?? [];
+    ''').eq('publish_status', 'published').range(rand, rand + 5) as ArrayRes ?? [];
     if (res.isEmpty) return keywords;
     final tags = <String>[];
     for (var r in res) {

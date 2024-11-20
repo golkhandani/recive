@@ -86,20 +86,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: context.typographyTheme.subtitleLarge.onBackground.textStyle,
                         ),
                         Gap(kSmallPadding.left),
-                        Switch(
-                            value: state == ThemeCubitState.dark,
-                            inactiveThumbColor: context.colorTheme.primary,
-                            inactiveTrackColor: context.colorTheme.onBackground,
-                            activeColor: context.colorTheme.primary,
-                            activeTrackColor: context.colorTheme.onBackground,
-                            trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
-                            onChanged: (v) {
-                              themeBloc.switchTheme(
-                                state == ThemeCubitState.dark
-                                    ? ThemeCubitState.light
-                                    : ThemeCubitState.dark,
-                              );
-                            })
+                        ThemeSwitch(
+                          currentTheme: state,
+                          onThemeChanged: (ThemeCubitState mode) {
+                            themeBloc.switchTheme(mode);
+                          },
+                        ),
+                        // Switch(
+                        //     value: state == ThemeCubitState.dark,
+                        //     inactiveThumbColor: context.colorTheme.primary,
+                        //     inactiveTrackColor: context.colorTheme.onBackground,
+                        //     activeColor: context.colorTheme.primary,
+                        //     activeTrackColor: context.colorTheme.onBackground,
+                        //     trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
+                        //     onChanged: (v) {
+                        //       themeBloc.switchTheme(
+                        //         state == ThemeCubitState.dark
+                        //             ? ThemeCubitState.light
+                        //             : ThemeCubitState.dark,
+                        //       );
+                        //     })
                       ],
                     );
                   },
@@ -230,6 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     TextField(
                       controller: emailController,
                       style: context.typographyTheme.bodyMedium.onBackground.textStyle,
+                      decoration: context.themeData.inputDecoration,
                       enabled: false,
                     ),
                     Gap(kMediumPadding.bottom),
@@ -255,6 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTapOutside: (v) {
                         FocusScope.of(context).unfocus();
                       },
+                      decoration: context.themeData.inputDecoration,
                       controller: nameController,
                       enabled: true,
                       onChanged: (name) {
@@ -268,25 +276,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             Gap(kSmallPadding.left),
                             Text(
-                              "You want it ${state != ThemeCubitState.dark ? "darker" : "lighter"}?",
+                              "Theme",
                               style: context
                                   .typographyTheme.subtitleLarge.onBackground.textStyle,
                             ),
                             const Spacer(),
-                            Switch(
-                                value: state == ThemeCubitState.dark,
-                                inactiveThumbColor: context.colorTheme.primary,
-                                inactiveTrackColor: context.colorTheme.onBackground,
-                                activeColor: context.colorTheme.primary,
-                                activeTrackColor: context.colorTheme.onBackground,
-                                trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
-                                onChanged: (v) {
-                                  themeBloc.switchTheme(
-                                    state == ThemeCubitState.dark
-                                        ? ThemeCubitState.light
-                                        : ThemeCubitState.dark,
-                                  );
-                                })
+                            ThemeSwitch(
+                              currentTheme: state,
+                              onThemeChanged: (ThemeCubitState mode) {
+                                themeBloc.switchTheme(mode);
+                              },
+                            ),
+                            // Switch(
+                            //     value: state == ThemeCubitState.dark,
+                            //     inactiveThumbColor: context.colorTheme.primary,
+                            //     inactiveTrackColor: context.colorTheme.onBackground,
+                            //     activeColor: context.colorTheme.primary,
+                            //     activeTrackColor: context.colorTheme.onBackground,
+                            //     trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
+                            //     onChanged: (v) {
+                            //       themeBloc.switchTheme(
+                            //         state == ThemeCubitState.dark
+                            //             ? ThemeCubitState.light
+                            //             : ThemeCubitState.dark,
+                            //       );
+                            //     })
                           ],
                         );
                       },
@@ -392,6 +406,62 @@ class ItemList extends StatelessWidget {
         },
         childCount: items.length,
       ),
+    );
+  }
+}
+
+class ThemeSwitch extends StatelessWidget {
+  final ThemeCubitState currentTheme;
+  final ValueChanged<ThemeCubitState> onThemeChanged;
+
+  const ThemeSwitch({
+    super.key,
+    required this.currentTheme,
+    required this.onThemeChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ToggleButtons(
+      borderRadius: kSmallBorderRadius,
+      borderWidth: 0,
+      borderColor: context.colorTheme.onBackground,
+      renderBorder: true,
+      isSelected: [
+        currentTheme == ThemeCubitState.light,
+        currentTheme == ThemeCubitState.dark,
+        currentTheme == ThemeCubitState.system,
+      ],
+      onPressed: (index) {
+        ThemeCubitState selectedTheme;
+        switch (index) {
+          case 0:
+            selectedTheme = ThemeCubitState.light;
+            break;
+          case 1:
+            selectedTheme = ThemeCubitState.dark;
+            break;
+          case 2:
+          default:
+            selectedTheme = ThemeCubitState.system;
+            break;
+        }
+        onThemeChanged(selectedTheme);
+      },
+      children: const [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Light"),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Dark"),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("System"),
+        ),
+      ],
     );
   }
 }

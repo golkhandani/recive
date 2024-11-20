@@ -145,6 +145,7 @@ flutter:
     - assets/app_icon.png
     - assets/app_splash_animated.gif
     - assets/app_background.jpg
+    - assets/app_loading.json
 
 # dart run flutter_launcher_icons
 flutter_launcher_icons:
@@ -158,6 +159,6 @@ flutter_launcher_icons:
 
 # dart run flutter_native_splash:create
 flutter_native_splash:
-  color: "#af2a64"
-  color_dark: "#121212"
+  color: "#f0c6ba"
+  color_dark: "#1F2431"
   image: "assets/app_splash.png"

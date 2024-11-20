@@ -344,23 +344,25 @@ class ZoomImage extends StatelessWidget {
                   borderRadius: kSmallBorderRadius,
                 ),
               ),
-              // placeholder: (context, url) => _buildLoading(),
+              placeholder: (context, url) => _buildLoading(),
             );
           }),
         ),
-        Positioned.fill(
+        Positioned(
           bottom: kTinyPadding.bottom,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: kTinyPadding.left),
-            padding: kExtraTinyPadding,
-            decoration: BoxDecoration(
-              borderRadius: kSmallBorderRadius,
-              color: context.colorTheme.background,
-            ),
-            child: Text(
-              '${media.title} - ${media.copyright}',
-              softWrap: true,
-              style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
+          child: IntrinsicHeight(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: kTinyPadding.left),
+              padding: kExtraTinyPadding,
+              decoration: BoxDecoration(
+                borderRadius: kSmallBorderRadius,
+                color: context.colorTheme.background,
+              ),
+              child: Text(
+                '${media.title} - ${media.copyright}',
+                softWrap: true,
+                style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
+              ),
             ),
           ),
         )

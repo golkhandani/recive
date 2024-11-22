@@ -9,6 +9,7 @@ import 'package:art_for_all/modules/auth_screen/reset_password_code_page.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:art_for_all/utils/assets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -229,41 +230,43 @@ class _LoginScreenState extends State<LoginScreen> {
                               const Expanded(child: Divider()),
                             ]),
                             const Gap(16),
-                            AFAElevatedButton(
-                              width: MediaQuery.sizeOf(context).width,
-                              padding: EdgeInsets.zero,
-                              background: Colors.red,
-                              onPressed: () {
-                                state.isLoading ? null : _googleSignIn();
-                              },
-                              child: Text(
-                                'Google',
-                                style: context.typographyTheme.subtitleMedium
-                                    .copyWithColor(color: Colors.white)
-                                    .textStyle,
+                            if (!kIsWeb) ...[
+                              AFAElevatedButton(
+                                width: MediaQuery.sizeOf(context).width,
+                                padding: EdgeInsets.zero,
+                                background: Colors.red,
+                                onPressed: () {
+                                  state.isLoading ? null : _googleSignIn();
+                                },
+                                child: Text(
+                                  'Google',
+                                  style: context.typographyTheme.subtitleMedium
+                                      .copyWithColor(color: Colors.white)
+                                      .textStyle,
+                                ),
                               ),
-                            ),
-                            const Gap(16),
-                            AFAElevatedButton(
-                              width: MediaQuery.sizeOf(context).width,
-                              padding: EdgeInsets.zero,
-                              background: context.colorTheme.brightness == Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black,
-                              onPressed: () {
-                                state.isLoading ? null : _googleSignIn();
-                              },
-                              child: Text(
-                                'Apple',
-                                style: context.typographyTheme.subtitleMedium
-                                    .copyWithColor(
-                                        color:
-                                            context.colorTheme.brightness == Brightness.dark
-                                                ? Colors.black
-                                                : Colors.white)
-                                    .textStyle,
+                              const Gap(16),
+                              AFAElevatedButton(
+                                width: MediaQuery.sizeOf(context).width,
+                                padding: EdgeInsets.zero,
+                                background: context.colorTheme.brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black,
+                                onPressed: () {
+                                  state.isLoading ? null : _googleSignIn();
+                                },
+                                child: Text(
+                                  'Apple',
+                                  style: context.typographyTheme.subtitleMedium
+                                      .copyWithColor(
+                                          color:
+                                              context.colorTheme.brightness == Brightness.dark
+                                                  ? Colors.black
+                                                  : Colors.white)
+                                      .textStyle,
+                                ),
                               ),
-                            ),
+                            ],
                             const Gap(64),
                             Align(
                               alignment: Alignment.center,

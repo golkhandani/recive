@@ -104,7 +104,6 @@ class MapArtBloc extends TransformableCubit<MapArtBlocState> {
     ));
     withDebounce(() async {
       final featuredArts = await searchRepository.searchByCoordinate(center, query);
-
       emit(state.copyWith(
         arts: featuredArts,
         focusedArt: featuredArts.isNotEmpty ? featuredArts.first : null,

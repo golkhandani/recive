@@ -144,6 +144,7 @@ class MrzgThemeProvider extends InheritedWidget {
               width: 0,
             ),
           ),
+          hoverColor: Colors.transparent,
           fillColor: palette.background,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),

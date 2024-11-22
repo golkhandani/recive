@@ -34,7 +34,7 @@ Widget get openStreetMapTileLayer => TileLayer(
       userAgentPackageName: 'com.example.art_for_all',
       tileProvider: CachedTileProvider(
         maxStale: const Duration(days: 30),
-        store: locator.get<FileCacheStore>(),
+        store: locator.get<CacheStore>(),
       ),
     );
 
@@ -94,26 +94,35 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final cardHeight = context.vHeight / 7;
+    final cardHeight = context.vHeight / 6;
     return BlocConsumer<MapArtBloc, MapArtBlocState>(
-      listenWhen: (previous, current) => previous.focusedArt != current.focusedArt,
+      listenWhen: (previous, current) {
+        return previous.focusedArt != current.focusedArt ||
+            previous.arts.hashCode != current.arts.hashCode;
+      },
       listener: (context, state) {
         final data = state.focusedArt;
+
         if (data == null) return;
 
-        final index = state.arts.indexOf(data);
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (state.arts.isNotEmpty && carouselController.ready && !lock) {
-            carouselController.jumpToPage(index);
+          final index = state.arts.indexOf(data);
+          if (carouselController.ready && !lock) {
+            carouselController.animateToPage(index).then(
+                  (_) => setState(() {
+                    lock = false;
+                  }),
+                );
           }
-
-          _animatedMapController.animateTo(
+          _animatedMapController
+              .animateTo(
             dest: data.geoLocation,
             offset: const Offset(0, -0),
-          );
-
-          setState(() {
-            lock = false;
+          )
+              .then((_) {
+            setState(() {
+              lock = false;
+            });
           });
         });
       },
@@ -244,7 +253,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Padding(
-                              padding: EdgeInsets.only(bottom: kLargePadding.bottom * 2),
+                              padding: EdgeInsets.only(bottom: kLargePadding.bottom),
                               child: CarouselSlider.builder(
                                 carouselController: carouselController,
                                 itemCount: state.arts.length,
@@ -534,7 +543,7 @@ class MapCopyrightInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichAttributionWidget(
-      animationConfig: const ScaleRAWA(), // Or `FadeRAWA` as is default
+      animationConfig: const FadeRAWA(), // Or `FadeRAWA` as is default
       attributions: [
         TextSourceAttribution(
           'OpenStreetMap contributors',

@@ -16,6 +16,7 @@ import 'package:art_for_all/core/ioc/i_shared_storage.dart';
 import 'package:art_for_all/core/services/auth_service.dart';
 import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
+import 'package:art_for_all/core/services/web_cache_store.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_bloc.dart';
@@ -41,6 +42,9 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+
+export 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -109,12 +113,13 @@ Future setupStorage() async {
 
   locator.registerSingleton<ISharedStorage>(sharedStorage);
 
-  final mapStorageDir = await getTemporaryDirectory();
+  final mapStorageDir = kIsWeb ? null : await getTemporaryDirectory();
 
-  final FileCacheStore mapStorage =
-      FileCacheStore('${mapStorageDir.path}${Platform.pathSeparator}MapTiles');
+  final CacheStore mapStorage = mapStorageDir == null
+      ? WebCacheStore()
+      : FileCacheStore('${mapStorageDir.path}${Platform.pathSeparator}MapTiles');
 
-  locator.registerSingleton<FileCacheStore>(mapStorage);
+  locator.registerSingleton<CacheStore>(mapStorage);
 }
 
 Future setupRepositories() async {
@@ -149,8 +154,8 @@ Future setupServices() async {
   // const androidClientId = Environment.androidGoogleClientId;
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
-    clientId: iosClientId,
-    serverClientId: webClientId,
+    clientId: kIsWeb ? webClientId : iosClientId,
+    serverClientId: kIsWeb ? null : webClientId,
   );
 
   locator.registerSingleton<GoogleSignIn>(googleSignIn);
@@ -180,7 +185,7 @@ Future setupBloc() async {
   locator.registerFactory(
     () => ThemeCubit(
       sharedStorage: locator.get(),
-      initialValue: theme ?? ThemeCubitState.dark,
+      initialValue: theme ?? ThemeCubitState.system,
     ),
   );
 

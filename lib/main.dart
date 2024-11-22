@@ -153,7 +153,8 @@ class _ApplicationState extends State<Application> {
                             PointerDeviceKind.mouse,
                             PointerDeviceKind.touch,
                             PointerDeviceKind.stylus,
-                            PointerDeviceKind.unknown
+                            PointerDeviceKind.unknown,
+                            PointerDeviceKind.trackpad
                           },
                         ),
                         routerConfig: widget.goRouter,

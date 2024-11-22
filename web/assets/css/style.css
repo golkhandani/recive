@@ -1,0 +1,561 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1.8;
+  font-family: 'Raleway', sans-serif;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.banner-container {
+  width: 100%;
+  height: 80vh;
+  /* Full viewport height */
+  background: url('../img/banner.webp') no-repeat center center/cover;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  /* Horizontal centering */
+  align-items: center;
+  /* Vertical centering */
+  text-align: center;
+}
+
+/* White overlay on top of the image */
+.banner-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80vh;
+  background-color: rgba(255, 255, 255, 0.7);
+  /* White overlay with opacity */
+  z-index: 1;
+}
+
+.banner-container .content {
+  position: relative;
+  z-index: 2;
+  /* Ensure content is on top of the overlay */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Vertically center the content */
+  align-items: start;
+  /* Horizontally center the content */
+  text-align: center;
+  /* Center text inside the content */
+  width: 100%;
+  /* Ensure full width */
+  height: 100%;
+  /* Ensure full height of banner */
+  text-align: left;
+  /* Align text to the left */
+}
+
+.banner-container h1 {
+  font-size: 4rem;
+  /* Big size */
+  font-weight: bold;
+  /* Bold */
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.banner-container p {
+  width: 50%;
+  font-size: 1.1rem;
+  font-weight: 500;
+  /* Semi-bold */
+  color: #777;
+  /* Grey color */
+  margin-bottom: 20px;
+
+}
+
+.banner-container .btn {
+  padding: 10px 30px;
+  background-color: #007bff;
+  /* Blue button */
+  color: white;
+  border: none;
+  /* Remove border */
+  outline: none;
+  /* Remove focus outline */
+  border-radius: 30px;
+  /* Rounded button */
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.banner-container .btn:hover {
+  background-color: #0056b3;
+  /* Darker blue on hover */
+}
+
+
+/* Highlight Container */
+.highlight-container {
+  padding: 60px 20px;
+  /* Light background color */
+  text-align: center;
+}
+
+.highlight-container h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6%;
+
+}
+
+.highlight-container .subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 2px;
+
+
+}
+
+/* Items Row */
+.items-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  /* Space between items */
+}
+
+/* Individual Item (no card frame) */
+.item {
+  text-align: left;
+  width: 30%;
+  /* Each item takes up 30% of the row */
+}
+
+.item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.item h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.item p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+}
+
+
+/* Navigation Bar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 64px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  /* Space between logo and links */
+  align-items: center;
+  /* Vertically align items */
+  transition: background-color 0.3s ease;
+}
+
+/* Transparent background at the start */
+.navbar.transparent {
+  background-color: transparent;
+}
+
+/* White background when scrolled */
+.navbar.scrolled {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar items alignment */
+.navbar .navbar-brand {
+  color: #333;
+}
+
+.navbar .navbar-nav {
+  display: flex;
+  gap: 40px;
+  /* Space between nav items */
+}
+
+.navbar .navbar-nav .nav-link {
+  color: #333;
+  position: relative;
+  /* For hover effect */
+  text-decoration: none;
+  /* Remove underline */
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+/* Fancy hover effect: Underline animation */
+.navbar .navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  /* Distance from text */
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #007bff;
+  /* Color of the underline */
+  transition: width 0.3s ease;
+}
+
+.navbar .navbar-nav .nav-link:hover::after {
+  width: 100%;
+  /* Full width on hover */
+
+}
+
+.navbar .navbar-nav .nav-link:hover {
+  color: #007bff;
+  /* Text color change on hover */
+}
+
+/* Change color of nav items when scrolled */
+.navbar.scrolled .navbar-brand,
+.navbar.scrolled .navbar-nav .nav-link {
+  color: #333;
+}
+
+.navbar.scrolled .navbar-nav .nav-link:hover {
+  color: #007bff;
+}
+
+.about-container {
+  /* Light background for contrast */
+  color: #333;
+  /* Dark text for readability */
+  text-align: center;
+  /* Center-align the text */
+  padding: 40px 20px;
+  margin: 20px 0px;
+}
+
+.about-header {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.about-subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #555;
+  /* Slightly lighter than the main text */
+  margin-bottom: 30px;
+}
+
+.about-history {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #666;
+  /* Softer color for the body text */
+}
+
+.app-promo-container {
+  background-color: #f5f5f5;
+  /* Light grey background */
+  color: #333;
+  /* Dark text */
+  padding: 40px 20px;
+}
+
+.promo-header {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.promo-subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #777;
+  /* Grey text for subtitle */
+  margin-bottom: 20px;
+}
+
+.promo-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.promo-iframe {
+  border-radius: 8px;
+  /* Rounded corners for iframe */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow for depth */
+}
+
+
+/* Subscribe Section */
+.subscribe-container {
+  width: 100%;
+  height: 100vh;
+  background: url('../img/banner-blur.webp') no-repeat center center/cover;
+  /* Image as background */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.subscribe-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  /* White overlay with opacity */
+  z-index: 1;
+}
+
+.subscribe-container .content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.subscribe-container h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.subscribe-container .subtitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #777;
+  margin-bottom: 40px;
+}
+
+/* Input fields stacked vertically */
+.subscribe-container .input-group {
+  display: flex;
+  flex-direction: column;
+  /* Stack fields vertically */
+  gap: 20px;
+  /* Space between fields */
+  margin-bottom: 30px;
+}
+
+.subscribe-container input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 450px;
+}
+
+.subscribe-container .btn {
+  padding: 12px 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subscribe-container .btn:hover {
+  background-color: #0056b3;
+}
+
+.mobile-frame {
+  width: 425px;
+  /* Typical mobile width */
+  height: 767px;
+  /* Typical mobile height */
+  background-color: white;
+  border-radius: 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: 5px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.mobile-frame::before {
+  content: '';
+  width: 60px;
+  height: 4px;
+  background-color: #ccc;
+  border-radius: 2px;
+  position: absolute;
+  top: 10px;
+}
+
+.screen {
+  width: 100%;
+  height: calc(100% - 40px);
+  /* Adjust for padding at the top and bottom */
+  margin-top: 25px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  color: #555;
+}

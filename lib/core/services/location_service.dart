@@ -111,6 +111,7 @@ class LocalLocationService implements ILocationService {
   LatLng get userLatLng => _lastLatLng ?? const LatLng(49.27, -123.069);
 
   void _attachListeners() {
+    if (listeners.isEmpty) return;
     _geolocator.getPositionStream().listen((position) {
       final latLng = LatLng(position.latitude, position.longitude);
       if (_lastLatLng == latLng) return;

@@ -121,6 +121,6 @@ extension ThemedText on MrzgThemeTypography {
 
   MrzgThemeTypography get hint => copyWithStyle(fontSize: 0.9 * textStyle.fontSize!);
   MrzgThemeTypography get label =>
-      copyWithStyle(fontSize: 0.8 * textStyle.fontSize!, fontWeight: FontWeight.w600);
+      copyWithStyle(fontSize: 0.7 * textStyle.fontSize!, fontWeight: FontWeight.w600);
   MrzgThemeTypography get caption => copyWithStyle(fontSize: 0.5 * textStyle.fontSize!);
 }

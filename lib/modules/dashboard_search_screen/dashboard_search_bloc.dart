@@ -54,7 +54,10 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
     required this.searchRepository,
   }) : super(DashboardSearchBlocState.initialize());
 
-  Future<void> init(SearchScreenFiltersData filtersData, bool isViewAll) async {
+  Future<void> init(
+    SearchScreenFiltersData filtersData,
+    bool isViewAll,
+  ) async {
     emit(state.copyWith(filtersData: filtersData));
     final result = await searchRepository.getCommonKeyboards();
 

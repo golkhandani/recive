@@ -5,6 +5,7 @@ import 'package:art_for_all/core/theme/theme_decorations.dart';
 import 'package:art_for_all/core/theme/typography_extensions.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/register_page.dart';
+import 'package:art_for_all/modules/auth_screen/reset_password_code_page.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:art_for_all/utils/assets.dart';
@@ -67,6 +68,13 @@ class _LoginScreenState extends State<LoginScreen> {
       password: _passwordController.text,
       onSuccess: _goToDashboard,
       onFailure: () {},
+    );
+  }
+
+  void _resetPasswordRequest() async {
+    navigationService.moveTo(
+      ResetPasswordCodePage.name,
+      extra: _emailController.text,
     );
   }
 
@@ -287,6 +295,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 textAlign: TextAlign.center,
                                 style: context.typographyTheme.onBackground.textStyle,
+                              ),
+                            ),
+                            const Gap(32),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    const TextSpan(text: 'Forget your password? '),
+                                    TextSpan(
+                                      text: 'Reset Password',
+                                      style: context
+                                          .typographyTheme.subtitleSmall.primary.textStyle,
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          state.isLoading ? null : _resetPasswordRequest();
+                                        },
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.center,
+                                style: context
+                                    .typographyTheme.subtitleSmall.onBackground.textStyle,
                               ),
                             ),
                             const Gap(16),

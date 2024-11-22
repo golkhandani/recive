@@ -40,6 +40,85 @@ class AuthBloc extends Cubit<AuthBlocState> {
     emit(state.copyWith(user: user));
   }
 
+  resetPassword({
+    required String password,
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await authService.resetPassword(password: password);
+      emit(state.copyWith(
+        isLoading: false,
+      ));
+      onSuccess();
+    } on AuthException catch (e) {
+      debugPrint(e.toString());
+      bannerService.showErrorBanner(e.message.toString());
+    } catch (e) {
+      onFailure();
+      bannerService.showErrorBanner('Something went wrong!');
+      onFailure();
+    } finally {
+      emit(state.copyWith(isLoading: false));
+    }
+  }
+
+  resetPasswordRequest({
+    required String email,
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    emit(state.copyWith(
+      isLoading: true,
+    ));
+    try {
+      await authService.resetPasswordRequest(email: email);
+      emit(state.copyWith(
+        isLoading: false,
+      ));
+      onSuccess();
+    } on AuthException catch (e) {
+      debugPrint(e.toString());
+      bannerService.showErrorBanner("Email is invalid!");
+    } catch (e) {
+      onFailure();
+      bannerService.showErrorBanner('Something went wrong!');
+      onFailure();
+    } finally {
+      emit(state.copyWith(isLoading: false));
+    }
+  }
+
+  resetPasswordCode({
+    required String email,
+    required String code,
+    required VoidCallback onSuccess,
+    required VoidCallback onFailure,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await authService.resetPasswordCode(
+        email: email,
+        code: code,
+      );
+      emit(state.copyWith(
+        isLoading: false,
+      ));
+      onSuccess();
+    } on AuthException catch (e) {
+      debugPrint(e.toString());
+      bannerService.showErrorBanner("Code is expired or invalid!");
+    } catch (e) {
+      debugPrint(e.toString());
+      onFailure();
+      bannerService.showErrorBanner('Something went wrong!');
+      onFailure();
+    } finally {
+      emit(state.copyWith(isLoading: false));
+    }
+  }
+
   loginGuest({
     required VoidCallback onSuccess,
     required VoidCallback onFailure,

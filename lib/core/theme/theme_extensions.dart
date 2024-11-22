@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 
 /// EXTENSIONS
 
-extension ColorEffects on Color {
-  Color darken([double amount = .1]) {
-    assert(amount >= 0 && amount <= 1);
+// extension ColorEffects on Color {
+//   Color darken([double amount = .1]) {
+//     assert(amount >= 0 && amount <= 1);
 
-    final hsl = HSLColor.fromColor(this);
-    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+//     final hsl = HSLColor.fromColor(this);
+//     final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
 
-    return hslDark.toColor();
-  }
+//     return hslDark.toColor();
+//   }
 
-  Color lighten([double amount = .1]) {
-    assert(amount >= 0 && amount <= 1);
+//   Color lighten([double amount = .1]) {
+//     assert(amount >= 0 && amount <= 1);
 
-    final hsl = HSLColor.fromColor(this);
-    final hslLight =
-        hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
+//     final hsl = HSLColor.fromColor(this);
+//     final hslLight =
+//         hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
 
-    return hslLight.toColor();
-  }
-}
+//     return hslLight.toColor();
+//   }
+// }

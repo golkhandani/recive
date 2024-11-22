@@ -19,7 +19,7 @@ import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
-  static String name = 'ProfileScreen';
+  static String name = 'settings';
   const ProfileScreen({super.key});
 
   @override

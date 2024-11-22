@@ -39,8 +39,10 @@ Widget get openStreetMapTileLayer => TileLayer(
     );
 
 class NearMeScreen extends StatefulWidget {
-  static String name = 'NearMeScreen';
-  const NearMeScreen({super.key});
+  static String name = 'compass';
+  const NearMeScreen({super.key, this.query});
+
+  final String? query;
 
   @override
   State<NearMeScreen> createState() => _NearMeScreenState();
@@ -70,6 +72,14 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
     bloc.init(_center);
     geolocator.addListener(_onLocationUpdate);
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant NearMeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.query?.isEmpty ?? true) return;
+    bloc.filter(_center, widget.query!);
+    filterController.text = widget.query!;
   }
 
   @override

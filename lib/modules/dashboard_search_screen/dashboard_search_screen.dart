@@ -61,10 +61,12 @@ class SearchScreen extends StatefulWidget {
     super.key,
     this.filtersData = const SearchScreenFiltersData(),
     this.isViewAll = false,
+    this.query,
   });
 
   final SearchScreenFiltersData filtersData;
   final bool isViewAll;
+  final String? query;
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -105,6 +107,15 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
   void initState() {
     _scrollController.addListener(_onScrollEnd);
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant SearchScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.query?.isEmpty ?? true) return;
+    bloc.search(widget.query!, nextPage: false);
+    filterController.text = widget.query!;
   }
 
   final _listKey = GlobalKey<SliverAnimatedListState>();

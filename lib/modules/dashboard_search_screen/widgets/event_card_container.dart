@@ -170,6 +170,7 @@ class EventCardContainer extends StatelessWidget {
         child: Material(
           borderRadius: kSmallBorderRadius,
           elevation: kMediumElevation,
+          shadowColor: context.themeData.shadowColor,
           child: ClipRRect(
             borderRadius: kSmallBorderRadius,
             child: CachedNetworkImage(

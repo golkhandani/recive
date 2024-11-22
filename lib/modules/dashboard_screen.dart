@@ -135,11 +135,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
-// class ACBottomNavigationBarItem extends BottomNavigationBarItem {
-
-//   ACBottomNavigationBarItem({
-//     required super.icon,
-//     required super.label,
-//   });
-// }

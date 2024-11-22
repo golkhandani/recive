@@ -222,6 +222,7 @@ class ArtCardContainer extends StatelessWidget {
         child: Material(
           borderRadius: kSmallBorderRadius,
           elevation: kMediumElevation,
+          shadowColor: context.themeData.shadowColor,
           child: CachedNetworkImage(
             imageUrl: data.thumbnail.url,
             imageBuilder: (context, imageProvider) => _buildCard(imageProvider, color, child),
@@ -445,6 +446,7 @@ class SearchableOnMapCardContainer extends StatelessWidget {
         child: Material(
           borderRadius: kSmallBorderRadius,
           elevation: kMediumElevation,
+          shadowColor: context.themeData.shadowColor,
           child: CachedNetworkImage(
             imageUrl: data.imageUrl,
             imageBuilder: (context, imageProvider) => _buildCard(imageProvider, color, child),

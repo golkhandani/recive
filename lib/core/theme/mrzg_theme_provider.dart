@@ -57,6 +57,9 @@ class MrzgThemeProvider extends InheritedWidget {
         // fontFamily: GoogleFonts.notoSans().fontFamily,
       );
   ThemeData get data => _flex.copyWith(
+        shadowColor: palette.brightness == Brightness.dark
+            ? palette.onBackground.withOpacity(0.3)
+            : palette.onBackground,
         scaffoldBackgroundColor: palette.surface,
         bottomNavigationBarTheme: _flex.bottomNavigationBarTheme.copyWith(
           backgroundColor: palette.navBackground,

@@ -25,6 +25,10 @@ abstract class IUserService {
     required String password,
   });
 
+  Future<bool> resetPasswordRequest({required String email});
+  Future<bool> resetPasswordCode({required String email, required String code});
+  Future<bool> resetPassword({required String password});
+
   Future<UserSession> loginWithGoogle();
 
   Future<User> signUpWithEmail({
@@ -74,6 +78,35 @@ class SupabaseUserService implements IUserService {
 
   @override
   bool get isLoggedIn => _supabase.auth.currentSession != null;
+
+  @override
+  Future<bool> resetPasswordRequest({required String email}) async {
+    await _supabase.auth.signInWithOtp(
+      email: email,
+      shouldCreateUser: false,
+    );
+    return true;
+  }
+
+  @override
+  Future<bool> resetPassword({required String password}) async {
+    await _supabase.auth.updateUser(UserAttributes(password: password));
+
+    return true;
+  }
+
+  @override
+  Future<bool> resetPasswordCode({
+    required String email,
+    required String code,
+  }) async {
+    await _supabase.auth.verifyOTP(
+      email: email,
+      token: code,
+      type: OtpType.magiclink,
+    );
+    return true;
+  }
 
   @override
   Future<User> signUpWithEmail({

@@ -3,6 +3,8 @@ import 'package:art_for_all/core/router/extra_data.dart';
 
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
+import 'package:art_for_all/modules/auth_screen/reset_password_code_page.dart';
+import 'package:art_for_all/modules/auth_screen/reset_password_page.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_screen.dart';
 import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_screen.dart';
@@ -51,6 +53,20 @@ final authRoutes = [
     path: '/${RegisterScreen.name}',
     pageBuilder: (context, state) => const NoTransitionPage(child: RegisterScreen()),
   ),
+  GoRoute(
+    name: ResetPasswordCodePage.name,
+    path: '/${ResetPasswordCodePage.name}',
+    pageBuilder: (context, state) => const NoTransitionPage(
+      child: ResetPasswordCodePage(),
+    ),
+  ),
+  GoRoute(
+    name: ResetPasswordPage.name,
+    path: '/${ResetPasswordPage.name}',
+    pageBuilder: (context, state) => const NoTransitionPage(
+      child: ResetPasswordPage(),
+    ),
+  )
 ];
 
 final initRoutes = [
@@ -106,16 +122,18 @@ final dashboardRoutes = [
             routes: [
               // VIEW ALL SCREEN
               GoRoute(
-                name: "${HomeScreen.name}-${SearchScreen.name}",
-                path: SearchScreen.name,
-                pageBuilder: (context, state) => _dashboardPageBuilder(
-                  state,
-                  SearchScreen(
-                    filtersData: state.extra as SearchScreenFiltersData,
-                    isViewAll: true,
-                  ),
-                ),
-              ),
+                  path: SearchScreen.name,
+                  pageBuilder: (context, state) {
+                    return _dashboardPageBuilder(
+                      state,
+                      SearchScreen(
+                        filtersData: (state.extra as SearchScreenFiltersData?) ??
+                            const SearchScreenFiltersData(),
+                        isViewAll: true,
+                        query: state.pathParameters['q'],
+                      ),
+                    );
+                  }),
               GoRoute(
                 name: CategoryDetailScreen.name,
                 path: '${CategoryDetailScreen.name}/:${CategoryDetailScreen.pathParamId}',
@@ -216,13 +234,15 @@ final dashboardRoutes = [
         restorationScopeId: 'search_page',
         routes: <RouteBase>[
           GoRoute(
-            name: SearchScreen.name,
-            path: '/${DashboardScreen.name}/${SearchScreen.name}',
-            pageBuilder: (context, state) => _dashboardPageBuilder(
-              state,
-              const SearchScreen(),
-            ),
-          ),
+              path: '/${DashboardScreen.name}/${SearchScreen.name}',
+              pageBuilder: (context, state) {
+                return _dashboardPageBuilder(
+                  state,
+                  SearchScreen(
+                    query: state.uri.queryParameters["q"],
+                  ),
+                );
+              }),
         ],
       ),
 
@@ -231,13 +251,15 @@ final dashboardRoutes = [
         restorationScopeId: 'explore_page',
         routes: <RouteBase>[
           GoRoute(
-            name: NearMeScreen.name,
-            path: '/${DashboardScreen.name}/${NearMeScreen.name}',
-            pageBuilder: (context, state) => _dashboardPageBuilder(
-              state,
-              const NearMeScreen(),
-            ),
-          ),
+              path: '/${DashboardScreen.name}/${NearMeScreen.name}',
+              pageBuilder: (context, state) {
+                return _dashboardPageBuilder(
+                  state,
+                  NearMeScreen(
+                    query: state.uri.queryParameters["q"],
+                  ),
+                );
+              }),
         ],
       ),
 

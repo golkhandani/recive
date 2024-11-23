@@ -49,3 +49,5 @@ server/node_modules/
 *.g.dart 
 .flutter.env.local.json
 *.sql
+.firebase/**
+.firebase/hosting.YnVpbGQvd2Vi.cache

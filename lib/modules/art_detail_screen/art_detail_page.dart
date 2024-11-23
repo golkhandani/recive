@@ -467,7 +467,6 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
-          print(scale);
           final media = widget.art.media
               .map((m) => ZoomImage(media: m, constraints: constraints))
               .toList();

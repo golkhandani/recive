@@ -1,4 +1,5 @@
 import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/environment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -49,6 +50,7 @@ class ArtistAbstractModel with _$ArtistAbstractModel {
 
 @freezed
 class ArtistModel with _$ArtistModel {
+  const ArtistModel._();
   const factory ArtistModel({
     required String id,
     required String name,
@@ -58,6 +60,7 @@ class ArtistModel with _$ArtistModel {
     required List<String> tags,
   }) = _ArtistModel;
 
+  String get shareUrl => '${Environment.appUrl}/dashboard/home/artist-detail-screen/$id';
   factory ArtistModel.fromJson(Map<String, dynamic> json) => _$ArtistModelFromJson(json);
 
   static ArtistModel fromPostgres(PostgrestMap res) {

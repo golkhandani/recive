@@ -11,6 +11,7 @@ import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
+import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/art_detail_screen/detail_art_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
@@ -27,7 +28,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 Future<void> launchMap(double latitude, double longitude) async {
   Uri uri;
@@ -121,6 +124,20 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                           style: context
                               .typographyTheme.titleMedium.onPrimaryContainer.textStyle,
                           textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(height: kMediumPadding.bottom),
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: context.vWidth / 4,
+                          height: context.vWidth / 4,
+                          child: PrettyQrView.data(
+                            data: data.shareUrl,
+                            decoration: const PrettyQrDecoration(
+                              shape: PrettyQrRoundedSymbol(),
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
@@ -420,7 +437,12 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
       ),
       SizedBox(width: kTinyPadding.right),
       GestureDetector(
-        onTap: () {},
+        onTap: () async {
+          await Share.share(
+            'Check out ${widget.art.title} on ${Environment.appName} website ${widget.art.shareUrl}',
+            subject: 'Check out ${widget.art.title}',
+          );
+        },
         child: Icon(
           Icons.share_outlined,
           color: context.colorTheme.onBackground,

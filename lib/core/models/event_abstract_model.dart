@@ -92,6 +92,7 @@ class LinkModel with _$LinkModel {
 
 @freezed
 class EventModel with _$EventModel {
+  const EventModel._();
   const factory EventModel({
     required String id,
     required String title,
@@ -113,6 +114,8 @@ class EventModel with _$EventModel {
     required List<LinkModel> links,
     required List<String> tags,
   }) = _EventModel;
+
+  String get shareUrl => '${Environment.appUrl}/dashboard/home/event-detail-screen/$id';
 
   factory EventModel.fromJson(Map<String, Object?> json) => _$EventModelFromJson(json);
 

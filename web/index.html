@@ -109,8 +109,8 @@
 
         <!-- Second Column: Embedded iFrame -->
         <div class="mobile-frame">
-          <div class="screen">
-            <flutter-app width="365px" height="657px"></flutter-app>
+          <div class="screen" id="fapp">
+            <flutter-app width="295px" height="657px"></flutter-app>
           </div>
         </div>
       </div>
@@ -144,6 +144,26 @@
   </script>
   <script src="flutter-app.js"></script>
   <script>
+    window.onload = function () {
+      console.log("PAGE LOADED");
+      // Calculate dimensions based on screen size
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+
+      // Set dynamic dimensions
+      const appWidth = Math.min(365, screenWidth * 0.9) + "px"; // Max width 365px or 90% of screen width
+      const appHeight = Math.min(657, screenHeight * 0.8) + "px"; // Max height 657px or 80% of screen height
+
+      // Create a new element
+      let dv = document.createElement('flutter-app');
+      dv.setAttribute('width', appWidth);
+      dv.setAttribute('height', appHeight);
+
+      // Add the new element to the container
+      const container = document.getElementById("fapp");
+      container.appendChild(dv);
+    };
+
     window.addEventListener('scroll', function () {
       const navbar = document.querySelector('.navbar');
       if (window.scrollY > 50) {

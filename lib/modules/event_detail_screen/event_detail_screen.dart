@@ -7,6 +7,7 @@ import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
+import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
@@ -20,6 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EventDetailScreen extends StatefulWidget {
@@ -75,6 +78,20 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       Text(
                         "${event.title} (${event.eventType})",
                         style: context.typographyTheme.titleTiny.onPrimaryContainer.textStyle,
+                      ),
+                      SizedBox(height: kMediumPadding.bottom),
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: context.vWidth / 4,
+                          height: context.vWidth / 4,
+                          child: PrettyQrView.data(
+                            data: event.shareUrl,
+                            decoration: const PrettyQrDecoration(
+                              shape: PrettyQrRoundedSymbol(),
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
@@ -400,7 +417,12 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
       ),
       SizedBox(width: kTinyPadding.right),
       GestureDetector(
-        onTap: () {},
+        onTap: () async {
+          await Share.share(
+            'Check out ${widget.event.title} on ${Environment.appName} website ${widget.event.shareUrl}',
+            subject: 'Check out ${widget.event.title}',
+          );
+        },
         child: Icon(
           Icons.share_outlined,
           color: context.colorTheme.onBackground,

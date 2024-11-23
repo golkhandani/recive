@@ -5,6 +5,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:vancouverartcompasss.com</string>
+		<string>applinks:vancouver-art-compass.web.app</string>
 	</array>
 </dict>
 </plist>

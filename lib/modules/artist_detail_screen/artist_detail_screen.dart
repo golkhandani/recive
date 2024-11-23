@@ -8,6 +8,7 @@ import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
+import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -15,6 +16,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:widget_zoom/widget_zoom.dart';
 
@@ -72,6 +75,20 @@ class _ArtistDetailScreenState extends State<ArtistDetailScreen> {
                         artist.name,
                         style:
                             context.typographyTheme.titleMedium.onPrimaryContainer.textStyle,
+                      ),
+                      SizedBox(height: kMediumPadding.bottom),
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: context.vWidth / 4,
+                          height: context.vWidth / 4,
+                          child: PrettyQrView.data(
+                            data: artist.shareUrl,
+                            decoration: const PrettyQrDecoration(
+                              shape: PrettyQrRoundedSymbol(),
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(height: kMediumPadding.bottom),
                       Text(
@@ -191,7 +208,12 @@ class _ArtistDetailHeaderState extends State<ArtistDetailHeader> {
       ),
       SizedBox(width: kTinyPadding.right),
       GestureDetector(
-        onTap: () {},
+        onTap: () async {
+          await Share.share(
+            'Check out ${widget.artist.name} on ${Environment.appName} website ${widget.artist.shareUrl}',
+            subject: 'Check out ${widget.artist.name}',
+          );
+        },
         child: Icon(
           Icons.share_outlined,
           color: context.colorTheme.onBackground,

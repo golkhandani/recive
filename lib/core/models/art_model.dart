@@ -1,6 +1,7 @@
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/environment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -9,6 +10,7 @@ part 'art_model.g.dart';
 
 @freezed
 class ArtModel with _$ArtModel {
+  const ArtModel._();
   const factory ArtModel({
     required String id,
     required String title,
@@ -24,4 +26,6 @@ class ArtModel with _$ArtModel {
   }) = _ArtModel;
 
   factory ArtModel.fromJson(Map<String, dynamic> json) => _$ArtModelFromJson(json);
+
+  String get shareUrl => '${Environment.appUrl}/dashboard/home/art-detail-screen/$id';
 }

@@ -331,7 +331,7 @@ class _NewsDetailHeaderState extends State<NewsDetailHeader> {
               collapseMode: CollapseMode.parallax,
               title: AnimatedOpacity(
                 duration: const Duration(milliseconds: 200),
-                opacity: 1 - scale == 1 ? 1 : 0,
+                opacity: scale > 0.2 ? 0 : (1 - scale).clamp(0, 1),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: kToolbarHeight,

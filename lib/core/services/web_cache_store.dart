@@ -1,8 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:synchronized/synchronized.dart';
+export 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class WebCacheStore extends CacheStore {
   final Map<CachePriority, Map<String, CacheResponse>> _storage = {};

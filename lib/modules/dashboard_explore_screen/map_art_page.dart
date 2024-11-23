@@ -5,6 +5,7 @@ import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
+import 'package:art_for_all/core/services/web_cache_store.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_search_field.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
@@ -17,7 +18,6 @@ import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
-import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_store.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

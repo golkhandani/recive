@@ -73,11 +73,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   _loadAll() async {
     // TODO: Temporary fix until go router add load all branch feature
     // it's coming soon
-    for (var i = 0; i < items.length; i++) {
-      onItemTapped(i);
-      await Future.delayed(kPageLoaderDuration);
+    final needFullLoad = (GoRouterState.of(context).fullPath?.split("/").length ?? 0) <= 3;
+    if (needFullLoad) {
+      for (var i = 0; i < items.length; i++) {
+        onItemTapped(i);
+        await Future.delayed(kPageLoaderDuration);
+      }
+      onItemTapped(0);
     }
-    onItemTapped(0);
 
     setState(() {
       loadAllIsDone = true;

@@ -464,7 +464,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
               collapseMode: CollapseMode.parallax,
               title: AnimatedOpacity(
                 duration: const Duration(milliseconds: 200),
-                opacity: 1 - scale == 1 ? 1 : 0,
+                opacity: scale > 0.2 ? 0 : (1 - scale).clamp(0, 1),
                 child: Container(
                   padding: EdgeInsets.only(
                     top: (context.vTopSafeHeight - kToolbarHeight).clamp(0, kToolbarHeight),

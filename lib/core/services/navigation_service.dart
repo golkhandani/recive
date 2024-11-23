@@ -39,7 +39,7 @@ class NavigationService {
   GoRouterState get state => GoRouterState.of(rootContext);
   GoRouter get router => GoRouter.of(rootContext);
 
-  BuildContext get homeContext => homeNavigatorKey.currentState!.context;
+  BuildContext get homeContext => homeNavigatorKey.currentState?.context ?? rootContext;
 
   // Uri get currentUri => router.routeInformationProvider.value.uri;
 

@@ -467,6 +467,7 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
+          print(scale);
           final media = widget.art.media
               .map((m) => ZoomImage(media: m, constraints: constraints))
               .toList();
@@ -484,7 +485,8 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
               collapseMode: CollapseMode.parallax,
               title: AnimatedOpacity(
                 duration: const Duration(milliseconds: 200),
-                opacity: 1 - scale == 1 ? 1 : 0,
+                opacity: scale > 0.2 ? 0 : (1 - scale).clamp(0, 1),
+                // 1 - scale == 1 ? 1 : 0,
                 child: Container(
                   width: context.vWidth,
                   padding: EdgeInsets.only(

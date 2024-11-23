@@ -42,9 +42,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-
-export 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 GetIt locator = GetIt.instance;
 

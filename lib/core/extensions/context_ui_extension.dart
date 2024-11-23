@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+double? mobileFrameWidth;
+double? mobileFrameHeight;
+
 extension UiBreakPointDetection on BuildContext {
   double get nTopSafeHeight => 48;
   double get contentHeight =>
@@ -14,8 +17,8 @@ extension UiBreakPointDetection on BuildContext {
   //
   Size get size => MediaQuery.sizeOf(this);
 
-  double get vWidth => size.width;
-  double get vHeight => size.height;
+  double get vWidth => mobileFrameWidth != null ? mobileFrameWidth! : size.width;
+  double get vHeight => mobileFrameHeight != null ? mobileFrameHeight! : size.height;
   bool get isNarrowWith => vWidth < (vHeight / 1.2);
   bool get isMediumWith => vWidth >= (vHeight / 1.2) && vWidth < vHeight * 1.8;
   bool get isWideWith => vWidth >= vHeight * 1.8 && vWidth < vHeight * 2.4;

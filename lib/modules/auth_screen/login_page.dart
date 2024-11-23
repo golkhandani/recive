@@ -87,10 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
     navigationService.moveTo(RegisterScreen.name);
   }
 
-  void _loginGuest() {
-    _goToDashboard();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -219,7 +219,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       image: Center(
         child: Lottie.network(
           'https://lottie.host/1b128ccd-0b44-46a8-91c1-3e46f9d0f201/MHvxwRXfFG.json',
-          height: context.vHeight / 3,
+          height: context.vHeight / 5,
           reverse: false,
           fit: BoxFit.cover,
           frameRate: const FrameRate(23),

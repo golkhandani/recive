@@ -11,7 +11,7 @@ import 'package:art_for_all/core/services/notification_banner_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/environment.dart';
-import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:art_for_all/utils/afa_scroll_behavior.dart';
 import 'package:flutter/foundation.dart';
@@ -80,6 +80,7 @@ void main() {
           ...authRoutes,
           ...dashboardRoutes,
         ],
+        onException: (context, state, _) => state.namedLocation(HomeScreen.name),
       );
 
       return runApp(Application(goRouter: goRouter));

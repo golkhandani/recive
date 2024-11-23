@@ -47,7 +47,7 @@
         <h1>Vancouver Art Compass</h1>
         <p>A mobile app that boosts arts and cultural engagement in Vancouver by providing residents and visitors with
           reliable, up-to-date information on public art and local events.</p>
-        <button class="btn">Tell me more</button>
+        <button class="btn nav-btn" href="#features">Tell me more</button>
       </div>
     </div>
   </div>
@@ -105,12 +105,14 @@
             user-friendly interface, it is the perfect companion for your daily tasks and adventures. Stay tuned for the
             official launch!
           </p>
+          <a class="btn" href="https://vancouver-art-compass.web.app/dashboard/home">Try it!</a>
+          <p>**This is a Limited edition designed for web.</p>
         </div>
 
         <!-- Second Column: Embedded iFrame -->
         <div class="mobile-frame">
           <div class="screen" id="fapp">
-            <flutter-app width="295px" height="657px"></flutter-app>
+            <flutter-app width="315px" height="657px"></flutter-app>
           </div>
         </div>
       </div>
@@ -144,26 +146,6 @@
   </script>
   <script src="flutter-app.js"></script>
   <script>
-    window.onload = function () {
-      console.log("PAGE LOADED");
-      // Calculate dimensions based on screen size
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-
-      // Set dynamic dimensions
-      const appWidth = Math.min(365, screenWidth * 0.9) + "px"; // Max width 365px or 90% of screen width
-      const appHeight = Math.min(657, screenHeight * 0.8) + "px"; // Max height 657px or 80% of screen height
-
-      // Create a new element
-      let dv = document.createElement('flutter-app');
-      dv.setAttribute('width', appWidth);
-      dv.setAttribute('height', appHeight);
-
-      // Add the new element to the container
-      const container = document.getElementById("fapp");
-      container.appendChild(dv);
-    };
-
     window.addEventListener('scroll', function () {
       const navbar = document.querySelector('.navbar');
       if (window.scrollY > 50) {
@@ -174,6 +156,27 @@
         navbar.classList.add('transparent');
       }
     });
+    document.querySelectorAll('.nav-btn').forEach(link => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default jump behavior
+
+        const targetId = this.getAttribute('href').substring(1); // Get the ID without the #
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          const offset = 80; // Adjust offset value (height of fixed navbar)
+          const elementPosition = targetElement.offsetTop; // Position of target element
+          const offsetPosition = elementPosition - offset; // Adjusted position
+
+          // Smooth scroll to adjusted position
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth',
+          });
+        }
+      });
+    });
+
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', function (event) {
         event.preventDefault(); // Prevent default jump behavior

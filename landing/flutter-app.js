@@ -5,7 +5,7 @@ class FlutterApp extends HTMLElement {
     const height = this.getAttribute("height") || "100%";
     this.innerHTML = `
   <style>
-      #app-container {
+      #iframe-container {
         height: ${height};
         width: ${width};
         background-color: grey;
@@ -14,8 +14,8 @@ class FlutterApp extends HTMLElement {
       }
     </style>
   <iframe 
-      id="app-container"
-      src="flutter-app.html">
+      id="iframe-container"
+      src="https://vancouver-art-compass.web.app/dashboard/home">
   </iframe>
       `;
   }

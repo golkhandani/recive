@@ -204,7 +204,7 @@ table {
 
 }
 
-.banner-container .btn {
+.btn {
   padding: 10px 30px;
   background-color: #007bff;
   /* Blue button */
@@ -218,11 +218,14 @@ table {
   font-size: 1.1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
-.banner-container .btn:hover {
+.btn:hover {
   background-color: #0056b3;
   /* Darker blue on hover */
+  color: white;
+  outline: none;
 }
 
 /* Responsive Media Query */
@@ -621,7 +624,7 @@ table {
 .mobile-frame {
   margin: 20px auto;
 
-  width: 305px;
+  width: 325px;
   /* Typical mobile width */
   height: 667px;
   /* Typical mobile height */

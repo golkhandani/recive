@@ -136,6 +136,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                             data: data.shareUrl,
                             decoration: const PrettyQrDecoration(
                               shape: PrettyQrRoundedSymbol(),
+                              background: Colors.white,
                             ),
                           ),
                         ),

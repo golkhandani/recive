@@ -9,7 +9,6 @@ import 'package:art_for_all/modules/onboarding_screen.dart/onboarding_screen.dar
 import 'package:art_for_all/modules/splash_screen/splash_bloc.dart';
 import 'package:art_for_all/utils/assets.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
   static const name = 'splash';
@@ -35,8 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
         onLoggedIn: () async {
           // await Future.delayed(const Duration(milliseconds: 2000));
           // navigate
-          print("GoRouterState.of(context).path");
-          print(GoRouterState.of(context).path);
           navigationService.moveTo(HomeScreen.name);
         },
         onNeedLogin: () {

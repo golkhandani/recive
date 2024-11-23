@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "site": "vancouver-art-compass-admin",
+    "public": "build/web",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "frameworksBackend": {
+      "region": "us-west1"
+    },
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

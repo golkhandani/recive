@@ -1,1 +1,55 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"vancouverartcompass-c73df","appId":"1:240113539356:android:703ee33272872bb6a682d9","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"vancouverartcompass-c73df","appId":"1:240113539356:ios:561cca642d7d680fa682d9","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"vancouverartcompass-c73df","appId":"1:240113539356:ios:561cca642d7d680fa682d9","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"vancouverartcompass-c73df","configurations":{"android":"1:240113539356:android:703ee33272872bb6a682d9","ios":"1:240113539356:ios:561cca642d7d680fa682d9","macos":"1:240113539356:ios:561cca642d7d680fa682d9","web":"1:240113539356:web:24dccbd1d88817eca682d9","windows":"1:240113539356:web:22537d3544544971a682d9"}}}}}}
+{
+  "hosting": {
+    "site": "vancouver-art-compass",
+    "public": "build/web",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "frameworksBackend": {
+      "region": "us-west1"
+    },
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "vancouverartcompass-c73df",
+          "appId": "1:240113539356:android:703ee33272872bb6a682d9",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "vancouverartcompass-c73df",
+          "appId": "1:240113539356:ios:561cca642d7d680fa682d9",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "vancouverartcompass-c73df",
+          "appId": "1:240113539356:ios:561cca642d7d680fa682d9",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "vancouverartcompass-c73df",
+          "configurations": {
+            "android": "1:240113539356:android:703ee33272872bb6a682d9",
+            "ios": "1:240113539356:ios:561cca642d7d680fa682d9",
+            "macos": "1:240113539356:ios:561cca642d7d680fa682d9",
+            "web": "1:240113539356:web:24dccbd1d88817eca682d9",
+            "windows": "1:240113539356:web:22537d3544544971a682d9"
+          }
+        }
+      }
+    }
+  }
+}

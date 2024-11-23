@@ -629,7 +629,7 @@ table {
   height: 667px;
   /* Typical mobile height */
   background-color: white;
-  border-radius: 40px;
+  border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   border: 5px solid #ccc;
   display: flex;

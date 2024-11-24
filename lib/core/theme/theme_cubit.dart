@@ -30,7 +30,7 @@ extension ThemeColorScheme on ThemeCubitState {
 
 class ThemeCubit extends Cubit<ThemeCubitState> {
   static const themeStoreKey = 'theme_state';
-  static const defaultTheme = ThemeCubitState.blue;
+  static const defaultTheme = ThemeCubitState.light;
   final ISharedStorage sharedStorage;
 
   ThemeCubit({

@@ -89,6 +89,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                             data: event.shareUrl,
                             decoration: const PrettyQrDecoration(
                               shape: PrettyQrRoundedSymbol(),
+                              background: Colors.white,
                             ),
                           ),
                         ),

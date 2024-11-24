@@ -177,8 +177,12 @@ Future setupServices() async {
 }
 
 Future setupBloc() async {
-  final themeName = await locator.get<ISharedStorage>().read(key: ThemeCubit.themeStoreKey);
-  final theme = ThemeCubitState.values.firstWhereOrNull((val) => val.name == themeName);
+  final themeName = await locator.get<ISharedStorage>().read(key: ThemeCubit.themeStoreKey) ??
+      ((kIsWeb || kIsWasm) ? ThemeCubitState.light.name : null);
+
+  final theme = (kIsWeb || kIsWasm)
+      ? ThemeCubitState.light
+      : ThemeCubitState.values.firstWhereOrNull((val) => val.name == themeName);
   locator.registerFactory(
     () => ThemeCubit(
       sharedStorage: locator.get(),

@@ -149,6 +149,7 @@ flutter:
     - assets/app_icon.png
     - assets/app_splash_animated.gif
     - assets/app_background.jpg
+    - assets/app_splash.png
     - assets/app_loading.json
 
 # dart run flutter_launcher_icons

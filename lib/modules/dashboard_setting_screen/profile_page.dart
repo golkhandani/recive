@@ -157,200 +157,234 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           );
         }
-        return CustomScrollView(
-          slivers: [
-            PinnedHeaderSliver(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: context.colorTheme.primaryContainer,
-                  border: Border(
-                    bottom: kExtraTinyBorder.copyWith(
-                      color: context.colorTheme.onPrimaryContainer,
-                    ),
+        return NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                scrolledUnderElevation: 1,
+                expandedHeight: 210,
+                collapsedHeight: kToolbarHeight,
+                pinned: true,
+                title: Text(
+                  'Profile',
+                  style: context.typographyTheme.titleSmall.textStyle.copyWith(
+                    color: context.colorTheme.onPrimaryContainer,
                   ),
                 ),
-                padding: EdgeInsets.only(top: context.vTopSafeHeight),
-                child: Material(
-                  color: context.colorTheme.primaryContainer,
+                flexibleSpace: Container(
+                  margin: EdgeInsets.only(
+                    top: context.vTopSafeHeight + kToolbarHeight,
+                    bottom: kMediumPadding.bottom,
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(100),
+                          onTap: () async {
+                            final ImagePicker picker = ImagePicker();
+                            final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery,
+                              maxHeight: 480,
+                              maxWidth: 640,
+                              imageQuality: 50,
+                            );
+                            if (image == null) {
+                              return;
+                            }
+                            profileBloc.uploadAvatar(image.path);
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: context.colorTheme.primaryContainer,
+                            radius: min(context.vWidth / 5, 64),
+                            foregroundImage: (state.user?.imageUrl.isEmpty ?? true)
+                                ? null
+                                : NetworkImage(state.user!.imageUrl),
+                            child: (state.user?.imageUrl.isEmpty ?? state.isLoading)
+                                ? const Icon(Icons.upload)
+                                : state.isLoadingImage
+                                    ? const CircularProgressIndicator()
+                                    : null,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ];
+          },
+          body: CustomScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            slivers: [
+              SliverMainAxisGroup(slivers: [
+                SliverToBoxAdapter(
                   child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    margin: kMediumPadding.copyWith(bottom: 0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Profile',
-                          style: context.typographyTheme.titleSmall.textStyle.copyWith(
-                            color: context.colorTheme.onPrimaryContainer,
+                        Center(
+                          child: Text(
+                            'Account information',
+                            style:
+                                context.typographyTheme.subtitleLarge.onBackground.textStyle,
                           ),
                         ),
                         Gap(kMediumPadding.bottom),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(100),
-                            onTap: () async {
-                              final ImagePicker picker = ImagePicker();
-                              final XFile? image = await picker.pickImage(
-                                source: ImageSource.gallery,
-                                maxHeight: 480,
-                                maxWidth: 640,
-                                imageQuality: 50,
-                              );
-                              if (image == null) {
-                                return;
-                              }
-                              profileBloc.uploadAvatar(image.path);
-                            },
-                            child: Material(
-                              elevation: kTinyElevation,
-                              borderRadius: BorderRadius.circular(100),
-                              child: CircleAvatar(
-                                backgroundColor: context.colorTheme.primaryContainer,
-                                radius: min(context.vWidth / 5, 64),
-                                foregroundImage: (state.user?.imageUrl.isEmpty ?? true)
-                                    ? null
-                                    : NetworkImage(state.user!.imageUrl),
-                                child: (state.user?.imageUrl.isEmpty ?? state.isLoading)
-                                    ? const Icon(Icons.upload)
-                                    : state.isLoadingImage
-                                        ? const CircularProgressIndicator()
-                                        : null,
-                              ),
-                            ),
-                          ),
+                        Text(
+                          'Email',
+                          style:
+                              context.typographyTheme.subtitleMedium.onBackground.textStyle,
                         ),
+                        Gap(kExtraTinyPadding.bottom),
+                        TextField(
+                          controller: emailController,
+                          style: context.typographyTheme.bodyMedium.onBackground.textStyle,
+                          decoration: context.themeData.inputDecoration,
+                          enabled: false,
+                        ),
+                        Gap(kExtraTinyPadding.bottom),
+                        Text(
+                          'Name',
+                          style:
+                              context.typographyTheme.subtitleMedium.onBackground.textStyle,
+                        ),
+                        Gap(kExtraTinyPadding.bottom),
+                        TextField(
+                          style: context.typographyTheme.bodyMedium.onBackground.textStyle,
+                          onTapOutside: (v) {
+                            FocusScope.of(context).unfocus();
+                          },
+                          decoration: context.themeData.inputDecoration,
+                          controller: nameController,
+                          enabled: true,
+                          onChanged: (name) {
+                            profileBloc.updateName(name);
+                          },
+                        ),
+                        Gap(kExtraTinyPadding.bottom),
+                        const Divider(),
                       ],
                     ),
                   ),
                 ),
-              ),
-            ),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              fillOverscroll: true,
-              child: Padding(
-                padding: kMediumPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextField(
-                      controller: emailController,
-                      style: context.typographyTheme.bodyMedium.onBackground.textStyle,
-                      decoration: context.themeData.inputDecoration,
-                      enabled: false,
-                    ),
-                    Gap(kMediumPadding.bottom),
-                    Row(children: <Widget>[
-                      const Expanded(child: Divider()),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          "CHARACTER",
-                          style: context.typographyTheme.hint.onBackground.textStyle,
+              ]),
+              SliverMainAxisGroup(slivers: [
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: kMediumPadding.copyWith(bottom: 0, top: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Gap(kExtraTinyPadding.bottom),
+                        Center(
+                          child: Text(
+                            'Apperance',
+                            style:
+                                context.typographyTheme.subtitleLarge.onBackground.textStyle,
+                          ),
                         ),
-                      ),
-                      const Expanded(child: Divider()),
-                    ]),
-                    Gap(kMediumPadding.bottom),
-                    Text(
-                      'Name',
-                      style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
+                        Gap(kMediumPadding.bottom),
+                        BlocBuilder<ThemeCubit, ThemeCubitState>(
+                          builder: (context, state) {
+                            return Row(
+                              children: [
+                                Text(
+                                  "Theme",
+                                  style: context
+                                      .typographyTheme.subtitleMedium.onBackground.textStyle,
+                                ),
+                                const Spacer(),
+                                ThemeSwitch(
+                                  currentTheme: state,
+                                  onThemeChanged: (ThemeCubitState mode) {
+                                    themeBloc.switchTheme(mode);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                        Gap(kExtraTinyPadding.bottom),
+                        const Divider(),
+                      ],
                     ),
-                    Gap(kExtraTinyPadding.bottom),
-                    TextField(
-                      style: context.typographyTheme.bodyMedium.onBackground.textStyle,
-                      onTapOutside: (v) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      decoration: context.themeData.inputDecoration,
-                      controller: nameController,
-                      enabled: true,
-                      onChanged: (name) {
-                        profileBloc.updateName(name);
-                      },
-                    ),
-                    Gap(kMediumPadding.bottom),
-                    BlocBuilder<ThemeCubit, ThemeCubitState>(
-                      builder: (context, state) {
-                        return Row(
+                  ),
+                ),
+              ]),
+              SliverMainAxisGroup(slivers: [
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: kMediumPadding.copyWith(bottom: 0, top: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Gap(kExtraTinyPadding.bottom),
+                        Center(
+                          child: Text(
+                            'FAQ',
+                            style:
+                                context.typographyTheme.subtitleLarge.onBackground.textStyle,
+                          ),
+                        ),
+                        Gap(kMediumPadding.bottom),
+                        Row(
                           children: [
-                            Gap(kSmallPadding.left),
                             Text(
-                              "Theme",
+                              "Find a problem or have a feedback?",
                               style: context
-                                  .typographyTheme.subtitleLarge.onBackground.textStyle,
+                                  .typographyTheme.subtitleMedium.onBackground.textStyle,
                             ),
                             const Spacer(),
-                            ThemeSwitch(
-                              currentTheme: state,
-                              onThemeChanged: (ThemeCubitState mode) {
-                                themeBloc.switchTheme(mode);
-                              },
-                            ),
-                            // Switch(
-                            //     value: state == ThemeCubitState.dark,
-                            //     inactiveThumbColor: context.colorTheme.primary,
-                            //     inactiveTrackColor: context.colorTheme.onBackground,
-                            //     activeColor: context.colorTheme.primary,
-                            //     activeTrackColor: context.colorTheme.onBackground,
-                            //     trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
-                            //     onChanged: (v) {
-                            //       themeBloc.switchTheme(
-                            //         state == ThemeCubitState.dark
-                            //             ? ThemeCubitState.light
-                            //             : ThemeCubitState.dark,
-                            //       );
-                            //     })
-                          ],
-                        );
-                      },
-                    ),
-                    Gap(kMediumPadding.bottom),
-                    const Spacer(),
-                    BlocBuilder<AuthBloc, AuthBlocState>(
-                      bloc: authBloc,
-                      builder: (context, state) {
-                        return Column(
-                          children: [
-                            AFAElevatedButton(
-                              background: context.colorTheme.warning,
-                              foreground: context.colorTheme.onWarning,
-                              constraints: const BoxConstraints.expand(height: 48),
-                              onPressed: () {
-                                authBloc.logout();
-                              },
-                              child: state.isLoading
-                                  ? const CircularProgressIndicator()
-                                  : const Text("Logout"),
-                            ),
-                            Gap(kMediumPadding.bottom),
-                            AFAElevatedButton(
-                              background: context.colorTheme.error,
-                              foreground: context.colorTheme.onError,
-                              constraints: const BoxConstraints.expand(height: 48),
+                            TextButton(
+                              style: ButtonStyle(
+                                foregroundColor:
+                                    WidgetStateProperty.all(context.colorTheme.primary),
+                              ),
                               onPressed: () async {
+                                final style = context.typographyTheme.onBackground.textStyle;
                                 final confirmed = await showDialog<bool>(
                                   context: context,
                                   builder: (BuildContext context) => AlertDialog(
-                                    title: const Text('Are you leaving us?!'),
-                                    content: const Text(
-                                        'Be careful, all your data will be deleted!'),
+                                    backgroundColor: context.colorTheme.background,
+                                    contentTextStyle: style,
+                                    title: Text('Are you having a problem?!', style: style),
+                                    content: IntrinsicHeight(
+                                      child: Column(
+                                        children: [
+                                          const Text(
+                                              'Let us know and we will do our best to solve it!'),
+                                          Gap(kMediumPadding.bottom),
+                                          Expanded(
+                                            child: TextField(
+                                              maxLines: 4,
+                                              style: context.typographyTheme.bodyMedium
+                                                  .onBackground.textStyle,
+                                              decoration:
+                                                  context.themeData.inputDecoration.copyWith(
+                                                contentPadding: kMediumPadding,
+                                                enabledBorder: context
+                                                    .themeData.inputDecoration.enabledBorder!
+                                                    .copyWith(
+                                                  borderSide: BorderSide(color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                     actionsAlignment: MainAxisAlignment.spaceBetween,
                                     actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context, true),
-                                        child: Text(
-                                          'YES',
-                                          style: context.typographyTheme.error.textStyle,
-                                        ),
-                                      ),
                                       AFAElevatedButton(
-                                        background: context.colorTheme.success,
-                                        onPressed: () => Navigator.pop(context, false),
-                                        child: Text(
-                                          'NO',
-                                          style: context.typographyTheme.onSuccess.textStyle,
-                                        ),
+                                        background: context.colorTheme.warning,
+                                        foreground: context.colorTheme.onWarning,
+                                        constraints: const BoxConstraints.expand(height: 48),
+                                        onPressed: () {},
+                                        child: state.isLoading
+                                            ? const CircularProgressIndicator()
+                                            : const Text("Submit"),
                                       ),
                                     ],
                                   ),
@@ -362,19 +396,108 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                               child: state.isLoading
                                   ? const CircularProgressIndicator()
-                                  : const Text("Delete Account"),
+                                  : const Text("Report Issue"),
                             ),
                           ],
-                        );
-                      },
+                        ),
+                        Gap(kExtraTinyPadding.bottom),
+                        const Divider(),
+                      ],
                     ),
-                    Gap(kMediumPadding.bottom),
-                  ],
+                  ),
                 ),
-              ),
-            )
-            // ItemList(items: state.featuredArts),
-          ],
+              ]),
+              SliverMainAxisGroup(slivers: [
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: kMediumPadding.copyWith(bottom: 0, top: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Gap(kExtraTinyPadding.bottom),
+                        Center(
+                          child: Text(
+                            'Account management',
+                            style:
+                                context.typographyTheme.subtitleLarge.onBackground.textStyle,
+                          ),
+                        ),
+                        Gap(kMediumPadding.bottom),
+                        BlocBuilder<AuthBloc, AuthBlocState>(
+                          bloc: authBloc,
+                          builder: (context, state) {
+                            return Column(
+                              children: [
+                                AFAElevatedButton(
+                                  background: context.colorTheme.warning,
+                                  foreground: context.colorTheme.onWarning,
+                                  constraints: const BoxConstraints.expand(height: 48),
+                                  onPressed: () {
+                                    authBloc.logout();
+                                  },
+                                  child: state.isLoading
+                                      ? const CircularProgressIndicator()
+                                      : const Text("Logout"),
+                                ),
+                                Gap(kMediumPadding.bottom),
+                                TextButton(
+                                  style: ButtonStyle(
+                                    foregroundColor:
+                                        WidgetStateProperty.all(context.colorTheme.primary),
+                                  ),
+                                  onPressed: () async {
+                                    final style =
+                                        context.typographyTheme.onBackground.textStyle;
+                                    final confirmed = await showDialog<bool>(
+                                      context: context,
+                                      builder: (BuildContext context) => AlertDialog(
+                                        backgroundColor: context.colorTheme.background,
+                                        contentTextStyle: style,
+                                        title: Text('Are you leaving us?!', style: style),
+                                        content: const Text(
+                                            'Be careful, all your data will be deleted!'),
+                                        actionsAlignment: MainAxisAlignment.spaceBetween,
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(context, true),
+                                            child: Text(
+                                              'YES',
+                                              style: context.typographyTheme.error.textStyle,
+                                            ),
+                                          ),
+                                          AFAElevatedButton(
+                                            background: context.colorTheme.success,
+                                            onPressed: () => Navigator.pop(context, false),
+                                            child: Text(
+                                              'NO',
+                                              style:
+                                                  context.typographyTheme.onSuccess.textStyle,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+
+                                    if (confirmed == true) {
+                                      authBloc.logout();
+                                    }
+                                  },
+                                  child: state.isLoading
+                                      ? const CircularProgressIndicator()
+                                      : const Text("Delete Account"),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                        Gap(kMediumPadding.bottom),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            ],
+          ),
         );
       },
     );
@@ -422,8 +545,13 @@ class ThemeSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = context.typographyTheme.bodyMedium.onBackground.textStyle;
     return ToggleButtons(
+      highlightColor: Colors.green,
+      color: Colors.amber,
+      selectedColor: Colors.amber,
       borderRadius: kSmallBorderRadius,
+      fillColor: context.colorTheme.primary,
       borderWidth: 0,
       borderColor: context.colorTheme.onBackground,
       renderBorder: true,
@@ -448,18 +576,18 @@ class ThemeSwitch extends StatelessWidget {
         }
         onThemeChanged(selectedTheme);
       },
-      children: const [
+      children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("Light"),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Light", style: style),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("Dark"),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("Dark", style: style),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("System"),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text("System", style: style),
         ),
       ],
     );

@@ -46,6 +46,18 @@ class NavigationService {
   String get homeUrl => '/${DashboardScreen.name}/${HomeScreen.name}';
   String get searchUrl => '/${DashboardScreen.name}/${SearchScreen.name}';
 
+  void goPath(
+    String path, {
+    Map<String, String> pathParameters = const <String, String>{},
+    Map<String, dynamic> queryParameters = const <String, dynamic>{},
+    Object? extra,
+  }) {
+    return GoRouter.of(rootContext).go(
+      path,
+      extra: extra,
+    );
+  }
+
   void moveTo(
     String name, {
     Map<String, String> pathParameters = const <String, String>{},

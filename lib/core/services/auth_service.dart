@@ -184,7 +184,9 @@ class SupabaseUserService implements IUserService {
   Future<UserSession> loginWithGoogle() async {
     try {
       final googleUser = await googleSignIn.signIn();
-      final googleAuth = await googleUser!.authentication;
+      if (googleUser == null) throw Exception('No Access Token found.');
+
+      final googleAuth = await googleUser.authentication;
       final accessToken = googleAuth.accessToken;
       final idToken = googleAuth.idToken;
 

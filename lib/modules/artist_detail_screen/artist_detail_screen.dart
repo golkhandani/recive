@@ -86,6 +86,7 @@ class _ArtistDetailScreenState extends State<ArtistDetailScreen> {
                             data: artist.shareUrl,
                             decoration: const PrettyQrDecoration(
                               shape: PrettyQrRoundedSymbol(),
+                              background: Colors.white,
                             ),
                           ),
                         ),
@@ -106,7 +107,14 @@ class _ArtistDetailScreenState extends State<ArtistDetailScreen> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: artist.tags.map((t) {
                             return TagChipContainer(
-                              onTap: () {},
+                              onTap: () {
+                                final searchUrl = navigator.searchUrl;
+                                final extra = SearchScreenFiltersData.none();
+                                navigator.goPath(
+                                  '$searchUrl?q=$t',
+                                  extra: extra,
+                                );
+                              },
                               tag: t,
                             );
                           }).toList(),

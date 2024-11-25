@@ -86,7 +86,14 @@ class _CommunityDetailScreenState extends State<CommunityDetailScreen> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: community.tags.map((t) {
                             return TagChipContainer(
-                              onTap: () {},
+                              onTap: () {
+                                final searchUrl = navigator.searchUrl;
+                                final extra = SearchScreenFiltersData.none();
+                                navigator.goPath(
+                                  '$searchUrl?q=$t',
+                                  extra: extra,
+                                );
+                              },
                               tag: t,
                             );
                           }).toList(),

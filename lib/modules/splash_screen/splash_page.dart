@@ -59,31 +59,48 @@ class LottieSafeLoadingWithBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const color = Color(0xfff0c6ba);
+    const colorDark = Color(0xff1F2431);
     return Material(
       child: Stack(
         children: [
           Positioned.fill(
             child: ColoredBox(
-              color: context.colorTheme.background,
+              color: context.colorTheme.brightness == Brightness.dark ? colorDark : color,
             ),
           ),
           Positioned.fill(
-            child: Opacity(
-              opacity: 0.1,
-              child: AssetsLoader.background,
+            child: Center(
+              child: SizedBox(
+                width: 128,
+                height: 128,
+                child: Opacity(
+                  opacity: 1,
+                  child: AssetsLoader.appSplash,
+                ),
+              ),
             ),
           ),
-          Positioned(
-            bottom: 16,
-            left: 16,
-            right: 16,
-            child: Text(
-              'Photo by Masaru Suzuki on Unsplash',
-              style: context.typographyTheme.onBackground.subtitleTiny.textStyle,
+          // Positioned(
+          //   bottom: 16,
+          //   left: 16,
+          //   right: 16,
+          //   child: Text(
+          //     'Photo by Masaru Suzuki on Unsplash',
+          //     style: context.typographyTheme.onBackground.subtitleTiny.textStyle,
+          //   ),
+          // ),
+          const Positioned(
+            bottom: 128,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: SizedBox(
+                width: 128,
+                height: 4,
+                child: LinearProgressIndicator(),
+              ),
             ),
-          ),
-          const Positioned.fill(
-            child: LottieSafeLoading(),
           ),
         ],
       ),

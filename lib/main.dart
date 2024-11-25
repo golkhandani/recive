@@ -14,6 +14,7 @@ import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:art_for_all/utils/afa_scroll_behavior.dart';
+import 'package:art_for_all/utils/assets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -113,6 +114,7 @@ class _ApplicationState extends State<Application> {
   }
 
   Future<void> loadAsset() async {
+    await AssetsLoader.load(context);
     FlutterNativeSplash.remove();
   }
 

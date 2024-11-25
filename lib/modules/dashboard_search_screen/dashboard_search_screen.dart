@@ -174,7 +174,17 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
           ),
           if (!widget.isViewAll)
             BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+                final q = GoRouterState.of(context).uri.queryParameters['q'];
+                if (q != state.query) {
+                  context.go(
+                    GoRouterState.of(context)
+                        .uri
+                        .replace(queryParameters: {"q": state.query}).toString(),
+                    extra: null,
+                  );
+                }
+              },
               bloc: bloc,
               builder: (context, state) {
                 return PinnedHeaderSliver(

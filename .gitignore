@@ -51,3 +51,5 @@ server/node_modules/
 *.sql
 .firebase/**
 .firebase/hosting.YnVpbGQvd2Vi.cache
+./releases-*
+releases-**/**

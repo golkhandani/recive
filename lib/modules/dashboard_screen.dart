@@ -105,6 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             Positioned.fill(
               child: Scaffold(
+                backgroundColor: context.colorTheme.background,
                 body: widget.child,
                 bottomNavigationBar: Container(
                   decoration: BoxDecoration(

@@ -39,3 +39,11 @@ final kBoxBorder = Border.all(
 
 final kMediumBorderRadius = BorderRadius.circular(16);
 final kSmallBorderRadius = BorderRadius.circular(8);
+
+const progressIndicator = Center(
+  child: SizedBox(
+    width: 64,
+    height: 4,
+    child: LinearProgressIndicator(),
+  ),
+);

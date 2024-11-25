@@ -291,7 +291,14 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: event.tags.map((t) {
                             return TagChipContainer(
-                              onTap: () {},
+                              onTap: () {
+                                final searchUrl = navigator.searchUrl;
+                                final extra = SearchScreenFiltersData.none();
+                                navigator.goPath(
+                                  '$searchUrl?q=$t',
+                                  extra: extra,
+                                );
+                              },
                               tag: t,
                             );
                           }).toList(),

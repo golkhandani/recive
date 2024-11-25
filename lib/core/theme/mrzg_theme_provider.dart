@@ -76,6 +76,7 @@ class MrzgThemeProvider extends InheritedWidget {
         ),
         progressIndicatorTheme: _flex.progressIndicatorTheme.copyWith(
           color: palette.onBackground.withOpacity(kMediumOpacity),
+          linearTrackColor: palette.background,
         ),
         splashFactory: NoSplash.splashFactory,
         highlightColor: Colors.transparent,
@@ -137,11 +138,18 @@ class MrzgThemeProvider extends InheritedWidget {
             horizontal: kLargePadding.left,
             // vertical: kExtraTinyPadding.bottom,
           ),
-          enabledBorder: OutlineInputBorder(
+          disabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
             borderSide: const BorderSide(
               color: Colors.transparent,
               width: 0,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(
+              color: palette.secondary,
+              width: 1,
             ),
           ),
           hoverColor: Colors.transparent,

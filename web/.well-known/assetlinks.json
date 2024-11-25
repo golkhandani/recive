@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "mrzg.vancouverartcompass.app",
+      "sha256_cert_fingerprints": [
+        "2B:75:5B:28:6C:19:68:85:5E:A2:64:61:76:C7:8A:70:1F:6A:4A:7E:E8:6E:81:BA:3E:2C:79:88:7E:BB:FD:18"
+      ]
+    }
+  }
+]

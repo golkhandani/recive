@@ -2,9 +2,9 @@ import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const light = Color.fromARGB(255, 27, 27, 27);
-  static const semiLight = Color.fromARGB(255, 38, 38, 38);
-  static const middle = Color.fromARGB(255, 255, 159, 200);
+  static const light = Color.fromARGB(255, 20, 20, 20);
+  static const semiLight = Color.fromARGB(255, 27, 27, 27);
+  static const middle = Color.fromARGB(255, 255, 78, 155);
   static const semiDark = Color.fromARGB(255, 248, 242, 248);
   static const dark = Color.fromARGB(255, 235, 232, 237);
 }

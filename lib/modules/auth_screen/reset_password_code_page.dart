@@ -102,7 +102,7 @@ class _ResetPasswordCodePageState extends State<ResetPasswordCodePage> {
               children: [
                 Positioned.fill(
                   child: Opacity(
-                    opacity: 0.1,
+                    opacity: 0.05,
                     child: AssetsLoader.background,
                   ),
                 ),
@@ -127,6 +127,16 @@ class _ResetPasswordCodePageState extends State<ResetPasswordCodePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Center(
+                              child: SizedBox(
+                                width: 64,
+                                height: 64,
+                                child: Opacity(
+                                  opacity: 1,
+                                  child: AssetsLoader.appSplash,
+                                ),
+                              ),
+                            ),
                             Center(
                               child: Text(
                                 'Welcome',

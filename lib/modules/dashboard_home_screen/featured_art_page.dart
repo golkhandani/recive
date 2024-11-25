@@ -89,57 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
               cacheExtent: 1000,
               slivers: [
                 SliverGap(kTinyPadding.bottom),
-                // SliverToBoxAdapter(
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                //       Padding(
-                //         padding: EdgeInsets.symmetric(
-                //           horizontal: kMediumPadding.left,
-                //           vertical: kTinyPadding.top,
-                //         ),
-                //         child: Row(
-                //           children: [
-                //             Text(
-                //               "Explore Art Categories",
-                //               maxLines: 1,
-                //               style: context.typographyTheme.titleTiny.onBackground.textStyle,
-                //             ),
-                //             const Spacer(),
-                //           ],
-                //         ),
-                //       ),
-                //       SizedBox(
-                //         height: context.vHeight / 10,
-                //         child: ListView.separated(
-                //           clipBehavior: Clip.none,
-                //           cacheExtent: state.categories.length * (context.vWidth / 2.5),
-                //           padding: EdgeInsets.symmetric(horizontal: kMediumPadding.left),
-                //           scrollDirection: Axis.horizontal,
-                //           itemCount: state.categories.length,
-                //           itemBuilder: (context, index) {
-                //             final data = state.categories[index];
-                //             return CategoryCardContainer.small(
-                //               data: data,
-                //               constraints: BoxConstraints.expand(width: context.vWidth / 2.5),
-                //               onTap: () {
-                //                 final current = navigator.homeUrl;
-                //                 navigator.homeContext.push(
-                //                   '$current/${CategoryDetailScreen.name}/${data.id}',
-                //                   extra: data.toJson(),
-                //                 );
-                //               },
-                //             );
-                //           },
-                //           separatorBuilder: (context, index) => SizedBox(
-                //             width: kTinyPadding.left,
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // SliverGap(kTinyPadding.bottom),
                 if (state.dayArt != null) ...[
                   SliverGap(kTinyPadding.bottom),
                   SliverToBoxAdapter(
@@ -259,7 +208,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SliverGap(kTinyPadding.bottom),
                 ],
-
                 if (state.featuredArts.isNotEmpty) ...[
                   SliverToBoxAdapter(
                     child: Column(
@@ -332,7 +280,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SliverGap(kTinyPadding.bottom),
                 ],
-
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -401,7 +348,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-
                 SliverGap(kLargePadding.bottom * 2),
               ],
             ),

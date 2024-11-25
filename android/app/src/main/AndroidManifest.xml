@@ -26,8 +26,12 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="vac"/>
-                <data android:host="vancouverartcompasss.com" />
+                <!-- Support for custom scheme "vac" -->
+                <!-- <data android:scheme="vac"/> -->
+                <!-- Support for HTTPS scheme -->
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="vancouver-art-compass.web.app" />
 
             </intent-filter>
         </activity>

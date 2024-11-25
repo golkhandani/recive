@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Positioned.fill(
                   child: Opacity(
-                    opacity: 0.1,
+                    opacity: 0.05,
                     child: AssetsLoader.background,
                   ),
                 ),
@@ -125,6 +125,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Center(
+                              child: SizedBox(
+                                width: 64,
+                                height: 64,
+                                child: Opacity(
+                                  opacity: 1,
+                                  child: AssetsLoader.appSplash,
+                                ),
+                              ),
+                            ),
                             Center(
                               child: Text(
                                 'Welcome',
@@ -262,8 +272,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .textStyle,
                                 ),
                               ),
+                              const Gap(64),
                             ],
-                            const Gap(64),
                             Align(
                               alignment: Alignment.center,
                               child: Text.rich(

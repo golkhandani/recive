@@ -2,9 +2,9 @@ import 'package:art_for_all/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const light = Color.fromARGB(255, 235, 232, 237);
+  static const light = Color.fromARGB(255, 255, 255, 255);
   static const semiLight = Color.fromARGB(255, 244, 242, 248);
-  static const middle = Color.fromARGB(255, 178, 49, 105);
+  static const middle = Color.fromARGB(255, 246, 67, 144);
   static const semiDark = Color.fromARGB(255, 53, 51, 53);
   static const dark = Color.fromARGB(255, 36, 35, 36);
 }
@@ -35,11 +35,11 @@ final trendyTheme = MrzgThemePalette(
   onError: const Color(0xffffffff),
   errorContainer: const Color(0xffffdad6),
   onErrorContainer: const Color(0xff410002),
-  background: const Color(0xfffdfcff),
-  onBackground: const Color(0xff1a1c1e),
-  surface: const Color(0xfffdfcff),
-  onSurface: const Color(0xff1a1c1e),
-  surfaceVariant: const Color(0xffdfe3eb),
+  background: AppColors.light,
+  onBackground: AppColors.dark,
+  surface: AppColors.light,
+  onSurface: AppColors.dark,
+  surfaceVariant: const Color.fromARGB(255, 255, 255, 255),
   onSurfaceVariant: const Color(0xff42474e),
   outline: const Color(0xff73777f),
   outlineVariant: const Color(0xffc2c7cf),

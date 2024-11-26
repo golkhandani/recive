@@ -79,13 +79,18 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
   final filterController = TextEditingController();
 
   @override
-  String get restorationId =>
-      (widget.filtersData.hashCode + widget.isViewAll.hashCode).toString();
+  String get restorationId => (widget.filtersData.hashCode +
+          widget.isViewAll.hashCode +
+          (widget.query ?? '').hashCode)
+      .toString();
 
   static final Map<String, DashboardSearchBlocState> _states = {};
 
   @override
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) async {
+    if (widget.query != null) {
+      filterController.text = widget.query!;
+    }
     if (_states[restorationId] != null) {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => bloc.restore(_states[restorationId]!),
@@ -94,9 +99,6 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
     }
 
     bloc.init(widget.query ?? '', widget.filtersData, widget.isViewAll);
-    if (widget.query != null) {
-      filterController.text = widget.query!;
-    }
   }
 
   @override

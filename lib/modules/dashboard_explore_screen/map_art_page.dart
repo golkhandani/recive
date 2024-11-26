@@ -95,7 +95,7 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     final cardHeight = context.vHeight / 6;
-    return BlocConsumer<MapArtBloc, MapArtBlocState>(
+    return BlocListener<MapArtBloc, MapArtBlocState>(
       listenWhen: (previous, current) {
         return previous.focusedArt != current.focusedArt ||
             previous.arts.hashCode != current.arts.hashCode;
@@ -103,16 +103,12 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
       listener: (context, state) {
         final data = state.focusedArt;
 
-        if (data == null) return;
+        if (data == null || state.arts.isEmpty) return;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           final index = state.arts.indexOf(data);
           if (carouselController.ready && !lock) {
-            carouselController.animateToPage(index).then(
-                  (_) => setState(() {
-                    lock = false;
-                  }),
-                );
+            carouselController.animateToPage(index);
           }
           _animatedMapController
               .animateTo(
@@ -127,278 +123,268 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
         });
       },
       bloc: bloc,
-      builder: (context, state) {
-        return CustomScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          slivers: [
-            PinnedHeaderSliver(
-              child: Container(
-                height: kToolbarHeight + context.vTopSafeHeight,
-                decoration: BoxDecoration(
-                  color: context.colorTheme.primaryContainer,
-                  border: Border(
-                    bottom: kExtraTinyBorder.copyWith(
-                      color: context.colorTheme.onPrimaryContainer,
+      child: Builder(
+        builder: (context) {
+          return CustomScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            slivers: [
+              PinnedHeaderSliver(
+                child: Container(
+                  height: kToolbarHeight + context.vTopSafeHeight,
+                  decoration: BoxDecoration(
+                    color: context.colorTheme.primaryContainer,
+                    border: Border(
+                      bottom: kExtraTinyBorder.copyWith(
+                        color: context.colorTheme.onPrimaryContainer,
+                      ),
                     ),
                   ),
-                ),
-                padding: EdgeInsets.zero.copyWith(
-                  left: kMediumPadding.left,
-                  right: kMediumPadding.left,
-                  top: context.vTopSafeHeight + kTinyPadding.bottom,
-                  bottom: kTinyPadding.bottom,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: AsyncSearchField<String>(
-                      hintText: 'Search...',
-                      items: const [],
-                      onChanged: (query) {
-                        bloc.filter(
-                          _animatedMapController.mapController.camera.center,
-                          query,
-                        );
-                      },
-                      controller: filterController,
-                      isLoading: false,
-                      isEnabled: true,
-                    )),
-                  ],
+                  padding: EdgeInsets.zero.copyWith(
+                    left: kMediumPadding.left,
+                    right: kMediumPadding.left,
+                    top: context.vTopSafeHeight + kTinyPadding.bottom,
+                    bottom: kTinyPadding.bottom,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: AsyncSearchField<String>(
+                        hintText: 'Search...',
+                        items: const [],
+                        onChanged: (query) {
+                          bloc.filter(
+                            _animatedMapController.mapController.camera.center,
+                            query,
+                          );
+                        },
+                        controller: filterController,
+                        isLoading: false,
+                        isEnabled: true,
+                      )),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            if (showTabBar) PinnedHeaderSliver(child: _buildTabBar(context)),
-            SliverFillRemaining(
-              hasScrollBody: true,
-              child: TabBarView(
-                clipBehavior: Clip.none,
-                viewportFraction: 1,
-                controller: tabController,
-                children: [
-                  SizedBox(
-                    child: FlutterMap(
-                      mapController: _animatedMapController.mapController,
-                      options: MapOptions(
-                        initialCenter: _center,
-                        onPositionChanged: (camera, hasGesture) {
-                          if (_center == camera.center) {
-                            return;
-                          }
-                        },
-                        onMapEvent: (e) {
-                          if (e is! MapEventMoveEnd) {
-                            return;
-                          }
-                          bloc.onCenterChanged(e.camera.center);
-                        },
-                        keepAlive: true,
-                      ),
-                      children: [
-                        ColorFiltered(
-                          colorFilter: context.colorTheme.onBackground.isLight
-                              ? const ColorFilter.matrix(<double>[
-                                  -0.2126, -0.7152, -0.0722, 0, 255, // Red channel
-                                  -0.2126, -0.7152, -0.0722, 0, 255, // Green channel
-                                  -0.2126, -0.7152, -0.0722, 0, 255, // Blue channel
-                                  0, 0, 0, 1, 0, // Alpha channel
-                                ])
-                              : ColorFilter.mode(
-                                  context.colorTheme.onBackground.isDark
-                                      ? Colors.black
-                                      : const Color.fromARGB(172, 204, 196, 196),
-                                  context.colorTheme.onBackground.isDark
-                                      ? BlendMode.hue
-                                      : BlendMode.difference,
-                                ),
-                          child: openStreetMapTileLayer,
+              if (showTabBar) PinnedHeaderSliver(child: _buildTabBar(context)),
+              SliverFillRemaining(
+                hasScrollBody: true,
+                child: TabBarView(
+                  clipBehavior: Clip.none,
+                  viewportFraction: 1,
+                  controller: tabController,
+                  children: [
+                    SizedBox(
+                      child: FlutterMap(
+                        mapController: _animatedMapController.mapController,
+                        options: MapOptions(
+                          initialCenter: _center,
+                          onPositionChanged: (camera, hasGesture) {
+                            if (_center == camera.center) {
+                              return;
+                            }
+                          },
+                          onMapEvent: (e) {
+                            if (e is! MapEventMoveEnd) {
+                              return;
+                            }
+                            bloc.onCenterChanged(e.camera.center);
+                          },
+                          keepAlive: true,
                         ),
-                        MarkerLayer(markers: [
-                          _buildUserMarker(context),
-                        ]),
-                        MarkerClusterLayerWidget(
-                          options: MarkerClusterLayerOptions(
-                            maxClusterRadius: 45,
-                            showPolygon: false,
-                            size: const Size(40, 40),
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(50),
-                            disableClusteringAtZoom: 14,
-                            maxZoom: 16,
-                            markers: [
-                              ...state.arts.mapIndexed((i, item) {
-                                return _buildMapMarker(item, i, context);
-                              }),
-                            ],
-                            builder: (context, markers) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.blue),
-                                child: Center(
-                                  child: Text(
-                                    markers.length.toString(),
-                                    style: const TextStyle(color: Colors.white),
+                        children: [
+                          ColorFiltered(
+                            colorFilter: context.colorTheme.onBackground.isLight
+                                ? const ColorFilter.matrix(<double>[
+                                    -0.2126, -0.7152, -0.0722, 0, 255, // Red channel
+                                    -0.2126, -0.7152, -0.0722, 0, 255, // Green channel
+                                    -0.2126, -0.7152, -0.0722, 0, 255, // Blue channel
+                                    0, 0, 0, 1, 0, // Alpha channel
+                                  ])
+                                : ColorFilter.mode(
+                                    context.colorTheme.onBackground.isDark
+                                        ? Colors.black
+                                        : const Color.fromARGB(172, 204, 196, 196),
+                                    context.colorTheme.onBackground.isDark
+                                        ? BlendMode.hue
+                                        : BlendMode.difference,
                                   ),
+                            child: openStreetMapTileLayer,
+                          ),
+                          MarkerLayer(markers: [
+                            _buildUserMarker(context),
+                          ]),
+                          BlocBuilder<MapArtBloc, MapArtBlocState>(
+                            bloc: bloc,
+                            builder: (context, state) {
+                              return MarkerClusterLayerWidget(
+                                options: MarkerClusterLayerOptions(
+                                  maxClusterRadius: 45,
+                                  showPolygon: false,
+                                  size: const Size(40, 40),
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(50),
+                                  disableClusteringAtZoom: 14,
+                                  maxZoom: 16,
+                                  markers: [
+                                    ...state.arts.mapIndexed((i, item) {
+                                      return _buildMapMarker(item, i, context);
+                                    }),
+                                  ],
+                                  builder: (context, markers) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: Colors.blue),
+                                      child: Center(
+                                        child: Text(
+                                          markers.length.toString(),
+                                          style: const TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               );
                             },
                           ),
-                        ),
-                        MarkerLayer(markers: [
-                          if (state.focusedArt != null)
-                            _buildSelectedMapMarker(state, context),
-                        ]),
-                        if (state.arts.isNotEmpty)
+                          BlocBuilder<MapArtBloc, MapArtBlocState>(
+                            bloc: bloc,
+                            builder: (context, state) {
+                              return MarkerLayer(markers: [
+                                if (state.focusedArt != null)
+                                  _buildSelectedMapMarker(state.focusedArt!, context),
+                              ]);
+                            },
+                          ),
+                          BlocBuilder<MapArtBloc, MapArtBlocState>(
+                              bloc: bloc,
+                              builder: (context, state) {
+                                final list = state.arts;
+                                if (list.isEmpty) return const SizedBox();
+                                final key = Key(list.hashCode.toString());
+                                return Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: kLargePadding.bottom),
+                                    child: CarouselSlider.builder(
+                                      key: key,
+                                      carouselController: carouselController,
+                                      itemCount: list.length,
+                                      itemBuilder: (context, index, pageViewIndex) {
+                                        final data = list[index];
+                                        final page = switch (data.searchType) {
+                                          SearchType.art => ArtDetailScreen.name,
+                                          SearchType.artist => ArtistDetailScreen.name,
+                                          SearchType.news => NewsDetailScreen.name,
+                                          SearchType.event => EventDetailScreen.name,
+                                          SearchType.community => CommunityDetailScreen.name,
+                                        };
+                                        return SearchableOnMapCardContainer.small(
+                                          data: data,
+                                          constraints: const BoxConstraints(),
+                                          onTap: () {
+                                            final homeUrl = navigator.homeUrl;
+                                            navigator.homeContext.push(
+                                              '$homeUrl/$page/${data.id}',
+                                              extra: data.toJson(),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      options: CarouselOptions(
+                                        onPageChanged: (index, reason) {
+                                          if (reason == CarouselPageChangedReason.manual) {
+                                            setState(() {
+                                              lock = true;
+                                            });
+                                            bloc.setFocusedArt(list[index]);
+                                          }
+                                        },
+                                        viewportFraction: 0.7,
+                                        height: cardHeight,
+                                        enableInfiniteScroll: list.length > 2,
+                                        enlargeCenterPage: true,
+                                        enlargeFactor: 0.3,
+                                        clipBehavior: Clip.none,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+
+                          BlocBuilder<MapArtBloc, MapArtBlocState>(
+                            bloc: bloc,
+                            builder: (context, state) {
+                              return Align(
+                                alignment: Alignment.topCenter,
+                                child: _buildRefreshButton(context, state),
+                              );
+                            },
+                          ),
                           Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: kLargePadding.bottom),
-                              child: CarouselSlider.builder(
-                                carouselController: carouselController,
-                                itemCount: state.arts.length,
-                                itemBuilder: (context, index, pageViewIndex) {
-                                  final data = state.arts[index];
-                                  final page = switch (data.searchType) {
-                                    SearchType.art => ArtDetailScreen.name,
-                                    SearchType.artist => ArtistDetailScreen.name,
-                                    SearchType.news => NewsDetailScreen.name,
-                                    SearchType.event => EventDetailScreen.name,
-                                    SearchType.community => CommunityDetailScreen.name,
-                                  };
-                                  return SearchableOnMapCardContainer.small(
-                                    data: data,
-                                    constraints: const BoxConstraints(),
-                                    onTap: () {
-                                      final homeUrl = navigator.homeUrl;
-                                      navigator.homeContext.push(
-                                        '$homeUrl/$page/${data.id}',
-                                        extra: data.toJson(),
-                                      );
-                                    },
-                                  );
-                                },
-                                options: CarouselOptions(
-                                  onPageChanged: (index, reason) {
-                                    setState(() {
-                                      lock = true;
-                                    });
-                                    if (reason == CarouselPageChangedReason.manual) {
-                                      bloc.setFocusedArt(state.arts[index]);
-                                    }
-                                  },
-                                  viewportFraction: 0.7,
-                                  height: cardHeight,
-                                  enableInfiniteScroll: state.arts.length > 2,
-                                  enlargeCenterPage: true,
-                                  enlargeFactor: 0.3,
-                                  clipBehavior: Clip.none,
+                            alignment: Alignment.topRight,
+                            child: IntrinsicHeight(
+                              child: Container(
+                                margin: kExtraTinyPadding,
+                                decoration: BoxDecoration(
+                                  color: context.colorTheme.primaryContainer,
+                                  borderRadius: kSmallBorderRadius,
+                                ),
+                                child: Column(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        _animatedMapController.animatedZoomIn();
+                                      },
+                                      icon: Icon(
+                                        Icons.zoom_in,
+                                        color: context.colorTheme.onPrimaryContainer,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        _animatedMapController.animatedZoomOut();
+                                      },
+                                      icon: Icon(
+                                        Icons.zoom_out,
+                                        color: context.colorTheme.onPrimaryContainer,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        _animatedMapController.animateTo(dest: _center);
+                                        bloc.onCenterChanged(_center);
+                                      },
+                                      icon: Icon(
+                                        Icons.my_location,
+                                        color: context.colorTheme.onPrimaryContainer,
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: _buildRefreshButton(context, state),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: IntrinsicHeight(
+                          // temp fix for bottom issue
+                          Align(
+                            alignment: Alignment.bottomCenter,
                             child: Container(
-                              margin: kExtraTinyPadding,
-                              decoration: BoxDecoration(
-                                color: context.colorTheme.primaryContainer,
-                                borderRadius: kSmallBorderRadius,
-                              ),
-                              child: Column(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      _animatedMapController.animatedZoomIn();
-                                    },
-                                    icon: Icon(
-                                      Icons.zoom_in,
-                                      color: context.colorTheme.onPrimaryContainer,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      _animatedMapController.animatedZoomOut();
-                                    },
-                                    icon: Icon(
-                                      Icons.zoom_out,
-                                      color: context.colorTheme.onPrimaryContainer,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      _animatedMapController.animateTo(dest: _center);
-                                      bloc.onCenterChanged(_center);
-                                    },
-                                    icon: Icon(
-                                      Icons.my_location,
-                                      color: context.colorTheme.onPrimaryContainer,
-                                    ),
-                                  )
-                                ],
-                              ),
+                              height: 1,
+                              color: context.colorTheme.background,
                             ),
                           ),
-                        ),
-                        // temp fix for bottom issue
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: 1,
-                            color: context.colorTheme.background,
-                          ),
-                        ),
-                        const MapCopyrightInfo(),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                      right: kMediumPadding.right,
-                      left: kMediumPadding.left,
-                      top: kMediumPadding.bottom,
-                    ),
-                    child: CarouselSlider.builder(
-                      carouselController: listController,
-                      itemCount: state.arts.length,
-                      itemBuilder: (context, index, pageViewIndex) {
-                        final data = state.arts[index];
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: kMediumPadding.top),
-                          child: SearchableOnMapCardContainer.small(
-                            data: data,
-                            constraints: const BoxConstraints(),
-                            onTap: () {},
-                          ),
-                        );
-                      },
-                      options: CarouselOptions(
-                        padEnds: false,
-                        pageSnapping: false,
-                        scrollDirection: Axis.vertical,
-                        onPageChanged: (index, reason) {
-                          final data = state.arts[index];
-                          bloc.setFocusedArt(data);
-                        },
-                        viewportFraction: (cardHeight * 2) / context.vHeight,
-                        enlargeCenterPage: false,
-                        enableInfiniteScroll: false,
-                        clipBehavior: Clip.none,
+                          const MapCopyrightInfo(),
+                        ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        );
-      },
+                    const SizedBox(),
+                  ],
+                ),
+              )
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -479,12 +465,12 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
     );
   }
 
-  Marker _buildSelectedMapMarker(MapArtBlocState state, BuildContext context) {
+  Marker _buildSelectedMapMarker(SearchableAbstractModel selected, BuildContext context) {
     return Marker(
       width: 75,
       height: 75,
       alignment: Alignment.center,
-      point: state.focusedArt!.geoLocation,
+      point: selected.geoLocation,
       child: InkWell(
         child: Icon(
           Icons.location_pin,

@@ -16,6 +16,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -108,10 +109,12 @@ class _ArtistDetailScreenState extends State<ArtistDetailScreen> {
                           children: artist.tags.map((t) {
                             return TagChipContainer(
                               onTap: () {
-                                final searchUrl = navigator.searchUrl;
-                                final extra = SearchScreenFiltersData.none();
-                                navigator.goPath(
-                                  '$searchUrl?q=$t',
+                                final searchUrl = navigator.homeUrl;
+                                final extra = const SearchScreenFiltersData().copyWith(
+                                  autoSearch: true,
+                                );
+                                navigator.rootContext.push(
+                                  '$searchUrl/search?q=$t',
                                   extra: extra,
                                 );
                               },

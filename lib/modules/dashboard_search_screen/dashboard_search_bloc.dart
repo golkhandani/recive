@@ -55,6 +55,7 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
   }) : super(DashboardSearchBlocState.initialize());
 
   Future<void> init(
+    String q,
     SearchScreenFiltersData filtersData,
     bool isViewAll,
   ) async {
@@ -67,7 +68,7 @@ class DashboardSearchBloc extends Cubit<DashboardSearchBlocState> {
 
     if (filtersData.autoSearch && isViewAll) {
       viewAllFilter(
-        '',
+        q,
         filtersData,
       );
     }

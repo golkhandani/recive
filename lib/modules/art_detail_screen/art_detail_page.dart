@@ -18,7 +18,6 @@ import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.da
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/artist_card_container.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/event_card_container.dart';
-import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_screen.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -371,10 +370,12 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
                             data.tags.length,
                             (index) => TagChipContainer(
                               onTap: () {
-                                final searchUrl = navigator.searchUrl;
-                                final extra = SearchScreenFiltersData.none();
-                                navigator.goPath(
-                                  '$searchUrl?q=${data.tags[index]}',
+                                final searchUrl = navigator.homeUrl;
+                                final extra = const SearchScreenFiltersData().copyWith(
+                                  autoSearch: true,
+                                );
+                                navigator.rootContext.push(
+                                  '$searchUrl/search?q=${data.tags[index]}',
                                   extra: extra,
                                 );
                               },

@@ -130,7 +130,7 @@ final dashboardRoutes = [
                         filtersData: (state.extra as SearchScreenFiltersData?) ??
                             const SearchScreenFiltersData(),
                         isViewAll: true,
-                        query: state.pathParameters['q'],
+                        query: state.uri.queryParameters["q"],
                       ),
                     );
                   }),

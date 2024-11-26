@@ -292,10 +292,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                           children: event.tags.map((t) {
                             return TagChipContainer(
                               onTap: () {
-                                final searchUrl = navigator.searchUrl;
-                                final extra = SearchScreenFiltersData.none();
-                                navigator.goPath(
-                                  '$searchUrl?q=$t',
+                                final searchUrl = navigator.homeUrl;
+                                final extra = const SearchScreenFiltersData().copyWith(
+                                  autoSearch: true,
+                                );
+                                navigator.rootContext.push(
+                                  '$searchUrl/search?q=$t',
                                   extra: extra,
                                 );
                               },

@@ -367,7 +367,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 enabledBorder: context
                                                     .themeData.inputDecoration.enabledBorder!
                                                     .copyWith(
-                                                  borderSide: BorderSide(color: Colors.white),
+                                                  borderSide:
+                                                      const BorderSide(color: Colors.white),
                                                 ),
                                               ),
                                             ),

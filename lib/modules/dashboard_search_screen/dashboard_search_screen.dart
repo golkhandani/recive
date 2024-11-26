@@ -93,7 +93,10 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
       return;
     }
 
-    bloc.init(widget.filtersData, widget.isViewAll);
+    bloc.init(widget.query ?? '', widget.filtersData, widget.isViewAll);
+    if (widget.query != null) {
+      filterController.text = widget.query!;
+    }
   }
 
   @override

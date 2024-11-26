@@ -16,7 +16,9 @@ cd "$releases_folder/web"
 zip -r "../web.zip" ./* > /dev/null
 cd - > /dev/null
 rm -rf "$releases_folder/web"
+firebase deploy --project vancouverartcompass-c73df --only hosting:vancouver-art-compass
 echo "Done Web"
+
 # Build and copy the Flutter iOS IPA release
 rm -rf ./build/ios
 flutter build ipa --dart-define-from-file=.flutter.env.local.json --release >> "$releases_folder/report.txt"

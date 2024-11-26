@@ -14,6 +14,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CommunityDetailScreen extends StatefulWidget {
@@ -87,10 +88,12 @@ class _CommunityDetailScreenState extends State<CommunityDetailScreen> {
                           children: community.tags.map((t) {
                             return TagChipContainer(
                               onTap: () {
-                                final searchUrl = navigator.searchUrl;
-                                final extra = SearchScreenFiltersData.none();
-                                navigator.goPath(
-                                  '$searchUrl?q=$t',
+                                final searchUrl = navigator.homeUrl;
+                                final extra = const SearchScreenFiltersData().copyWith(
+                                  autoSearch: true,
+                                );
+                                navigator.rootContext.push(
+                                  '$searchUrl/search?q=$t',
                                   extra: extra,
                                 );
                               },

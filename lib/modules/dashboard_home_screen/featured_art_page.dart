@@ -134,6 +134,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                       );
                                     });
                                   },
+                                  onSaveClicked: (isSaved) {
+                                    interactionBloc.save(data.id, Entities.art, isSaved);
+                                    setInnerState(() {
+                                      data = data.copyWith(
+                                        userInteraction: data.userInteraction.copyWith(
+                                          isSaved: isSaved,
+                                        ),
+                                      );
+                                    });
+                                  },
                                   onTap: () {
                                     final current = navigator.homeUrl;
                                     navigator.homeContext.push(
@@ -273,6 +283,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     data = data.copyWith(
                                       userInteraction: data.userInteraction.copyWith(
                                         isLiked: isLiked,
+                                      ),
+                                    );
+                                  });
+                                },
+                                onSaveClicked: (isSaved) {
+                                  interactionBloc.save(data.id, Entities.art, isSaved);
+                                  setInnerState(() {
+                                    data = data.copyWith(
+                                      userInteraction: data.userInteraction.copyWith(
+                                        isSaved: isSaved,
                                       ),
                                     );
                                   });

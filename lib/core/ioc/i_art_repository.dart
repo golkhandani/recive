@@ -79,21 +79,27 @@ class MockArtRepository extends IArtRepository {
         .limit(1)
         .maybeSingle();
 
+    print(exists);
     if (exists?['report_message'] != null && interactType == UserInteracts.report) {
       // already reported
       return false;
     }
 
-    await supabase.from(DataTables.userInteraction.tableName).upsert({
-      'art_id': id,
-      'user_id': supabase.auth.currentUser!.id,
-      if (interactType == UserInteracts.like) ...{'is_liked': result ?? false},
-      if (interactType == UserInteracts.save) ...{'is_saved': result ?? false},
-      if (interactType == UserInteracts.report) ...{'report_message': reason ?? ''},
-      if (interactType == UserInteracts.share) ...{
-        'share_count': exists?['share_count'] ?? 1
+    final a = await supabase.from(DataTables.userInteraction.tableName).upsert(
+      {
+        'artist_id': null,
+        'event_id': null,
+        'art_id': id,
+        'user_id': supabase.auth.currentUser!.id,
+        if (interactType == UserInteracts.like) ...{'is_liked': result ?? false},
+        if (interactType == UserInteracts.save) ...{'is_saved': result ?? false},
+        if (interactType == UserInteracts.report) ...{'report_message': reason ?? ''},
+        if (interactType == UserInteracts.share) ...{
+          'share_count': exists?['share_count'] ?? 1
+        },
       },
-    });
+      onConflict: 'user_id, art_id, artist_id, event_id ',
+    );
 
     return true;
   }

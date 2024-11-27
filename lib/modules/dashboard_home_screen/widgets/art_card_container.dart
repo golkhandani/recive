@@ -17,6 +17,7 @@ class ArtCardContainer extends StatelessWidget {
   final String? hero;
   final VoidCallback onTap;
   final void Function(bool)? onLikeClicked;
+  final void Function(bool)? onSaveClicked;
   final CardSize size;
   final bool showBanner;
   const ArtCardContainer._({
@@ -27,6 +28,7 @@ class ArtCardContainer extends StatelessWidget {
     required this.size,
     this.showBanner = false,
     this.onLikeClicked,
+    this.onSaveClicked,
   });
 
   factory ArtCardContainer.big({
@@ -35,6 +37,7 @@ class ArtCardContainer extends StatelessWidget {
     String? hero,
     required VoidCallback onTap,
     void Function(bool)? onLikeClicked,
+    void Function(bool)? onSaveClicked,
   }) {
     return ArtCardContainer._(
       data: data,
@@ -44,6 +47,7 @@ class ArtCardContainer extends StatelessWidget {
       size: CardSize.big,
       showBanner: true,
       onLikeClicked: onLikeClicked,
+      onSaveClicked: onSaveClicked,
     );
   }
 
@@ -54,6 +58,7 @@ class ArtCardContainer extends StatelessWidget {
     String? hero,
     required VoidCallback onTap,
     void Function(bool)? onLikeClicked,
+    void Function(bool)? onSaveClicked,
   }) {
     return ArtCardContainer._(
       data: data,
@@ -62,6 +67,7 @@ class ArtCardContainer extends StatelessWidget {
       onTap: onTap,
       size: CardSize.medium,
       onLikeClicked: onLikeClicked,
+      onSaveClicked: onSaveClicked,
     );
   }
 
@@ -72,6 +78,7 @@ class ArtCardContainer extends StatelessWidget {
     String? hero,
     required VoidCallback onTap,
     void Function(bool)? onLikeClicked,
+    void Function(bool)? onSaveClicked,
   }) {
     return ArtCardContainer._(
       data: data,
@@ -80,6 +87,7 @@ class ArtCardContainer extends StatelessWidget {
       onTap: onTap,
       size: CardSize.small,
       onLikeClicked: onLikeClicked,
+      onSaveClicked: onSaveClicked,
     );
   }
 
@@ -132,29 +140,31 @@ class ArtCardContainer extends StatelessWidget {
     final color = context.colorTheme.secondary;
     final bannerColor = data.artType.toColor();
     final actions = [
-      GestureDetector(
-        onTap: () {
-          onLikeClicked?.call(!data.userInteraction.isLiked);
-          // widget.onLikeClicked(!_favorite);
-          // setState(() {
-          //   _favorite = !_favorite;
-          // });
-        },
-        child: Icon(
-          data.userInteraction.isLiked ? Icons.favorite : Icons.favorite_outline,
-          color: context.colorTheme.error,
-          size: kToolbarHeight / 2,
+      if (onLikeClicked != null) ...[
+        GestureDetector(
+          onTap: () {
+            onLikeClicked?.call(!data.userInteraction.isLiked);
+          },
+          child: Icon(
+            data.userInteraction.isLiked ? Icons.favorite : Icons.favorite_outline,
+            color: context.colorTheme.error,
+            size: kToolbarHeight / 2,
+          ),
         ),
-      ),
-      SizedBox(width: kTinyPadding.right),
-      GestureDetector(
-        onTap: () {},
-        child: Icon(
-          data.userInteraction.isSaved ? Icons.bookmark : Icons.bookmark_outline,
-          color: context.colorTheme.onBackground,
-          size: kToolbarHeight / 2,
+      ],
+      if (onSaveClicked != null) ...[
+        SizedBox(width: kTinyPadding.right),
+        GestureDetector(
+          onTap: () {
+            onSaveClicked?.call(!data.userInteraction.isSaved);
+          },
+          child: Icon(
+            data.userInteraction.isSaved ? Icons.bookmark : Icons.bookmark_outline,
+            color: context.colorTheme.onBackground,
+            size: kToolbarHeight / 2,
+          ),
         ),
-      ),
+      ]
     ];
 
     final child = Stack(

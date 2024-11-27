@@ -48,7 +48,6 @@ class UserInteractionBloc extends HydratedCubit<UserInteractionBlocState> {
   }) : super(UserInteractionBlocState.initialize());
 
   Future<void> like(String refId, Entities refType, bool isLiked) async {
-    print(refId);
     if (refType != Entities.art) return;
 
     await artRepository.interact(
@@ -56,6 +55,18 @@ class UserInteractionBloc extends HydratedCubit<UserInteractionBlocState> {
       Entities.art,
       UserInteracts.like,
       isLiked,
+      null,
+    );
+  }
+
+  Future<void> save(String refId, Entities refType, bool isSaved) async {
+    if (refType != Entities.art) return;
+
+    await artRepository.interact(
+      refId,
+      Entities.art,
+      UserInteracts.save,
+      isSaved,
       null,
     );
   }

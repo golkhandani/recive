@@ -4,6 +4,7 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/extensions/string_color_extension.dart';
+import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/art_model.dart';
@@ -13,6 +14,7 @@ import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
 import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/art_detail_screen/detail_art_bloc.dart';
+import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
@@ -75,6 +77,8 @@ class ArtDetailScreen extends StatefulWidget {
 class _ArtDetailScreenState extends State<ArtDetailScreen> {
   final carouselController = CarouselController(initialItem: 0);
   final bloc = locator.get<DetailArtBloc>();
+  late final UserInteractionBloc interactionBloc = BlocProvider.of(context);
+
   final navigator = locator.get<NavigationService>();
 
   @override
@@ -109,7 +113,20 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
           return ColoredBox(
             color: context.colorTheme.surface,
             child: CustomScrollView(slivers: [
-              ArtDetailHeader(art: data),
+              StatefulBuilder(builder: (context, setInnerState) {
+                var d = data;
+                return ArtDetailHeader(
+                  art: d,
+                  onLikeClicked: (isLiked) {
+                    interactionBloc.like(data.id, Entities.art, isLiked);
+                    setInnerState(() {
+                      d = d.copyWith(
+                        userInteraction: d.userInteraction.copyWith(isLiked: isLiked),
+                      );
+                    });
+                  },
+                );
+              }),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: kMediumPadding,
@@ -401,9 +418,11 @@ class ArtDetailHeader extends StatefulWidget {
   const ArtDetailHeader({
     super.key,
     required this.art,
+    required this.onLikeClicked,
   });
 
   final ArtModel art;
+  final void Function(bool) onLikeClicked;
 
   @override
   State<ArtDetailHeader> createState() => _ArtDetailHeaderState();
@@ -422,6 +441,7 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
     final actions = [
       GestureDetector(
         onTap: () {
+          widget.onLikeClicked(!_favorite);
           setState(() {
             _favorite = !_favorite;
           });

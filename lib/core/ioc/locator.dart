@@ -19,6 +19,7 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/services/web_cache_store.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
 import 'package:art_for_all/environment.dart';
+import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_bloc.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/detail_art_bloc.dart';
@@ -209,6 +210,16 @@ Future setupBloc() async {
     () => AuthBloc(
       authService: locator.get(),
       bannerService: locator.get(),
+    ),
+  );
+
+  locator.registerFactory<UserInteractionBloc>(
+    () => UserInteractionBloc(
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
+      artRepository: locator.get(),
+      eventRepository: locator.get(),
+      newsRepository: locator.get(),
     ),
   );
 

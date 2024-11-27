@@ -7,6 +7,29 @@ part 'artist_abstract_model.freezed.dart';
 part 'artist_abstract_model.g.dart';
 
 @freezed
+class UserInteractionModel with _$UserInteractionModel {
+  const factory UserInteractionModel({
+    required bool isLiked,
+    required bool isSaved,
+    String? reportMessage,
+    int? shareCount,
+  }) = _UserInteractionModel;
+
+  factory UserInteractionModel.fromJson(Map<String, Object?> json) =>
+      _$UserInteractionModelFromJson(json);
+
+  static UserInteractionModel fromPostgres(List<dynamic>? res) {
+    final data = res == null || res.isEmpty ? null : res.firstOrNull;
+    return UserInteractionModel(
+      reportMessage: data?['report_message'],
+      shareCount: data?['share_count'] ?? 0,
+      isLiked: data?['is_liked'] ?? false,
+      isSaved: data?['is_saved'] ?? false,
+    );
+  }
+}
+
+@freezed
 class ArtistAbstractModel with _$ArtistAbstractModel {
   const factory ArtistAbstractModel({
     required String id,
@@ -14,6 +37,7 @@ class ArtistAbstractModel with _$ArtistAbstractModel {
     required String description,
     required MediaModel thumbnail,
     required List<String> tags,
+    required UserInteractionModel userInteraction,
   }) = _ArtistAbstractModel;
 
   factory ArtistAbstractModel.fromJson(Map<String, Object?> json) =>
@@ -40,6 +64,7 @@ class ArtistAbstractModel with _$ArtistAbstractModel {
       id: res['id'],
       description: res['description'] ?? '',
       name: res['name'] ?? '',
+      userInteraction: UserInteractionModel(isLiked: false, isSaved: false),
       thumbnail: th,
       tags: (res['artist_tags'] as List<dynamic>? ?? []).map((at) {
         return at['tags']['name'] as String;
@@ -58,6 +83,7 @@ class ArtistModel with _$ArtistModel {
     required List<MediaModel> media,
     required List<LinkModel> links,
     required List<String> tags,
+    required UserInteractionModel userInteraction,
   }) = _ArtistModel;
 
   String get shareUrl => '${Environment.appUrl}/dashboard/home/artist-detail-screen/$id';
@@ -74,6 +100,7 @@ class ArtistModel with _$ArtistModel {
       id: res['id'],
       description: res['description'] ?? '',
       name: res['name'] ?? '',
+      userInteraction: UserInteractionModel(isLiked: false, isSaved: false),
       media: media.isEmpty
           ? [th!]
           : media.map((am) => MediaModel.fromPostgres(am['media'])).toList(),

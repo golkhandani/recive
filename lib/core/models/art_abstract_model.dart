@@ -1,4 +1,5 @@
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
+import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
@@ -18,6 +19,7 @@ class ArtAbstractModel with _$ArtAbstractModel {
     required LatLng geoLocation,
     required MediaModel thumbnail,
     required List<String> tags,
+    required UserInteractionModel userInteraction,
   }) = _ArtAbstractModel;
 
   factory ArtAbstractModel.fromJson(Map<String, Object?> json) =>
@@ -40,6 +42,7 @@ class ArtAbstractModel with _$ArtAbstractModel {
       geoLocation: LatLng(res['locations']['lat'] ?? 0, res['locations']['lng'] ?? 0),
       thumbnail: th,
       tags: [],
+      userInteraction: UserInteractionModel.fromPostgres(res['user_interactions']),
     );
   }
 }

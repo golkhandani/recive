@@ -1,5 +1,6 @@
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/core/models/community_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/models/news_abstract_model.dart';
@@ -75,6 +76,7 @@ class MockNewsRepository extends INewsRepository {
       highlights: faker.lorem.sentences(4),
       art: ArtAbstractModel(
         id: faker.guid.guid(),
+        userInteraction: const UserInteractionModel(isLiked: false, isSaved: false),
         title: faker.lorem.words(3).join(' '),
         description: faker.lorem.sentence(),
         location: faker.address.streetAddress(),

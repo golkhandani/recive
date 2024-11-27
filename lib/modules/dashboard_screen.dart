@@ -3,6 +3,7 @@ import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
+import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,6 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final navigationService = locator.get<NavigationService>();
   final geolocator = locator.get<ILocationService>();
   final profileBloc = locator.get<ProfileBloc>();
+  final interactionBloc = locator.get<UserInteractionBloc>();
 
   @override
   void initState() {
@@ -100,6 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider.value(value: profileBloc),
+          BlocProvider.value(value: interactionBloc),
         ],
         child: Stack(
           children: [

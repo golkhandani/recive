@@ -1,9 +1,11 @@
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
+import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
@@ -30,6 +32,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final bloc = locator.get<FeaturedArtBloc>();
   final navigator = locator.get<NavigationService>();
+  late final UserInteractionBloc interactionBloc = BlocProvider.of(context);
 
   @override
   void initState() {
@@ -110,25 +113,37 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.symmetric(
                             horizontal: kMediumPadding.left,
                           ),
-                          child: Builder(
-                            builder: (context) {
-                              final data = state.dayArt!;
-                              return ArtCardContainer.big(
-                                hero: HomeScreen.name + data.id,
-                                constraints: BoxConstraints.expand(
-                                  width: context.vWidth,
-                                  height: context.vWidth,
-                                ),
-                                data: data,
-                                onTap: () {
-                                  final current = navigator.homeUrl;
-                                  navigator.homeContext.push(
-                                    '$current/${ArtDetailScreen.name}/${data.id}',
-                                  );
-                                },
-                              );
-                            },
-                          ),
+                          child: Builder(builder: (context) {
+                            var data = state.dayArt!;
+                            return StatefulBuilder(
+                              builder: (context, setInnerState) {
+                                return ArtCardContainer.big(
+                                  hero: HomeScreen.name + data.id,
+                                  constraints: BoxConstraints.expand(
+                                    width: context.vWidth,
+                                    height: context.vWidth,
+                                  ),
+                                  data: data,
+                                  onLikeClicked: (isLiked) {
+                                    interactionBloc.like(data.id, Entities.art, isLiked);
+                                    setInnerState(() {
+                                      data = data.copyWith(
+                                        userInteraction: data.userInteraction.copyWith(
+                                          isLiked: isLiked,
+                                        ),
+                                      );
+                                    });
+                                  },
+                                  onTap: () {
+                                    final current = navigator.homeUrl;
+                                    navigator.homeContext.push(
+                                      '$current/${ArtDetailScreen.name}/${data.id}',
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          }),
                         ),
                       ],
                     ),
@@ -241,25 +256,37 @@ class _HomeScreenState extends State<HomeScreen> {
                       delegate: SliverChildBuilderDelegate(
                         childCount: state.featuredArts.take(9).length,
                         (context, index) {
-                          final data = state.featuredArts[index];
+                          var data = state.featuredArts[index];
                           final card =
                               index == 3 ? ArtCardContainer.medium : ArtCardContainer.small;
-                          return Padding(
-                            padding: kExtraTinyPadding,
-                            child: card(
-                              hero: HomeScreen.name + data.id,
-                              constraints: BoxConstraints.expand(
-                                width: context.vWidth - (kMediumPadding.right) * 2,
+                          return StatefulBuilder(builder: (context, setInnerState) {
+                            return Padding(
+                              padding: kExtraTinyPadding,
+                              child: card(
+                                hero: HomeScreen.name + data.id,
+                                constraints: BoxConstraints.expand(
+                                  width: context.vWidth - (kMediumPadding.right) * 2,
+                                ),
+                                onLikeClicked: (isLiked) {
+                                  interactionBloc.like(data.id, Entities.art, isLiked);
+                                  setInnerState(() {
+                                    data = data.copyWith(
+                                      userInteraction: data.userInteraction.copyWith(
+                                        isLiked: isLiked,
+                                      ),
+                                    );
+                                  });
+                                },
+                                data: data,
+                                onTap: () {
+                                  final current = navigator.homeUrl;
+                                  navigator.homeContext.push(
+                                    '$current/${ArtDetailScreen.name}/${data.id}',
+                                  );
+                                },
                               ),
-                              data: data,
-                              onTap: () {
-                                final current = navigator.homeUrl;
-                                navigator.homeContext.push(
-                                  '$current/${ArtDetailScreen.name}/${data.id}',
-                                );
-                              },
-                            ),
-                          );
+                            );
+                          });
                         },
                       ),
                       gridDelegate: SliverStairedGridDelegate(

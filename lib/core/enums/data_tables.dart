@@ -3,6 +3,7 @@ enum DataTables {
   event('events'),
   location('locations'),
   artist('artists'),
+  userInteraction('user_interactions'),
   ;
 
   final String tableName;

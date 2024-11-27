@@ -23,6 +23,7 @@ class ArtModel with _$ArtModel {
     required LatLng geoLocation,
     required List<ArtistAbstractModel> artists,
     required List<CommunityAbstractModel> communities,
+    required UserInteractionModel userInteraction,
   }) = _ArtModel;
 
   factory ArtModel.fromJson(Map<String, dynamic> json) => _$ArtModelFromJson(json);

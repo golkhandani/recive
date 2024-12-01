@@ -149,18 +149,30 @@ class ArtCardContainer extends StatelessWidget {
             data.userInteraction.isLiked ? Icons.favorite : Icons.favorite_outline,
             color: context.colorTheme.error,
             size: kToolbarHeight / 2,
+            shadows: [
+              Shadow(
+                color: context.colorTheme.error,
+                blurRadius: kTinyPadding.bottom,
+              ),
+            ],
           ),
         ),
       ],
       if (onSaveClicked != null) ...[
         SizedBox(width: kTinyPadding.right),
-        GestureDetector(
+        InkWell(
           onTap: () {
             onSaveClicked?.call(!data.userInteraction.isSaved);
           },
           child: Icon(
+            shadows: [
+              Shadow(
+                color: Colors.black,
+                blurRadius: kTinyPadding.bottom,
+              ),
+            ],
             data.userInteraction.isSaved ? Icons.bookmark : Icons.bookmark_outline,
-            color: context.colorTheme.onBackground,
+            color: Colors.white,
             size: kToolbarHeight / 2,
           ),
         ),
@@ -397,7 +409,7 @@ class SearchableOnMapCardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = context.colorTheme.secondary;
-    final bannerColor = data.searchType.name.toColor();
+    final bannerColor = data.entityType.name.toColor();
     final child = Stack(
       children: [
         if (showBanner)
@@ -413,7 +425,7 @@ class SearchableOnMapCardContainer extends StatelessWidget {
                 color: bannerColor,
                 child: Center(
                   child: Text(
-                    data.searchType.name.toUpperCase(),
+                    data.entityType.name.toUpperCase(),
                     overflow: TextOverflow.ellipsis,
                     style: context.typographyTheme.subtitleMedium
                         .copyWithColor(color: bannerColor.fontColor())

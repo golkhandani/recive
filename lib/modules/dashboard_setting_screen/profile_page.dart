@@ -4,18 +4,22 @@ import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/theme/theme_cubit.dart';
+import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/login_page.dart';
 import 'package:art_for_all/modules/auth_screen/register_page.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
+import 'package:art_for_all/modules/dashboard_setting_screen/saved_items_page.dart';
 import 'package:art_for_all/utils/afa_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -29,6 +33,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final authBloc = locator.get<AuthBloc>();
   late final profileBloc = BlocProvider.of<ProfileBloc>(context);
+  late final userInteractionBloc = BlocProvider.of<UserInteractionBloc>(context);
   late final themeBloc = BlocProvider.of<ThemeCubit>(context);
   late final emailController = TextEditingController(text: profileBloc.state.user?.email);
   late final nameController = TextEditingController(text: profileBloc.state.user?.name);
@@ -92,20 +97,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             themeBloc.switchTheme(mode);
                           },
                         ),
-                        // Switch(
-                        //     value: state == ThemeCubitState.dark,
-                        //     inactiveThumbColor: context.colorTheme.primary,
-                        //     inactiveTrackColor: context.colorTheme.onBackground,
-                        //     activeColor: context.colorTheme.primary,
-                        //     activeTrackColor: context.colorTheme.onBackground,
-                        //     trackOutlineColor: const WidgetStatePropertyAll(Colors.black),
-                        //     onChanged: (v) {
-                        //       themeBloc.switchTheme(
-                        //         state == ThemeCubitState.dark
-                        //             ? ThemeCubitState.light
-                        //             : ThemeCubitState.dark,
-                        //       );
-                        //     })
                       ],
                     );
                   },
@@ -303,6 +294,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   },
                                 ),
                               ],
+                            );
+                          },
+                        ),
+                        Gap(kExtraTinyPadding.bottom),
+                        const Divider(),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+              SliverMainAxisGroup(slivers: [
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: kMediumPadding.copyWith(bottom: 0, top: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Gap(kExtraTinyPadding.bottom),
+                        Center(
+                          child: Text(
+                            'Activities',
+                            style:
+                                context.typographyTheme.subtitleLarge.onBackground.textStyle,
+                          ),
+                        ),
+                        Gap(kMediumPadding.bottom),
+                        BlocBuilder<ThemeCubit, ThemeCubitState>(
+                          builder: (context, state) {
+                            return TextButton(
+                              style: ButtonStyle(
+                                padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                                foregroundColor:
+                                    WidgetStateProperty.all(context.colorTheme.onBackground),
+                              ),
+                              onPressed: () async {
+                                final current = navigationService.settingUrl;
+                                navigationService.homeContext.push(
+                                  '$current/${SavedItemsPage.name}',
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  const Text("Saved Items"),
+                                  const Spacer(),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: context.colorTheme.onBackground,
+                                  )
+                                ],
+                              ),
                             );
                           },
                         ),
@@ -553,6 +594,7 @@ class ThemeSwitch extends StatelessWidget {
       selectedColor: Colors.amber,
       borderRadius: kSmallBorderRadius,
       fillColor: context.colorTheme.primary,
+      splashColor: Colors.transparent,
       borderWidth: 0,
       borderColor: context.colorTheme.onBackground,
       renderBorder: true,
@@ -580,15 +622,142 @@ class ThemeSwitch extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("Light", style: style),
+          child: Text(
+            "Light",
+            style: style.copyWith(
+              color:
+                  currentTheme == ThemeCubitState.light ? context.colorTheme.onPrimary : null,
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("Dark", style: style),
+          child: Text(
+            "Dark",
+            style: style.copyWith(
+              color:
+                  currentTheme == ThemeCubitState.dark ? context.colorTheme.onPrimary : null,
+            ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text("System", style: style),
+          child: Text(
+            "System",
+            style: style.copyWith(
+              color: currentTheme == ThemeCubitState.system
+                  ? context.colorTheme.onPrimary
+                  : null,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class EntityTypeSwitch extends StatefulWidget {
+  final EntityType? initialSelected;
+  final ValueChanged<EntityType?>? onChanged;
+
+  const EntityTypeSwitch({
+    super.key,
+    this.initialSelected,
+    this.onChanged,
+  });
+
+  @override
+  State<EntityTypeSwitch> createState() => _EntityTypeSwitchState();
+}
+
+class _EntityTypeSwitchState extends State<EntityTypeSwitch> {
+  EntityType? _current;
+
+  @override
+  void initState() {
+    super.initState();
+    _current = widget.initialSelected; // Set the initial state
+  }
+
+  @override
+  void didUpdateWidget(covariant EntityTypeSwitch oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+
+    _current = widget.initialSelected;
+  }
+
+  void _onItemSelected(int index) {
+    EntityType? selected;
+    switch (index) {
+      case 0:
+        selected = EntityType.art;
+        break;
+      case 1:
+        selected = EntityType.event;
+        break;
+      case 2:
+      default:
+        selected = null;
+        break;
+    }
+
+    setState(() {
+      _current = selected;
+    });
+
+    // Notify the external listener
+    if (widget.onChanged != null) {
+      widget.onChanged!(selected);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final style = context.typographyTheme.bodyMedium.onBackground.textStyle;
+    return ToggleButtons(
+      highlightColor: Colors.amber,
+      color: Colors.amber,
+      selectedColor: Colors.amber,
+      borderRadius: kSmallBorderRadius,
+      fillColor: context.colorTheme.primary,
+      splashColor: Colors.transparent,
+      borderWidth: 0,
+      borderColor: context.colorTheme.onBackground,
+      renderBorder: true,
+      isSelected: [
+        _current == EntityType.art,
+        _current == EntityType.event,
+        _current == null,
+      ],
+      onPressed: _onItemSelected,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            "Art",
+            style: style.copyWith(
+              color: _current == EntityType.art ? context.colorTheme.onPrimary : null,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            "Event",
+            style: style.copyWith(
+              color: _current == EntityType.event ? context.colorTheme.onPrimary : null,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            "All",
+            style: style.copyWith(
+              color: _current == null ? context.colorTheme.onPrimary : null,
+            ),
+          ),
         ),
       ],
     );

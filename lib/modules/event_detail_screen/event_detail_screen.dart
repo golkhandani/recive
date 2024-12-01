@@ -3,12 +3,14 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/leading_back_button.dart';
 import 'package:art_for_all/environment.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
+import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/widgets/art_card_container.dart';
@@ -41,6 +43,7 @@ class EventDetailScreen extends StatefulWidget {
 class _EventDetailScreenState extends State<EventDetailScreen> {
   final _bloc = locator.get<EventDetailBloc>();
   final navigator = locator.get<NavigationService>();
+  late final UserInteractionBloc interactionBloc = BlocProvider.of(context);
 
   @override
   void initState() {
@@ -63,11 +66,33 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
             return const SizedBox();
           }
 
-          final event = state.event!;
+          var event = state.event!;
 
           return CustomScrollView(
             slivers: [
-              EventDetailHeader(event: event),
+              StatefulBuilder(builder: (context, setInnerState) {
+                return EventDetailHeader(
+                  event: event,
+                  onLikeClicked: (isLiked) {
+                    final updated = event.userInteraction.copyWith(
+                      isLiked: isLiked,
+                    );
+                    setInnerState(() {
+                      event = event.copyWith(userInteraction: updated);
+                    });
+                    interactionBloc.interact(event.id, EntityType.event, updated);
+                  },
+                  onSaveClicked: (isSaved) {
+                    final updated = event.userInteraction.copyWith(
+                      isSaved: isSaved,
+                    );
+                    setInnerState(() {
+                      event = event.copyWith(userInteraction: updated);
+                    });
+                    interactionBloc.interact(event.id, EntityType.event, updated);
+                  },
+                );
+              }),
               SliverPadding(
                 padding: kMediumPadding,
                 sliver: SliverToBoxAdapter(
@@ -381,19 +406,17 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   }
 }
 
-class EventDetailHeader extends StatefulWidget {
-  const EventDetailHeader({super.key, required this.event});
+class EventDetailHeader extends StatelessWidget {
+  const EventDetailHeader({
+    super.key,
+    required this.event,
+    required this.onLikeClicked,
+    required this.onSaveClicked,
+  });
 
   final EventModel event;
-
-  @override
-  State<EventDetailHeader> createState() => _EventDetailHeaderState();
-}
-
-class _EventDetailHeaderState extends State<EventDetailHeader> {
-  double heroOpacity = 1;
-  bool _favorite = false;
-  bool _bookmark = false;
+  final void Function(bool) onLikeClicked;
+  final void Function(bool) onSaveClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -402,12 +425,10 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
     final actions = [
       GestureDetector(
         onTap: () {
-          setState(() {
-            _favorite = !_favorite;
-          });
+          onLikeClicked(!event.userInteraction.isLiked);
         },
         child: Icon(
-          _favorite ? Icons.favorite : Icons.favorite_outline,
+          event.userInteraction.isLiked ? Icons.favorite : Icons.favorite_outline,
           color: context.colorTheme.error,
           size: kToolbarHeight / 2,
         ),
@@ -415,12 +436,10 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
       SizedBox(width: kTinyPadding.right),
       GestureDetector(
         onTap: () {
-          setState(() {
-            _bookmark = !_bookmark;
-          });
+          onSaveClicked(!event.userInteraction.isSaved);
         },
         child: Icon(
-          _bookmark ? Icons.bookmark : Icons.bookmark_outline,
+          event.userInteraction.isSaved ? Icons.bookmark : Icons.bookmark_outline,
           color: context.colorTheme.onBackground,
           size: kToolbarHeight / 2,
         ),
@@ -429,8 +448,8 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
       GestureDetector(
         onTap: () async {
           await Share.share(
-            'Check out ${widget.event.title} on ${Environment.appName} website ${widget.event.shareUrl}',
-            subject: 'Check out ${widget.event.title}',
+            'Check out ${event.title} on ${Environment.appName} website ${event.shareUrl}',
+            subject: 'Check out ${event.title}',
           );
         },
         child: Icon(
@@ -457,9 +476,8 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
-          final media = widget.event.media
-              .map((m) => ZoomImage(media: m, constraints: constraints))
-              .toList();
+          final media =
+              event.media.map((m) => ZoomImage(media: m, constraints: constraints)).toList();
           return Container(
             decoration: BoxDecoration(
               color: context.colorTheme.primaryContainer,
@@ -482,7 +500,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                     left: kToolbarHeight + kMediumPadding.right,
                   ),
                   child: Text(
-                    widget.event.title,
+                    event.title,
                     textAlign: TextAlign.left,
                     maxLines: 1,
                     style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
@@ -494,7 +512,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
                 children: [
                   Positioned.fill(
                     child: CachedNetworkImage(
-                      imageUrl: widget.event.media.first.url,
+                      imageUrl: event.media.first.url,
                       imageBuilder: (context, imageProvider) => Container(
                         height: constraints.maxHeight,
                         decoration: BoxDecoration(

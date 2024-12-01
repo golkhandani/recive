@@ -85,6 +85,7 @@ dependencies:
   widget_zoom: ^0.0.4
   pretty_qr_code: ^3.3.0
   share_plus: ^10.1.2
+  flutter_portal: ^1.1.4
 
 dev_dependencies:
   flutter_test:

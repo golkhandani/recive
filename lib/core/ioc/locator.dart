@@ -13,6 +13,7 @@ import 'package:art_for_all/core/ioc/i_news_repository.dart';
 import 'package:art_for_all/core/ioc/i_search_repository.dart';
 import 'package:art_for_all/core/ioc/i_secure_storage.dart';
 import 'package:art_for_all/core/ioc/i_shared_storage.dart';
+import 'package:art_for_all/core/ioc/i_user_interaction_repository.dart';
 import 'package:art_for_all/core/services/auth_service.dart';
 import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
@@ -23,6 +24,7 @@ import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_bloc.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_bloc.dart';
 import 'package:art_for_all/modules/art_detail_screen/detail_art_bloc.dart';
+import 'package:art_for_all/modules/category_detail_screen/category_list_bloc.dart';
 import 'package:art_for_all/modules/community_detail_screen/community_detail_bloc.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_bloc.dart';
 import 'package:art_for_all/modules/auth_screen/auth_bloc.dart';
@@ -138,6 +140,10 @@ Future setupRepositories() async {
   locator.registerSingleton<ISearchRepository>(MockSearchRepository(
     supabase: locator.get(),
   ));
+
+  locator.registerSingleton<IUserInteractionRepository>(SupabaseUserInteractionRepository(
+    supabase: locator.get(),
+  ));
 }
 
 Future setupServices() async {
@@ -220,6 +226,7 @@ Future setupBloc() async {
       artRepository: locator.get(),
       eventRepository: locator.get(),
       newsRepository: locator.get(),
+      userInteractionRepository: locator.get(),
     ),
   );
 
@@ -233,6 +240,15 @@ Future setupBloc() async {
       artistRepository: locator.get(),
       eventRepository: locator.get(),
       communityRepository: locator.get(),
+    ),
+  );
+
+  locator.registerFactory<CategoryListBloc>(
+    () => CategoryListBloc(
+      secureStorage: locator.get(),
+      sharedStorage: locator.get(),
+      categoryRepository: locator.get(),
+      searchRepository: locator.get(),
     ),
   );
 

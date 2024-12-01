@@ -10,7 +10,7 @@ class SearchableAbstractModel with _$SearchableAbstractModel {
     required String id,
     required String title,
     required double rank,
-    required SearchType searchType,
+    required EntityType entityType,
     required String imageUrl,
     required List<String> tags,
     required LatLng geoLocation,
@@ -18,6 +18,20 @@ class SearchableAbstractModel with _$SearchableAbstractModel {
 
   factory SearchableAbstractModel.fromJson(Map<String, Object?> json) =>
       _$SearchableAbstractModelFromJson(json);
+}
+
+@freezed
+class InteratedEntityAbstractModel with _$InteratedEntityAbstractModel {
+  const factory InteratedEntityAbstractModel({
+    required String id,
+    required String title,
+    required EntityType entityType,
+    required String imageUrl,
+    required List<String> tags,
+  }) = _InteratedEntityAbstractModel;
+
+  factory InteratedEntityAbstractModel.fromJson(Map<String, Object?> json) =>
+      _$InteratedEntityAbstractModelFromJson(json);
 }
 
 @freezed
@@ -33,16 +47,28 @@ class PaginationData with _$PaginationData {
       _$PaginationDataFromJson(json);
 }
 
-enum SearchType { art, artist, event, news, community }
+@freezed
+class PaginationOffset with _$PaginationOffset {
+  const factory PaginationOffset({
+    @Default(1) int page,
+    @Default(20) int limit,
+    @Default(false) bool isDone,
+  }) = _PaginationOffset;
 
-extension SearchTypeConverter on SearchType {
-  static SearchType fromString(String str) {
+  factory PaginationOffset.fromJson(Map<String, Object?> json) =>
+      _$PaginationOffsetFromJson(json);
+}
+
+enum EntityType { art, artist, event, news, community, unknown }
+
+extension EntityTypeConverter on EntityType {
+  static EntityType fromString(String str) {
     final searchType = switch (str.toUpperCase()) {
-      'ART' => SearchType.art,
-      'ARTIST' => SearchType.artist,
-      'EVENT' => SearchType.event,
-      'NEWS' => SearchType.news,
-      'COMMUNITY' => SearchType.community,
+      'ART' => EntityType.art,
+      'ARTIST' => EntityType.artist,
+      'EVENT' => EntityType.event,
+      'NEWS' => EntityType.news,
+      'COMMUNITY' => EntityType.community,
       String() => throw UnimplementedError(),
     };
 

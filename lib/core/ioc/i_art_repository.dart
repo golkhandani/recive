@@ -10,31 +10,11 @@ import 'package:faker/faker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-enum UserInteracts {
-  like,
-  save,
-  report,
-  share,
-}
-
-enum Entities {
-  art,
-  artist,
-  event,
-}
-
 abstract class IArtRepository {
   Future<List<ArtAbstractModel>> getArtsByCategoryId(String categoryId);
   Future<List<ArtAbstractModel>> getFeaturedArts(LatLng? center);
   Future<ArtAbstractModel?> getDayArt(LatLng? center);
   Future<ArtModel> getDetailArt(String id);
-  Future<bool> interact(
-    String id,
-    Entities refType,
-    UserInteracts interactType,
-    bool? result,
-    String? reason,
-  );
   Future<List<ArtAbstractModel>> getSimilarArts(String currentId, List<String> tags);
   Future<List<ArtAbstractModel>> getArtsByEventId(String eventId);
 }
@@ -56,52 +36,6 @@ class MockArtRepository extends IArtRepository {
         .count()
         .eq('publish_status', 'published');
     return totalCount!;
-  }
-
-  @override
-  Future<bool> interact(
-    String id,
-    Entities refType,
-    UserInteracts interactType,
-    bool? result,
-    String? reason,
-  ) async {
-    if (supabase.auth.currentUser == null) {
-      // need login
-      return false;
-    }
-
-    final exists = await supabase
-        .from(DataTables.userInteraction.tableName)
-        .select('*')
-        .eq('art_id', id)
-        .eq('user_id', supabase.auth.currentUser!.id)
-        .limit(1)
-        .maybeSingle();
-
-    print(exists);
-    if (exists?['report_message'] != null && interactType == UserInteracts.report) {
-      // already reported
-      return false;
-    }
-
-    final a = await supabase.from(DataTables.userInteraction.tableName).upsert(
-      {
-        'artist_id': null,
-        'event_id': null,
-        'art_id': id,
-        'user_id': supabase.auth.currentUser!.id,
-        if (interactType == UserInteracts.like) ...{'is_liked': result ?? false},
-        if (interactType == UserInteracts.save) ...{'is_saved': result ?? false},
-        if (interactType == UserInteracts.report) ...{'report_message': reason ?? ''},
-        if (interactType == UserInteracts.share) ...{
-          'share_count': exists?['share_count'] ?? 1
-        },
-      },
-      onConflict: 'user_id, art_id, artist_id, event_id ',
-    );
-
-    return true;
   }
 
   @override
@@ -147,7 +81,9 @@ class MockArtRepository extends IArtRepository {
     if (count == 0) return [];
 
     final rand = faker.randomGenerator.integer(count - min(10, count));
-    final res = await supabase.from(DataTables.art.tableName).select('''
+    final res = await supabase
+        .from(DataTables.art.tableName)
+        .select('''
             id,
             title,
             description,
@@ -157,8 +93,16 @@ class MockArtRepository extends IArtRepository {
             ${DataTables.location.tableName}(id, title, coordinates, lat, lng),
             art_links(link_id, links(id, url, title)),
             art_media!inner(media_id, media(id, url, copyright, type, title)),
-            art_tags(tag_id, tags(name))
-    ''').eq('publish_status', 'published').range(rand, rand + 10).limit(10) as ArrayRes;
+            art_tags(tag_id, tags(name)),
+            ${DataTables.userInteraction.tableName}(id, *)
+    ''')
+        .eq(
+          '${DataTables.userInteraction.tableName}.user_id',
+          supabase.auth.currentUser?.id ?? '',
+        )
+        .eq('publish_status', 'published')
+        .range(rand, rand + 10)
+        .limit(10) as ArrayRes;
 
     return res?.map((r) => ArtAbstractModel.fromPostgres(r)).toList() ?? [];
   }
@@ -202,7 +146,6 @@ class MockArtRepository extends IArtRepository {
         .eq('id', id)
         .limit(1)
         .single();
-    print(res['user_interactions']);
     final artArtists = (res['art_artists'] as ArrayRes) ?? [];
     final artists = artArtists
         .map(

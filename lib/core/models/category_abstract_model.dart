@@ -1,3 +1,4 @@
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -10,6 +11,7 @@ class CategoryAbstractModel with _$CategoryAbstractModel {
   const factory CategoryAbstractModel({
     required String id,
     required String title,
+    required EntityType type,
     required String description,
     required String imageUrl,
     required List<String> tags,
@@ -28,6 +30,12 @@ class CategoryAbstractModel with _$CategoryAbstractModel {
     return CategoryAbstractModel(
       id: c['id'],
       title: c['title'],
+      type: switch (c['type']) {
+        'art' => EntityType.art,
+        'artist' => EntityType.artist,
+        'event' => EntityType.event,
+        _ => EntityType.unknown
+      },
       description: description,
       imageUrl: image,
       tags: tags,

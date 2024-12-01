@@ -19,24 +19,6 @@ class MockEventRepository extends IEventRepository {
     required this.supabase,
   });
 
-  late final List<EventAbstractModel> eventsFake = List.generate(12, (i) {
-    return EventAbstractModel(
-      id: i.toString(),
-      title: faker.conference.name(),
-      thumbnail: MediaModel(
-        id: 'id',
-        title: 'title',
-        type: MediaType.image,
-        url:
-            'https://picsum.photos/800/1000?random=${faker.randomGenerator.integer(200) + i}',
-        copyright: 'copyright',
-        tags: [],
-      ),
-      tags: ['performance', 'fashion', 'theater'],
-      eventType: faker.food.cuisine(),
-    );
-  });
-
   @override
   Future<List<EventAbstractModel>> getEvents() async {
     final res = await supabase
@@ -47,8 +29,13 @@ class MockEventRepository extends IEventRepository {
               type,
               event_links(link_id, links(id, url, title)),
               event_media(media_id, media(id, url, copyright, type, title)),
-              event_tags(tag_id, tags(name))
+              event_tags(tag_id, tags(name)),
+              ${DataTables.userInteraction.tableName}(id, *)
             ''')
+            .eq(
+              '${DataTables.userInteraction.tableName}.user_id',
+              supabase.auth.currentUser?.id ?? '',
+            )
             .eq('publish_status', 'published')
             .filter('end_date', 'gte', DateTime.now())
             .order('start_date', ascending: true)
@@ -82,7 +69,9 @@ class MockEventRepository extends IEventRepository {
 
   @override
   Future<EventModel> getEventById(String id) async {
-    final res = await supabase.from(DataTables.event.tableName).select('''
+    final res = await supabase
+        .from(DataTables.event.tableName)
+        .select('''
           id,
           title,
           description,
@@ -99,8 +88,15 @@ class MockEventRepository extends IEventRepository {
           ${DataTables.location.tableName}(id, title, coordinates, lat, lng),
           event_links(link_id, links(id, url, title)),
           event_media(media_id, media(id, url, copyright, type, title)),
-          event_tags(tag_id, tags(name))
-        ''').eq('id', id).single();
+          event_tags(tag_id, tags(name)),
+          ${DataTables.userInteraction.tableName}(id, *)
+          ''')
+        .eq(
+          '${DataTables.userInteraction.tableName}.user_id',
+          supabase.auth.currentUser?.id ?? '',
+        )
+        .eq('id', id)
+        .single();
     final event = EventModel.fromPostgres(res);
     return event;
   }

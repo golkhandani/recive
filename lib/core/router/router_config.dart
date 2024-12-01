@@ -16,26 +16,14 @@ import 'package:art_for_all/modules/auth_screen/login_page.dart';
 import 'package:art_for_all/modules/dashboard_explore_screen/map_art_page.dart';
 import 'package:art_for_all/modules/dashboard_search_screen/dashboard_search_screen.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_page.dart';
+import 'package:art_for_all/modules/dashboard_setting_screen/saved_items_page.dart';
 import 'package:art_for_all/modules/event_detail_screen/event_detail_screen.dart';
 import 'package:art_for_all/modules/news_detail_screen/news_detail_screen.dart';
 import 'package:art_for_all/modules/onboarding_screen.dart/onboarding_screen.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
-
-class TestRoute extends StatelessWidget {
-  const TestRoute({
-    super.key,
-    required this.text,
-  });
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaffoldShell(child: Center(child: Text(text)));
-  }
-}
 
 final authRoutes = [
   GoRoute(
@@ -95,6 +83,8 @@ final dashboardRoutes = [
     pageBuilder: (context, state, child) {
       return CustomTransitionPage(
         key: state.pageKey,
+        barrierColor: Colors.transparent,
+        opaque: false,
         child: DashboardScreen(child: child),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           // Change the opacity of the screen using a Curve based on the the animation's
@@ -268,13 +258,22 @@ final dashboardRoutes = [
         restorationScopeId: 'settings_page',
         routes: <RouteBase>[
           GoRoute(
-            name: ProfileScreen.name,
-            path: '/${DashboardScreen.name}/${ProfileScreen.name}',
-            pageBuilder: (context, state) => _dashboardPageBuilder(
-              state,
-              const ProfileScreen(),
-            ),
-          ),
+              name: ProfileScreen.name,
+              path: '/${DashboardScreen.name}/${ProfileScreen.name}',
+              pageBuilder: (context, state) => _dashboardPageBuilder(
+                    state,
+                    const ProfileScreen(),
+                  ),
+              routes: [
+                GoRoute(
+                  name: SavedItemsPage.name,
+                  path: SavedItemsPage.name,
+                  pageBuilder: (context, state) => _dashboardPageBuilder(
+                    state,
+                    const SavedItemsPage(),
+                  ),
+                ),
+              ]),
         ],
       ),
     ],
@@ -282,7 +281,7 @@ final dashboardRoutes = [
 ];
 
 Page<void> _dashboardPageBuilder(GoRouterState state, Widget screen) {
-  return CupertinoPage<void>(
+  return MaterialPage<void>(
     key: state.pageKey,
     restorationId: state.pageKey.value,
     child: screen,

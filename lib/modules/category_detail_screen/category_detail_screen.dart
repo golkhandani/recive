@@ -99,13 +99,18 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                       itemCount: result.length,
                       itemBuilder: (context, index) {
                         final data = result[index];
-                        final page = switch (data.searchType) {
-                          SearchType.art => ArtDetailScreen.name,
-                          SearchType.artist => ArtistDetailScreen.name,
-                          SearchType.news => NewsDetailScreen.name,
-                          SearchType.event => EventDetailScreen.name,
-                          SearchType.community => CommunityDetailScreen.name,
+                        final page = switch (data.entityType) {
+                          EntityType.art => ArtDetailScreen.name,
+                          EntityType.artist => ArtistDetailScreen.name,
+                          EntityType.news => NewsDetailScreen.name,
+                          EntityType.event => EventDetailScreen.name,
+                          EntityType.community => CommunityDetailScreen.name,
+                          EntityType.unknown => null,
                         };
+                        if (page == null) {
+                          // todo alert for update
+                          return const SizedBox();
+                        }
                         return Container(
                           margin: EdgeInsets.only(
                             bottom: kMediumPadding.bottom,

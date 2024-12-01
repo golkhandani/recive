@@ -8,6 +8,7 @@ import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/art_abstract_model.dart';
 import 'package:art_for_all/core/models/art_model.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';
@@ -84,6 +85,7 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
   @override
   void initState() {
     bloc.init(widget.id, null);
+    bloc.subsribe(interactionBloc);
     super.initState();
   }
 
@@ -108,22 +110,32 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
             return const SizedBox();
           }
 
-          final data = state.art!;
+          var data = state.art!;
           final fontColor = context.colorTheme.onSurface;
+
           return ColoredBox(
             color: context.colorTheme.surface,
             child: CustomScrollView(slivers: [
               StatefulBuilder(builder: (context, setInnerState) {
-                var d = data;
                 return ArtDetailHeader(
-                  art: d,
+                  art: data,
                   onLikeClicked: (isLiked) {
-                    interactionBloc.like(data.id, Entities.art, isLiked);
+                    final updated = data.userInteraction.copyWith(
+                      isLiked: isLiked,
+                    );
                     setInnerState(() {
-                      d = d.copyWith(
-                        userInteraction: d.userInteraction.copyWith(isLiked: isLiked),
-                      );
+                      data = data.copyWith(userInteraction: updated);
                     });
+                    interactionBloc.interact(data.id, EntityType.art, updated);
+                  },
+                  onSaveClicked: (isSaved) {
+                    final updated = data.userInteraction.copyWith(
+                      isSaved: isSaved,
+                    );
+                    setInnerState(() {
+                      data = data.copyWith(userInteraction: updated);
+                    });
+                    interactionBloc.interact(data.id, EntityType.art, updated);
                   },
                 );
               }),
@@ -414,25 +426,17 @@ class _ArtDetailScreenState extends State<ArtDetailScreen> {
   }
 }
 
-class ArtDetailHeader extends StatefulWidget {
+class ArtDetailHeader extends StatelessWidget {
   const ArtDetailHeader({
     super.key,
     required this.art,
     required this.onLikeClicked,
+    required this.onSaveClicked,
   });
 
   final ArtModel art;
   final void Function(bool) onLikeClicked;
-
-  @override
-  State<ArtDetailHeader> createState() => _ArtDetailHeaderState();
-}
-
-class _ArtDetailHeaderState extends State<ArtDetailHeader> {
-  double heroOpacity = 1;
-
-  bool _favorite = false;
-  bool _bookmark = false;
+  final void Function(bool) onSaveClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -441,13 +445,10 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
     final actions = [
       GestureDetector(
         onTap: () {
-          widget.onLikeClicked(!_favorite);
-          setState(() {
-            _favorite = !_favorite;
-          });
+          onLikeClicked(!art.userInteraction.isLiked);
         },
         child: Icon(
-          _favorite ? Icons.favorite : Icons.favorite_outline,
+          art.userInteraction.isLiked ? Icons.favorite : Icons.favorite_outline,
           color: context.colorTheme.error,
           size: kToolbarHeight / 2,
         ),
@@ -455,12 +456,10 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
       SizedBox(width: kTinyPadding.right),
       GestureDetector(
         onTap: () {
-          setState(() {
-            _bookmark = !_bookmark;
-          });
+          onSaveClicked(!art.userInteraction.isSaved);
         },
         child: Icon(
-          _bookmark ? Icons.bookmark : Icons.bookmark_outline,
+          art.userInteraction.isSaved ? Icons.bookmark : Icons.bookmark_outline,
           color: context.colorTheme.onBackground,
           size: kToolbarHeight / 2,
         ),
@@ -469,8 +468,8 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
       GestureDetector(
         onTap: () async {
           await Share.share(
-            'Check out ${widget.art.title} on ${Environment.appName} website ${widget.art.shareUrl}',
-            subject: 'Check out ${widget.art.title}',
+            'Check out ${art.title} on ${Environment.appName} website ${art.shareUrl}',
+            subject: 'Check out ${art.title}',
           );
         },
         child: Icon(
@@ -497,9 +496,8 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
         builder: (context, constraints) {
           final flexHeight = constraints.maxHeight - context.vTopSafeHeight - kToolbarHeight;
           final scale = flexHeight / maxHeight;
-          final media = widget.art.media
-              .map((m) => ZoomImage(media: m, constraints: constraints))
-              .toList();
+          final media =
+              art.media.map((m) => ZoomImage(media: m, constraints: constraints)).toList();
           return Container(
             decoration: BoxDecoration(
               color: context.colorTheme.primaryContainer,
@@ -524,7 +522,7 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
                     left: kToolbarHeight + kMediumPadding.right,
                   ),
                   child: Text(
-                    widget.art.title + widget.art.title,
+                    art.title + art.title,
                     textAlign: TextAlign.left,
                     maxLines: 1,
                     style: context.typographyTheme.titleSmall.onPrimaryContainer.textStyle,
@@ -536,7 +534,7 @@ class _ArtDetailHeaderState extends State<ArtDetailHeader> {
                 children: [
                   Positioned.fill(
                     child: CachedNetworkImage(
-                      imageUrl: widget.art.media.first.url,
+                      imageUrl: art.media.first.url,
                       imageBuilder: (context, imageProvider) => Container(
                         height: constraints.maxHeight,
                         decoration: BoxDecoration(

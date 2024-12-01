@@ -3,6 +3,7 @@ import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
 import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     bloc.init();
+    bloc.subsribe(interactionBloc);
     super.initState();
   }
 
@@ -125,24 +127,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   data: data,
                                   onLikeClicked: (isLiked) {
-                                    interactionBloc.like(data.id, Entities.art, isLiked);
+                                    final updated = data.userInteraction.copyWith(
+                                      isLiked: isLiked,
+                                    );
                                     setInnerState(() {
-                                      data = data.copyWith(
-                                        userInteraction: data.userInteraction.copyWith(
-                                          isLiked: isLiked,
-                                        ),
-                                      );
+                                      data = data.copyWith(userInteraction: updated);
                                     });
+                                    interactionBloc.interact(
+                                        data.id, EntityType.art, updated);
                                   },
                                   onSaveClicked: (isSaved) {
-                                    interactionBloc.save(data.id, Entities.art, isSaved);
+                                    final updated = data.userInteraction.copyWith(
+                                      isSaved: isSaved,
+                                    );
                                     setInnerState(() {
-                                      data = data.copyWith(
-                                        userInteraction: data.userInteraction.copyWith(
-                                          isSaved: isSaved,
-                                        ),
-                                      );
+                                      data = data.copyWith(userInteraction: updated);
                                     });
+                                    interactionBloc.interact(
+                                        data.id, EntityType.art, updated);
                                   },
                                   onTap: () {
                                     final current = navigator.homeUrl;
@@ -210,18 +212,40 @@ class _HomeScreenState extends State<HomeScreen> {
                             scrollDirection: Axis.horizontal,
                             itemCount: state.events.length,
                             itemBuilder: (context, index) {
-                              final data = state.events[index];
-                              return EventCardContainer.medium(
-                                data: data,
-                                constraints:
-                                    BoxConstraints.expand(width: context.vWidth / 1.5),
-                                onTap: () {
-                                  final current = navigator.homeUrl;
-                                  navigator.homeContext.push(
-                                    '$current/${EventDetailScreen.name}/${data.id}',
-                                  );
-                                },
-                              );
+                              var data = state.events[index];
+                              return StatefulBuilder(builder: (context, setInnerState) {
+                                return EventCardContainer.medium(
+                                  data: data,
+                                  constraints:
+                                      BoxConstraints.expand(width: context.vWidth / 1.5),
+                                  onTap: () {
+                                    final current = navigator.homeUrl;
+                                    navigator.homeContext.push(
+                                      '$current/${EventDetailScreen.name}/${data.id}',
+                                    );
+                                  },
+                                  onLikeClicked: (isLiked) {
+                                    final updated = data.userInteraction.copyWith(
+                                      isLiked: isLiked,
+                                    );
+                                    setInnerState(() {
+                                      data = data.copyWith(userInteraction: updated);
+                                    });
+                                    interactionBloc.interact(
+                                        data.id, EntityType.event, updated);
+                                  },
+                                  onSaveClicked: (isSaved) {
+                                    final updated = data.userInteraction.copyWith(
+                                      isSaved: isSaved,
+                                    );
+                                    setInnerState(() {
+                                      data = data.copyWith(userInteraction: updated);
+                                    });
+                                    interactionBloc.interact(
+                                        data.id, EntityType.event, updated);
+                                  },
+                                );
+                              });
                             },
                             separatorBuilder: (context, index) => SizedBox(
                               width: kTinyPadding.left,
@@ -233,100 +257,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SliverGap(kTinyPadding.bottom),
                 ],
-                if (state.featuredArts.isNotEmpty) ...[
-                  SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: kMediumPadding.left,
-                            vertical: kTinyPadding.top,
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Art Board:",
-                                maxLines: 1,
-                                style:
-                                    context.typographyTheme.titleTiny.onBackground.textStyle,
-                              ),
-                              const Spacer(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SliverPadding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: kMediumPadding.right - kExtraTinyPadding.right,
-                    ),
-                    sliver: SliverGrid(
-                      delegate: SliverChildBuilderDelegate(
-                        childCount: state.featuredArts.take(9).length,
-                        (context, index) {
-                          var data = state.featuredArts[index];
-                          final card =
-                              index == 3 ? ArtCardContainer.medium : ArtCardContainer.small;
-                          return StatefulBuilder(builder: (context, setInnerState) {
-                            return Padding(
-                              padding: kExtraTinyPadding,
-                              child: card(
-                                hero: HomeScreen.name + data.id,
-                                constraints: BoxConstraints.expand(
-                                  width: context.vWidth - (kMediumPadding.right) * 2,
-                                ),
-                                onLikeClicked: (isLiked) {
-                                  interactionBloc.like(data.id, Entities.art, isLiked);
-                                  setInnerState(() {
-                                    data = data.copyWith(
-                                      userInteraction: data.userInteraction.copyWith(
-                                        isLiked: isLiked,
-                                      ),
-                                    );
-                                  });
-                                },
-                                onSaveClicked: (isSaved) {
-                                  interactionBloc.save(data.id, Entities.art, isSaved);
-                                  setInnerState(() {
-                                    data = data.copyWith(
-                                      userInteraction: data.userInteraction.copyWith(
-                                        isSaved: isSaved,
-                                      ),
-                                    );
-                                  });
-                                },
-                                data: data,
-                                onTap: () {
-                                  final current = navigator.homeUrl;
-                                  navigator.homeContext.push(
-                                    '$current/${ArtDetailScreen.name}/${data.id}',
-                                  );
-                                },
-                              ),
-                            );
-                          });
-                        },
-                      ),
-                      gridDelegate: SliverStairedGridDelegate(
-                        startCrossAxisDirectionReversed: false,
-                        pattern: const [
-                          StairedGridTile(1, 2),
-                          StairedGridTile(0.5, 1),
-                          StairedGridTile(0.5, 1),
-                          StairedGridTile(1, 1),
-                          StairedGridTile(0.6, 1),
-                          StairedGridTile(0.4, 0.665),
-                          StairedGridTile(1, 2),
-                          StairedGridTile(0.5, 1),
-                          StairedGridTile(0.5, 1),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SliverGap(kTinyPadding.bottom),
-                ],
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: kMediumPadding.left,
-                          vertical: kMediumPadding.top,
+                          vertical: kTinyPadding.top,
                         ),
                         child: Row(
                           children: [
@@ -395,6 +325,99 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
+                SliverGap(kTinyPadding.bottom),
+                if (state.featuredArts.isNotEmpty) ...[
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: kMediumPadding.left,
+                            vertical: kTinyPadding.top,
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Art Board:",
+                                maxLines: 1,
+                                style:
+                                    context.typographyTheme.titleTiny.onBackground.textStyle,
+                              ),
+                              const Spacer(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: kMediumPadding.right - kExtraTinyPadding.right,
+                    ),
+                    sliver: SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: state.featuredArts.take(9).length,
+                        (context, index) {
+                          var data = state.featuredArts[index];
+                          final card =
+                              index == 3 ? ArtCardContainer.medium : ArtCardContainer.small;
+                          return StatefulBuilder(builder: (context, setInnerState) {
+                            return Padding(
+                              padding: kExtraTinyPadding,
+                              child: card(
+                                hero: HomeScreen.name + data.id,
+                                constraints: BoxConstraints.expand(
+                                  width: context.vWidth - (kMediumPadding.right) * 2,
+                                ),
+                                onLikeClicked: (isLiked) {
+                                  final updated = data.userInteraction.copyWith(
+                                    isLiked: isLiked,
+                                  );
+                                  setInnerState(() {
+                                    data = data.copyWith(userInteraction: updated);
+                                  });
+                                  interactionBloc.interact(data.id, EntityType.art, updated);
+                                },
+                                onSaveClicked: (isSaved) {
+                                  final updated = data.userInteraction.copyWith(
+                                    isSaved: isSaved,
+                                  );
+                                  setInnerState(() {
+                                    data = data.copyWith(userInteraction: updated);
+                                  });
+                                  interactionBloc.interact(data.id, EntityType.art, updated);
+                                },
+                                data: data,
+                                onTap: () {
+                                  final current = navigator.homeUrl;
+                                  navigator.homeContext.push(
+                                    '$current/${ArtDetailScreen.name}/${data.id}',
+                                  );
+                                },
+                              ),
+                            );
+                          });
+                        },
+                      ),
+                      gridDelegate: SliverStairedGridDelegate(
+                        startCrossAxisDirectionReversed: false,
+                        pattern: const [
+                          StairedGridTile(1, 2),
+                          StairedGridTile(0.5, 1),
+                          StairedGridTile(0.5, 1),
+                          StairedGridTile(1, 1),
+                          StairedGridTile(0.6, 1),
+                          StairedGridTile(0.4, 0.665),
+                          StairedGridTile(1, 2),
+                          StairedGridTile(0.5, 1),
+                          StairedGridTile(0.5, 1),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverGap(kTinyPadding.bottom),
+                ],
                 SliverGap(kLargePadding.bottom * 2),
               ],
             ),

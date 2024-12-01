@@ -1,4 +1,5 @@
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
+import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/environment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
@@ -15,6 +16,7 @@ class EventAbstractModel with _$EventAbstractModel {
     required String eventType,
     required MediaModel thumbnail,
     required List<String> tags,
+    required UserInteractionModel userInteraction,
   }) = _EventAbstractModel;
 
   factory EventAbstractModel.fromJson(Map<String, Object?> json) =>
@@ -34,6 +36,7 @@ class EventAbstractModel with _$EventAbstractModel {
       eventType: res['type'],
       thumbnail: th,
       tags: [],
+      userInteraction: UserInteractionModel.fromPostgres(res['user_interactions']),
     );
   }
 }
@@ -113,6 +116,7 @@ class EventModel with _$EventModel {
     required List<MediaModel> media,
     required List<LinkModel> links,
     required List<String> tags,
+    required UserInteractionModel userInteraction,
   }) = _EventModel;
 
   String get shareUrl => '${Environment.appUrl}/dashboard/home/event-detail-screen/$id';
@@ -131,6 +135,7 @@ class EventModel with _$EventModel {
       description: res['description'] ?? '',
       eventType: res['type'],
       title: res['title'] ?? '',
+      userInteraction: UserInteractionModel.fromPostgres(res['user_interactions']),
       location: res['locations']['title'],
       geoLocation: LatLng(
         // just to make sure it is double

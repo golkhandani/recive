@@ -165,7 +165,7 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
                     ),
                   Expanded(
                     child: AsyncSearchField<String>(
-                      hintText: 'Search...',
+                      hintText: 'Search for title, name, tags,...',
                       items: const [],
                       onChanged: bloc.search,
                       controller: filterController,
@@ -181,7 +181,7 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
             BlocConsumer<DashboardSearchBloc, DashboardSearchBlocState>(
               listener: (context, state) {
                 final q = GoRouterState.of(context).uri.queryParameters['q'];
-                if (q != state.query) {
+                if (q != state.query && (q?.isNotEmpty ?? false)) {
                   context.go(
                     GoRouterState.of(context)
                         .uri
@@ -307,13 +307,18 @@ class _SearchScreenState extends State<SearchScreen> with RestorationMixin {
               initialItemCount: 0,
               itemBuilder: (context, index, a) {
                 final data = bloc.state.result[index];
-                final page = switch (data.searchType) {
-                  SearchType.art => ArtDetailScreen.name,
-                  SearchType.artist => ArtistDetailScreen.name,
-                  SearchType.news => NewsDetailScreen.name,
-                  SearchType.event => EventDetailScreen.name,
-                  SearchType.community => CommunityDetailScreen.name,
+                final page = switch (data.entityType) {
+                  EntityType.art => ArtDetailScreen.name,
+                  EntityType.artist => ArtistDetailScreen.name,
+                  EntityType.news => NewsDetailScreen.name,
+                  EntityType.event => EventDetailScreen.name,
+                  EntityType.community => CommunityDetailScreen.name,
+                  EntityType.unknown => null,
                 };
+                if (page == null) {
+                  // todo alert for update
+                  return const SizedBox();
+                }
                 return Container(
                   margin: EdgeInsets.only(
                     right: kMediumPadding.right,
@@ -397,7 +402,78 @@ class SearchResultCardContainer extends StatelessWidget {
               children: [
                 SizedBox(height: kExtraTinyPadding.bottom),
                 Text(
-                  data.searchType.name.toUpperCase(),
+                  data.entityType.name.toUpperCase(),
+                  style: context.typographyTheme.subtitleSmall.onBackground.textStyle,
+                ),
+                SizedBox(height: kExtraTinyPadding.bottom),
+                Text(
+                  data.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.typographyTheme.titleSmall.onBackground.textStyle,
+                ),
+                SizedBox(height: kExtraTinyPadding.bottom),
+                Text(
+                  data.tags.take(3).join(', '),
+                  style: context.typographyTheme.subtitleMedium.onBackground.textStyle,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class InteractedCardContainer extends StatelessWidget {
+  const InteractedCardContainer({
+    super.key,
+    required this.data,
+    required this.onTap,
+  });
+
+  final VoidCallback onTap;
+  final InteratedEntityAbstractModel data;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Row(
+        children: [
+          SizedBox(
+            height: context.vHeight / 10,
+            width: context.vWidth / 4,
+            child: CachedNetworkImage(
+              imageUrl: data.imageUrl,
+              imageBuilder: (context, imageProvider) => Material(
+                elevation: kTinyElevation,
+                borderRadius: kSmallBorderRadius,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                      opacity: 0.9,
+                    ),
+                    borderRadius: kSmallBorderRadius,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: kMediumPadding.right),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: kExtraTinyPadding.bottom),
+                Text(
+                  data.entityType.name.toUpperCase(),
                   style: context.typographyTheme.subtitleSmall.onBackground.textStyle,
                 ),
                 SizedBox(height: kExtraTinyPadding.bottom),

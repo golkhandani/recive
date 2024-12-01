@@ -4,11 +4,15 @@ import 'package:art_for_all/core/services/location_service.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
 import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
+import 'package:art_for_all/modules/category_detail_screen/category_list_bloc.dart';
+import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_portal/flutter_portal.dart';
 
 import 'package:go_router/go_router.dart';
 
@@ -29,15 +33,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final geolocator = locator.get<ILocationService>();
   final profileBloc = locator.get<ProfileBloc>();
   final interactionBloc = locator.get<UserInteractionBloc>();
+  final categoryBloc = locator.get<CategoryListBloc>();
 
   @override
   void initState() {
     profileBloc.getUser();
+    interactionBloc.getSavedItems();
+    categoryBloc.loadAllCategories();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadAll();
       geolocator.getUserPosition();
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    profileBloc.close();
+    interactionBloc.close();
+    categoryBloc.close();
+    super.dispose();
   }
 
   void onItemTapped(int index) {
@@ -79,7 +94,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (needFullLoad) {
       for (var i = 0; i < items.length; i++) {
         onItemTapped(i);
-        await Future.delayed(kPageLoaderDuration);
+        await Future.delayed(
+          i == 2 ? const Duration(seconds: 1) : kPageLoaderDuration,
+        );
       }
       onItemTapped(0);
     }
@@ -103,13 +120,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
         providers: [
           BlocProvider.value(value: profileBloc),
           BlocProvider.value(value: interactionBloc),
+          BlocProvider.value(value: categoryBloc),
         ],
         child: Stack(
           children: [
             Positioned.fill(
               child: Scaffold(
                 backgroundColor: context.colorTheme.background,
-                body: widget.child,
+                body: Center(
+                  child: widget.child,
+                ),
                 bottomNavigationBar: Container(
                   decoration: BoxDecoration(
                     border: Border(

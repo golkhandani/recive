@@ -20,8 +20,13 @@ abstract class ISearchRepository {
 
   Future<List<String>> getCommonKeyboards();
 
-  Future<List<SearchableAbstractModel>> searchByCoordinate(
-      LatLng? coordinates, String? query);
+  Future<List<SearchableAbstractModel>> searchByCoordinate({
+    LatLng? coordinates,
+    String? query,
+    double? distance,
+    String? categoryId,
+    EntityType? type,
+  });
 }
 
 class MockSearchRepository extends ISearchRepository {
@@ -100,7 +105,7 @@ class MockSearchRepository extends ISearchRepository {
         rank: double.tryParse(r['rank'].toString()) ?? 0,
         imageUrl:
             r['media']['id'] == null ? MediaModel.artistPlaceholder.url : r['media']['url'],
-        searchType: SearchTypeConverter.fromString(r['type']),
+        entityType: EntityTypeConverter.fromString(r['type']),
         tags: (r['tags'] as ArrayRes ?? []).map((t) => t.toString()).toList(),
         geoLocation: LatLng(r['lat'] ?? 0, r['lng'] ?? 0),
       );
@@ -108,22 +113,30 @@ class MockSearchRepository extends ISearchRepository {
   }
 
   @override
-  Future<List<SearchableAbstractModel>> searchByCoordinate(
+  Future<List<SearchableAbstractModel>> searchByCoordinate({
     LatLng? coordinates,
     String? query,
-  ) async {
+    double? distance,
+    String? categoryId,
+    EntityType? type,
+  }) async {
     /// START TEST
     final rpc = await supabase.rpc(
           DataFunctions.acNearbySearch.fnName,
           params: {
+            'input_limit': 50,
             'input_lat': coordinates?.latitude ?? 49.2827,
             'input_lng': coordinates?.longitude ?? -123.1207,
             'input_query':
                 (query?.isEmpty ?? true) ? null : query?.trim().split(' ').join('&'),
-            'input_limit': 50,
+            'input_distance': distance,
+            'input_category_id': categoryId,
+            'input_type': type?.name,
           },
         ) as ArrayRes ??
         [];
+
+    print(rpc);
 
     return rpc.map((r) {
       return SearchableAbstractModel(
@@ -132,7 +145,7 @@ class MockSearchRepository extends ISearchRepository {
         rank: r['rank'] ?? 1,
         imageUrl:
             r['media']['id'] == null ? MediaModel.artistPlaceholder.url : r['media']['url'],
-        searchType: SearchTypeConverter.fromString(r['type']),
+        entityType: EntityTypeConverter.fromString(r['type']),
         tags: (r['tags'] as ArrayRes ?? []).map((t) => t.toString()).toList(),
         geoLocation: LatLng(r['lat'] ?? 0, r['lng'] ?? 0),
       );

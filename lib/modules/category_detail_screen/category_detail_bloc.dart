@@ -18,6 +18,7 @@ class CategoryDetailBlocState with _$CategoryDetailBlocState {
   const factory CategoryDetailBlocState({
     required LoadingState isLoading,
     CategoryAbstractModel? category,
+    List<CategoryAbstractModel>? categories,
     required List<SearchableAbstractModel> result,
   }) = _CategoryDetailBlocState;
 
@@ -42,6 +43,17 @@ class CategoryDetailBloc extends HydratedCubit<CategoryDetailBlocState> {
     required this.categoryRepository,
     required this.searchRepository,
   }) : super(CategoryDetailBlocState.initialize());
+
+  Future<void> loadAllCategories(String id) async {
+    emit(state.copyWith(isLoading: LoadingState.loading));
+
+    final categories = await categoryRepository.getCategories(null);
+
+    emit(state.copyWith(
+      isLoading: LoadingState.done,
+      categories: categories,
+    ));
+  }
 
   Future<void> init(String id) async {
     emit(state.copyWith(

@@ -1,10 +1,11 @@
 import 'package:art_for_all/core/models/category_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
+import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:faker/faker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class ICategoryRepository {
-  Future<List<CategoryAbstractModel>> getCategories();
+  Future<List<CategoryAbstractModel>> getCategories(EntityType? type);
   Future<CategoryAbstractModel> getCategoryById(String id);
 }
 
@@ -18,11 +19,15 @@ class MockCategoryRepository extends ICategoryRepository {
   final faker = Faker();
 
   @override
-  Future<List<CategoryAbstractModel>> getCategories() async {
-    final response = await supabase
+  Future<List<CategoryAbstractModel>> getCategories(EntityType? type) async {
+    var query = supabase
         .from('categories')
-        .select('id, title, description, image_url, category_tags(tag_id (name))')
-        .order('title', ascending: true);
+        .select('id, title, type, description, image_url, category_tags(tag_id (name))');
+
+    if (type != null) {
+      query.eq('type', type);
+    }
+    final response = await query.order('title', ascending: true);
 
     final assets = supabase.storage.from('assets');
     var categories = await Future.wait(response.map((c) async {

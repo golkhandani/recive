@@ -15,6 +15,9 @@ class EventCardContainer extends StatelessWidget {
   final EventAbstractModel data;
   final String? hero;
   final VoidCallback onTap;
+  final void Function(bool)? onLikeClicked;
+  final void Function(bool)? onSaveClicked;
+
   final CardSize size;
   const EventCardContainer._({
     required this.data,
@@ -22,6 +25,8 @@ class EventCardContainer extends StatelessWidget {
     this.hero,
     required this.onTap,
     required this.size,
+    this.onLikeClicked,
+    this.onSaveClicked,
   });
 
   factory EventCardContainer.big({
@@ -29,6 +34,8 @@ class EventCardContainer extends StatelessWidget {
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
+    void Function(bool)? onLikeClicked,
+    void Function(bool)? onSaveClicked,
   }) {
     return EventCardContainer._(
       data: data,
@@ -36,6 +43,8 @@ class EventCardContainer extends StatelessWidget {
       hero: hero,
       onTap: onTap,
       size: CardSize.big,
+      onLikeClicked: onLikeClicked,
+      onSaveClicked: onSaveClicked,
     );
   }
 
@@ -45,6 +54,8 @@ class EventCardContainer extends StatelessWidget {
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
+    void Function(bool)? onLikeClicked,
+    void Function(bool)? onSaveClicked,
   }) {
     return EventCardContainer._(
       data: data,
@@ -52,6 +63,8 @@ class EventCardContainer extends StatelessWidget {
       hero: hero,
       onTap: onTap,
       size: CardSize.medium,
+      onLikeClicked: onLikeClicked,
+      onSaveClicked: onSaveClicked,
     );
   }
 
@@ -61,6 +74,8 @@ class EventCardContainer extends StatelessWidget {
     required BoxConstraints constraints,
     String? hero,
     required VoidCallback onTap,
+    void Function(bool)? onLikeClicked,
+    void Function(bool)? onSaveClicked,
   }) {
     return EventCardContainer._(
       data: data,
@@ -68,6 +83,8 @@ class EventCardContainer extends StatelessWidget {
       hero: hero,
       onTap: onTap,
       size: CardSize.small,
+      onLikeClicked: onLikeClicked,
+      onSaveClicked: onSaveClicked,
     );
   }
 
@@ -119,13 +136,61 @@ class EventCardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = context.colorTheme.secondary;
     final bannerColor = data.eventType.toColor();
+
+    final actions = [
+      if (onLikeClicked != null) ...[
+        GestureDetector(
+          onTap: () {
+            onLikeClicked?.call(!data.userInteraction.isLiked);
+          },
+          child: Icon(
+            data.userInteraction.isLiked ? Icons.favorite : Icons.favorite_outline,
+            color: context.colorTheme.error,
+            size: kToolbarHeight / 2,
+            shadows: [
+              Shadow(
+                color: context.colorTheme.error,
+                blurRadius: kTinyPadding.bottom,
+              ),
+            ],
+          ),
+        ),
+      ],
+      if (onSaveClicked != null) ...[
+        SizedBox(width: kTinyPadding.right),
+        InkWell(
+          onTap: () {
+            onSaveClicked?.call(!data.userInteraction.isSaved);
+          },
+          child: Icon(
+            shadows: [
+              Shadow(
+                color: Colors.black,
+                blurRadius: kTinyPadding.bottom,
+              ),
+            ],
+            data.userInteraction.isSaved ? Icons.bookmark : Icons.bookmark_outline,
+            color: Colors.white,
+            size: kToolbarHeight / 2,
+          ),
+        ),
+      ]
+    ];
+
     final child = Stack(
       children: [
         Positioned(
-          right: -30,
+          top: kTinyPadding.top,
+          right: kTinyPadding.right,
+          child: Row(
+            children: actions,
+          ),
+        ),
+        Positioned(
+          left: -30,
           top: 30,
           child: Transform.rotate(
-            angle: 45 * pi / 180,
+            angle: -45 * pi / 180,
             child: Container(
               height: 20,
               width: 150,

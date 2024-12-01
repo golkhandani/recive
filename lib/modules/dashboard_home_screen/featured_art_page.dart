@@ -1,7 +1,6 @@
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/enums/loading_state.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
-import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
 import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/router/extra_data.dart';

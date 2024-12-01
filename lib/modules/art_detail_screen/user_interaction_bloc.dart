@@ -86,14 +86,4 @@ class UserInteractionBloc extends Cubit<UserInteractionBlocState> {
       ),
     ));
   }
-
-  @override
-  UserInteractionBlocState? fromJson(Map<String, dynamic> json) {
-    return UserInteractionBlocState.fromJson(json);
-  }
-
-  @override
-  Map<String, dynamic>? toJson(UserInteractionBlocState state) {
-    return state.toJson();
-  }
 }

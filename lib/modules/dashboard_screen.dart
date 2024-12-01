@@ -5,14 +5,11 @@ import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/context_extensions.dart';
 import 'package:art_for_all/modules/art_detail_screen/user_interaction_bloc.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_list_bloc.dart';
-import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';
 import 'package:art_for_all/modules/dashboard_setting_screen/profile_bloc.dart';
 import 'package:art_for_all/modules/splash_screen/splash_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_portal/flutter_portal.dart';
 
 import 'package:go_router/go_router.dart';
 

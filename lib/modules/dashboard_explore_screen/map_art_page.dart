@@ -10,7 +10,6 @@ import 'package:art_for_all/core/services/web_cache_store.dart';
 import 'package:art_for_all/core/theme/theme.dart';
 import 'package:art_for_all/core/widgets/dropdown/async_search_field.dart';
 import 'package:art_for_all/modules/art_detail_screen/art_detail_page.dart';
-import 'package:art_for_all/modules/art_detail_screen/widgets/tag_chip.dart';
 import 'package:art_for_all/modules/artist_detail_screen/artist_detail_screen.dart';
 import 'package:art_for_all/modules/artist_detail_screen/news_detail_screen.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_list_bloc.dart';
@@ -31,7 +30,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_cache/flutter_map_cache.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:flutter_portal/flutter_portal.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
@@ -45,55 +43,6 @@ Widget get openStreetMapTileLayer => TileLayer(
         store: locator.get<CacheStore>(),
       ),
     );
-
-class _AnimatedHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final ValueNotifier<double> heightNotifier;
-
-  _AnimatedHeaderDelegate(this.heightNotifier);
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return ValueListenableBuilder<double>(
-      valueListenable: heightNotifier,
-      builder: (context, val, child) {
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              height: val,
-              color: Colors.blueAccent,
-              child: Center(
-                child: Opacity(
-                  opacity: val == 0 ? 0 : 1,
-                  child: Text(
-                    'Animated Header',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  @override
-  double get maxExtent => heightNotifier.value;
-
-  @override
-  double get minExtent => 0.0;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
-}
 
 class NearMeScreen extends StatefulWidget {
   static String name = 'compass';
@@ -118,7 +67,6 @@ class _NearMeScreenState extends State<NearMeScreen> with TickerProviderStateMix
   final carouselController = CarouselSliderController();
   final listController = CarouselSliderController();
   bool showFilters = false;
-  double _currentSliderValue = 20;
 
   bool showTabBar = false;
   late final TabController tabController = TabController(length: 2, vsync: this);
@@ -743,7 +691,6 @@ class _DistanceSliderState extends State<DistanceSlider> {
 
   @override
   void didUpdateWidget(covariant DistanceSlider oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     x = (widget.initialValue ?? 100000) / 1000;
   }

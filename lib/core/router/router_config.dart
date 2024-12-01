@@ -8,7 +8,6 @@ import 'package:art_for_all/modules/auth_screen/reset_password_page.dart';
 import 'package:art_for_all/modules/category_detail_screen/category_detail_screen.dart';
 import 'package:art_for_all/modules/community_detail_screen/community_detail_screen.dart';
 import 'package:art_for_all/modules/dashboard_screen.dart';
-import 'package:art_for_all/core/router/scaffold_screen.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/modules/auth_screen/register_page.dart';
 import 'package:art_for_all/modules/dashboard_home_screen/featured_art_page.dart';

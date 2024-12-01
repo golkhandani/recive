@@ -136,8 +136,6 @@ class MockSearchRepository extends ISearchRepository {
         ) as ArrayRes ??
         [];
 
-    print(rpc);
-
     return rpc.map((r) {
       return SearchableAbstractModel(
         id: r['id'],

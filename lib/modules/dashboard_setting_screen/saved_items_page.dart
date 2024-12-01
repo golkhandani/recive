@@ -1,7 +1,6 @@
 import 'package:art_for_all/core/constants.dart';
 import 'package:art_for_all/core/extensions/context_ui_extension.dart';
 import 'package:art_for_all/core/ioc/locator.dart';
-import 'package:art_for_all/core/models/artist_abstract_model.dart';
 import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:art_for_all/core/services/navigation_service.dart';
 import 'package:art_for_all/core/theme/theme.dart';

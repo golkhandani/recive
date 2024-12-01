@@ -64,7 +64,10 @@ class ArtistAbstractModel with _$ArtistAbstractModel {
       id: res['id'],
       description: res['description'] ?? '',
       name: res['name'] ?? '',
-      userInteraction: UserInteractionModel(isLiked: false, isSaved: false),
+      userInteraction: const UserInteractionModel(
+        isLiked: false,
+        isSaved: false,
+      ),
       thumbnail: th,
       tags: (res['artist_tags'] as List<dynamic>? ?? []).map((at) {
         return at['tags']['name'] as String;
@@ -100,7 +103,10 @@ class ArtistModel with _$ArtistModel {
       id: res['id'],
       description: res['description'] ?? '',
       name: res['name'] ?? '',
-      userInteraction: UserInteractionModel(isLiked: false, isSaved: false),
+      userInteraction: const UserInteractionModel(
+        isLiked: false,
+        isSaved: false,
+      ),
       media: media.isEmpty
           ? [th!]
           : media.map((am) => MediaModel.fromPostgres(am['media'])).toList(),

@@ -1,8 +1,6 @@
 import 'package:art_for_all/core/enums/data_tables.dart';
-import 'package:art_for_all/core/ioc/i_art_repository.dart';
 import 'package:art_for_all/core/ioc/i_artist_repository.dart';
 import 'package:art_for_all/core/models/artist_abstract_model.dart';
-import 'package:art_for_all/core/models/category_abstract_model.dart';
 import 'package:art_for_all/core/models/event_abstract_model.dart';
 import 'package:art_for_all/core/models/search_abstract_model.dart';
 import 'package:faker/faker.dart';
